@@ -1,0 +1,98 @@
+%% References for the IAAI-27 submission.
+%% Every entry below was verified against the source (arXiv abstract page,
+%% UCI repository, or 4TU.ResearchData record).  Do not add entries without
+%% checking author lists and DOIs -- fabricated citations are the single
+%% fastest way to lose a reviewer's trust.
+
+% ---------------------------------------------------------------- datasets
+@misc{amaral2018incident,
+  author       = {Amaral, Claudio and Fantinato, Marcelo and Peres, Sarajane M.},
+  title        = {Incident Management Process Enriched Event Log},
+  year         = {2018},
+  howpublished = {UCI Machine Learning Repository},
+  doi          = {10.24432/C57S4H},
+  note         = {Extracted from the audit system of a ServiceNow instance;
+                  141,712 events over 24,918 incidents. CC BY 4.0}
+}
+
+@misc{steeman2013bpic,
+  author       = {Steeman, Ward},
+  title        = {{BPI} Challenge 2013, Incidents},
+  year         = {2013},
+  howpublished = {4TU.ResearchData},
+  doi          = {10.4121/uuid:500573e6-accc-4b0c-9576-aa5468b10cee},
+  note         = {Volvo IT incident and problem management, VINST system}
+}
+
+@misc{vandongen2014bpic,
+  author       = {van Dongen, Boudewijn F.},
+  title        = {{BPI} Challenge 2014},
+  year         = {2014},
+  howpublished = {4TU.ResearchData},
+  doi          = {10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35},
+  note         = {Rabobank Group ICT, HP Service Manager; incident, change
+                  and interaction details}
+}
+
+% ------------------------------------------------------------------ AIOps
+@article{zhang2024aiops,
+  author  = {Zhang, Lingzhe and Jia, Tong and Jia, Mengxi and Wu, Yifan and
+             Liu, Aiwei and Yang, Yong and Wu, Zhonghai and Hu, Xuming and
+             Yu, Philip S. and Li, Ying},
+  title   = {A Survey of {AIOps} for Failure Management in the Era of Large
+             Language Models},
+  journal = {arXiv preprint arXiv:2406.11213},
+  year    = {2024}
+}
+
+@article{remil2024aiops,
+  author  = {Remil, Youcef and Bendimerad, Anes and Mathonat, Romain and
+             Kaytoue, Mehdi},
+  title   = {{AIOps} Solutions for Incident Management: Technical Guidelines
+             and A Comprehensive Literature Review},
+  journal = {arXiv preprint arXiv:2404.01363},
+  year    = {2024}
+}
+
+% ------------------------------------------------- evaluation methodology
+@article{rendle2019baselines,
+  author  = {Rendle, Steffen and Zhang, Li and Koren, Yehuda},
+  title   = {On the Difficulty of Evaluating Baselines: A Study on
+             Recommender Systems},
+  journal = {arXiv preprint arXiv:1905.01395},
+  year    = {2019},
+  note    = {Shows that inadequately tuned baselines invalidate reported
+             improvements; the closest prior statement of this paper's thesis
+             in another domain}
+}
+
+% ------------------------------------- prior work on these very event logs
+@article{teinemaa2019outcome,
+  author  = {Teinemaa, Irene and Dumas, Marlon and La Rosa, Marcello and
+             Maggi, Fabrizio Maria},
+  title   = {Outcome-Oriented Predictive Process Monitoring: Review and
+             Benchmark},
+  journal = {ACM Transactions on Knowledge Discovery from Data},
+  volume  = {13},
+  number  = {2},
+  pages   = {17:1--17:57},
+  year    = {2019},
+  doi     = {10.1145/3301300},
+  note    = {Benchmarks outcome prediction across 24 real-world logs
+             including the BPI Challenge collection}
+}
+
+%% ------------------------------------------------------------------------
+%% REMAINING GAP, one item.
+%%
+%%  * A configuration-management reference for CSDM/ITIL.  ServiceNow's CSDM
+%%    whitepaper is the natural citation but is vendor documentation; an ITIL
+%%    4 reference may be preferable.  The paper does not currently lean on
+%%    either -- CSDM maturity claims were withdrawn during review -- so this
+%%    is optional rather than load-bearing.
+%%
+%% The three other gaps listed in an earlier version are now closed:
+%% incident triage is covered by remil2024aiops and zhang2024aiops, prior
+%% work on these logs by teinemaa2019outcome, and the evaluation-methodology
+%% point by rendle2019baselines.
+%% ------------------------------------------------------------------------

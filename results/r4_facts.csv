@@ -1,0 +1,2 @@
+n_file,n_blank,n_unparseable,n_warmup,n_analysed,n_train,n_test,pos_train,pos_test,n_items_all,n_items_train,pct_128,a_base,a_full
+46809,203,1,1150,45455,31818,13637,0.4126595009114338,0.37200263987680576,2929,2554,5.011746280344558,0.6442537504512584,0.747589110707169

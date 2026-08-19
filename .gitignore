@@ -1,0 +1,19 @@
+# Raw BPIC 2014 data is not redistributed here.  Fetch it from the DOI in
+# README.md and place it in data/raw/.
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Excel lock files
+~$*.xlsx
+
+# LaTeX build products
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+*.synctex.gz

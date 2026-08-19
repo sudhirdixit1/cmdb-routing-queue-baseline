@@ -1,0 +1,10 @@
+org,link,rate
+Rabobank,configuration item,0.9956632271571706
+Rabobank,interaction (intake),0.9932277980730202
+Rabobank,change,0.011963511290563833
+Rabobank,incident,0.026106090709051677
+ServiceNow-IT,configuration item,0.0021671081146159565
+ServiceNow-IT,change,0.00706316718837785
+ServiceNow-IT,problem,0.015250020065815884
+ServiceNow-IT,causing incident,0.00012039489525639269
+VolvoIT,configuration item,0.0
