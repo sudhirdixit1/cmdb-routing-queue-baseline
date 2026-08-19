@@ -16,7 +16,20 @@ Single-organisation study on the BPI Challenge 2014 incident log
 
 `data/raw/` must contain Detail_Incident.csv, Detail_Change.csv and
 Detail_Incident_Activity.csv from the BPIC 2014 collection
-(doi:10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35).
+(doi:10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35). The raw data is not
+redistributed here.
+
+## Building the paper
+
+    python scripts/build_paper.py
+
+Fetches the official AAAI-27 author kit (the style files are AAAI's and are
+not vendored here), then runs pdflatex, bibtex, pdflatex, pdflatex. Requires
+a TeX distribution providing `pdflatex` — AAAI mandates a `\pdfinfo` block,
+which is a pdfTeX primitive, so xelatex and tectonic will not work.
+
+Current state: 3 pages against a 6-page limit, 0 errors, 0 undefined
+references.
 
 ## Scripts e1-e16 and r1-r3, r7
 

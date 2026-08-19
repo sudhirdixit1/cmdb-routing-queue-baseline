@@ -110,8 +110,17 @@ checked for the confound it introduces.
 
 **Two things that are NOT artifacts** and survived every attack: the
 **+0.103** headline (33σ outside a matched-dimension null, stable across six
-splits, three cleaning cutoffs, two estimator families, mutation
+splits, three cleaning cutoffs, four penalty settings, mutation
 restriction) and the **91% / 2% mirror** (89-point margin over its floor).
+
+*Correction (2026-08-19).* An earlier version of this line claimed the
+headline survived "two estimator families." It does not: the surviving
+pipeline (`r4`/`r5`/`r6`/`r8`) uses one-hot logistic regression **only**.
+Gradient boosting appears exclusively in the withdrawn `e*` and `r1`
+scripts, on the pre-queue-baseline framing. `r5_final.py` REPAIR 6 computes
+why boosting is not usable here — 2,554 items collapse into 256 bins — and
+that justification belongs in the paper, which currently states the
+one-estimator limitation without giving the reason.
 
 ---
 
@@ -136,28 +145,37 @@ the paper, add a `ck(...)` with an anchor, and add a corruption to
 
 ## 6. Outstanding
 
-**Needs the author (cannot be done by an agent):**
+**Done on 2026-08-19** — author block (Sudhir Dixit, Independent Researcher,
+personal email; solo author), acknowledgements, AI-disclosure section,
+repository URL, and the first successful compile. See §9.
 
-- Author block, affiliation, email — currently placeholders in `.tex` lines 25–31
-- Acknowledgements — the practitioner input was substantive and should be credited
-- Repository URL in the Reproducibility section
-- **AAAI-27 LLM/AI disclosure** — read the current policy and comply. This
-  work was produced with heavy AI assistance; that is a statement about the
-  author's process to make, not an agent's
-- Employer publication clearance, if the affiliation is a company
+**Still needs the author:**
 
-**Needs a machine with LaTeX:**
-
-- **The paper has never been compiled.** `texlint.py` checks structure but is
-  not a build. Expect spacing work. Verify it fits six pages — 2,217 words
-  plus 1 figure and 3 tables is an estimate, not a measurement
-- One earlier draft shipped with `\` instead of `\\` on five table rows and
-  the verifier still reported "0 failed". That is why the lint gate exists
+- **Push the repo.** `git init` and the first commit are done locally, but
+  the GitHub remote does not exist yet and creating it needs credentials an
+  agent must not handle. The paper already cites
+  `github.com/sudhirdixit1/cmdb-routing-queue-baseline`, so that URL is a
+  dead link until the repo is created and pushed
+- **Name the practitioner** in the Acknowledgements if they consent. The
+  section currently credits them unnamed because no name is recorded
+  anywhere in this repository, and inventing one is not an option
+- **Read the AI-disclosure section and confirm it describes your process.**
+  AAAI permits LLM use for "editing or polishing author-written text" but
+  prohibits papers containing LLM-*generated* text except as experimental
+  analysis, and requires the role of any AI system to be documented. The
+  disclosure as written documents assistance in code, adversarial review,
+  and drafting. Whether that is the right characterisation is a factual
+  claim about your process, and sanctions attach to getting it wrong
+- Employer publication clearance, if your employment agreement covers
+  publishing in this domain — the affiliation is independent, but that does
+  not by itself settle the obligation
 
 **Optional:**
 
 - A CSDM/ITIL reference. Marked optional in `references.bib` because the
   paper no longer leans on CSDM — those maturity claims were withdrawn
+- Move `r5_final.py` REPAIR 6's binning computation into the Limitations
+  section, to justify the single estimator family rather than just concede it
 
 ---
 
@@ -193,3 +211,38 @@ replicate on a second organisation's log (the ServiceNow UCI log and BPIC
 2013 were both used and dropped for good reasons — see `e1`–`e16` — but a
 *fresh* instance would be real), or measure a second prediction task on this
 log with the same baseline discipline.
+
+---
+
+## 9. The paper now compiles — and the build caught four real defects
+
+Built 2026-08-19 with MiKTeX 25.12 against the official AAAI-27 author kit.
+**3 pages against a 6-page limit** (references and appendices are unlimited
+per the CFP), 0 errors, 0 undefined references, 1 overfull hbox of 5.06pt.
+Reproduce with `python scripts/build_paper.py`, which fetches the kit itself.
+
+Everything below passed `texlint` and `verify_paper` beforehand. A structural
+lint is not a build:
+
+1. **The kit ships `aaai2027.sty`/`.bst`, not `aaai27.*`.** The preamble named
+   the short form. It would not have resolved.
+2. **`aaai2027.sty` issues its own `\bibliographystyle`.** The document had a
+   second one, which makes bibtex die with *"Illegal, another `\bibstyle`
+   command"* — and bibtex's failure does not stop pdflatex, so this fails
+   quietly and ships a paper with unresolved citations.
+3. **`\usepackage{times}` is explicitly forbidden** by the style file, which
+   loads `newtxtext`, `helvet` and `courier` itself and owns the page size.
+   The preamble loaded all three plus `pdfpagewidth`/`pdfpageheight`.
+4. **`secnumdepth` defaults to 0** in the AAAI template, but the body
+   cross-references sections by number, which silently yields wrong numbers.
+   Now set to 2.
+
+Also removed: two `note` fields in `references.bib` that were private
+research annotations and rendered into the printed reference list — one of
+them read "the closest prior statement of this paper's thesis in another
+domain."
+
+**Note for the next agent:** `texlint.py` scans raw source without stripping
+comments, so a `\ref{...}` written inside a `%` comment is reported as an
+undefined label. That is the lint being conservative, not a bug. Reword the
+comment; do not weaken the check (see §5).

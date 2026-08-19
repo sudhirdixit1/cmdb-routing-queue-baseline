@@ -9,7 +9,9 @@ __pycache__/
 # Excel lock files
 ~$*.xlsx
 
-# LaTeX build products
+# LaTeX build products.  build/ also holds aaai2027.sty and aaai2027.bst,
+# which are AAAI's and are fetched by scripts/build_paper.py, not vendored.
+build/
 *.aux
 *.bbl
 *.blg
@@ -17,3 +19,8 @@ __pycache__/
 *.out
 *.pdf
 *.synctex.gz
+!paper/iaai27_empty_cmdb.pdf
+
+# Superseded workbooks from a withdrawn analysis; kept on disk, out of the repo.
+capability_readiness_matrix.xlsx
+capability_readiness_matrix_filled.xlsx
