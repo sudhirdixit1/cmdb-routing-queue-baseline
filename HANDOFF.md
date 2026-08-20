@@ -1,7 +1,12 @@
 # HANDOFF
 
-For whoever picks this up next. Read the "Eight withdrawn findings" section
-before you write any code — it is the part that will save you time.
+For whoever picks this up next. Read §4 (withdrawn findings) and §12 (the
+round-eight corrections) before you write any code — those are the parts
+that will save you time.
+
+**§1–§5 below were written earlier and parts of them are now WRONG.** Where
+they conflict with §11 or §12, the later section wins. The stale bits are
+marked, but do not trust an unmarked sentence in §1–§5 without checking.
 
 ---
 
@@ -15,16 +20,25 @@ showed 9 September — treat the earlier as binding). Review is not anonymous.
 
 > On the BPI Challenge 2014 incident log (Rabobank Group ICT, 45,455
 > incidents), knowing which configuration item an incident concerns is worth
-> **+0.183 AUC** for predicting misrouting when measured against four intake
-> fields, and **+0.103 [+0.094, +0.114]** when the baseline also includes the
-> opening assignment queue — a field the service desk records for free at
-> intake. The measured value of a CMDB is therefore dominated by a
+> **+0.183 AUC** for predicting reassignment when measured against four
+> intake fields, and **+0.103 [+0.094, +0.113]** when the baseline also
+> includes **the group that logged the incident** — a field recorded for free
+> at intake. The measured value of a CMDB is therefore dominated by a
 > field-admission decision that is usually left implicit.
 
-Plus a mechanism: the routing decision is very nearly a function of the item
-(randomising the queue label within each item still retains **91%** of the
-queue's gain, against a matched floor of **2%**), and the queue's unique
-contribution once the item is known is **under 0.01 AUC**.
+Plus a mechanism: the group's *predictive content for this target* is largely
+carried by the item (randomising the group label within each item retains
+**91%** of its gain, against an item-level floor of **41%** at matched
+cardinality — see §12.2), and the group's unique contribution once the item
+is known is **under 0.01 AUC**.
+
+Three corrections are reported *in the paper* rather than edited away: a null
+that could not fail, an operational factor first printed without an interval,
+and the field's meaning. See §12.
+
+⚠️ **Two things in this section were wrong until 2026-08-20** and are fixed
+above: the field is NOT "the opening assignment queue" (it is the group that
+logged the ticket — §12.1), and the mirror floor is NOT 2% (§12.2).
 
 Everything else that was ever claimed has been withdrawn. See §4.
 
@@ -34,19 +48,19 @@ Everything else that was ever claimed has been withdrawn. See §4.
 
 ```
 emptycmdb/
-  paper/iaai27_empty_cmdb.tex   the draft (2,217 words, 1 figure, 3 tables)
-  paper/references.bib          7 entries, all author lists verified
-  paper/figG1_baselines.png     the only figure the .tex references
+  paper/iaai27_empty_cmdb.tex   the draft (3 figures, 2 tables, 22 refs)
+  paper/references.bib          22 entries, all author lists verified
   scripts/                      see below
   results/                      every CSV the scripts produce
+  FINDINGS-R10-R14.md           what round seven added, and walked back
   README.md                     reproduction instructions
 ```
 
-Raw data is **not** in this folder. It lives in the session scratchpad at
-`…\scratchpad\emptycmdb\data\raw\` and must contain `Detail_Incident.csv`,
-`Detail_Change.csv`, `Detail_Incident_Activity.csv` from the BPIC 2014
-collection (`doi:10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35`). If you
-are starting fresh, re-download them; `common.py` expects that path.
+Raw data lives in `data/raw/` (gitignored). It needs `Detail_Incident.csv`,
+`Detail_Change.csv` and `Detail_Incident_Activity.csv` from BPIC 2014
+(`doi:10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35`), plus
+`incident_event_log.zip` (UCI 498) and `BPI_Challenge_2013_incidents.xes.gz`
+for `r15`. All public; none redistributed.
 
 ### Scripts that matter
 
@@ -56,9 +70,10 @@ are starting fresh, re-download them; `common.py` expects that path.
 | `r4_final.py` | **the canonical loader.** Cohort, baselines, stability, mutation disclosure. Everything else imports `r4_final as M` |
 | `r5_final.py` | nulls, mutation sensitivity, leak evidence |
 | `r6_final.py` | gains with pooled uncertainty |
-| `r8_final.py` | mechanism, design-space range, deployment scoping |
+| `r8_final.py` | mechanism, design-space range, deployment scoping. **§B's floor is superseded by `r17`** |
+| `r10`–`r17` | estimators, operational framing, field semantics, rebuilt floor — see §11, §12 |
 | `verify_paper.py` | checks every number in the paper against a result file |
-| `attack_verifier.py` | regression suite for the verifier — 14 corruption classes |
+| `attack_verifier.py` | regression suite for the verifier — 54 corruption classes |
 | `texlint.py` | structural LaTeX lint; `--fix` repairs row terminators |
 
 ### Scripts that are dead weight
@@ -75,8 +90,8 @@ Do not reuse code from these without re-deriving why it was abandoned.
 
 ```
 python scripts/texlint.py          # must exit 0 before anything else
-python scripts/verify_paper.py     # 111 checks, 0 failed, 0 unaccounted
-python scripts/attack_verifier.py  # 14 caught, 0 missed
+python scripts/verify_paper.py     # 252 checks, 0 failed, 0 unaccounted
+python scripts/attack_verifier.py  # 54 caught, 0 missed, 0 skipped
 ```
 
 `verify_paper.py` runs `texlint` first and refuses to proceed on a document
@@ -108,10 +123,16 @@ experimental design, so it needs no null" is false. That reasoning is what
 let #4 through. Every comparison — constructed or in-design — needs to be
 checked for the confound it introduces.
 
-**Two things that are NOT artifacts** and survived every attack: the
-**+0.103** headline (33σ outside a matched-dimension null, stable across six
-splits, three cleaning cutoffs, four penalty settings, mutation
-restriction) and the **91% / 2% mirror** (89-point margin over its floor).
+**What has survived every attack so far:** the **+0.103** headline — outside
+a matched-dimension null, stable across six splits, three cleaning cutoffs,
+four penalty settings, mutation restriction, and (round seven) three
+estimator families including one where item identity is a single column.
+
+⚠️ **The second item on this list did not survive.** It read "the 91% / 2%
+mirror (89-point margin over its floor)". The 2% floor was drawn at row level
+and could not fail; the honest margin is ~50 points against an item-level
+floor at matched cardinality, and it varies with granularity. See §12.2. The
+91% retention itself stands.
 
 *Correction (2026-08-19).* An earlier version of this line claimed the
 headline survived "two estimator families." It does not: the surviving
