@@ -58,7 +58,6 @@ r9S = pd.read_csv(R / "r9_stability.csv")
 r10R = pd.read_csv(R / "r10_range.csv").iloc[0]
 r10N = pd.read_csv(R / "r10_encoder_null.csv").set_index("estimator")
 r11C = pd.read_csv(R / "r11_capacity.csv").set_index("capacity")
-r11V = pd.read_csv(R / "r11_capacity_naive.csv").set_index("capacity")
 r11O = pd.read_csv(R / "r11_overstatement.csv").iloc[0]
 r11T = pd.read_csv(R / "r11_threshold.csv").set_index("threshold")
 r12Q = pd.read_csv(R / "r12_queue_from_item.csv").iloc[0]
@@ -67,9 +66,39 @@ r13R = pd.read_csv(R / "r13_reduced.csv")
 r13O = pd.read_csv(R / "r13_onebit.csv").iloc[0]
 r14F = pd.read_csv(R / "r14_scope_facts.csv").iloc[0]
 r14C = pd.read_csv(R / "r14_curve_queue.csv").set_index("k")
+r16F = pd.read_csv(R / "r16_field_semantics.csv").iloc[0]
+r16A = pd.read_csv(R / "r16_activity_groups.csv").set_index("activity")
+r17F = pd.read_csv(R / "r17_floor.csv").iloc[0]
+r17S = pd.read_csv(R / "r17_floor_sweep.csv").set_index("cells")
 bins = pd.read_csv(R / "r5_binning.csv").iloc[0]
 
 ok, bad, seen = 0, [], set()
+
+
+def _decimals(printed):
+    p = printed.replace("{,}", "").lstrip("+-")
+    return len(p.split(".")[1]) if "." in p else 0
+
+
+def _round_str(value, printed):
+    """The literal this value SHOULD print as, at the paper's precision."""
+    return format(float(value), f".{_decimals(printed)}f")
+
+
+def _rounds_to(value, printed):
+    """True when `printed` is exactly what `value` rounds to.
+
+    Replaces a tolerance comparison that let three wrong last digits through.
+    Compares as strings at the precision the paper chose, so the check is
+    exactly the question a reader would ask: is this the number?
+    """
+    expected = printed.replace("{,}", "")
+    if expected.startswith("+"):
+        expected = expected[1:]
+    got = _round_str(value, printed)
+    if got.startswith("-") and float(got) == 0:      # avoid "-0.000"
+        got = got[1:]
+    return got == expected
 
 
 def ck(label, value, printed, tol, anchor):
@@ -93,6 +122,18 @@ def ck(label, value, printed, tol, anchor):
     except ValueError:
         bad.append(f"{label}: '{printed}' is not numeric")
         return
+    #  v5.  The tolerance test was the fifth hole.  Callers passed tol=6e-4
+    #  against three-decimal literals, but the half-ulp of a three-decimal
+    #  literal is 5e-4, so a value of 0.11347649 "passed" as +0.114 when it
+    #  rounds to +0.113.  Three printed digits were wrong that way, two of
+    #  them rounding in the direction that flattered the claim, while the
+    #  suite reported "0 failed".  The literal must now be exactly what the
+    #  value rounds to at the precision the paper chose to print.  tol is
+    #  kept as an additional bound so no existing check gets LOOSER.
+    if not _rounds_to(value, printed):
+        bad.append(f"{label}: data={float(value):.10g} rounds to "
+                   f"{_round_str(value, printed)}, paper prints {printed}")
+        return
     if abs(float(value) - target) > tol:
         bad.append(f"{label}: data={float(value):.6g} paper={printed}")
         return
@@ -104,7 +145,10 @@ def ck(label, value, printed, tol, anchor):
         flat_anchor = re.sub(r"\s+", " ", anchor)
         for m in re.finditer(re.escape(flat_anchor), FLAT):
             window = FLAT[max(0, m.start() - 200): m.end() + 200]
-            if printed in literals(window):
+            wl = literals(window)
+            # accept the signed form too: the membership test above already
+            # does, and a table cell written $+67$ tokenises as "+67".
+            if printed in wl or ("+" + printed) in wl:
                 near = True
                 break
         if not near:
@@ -174,15 +218,15 @@ ck("128 as pct of vocab", facts.pct_128, "5.0", 0.05, anchor="training vocabular
 # ---- headline -----------------------------------------------------------
 g0, g1 = gains.iloc[0], gains.iloc[1]
 ck("base auc intake", g0.base_auc, "0.562", 6e-4, anchor="intake only")
-ck("base auc queue", g1.base_auc, "0.644", 6e-4, anchor="routing queue")
+ck("base auc queue", g1.base_auc, "0.644", 6e-4, anchor="opening group")
 ck("with ident intake", g0.base_auc + g0.gain, "0.746", 6e-4, anchor="intake only")
-ck("with ident queue", g1.base_auc + g1.gain, "0.748", 6e-4, anchor="routing queue")
+ck("with ident queue", g1.base_auc + g1.gain, "0.748", 6e-4, anchor="opening group")
 ck("gain intake", g0.gain, "+0.183", 6e-4, anchor="intake only")
-ck("gain queue", g1.gain, "+0.103", 6e-4, anchor="routing queue")
+ck("gain queue", g1.gain, "+0.103", 6e-4, anchor="opening group")
 ck("gain intake lo", g0.lo, "+0.172", 6e-4, anchor="intake only")
 ck("gain intake hi", g0.hi, "+0.195", 6e-4, anchor="intake only")
-ck("gain queue lo", g1.lo, "+0.094", 6e-4, anchor="routing queue")
-ck("gain queue hi", g1.hi, "+0.114", 6e-4, anchor="routing queue")
+ck("gain queue lo", g1.lo, "+0.094", 6e-4, anchor="opening group")
+ck("gain queue hi", g1.hi, "+0.113", 6e-4, anchor="opening group")
 ck("z pooled intake", g0.z_pooled, "28.1", 0.06, anchor="standard deviations")
 ck("z pooled queue", g1.z_pooled, "17.4", 0.06, anchor="standard deviations")
 ck("z naive intake", g0.z_naive, "51", 0.6, anchor="would report")
@@ -192,13 +236,21 @@ ck("pct cut", 100 * (g0.gain - g1.gain) / g0.gain, "44", 0.6,
 
 # ---- mechanism: four direct measurements, no control -------------------
 ov = pd.read_csv(R / "r7_overlap.csv").iloc[0]
-ck("item gain over intake", ov.item_gain, "+0.183", 6e-4, anchor="gain over intake")
+ck("item gain over intake", ov.item_gain, "+0.183", 6e-4,
+   anchor="the item is worth")
 ck("item gain given queue", ov.item_unique, "+0.103", 6e-4,
-   anchor="item's gain once the queue")
+   anchor="once the group is present")
 ck("queue gain over intake", ov.queue_gain, "+0.082", 6e-4,
-   anchor="queue's gain over intake")
+   anchor="the group is worth")
 ck("queue gain given item", ov.queue_unique, "+0.002", 6e-4,
-   anchor="queue's gain once the item is present")
+   anchor="once the item is present")
+#  Four values in one sentence: anchoring cannot tell them apart, so pin the
+#  order the way the withdrawn table used to.
+ck_phrase("overlap read four ways, in order",
+          r"the item is worth $+0.183$ over intake and $+0.103$ once the "
+          r"group is present; the group is worth $+0.082$ over intake and "
+          r"$+0.002$ once the item is present",
+          "+0.183", 0, "+0.103", 0, "+0.082", 0, "+0.002", 0)
 
 ck("difference between rows", ov.item_gain - ov.item_unique, "0.080", 6e-4,
    anchor="differ by")
@@ -213,7 +265,7 @@ ck("design range low", ds8.gain.min(), "+0.068", 6e-4, anchor="cleaning cutoff t
 ck("design range high", ds8.gain.max(), "+0.130", 6e-4, anchor="cleaning cutoff the second gain")
 
 # ---- stability and sensitivity -----------------------------------------
-ck("stability intake min", stab["intake fields only"].min(), "+0.176", 6e-4, anchor="split points the two")
+ck("stability intake min", stab["intake fields only"].min(), "+0.175", 6e-4, anchor="split points the two")
 ck("stability intake max", stab["intake fields only"].max(), "+0.193", 6e-4, anchor="split points the two")
 ck("stability queue min", stab["+ intake routing queue"].min(), "+0.091", 6e-4, anchor="split points the two")
 ck("stability queue max", stab["+ intake routing queue"].max(), "+0.118", 6e-4, anchor="split points the two")
@@ -313,15 +365,17 @@ ck("queue unique 4dp", mech.queue_unique, "+0.0017", 6e-5,
 ck("queue unique lo", mech.lo, "+0.0001", 6e-5, anchor="already knows the")
 ck("queue unique hi", mech.hi, "+0.0034", 6e-5, anchor="already knows the")
 ck("queue unique null", mech.null_mean, "-0.0009", 6e-5, anchor="matched-dimension null")
-ck("queue unique null sd", mech.null_sd, "0.0006", 6e-5, anchor="matched-dimension null")
+ck("queue unique null sd", mech.null_sd, "0.0005", 6e-5, anchor="matched-dimension null")
 ck("queue unique design lo", mech.design_lo, "+0.0002", 6e-5, anchor="penalties it ranges")
 ck("queue unique design hi", mech.design_hi, "+0.0072", 6e-5, anchor="penalties it ranges")
 ck("under 0.01 bound", 0.01, "0.01", 0, anchor="under $0.01$ AUC")
-ck("mirror pct", mech.mirror_pct, "91", 0.6, anchor="still retains")
-ck("mirror floor pct", mech.mirror_floor_pct, "2", 0.6, anchor="retains")
+ck("mirror pct", mech.mirror_pct, "91", 0.6, anchor="retains")
+ck("mirror floor pct", mech.mirror_floor_pct, "2", 0.6,
+   anchor="against a floor of")
 ck("mirror margin", mech.mirror_pct - mech.mirror_floor_pct, "89", 0.6,
-   anchor="margin is")
-ck("queue gain for mirror", mech.queue_gain, "+0.082", 6e-4, anchor="gain. The matched floor")
+   anchor="claimed a margin of")
+ck("queue gain for mirror", mech.queue_gain, "+0.082", 6e-4,
+   anchor="of the group's")
 ck("dropped leg real", 100 * drop.loc["real routing queue", "recovered"]
    / (mech.queue_gain / 0.082 * 0.1835), "44", 1.0, anchor="obtained")
 ck("dropped leg uniform",
@@ -355,7 +409,20 @@ d["_y"] = (d._ra >= 1).astype(int)
 pre = d[d._t < "2013-10-01"]
 prem = pre.groupby(pre._t.dt.to_period("M"))._y.mean()
 prem = prem[pre.groupby(pre._t.dt.to_period("M")).size() >= 5]
-ck("censored low", prem.min() * 100, "76", 0.6, anchor="reassignment rates")
+#  Range endpoints are floored/ceiled, not rounded: the observed minimum is
+#  76.5%, so "rates of 76--100%" is true and "77--100%" would be false.  The
+#  rounding test added in v5 is correct for point estimates and wrong for an
+#  inclusive bound, so this endpoint is checked as a bound.
+_lo_obs = prem.min() * 100
+seen.add("76")
+if not (76 <= _lo_obs < 77):
+    bad.append(f"censored low: paper prints 76 as an inclusive lower bound; "
+               f"observed minimum is {_lo_obs:.2f}")
+elif "76" not in literals(FLAT[max(0, FLAT.find("reassignment rates") - 200):
+                              FLAT.find("reassignment rates") + 200]):
+    bad.append("censored low: '76' not near 'reassignment rates'")
+else:
+    ok += 1
 post = d[d._t >= "2013-10-01"]
 postm = post.groupby(post._t.dt.to_period("M"))._y.mean()
 ck("post low", postm.min() * 100, "35", 0.6, anchor="subsequent")
@@ -367,15 +434,15 @@ ck("post high", postm.max() * 100, "42", 0.6, anchor="subsequent")
 #  between abstract and body, so both are pinned by exact phrase -- that is
 #  the rule this file's v4 rebuild introduced and it still applies.
 ck_phrase("abstract dose-response pinned",
-          r"rising from $27\%$ when the queue is reduced to one bit to $44\%$ "
-          r"at full resolution", "27", 0, "44", 0)
+          r"running $27\%$ to $44\%$ as it goes from one bit to $49$ levels",
+          "27", 0, "44", 0, "49", 0)
 ck_phrase("abstract detection factor pinned",
-          r"the queue-free baseline attributes $12.7$ times as many "
-          r"additional catches", "12.7", 0)
+          r"omitting the field credits the CMDB with $3.9$ $[3.2,6.4]$ times "
+          r"as many additional catches", "3.9", 0, "3.2", 0, "6.4", 0)
 ck_phrase("mirror leg pinned",
-          r"still retains $91\%$ of the queue's $+0.082$ gain", "91", 0)
-ck_phrase("mirror floor pinned",
-          r"retains $2\%$. The margin is $89$ points", "2", 0, "89", 0)
+          r"retains $91\%$ of the group's $+0.082$ gain", "91", 0)
+#  The 2%/89-point pin is superseded: that floor is withdrawn and the
+#  paper now quotes it only as history.  Pinned in the r17 block instead.
 ck_phrase("positive rates in order",
           r"positive rates $0.413$ and $0.372$", "0.413", 0, "0.372", 0)
 ck_phrase("edited vs clean in order",
@@ -383,8 +450,8 @@ ck_phrase("edited vs clean in order",
 ck_phrase("conclusion restates both gains",
           "worth $+0.183$ or $+0.103$ AUC", "0.183", 0, "0.103", 0)
 ck_phrase("stability ranges in order",
-          r"gains range $+0.176$ to $+0.193$ and $+0.091$ to $+0.118$",
-          "0.176", 0, "0.193", 0, "0.091", 0, "0.118", 0)
+          r"gains range $+0.175$ to $+0.193$ and $+0.091$ to $+0.118$",
+          "0.175", 0, "0.193", 0, "0.091", 0, "0.118", 0)
 ck_phrase("design range in order",
           "ranges $+0.068$ to $+0.130$", "+0.068", 0, "+0.130", 0)
 
@@ -398,9 +465,9 @@ _l = _ac.sort_values("ts").groupby("Incident ID")["Assignment Group"].last()
 _b = _f.index.intersection(_l.index)
 COHORT_LAST = (_f[_b] == _l[_b]).mean()
 ck("queue varies (cohort)", COHORT_VARIES * 100, "92.56", 0.006,
-   anchor="varies within an incident")
+   anchor="varies for")
 ck("open equals last (cohort)", COHORT_LAST * 100, "21.35", 0.06,
-   anchor="last-observed queue")
+   anchor="last-observed group")
 #  Superseded: the paper used to say "50 groups in the analysed cohort".  It
 #  now states the training count, which is what the models actually see, and
 #  that check lives with the other r13 shape checks below.  The cohort-wide
@@ -435,14 +502,14 @@ ck("long-handling correlation", r9T.loc["long-handling"].corr_with_reassigned,
 ck("reopen gain, intake", _r9("reopened", "intake only", "gain"), "+0.083",
    0.0005, anchor="item identity is worth")
 ck("reopen gain, queue", _r9("reopened", "+ routing queue", "gain"), "+0.055",
-   0.0005, anchor="once the queue is admitted")
+   0.0005, anchor="once the group is admitted")
 ck("reopen shrinkage", _shrink("reopened"), "33", 0.5,
    anchor="a reduction of")
 ck("long-handling gain, intake", _r9("long-handling", "intake only", "gain"),
-   "+0.118", 0.0005, anchor="the two figures are")
+   "+0.118", 0.0005, anchor="on long handling")
 ck("long-handling gain, queue",
    _r9("long-handling", "+ routing queue", "gain"), "+0.078", 0.0005,
-   anchor="the two figures are")
+   anchor="on long handling")
 ck("long-handling shrinkage", _shrink("long-handling"), "34", 0.5,
    anchor="a reduction of")
 ck("shrinkage range low", r9S.shrink_pct.min(), "30", 0.5,
@@ -458,8 +525,7 @@ ck_phrase("reopen gains in order",
           "worth $+0.083$ against the intake block and $+0.055$",
           "+0.083", 0, "+0.055", 0)
 ck_phrase("long-handling gains in order",
-          "the two figures are $+0.118$ and $+0.078$", "+0.118", 0,
-          "+0.078", 0)
+          "on long handling, $+0.118$ and $+0.078$", "+0.118", 0, "+0.078", 0)
 # every rung on every target must clear its null, as the paper asserts
 if not (r9L.z_pooled.abs() > 3).all():
     bad.append("paper claims every r9 rung is outside its null; it is not")
@@ -513,52 +579,61 @@ ck_phrase("encoder nulls in order",
 ck("boosting bins", bins.n_bins, "137", 0, anchor="bins")
 
 # ---- r11: what the difference buys -------------------------------------
-for cap, rev, cb, cf, mo in ((0.05, "682", "597", "653", "30"),
-                             (0.10, "1{,}364", "1{,}119", "1{,}153", "18"),
-                             (0.20, "2{,}727", "1{,}823", "1{,}857", "18")):
+#  REBUILT.  The first version of this block checked a naive arm computed
+#  from a MISMATCHED treatment model, and a factor printed without an
+#  interval.  Both were referee findings and both changed the number.
+CAPS = [(0.05, "67", "43", "84", "262", "242", "300", "3.9", "3.2", "6.4"),
+        (0.10, "33", "6", "70", "353", "304", "404", "10.7", "5.5", "39.9"),
+        (0.20, "18", "-28", "82", "481", "407", "524", "26.7", "5.8", "221.0")]
+for cap, he, hl, hh, ne, nl, nh, f, fl, fh in CAPS:
     row = r11C.loc[cap]
     tag = f"{cap:.0%}"
-    _anc = f"(${rev}$)"          # each row is anchored on its own row label
-    ck(f"capacity {tag} reviewed", row.reviewed, rev, 0, anchor="Review capacity")
-    ck(f"capacity {tag} caught base", row.caught_base, cb, 0, anchor=_anc)
-    ck(f"capacity {tag} caught full", row.caught_full, cf, 0, anchor=_anc)
-    ck(f"capacity {tag} per month", row.extra_per_month, mo, 0.5, anchor=_anc)
-ck("capacity 5% extra", r11C.loc[0.05].extra, "+56", 0, anchor="Review capacity")
-ck("capacity 10% extra", r11C.loc[0.10].extra, "+34", 0, anchor="Review capacity")
-# the table's rows must not be swappable: pin each to its position
-ck_phrase("capacity table row 5",
-          r"$5\%$ \ \ ($682$)   & $597$   & $653$   & $+56$ & $30$",
-          "682", 0, "597", 0, "653", 0, "+56", 0, "30", 0)
-ck_phrase("capacity table row 10",
-          r"$10\%$ ($1{,}364$)  & $1{,}119$ & $1{,}153$ & $+34$ & $18$",
-          "1{,}364", 0, "1{,}119", 0, "1{,}153", 0)
-ck_phrase("capacity table row 20",
-          r"$20\%$ ($2{,}727$)  & $1{,}823$ & $1{,}857$ & $+34$ & $18$",
-          "2{,}727", 0, "1{,}823", 0, "1{,}857", 0, "20", 0)
-for cap, lit in ((0.05, "303"), (0.10, "432"), (0.20, "501")):
-    ck(f"naive extra {cap:.0%}", r11V.loc[cap].extra, lit, 0,
-       anchor="credit item identity with")
-ck_phrase("naive counts in order",
-          r"credit item identity with $303$, $432$ and $501$ instead",
-          "303", 0, "432", 0, "501", 0)
-ck("precision base 10%", r11C.loc[0.10].prec_base * 100, "82.0", 0.06,
-   anchor="moving precision from")
-ck("precision full 10%", r11C.loc[0.10].prec_full * 100, "84.5", 0.06,
-   anchor="moving precision from")
-ck("test base rate", facts.pos_test * 100, "37.2", 0.06, anchor="base rate")
-ck_phrase("precision pair in order",
-          r"moving precision from $82.0\%$ to $84.5\%$ against a $37.2\%$ base",
-          "82.0", 0, "84.5", 0, "37.2", 0)
-ck("overstatement 10%", r11O.overstatement_10pct, "12.7", 0.06,
-   anchor="overstates the operational gain")
-ck("overstatement lo", r11O.overstatement_lo, "5.4", 0.06,
-   anchor="across the three capacities")
-ck("overstatement hi", r11O.overstatement_hi, "14.7", 0.06,
-   anchor="across the three capacities")
-ck("auc ratio", r11O.auc_ratio, "1.8", 0.06, anchor="which is")
-ck_phrase("overstatement range in order",
-          r"factor of $12.7$}, and by $5.4$ to $14.7$ across the three",
-          "12.7", 0, "5.4", 0, "14.7", 0)
+    anc = f"$+{ne}$"
+    ck(f"cap {tag} honest extra", row.honest_extra, he, 0, anchor=anc)
+    ck(f"cap {tag} honest lo", row.honest_lo, hl, 0.5, anchor=anc)
+    ck(f"cap {tag} honest hi", row.honest_hi, hh, 0.5, anchor=anc)
+    ck(f"cap {tag} naive extra", row.naive_extra, ne, 0, anchor=anc)
+    ck(f"cap {tag} naive lo", row.naive_lo, nl, 0.5, anchor=anc)
+    ck(f"cap {tag} naive hi", row.naive_hi, nh, 0.5, anchor=anc)
+    ck(f"cap {tag} factor", row.factor, f, 0.05, anchor=anc)
+    ck(f"cap {tag} factor lo", row.factor_lo, fl, 0.05, anchor=anc)
+    ck(f"cap {tag} factor hi", row.factor_hi, fh, 0.05, anchor=anc)
+#  Every table row pinned by position: nine numbers share one anchor here, so
+#  anchoring alone would let any pair of them swap undetected.
+for _sv in ("+67", "+262", "+33", "+353", "+18", "+481"):
+    seen.add(_sv)          # tokeniser yields the signed form for these cells
+ck_phrase("capacity row 5",
+          r"$5\%$  & $+67$ [$43,84$] & $+262$ [$242,300$] & $3.9$ [$3.2,6.4$]",
+          "67", 0, "43", 0, "84", 0, "262", 0, "242", 0, "300", 0,
+          "3.9", 0, "3.2", 0, "6.4", 0)
+ck_phrase("capacity row 10",
+          r"$10\%$ & $+33$ [$6,70$]  & $+353$ [$304,404$] & $10.7$ [$5.5,39.9$]",
+          "33", 0, "70", 0, "353", 0, "304", 0, "404", 0,
+          "10.7", 0, "5.5", 0, "39.9", 0)
+ck_phrase("capacity row 20",
+          r"$20\%$ & $+18$ [$-28,82$] & $+481$ [$407,524$] & $26.7$ [$5.8,221.0$]",
+          "18", 0, "-28", 0, "82", 0, "481", 0, "407", 0, "524", 0,
+          "26.7", 0, "5.8", 0, "221.0", 0, "20", 0)
+ck("test base rate", facts.pos_test * 100, "37.2", 0.06, anchor="it fires on")
+ck("honest per month at 5%", r11C.loc[0.05].honest_per_month, "36", 0.5,
+   anchor="a month at this log's volume")
+ck("auc ratio", r11O.auc_ratio, "1.8", 0.05, anchor="against a ratio of only")
+ck_phrase("headline factor in order",
+          r"overstates the operational gain by a factor of $3.9$ $[3.2,6.4]$, "
+          r"against a ratio of only $1.8$",
+          "3.9", 0, "3.2", 0, "6.4", 0, "1.8", 0)
+ck_phrase("factor grows with capacity",
+          r"$10.7$ at $10\%$, $26.7$ at $20\%$", "10.7", 0, "26.7", 0)
+#  The paper says the 20% interval includes zero and that is why it quotes 5%.
+if not (r11C.loc[0.20].honest_lo < 0 < r11C.loc[0.20].honest_hi):
+    bad.append("paper says the 20% honest interval includes zero; it does not")
+else:
+    ok += 1
+if not (r11C.loc[0.05].factor_hi - r11C.loc[0.05].factor_lo
+        == min(r11C.factor_hi - r11C.factor_lo)):
+    bad.append("paper says the 5% factor is the best resolved; another is tighter")
+else:
+    ok += 1
 ck("threshold 2 rate", r11T.loc[2].rate * 100, "21.8", 0.06,
    anchor="Requiring two or more")
 ck("threshold 2 intake", r11T.loc[2].gain_intake, "+0.131", 6e-4,
@@ -577,53 +652,114 @@ ck_phrase("threshold ladder in order",
           "21.8", 0, "+0.131", 0, "+0.068", 0, "10.6", 0, "+0.151", 0,
           "+0.080", 0)
 ck("threshold shrink lo", r11T.shrink_pct.min(), "44", 0.5,
-   anchor="the shrinkage stays between")
+   anchor="the shrinkage stays")
 ck("threshold shrink hi", r11T.shrink_pct.max(), "48", 0.5,
-   anchor="the shrinkage stays between")
+   anchor="the shrinkage stays")
 if not ((r11T.lo > 0).all() and (r11T.hi > 0).all()):
     bad.append("paper claims every threshold interval excludes zero; it does not")
 else:
     ok += 1
 
+# ---- r16: what the free field actually is ------------------------------
+#  The paper reports its own mis-statement as a result.  These checks make
+#  sure the correction is itself supported.
+ck("groups on Open rows (training)", r13S.loc["train"].n_groups, "49", 0,
+   anchor="in training, none missing")
+ck("distinct groups, Open rows", r16F.groups_open, "50", 0,
+   anchor="distinct groups where the")
+ck("distinct groups, Assignment rows", r16F.groups_assignment, "218", 0,
+   anchor="rows carry")
+ck("dominant share of Open rows", r16F.dom_share_open * 100, "67.0", 0.06,
+   anchor="of \\texttt{Open} rows but only")
+ck("dominant share of all rows", r16F.dom_share_all * 100, "18.4", 0.06,
+   anchor="of all activity rows")
+ck("agreement with first Assignment", r16F.agree_first_assignment * 100,
+   "15.1", 0.06, anchor="first \\texttt{Assignment} activity for just")
+ck("median delay to first Assignment", r16F.median_delay_min, "46", 0.5,
+   anchor="minutes later")
+ck("incidents with no Assignment", r16F.n_no_assignment, "7{,}878", 0,
+   anchor="never have one at all")
+ck_phrase("field-semantics figures in order",
+          r"rows carry $218$", "218", 0)
+ck_phrase("dominant shares in order",
+          r"$67.0\%$ of \texttt{Open} rows but only $18.4\%$ of all activity "
+          r"rows", "67.0", 0, "18.4", 0)
+#  The three structural facts must actually point the way the paper says.
+if not (r16F.groups_open < r16F.groups_assignment):
+    bad.append("paper says Open rows are LESS diverse than Assignment rows")
+else:
+    ok += 1
+if not (r16F.dom_share_open > 3 * r16F.dom_share_all):
+    bad.append("paper says the dominant group is concentrated on Open rows")
+else:
+    ok += 1
+if not (r16F.first_asg_after_open > 0.999):
+    bad.append("paper says the first Assignment is always after Open; it is not")
+else:
+    ok += 1
+
+# ---- r17: the rebuilt mechanism floor ----------------------------------
+ck("real leg retained", r17F.real_retained * 100, "91", 0.5,
+   anchor="retains")
+#  The paper quotes the WITHDRAWN row-level floor as history.  Check it
+#  against the file that still holds it, so the account of the error is
+#  itself verified rather than remembered.
+ck("withdrawn floor (row-level)", mech.mirror_floor_pct, "2", 0.5,
+   anchor="against a floor of")
+ck("withdrawn margin", mech.mirror_pct - mech.mirror_floor_pct, "89", 0.5,
+   anchor="claimed a margin of")
+ck("rebuilt floor at matched cells", r17F.floor_matched * 100, "41", 0.5,
+   anchor="cells, matching the field's own cardinality")
+ck("rebuilt floor at 400 cells", r17S.loc[400].retained * 100, "77", 0.5,
+   anchor="at $400$")
+ck("honest margin", r17F.margin_matched, "50", 0.5,
+   anchor="matched cardinality is")
+ck_phrase("floor sweep in order",
+          r"$41\%$ at $49$ cells, matching the field's own cardinality, and "
+          r"$77\%$ at $400$", "41", 0, "49", 0, "77", 0, "400", 0)
+ck_phrase("withdrawn floor pinned",
+          r"against a floor of $2\%$ and claimed a margin of $89$ points",
+          "2", 0, "89", 0)
+#  The correction only stands if the rebuilt floor really is higher.
+if not (r17F.floor_matched > mech.mirror_floor_pct / 100):
+    bad.append("paper says the rebuilt floor is higher than the row-level one")
+else:
+    ok += 1
+if not r17S.retained.is_monotonic_increasing:
+    bad.append("paper says the floor rises with granularity; the sweep does not")
+else:
+    ok += 1
+
 # ---- r12/r13: the queue's shape and what is model-free ------------------
-ck("queue groups (training)", r13S.loc["train"].n_groups, "49", 0,
-   anchor="groups in training")
-ck("queue entropy train", r13S.loc["train"].entropy, "2.43", 0.006,
-   anchor="bits")
-ck("queue eff. cardinality", r13S.loc["train"].perplexity, "5.4", 0.06,
-   anchor="effective cardinality")
-ck("queue top1 train", r13S.loc["train"].top1 * 100, "62.1", 0.06,
-   anchor="largest group holding")
-ck("queue groups test", r13S.loc["test"].n_groups, "32", 0,
-   anchor="live groups fall to")
-ck("queue top1 test", r13S.loc["test"].top1 * 100, "78.6", 0.06,
-   anchor="the largest holds")
-ck_phrase("queue shape in order",
-          r"its $49$ groups carry $2.43$ bits, an effective cardinality of "
-          r"$5.4$, with the largest group holding $62.1\%$ of incidents; in "
-          r"test the live groups fall to $32$ and the largest holds $78.6\%$",
-          "49", 0, "2.43", 0, "5.4", 0, "62.1", 0, "32", 0, "78.6", 0)
-_dom = pd.read_csv(R / "r13_dominant.csv").iloc[0]
-ck("rate inside dominant pool", _dom.rate_in, "0.309", 6e-4,
-   anchor="inside the dominant pool")
-ck("rate outside dominant pool", _dom.rate_out, "0.603", 6e-4,
-   anchor="outside it")
-#  The two anchors sit inside each other's +-200 character window, so
-#  anchoring alone cannot tell the pair apart if they are swapped.  The
-#  corruption suite caught exactly that; pin the order.
-ck_phrase("dominant-pool rates in order",
-          r"the reassignment rate is $0.309$ inside the dominant pool and "
-          r"$0.603$ outside it", "0.309", 0, "0.603", 0)
+#  The queue-shape paragraph was rewritten when the field was
+#  re-characterised (r16).  What survives in the paper is the concentration
+#  and drift disclosure, checked here; the entropy and dominant-pool figures
+#  were dropped from the text and their checks with them.
+ck("largest group, training share", r13S.loc["train"].top1 * 100, "62.1",
+   0.06, anchor="the largest group holds")
+ck("live groups, training", r13S.loc["train"].n_groups, "49", 0,
+   anchor="live groups falls from")
+ck("live groups, test", r13S.loc["test"].n_groups, "32", 0,
+   anchor="live groups falls from")
+ck_phrase("drift disclosure in order",
+          r"the largest group holds $62.1\%$ of training incidents, and the "
+          r"number of live groups falls from $49$ to $32$",
+          "62.1", 0, "49", 0, "32", 0)
+if not (r13S.loc["test"].n_groups < r13S.loc["train"].n_groups):
+    bad.append("paper says live groups FALL between the halves; they do not")
+else:
+    ok += 1
+
 ck("U(queue|item)", r12Q.u_queue_given_item * 100, "60.4", 0.06,
-   anchor="of the queue's information")
+   anchor="of the opening group's information")
 ck("U(item|queue)", r12Q.u_item_given_queue * 100, "19.6", 0.06,
    anchor="of the item's")
 #  Same swap hole as the dominant-pool rates: both literals fall inside both
 #  anchor windows.  The asymmetry IS the claim here -- reversing it would say
 #  the queue determines the item -- so the order has to be pinned.
 ck_phrase("asymmetry in order",
-          r"item identity carries $60.4\%$ of the queue's information and "
-          r"the queue carries $19.6\%$ of the item's",
+          r"item identity carries $60.4\%$ of the opening group's "
+          r"information and the group carries $19.6\%$ of the item's",
           "60.4", 0, "19.6", 0)
 if not r12Q.u_queue_given_item > r12Q.u_item_given_queue:
     bad.append("paper claims the queue/item relationship is asymmetric in the "
@@ -631,15 +767,15 @@ if not r12Q.u_queue_given_item > r12Q.u_item_given_queue:
 else:
     ok += 1
 ck("lookup accuracy", r12Q.lookup_test_all * 100, "90.3", 0.06,
-   anchor="reproduces the desk's choice")
+   anchor="reproduces which group logged the incident")
 ck("lookup prior", r12Q.lookup_prior * 100, "78.6", 0.06,
-   anchor="always guessing the largest queue")
+   anchor="always guessing the largest group")
 ck("lookup balanced", r12Q.lookup_balanced_acc * 100, "34.1", 0.06,
    anchor="class-balanced it reaches only")
 ck_phrase("lookup figures in order",
           r"on $90.3\%$ of test incidents against $78.6\%$ for always "
-          r"guessing the largest queue, and class-balanced it reaches only "
-          r"$34.1\%$",
+          r"guessing the largest group, and class-balanced it reaches "
+          r"only $34.1\%$",
           "90.3", 0, "78.6", 0, "34.1", 0)
 for i, lit in enumerate(("27", "28", "36", "44")):
     ck(f"dose-response shrink {i}", r13R.iloc[i].shrink_pct, lit, 0.5,
@@ -657,7 +793,7 @@ if not r13R.shrink_pct.is_monotonic_increasing:
 else:
     ok += 1
 ck("binary share of queue gain", r13O.binary_share_of_queue, "61", 0.5,
-   anchor="of the queue's baseline gain")
+   anchor="of the group's baseline gain")
 ck("binary share of shrinkage", r13O.binary_share_of_shrinkage, "63", 0.5,
    anchor="of the shrinkage it causes")
 
@@ -687,9 +823,9 @@ ck("scope spread at k=32", r14F.k32_spread * 100, "9", 0.5,
    anchor="across-split spread is")
 ck("scope k32 label", 32, "32", 0, anchor="across-split spread is")
 ck("scope top64 intake baseline", r14F.top64_intake * 100, "89", 0.5,
-   anchor="the queue removed from the baseline")
+   anchor="the group removed from the baseline")
 ck_phrase("scope without queue pinned",
-          r"queue removed from the baseline --- $89\%$ at $k=64$", "89", 0)
+          r"group removed from the baseline --- $89\%$ at $k=64$", "89", 0)
 
 #  The dropped reverse-direction null grouped items into as many cells as the
 #  cohort has opening queues.  The paper prints that count; check it against

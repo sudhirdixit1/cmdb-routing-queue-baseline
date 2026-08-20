@@ -9,9 +9,10 @@ Six repairs, none of which changes the surviving thesis:
     (The previous draft's third row was inside it.)
  2. Each rung is also reported under PER-CONDITION penalty tuning, on an
     inner split of training only.
- 3. The knowledge reference is shown to be closure-valued by direct
-    identity with the closed-record column, so it is a leak rather than a
-    baseline choice.
+ 3. The knowledge reference is examined.  NOTE (2026-08-20): this repair
+    originally concluded the field was closure-valued and therefore a leak.
+    That verdict is WITHDRAWN -- the identity test cannot separate its own
+    counterexample, and the paper now makes no claim about the field.
  4. Field mutation counts are disclosed for every field used, including
     the paper's own intake fields, with a sensitivity analysis.
  5. Coverage comparison uses interpolation at matched coverage with 30
@@ -89,7 +90,7 @@ print("  about what the measured 'effect' is, and tuning the penalty flips its")
 print("  sign.  It is reported as not resolvable, not as a negative result.")
 
 print("\n" + "=" * 92)
-print("REPAIR 3. THE KNOWLEDGE REFERENCE IS CLOSURE-VALUED")
+print("REPAIR 3. THE KNOWLEDGE REFERENCE -- WHY NEITHER TEST SETTLES IT")
 print("=" * 92)
 raw = pd.read_csv(RAW / "Detail_Incident.csv", sep=";", low_memory=False,
                   encoding="latin-1")
@@ -104,8 +105,15 @@ print(f"  Interaction IDs for {len(D):,} incidents : {n_int:,}  (near 1:1)")
 print("\n  So the 'varies within an incident' test cannot separate these two:")
 print("  it marks the knowledge reference (closure-valued) and the interaction")
 print("  key (creation-time, 1:1) identically.  Constancy is evidence of")
-print("  granularity, not of timing.  The decisive test for the knowledge")
-print("  reference is its exact identity with a closed-record column.")
+# CORRECTED 2026-08-20.  "The decisive test" was not decisive: section 7 of
+# the paper shows the identity test cannot separate its own counterexample
+# either (Interaction ID matches its closed-record column for 99.997628% of
+# the single-interaction subset, against a 100.000000% pass mark).  The paper
+# makes NO claim about this field, and in particular does not call it a leak.
+print("  granularity, not of timing.  The identity test below is not decisive")
+print("  either: Interaction ID, a creation-time key, matches its own")
+print("  closed-record column for 99.997628% of the single-interaction subset.")
+print("  NEITHER TEST SETTLES THE FIELD.  The paper makes no claim about it.")
 pd.DataFrame([dict(km_identity=ident, n_interaction=n_int, n_incidents=len(D))]
              ).to_csv(RESULTS / "r5_leak.csv", index=False)
 
@@ -211,9 +219,13 @@ C.to_csv(RESULTS / "r5_matched.csv", index=False)
 hi = C[C.coverage >= 0.55]
 print(f"\n  max spread at coverage >= 55%: {hi.spread.max():.3f}")
 print(f"  max spread below 55%:          {C[C.coverage < 0.55].spread.max():.3f}")
-print("  -> the rules converge only above about 55% coverage; below that,")
-print("     targeting genuinely beats the alternatives and the previous")
-print("     draft's banded '2.2 points' concealed it.")
+# WITHDRAWN 2026-08-20.  This compared TWO rules and reported it as three:
+# uniform-random selection tops out near 40% coverage and has no points above
+# it, so "converge above 55%" is not testable here.  r6 section D records the
+# withdrawal.  The paper makes no convergence claim.
+print("  -> WITHDRAWN.  Uniform-random selection reaches only ~40% coverage,")
+print("     so above that this is a two-rule comparison reported as three.")
+print("     The paper makes no claim that the rules converge.")
 print("\n  within-rule Monte-Carlo sd (30 draws):")
 for rule, c in curves.items():
     if c.sd.max() > 0:

@@ -1,26 +1,44 @@
 """R11 -- what the AUC difference is worth at a fixed review capacity, and
 how the result moves with the target's definition.
 
+REBUILT after a referee found two defects in the first version.  Both are
+recorded here because both changed the printed number.
+
+  DEFECT 1 (mismatched arms).  The first version used ONE treatment model,
+  intake+group+item, for both comparisons, so the "naive" contrast was
+  intake  vs  intake+group+item -- which credits item identity with the
+  opening group's own contribution.  An analyst who omitted the group from
+  the baseline would also have omitted it from the model.  The matched
+  contrast is intake vs intake+item, mirroring Table 1 exactly.  This alone
+  moved the headline factor from 12.7 to about 10.
+
+  DEFECT 2 (no interval).  The first version printed the factor bare, in a
+  paper that elsewhere refuses to resolve +0.0017 past two decimals.  The
+  denominator here is a count difference of a few dozen incidents and is
+  genuinely uncertain.  Every quantity below now carries a paired bootstrap
+  interval over test rows, and the tie structure at the capacity cut is
+  disclosed rather than left to argsort.
+
+  TIES.  The intake-only model emits very few distinct probabilities, so the
+  capacity cut lands inside a large tie block and `argsort` would resolve it
+  by row order.  Every draw below breaks ties at random, so the reported
+  spread includes tie-breaking uncertainty rather than hiding it.
+
 Two review objections are answered here.
 
-O6.  The paper establishes that admitting one free field halves a measured
-number, and then leaves the reader with no sense of what either number buys.
-An AUC difference is not a quantity a service desk can act on.  Part A fixes
-a review capacity -- the share of incoming incidents a desk can afford to
-look at before routing -- and reports, at that capacity, how many
+O6.  An AUC difference is not a quantity a service desk can act on.  Part A
+fixes a review capacity -- the share of incoming incidents a desk can afford
+to look at before routing -- and reports, at that capacity, how many
 reassignment-bound incidents each model actually surfaces.  This is a
 DETECTION statement, not a savings claim: it says how many more of the right
 incidents you see, not what seeing them is worth, which this log cannot
 support.
 
-O4.  The paper's target fires on about 40% of incidents, which is routine
-workflow rather than error, and the sensitivity to a stricter definition sat
-in a subordinate clause of the Limitations.  Part B reports the whole ladder
-at three thresholds so the reader can see both that the magnitude is
-threshold-dependent and that the ordering is not.
+O4.  The target fires on about 40% of incidents, which is routine workflow
+rather than error.  Part B reports the whole ladder at three thresholds.
 
 Everything is held to r4_final: same cohort, same temporal split, same
-intake block, same opening queue, same one-hot logistic estimator.
+intake block, same opening group, same one-hot logistic estimator.
 """
 import sys
 from pathlib import Path
@@ -35,6 +53,7 @@ from common import RESULTS
 
 SEED = 20260819
 N_BOOT = 2000
+N_CAP_BOOT = 400
 BQ = M.INTAKE + ["intake_group"]
 CAPACITIES = (0.05, 0.10, 0.20)
 
@@ -45,99 +64,119 @@ y = TE._y.values
 span_days = (TE._t.max() - TE._t.min()).total_seconds() / 86400.0
 months = span_days / 30.44
 
+# Four models.  The two contrasts must use MATCHED pairs.
+p_intake = M.fit(TR, TE, M.INTAKE)                 # naive baseline
+p_int_it = M.fit(TR, TE, M.INTAKE + [M.IDENT])     # naive treatment
+p_base = M.fit(TR, TE, BQ)                         # honest baseline
+p_full = M.fit(TR, TE, BQ + [M.IDENT])             # honest treatment
+
 print("=" * 92)
 print("A. WHAT THE GAIN BUYS AT A FIXED REVIEW CAPACITY")
 print("=" * 92)
 print(f"  Test window: {TE._t.min():%Y-%m-%d} to {TE._t.max():%Y-%m-%d} "
       f"({span_days:.0f} days, {len(TE):,} incidents, {months:.1f} months)")
-print(f"  Base rate: {y.mean():.1%} of test incidents are reassigned at least once.\n")
+print(f"  Base rate: {y.mean():.1%} reassigned at least once.")
+print(f"  AUC: intake {roc_auc_score(y, p_intake):.3f}, "
+      f"intake+group {roc_auc_score(y, p_base):.3f}, "
+      f"+item {roc_auc_score(y, p_full):.3f}\n")
 
-p_base = M.fit(TR, TE, BQ)
-p_full = M.fit(TR, TE, BQ + [M.IDENT])
-print(f"  baseline AUC {roc_auc_score(y, p_base):.3f}   "
-      f"with item identity {roc_auc_score(y, p_full):.3f}\n")
+# -- tie disclosure -------------------------------------------------------
+print("  Tie structure at the capacity cut (why every draw randomises ties):")
+for nm, p in (("intake only", p_intake), ("intake + group", p_base)):
+    k = int(round(len(p) * 0.10))
+    cut = np.sort(p)[::-1][k - 1]
+    n_tied = int((p == cut).sum())
+    n_above = int((p > cut).sum())
+    print(f"    {nm:16s} {len(np.unique(p)):>5,} distinct probabilities; "
+          f"at 10% the cut value is shared by {n_tied:,} rows "
+          f"({n_above:,} strictly above)")
 
 
-def at_capacity(p, frac):
-    """Flag the top `frac` of test incidents by predicted risk."""
-    k = int(round(len(p) * frac))
-    idx = np.argsort(-p)[:k]
-    caught = int(y[idx].sum())
-    return k, caught, caught / k, caught / y.sum()
+def caught_at(p, frac, rng, idx=None):
+    """Count positives in the top `frac`, breaking ties at random."""
+    if idx is None:
+        pp, yy = p, y
+    else:
+        pp, yy = p[idx], y[idx]
+    k = int(round(len(pp) * frac))
+    order = rng.permutation(len(pp))                # random tie-break
+    sel = order[np.argsort(-pp[order], kind="stable")][:k]
+    return k, int(yy[sel].sum())
 
 
-print(f"  {'capacity':>9s} {'reviewed':>9s} | {'baseline':>18s} | "
-      f"{'+ item identity':>18s} | {'extra caught':>21s}")
-print(f"  {'':9s} {'':9s} | {'caught':>8s} {'prec':>9s} | "
-      f"{'caught':>8s} {'prec':>9s} | {'total':>7s} {'per 1k':>6s} {'/month':>6s}")
+print("\n  Honest contrast  : (intake + group)      vs (intake + group + item)")
+print("  Naive contrast   : (intake)              vs (intake + item)")
+print("  -- the naive arm now MATCHES Table 1's construction.\n")
+print(f"  {'cap.':>5s} {'honest extra':>22s} {'naive extra':>22s} "
+      f"{'factor':>18s}")
 rows = []
 for frac in CAPACITIES:
-    k, cb, pb, rb = at_capacity(p_base, frac)
-    _, cf, pf, rf = at_capacity(p_full, frac)
-    extra = cf - cb
+    rng = np.random.default_rng(SEED)
+    k, cb = caught_at(p_base, frac, rng)
+    _, cf = caught_at(p_full, frac, rng)
+    _, ci = caught_at(p_intake, frac, rng)
+    _, cn = caught_at(p_int_it, frac, rng)
+    h_pt, n_pt = cf - cb, cn - ci
+    hb, nb, fb = [], [], []
+    for rep in range(N_CAP_BOOT):
+        r = np.random.default_rng(SEED + 1000 + rep)
+        idx = r.integers(0, len(y), len(y))
+        if len(np.unique(y[idx])) < 2:
+            continue
+        _, a = caught_at(p_base, frac, r, idx)
+        _, b = caught_at(p_full, frac, r, idx)
+        _, c = caught_at(p_intake, frac, r, idx)
+        _, d = caught_at(p_int_it, frac, r, idx)
+        hb.append(b - a)
+        nb.append(d - c)
+        if (b - a) > 0:
+            fb.append((d - c) / (b - a))
+    hb, nb, fb = np.array(hb), np.array(nb), np.array(fb)
+    hlo, hhi = np.percentile(hb, [2.5, 97.5])
+    nlo, nhi = np.percentile(nb, [2.5, 97.5])
+    flo, fhi = (np.percentile(fb, [2.5, 97.5]) if len(fb) > 10 else (np.nan, np.nan))
+    p_le0 = float((hb <= 0).mean())
     rows.append(dict(capacity=frac, reviewed=k, caught_base=cb, caught_full=cf,
-                     prec_base=pb, prec_full=pf, recall_base=rb, recall_full=rf,
-                     extra=extra, extra_per_1k=1000 * extra / k,
-                     extra_per_month=extra / months,
-                     lift_base=pb / y.mean(), lift_full=pf / y.mean()))
-    print(f"  {frac:>8.0%} {k:>9,} | {cb:>8,} {pb:>8.1%} | "
-          f"{cf:>8,} {pf:>8.1%} | {extra:>7,} {1000*extra/k:>6.0f} "
-          f"{extra/months:>6.0f}")
-pd.DataFrame(rows).to_csv(RESULTS / "r11_capacity.csv", index=False)
+                     caught_intake=ci, caught_intake_item=cn,
+                     honest_extra=h_pt, honest_lo=hlo, honest_hi=hhi,
+                     naive_extra=n_pt, naive_lo=nlo, naive_hi=nhi,
+                     factor=n_pt / h_pt if h_pt else np.nan,
+                     factor_lo=flo, factor_hi=fhi,
+                     p_honest_le_zero=p_le0,
+                     honest_per_month=h_pt / months))
+    print(f"  {frac:>4.0%} {f'{h_pt:+d} [{hlo:+.0f},{hhi:+.0f}]':>22s} "
+          f"{f'{n_pt:+d} [{nlo:+.0f},{nhi:+.0f}]':>22s} "
+          f"{f'{n_pt/h_pt:.1f}x [{flo:.1f},{fhi:.1f}]':>18s}")
+C = pd.DataFrame(rows)
+C.to_csv(RESULTS / "r11_capacity.csv", index=False)
 
-r10 = rows[1]
-print(f"\n  Read the 10% row as the operational statement.  A desk that can")
-print(f"  review {r10['reviewed']:,} of {len(TE):,} incidents before routing catches")
-print(f"  {r10['caught_base']:,} reassignment-bound incidents using intake fields and the")
-print(f"  queue, and {r10['caught_full']:,} if it also knows the configuration item --")
-print(f"  {r10['extra']:,} more, or {r10['extra_per_month']:.0f} a month at this log's volume.")
-print(f"  Precision moves from {r10['prec_base']:.1%} to {r10['prec_full']:.1%} against a "
-      f"{y.mean():.1%} base rate.")
-print("\n  What this does NOT say: that a reviewed incident is a corrected one.")
-print("  The log records no intervention, so the recoverable share of these")
-print("  is not identified here.")
+r10 = C[C.capacity == 0.10].iloc[0]
+print(f"\n  P(honest extra <= 0) at 10% capacity: {r10.p_honest_le_zero:.1%}")
+print("\n  READ THIS HONESTLY.  The direction is solid at every capacity and")
+print("  the factor is comfortably above one, but the denominator is a count")
+print("  difference of a few dozen incidents and its interval is wide.  The")
+print("  paper reports the factor WITH its interval and does not bold it.")
+print("  The qualitative claim -- that the omission inflates the operational")
+print("  gain by roughly an order of magnitude, far more than the 1.8x it")
+print("  inflates the AUC gain -- is what the data supports.")
 
-print("\n  The same capacities against the intake-only baseline, i.e. what a")
-print("  business case that omits the queue would appear to buy:")
-p_intake = M.fit(TR, TE, M.INTAKE)
-naive = []
-for frac in CAPACITIES:
-    k, ci, pi, _ = at_capacity(p_intake, frac)
-    _, cf, pf, _ = at_capacity(p_full, frac)
-    naive.append(dict(capacity=frac, reviewed=k, caught_intake=ci, caught_full=cf,
-                      extra=cf - ci, extra_per_month=(cf - ci) / months))
-    print(f"    {frac:>4.0%}: {cf-ci:>5,} extra   "
-          f"({(cf-ci)/months:>5.0f} a month)  vs {rows[CAPACITIES.index(frac)]['extra']:>5,} "
-          f"({rows[CAPACITIES.index(frac)]['extra_per_month']:>5.0f} a month) when the queue is admitted")
-for n, r in zip(naive, rows):
-    n["overstatement"] = n["extra"] / r["extra"]
-pd.DataFrame(naive).to_csv(RESULTS / "r11_capacity_naive.csv", index=False)
-ratio = naive[1]["overstatement"]
-o_lo = min(n["overstatement"] for n in naive)
-o_hi = max(n["overstatement"] for n in naive)
-print(f"\n  At 10% capacity the omission overstates the operational gain by "
-      f"{ratio:.1f}x; across the three capacities the factor runs "
-      f"{o_lo:.1f}x to {o_hi:.1f}x.")
-print("  The factor is larger than the ratio of the two AUC gains (1.8x)")
-print("  because AUC averages over all operating points while a capacity-")
-print("  limited desk works at one.  Near the top of the ranking the")
-print("  queue-aware baseline is already close to its ceiling, so the item")
-print("  column has far less left to add there than the global figure implies.")
-g_naive = roc_auc_score(y, p_full) - roc_auc_score(y, p_intake)
+g_naive = roc_auc_score(y, p_int_it) - roc_auc_score(y, p_intake)
 g_honest = roc_auc_score(y, p_full) - roc_auc_score(y, p_base)
-pd.DataFrame([dict(overstatement_10pct=ratio, overstatement_lo=o_lo,
-                   overstatement_hi=o_hi, auc_ratio=g_naive / g_honest,
-                   months=months, span_days=span_days)]
+print(f"\n  AUC ratio for comparison: {g_naive:.4f} / {g_honest:.4f} = "
+      f"{g_naive/g_honest:.2f}x")
+pd.DataFrame([dict(auc_ratio=g_naive / g_honest, months=months,
+                   span_days=span_days,
+                   factor_10=float(r10.factor), factor_10_lo=float(r10.factor_lo),
+                   factor_10_hi=float(r10.factor_hi),
+                   factor_lo_across=float(C.factor.min()),
+                   factor_hi_across=float(C.factor.max()))]
              ).to_csv(RESULTS / "r11_overstatement.csv", index=False)
 
 print("\n" + "=" * 92)
 print("B. THE LADDER AT THREE TARGET DEFINITIONS")
 print("=" * 92)
-print("  Reassignment at least once fires on ~40% of incidents and includes")
-print("  legitimate escalation.  Stricter thresholds isolate the incidents")
-print("  that were handed on repeatedly.\n")
-print(f"  {'target':>18s} {'rate':>7s} {'intake':>9s} {'+queue':>9s} "
-      f"{'shrink':>8s} {'95% CI on +queue':>20s}")
+print(f"  {'target':>18s} {'rate':>7s} {'intake':>9s} {'+group':>9s} "
+      f"{'shrink':>8s} {'95% CI on +group':>20s}")
 tro = []
 
 
@@ -160,8 +199,7 @@ for thr in (1, 2, 3):
     ai = roc_auc_score(yy, M.fit(tr, te, M.INTAKE + [M.IDENT]))
     pq = M.fit(tr, te, BQ)
     pqi = M.fit(tr, te, BQ + [M.IDENT])
-    aq = roc_auc_score(yy, pq)
-    aqi = roc_auc_score(yy, pqi)
+    aq, aqi = roc_auc_score(yy, pq), roc_auc_score(yy, pqi)
     g0, g1 = ai - a0, aqi - aq
     lo, hi = bdelta(pq, pqi, yy)
     tro.append(dict(threshold=thr, rate=float(yy.mean()), gain_intake=g0,
@@ -170,7 +208,7 @@ for thr in (1, 2, 3):
           f"{g1:>+9.3f} {100*(g0-g1)/g0:>7.0f}%  [{lo:+.3f},{hi:+.3f}]")
 T = pd.DataFrame(tro)
 T.to_csv(RESULTS / "r11_threshold.csv", index=False)
-print(f"\n  The magnitude is threshold-dependent -- the queue rung ranges "
+print(f"\n  Magnitude is threshold-dependent -- the +group rung ranges "
       f"{T.gain_queue.min():+.3f} to {T.gain_queue.max():+.3f} --")
-print(f"  but the ordering never reverses and the shrinkage stays in a band of")
-print(f"  {T.shrink_pct.min():.0f}% to {T.shrink_pct.max():.0f}%.  Every interval excludes zero.")
+print(f"  but the ordering never reverses and the shrinkage stays between")
+print(f"  {T.shrink_pct.min():.0f}% and {T.shrink_pct.max():.0f}%.  Every interval excludes zero.")

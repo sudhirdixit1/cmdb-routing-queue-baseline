@@ -18,18 +18,23 @@ BAK = ROOT / "paper" / ".tex.bak"
 
 CORRUPTIONS = [
     ("sign flip, headline gain", "& $+0.183$ [", "& $-0.183$ ["),
-    ("sign flip, queue-unique", r"$\mathbf{+0.002}$", r"$\mathbf{-0.002}$"),
+    ("sign flip, group-unique",
+     "and $+0.002$ once the item is present",
+     "and $-0.002$ once the item is present"),
     ("swap table-1 AUCs", "intake only & 0.562 & 0.746", "intake only & 0.644 & 0.746"),
     ("swap train/test n", "$31{,}818$ training and", "$13{,}637$ training and"),
-    ("swap mirror pair", "retains $91\\%$ of the queue's", "retains $2\\%$ of the queue's"),
-    ("corrupt mirror floor", "retains $2\\%$. The margin", "retains $9\\%$. The margin"),
+    ("swap mirror pair", "retains $91\\%$ of the group's", "retains $41\\%$ of the group's"),
+    ("corrupt the withdrawn floor we quote as history",
+     "against a floor of $2\\%$", "against a floor of $9\\%$"),
     ("corrupt scope top-64", "$64$ recover $88\\%$", "$64$ recover $68\\%$"),
     ("corrupt scope top-8", "top $8$ recover $56\\%$", "top $8$ recover $26\\%$"),
     ("corrupt design range", "ranges $+0.068$ to", "ranges $+0.088$ to"),
     ("corrupt queue-unique CI", "$[+0.0001,+0.0034]$", "$[+0.0010,+0.0034]$"),
-    ("corrupt null", "$-0.0009 \\pm 0.0006$", "$-0.0019 \\pm 0.0006$"),
+    ("corrupt null", "$-0.0009 \\pm 0.0005$", "$-0.0019 \\pm 0.0005$"),
     ("corrupt cohort figure", "$92.56\\%$", "$95.56\\%$"),
-    ("break a tabular row", "& $+0.082$ \\\\", "& $+0.082$ \\"),
+    ("break a tabular row",
+     "& $+262$ [$242,300$] & $3.9$ [$3.2,6.4$] \\\\",
+     "& $+262$ [$242,300$] & $3.9$ [$3.2,6.4$] \\"),
     ("fabricated literal", "before funding anything.",
      "before funding anything, across $737$ sites."),
     # -- second task (r9).  A new claim gets the same treatment as an old one.
@@ -37,15 +42,15 @@ CORRUPTIONS = [
      "worth $+0.083$ against the intake block and $+0.055$",
      "worth $+0.055$ against the intake block and $+0.083$"),
     ("inflate reopen shrinkage", "a reduction of $33\\%$", "a reduction of $53\\%$"),
-    ("corrupt long-handling gain", "figures are $+0.118$ and $+0.078$",
-     "figures are $+0.148$ and $+0.078$"),
+    ("corrupt long-handling gain", "on long handling, $+0.118$ and $+0.078$",
+     "on long handling, $+0.148$ and $+0.078$"),
     ("corrupt reopen positives", "fires on $2{,}096$ incidents",
      "fires on $3{,}096$ incidents"),
     ("overstate target independence",
      "correlates with reassignment at $+0.14$",
      "correlates with reassignment at $+0.04$"),
-    ("overstate reopen evidence", "stand $5.5$ and $4.2$ pooled",
-     "stand $25.5$ and $4.2$ pooled"),
+    ("overstate reopen evidence", "stand only $5.5$ and $4.2$ pooled",
+     "stand only $25.5$ and $4.2$ pooled"),
     ("widen the shrinkage range", "ranges from $30\\%$ to $46\\%$",
      "ranges from $40\\%$ to $46\\%$"),
 
@@ -64,18 +69,18 @@ CORRUPTIONS = [
     ("restore the wrong bin count", "into $137$ bins", "into $256$ bins"),
 
     # -- r11, the operational translation.
-    ("swap a capacity row's caught counts",
-     "$1{,}119$ & $1{,}153$", "$1{,}153$ & $1{,}119$"),
-    ("corrupt the naive catch count",
-     "with $303$, $432$ and $501$ instead", "with $303$, $832$ and $501$ instead"),
-    ("swap the precision pair",
-     "precision from $82.0\\%$ to $84.5\\%$", "precision from $84.5\\%$ to $82.0\\%$"),
+    ("swap a capacity row's two arms",
+     "$+67$ [$43,84$] & $+262$", "$+262$ [$43,84$] & $+67$"),
+    ("corrupt a naive catch count",
+     "$+353$ [$304,404$]", "$+853$ [$304,404$]"),
+    ("inflate the honest detection gain",
+     "surfaces $67$ $[43,84]$ more", "surfaces $167$ $[43,84]$ more"),
     ("inflate the overstatement factor",
-     "by a factor of $12.7$", "by a factor of $22.7$"),
+     "by a factor of $3.9$ $[3.2,6.4]$", "by a factor of $9.3$ $[3.2,6.4]$"),
     ("corrupt the abstract's detection factor",
-     "baseline attributes $12.7$ times", "baseline attributes $19.7$ times"),
+     "credits the CMDB with $3.9$", "credits the CMDB with $13.9$"),
     ("understate the AUC ratio it is contrasted with",
-     "gains, which is $1.8$", "gains, which is $1.2$"),
+     "against a ratio of only $1.8$", "against a ratio of only $1.1$"),
     ("swap the threshold ladder pair",
      "gives $+0.131$ and $+0.068$", "gives $+0.068$ and $+0.131$"),
     ("narrow the threshold shrinkage band",
@@ -87,34 +92,34 @@ CORRUPTIONS = [
     ("hide the class-balanced lookup accuracy",
      "class-balanced it reaches only $34.1\\%$",
      "class-balanced it reaches only $74.1\\%$"),
-    ("overstate what the item tells you about the queue",
-     "carries $60.4\\%$ of the queue's information",
-     "carries $90.4\\%$ of the queue's information"),
+    ("overstate what the item tells you about the group",
+     "carries $60.4\\%$ of the opening group's",
+     "carries $90.4\\%$ of the opening group's"),
     ("swap the asymmetry direction",
-     "carries $60.4\\%$ of the queue's information and the queue carries "
-     "$19.6\\%$",
-     "carries $19.6\\%$ of the queue's information and the queue carries "
-     "$60.4\\%$"),
-    ("understate the queue's concentration",
-     "largest group holding $62.1\\%$", "largest group holding $22.1\\%$"),
-    ("swap the dominant-pool reassignment rates",
-     "$0.309$ inside the dominant pool and $0.603$ outside",
-     "$0.603$ inside the dominant pool and $0.309$ outside"),
+     "carries $60.4\\%$ of the opening group's information and the group "
+     "carries $19.6\\%$",
+     "carries $19.6\\%$ of the opening group's information and the group "
+     "carries $60.4\\%$"),
+    ("understate the field's concentration",
+     "largest group holds $62.1\\%$", "largest group holds $22.1\\%$"),
+    ("swap the two shares that show the field is an actor stamp",
+     "$67.0\\%$ of \\texttt{Open} rows but only $18.4\\%$",
+     "$18.4\\%$ of \\texttt{Open} rows but only $67.0\\%$"),
     ("flatten the dose-response",
      "shrinkages of $27\\%$, $28\\%$, $36\\%$ and $44\\%$",
      "shrinkages of $41\\%$, $28\\%$, $36\\%$ and $44\\%$"),
     ("corrupt the abstract's dose-response floor",
-     "rising from $27\\%$ when the queue", "rising from $17\\%$ when the queue"),
+     "running $27\\%$ to $44\\%$", "running $7\\%$ to $44\\%$"),
     ("overstate what one bit recovers",
-     "recovers $61\\%$ of the queue's baseline gain",
-     "recovers $91\\%$ of the queue's baseline gain"),
+     "recovers $61\\%$ of the group's baseline gain",
+     "recovers $91\\%$ of the group's baseline gain"),
 
     # -- r14, scoping.  The across-split band is what stops a single split's
     #    curve being read as an estimate, so shrinking it is the attack.
     ("shrink the scoping band", "$88\\%$ $[82,92]$", "$88\\%$ $[87,89]$"),
     ("corrupt the across-split spread",
      "across-split spread is $9$ points", "across-split spread is $2$ points"),
-    ("corrupt scoping without the queue", "--- $89\\%$ at $k=64$",
+    ("corrupt scoping without the group", "--- $89\\%$ at $k=64$",
      "--- $69\\%$ at $k=64$"),
 
     # -- r15.  The single-organisation justification rests on this rate: if it
@@ -122,6 +127,33 @@ CORRUPTIONS = [
     #    and "constraint rather than choice" would be false.
     ("overstate the second log's item population",
      "the second records it on $0.2\\%$", "the second records it on $20\\%$"),
+    # -- r16.  The field re-characterisation is the correction that cost the
+    #    paper its title.  Each of the three structural facts is attacked,
+    #    because reversing any one of them restores the wrong reading.
+    ("hide that Open rows are less diverse than Assignment rows",
+     "rows carry $218$", "rows carry $18$"),
+    ("reverse the agreement with the first Assignment",
+     "activity for just $15.1\\%$", "activity for just $85.1\\%$"),
+    ("shrink the delay that makes real routing inadmissible",
+     "a median of $46$ minutes later", "a median of $4$ minutes later"),
+    ("corrupt the count of incidents with no Assignment at all",
+     "$7{,}878$ of $45{,}455$", "$1{,}878$ of $45{,}455$"),
+    ("understate the drift in the free field",
+     "falls from $49$ to $32$", "falls from $49$ to $42$"),
+
+    # -- r17.  The rebuilt floor corrects a null that could not fail;
+    #    understating it would restore the withdrawn 89-point margin.
+    ("understate the rebuilt floor",
+     "$41\\%$ at $49$ cells", "$11\\%$ at $49$ cells"),
+    ("understate the floor at fine granularity",
+     "and $77\\%$ at $400$", "and $47\\%$ at $400$"),
+    ("inflate the honest margin",
+     "matched cardinality is $50$ points", "matched cardinality is $80$ points"),
+
+    # -- the widest capacity's interval includes zero, which is why the paper
+    #    quotes the 5% figure instead.  Hiding that is the attack.
+    ("hide that the widest capacity's interval includes zero",
+     "$+18$ [$-28,82$]", "$+18$ [$8,82$]"),
 ]
 
 

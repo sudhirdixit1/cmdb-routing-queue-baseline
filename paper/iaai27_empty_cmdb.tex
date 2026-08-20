@@ -24,8 +24,8 @@
 %% comes out wrong at the template's default of 0.
 \setcounter{secnumdepth}{2}
 
-\title{Half of Your CMDB's Measured Value Is the Routing Queue\\
-You Already Have}
+\title{Half of Your CMDB's Measured Value Is Knowing\\
+Who Opened the Ticket}
 
 %% IAAI-27 review is single-blind: identifying information is REQUIRED.
 \author{
@@ -44,23 +44,22 @@ Configuration management database (CMDB) programmes are justified by the
 analytics they enable, and that justification is a comparison against a
 baseline the analyst chooses. On a public event log of $45{,}455$ incidents
 from a bank's IT operation whose affected-item field is $100\%$ populated,
-we show the choice is worth as much as the data. Predicting at intake whether
-an incident will be reassigned, knowing the affected configuration item is
-worth $+0.183$ AUC against four intake fields, and $+0.103$
-$[+0.094,+0.114]$ once the opening assignment queue is added --- a field
-every service desk records at intake, for free. The gap survives three
-estimator families, including one in which item identity is a single
-column rather than $2{,}554$. Stated as a detection quantity it is far
-larger: at a fixed review capacity of $10\%$ of arrivals, the queue-free
-baseline attributes $12.7$ times as many additional catches to the CMDB as
-the queue-aware one does. Two measurements explain it. Adding the queue to a
-model that already knows the item is worth under $0.01$ AUC; and the
-shrinkage is graded in the queue's resolution, rising from $27\%$ when the
-queue is reduced to one bit to $44\%$ at full resolution. The same shrinkage
-reproduces on two further targets and at three target thresholds. We report
-two attempts that failed --- a third free-looking field drives the measured
-gain to zero and we could not establish whether it is admissible, and a
-reverse-direction measurement whose defensible nulls disagree.
+we show the choice is worth as much as the data. Predicting at intake
+whether an incident will be reassigned, knowing the affected configuration
+item is worth $+0.183$ AUC against four intake fields, and $+0.103$
+$[+0.094,+0.113]$ once one more free field is added: which group logged the
+incident. The gap survives three estimator families, including one in which
+item identity is a single column rather than $2{,}554$, and reproduces on
+two further targets and at three target thresholds. Stated as a detection
+problem it is larger than the AUC ratio of $1.8$ suggests --- at a review
+capacity of $5\%$ of arrivals, omitting the field credits the CMDB with
+$3.9$ $[3.2,6.4]$ times as many additional catches. Two measurements
+explain the overlap: the opening group adds under $0.01$ AUC to a model that
+already knows the item, and the shrinkage is graded in the field's
+resolution, running $27\%$ to $44\%$ as it goes from one bit to $49$ levels.
+We also report three things we got wrong: a null that could not fail, an
+operational factor we first reported without an interval, and a field whose
+meaning we mis-stated in an earlier draft.
 \end{abstract}
 
 \section{Introduction}
@@ -80,15 +79,19 @@ benchmark, and it belongs to this track as an evaluation practice: the
 quantity we measure is not a model's accuracy but the number a deployment
 decision turns on, and we show that number is set by a field-admission
 choice that is rarely written down. The organisations that make this choice
-are making it now, on data of exactly this shape, and Section~\ref{sec:buys}
-states what it costs them in the units a service desk actually operates in.
+are making it now, on data of exactly this shape, and
+Section~\ref{sec:buys} states what it costs them in the units a service desk
+operates in.
 
 \paragraph{On what this paper used to claim.}
-Earlier versions of this work reported several larger findings that were
-withdrawn under adversarial review, each an artifact of a control we had
-constructed. The paper is deliberately smaller as a result: every claim
-below is either a direct measurement or is reported against a null, and
-where a null is ambiguous we say so and drop the claim.
+Earlier versions reported larger findings withdrawn under adversarial
+review, each an artifact of a control we built ourselves. Three corrections
+survive here as reported results rather than silent edits, because each is
+the kind of error this paper is about: a mechanism null that could not fail
+(Section~\ref{sec:mechanism}), an operational factor first reported without
+an interval (Section~\ref{sec:buys}), and --- the one that cost us a title
+--- a central field whose meaning we asserted rather than checked
+(Section~\ref{sec:data}).
 
 \section{Background}
 \label{sec:background}
@@ -132,30 +135,25 @@ below, in particular values denormalised from a record onto its events.
 
 \paragraph{What the comparison is measured against.}
 The quantity we report --- the value of a feature \emph{given} a baseline
---- is the object that algorithm-agnostic variable-importance frameworks
-formalise \citep{williamson2021vimp}, and the overlap we measure is exactly
-the feature interaction that additive importance measures are built to
-handle \citep{covert2020sage}. That a feature's measured importance depends
-on what else the model already has is therefore not news as a statistical
-fact. What is not established is its magnitude for configuration data on a
-named operational task, or that the field it overlaps with is one the
-organisation already records for nothing. Our question is not whether AIOps
-methods work but what their evaluation is measured against.
-\citet{rendle2019baselines} show for recommender systems that inadequately
-specified baselines can account for reported gains, and
-\citet{dacrema2019progress} report the same pattern across a body of neural
-recommendation work. Benchmark conclusions are sensitive to sources of
-variation that are seldom reported \citep{bouthillier2021variance}, and
-documentation of the choices producing a result is thin across AI research
-\citep{gundersen2018reproducibility}. Where the choice concerns which fields
-may enter a model it shades into leakage, whose formulation and detection
-are treated by \citet{kaufman2012leakage} and whose consequences across
-empirical fields are catalogued by \citet{kapoor2023leakage}; for predictive
-process monitoring specifically, \citet{weytjens2022leakage} show that
-benchmark datasets need explicit construction to avoid it. We report this
-failure mode for a deployment decision rather than a leaderboard, where the
-field-admission choice is not a modelling detail but the number the business
-case turns on.
+--- is what algorithm-agnostic variable-importance frameworks formalise
+\citep{williamson2021vimp}, and the overlap we measure is the feature
+interaction additive importance measures are built to handle
+\citep{covert2020sage}. That measured importance depends on what the model
+already has is therefore not news as a statistical fact; what is not
+established is its magnitude for configuration data on a named operational
+task, or that the field it overlaps with is one the organisation already
+records for nothing. \citet{rendle2019baselines} show for recommender
+systems that inadequately specified baselines can account for reported
+gains, and \citet{dacrema2019progress} report the same across neural
+recommendation work. Benchmark conclusions are sensitive to variation that
+is seldom reported \citep{bouthillier2021variance}, and documentation of the
+choices producing a result is thin \citep{gundersen2018reproducibility}.
+Where the choice concerns which fields may enter a model it shades into
+leakage \citep{kaufman2012leakage,kapoor2023leakage}; for predictive process
+monitoring, \citet{weytjens2022leakage} show benchmark datasets need
+explicit construction to avoid it. We report this failure mode for a
+deployment decision rather than a leaderboard, where field admission is not
+a modelling detail but the number the business case turns on.
 
 \section{Data and Task}
 \label{sec:data}
@@ -190,37 +188,50 @@ estimator families are reported in Section~\ref{sec:result}. Encoders and
 rankings are fit on training data only; intervals are $2{,}000$-resample
 paired bootstraps.
 
-\paragraph{The opening routing queue.}
-The activity log records, on the \texttt{Open} event of every incident, the
-queue the service desk routed it to: $49$ groups in training, none missing. The
-\texttt{Open} activity is the earliest activity for all $45{,}455$
-incidents, its timestamp never precedes the record's open time, and the
-value varies within an incident for $92.56\%$ of cases in the cohort --- so it is a
-genuine per-event observation available at creation, not a closing state.
-It is also not the resolving queue: it matches the last-observed queue for
-only $21.35\%$ of incidents. We note that an early version of this work
-excluded assignment group outright as a handling-time field. That ruling was
-about the queue recorded at closure; the value on the opening row is a
-different variable, and the checks above are why we admit it.
+\paragraph{The free field, and what it is not.}
+The activity log records, on the \texttt{Open} event of every incident, an
+assignment group: $49$ in training, none missing. An earlier draft of this
+paper called it the queue the service desk routed the incident to. That was
+an assertion, not a finding, and it is wrong. Three checks say so. The
+\texttt{Open} rows carry $50$ distinct groups where the \texttt{Assignment}
+rows carry $218$, and a routing destination cannot be less diverse than the
+teams that then do the work. One group accounts for $67.0\%$ of
+\texttt{Open} rows but only $18.4\%$ of all activity rows. And the
+\texttt{Open} group matches the group on the incident's first
+\texttt{Assignment} activity for just $15.1\%$ of incidents. The field is
+the group that \emph{logged} the incident --- a central service desk for two
+thirds of tickets, a specialist team opening its own work for the rest.
+It is also concentrated and unstable: the largest group holds $62.1\%$ of
+training incidents, and the number of live groups falls from $49$ to $32$
+between our two halves.
 
-\paragraph{The queue is one pool plus a tail, and it drifts.}
-Nominal cardinality overstates this field badly and we disclose its shape
-because it bears on how the result transfers. In training its $49$ groups
-carry $2.43$ bits, an effective cardinality of $5.4$, with the largest group
-holding $62.1\%$ of incidents; in test the live groups fall to $32$ and the
-largest holds $78.6\%$. Most of what the queue knows is one contrast: the
-reassignment rate is $0.309$ inside the dominant pool and $0.603$ outside
-it. Section~\ref{sec:mechanism} shows the consequence, which is that the
-effect does not need the full field.
+We report the error because the correction carries the paper's method.
+Nothing measured changes --- the field is still on the intake event, still
+$100\%$ populated, still free, and still absorbs $44\%$ of the item column's
+value. What changed is a claim about what the field \emph{meant}, made on no
+evidence, in the way this paper accuses business cases of treating
+baselines.
 
-\paragraph{Field mutation, disclosed.}
-Because the incident file is a closed-record snapshot, we report how often
-each field we use is edited after creation: Urgency on $1{,}107$ incidents
-($2.44\%$), Impact on $1{,}084$ ($2.38\%$), the affected item on $159$
-($0.35\%$). Incidents whose Impact or Urgency was edited are more likely to
-be reassigned ($0.66$ against $0.39$), so this is not neutral;
-Section~\ref{sec:result} reports the headline with those fields dropped and
-with the edited incidents removed.
+\paragraph{Why not the real routing decision.}
+The obvious repair --- use the first \texttt{Assignment} group instead ---
+is not available. That activity occurs strictly after the \texttt{Open}
+event on every incident that has one, a median of $46$ minutes later, and
+$7{,}878$ of $45{,}455$ incidents never have one at all. It fails the
+admissibility criterion below, and substituting it would introduce exactly
+the leakage that criterion exists to prevent. The opening group is
+admissible precisely because it is a property of the intake event itself.
+
+\paragraph{Admissibility, and mutation.}
+A field on the \texttt{Open} row is admitted only if it is a per-event
+observation, tested by whether it varies across an incident's activity rows;
+the opening group varies for $92.56\%$ of cohort incidents and matches the
+last-observed group for only $21.35\%$. Because the incident file is a
+closed-record snapshot we also report how often each field is edited after
+creation: Urgency on $1{,}107$ incidents ($2.44\%$), Impact on $1{,}084$
+($2.38\%$), the affected item on $159$ ($0.35\%$). Incidents whose Impact or
+Urgency was edited are more likely to be reassigned ($0.66$ against $0.39$),
+so this is not neutral; Section~\ref{sec:result} reports the headline with
+those fields dropped and with the edited incidents removed.
 
 \section{The Result}
 \label{sec:result}
@@ -232,7 +243,7 @@ with the edited incidents removed.
 Baseline & AUC & +\,item id. & gain [95\% CI] \\
 \midrule
 intake only & 0.562 & 0.746 & $+0.183$ [$+0.172,+0.195$] \\
-+ routing queue & 0.644 & 0.748 & $+0.103$ [$+0.094,+0.114$] \\
++ opening group & 0.644 & 0.748 & $+0.103$ [$+0.094,+0.113$] \\
 \bottomrule
 \end{tabular}
 \caption{The value of knowing the affected configuration item, with and
@@ -253,7 +264,7 @@ temporal split point from $55\%$ to $80\%$.}
 \end{figure*}
 
 Against four intake fields the affected item looks decisive. Adding the
-opening queue cuts its measured value by $44\%$. The gains are $28.1$ and
+opening group cuts its measured value by $44\%$. The gains are $28.1$ and
 $17.4$ standard deviations outside a null in which the incident-to-item
 association is shuffled, preserving column count and marginal distribution
 while destroying the signal --- a comparison that matters because adding
@@ -263,11 +274,11 @@ the gain's own bootstrap standard error; dividing by the null alone, as an
 earlier draft did, would report $51$ and $33$.
 
 The result is not a split artifact: across six temporal split points the two
-gains range $+0.176$ to $+0.193$ and $+0.091$ to $+0.118$
+gains range $+0.175$ to $+0.193$ and $+0.091$ to $+0.118$
 (Figure~\ref{fig:baselines}b). The bootstrap interval conditions on every
 design choice, so it is narrower than the honest spread: across split point,
 target threshold and cleaning cutoff the second gain ranges $+0.068$ to
-$+0.130$, and it rises with training volume. Nor does the disclosed field editing explain
+$+0.130$. Nor does the disclosed field editing explain
 it: reducing the intake block to Category alone --- dropping Impact and
 Urgency, which are edited, and Priority, which is a deterministic function
 of them --- gives $+0.106$, and restricting to the $44{,}227$ never-edited
@@ -298,110 +309,102 @@ any two variables, the drop in one's measured gain when the other joins the
 baseline equals the drop in the other's, so it restates the table rather
 than explaining it. Two direct measurements do explain it.
 
-\begin{table}[t]
-\centering\small
-\begin{tabular}{@{}lr@{}}
-\toprule
-Quantity & AUC \\
-\midrule
-item's gain over intake, $A_i-A_0$ & $+0.183$ \\
-item's gain once the queue is present, $A_{qi}-A_q$ & $+0.103$ \\
-queue's gain over intake, $A_q-A_0$ & $+0.082$ \\
-\textbf{queue's gain once the item is present}, $A_{qi}-A_i$
-  & $\mathbf{+0.002}$ \\
-\bottomrule
-\end{tabular}
-\caption{The overlap, read four ways. The final row is the one that matters.}
-\label{tab:decomp}
-\end{table}
+Read four ways, the overlap is this: the item is worth $+0.183$ over
+intake and $+0.103$ once the group is present; the group is worth
+$+0.082$ over intake and $+0.002$ once the item is present.
 
-\textbf{First}: adding the routing queue to a model that already knows the
+\textbf{First}: adding the opening group to a model that already knows the
 affected item is worth $+0.0017$ $[+0.0001,+0.0034]$. It is positive, and it
-clears a matched-dimension null of $-0.0009 \pm 0.0006$ that no draw
+clears a matched-dimension null of $-0.0009 \pm 0.0005$ that no draw
 reaches --- so it is not the cost of adding columns. But across split points
 and penalties it ranges $+0.0002$ to $+0.0072$, so the honest statement is
-that the queue's unique contribution is \emph{under $0.01$ AUC and not
-resolvable more finely}. Whatever the queue contributes, the item column has
+that the group's unique contribution is \emph{under $0.01$ AUC and not
+resolvable more finely}. Whatever it contributes, the item column has
 almost entirely absorbed it.
 
-\textbf{Second}, and more directly: the queue's predictive content is nearly
-a function of the item. Randomising the queue label \emph{within} each item
---- which destroys the queue's own identity while preserving what the item
-implies about it --- still retains $91\%$ of the queue's $+0.082$ gain. The
-matched floor, the same randomisation within cells drawn to reproduce the
-item mass profile, retains $2\%$. The margin is $89$ points.
+\textbf{Second}: the group's predictive content is largely a function of the
+item. Randomising the group label \emph{within} each item --- which destroys
+the label's own identity while preserving what the item implies about it ---
+retains $91\%$ of the group's $+0.082$ gain.
+
+\paragraph{A floor that could not fail.}
+An earlier draft compared that $91\%$ against a floor of $2\%$ and claimed a
+margin of $89$ points. The floor was wrong. It drew cell labels
+independently \emph{per row}, so two incidents sharing an item landed in
+different cells and the association was destroyed by construction: the null
+could only ever return zero. Rebuilt as a random partition \emph{of items},
+which preserves item-level grouping and knows nothing about who opened
+anything, the floor depends on how fine the partition is --- $41\%$ at $49$
+cells, matching the field's own cardinality, and $77\%$ at $400$. The real
+leg sits above every floor we can construct, but the honest margin at
+matched cardinality is $50$ points, not $89$, and the quantity is a function
+of a knob rather than a constant. We report the sweep
+(Figure~\ref{fig:dose}a) and claim only the ordering.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figG3_overlap.png}
 \caption{(a) The overlap, drawn to scale: each circle's area is that
 field's measured gain over the intake block, and the centre distance is
-solved so that the intersection equals the measured overlap. The queue lies
-almost entirely inside the item. (b) Randomising the queue label within each
-item destroys the queue's own identity and costs little; the same
-randomisation within cells drawn to reproduce the item mass profile
-destroys almost everything.}
+solved so that the intersection equals the measured overlap. The opening
+group lies almost entirely inside the item. (b) Randomising the group label
+within each item costs little; the same randomisation within a random
+partition of items costs more, by an amount that depends on how fine the
+partition is.}
 \label{fig:overlap}
 \end{figure*}
 
 \paragraph{How far this goes, and where it stops.}
-Two things bound the claim, and both are measurements rather than caveats.
-Without any estimator, item identity carries $60.4\%$ of the queue's
-information and the queue carries $19.6\%$ of the item's --- the
-relationship is real and strongly asymmetric, which is why we do not run the
-argument backwards. But it is not determination: a modal-queue lookup keyed
-on item identity reproduces the desk's choice on $90.3\%$ of test incidents
-against $78.6\%$ for always guessing the largest queue, and class-balanced
-it reaches only $34.1\%$. So the supported statement is that item identity
-resolves the coarse routing contrast and much less of the fine one --- not,
-as an earlier draft of this section had it, that the routing decision is
-nearly a function of the item.
+Without any estimator, item identity carries $60.4\%$ of the opening group's
+information and the group carries $19.6\%$ of the item's --- real, and
+strongly asymmetric, which is why we do not run the argument backwards. But
+it is not determination: a modal-group lookup keyed on item identity
+reproduces which group logged the incident on $90.3\%$ of test incidents
+against $78.6\%$ for always guessing the largest group, and class-balanced
+it reaches only $34.1\%$. Item identity resolves the coarse contrast --- was
+this logged by the central desk or by a specialist team --- and much less of
+the fine one.
 
-\paragraph{The shrinkage is graded in the queue's resolution.}
-The coarse-versus-fine reading makes a prediction, and it holds. Replacing
-the queue with progressively coarser versions of itself and re-running the
-same ladder gives shrinkages of $27\%$, $28\%$, $36\%$ and $44\%$ at two,
-four, eleven and $49$ levels (Figure~\ref{fig:dose}a). A single binary flag
---- did the desk send this to the main pool, or not --- already recovers
-$61\%$ of the queue's baseline gain and $63\%$ of the shrinkage it causes.
-For a practitioner this matters more than the headline: the field that has
-to be admitted to the baseline is one bit of routing, far cheaper to
-reproduce in another organisation than a $49$-way taxonomy.
+\paragraph{The shrinkage is graded in the field's resolution.}
+That reading makes a prediction, and it holds. Replacing the group with
+progressively coarser versions of itself and re-running the same ladder
+gives shrinkages of $27\%$, $28\%$, $36\%$ and $44\%$ at two, four, eleven
+and $49$ levels (Figure~\ref{fig:dose}b). A single binary flag --- central
+desk or not --- already recovers $61\%$ of the group's baseline gain and
+$63\%$ of the shrinkage it causes. The field that has to be admitted is
+close to one bit, which is far cheaper to reproduce in another organisation
+than a $49$-way taxonomy.
 
 \paragraph{What we do not claim.}
-The reverse framing --- that the item column ``stands in for'' the queue ---
-is not established. We measured it, by randomising items within queues, and
+The reverse framing --- that the item column ``stands in for'' the group ---
+is not established. We measured it, by randomising items within groups, and
 obtained $44\%$ of the item's gain; but a random $50$-cell grouping of items
-that knows nothing about routing retains $25\%$, and a grouping matched on
-the queue's mass profile retains $-7\%$. Defensible nulls disagree about the
+that knows nothing about intake retains $25\%$, and a grouping matched on
+the group's mass profile retains $-7\%$. Defensible nulls disagree about the
 floor, so the number is not interpretable and we exclude it. Nor do we claim
-a direction of causation. The figures above are equally consistent with the
-desk reading the item off the ticket and routing accordingly, and with the
-queue being a separate signal that happens to align; the log records no
-counterfactual routing, so the question is not identified here. Our claim is
-about what an analyst's baseline choice does to a measured number, which
-does not depend on which is true.
+a direction of causation: the log records no counterfactual, so whether the
+item drives who logs the ticket or both follow a third cause is not
+identified here. Our claim is about what an analyst's baseline choice does
+to a measured number, which does not depend on which is true.
 
 \section{What the Difference Buys}
 \label{sec:buys}
 
 \begin{table}[t]
 \centering\small
-\begin{tabular}{@{}lrrrr@{}}
+\begin{tabular}{@{}lrrr@{}}
 \toprule
-& \multicolumn{2}{c}{caught} & \\
-\cmidrule(lr){2-3}
-Review capacity & base & +\,item & extra & per month \\
+Capacity & honest extra & naive extra & factor \\
 \midrule
-$5\%$ \ \ ($682$)   & $597$   & $653$   & $+56$ & $30$ \\
-$10\%$ ($1{,}364$)  & $1{,}119$ & $1{,}153$ & $+34$ & $18$ \\
-$20\%$ ($2{,}727$)  & $1{,}823$ & $1{,}857$ & $+34$ & $18$ \\
+$5\%$  & $+67$ [$43,84$] & $+262$ [$242,300$] & $3.9$ [$3.2,6.4$] \\
+$10\%$ & $+33$ [$6,70$]  & $+353$ [$304,404$] & $10.7$ [$5.5,39.9$] \\
+$20\%$ & $+18$ [$-28,82$] & $+481$ [$407,524$] & $26.7$ [$5.8,221.0$] \\
 \bottomrule
 \end{tabular}
-\caption{Reassignment-bound incidents surfaced in the $13{,}637$-incident
-test window at a fixed review capacity, with the queue in the baseline.
-Omitting the queue would credit item identity with $303$, $432$ and $501$
-instead.}
+\caption{Extra reassignment-bound incidents surfaced by adding item
+identity, against a baseline that includes the opening group (honest) and
+one that omits it (naive). Paired bootstrap over test rows, with ties at
+the capacity cut broken at random in every draw.}
 \label{tab:capacity}
 \end{table}
 
@@ -409,25 +412,30 @@ An AUC difference is not a quantity a service desk can act on, so we state
 the same comparison as a detection problem. Fix a review capacity --- the
 share of arrivals a desk can afford to look at before routing --- rank the
 test incidents by predicted risk, and count how many reassignment-bound
-incidents each model surfaces.
+incidents each model surfaces. Both arms use matched models: the honest
+contrast adds item identity to intake-plus-group, the naive one adds it to
+intake alone, mirroring the two rows of Table~\ref{tab:headline}. An earlier
+draft did not match them, crediting item identity with the group's own
+contribution and inflating the factor by about a fifth.
 
-At $10\%$ capacity, knowing the affected item surfaces $34$ more of them
-than the intake-plus-queue baseline does, or $18$ a month at this log's
-volume, moving precision from $82.0\%$ to $84.5\%$ against a $37.2\%$ base
-rate (Table~\ref{tab:capacity}). Had the queue been left out of the
-baseline, the same capacity would have credited item identity with $432$
-extra catches. \textbf{The omission overstates the operational gain by a
-factor of $12.7$}, and by $5.4$ to $14.7$ across the three capacities.
+At $5\%$ capacity, knowing the affected item surfaces $67$ $[43,84]$ more
+reassignment-bound incidents than the intake-plus-group baseline does, or
+about $36$ a month at this log's volume. An analyst who had omitted the
+group would have credited item identity with $262$ $[242,300]$. The
+omission overstates the operational gain by a factor of $3.9$ $[3.2,6.4]$,
+against a ratio of only $1.8$ between the same two gains measured as AUC.
 
-That factor is much larger than the ratio of the two AUC gains, which is
-$1.8$, and the discrepancy is itself the practical point. AUC averages over
-every operating point; a capacity-limited desk works at one, near the top of
-the ranking, where the queue-aware baseline is already close to its ceiling
-and the item column has far less left to add. A business case that reports
-an AUC delta understates how much of its own headline is the baseline
-choice. What this does \emph{not} say is that a surfaced incident is a
-corrected one: the log records no intervention, so the recoverable share is
-not identified here.
+The factor grows with capacity --- $10.7$ at $10\%$, $26.7$ at $20\%$ ---
+but so does its interval, because the honest denominator shrinks to a few
+dozen incidents and at $20\%$ its interval includes zero
+(Table~\ref{tab:capacity}). We therefore quote the $5\%$ figure, which is
+the best resolved, and claim only that the overstatement is several-fold and
+larger than the AUC ratio implies. The reason it is larger at all is
+structural: AUC averages over every operating point, while a
+capacity-limited desk works at one, near the top of the ranking where the
+group-aware baseline is already close to its ceiling. What none of this says
+is that a surfaced incident is a corrected one --- the log records no
+intervention, so the recoverable share is not identified here.
 
 \paragraph{Three target definitions.}
 Because reassignment is common, we repeat the ladder at stricter
@@ -441,39 +449,24 @@ the gain.
 \section{Does It Survive a Change of Task?}
 \label{sec:secondtask}
 
-%% The second-task figure was dropped when the operational section was
-%% added: its four numbers are all in the paragraph below, so it was the
-%% cheapest column-width slot to reclaim.  scripts/r9_figures.py still
-%% writes figG4_secondtask.png; it is simply no longer included.
+A gap on one target may be a property of that target, so we repeated the
+ladder on two further outcomes from the same cohort, changing only what is
+predicted. \emph{Reopening} is close to an independent failure mode: it
+fires on $2{,}096$ incidents and correlates with reassignment at $+0.14$.
+\emph{Long handling} --- handle time above the training third quartile ---
+correlates at $+0.40$, so we report it as corroboration rather than as
+independent evidence.
 
-A gap that appears on one target may be a property of that target. We
-repeated the ladder on two further outcomes from the same cohort, holding
-the cohort, the split, the estimator, the intake block and the null
-construction fixed, and changing only what is predicted.
-
-\emph{Reopening} --- whether an incident was reopened after resolution ---
-is close to an independent failure mode: it fires on $2{,}096$ incidents and
-correlates with reassignment at $+0.14$. \emph{Long handling} --- handle
-time above the training third quartile --- correlates at $+0.40$, so it
-partly re-measures the primary target, and we report it as corroboration
-rather than as independent evidence.
-
-The shrinkage reproduces on both. On
-reopening, item identity is worth $+0.083$ against the intake block and
-$+0.055$ once the queue is admitted, a reduction of $33\%$. On long
-handling the two figures are $+0.118$ and $+0.078$, a reduction of $34\%$.
-Every rung on every target sits outside its matched-dimension null, and
-across five split points the reduction ranges from $30\%$ to $46\%$ over
-the three targets.
-
-Two qualifications. Reopening is rare and its intervals are correspondingly
-wide --- its two gains stand $5.5$ and $4.2$ pooled standard deviations
-from their nulls, far short of the margins in
-Section~\ref{sec:result} --- so it establishes the direction of the effect
-and not its size. And the reduction is not constant across targets: it is
-largest on the one the routing queue is most directly about. That is what
-the mechanism in Section~\ref{sec:mechanism} predicts, and it is why we
-state the transferable claim as the existence of the gap rather than its
+The shrinkage reproduces on both. On reopening, item identity is worth
+$+0.083$ against the intake block and $+0.055$ once the group is admitted, a
+reduction of $33\%$; on long handling, $+0.118$ and $+0.078$, a reduction of
+$34\%$. Every rung sits outside its matched-dimension null, and across five
+split points the reduction ranges from $30\%$ to $46\%$. Reopening is rare
+and its gains stand only $5.5$ and $4.2$ pooled standard deviations from
+their nulls, so it establishes the effect's direction and not its size; and
+the reduction is largest on the target the opening group is most directly
+about, which is what Section~\ref{sec:mechanism} predicts. That is why we
+state the transferable claim as the gap's existence rather than its
 magnitude.
 
 \section{One Thing We Could Not Establish}
@@ -499,17 +492,17 @@ for $99.997628\%$ --- one mismatch --- against a pass mark of
 $100.000000\%$. The second test cannot separate its own counterexample
 either.
 
-We therefore make no claim about this field. The $-0.003$ is additionally
-inside the dimensionality null described in Section~\ref{sec:result}, and
-changes sign under per-condition penalty tuning and at other split points,
-so it is not resolvable here on either ground. This section can be read as
-the paper's own thesis turned on itself, and we think that reading is
+We therefore make no claim about this field. The $-0.003$ is also inside the
+dimensionality null of Section~\ref{sec:result} and changes sign under
+penalty tuning and at other split points, so it is not resolvable on either
+ground. This is the paper's own thesis turned on itself, and that reading is
 correct: our headline is contingent on a field-admission decision we cannot
-adjudicate, which is precisely the exposure we are arguing every CMDB
-business case carries unstated. We report the attempt because the negative
-is the transferable part: a field being free, populated and present on an
-opening record does not make it creation-time, and we know of no test on
-this export that settles it.
+adjudicate, which is the exposure we argue every CMDB business case carries
+unstated. The transferable part is the negative --- a field being free,
+populated and present on an opening record does not make it creation-time.
+The collection ships an interaction detail file we did not obtain; if it
+records this field at creation the question is answerable, and our inability
+to settle it is a limit of the three files we hold, not of the export.
 
 \section{Estate Concentration}
 \label{sec:scope}
@@ -517,9 +510,10 @@ this export that settles it.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figG5_scope.png}
-\caption{(a) The shrinkage is graded in the queue's resolution. (b) How much
-of the item column's contribution a partial CMDB recovers, averaged over
-five temporal split points; the band is the across-split range.}
+\caption{(a) The shrinkage is graded in the opening group's resolution. (b)
+How much of the item column's contribution a partial CMDB recovers,
+averaged over five temporal split points; the band is the across-split
+range.}
 \label{fig:dose}
 \end{figure}
 
@@ -536,63 +530,58 @@ $93\%$ $[91,95]$ (Figure~\ref{fig:dose}b). We report the mean and range
 rather than one split's curve because a single curve is not monotone at this
 resolution: at $k=32$ the across-split spread is $9$ points, so adjacent
 values of $k$ cannot be read against each other. The same holds with the
-queue removed from the baseline --- $89\%$ at $k=64$ --- so this is a
+group removed from the baseline --- $89\%$ at $k=64$ --- so this is a
 property of the estate's concentration and not of our field-admission
-decision. We make no claim about how much of the identity gain an arbitrary
-coverage level recovers; an earlier draft did, from a comparison in which
-one of three selection rules had no observations at the coverage levels
+decision. We make no claim about what an arbitrary coverage level recovers; an earlier
+draft did, from a comparison in which one of three rules had no observations
 where the claim was made.
 
 \section{Limitations}
 
-One organisation --- of necessity, not choice: no other public ITSM log records the affected item (Section~ef{sec:background}) --- one platform, one task, six months. The data are from
-2013 and 2014 and from a single on-premises ITSM product; estate composition,
-routing practice and tooling have all moved since, and we make no claim
-that the magnitudes transfer to a cloud-native estate. The values $+0.183$
-and $+0.103$ are properties of this estate; the transferable claims are that
-the gap exists, that it is large, that it is graded in the free field's
-resolution, and that the mechanism is the item column proxying for the
-queue. Reassignment is a proxy for misrouting and also fires on legitimate
-escalation. The within-queue shuffle preserves queue membership exactly but
-not any other correlate of item identity, so it bounds the proxy share
-rather than isolating it perfectly. The routing queue's distribution drifts
-substantially between our training and test halves, which is realistic for a
-temporal split but means the queue-aware baseline is being asked to
-generalise across a shift.
+One organisation --- of necessity, not choice: no other public ITSM log
+records the affected item (Section~\ref{sec:background}) --- one platform,
+one task, six months. The data are from 2013 and 2014 and from a single
+on-premises ITSM product; estate composition, intake practice and tooling
+have all moved since, and we make no claim that the magnitudes transfer to a
+cloud-native estate. The values $+0.183$ and $+0.103$ are properties of this
+estate; the transferable claims are that the gap exists, that it is large,
+that it is graded in the free field's resolution, and that the mechanism is
+the item column proxying for the opening group. Reassignment is a proxy for
+misrouting and also fires on legitimate escalation. The within-item shuffle
+preserves item membership exactly but not any other correlate of item
+identity, so it bounds the proxy share rather than isolating it perfectly.
+The opening group's distribution drifts substantially between our training
+and test halves, which is realistic for a temporal split but means the
+group-aware baseline is being asked to generalise across a shift.
 
 \section{Conclusion}
 
 Knowing which configuration item an incident concerns is worth $+0.183$ or
 $+0.103$ AUC for predicting reassignment, depending on whether the baseline
-includes a routing queue the service desk already records --- and stated as
-a detection problem at a fixed review capacity, the same choice moves the
-credited benefit by more than a factor of ten. The difference is an overlap:
-the queue's predictive content is very nearly carried by the item, so a
-model given the item has already been told most of what the queue would say.
-A business case built on the first figure is not measuring a CMDB. It is
-measuring a CMDB plus a decision the organisation had already made for free.
+includes one free field: which group logged the ticket. Stated as detection
+at a fixed review capacity, the same choice moves the credited benefit
+several fold. The difference is an overlap: a model given the item has
+already been told most of what the group would say. A business case built on
+the first figure is not measuring a CMDB. It is measuring a CMDB plus a
+field the organisation was already recording for nothing.
 
 \section*{Use of AI Systems}
-An AI assistant (Anthropic's Claude) was used in preparing this work: to
-implement and refactor analysis code, to construct adversarial challenges to
-intermediate claims --- several of the withdrawals recorded above originated
-that way --- and to draft and edit prose that the author reviewed, revised
-and verified. All analyses were specified, run and checked by the author,
-who takes full responsibility for the content, including every numeric claim
-and every reference. No text was included that the author has not read and
-confirmed. The repository accompanying this paper contains the working notes
-from that process.
+An AI assistant (Anthropic's Claude) was used to implement and refactor
+analysis code, to construct adversarial challenges to intermediate claims
+--- several withdrawals above originated that way --- and to draft and edit
+prose the author reviewed and verified. All analyses were specified, run and
+checked by the author, who takes full responsibility for the content,
+including every numeric claim and every reference. The repository carries
+the working notes.
 
 \section*{Acknowledgements}
-This work benefited substantially from the review and domain challenge of a
-practitioner working in IT service management. Several of the analyses
-withdrawn from earlier versions were withdrawn because of objections raised
-in that review.
+This work benefited from the review and domain challenge of a practitioner
+in IT service management; several analyses were withdrawn because of
+objections raised there.
 
 \section*{Reproducibility}
-The dataset is public \citep{vandongen2014bpic}. Analysis and figure code,
-and a checker that compares each quantity here against a generated result
-file, are available at
+The dataset is public \citep{vandongen2014bpic}. Code, figures and a checker
+comparing every quantity here against a generated result file:
 \url{https://github.com/sudhirdixit1/cmdb-routing-queue-baseline}.
 
 %% No \bibliographystyle here: aaai2027.sty sets it, and a second one makes

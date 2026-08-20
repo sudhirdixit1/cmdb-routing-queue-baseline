@@ -114,9 +114,16 @@ for col in ["Assignment Group", "KM number", "Interaction ID"]:
     print(f"  {col:20s} varies within incident {varies:7.2%}  "
           f"max {int(v.max()):>2}   {verdict}")
 pd.DataFrame(rows).to_csv(RESULTS / "r4_admissibility.csv", index=False)
-print("\n  The criterion admits the intake routing queue and excludes the")
-print("  knowledge-article reference.  Section B reports the headline under")
-print("  BOTH, so the reader can price the decision rather than trust it.")
+# CORRECTED 2026-08-20.  "Excludes" overstates what this test can do.  The
+# paper (section 7) reports that the criterion CANNOT adjudicate the knowledge
+# reference: constancy is evidence of granularity, not of timing, and
+# Interaction ID -- a creation-time key -- is constant too.  Section B reports
+# the headline under both so the reader can price the decision.
+print("\n  The criterion admits the opening group.  It does NOT settle the")
+print("  knowledge-article reference: constancy is evidence of granularity,")
+print("  not of timing, and Interaction ID is constant for the same reason.")
+print("  The paper makes no claim about that field.  Section B reports the")
+print("  headline under both so the reader can price the decision.")
 
 print("\n" + "=" * 92)
 print("B. THE HEADLINE UNDER EVERY BASELINE  (this is the paper's thesis)")
@@ -143,8 +150,14 @@ g_intake = M.iloc[0].gain; g_queue = M.iloc[1].gain; g_km = M.iloc[2].gain
 print(f"\n  omitting the routing queue inflates the gain by "
       f"{100*(g_intake-g_queue)/g_queue:.0f}%")
 print(f"  admitting the knowledge reference would take it to {g_km:+.3f}")
-print("  -> the quantity a business case turns on moves from +0.19 to ~0 on")
-print("     field-admission decisions alone.  That is the finding.")
+# CORRECTED 2026-08-20.  "That is the finding" pointed at a claim the paper
+# disowns: the third rung is NOT resolvable (r5 REPAIR 1), so the "+0.19 to ~0"
+# span is not something the paper asserts.  The paper's finding is the halving
+# between the first two rungs.
+print("  -> THE PAPER'S FINDING IS THE FIRST TWO RUNGS: admitting one free")
+print("     field halves the measured value of item identity.  The third rung")
+print("     is inside the dimensionality null and is reported as not")
+print("     resolvable, not as a result.  Do not quote the +0.19-to-zero span.")
 
 print("\n  stability of each rung across temporal splits:")
 stab = []
@@ -239,8 +252,13 @@ for lo_b, hi_b in BANDS:
 pd.DataFrame(match).to_csv(RESULTS / "r4_matched.csv", index=False)
 print(f"\n  max spread across all bands: "
       f"{max(m['spread'] for m in match):.1%}")
-print("  -> at matched coverage the rules agree closely; how the subset was")
-print("     chosen matters only through the coverage it achieves.")
+# WITHDRAWN 2026-08-20.  This conclusion was drawn from author-chosen bands
+# and did not survive r5 REPAIR 5 or r6 section D: uniform-random selection
+# tops out near 40% coverage, so it has no observations where the claim was
+# made.  The paper makes no convergence claim.
+print("  -> WITHDRAWN.  This comparison used author-chosen bands and one of")
+print("     the three rules has no observations above ~40% coverage.  The")
+print("     paper makes no claim that the rules agree at matched coverage.")
 
 print("\n  coverage drift, train -> test (top-k):")
 for _, r in P[P.rule == "top-k"].iterrows():

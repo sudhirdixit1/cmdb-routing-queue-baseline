@@ -1,10 +1,14 @@
 """R8 -- repairs after the seventh review.
 
 Two of the three mechanism legs had no null and turned out to be mostly
-floor.  A random 50-cell partition of items -- which knows nothing about
-routing -- puts MORE of the item predictor's variance between cells (48%)
-than the real queue does (43%), and retains MORE of the item's gain (54% vs
-44%).  Both are dropped.
+floor, and both are dropped.
+
+NOTE (2026-08-20): this paragraph used to quote 48%/43% and 54%/44% from a
+row-level null and asserted the random grouping retained MORE than the real
+one.  results/r8_dropped_leg.csv says the opposite (real 0.0805, random
+0.0450).  The figures were stale; the reason the leg is dropped is that three
+defensible floors disagree by more than the effect, not that the null beat it.
+Section B's floor is separately SUPERSEDED by r17_mechanism_floor.py.
 
 The third leg has an enormous margin over its floor and becomes the section:
 the queue's own gain is almost entirely recoverable from a queue label
@@ -128,9 +132,18 @@ print(f"  queue randomised WITHIN item                    {real_mirror.mean():+.
 print(f"  same, within a matched random partition (floor) {floor.mean():+.4f}"
       f" +- {floor.std():.4f}   = {100*floor.mean()/qg:.0f}%")
 print(f"  margin over floor: {100*(real_mirror.mean()-floor.mean())/qg:.0f} points")
-print("\n  Knowing only which item an incident concerns is enough to reconstruct")
-print("  almost all of the queue's predictive value.  The floor shows this is")
-print("  not a granularity effect.")
+# SUPERSEDED 2026-08-20 by r17_mechanism_floor.py.  The floor computed just
+# above draws cell labels PER ROW, so two incidents sharing an item land in
+# different cells and the association is destroyed by construction: the null
+# cannot fail, and its ~2% is not a measurement.  r17 rebuilds it as a random
+# partition OF ITEMS, where retention rises with granularity (41% at 49 cells,
+# 77% at 400).  The paper reports r17's sweep.  This block is kept only so the
+# withdrawal is auditable.
+print("\n  DO NOT QUOTE THE FLOOR ABOVE.  It is drawn per row, so it destroys")
+print("  the item-group association by construction and can only return ~0.")
+print("  Use r17_mechanism_floor.py, which partitions ITEMS.  The real leg's")
+print("  91% stands; the honest margin over a matched floor is ~50 points,")
+print("  not the 89 this block implies.")
 
 print("\n" + "=" * 88)
 print("C. THE LEG WE ARE DROPPING, AND WHY")
@@ -159,8 +172,18 @@ for label, mode in [("random cells, uniform over items", "uniform"),
     rows.append((label, v.mean(), v.std()))
 for lab, mu, sd in rows:
     print(f"  {lab:36s} {mu:+.4f} +- {sd:.4f}   = {100*mu/ig:4.0f}% of item gain")
-print("\n  A random 50-cell grouping of items retains MORE than the real queue.")
-print("  This leg is a cardinality effect and is dropped from the paper.")
+# CORRECTED 2026-08-20.  These two lines used to read "A random 50-cell
+# grouping of items retains MORE than the real queue", which is the opposite
+# of what the CSV written three lines below says (real 0.0805, random-uniform
+# 0.0450).  The text was stale from a draft in which the null was drawn at row
+# level.  A referee found a live script contradicting its own output -- the
+# exact defect r7_final.py is retained as a record of.
+print(f"\n  The real leg retains {100*rows[0][1]/ig:.0f}% of the item's gain; a routing-blind")
+print(f"  50-cell grouping retains {100*rows[1][1]/ig:.0f}% and a mass-matched one "
+      f"{100*rows[2][1]/ig:.0f}%.")
+print("  The three floors disagree by more than the effect, so this leg is not")
+print("  interpretable and is EXCLUDED from the paper.  See section 5's 'What")
+print("  we do not claim'.")
 pd.DataFrame([dict(leg=l, recovered=m, sd=s) for l, m, s in rows]
              ).to_csv(RESULTS / "r8_dropped_leg.csv", index=False)
 

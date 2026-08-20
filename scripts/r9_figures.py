@@ -69,7 +69,7 @@ a.add_patch(Circle((0, 0), R, facecolor=TEAL, alpha=.30, edgecolor=TEAL, lw=1.4)
 a.add_patch(Circle((d, 0), r, facecolor=RUST, alpha=.32, edgecolor=RUST, lw=1.4))
 a.text(-R * .55, R * .60, "affected\nitem", ha="center", fontsize=8.5,
        color=TEAL, fontweight="bold")
-a.text(d + r * .15, -r * .55, "routing\nqueue", ha="center", fontsize=8.5,
+a.text(d + r * .15, -r * .55, "opening\ngroup", ha="center", fontsize=8.5,
        color=RUST, fontweight="bold")
 a.annotate(f"item alone\n{u_item:+.3f}", xy=(-R * .62, -R * .18),
            xytext=(-R * 2.05, -R * 1.15), fontsize=8, color=TEAL, ha="center",
@@ -77,7 +77,7 @@ a.annotate(f"item alone\n{u_item:+.3f}", xy=(-R * .62, -R * .18),
 a.annotate(f"overlap\n{overlap:+.3f}", xy=(d, r * .62),
            xytext=(d + r * .1, R * 1.42), fontsize=8, color="#333", ha="center",
            arrowprops=dict(arrowstyle="->", color="#333", lw=1))
-a.annotate(f"queue alone\n{u_queue:+.3f}", xy=(d + r * .995, 0),
+a.annotate(f"group alone\n{u_queue:+.3f}", xy=(d + r * .995, 0),
            xytext=(d + r * 2.05, -R * 1.15), fontsize=8, color=RUST, ha="center",
            arrowprops=dict(arrowstyle="->", color=RUST, lw=1))
 a.set_xlim(-R * 2.9, d + r + R * 2.2); a.set_ylim(-R * 1.9, R * 2.0)
@@ -85,17 +85,38 @@ a.set_aspect("equal"); a.axis("off"); a.grid(False)
 a.set_title("(a) areas are the measured gains", fontsize=8.5)
 
 b = axes[1]
-vals = [100.0, float(MECH.mirror_pct), float(MECH.mirror_floor_pct)]
-labs = ["as\nrecorded", "randomised\nwithin item", "matched random\npartition (floor)"]
-bars = b.bar(range(3), vals, .56, color=[RUST, TEAL, SLATE])
-for i, v in enumerate(vals):
-    b.text(i, v + 3.5, f"{v:.0f}%", ha="center", fontsize=9, fontweight="bold",
-           color=bars[i].get_facecolor())
-b.set_xticks(range(3)); b.set_xticklabels(labs, fontsize=7.6)
-b.set_ylabel("% of the queue's own gain retained", fontsize=8)
-b.set_ylim(0, 120)
+# The single "matched random partition (floor)" bar is WITHDRAWN.  That floor
+# was drawn per row, so incidents sharing an item fell in different cells and
+# the association was destroyed by construction -- it could only return ~0.
+# r17_mechanism_floor.py rebuilds it as a random partition OF ITEMS, where
+# retention rises with granularity, so the honest picture is a curve and a
+# band, not one bar.
+SW = pd.read_csv(RESULTS / "r17_floor_sweep.csv")
+FL = pd.read_csv(RESULTS / "r17_floor.csv").iloc[0]
+b.plot(SW.cells, 100 * SW.retained, "-o", color=SLATE, lw=1.6, ms=4.5,
+       label="floor: random partition of items")
+b.fill_between(SW.cells, 100 * (SW.retained - SW.sd),
+               100 * (SW.retained + SW.sd), color=SLATE, alpha=.15, lw=0)
+b.axhline(100 * FL.real_retained, color=TEAL, lw=1.8, ls="-",
+          label="randomised within the real item")
+b.axhline(100, color=RUST, lw=1.2, ls=":", label="as recorded")
+b.axvline(FL.n_groups, color="#999", lw=.9, ls="--")
+b.annotate(f"{100*FL.real_retained:.0f}%", xy=(SW.cells.max(), 100 * FL.real_retained),
+           xytext=(-4, 5), textcoords="offset points", ha="right",
+           fontsize=8.5, fontweight="bold", color=TEAL)
+b.annotate(f"{100*FL.floor_matched:.0f}% at {int(FL.n_groups)} cells",
+           xy=(FL.n_groups, 100 * FL.floor_matched), xytext=(7, -12),
+           textcoords="offset points", fontsize=8, color=SLATE)
+b.set_xscale("log")
+b.set_xticks(list(SW.cells))
+b.set_xticklabels([str(int(c)) for c in SW.cells], fontsize=7.5)
+b.minorticks_off()
+b.set_xlabel("cells in the random item partition", fontsize=8)
+b.set_ylabel("% of the group's own gain retained", fontsize=8)
+b.set_ylim(0, 115)
 b.tick_params(axis="y", labelsize=7.5)
-b.set_title("(b) the queue's own identity barely matters", fontsize=8.5)
+b.legend(frameon=False, fontsize=7, loc="lower right")
+b.set_title("(b) the floor depends on granularity", fontsize=8.5)
 fig.savefig(FIGURES / "figG3_overlap.png")
 plt.close(fig)
 
@@ -105,11 +126,16 @@ T = pd.read_csv(RESULTS / "r9_targets.csv").set_index("task")
 fig, ax = plt.subplots(figsize=(6.9, 2.8))
 tasks = list(dict.fromkeys(L.task))
 x = np.arange(len(tasks))
-for k, (bname, col) in enumerate([("intake only", SLATE),
-                                  ("+ routing queue", TEAL)]):
-    sub = L[L.baseline == bname].set_index("task").loc[tasks]
+# The CSV's baseline key and the figure's label are DIFFERENT strings: the
+# key is what r9_second_task.py wrote, the label is what the paper now calls
+# the field.  An earlier edit renamed both at once and the lookup silently
+# returned nothing.
+for k, (bkey, blabel, col) in enumerate([("intake only", "intake only", SLATE),
+                                         ("+ routing queue", "+ opening group",
+                                          TEAL)]):
+    sub = L[L.baseline == bkey].set_index("task").loc[tasks]
     off = (k - .5) * .38
-    ax.bar(x + off, sub.gain, .36, color=col, label=bname,
+    ax.bar(x + off, sub.gain, .36, color=col, label=blabel,
            yerr=[sub.gain - sub.lo, sub.hi - sub.gain],
            error_kw=dict(lw=.9, capsize=2.5, ecolor="#444"))
 for i, t in enumerate(tasks):
@@ -125,7 +151,7 @@ ax.set_xticklabels([f"{t}\n(r={T.loc[t].corr_with_reassigned:+.2f} with reassign
 ax.axhline(0, color="#333", lw=1)
 ax.set_ylabel("value of item identity (AUC)")
 ax.legend(frameon=False, fontsize=7.8, loc="upper right")
-ax.set_title("admitting the queue shrinks the measured value on every target",
+ax.set_title("admitting the opening group shrinks the measured value on every target",
              fontsize=8.5)
 fig.savefig(FIGURES / "figG4_secondtask.png")
 plt.close(fig)
