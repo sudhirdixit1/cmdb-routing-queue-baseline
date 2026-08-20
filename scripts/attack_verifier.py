@@ -116,6 +116,12 @@ CORRUPTIONS = [
      "across-split spread is $9$ points", "across-split spread is $2$ points"),
     ("corrupt scoping without the queue", "--- $89\\%$ at $k=64$",
      "--- $69\\%$ at $k=64$"),
+
+    # -- r15.  The single-organisation justification rests on this rate: if it
+    #    were 20% rather than 0.2%, a second organisation would be available
+    #    and "constraint rather than choice" would be false.
+    ("overstate the second log's item population",
+     "the second records it on $0.2\\%$", "the second records it on $20\\%$"),
 ]
 
 

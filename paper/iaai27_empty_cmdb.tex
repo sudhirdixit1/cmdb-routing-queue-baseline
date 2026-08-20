@@ -91,6 +91,7 @@ below is either a direct measurement or is reported against a null, and
 where a null is ambiguous we say so and drop the claim.
 
 \section{Background}
+\label{sec:background}
 
 \paragraph{The CMDB and what justifies it.}
 A CMDB records configuration items and their relationships, and is the asset
@@ -101,7 +102,13 @@ as practitioner-reported outcomes rather than as the analytic value of the
 configuration data itself. We are not aware of a peer-reviewed measurement
 of what knowing the affected configuration item is worth to a named
 prediction task; the material addressing that question directly is vendor
-documentation. The gap is the occasion for this paper.
+documentation. The gap is the occasion for this paper, and part of the
+reason it exists is that the data to close it barely does: of the three
+public ITSM incident logs in common use, one records the affected item on
+every incident, the second records it on $0.2\%$, and the third has no such
+field at all \citep{vandongen2014bpic,amaral2018incident,steeman2013bpic}.
+That is also why this study is single-organisation, and it is a constraint
+rather than a choice.
 
 \paragraph{The methods a CMDB is bought to enable.}
 Surveys of AIOps for failure management
@@ -538,7 +545,7 @@ where the claim was made.
 
 \section{Limitations}
 
-One organisation, one platform, one task, six months. The data are from
+One organisation --- of necessity, not choice: no other public ITSM log records the affected item (Section~ef{sec:background}) --- one platform, one task, six months. The data are from
 2013 and 2014 and from a single on-premises ITSM product; estate composition,
 routing practice and tooling have all moved since, and we make no claim
 that the magnitudes transfer to a cloud-native estate. The values $+0.183$

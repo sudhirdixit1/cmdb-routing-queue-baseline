@@ -15,6 +15,7 @@ Single-organisation study on the BPI Challenge 2014 incident log
     python scripts/r12_queue_from_item.py  # model-free queue/item relationship
     python scripts/r13_queue_shape.py  # queue concentration, reduced-queue ladder
     python scripts/r14_scope.py        # split-averaged scoping curve
+    python scripts/r15_why_one_org.py  # affected-item population, 3 public logs
     python scripts/r4_figures.py    # baseline + coverage figures
     python scripts/r9_figures.py    # overlap diagram, second task
     python scripts/r14_figures.py   # dose-response + scoping (figG5)
@@ -68,7 +69,7 @@ each to appear within an anchor phrase, and fails if any literal in the
 paper is unaccounted for. `attack_verifier.py` is its regression suite: 44
 corruption classes drawn from defects found in earlier versions.
 
-Currently **224 checks, 0 failed, 0 unaccounted; 44 corruptions caught, 0
+Currently **227 checks, 0 failed, 0 unaccounted; 45 corruptions caught, 0
 missed.**
 
 Two rules, both learned the hard way:

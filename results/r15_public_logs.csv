@@ -1,0 +1,4 @@
+log,system,field,incidents,population,distinct
+BPIC 2014 (Rabobank),HP Service Manager,CI Name (aff),46606,1.0,3019
+UCI 498 (anonymised),ServiceNow,cmdb_ci,24918,0.0021671081146159565,47
+BPIC 2013 (Volvo IT),VINST,(no such field),7554,0.0,0

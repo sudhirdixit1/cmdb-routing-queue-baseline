@@ -466,6 +466,26 @@ if not (r9L.z_pooled.abs() > 3).all():
 else:
     ok += 1
 
+# ---- r15: why the study is single-organisation -------------------------
+#  A descriptive field-population rate, recomputed from each raw log.  It is
+#  NOT a cross-organisation performance comparison -- those died in the e1/e11
+#  withdrawals (HANDOFF section 4) and must not come back.
+r15 = pd.read_csv(R / "r15_public_logs.csv")
+_uci = r15[r15.log.str.startswith("UCI")].iloc[0]
+_rab = r15[r15.log.str.startswith("BPIC 2014")].iloc[0]
+_v13 = r15[r15.log.str.startswith("BPIC 2013")].iloc[0]
+ck("second log item population", _uci.population * 100, "0.2", 0.05,
+   anchor="the second records it on")
+if not (_rab.population > 0.999):
+    bad.append(f"paper says one log records the item on every incident; "
+               f"measured {_rab.population:.4f}")
+else:
+    ok += 1
+if not (_v13.distinct == 0 and (pd.isna(_v13.population) or _v13.population == 0)):
+    bad.append("paper says the third log has no affected-item field; r15 found one")
+else:
+    ok += 1
+
 # ---- r10: three estimator families -------------------------------------
 ck("estimator range intake lo", r10R.intake_lo, "+0.173", 6e-4,
    anchor="the first rung ranges")
