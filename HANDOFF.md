@@ -118,9 +118,17 @@ headline survived "two estimator families." It does not: the surviving
 pipeline (`r4`/`r5`/`r6`/`r8`) uses one-hot logistic regression **only**.
 Gradient boosting appears exclusively in the withdrawn `e*` and `r1`
 scripts, on the pre-queue-baseline framing. `r5_final.py` REPAIR 6 computes
-why boosting is not usable here — 2,554 items collapse into 256 bins — and
+why boosting is not usable here — 2,554 items collapse into 137 bins — and
 that justification belongs in the paper, which currently states the
 one-estimator limitation without giving the reason.
+
+*Corrected 2026-08-20.* This line said **256** bins until round seven. 256
+is `max_bins`, the *parameter*; `r5_binning.csv` computes 137 actual
+distinct bins, and the wrong figure had reached the paper. **Also
+superseded**: §11 records that `r10_estimators.py` removed the
+one-estimator limitation entirely rather than justifying it — target
+encoding makes the item one column, which makes both a second logistic
+specification and boosting usable, and all three agree on the shrinkage.
 
 ---
 
