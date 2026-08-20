@@ -75,13 +75,11 @@ result and one mechanism.
 
 \paragraph{What kind of contribution this is.}
 We report no deployed system. This is a retrospective study on a public
-benchmark, and it belongs to this track as an evaluation practice: the
-quantity we measure is not a model's accuracy but the number a deployment
-decision turns on, and we show that number is set by a field-admission
-choice that is rarely written down. The organisations that make this choice
-are making it now, on data of exactly this shape, and
-Section~\ref{sec:buys} states what it costs them in the units a service desk
-operates in.
+benchmark, offered as an evaluation practice: the quantity we measure is not
+a model's accuracy but the number a deployment decision turns on, and that
+number is set by a field-admission choice rarely written down.
+Section~\ref{sec:buys} states what it costs in the units a desk operates
+in.
 
 \paragraph{On what this paper used to claim.}
 Earlier versions reported larger findings withdrawn under adversarial
@@ -123,15 +121,14 @@ industrial scale \citep{chen2019triage}, as has failure prediction across a
 cloud estate \citep{lin2018node}.
 
 \paragraph{Prediction on incident event logs.}
-Our task sits in predictive process monitoring, where outcome prediction is
-surveyed and benchmarked across real-world logs
-\citep{teinemaa2019outcome,verenich2019survey} on data of the kind process
-mining formalises \citep{vanderaalst2016process}. The BPI Challenge logs are
-the standard public instances \citep{vandongen2014bpic,steeman2013bpic} and
-comparable ITSM exports exist elsewhere \citep{amaral2018incident}. Such logs
-carry documented quality hazards: the imperfection patterns catalogued by
-\citet{suriadi2017imperfection} include several we rule out explicitly
-below, in particular values denormalised from a record onto its events.
+Our task sits in predictive process monitoring, surveyed and benchmarked
+across real-world logs \citep{teinemaa2019outcome,verenich2019survey} on data
+of the kind process mining formalises \citep{vanderaalst2016process}. The BPI
+Challenge logs are the standard public instances
+\citep{vandongen2014bpic,steeman2013bpic}; comparable exports exist elsewhere
+\citep{amaral2018incident}. Such logs carry documented quality hazards
+\citep{suriadi2017imperfection}, including values denormalised from a record
+onto its events, which we rule out below.
 
 \paragraph{What the comparison is measured against.}
 The quantity we report --- the value of a feature \emph{given} a baseline
@@ -186,7 +183,8 @@ motivate the task, not as a recoverable saving. The primary estimator is
 one-hot logistic regression, chosen because it is bin-free; two further
 estimator families are reported in Section~\ref{sec:result}. Encoders and
 rankings are fit on training data only; intervals are $2{,}000$-resample
-paired bootstraps.
+paired bootstraps, except Table~\ref{tab:capacity}, whose counts are
+re-ranked in each draw and use $400$.
 
 \paragraph{The free field, and what it is not.}
 The activity log records, on the \texttt{Open} event of every incident, an
@@ -213,13 +211,11 @@ evidence, in the way this paper accuses business cases of treating
 baselines.
 
 \paragraph{Why not the real routing decision.}
-The obvious repair --- use the first \texttt{Assignment} group instead ---
-is not available. That activity occurs strictly after the \texttt{Open}
-event on every incident that has one, a median of $46$ minutes later, and
-$7{,}878$ of $45{,}455$ incidents never have one at all. It fails the
-admissibility criterion below, and substituting it would introduce exactly
-the leakage that criterion exists to prevent. The opening group is
-admissible precisely because it is a property of the intake event itself.
+The obvious repair --- use the first \texttt{Assignment} group --- is not
+available: it occurs strictly after \texttt{Open} on every incident that has
+one, a median of $46$ minutes later, and $7{,}878$ of $45{,}455$ never have
+one. It fails the criterion below, and substituting it would introduce the
+leakage that criterion prevents.
 
 \paragraph{Admissibility, and mutation.}
 A field on the \texttt{Open} row is admitted only if it is a per-event
@@ -285,42 +281,38 @@ of them --- gives $+0.106$, and restricting to the $44{,}227$ never-edited
 incidents gives $+0.107$.
 
 \paragraph{It is not an artifact of the estimator.}
-The dimensionality null above rules out the regularisation burden of
-$2{,}554$ sparse columns, but a reader may reasonably want the effect shown
-under an estimator where that burden cannot arise at all. We therefore
-re-represent item identity as a single cross-fitted target-encoded column
---- fitted on training only, out-of-fold within training, so no row sees its
-own outcome --- which makes the item one continuous feature rather than
-thousands of indicators, and makes histogram boosting usable on a variable
-that otherwise collapses $2{,}554$ items into $137$ bins. Across one-hot
-logistic regression, logistic regression on the encoded item, and boosting
-on the encoded item, the first rung ranges $+0.173$ to $+0.183$, the second
-$+0.092$ to $+0.103$, and the shrinkage $43\%$ to $47\%$. Encoding a
+The dimensionality null rules out the regularisation burden of $2{,}554$
+sparse columns, but a reader may want the effect shown where that burden
+cannot arise at all. We re-represent item identity as a single cross-fitted
+target-encoded column --- fitted on training only, out-of-fold within
+training, so no row sees its own outcome --- which makes the item one
+continuous feature and makes histogram boosting usable on a variable that
+otherwise collapses $2{,}554$ items into $137$ bins. Across one-hot logistic
+regression, logistic regression on the encoded item, and boosting on it, the
+first rung ranges $+0.173$ to $+0.183$, the second $+0.092$ to $+0.103$, and
+the shrinkage $43\%$ to $47\%$. Encoding a
 \emph{shuffled} item column under the same pipeline returns
-$-0.0001 \pm 0.0016$ and $+0.0042 \pm 0.0020$, so the encoder is not
-leaking; we report the second figure rather than round it away, and it
-bounds how much of the boosting rung could be encoding artifact.
+$-0.0001 \pm 0.0016$ and $+0.0042 \pm 0.0020$. The first collapses to zero;
+the second does not quite, and we report it rather than round it away
+because it bounds how much of the boosting rung could be encoding
+artifact.
 
 \section{Where the Difference Goes}
 \label{sec:mechanism}
 
-The two rows differ by $0.080$. That number is not itself informative --- for
-any two variables, the drop in one's measured gain when the other joins the
-baseline equals the drop in the other's, so it restates the table rather
-than explaining it. Two direct measurements do explain it.
-
-Read four ways, the overlap is this: the item is worth $+0.183$ over
-intake and $+0.103$ once the group is present; the group is worth
-$+0.082$ over intake and $+0.002$ once the item is present.
+The two rows differ by $0.080$, which is not itself informative: for any two
+variables, the drop in one's measured gain when the other joins the baseline
+equals the drop in the other's. Read four ways, the item is worth $+0.183$
+over intake and $+0.103$ once the group is present; the group is worth
+$+0.082$ over intake and $+0.002$ once the item is present. Two direct
+measurements explain the overlap.
 
 \textbf{First}: adding the opening group to a model that already knows the
-affected item is worth $+0.0017$ $[+0.0001,+0.0034]$. It is positive, and it
-clears a matched-dimension null of $-0.0009 \pm 0.0005$ that no draw
-reaches --- so it is not the cost of adding columns. But across split points
-and penalties it ranges $+0.0002$ to $+0.0072$, so the honest statement is
-that the group's unique contribution is \emph{under $0.01$ AUC and not
-resolvable more finely}. Whatever it contributes, the item column has
-almost entirely absorbed it.
+item is worth $+0.0017$ $[+0.0001,+0.0034]$. It clears a matched-dimension
+null of $-0.0009 \pm 0.0005$ that no draw reaches, so it is not the cost of
+adding columns; but across split points and penalties it ranges $+0.0002$ to
+$+0.0072$, so the honest statement is that its unique contribution is
+\emph{under $0.01$ AUC and not resolvable more finely}.
 
 \textbf{Second}: the group's predictive content is largely a function of the
 item. Randomising the group label \emph{within} each item --- which destroys
@@ -334,12 +326,14 @@ independently \emph{per row}, so two incidents sharing an item landed in
 different cells and the association was destroyed by construction: the null
 could only ever return zero. Rebuilt as a random partition \emph{of items},
 which preserves item-level grouping and knows nothing about who opened
-anything, the floor depends on how fine the partition is --- $41\%$ at $49$
-cells, matching the field's own cardinality, and $77\%$ at $400$. The real
-leg sits above every floor we can construct, but the honest margin at
-matched cardinality is $50$ points, not $89$, and the quantity is a function
-of a knob rather than a constant. We report the sweep
-(Figure~\ref{fig:dose}a) and claim only the ordering.
+anything, the floor rises with the partition's fineness --- $41\%$ at $49$
+cells, matching the field's own cardinality, $77\%$ at $400$
+(Figure~\ref{fig:overlap}b). Note what this sweep cannot show: at one cell
+per item the null \emph{is} the real leg, so ``the real leg beats every
+floor'' would be true by construction. The informative comparison is at
+matched cardinality, where a grouping that knows nothing about intake
+retains $41\%$ against the real $91\%$ --- a margin of $50$ points, not the
+$89$ we published against a null that could only return zero.
 
 \begin{figure*}[t]
 \centering
@@ -356,9 +350,11 @@ partition is.}
 
 \paragraph{How far this goes, and where it stops.}
 Without any estimator, item identity carries $60.4\%$ of the opening group's
-information and the group carries $19.6\%$ of the item's --- real, and
-strongly asymmetric, which is why we do not run the argument backwards. But
-it is not determination: a modal-group lookup keyed on item identity
+information and the group carries $19.6\%$ of the item's. Both are plug-in
+estimates over thousands of conditioning levels and are inflated by finite
+samples: shuffling item identity leaves floors of $14.0\%$ and $4.5\%$, so
+read the asymmetry, which survives with $46$ points against $15$, and not
+the levels. And it is not determination: a modal-group lookup keyed on item identity
 reproduces which group logged the incident on $90.3\%$ of test incidents
 against $78.6\%$ for always guessing the largest group, and class-balanced
 it reaches only $34.1\%$. Item identity resolves the coarse contrast --- was
@@ -369,7 +365,7 @@ the fine one.
 That reading makes a prediction, and it holds. Replacing the group with
 progressively coarser versions of itself and re-running the same ladder
 gives shrinkages of $27\%$, $28\%$, $36\%$ and $44\%$ at two, four, eleven
-and $49$ levels (Figure~\ref{fig:dose}b). A single binary flag --- central
+and $49$ levels (Figure~\ref{fig:dose}a). A single binary flag --- central
 desk or not --- already recovers $61\%$ of the group's baseline gain and
 $63\%$ of the shrinkage it causes. The field that has to be admitted is
 close to one bit, which is far cheaper to reproduce in another organisation
@@ -378,14 +374,28 @@ than a $49$-way taxonomy.
 \paragraph{What we do not claim.}
 The reverse framing --- that the item column ``stands in for'' the group ---
 is not established. We measured it, by randomising items within groups, and
-obtained $44\%$ of the item's gain; but a random $50$-cell grouping of items
-that knows nothing about intake retains $25\%$, and a grouping matched on
-the group's mass profile retains $-7\%$. Defensible nulls disagree about the
-floor, so the number is not interpretable and we exclude it. Nor do we claim
+obtained $44\%$ of the item's gain --- but a routing-blind equal-size
+partition of items retains \emph{more}, $55\%$, and one whose cell sizes
+follow the group's own mass profile retains $25\%$. The leg is floor-dominated and we exclude it. (An earlier draft
+reported a negative value for the second floor. That construction drew cells per row,
+the same defect described above, and the equal-size floor was computed from
+different partitions for training and test; both are corrected here.) Nor do we claim
 a direction of causation: the log records no counterfactual, so whether the
 item drives who logs the ticket or both follow a third cause is not
 identified here. Our claim is about what an analyst's baseline choice does
 to a measured number, which does not depend on which is true.
+
+\paragraph{Two fields we did not admit, and why.}
+Our baseline is not a terminus either, and the honest way to say so is to
+price the next rungs. Hour of day and day of week are free and unambiguously
+creation-time; adding both moves the item's value from $+0.103$ to $+0.099$.
+\texttt{Service Component WBS (aff)} is a harder case: it is $100\%$
+populated and costs nothing, and admitting it takes the measured value to
+$+0.023$. We exclude it because it is a near-deterministic function of the
+item --- only $58$ of $2{,}929$ items ever carry more than one value --- so
+it is configuration data under another name rather than a free intake field.
+A reader who disagrees should read our headline as $+0.023$, and that
+substitution is exactly the decision this paper is about.
 
 \section{What the Difference Buys}
 \label{sec:buys}
@@ -426,16 +436,15 @@ omission overstates the operational gain by a factor of $3.9$ $[3.2,6.4]$,
 against a ratio of only $1.8$ between the same two gains measured as AUC.
 
 The factor grows with capacity --- $10.7$ at $10\%$, $26.7$ at $20\%$ ---
-but so does its interval, because the honest denominator shrinks to a few
-dozen incidents and at $20\%$ its interval includes zero
-(Table~\ref{tab:capacity}). We therefore quote the $5\%$ figure, which is
-the best resolved, and claim only that the overstatement is several-fold and
-larger than the AUC ratio implies. The reason it is larger at all is
-structural: AUC averages over every operating point, while a
-capacity-limited desk works at one, near the top of the ranking where the
-group-aware baseline is already close to its ceiling. What none of this says
-is that a surfaced incident is a corrected one --- the log records no
-intervention, so the recoverable share is not identified here.
+but so does its interval: the honest denominator shrinks to a few dozen
+incidents, at $20\%$ it includes zero, and both of those factor intervals are
+conditioned on a positive denominator, which the $5\%$ row does not need. We
+quote the $5\%$ figure and claim only that the overstatement is several-fold
+and larger than the AUC ratio implies. It is larger because AUC averages over
+every operating point while a capacity-limited desk works at one, near the
+top of the ranking where the group-aware baseline is already near its
+ceiling. None of this says a surfaced incident is a corrected one: the log
+records no intervention.
 
 \paragraph{Three target definitions.}
 Because reassignment is common, we repeat the ladder at stricter
@@ -461,7 +470,8 @@ The shrinkage reproduces on both. On reopening, item identity is worth
 $+0.083$ against the intake block and $+0.055$ once the group is admitted, a
 reduction of $33\%$; on long handling, $+0.118$ and $+0.078$, a reduction of
 $34\%$. Every rung sits outside its matched-dimension null, and across five
-split points the reduction ranges from $30\%$ to $46\%$. Reopening is rare
+split points the reduction ranges from $30\%$ to $39\%$ on these two targets
+and from $39\%$ to $46\%$ on the primary one. Reopening is rare
 and its gains stand only $5.5$ and $4.2$ pooled standard deviations from
 their nulls, so it establishes the effect's direction and not its size; and
 the reduction is largest on the target the opening group is most directly
@@ -481,16 +491,14 @@ determine this.
 
 We tried two structural tests and report both failures. A field that varies
 within an incident is certainly a per-event observation; the knowledge
-reference never varies. But neither does \texttt{Interaction ID}, which has
-$45{,}426$ distinct values for $45{,}455$ incidents and is plainly a
-creation-time key --- so constancy is evidence of granularity, not of
-timing. We then tried exact identity with the closed record: the knowledge
-reference matches its closed-record column for $100.000000\%$ of incidents.
-But restricted to the $42{,}151$ incidents with exactly one related
-interaction, \texttt{Interaction ID} matches its own closed-record column
-for $99.997628\%$ --- one mismatch --- against a pass mark of
-$100.000000\%$. The second test cannot separate its own counterexample
-either.
+reference never varies --- but neither does \texttt{Interaction ID}, which
+has $45{,}426$ distinct values for $45{,}455$ incidents and is plainly a
+creation-time key, so constancy is evidence of granularity, not timing. Exact
+identity with the closed record fares no better: the knowledge reference
+matches its closed-record column for $100.000000\%$ of incidents, but so does
+\texttt{Interaction ID} for $99.997628\%$ of the $42{,}151$ incidents with
+exactly one related interaction --- one mismatch against a pass mark of
+$100.000000\%$.
 
 We therefore make no claim about this field. The $-0.003$ is also inside the
 dimensionality null of Section~\ref{sec:result} and changes sign under
@@ -532,27 +540,22 @@ resolution: at $k=32$ the across-split spread is $9$ points, so adjacent
 values of $k$ cannot be read against each other. The same holds with the
 group removed from the baseline --- $89\%$ at $k=64$ --- so this is a
 property of the estate's concentration and not of our field-admission
-decision. We make no claim about what an arbitrary coverage level recovers; an earlier
-draft did, from a comparison in which one of three rules had no observations
-where the claim was made.
+decision.
 
 \section{Limitations}
 
-One organisation --- of necessity, not choice: no other public ITSM log
-records the affected item (Section~\ref{sec:background}) --- one platform,
-one task, six months. The data are from 2013 and 2014 and from a single
-on-premises ITSM product; estate composition, intake practice and tooling
-have all moved since, and we make no claim that the magnitudes transfer to a
-cloud-native estate. The values $+0.183$ and $+0.103$ are properties of this
-estate; the transferable claims are that the gap exists, that it is large,
-that it is graded in the free field's resolution, and that the mechanism is
-the item column proxying for the opening group. Reassignment is a proxy for
-misrouting and also fires on legitimate escalation. The within-item shuffle
-preserves item membership exactly but not any other correlate of item
-identity, so it bounds the proxy share rather than isolating it perfectly.
-The opening group's distribution drifts substantially between our training
-and test halves, which is realistic for a temporal split but means the
-group-aware baseline is being asked to generalise across a shift.
+One organisation --- of necessity, not choice
+(Section~\ref{sec:background}) --- one platform, one task, six months, on
+2013 and 2014 data from an on-premises product whose estate, intake practice and
+tooling have all moved since. The values $+0.183$ and $+0.103$ are properties
+of this estate; the transferable claims are that the gap exists, that it is
+large, that it is graded in the free field's resolution, and that the
+mechanism is the item column proxying for the opening group. Reassignment is
+a proxy for misrouting and also fires on legitimate escalation. The
+within-item shuffle preserves item membership but not other correlates of
+identity, so it bounds the proxy share rather than isolating it. The opening
+group's distribution drifts between our halves, so the group-aware baseline
+is being asked to generalise across a shift.
 
 \section{Conclusion}
 

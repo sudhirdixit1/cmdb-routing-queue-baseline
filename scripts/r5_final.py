@@ -103,7 +103,7 @@ n_int = OPEN.loc[OPEN.index.isin(D["Incident ID"]), "Interaction ID"].nunique()
 print(f"  Open-row KM == closed-record KM : {ident:.6%}")
 print(f"  Interaction IDs for {len(D):,} incidents : {n_int:,}  (near 1:1)")
 print("\n  So the 'varies within an incident' test cannot separate these two:")
-print("  it marks the knowledge reference (closure-valued) and the interaction")
+print("  it marks the knowledge reference and the interaction")
 print("  key (creation-time, 1:1) identically.  Constancy is evidence of")
 # CORRECTED 2026-08-20.  "The decisive test" was not decisive: section 7 of
 # the paper shows the identity test cannot separate its own counterexample

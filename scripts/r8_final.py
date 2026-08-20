@@ -157,14 +157,23 @@ for label, mode in [("random cells, uniform over items", "uniform"),
     for rep in range(15):
         r = np.random.default_rng(SEED + rep)
         tr, te = TR.copy(), TE.copy()
+        # BUG, fixed 2026-08-20: the lookup table used to be built INSIDE the
+        # train/test loop from the same generator, so train and test got
+        # DIFFERENT partitions and the null was depressed (it reported 25%
+        # where the correct value is 56%).  Build it once, outside.
+        items = pd.Index(D[M.IDENT].astype(str).unique())
+        if mode == "uniform":
+            lut = pd.Series(r.integers(0, 50, len(items)).astype(str),
+                            index=items)
+        else:
+            # ALSO fixed: this branch drew a cell label PER ROW, so two
+            # incidents sharing an item landed in different cells -- the
+            # construction r17 exists to correct.  Cells are now a partition
+            # of ITEMS whose sizes follow the group's mass profile.
+            lut = pd.Series(r.choice(qsz.index, size=len(items), p=qsz.values),
+                            index=items)
         for p in (tr, te):
-            if mode == "uniform":
-                items = pd.Index(D[M.IDENT].astype(str).unique())
-                lut = pd.Series(r.integers(0, 50, len(items)).astype(str),
-                                index=items)
-                p["_c"] = p[M.IDENT].astype(str).map(lut)
-            else:
-                p["_c"] = r.choice(qsz.index, size=len(p), p=qsz.values)
+            p["_c"] = p[M.IDENT].astype(str).map(lut)
             p["_s"] = p.groupby("_c")[M.IDENT].transform(
                 lambda s: r.permutation(s.values))
         vals.append(A(tr, te, M.INTAKE + ["_s"]) - A0)

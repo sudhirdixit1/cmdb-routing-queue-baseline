@@ -54,11 +54,11 @@ ax1.set_xscale("log")
 ax1.set_xticks(lv)
 ax1.set_xticklabels([str(v) for v in lv])
 ax1.minorticks_off()
-ax1.set_xlabel("levels retained in the routing queue")
+ax1.set_xlabel("levels retained in the opening group")
 ax1.set_ylabel("shrinkage in the item's\nmeasured value (%)")
 ax1.set_ylim(17, 53)
 ax1.set_xlim(1.75, 62)
-ax1.set_title("(a) graded in the queue's resolution", fontsize=9)
+ax1.set_title("(a) graded in the field's resolution", fontsize=9)
 
 # ---- (b) scoping curve, split-averaged, with band ------------------------
 cov = 100 * CUR.coverage.values

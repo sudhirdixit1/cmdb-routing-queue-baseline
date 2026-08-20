@@ -119,10 +119,17 @@ print(f"  gain when identity is shuffled WITHIN queue {vals.mean():+.4f} "
 print(f"  residual                                    {resid:+.4f}")
 print(f"  gain measured directly with queue in base   {g_direct:+.4f}")
 print(f"  agreement                                   {abs(resid-g_direct):.4f}")
-print(f"\n  {100*vals.mean()/g_naive:.0f}% of the naive gain is the item column")
-print("  standing in for the routing queue.  The decomposition closes: what is")
-print("  left after removing the proxy effect is what a queue-aware baseline")
-print("  measures directly.")
+# WITHDRAWN 2026-08-20.  These lines stated the reverse framing -- "the item
+# column stands in for the group" -- which section 5 of the paper explicitly
+# excludes: a routing-blind equal-size partition of ITEMS retains MORE (56%)
+# than the real grouping (44%), so the leg is floor-dominated.  The
+# decomposition below is also an algebraic identity (withdrawn finding 7).
+print(f"\n  {100*vals.mean()/g_naive:.0f}% of the naive gain survives this shuffle, but DO NOT")
+print("  read that as the item standing in for the group: a routing-blind")
+print("  equal-size partition of items retains MORE (56%).  The leg is")
+print("  floor-dominated and the paper excludes it.  The 'decomposition")
+print("  closes' framing is withdrawn finding 7 -- it is an algebraic")
+print("  identity, not a measurement.")
 pd.DataFrame([dict(g_naive=g_naive, within_queue=float(vals.mean()),
                    within_sd=float(vals.std()), residual=resid,
                    g_direct=g_direct, agreement=abs(resid - g_direct),

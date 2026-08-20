@@ -70,6 +70,9 @@ r16F = pd.read_csv(R / "r16_field_semantics.csv").iloc[0]
 r16A = pd.read_csv(R / "r16_activity_groups.csv").set_index("activity")
 r17F = pd.read_csv(R / "r17_floor.csv").iloc[0]
 r17S = pd.read_csv(R / "r17_floor_sweep.csv").set_index("cells")
+r18M = pd.read_csv(R / "r18_mi_null.csv").iloc[0]
+r18W = pd.read_csv(R / "r18_other_fields.csv").set_index("baseline")
+r18L = pd.read_csv(R / "r18_dropped_leg_itemlevel.csv").set_index("leg")
 bins = pd.read_csv(R / "r5_binning.csv").iloc[0]
 
 ok, bad, seen = 0, [], set()
@@ -354,12 +357,14 @@ one = jj[jj.n == 1]
 ck("single-interaction cohort", len(one), "42{,}151", 0, anchor="exactly one related")
 ck("interaction identity",
    (one.open_int.astype(str) == one["Related Interaction"].astype(str)).mean() * 100,
-   "99.997628", 1e-5, anchor="own closed-record")
+   "99.997628", 1e-5, anchor="but so does")
 
 # ---- the rebuilt mechanism --------------------------------------------
 mech = pd.read_csv(R / "r8_mechanism.csv").iloc[0]
 scope = pd.read_csv(R / "r8_scope.csv").set_index("k")
 drop = pd.read_csv(R / "r8_dropped_leg.csv").set_index("leg")
+_IG = float(pd.read_csv(R / "r8_overlap.csv").iloc[0].item_gain) \
+    if (R / "r8_overlap.csv").exists() else None
 ck("queue unique 4dp", mech.queue_unique, "+0.0017", 6e-5,
    anchor="already knows the")
 ck("queue unique lo", mech.lo, "+0.0001", 6e-5, anchor="already knows the")
@@ -372,18 +377,20 @@ ck("under 0.01 bound", 0.01, "0.01", 0, anchor="under $0.01$ AUC")
 ck("mirror pct", mech.mirror_pct, "91", 0.6, anchor="retains")
 ck("mirror floor pct", mech.mirror_floor_pct, "2", 0.6,
    anchor="against a floor of")
+ck("rebuilt floor, restated", r17F.floor_matched * 100, "41", 0.5,
+   anchor="retains $41\\%$ against the real")
 ck("mirror margin", mech.mirror_pct - mech.mirror_floor_pct, "89", 0.6,
    anchor="claimed a margin of")
 ck("queue gain for mirror", mech.queue_gain, "+0.082", 6e-4,
    anchor="of the group's")
 ck("dropped leg real", 100 * drop.loc["real routing queue", "recovered"]
    / (mech.queue_gain / 0.082 * 0.1835), "44", 1.0, anchor="obtained")
-ck("dropped leg uniform",
-   100 * drop.loc["random cells, uniform over items", "recovered"] / 0.1835, "25", 1.0,
-   anchor="retains")
-ck("dropped leg mass",
-   100 * drop.loc["random cells, item-mass matched", "recovered"] / 0.1835, "-7", 1.0,
-   anchor="retains")
+#  Superseded 2026-08-20.  These expected 25 / -7 from before the r8 section-C
+#  partition fix, and divided by a hardcoded 0.1835 that would go stale on its
+#  own.  The corrected figures (55 / 25) are checked in the r18 block against
+#  r8_dropped_leg.csv, with an r8-vs-r18 agreement test alongside.
+ck("dropped leg real", 100 * drop.loc["real routing queue", "recovered"] / ov.item_gain,
+   "44", 0.6, anchor="obtained $44")
 #  Superseded by the split-averaged curve (r14).  r8_scope.csv holds the
 #  single-split figures the paper used to quote; they are cross-checked
 #  against the averaged curve's range rather than quoted, so that a future
@@ -398,6 +405,8 @@ for _k in (8, 64, 128):
         ok += 1
 
 # ---- previously exempted, now checked ----------------------------------
+ck("capacity bootstrap draws", 400, "400", 0,
+   anchor="use $400$")
 ck("bootstrap resamples", 2000, "2{,}000", 0, anchor="resample paired")
 ck("split train pct", 70, "70", 0, anchor="temporal")
 ck("split test pct", 30, "30", 0, anchor="temporal")
@@ -466,6 +475,14 @@ _b = _f.index.intersection(_l.index)
 COHORT_LAST = (_f[_b] == _l[_b]).mean()
 ck("queue varies (cohort)", COHORT_VARIES * 100, "92.56", 0.006,
    anchor="varies for")
+#  The same quantity is now also produced by a live script (r16), not only by
+#  this checker.  Require the two to agree, so the published results file and
+#  the paper cannot drift.
+if abs(r16F.cohort_varies - COHORT_VARIES) > 1e-9:
+    bad.append(f"r16 cohort_varies={r16F.cohort_varies:.6f} disagrees with the "
+               f"checker's {COHORT_VARIES:.6f}")
+else:
+    ok += 1
 ck("open equals last (cohort)", COHORT_LAST * 100, "21.35", 0.06,
    anchor="last-observed group")
 #  Superseded: the paper used to say "50 groups in the analysed cohort".  It
@@ -678,7 +695,7 @@ ck("agreement with first Assignment", r16F.agree_first_assignment * 100,
 ck("median delay to first Assignment", r16F.median_delay_min, "46", 0.5,
    anchor="minutes later")
 ck("incidents with no Assignment", r16F.n_no_assignment, "7{,}878", 0,
-   anchor="never have one at all")
+   anchor="never have")
 ck_phrase("field-semantics figures in order",
           r"rows carry $218$", "218", 0)
 ck_phrase("dominant shares in order",
@@ -713,10 +730,22 @@ ck("rebuilt floor at matched cells", r17F.floor_matched * 100, "41", 0.5,
 ck("rebuilt floor at 400 cells", r17S.loc[400].retained * 100, "77", 0.5,
    anchor="at $400$")
 ck("honest margin", r17F.margin_matched, "50", 0.5,
-   anchor="matched cardinality is")
+   anchor="a margin of")
 ck_phrase("floor sweep in order",
-          r"$41\%$ at $49$ cells, matching the field's own cardinality, and "
-          r"$77\%$ at $400$", "41", 0, "49", 0, "77", 0, "400", 0)
+          r"$41\%$ at $49$ cells, matching the field's own cardinality, $77\%$ "
+          r"at $400$", "41", 0, "49", 0, "77", 0, "400", 0)
+#  Load-bearing CAVEATS, not numbers.  The floor sweep's ordering holds by
+#  construction (at one cell per item the null IS the real leg), so the
+#  sentence that says so is what stops the section overclaiming.  Deleting it
+#  would leave every number correct and the claim wrong, which is precisely
+#  the failure this file exists to prevent -- so it is checked like a number.
+ck_phrase("structural-ordering caveat present",
+          r"at one cell per item the null \emph{is} the real leg")
+ck_phrase("conditioned-interval disclosure present",
+          r"conditioned on a positive denominator")
+ck_phrase("honest margin pinned",
+          r"retains $41\%$ against the real $91\%$ --- a margin of $50$ points, "
+          r"not the $89$", "41", 0, "91", 0, "50", 0, "89", 0)
 ck_phrase("withdrawn floor pinned",
           r"against a floor of $2\%$ and claimed a margin of $89$ points",
           "2", 0, "89", 0)
@@ -830,8 +859,96 @@ ck_phrase("scope without queue pinned",
 #  The dropped reverse-direction null grouped items into as many cells as the
 #  cohort has opening queues.  The paper prints that count; check it against
 #  the cohort rather than leaving it as a bare literal.
-ck("reverse null cell count", _COHORT_GROUPS, "50", 0,
-   anchor="a random $50$-cell grouping")
+#  The paper no longer prints a "50-cell grouping"; the reverse leg's floors
+#  are described by construction now.  The remaining 50 is the honest margin,
+#  registered by its own check above -- do NOT discard it here, which is what
+#  an earlier version of this comment did.
+
+# ---- r18: the controls a second referee found missing ------------------
+ck("MI floor, group given item", r18M.null_group_given_item * 100, "14.0",
+   0.06, anchor="leaves floors of")
+ck("MI floor, item given group", r18M.null_item_given_group * 100, "4.5",
+   0.06, anchor="leaves floors of")
+ck("MI excess, group", r18M.excess_group, "46", 0.5,
+   anchor="which survives with")
+ck("MI excess, item", r18M.excess_item, "15", 0.5,
+   anchor="against")
+ck_phrase("MI floors in order",
+          r"leaves floors of $14.0\%$ and $4.5\%$", "14.0", 0, "4.5", 0)
+ck_phrase("MI excess in order",
+          r"survives with $46$ points against $15$", "46", 0, "15", 0)
+#  The asymmetry is the claim; if it did not survive its floor there is no
+#  claim left, so check the ordering rather than trusting the numbers.
+if not (r18M.excess_group > r18M.excess_item > 0):
+    bad.append("paper claims the asymmetry survives its floor; it does not")
+else:
+    ok += 1
+
+_wq = r18W.loc["+ opening group  (the paper's)"]
+_wh = r18W.loc["+ hour + day of week"]
+_ws = r18W.loc["+ service component WBS"]
+ck("hour+dow gain", _wh.gain, "+0.099", 6e-4, anchor="moves the item's value")
+ck("WBS gain", _ws.gain, "+0.023", 6e-4, anchor="takes the measured value to")
+ck("WBS distinct items varying", 58, "58", 0, anchor="only $58$ of")
+ck_phrase("hour and day pinned",
+          r"moves the item's value from $+0.103$ to $+0.099$",
+          "+0.103", 0, "+0.099", 0)
+ck_phrase("WBS pinned",
+          r"admitting it takes the measured value to $+0.023$", "+0.023", 0)
+#  The exclusion argument rests on WBS being near-deterministic in the item.
+if not (58 / 2929 < 0.03):
+    bad.append("paper calls WBS near-deterministic in the item; 58/2,929 is not")
+else:
+    ok += 1
+
+#  The dropped leg, rebuilt at item level.  The reason for excluding it is
+#  that the routing-blind floor is HIGHER than the real leg; check that,
+#  not just the numbers.
+_real = r18L.loc["real opening group"].retained * 100
+_unif = r18L.loc["random item cells, equal size"].retained * 100
+_mass = r18L.loc["random item cells, group-mass matched"].retained * 100
+#  r8_dropped_leg.csv is the canonical source (it is what section 5 derives
+#  from); r18 recomputes the same quantities with a different draw count and
+#  is required to AGREE rather than being quoted.
+ck("dropped leg, equal-size floor",
+   100 * drop.loc["random cells, uniform over items", "recovered"] / ov.item_gain,
+   "55", 0.6, anchor="partition of items retains")
+ck("dropped leg, mass-profile floor",
+   100 * drop.loc["random cells, item-mass matched", "recovered"] / ov.item_gain,
+   "25", 0.6, anchor="follow the group's own mass profile")
+for _k8, _k18 in (("random cells, uniform over items",
+                   "random item cells, equal size"),
+                  ("random cells, item-mass matched",
+                   "random item cells, group-mass matched")):
+    _a = drop.loc[_k8, "recovered"] / ov.item_gain
+    _b = r18L.loc[_k18].retained
+    if abs(_a - _b) > 0.03:
+        bad.append(f"r8 and r18 disagree on '{_k8}': {_a:.3f} vs {_b:.3f}")
+    else:
+        ok += 1
+ck_phrase("dropped leg floors in order",
+          r"partition of items retains \emph{more}, $55\%$, and one whose cell "
+          r"sizes follow the group's own mass profile retains $25\%$",
+          "55", 0, "25", 0)
+if not (_unif > _real):
+    bad.append("paper excludes the reverse leg because a routing-blind floor "
+               "retains MORE; at item level it does not")
+else:
+    ok += 1
+
+# ---- second-task ranges, split by target -------------------------------
+_second = r9S[r9S.task != "reassigned"].shrink_pct
+_primary = r9S[r9S.task == "reassigned"].shrink_pct
+ck("second-task shrink lo", _second.min(), "30", 0.6,
+   anchor="on these two targets")
+ck("second-task shrink hi", _second.max(), "39", 0.6,
+   anchor="on these two targets")
+ck("primary shrink lo", _primary.min(), "39", 0.6, anchor="on the primary one")
+ck("primary shrink hi", _primary.max(), "46", 0.6, anchor="on the primary one")
+ck_phrase("second-task ranges in order",
+          r"ranges from $30\%$ to $39\%$ on these two targets "
+          r"and from $39\%$ to $46\%$ on the primary one",
+          "30", 0, "39", 0, "46", 0)
 
 # ---- residue of withdrawn claims ---------------------------------------
 for dead in ["VolvoIT", "ServiceNow-IT", "saturat", "converge above",

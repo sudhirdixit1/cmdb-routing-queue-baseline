@@ -85,6 +85,21 @@ for g, s in dest.head(5).items():
 print(f"    (self: {dest.get(DOM, 0.0):.1%})")
 
 print("\n" + "=" * 88)
+print("C2. ADMISSIBILITY, RESTRICTED TO THE COHORT")
+print("=" * 88)
+# r4_final computes "varies within incident" over the WHOLE activity log and
+# writes 92.66% to r4_admissibility.csv.  The paper quotes the COHORT figure,
+# 92.56%, which until now was produced only inside verify_paper.py.  A number
+# whose sole producer is the checker is not a checked number, and the results
+# file a reader is pointed to showed a differently-valued twin.  Produce it
+# here, next to the other facts about this field.
+_v = A.groupby("Incident ID")[G].nunique()
+cohort_varies = float((_v > 1).mean())
+print(f"  varies within incident, cohort only  {cohort_varies:.2%}")
+print(f"  (r4_admissibility.csv reports 92.66% over the whole activity log;")
+print("   the difference is the 1,150 left-censored incidents.)")
+
+print("\n" + "=" * 88)
 print("D. THE REAL ROUTING DECISION IS NOT AVAILABLE AT CREATION")
 print("=" * 88)
 o1 = op.sort_values("ts").groupby("Incident ID")["ts"].first()
@@ -108,6 +123,7 @@ pd.DataFrame([dict(
     groups_assignment=int(asg[G].nunique()), groups_all=n_all,
     dom_share_open=share_open, dom_share_all=share_all,
     agree_first_assignment=agree, n_both=len(both),
+    cohort_varies=cohort_varies,
     first_asg_after_open=after, median_delay_min=med_min,
     n_no_assignment=no_asg, n_incidents=len(D),
 )]).to_csv(RESULTS / "r16_field_semantics.csv", index=False)

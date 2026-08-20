@@ -51,8 +51,9 @@ CORRUPTIONS = [
      "correlates with reassignment at $+0.04$"),
     ("overstate reopen evidence", "stand only $5.5$ and $4.2$ pooled",
      "stand only $25.5$ and $4.2$ pooled"),
-    ("widen the shrinkage range", "ranges from $30\\%$ to $46\\%$",
-     "ranges from $40\\%$ to $46\\%$"),
+    ("widen the second-task shrinkage range",
+     "ranges from $30\\%$ to $39\\%$ on these two targets",
+     "ranges from $40\\%$ to $39\\%$ on these two targets"),
 
     # -- r10, estimator families.  The point of these rows is that the effect
     #    is not an artifact of one estimator, so an inflated range or a hidden
@@ -146,14 +147,38 @@ CORRUPTIONS = [
     ("understate the rebuilt floor",
      "$41\\%$ at $49$ cells", "$11\\%$ at $49$ cells"),
     ("understate the floor at fine granularity",
-     "and $77\\%$ at $400$", "and $47\\%$ at $400$"),
+     "$77\\%$ at $400$", "$47\\%$ at $400$"),
     ("inflate the honest margin",
-     "matched cardinality is $50$ points", "matched cardinality is $80$ points"),
+     "a margin of $50$ points", "a margin of $80$ points"),
 
     # -- the widest capacity's interval includes zero, which is why the paper
     #    quotes the 5% figure instead.  Hiding that is the attack.
     ("hide that the widest capacity's interval includes zero",
      "$+18$ [$-28,82$]", "$+18$ [$8,82$]"),
+    # -- round three.  Each of these is a control a referee had to compute
+    #    because the paper had not, so each gets its own corruption.
+    ("hide the finite-sample floor under the MI figures",
+     "leaves floors of $14.0\\%$ and $4.5\\%$",
+     "leaves floors of $1.0\\%$ and $4.5\\%$"),
+    ("swap the MI excesses",
+     "survives with $46$ points against $15$",
+     "survives with $15$ points against $46$"),
+    ("understate what admitting the service component costs",
+     "takes the measured value to $+0.023$",
+     "takes the measured value to $+0.093$"),
+    ("overstate how much hour and day of week move it",
+     "from $+0.103$ to $+0.099$", "from $+0.103$ to $+0.049$"),
+    ("hide that the routing-blind floor beats the real leg",
+     "partition of items retains \\emph{more}, $55\\%$",
+     "partition of items retains less, $15\\%$"),
+    # Deleting this caveat would restore an ordering that holds by
+    # construction: at one cell per item the null IS the real leg.
+    ("delete the caveat that the ordering is structural",
+     "at one cell\nper item the null \\emph{is} the real leg",
+     "at one cell\nper item the null is unrelated to the real leg"),
+    ("misstate the capacity table's bootstrap draws",
+     "re-ranked in each draw and use $400$",
+     "re-ranked in each draw and use $4000$"),
 ]
 
 

@@ -29,7 +29,10 @@ P = pd.read_csv(RESULTS / "r4_coverage.csv")
 fig, axes = plt.subplots(1, 2, figsize=(6.9, 3.0),
                          gridspec_kw={"width_ratios": [1.15, 1]})
 a = axes[0]
-labels = ["intake\nfields", "+ routing\nqueue", "+ knowledge\nreference"]
+# The middle field is the group that LOGGED the incident, not a routing
+# destination -- see r16_field_semantics.py.  The CSV keys still say
+# "routing queue" because they are lookup keys; the DISPLAY label must not.
+labels = ["intake\nfields", "+ opening\ngroup", "+ knowledge\nreference"]
 x = np.arange(3)
 a.bar(x - .19, B.base_auc, .36, color=SLATE, label="baseline")
 a.bar(x + .19, B.with_ident, .36, color=TEAL, label="+ item identity")
@@ -46,9 +49,14 @@ a.set_title("(a) the same quantity, three baselines", fontsize=8.5)
 
 b = axes[1]
 cols = [c for c in S.columns if c != "cut"]
+# Map the stored column key to what the paper calls it.  Do NOT rename the
+# columns themselves: r4_stability.csv is read by the verifier by key.
+DISPLAY = {"intake fields only": "intake fields",
+           "+ intake routing queue": "+ opening group",
+           "+ knowledge reference": "+ knowledge reference"}
 for c, col in zip(cols, [SLATE, TEAL, RUST]):
     b.plot(S.cut * 100, S[c], "-o", ms=4, lw=1.6, color=col,
-           label=c.replace("+ ", ""))
+           label=DISPLAY.get(c, c.replace("+ ", "")))
 b.axhline(0, color="#333", lw=1)
 b.set_xlabel("temporal split point (% train)")
 b.set_ylabel("value of item identity (AUC)")

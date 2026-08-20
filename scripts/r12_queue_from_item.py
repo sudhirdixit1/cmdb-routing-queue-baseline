@@ -79,10 +79,15 @@ print(f"  H(item)                       {h_i:6.3f} bits over "
       f"{tr[I].nunique():,} items")
 print(f"  H(item | queue)               {h_i_q:6.3f} bits")
 print(f"  U(item | queue)               {u_i:6.1%}")
+# CORRECTED 2026-08-20.  "Nearly determines" is contradicted by section B of
+# this same script (class-balanced lookup accuracy 34.1%) and by the paper.
+# These plug-in coefficients are also biased upward by conditioning on 2,554
+# levels: r18_referee_round2.py measures the floor at 14.0% and 4.5%.
 print(f"\n  The relationship is strongly asymmetric: {u_q:.0%} against {u_i:.0%}.")
-print("  Knowing the item nearly determines the queue; knowing the queue")
-print("  leaves most of the item's identity open.  This is why the paper")
-print("  states the mechanism in one direction only.")
+print("  Both are inflated by finite-sample bias -- see r18_mi_null.csv, which")
+print("  puts the floors at 14.0% and 4.5% -- so read the ASYMMETRY, not the")
+print("  levels.  Item identity does NOT determine which group opens the")
+print("  ticket; section B below is the check that keeps this honest.")
 
 print("\n" + "=" * 92)
 print("B. THE TRIVIAL LOOKUP RULE, EVALUATED OUT OF SAMPLE")
