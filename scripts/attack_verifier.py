@@ -44,16 +44,18 @@ CORRUPTIONS = [
     ("inflate reopen shrinkage", "a reduction of $33\\%$", "a reduction of $53\\%$"),
     ("corrupt long-handling gain", "on long handling, $+0.118$ and $+0.078$",
      "on long handling, $+0.148$ and $+0.078$"),
-    ("corrupt reopen positives", "fires on $2{,}096$ incidents",
-     "fires on $3{,}096$ incidents"),
+    ("corrupt reopen positives", "failure mode: $2{,}096$ incidents",
+     "failure mode: $3{,}096$ incidents"),
     ("overstate target independence",
-     "correlates with reassignment at $+0.14$",
-     "correlates with reassignment at $+0.04$"),
+     "correlating with reassignment at $+0.14$",
+     "correlating with reassignment at $+0.04$"),
     ("overstate reopen evidence", "stand only $5.5$ and $4.2$ pooled",
      "stand only $25.5$ and $4.2$ pooled"),
-    ("widen the second-task shrinkage range",
-     "ranges from $30\\%$ to $39\\%$ on these two targets",
-     "ranges from $40\\%$ to $39\\%$ on these two targets"),
+    # The split-point ranges are replaced by bootstrap intervals on the
+    # SHRINKAGE, which is what showed the replication claim overrunning its
+    # evidence on the near-independent target.
+    ("narrow the reopening shrinkage interval away from zero",
+     "$[-1,60]$ on reopening", "$[11,60]$ on reopening"),
 
     # -- r10, estimator families.  The point of these rows is that the effect
     #    is not an artifact of one estimator, so an inflated range or a hidden
@@ -199,9 +201,8 @@ CORRUPTIONS = [
     ("restore over-precise z statistics",
      "roughly $28$ and\n$17$ standard deviations",
      "roughly $28.1$ and\n$17.4$ standard deviations"),
-    ("narrow the primary-target shrinkage range",
-     "from $38\\%$ to $47\\%$ on the primary one",
-     "from $39\\%$ to $46\\%$ on the primary one"),
+    ("narrow the primary-target shrinkage interval",
+     "$[40,48]$ on reassignment", "$[41,47]$ on reassignment"),
     # -- round five.  The Limitations sentence carried the EXCLUDED reverse
     #    leg as a transferable claim through four revisions.  It has no
     #    numeral, so only a phrase check catches it -- and a residue guard
@@ -261,6 +262,25 @@ CORRUPTIONS = [
     ("promote the cross-target ordering to a prediction",
      "rather than predicted by it: the mechanism says nothing about how",
      "and predicted by it: the mechanism says exactly how"),
+    # -- round eight.
+    ("restore the overstated replication claim",
+     "directionally consistent on both and resolved on neither of\nthe two",
+     "the shrinkage reproduces on both of\nthe two"),
+    ("hide that reopening's shrinkage is unresolved",
+     "is \\emph{not} resolvably different from zero",
+     "is resolvably different from zero"),
+    ("overstate the reopening significance",
+     "($P \\le 0$ is $0.03$)", "($P \\le 0$ is $0.00$)"),
+    ("drop the right-censoring sensitivity",
+     "The extract is\nright-censored too", "The extract is\nnot censored at the end"),
+    ("widen the right-censoring band",
+     "moves between $42\\%$ and\n$45\\%$", "moves between $12\\%$ and\n$75\\%$"),
+    ("restore the estate framing of a training-split statistic",
+     "generate $30.2\\%$ of training incidents",
+     "generate $30.2\\%$ of incidents"),
+    ("restore the false claim about where draw counts are recorded",
+     "the count set by cost and recorded in the code that produces each",
+     "recorded beside each figure in the result files"),
 ]
 
 

@@ -49,14 +49,15 @@ whether an incident will be reassigned, knowing the affected configuration
 item is worth $+0.183$ AUC against four intake fields, and $+0.103$
 $[+0.094,+0.113]$ once one more free field is added: which group logged the
 incident. The gap survives three estimator families, including one in which
-item identity is a single column rather than $2{,}554$, and reproduces on
-two further targets and at three target thresholds. Stated as a detection
+item identity is a single column rather than $2{,}554$, and holds at three target thresholds; on two
+further targets it is directionally consistent but unresolved. Stated as a detection
 problem it is larger than the AUC ratio of $1.8$ suggests --- at a review
 capacity of $5\%$ of arrivals, omitting the field credits the CMDB with
 $4.3$ $[3.2,6.4]$ times as many additional catches. Two measurements
 explain the overlap: the opening group adds under $0.01$ AUC to a model that
 already knows the item, and the shrinkage is graded in the field's
-resolution, running $27\%$ to $44\%$ as it goes from one bit to $49$ levels.
+resolution, running $27\%$ to $44\%$ from one bit to $49$ levels --- a
+consistency check rather than an independent prediction.
 We also report three things we got wrong: a null that could not fail, an
 operational factor we first reported without an interval, and a field whose
 meaning we mis-stated in an earlier draft.
@@ -164,8 +165,12 @@ against $40.0\%$ for the incidents we keep. Removing them leaves
 $\mathbf{45{,}455}$ incidents to 2014-03-31; a temporal $70/30$ split gives
 $31{,}818$ training and $13{,}637$ test, positive rates $0.413$ and $0.372$.
 The cutoff is not taken from the outcome: monthly volume rises from $857$
-incidents in September 2013 to $8{,}606$ in October. The affected-item field
-is $100\%$ populated across $2{,}929$ items, $2{,}554$ seen in training.
+incidents in September 2013 to $8{,}606$ in October. The extract is
+right-censored too --- incidents opened near its end cannot have long lives
+--- so we re-measured on cohorts truncated up to a month early; the shrinkage
+moves between $42\%$ and $45\%$, so the boundary does not drive it. The
+affected-item field is $100\%$ populated across $2{,}929$ items, $2{,}554$
+seen in training.
 
 \paragraph{Task and estimator.}
 Predict at creation whether an incident will later be reassigned. We call
@@ -180,7 +185,7 @@ estimator families are reported in Section~\ref{sec:result}. Encoders and
 rankings are fit on training data only; intervals are $2{,}000$-resample
 paired bootstraps, except Table~\ref{tab:capacity}, whose counts are
 re-ranked in each draw and use $400$. Monte-Carlo nulls use $15$ to $100$
-draws, recorded beside each figure in the result files.
+draws, the count set by cost and recorded in the code that produces each.
 
 \paragraph{The free field, and what it is not.}
 The activity log records, on the \texttt{Open} event of every incident, an
@@ -296,15 +301,6 @@ artifact.
 \section{Where the Difference Goes}
 \label{sec:mechanism}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figG5_scope.png}
-\caption{Coarsening the opening group and re-running the ladder. The
-shrinkage in the item's measured value is graded in the field's resolution,
-which is what a proxy relationship predicts and a coincidence does not.}
-\label{fig:dose}
-\end{figure}
-
 The two rows differ by $0.080$, which is not itself informative: for any two
 variables, the drop in one's gain when the other joins the baseline equals
 the drop in the other's. Read four ways, the item is worth $+0.183$ over
@@ -335,9 +331,9 @@ anything, the floor rises with the partition's fineness --- $41\%$ at $49$
 cells, matching the field's own cardinality, $77\%$ at $400$
 (Figure~\ref{fig:overlap}b). It is a $30$-draw Monte Carlo and its dispersion
 is wide --- $12$ points at $49$ cells --- so the margin below is indicative,
-not resolved. It is matched on cardinality but not on mass --- the real field is far from
-uniform, and mass-matching moves a floor by tens of points in our reverse-leg
-analysis --- so it bounds the margin from one side only. Note what this sweep cannot show: at one cell
+not resolved. It is matched on cardinality but not on mass, and mass-matching moves a floor
+by tens of points in our reverse-leg analysis, so it bounds the margin from
+one side only. Note what this sweep cannot show: at one cell
 per item the null \emph{is} the real leg, so ``the real leg beats every
 floor'' would be true by construction. The informative comparison is at
 matched cardinality, where a grouping that knows nothing about intake
@@ -372,7 +368,7 @@ specialist team --- and much less of the fine one.
 \paragraph{The shrinkage is graded in the field's resolution.}
 That reading implies a consistency check, and it passes. Coarsening the
 group and re-running the ladder gives shrinkages of $27\%$, $28\%$, $36\%$
-and $44\%$ at two, four, eleven and $49$ levels (Figure~\ref{fig:dose}). A check rather than a prediction, because at each resolution the shrinkage is
+and $44\%$ at two, four, eleven and $49$ levels. A check rather than a prediction, because at each resolution the shrinkage is
 close to that coarsened field's own gain over intake --- by the identity
 above, the same statement as the first measurement --- and the two coarsest
 points have overlapping intervals, so only the trend is claimed. A single
@@ -382,22 +378,20 @@ admitted is close to one bit, far cheaper to reproduce elsewhere than a
 $49$-way taxonomy.
 
 \paragraph{Is the field really free?}
-One objection goes to the heart of the reading, and our own evidence
-sharpens it. The opening group may be free only because a human at the desk
-already knew what the ticket was about --- in which case it is undocumented
-configuration knowledge, and a baseline containing it is not a CMDB-free
-baseline. The one-bit result makes this concrete: the contrast doing most of the work
-is the central desk against everything else, and
-Section~\ref{sec:data} declines to say what everything else is, so we cannot
-say whether the knowledge sits there. We cannot settle it and do not need
-to. The measurement is the same under both readings; what changes is the
-moral. If the group is independent, a CMDB is worth half what the naive
-comparison says. If it is tacit configuration knowledge, then our
-$+0.103$ is a lower bound and the organisation already holds much of what the
-CMDB would tell it, in a form it is not paying to maintain. We do not choose
-between these: the log cannot identify which is true, and the reading changes
-what the number means. What survives either way, and is the claim we make, is
-that the business case cannot be written against the intake block alone.
+One objection goes to the heart of the reading. The opening group may be free
+only because a human at the desk already knew what the ticket was about ---
+in which case it is undocumented configuration knowledge, and a baseline
+containing it is not a CMDB-free baseline. The one-bit result makes this
+concrete: the contrast doing most of the work is the central desk against
+everything else, and Section~\ref{sec:data} declines to say what everything
+else is, so we cannot say whether the knowledge sits there. The measurement
+is the same under both readings; the moral is not. If the group is
+independent, a CMDB is worth half what the naive comparison says. If it is
+tacit configuration knowledge, our $+0.103$ is a lower bound and the
+organisation already holds much of what the CMDB would tell it, unpaid for.
+The log cannot identify which is true, so we choose neither. What survives
+either way is that the business case cannot be written against the intake
+block alone.
 
 \paragraph{What we do not claim.}
 The reverse framing --- that the item column ``stands in for'' the group ---
@@ -472,14 +466,14 @@ incidents, at $20\%$ it includes zero, and both of those factor intervals are
 conditioned on a positive denominator, which the $5\%$ row does not need. We
 quote the $5\%$ figure and claim only that the overstatement is several-fold
 and larger than the AUC ratio implies. Two things make it larger. AUC averages over every operating point while a
-capacity-limited desk works at one, where the group-aware baseline is already
-near its ceiling. And the naive baseline cannot rank finely: four
-low-cardinality intake fields emit only $23$ distinct scores over $13{,}637$
-test incidents, so at $5\%$ capacity just $47$ rows sit strictly above the
-cut and the rest come from a tied block of $1{,}944$. That is a property of
-the baseline an analyst would actually use, not an artifact of ours, but it
-makes the factor partly about resolution rather than information. None of
-this says a surfaced incident is a corrected one.
+capacity-limited desk works at one, where the group-aware baseline is near
+its ceiling. And the naive baseline cannot rank finely: four low-cardinality
+intake fields emit only $23$ distinct scores over $13{,}637$ test incidents,
+so at $5\%$ capacity just $47$ rows sit strictly above the cut and the rest
+come from a tied block of $1{,}944$. That is a property of the baseline an
+analyst would use, not an artifact of ours, but it makes the factor partly
+about resolution rather than information. None of this says a surfaced
+incident is a corrected one.
 
 \paragraph{Three target definitions.}
 Because reassignment is common, we repeat the ladder at stricter
@@ -494,25 +488,27 @@ the gain.
 \section{Does It Survive a Change of Task?}
 \label{sec:secondtask}
 
-A gap on one target may be a property of that target, so we repeated the
-ladder on two further outcomes, changing only what is predicted.
-\emph{Reopening} is close to an independent failure mode: it fires on
-$2{,}096$ incidents and correlates with reassignment at $+0.14$. \emph{Long
+A gap on one target may be a property of it, so we repeated the ladder on two
+further outcomes. \emph{Reopening} is close to an independent failure mode:
+$2{,}096$ incidents, correlating with reassignment at $+0.14$. \emph{Long
 handling} --- handle time above the training third quartile --- correlates at
-$+0.40$, so we report it as corroboration only.
+$+0.40$, so it is corroboration only.
 
-The shrinkage reproduces on both. On reopening, item identity is worth
-$+0.083$ against the intake block and $+0.055$ once the group is admitted, a
-reduction of $33\%$; on long handling, $+0.118$ and $+0.078$, a reduction of
-$34\%$. Every rung sits outside its matched-dimension null, and across five
-split points the reduction ranges from $30\%$ to $39\%$ on these two targets
-and from $38\%$ to $47\%$ on the primary one. Reopening is rare
-and its gains stand only $5.5$ and $4.2$ pooled standard deviations from
-their nulls, so it establishes the effect's direction and not its size; and
-the reduction is largest on the target the opening group is most directly
-about --- consistent with Section~\ref{sec:mechanism} rather than predicted
-by it: the mechanism says nothing about how shrinkage should order across
-targets. That is why we
+On reopening, item identity is worth $+0.083$ against the intake block and
+$+0.055$ once the group is admitted, a reduction of $33\%$; on long handling,
+$+0.118$ and $+0.078$, a reduction of $34\%$. Every rung sits outside its
+matched-dimension null. But the shrinkage is what we call transferable, so it
+needs its own interval, and paired bootstraps give $[40,48]$ on reassignment,
+$[28,38]$ on long handling and $[-1,60]$ on reopening. On the one target we
+argue is near-independent the shrinkage is \emph{not} resolvably different
+from zero ($P \le 0$ is $0.03$), and long handling, correlated at $+0.40$
+with the primary target, cannot carry a replication alone. The effect is
+directionally consistent on both and resolved on neither of
+the two. Reopening is rare and its gains stand only $5.5$ and $4.2$ pooled standard
+deviations from their nulls. The reduction is largest on the target the
+opening group is most directly about --- consistent with
+Section~\ref{sec:mechanism} rather than predicted by it: the mechanism says
+nothing about how shrinkage should order across targets. That is why we
 state the transferable claim as the gap's existence rather than its
 magnitude.
 
@@ -551,9 +547,9 @@ limit of the three files we hold, not of the export.
 \label{sec:scope}
 
 Required CMDB scope is bounded by a property of the estate needing no model:
-the top $8$ items generate $30.2\%$ of incidents, the top $64$ $70.5\%$, and
-the top $128$ --- $5.0\%$ of the training vocabulary --- $82.0\%$, all from a
-frequency count before funding anything.
+the top $8$ items generate $30.2\%$ of training incidents, the top $64$
+$70.5\%$, and the top $128$ --- $5.0\%$ of the training vocabulary ---
+$82.0\%$, all from a frequency count before funding anything.
 
 Identifying only those items recovers most of it. Averaged over five split
 points, the top $8$ recover $56\%$ of the $+0.103$,
@@ -570,16 +566,15 @@ of our field-admission decision.
 
 One organisation, of necessity rather than choice
 (Section~\ref{sec:background}); one platform; six months of 2013 and 2014
-data from an on-premises product whose estate and practice have moved since. The values $+0.183$ and $+0.103$ are properties
-of this estate; the transferable claims are that the gap exists, that it is
-large, that it is graded in the free field's resolution, and that the
-mechanism runs from item to group --- the group's predictive content is
-largely carried by the item. The reverse, that the item column stands in for
-the group, is the leg Section~\ref{sec:mechanism} excludes. Reassignment is
-a proxy for misrouting and also fires on legitimate escalation. The
-within-item shuffle preserves item membership but not other correlates of
-identity, so it bounds the proxy share rather than isolating it. And the
-opening group's distribution drifts between our halves.
+data from an on-premises product whose estate and practice have moved since.
+The values $+0.183$ and $+0.103$ are properties of this estate; what
+transfers is that the gap exists, that it is large, and that the mechanism
+runs from item to group. The reverse --- the item standing in for the group
+--- is the leg Section~\ref{sec:mechanism} excludes. Reassignment is a proxy
+for misrouting and also fires on legitimate escalation; the within-item
+shuffle preserves item membership but not other correlates of identity, so it
+bounds the proxy share rather than isolating it; and the opening group's
+distribution drifts between our halves.
 
 \section{Conclusion}
 
@@ -595,8 +590,8 @@ was already recording for nothing.
 \section*{Acknowledgements and Reproducibility}
 This work benefited from the review and domain challenge of a practitioner
 in IT service management. The dataset is public
-\citep{vandongen2014bpic}; code, figures and a checker that recomputes every
-quantity here are at
+\citep{vandongen2014bpic}; code, figures and a checker that recomputes
+every quantity here:
 \url{https://github.com/sudhirdixit1/cmdb-routing-queue-baseline}.
 
 

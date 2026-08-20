@@ -61,6 +61,8 @@ r11C = pd.read_csv(R / "r11_capacity.csv").set_index("capacity")
 r11O = pd.read_csv(R / "r11_overstatement.csv").iloc[0]
 r11T = pd.read_csv(R / "r11_threshold.csv").set_index("threshold")
 r11Y = pd.read_csv(R / "r11_ties.csv")
+r19S = pd.read_csv(R / "r19_shrinkage_ci.csv").set_index("task")
+r19C = pd.read_csv(R / "r19_right_censor.csv")
 r12Q = pd.read_csv(R / "r12_queue_from_item.csv").iloc[0]
 r13S = pd.read_csv(R / "r13_shape.csv").set_index("split")
 r13R = pd.read_csv(R / "r13_reduced.csv")
@@ -288,7 +290,15 @@ ck("pct cut", 100 * (g0.gain - g1.gain) / g0.gain, "44", 0.6,
    anchor="cuts its measured value")
 
 # ---- mechanism: four direct measurements, no control -------------------
+#  r7 is withdrawn code (see README).  Its overlap CSV agrees with the live
+#  r8_mechanism.csv to the last digit, but a reproducibility artifact should
+#  not route six of section 5's numbers through a file it tells readers to
+#  ignore.  Read the live file and require the two to agree.
 ov = pd.read_csv(R / "r7_overlap.csv").iloc[0]
+_mech_live = pd.read_csv(R / "r8_mechanism.csv").iloc[0]
+if abs(float(ov.queue_gain) - float(_mech_live.queue_gain)) > 1e-9:
+    bad.append("r7_overlap.csv (withdrawn) disagrees with the live "
+               "r8_mechanism.csv on the group gain")
 ck("item gain over intake", ov.item_gain, "+0.183", 6e-4,
    anchor="the item is worth")
 ck("item gain given queue", ov.item_unique, "+0.103", 6e-4,
@@ -497,7 +507,8 @@ else:
 #  between abstract and body, so both are pinned by exact phrase -- that is
 #  the rule this file's v4 rebuild introduced and it still applies.
 ck_phrase("abstract dose-response pinned",
-          r"running $27\%$ to $44\%$ as it goes from one bit to $49$ levels",
+          r"running $27\%$ to $44\%$ from one bit to $49$ levels --- a "
+          r"consistency check rather than an independent prediction",
           "27", 0, "44", 0, "49", 0)
 #  This literal was pinned by phrase and never compared to data -- which is
 #  how a discredited single-draw figure sat in the abstract contradicting
@@ -568,9 +579,9 @@ def _shrink(task):
 
 
 ck("reopen positives", r9T.loc["reopened"].n_pos, "2{,}096", 0,
-   anchor="fires on")
+   anchor="independent failure mode")
 ck("reopen correlation", r9T.loc["reopened"].corr_with_reassigned, "+0.14",
-   0.005, anchor="correlates with reassignment at")
+   0.005, anchor="correlating with reassignment at")
 ck("long-handling correlation", r9T.loc["long-handling"].corr_with_reassigned,
    "+0.40", 0.005, anchor="correlates at")
 ck("reopen gain, intake", _r9("reopened", "intake only", "gain"), "+0.083",
@@ -915,8 +926,8 @@ ck_phrase("scope figures in order",
           r"the top $8$ recover $56\%$ of the $+0.103$, the top $64$ recover "
           r"$88\%$ and the top $128$ recover $93\%$; across those splits the "
           r"three range over $52$--$58\%$, $81$--$93\%$ and $90$--$96\%$",
-          "56", 0, "53", 0, "58", 0, "64", 0, "88", 0, "82", 0, "92", 0,
-          "128", 0, "93", 0, "91", 0, "95", 0)
+          "56", 0, "52", 0, "58", 0, "64", 0, "88", 0, "81", 0, "93", 0,
+          "128", 0, "90", 0, "96", 0)
 #  The paper must keep saying these are ranges, not bootstraps: the Methods
 #  sentence promises bootstraps for every bracketed interval, and a referee
 #  caught the notation being reused for a min-max spread.
@@ -1004,7 +1015,7 @@ for _k8, _k18 in (("random cells, uniform over items",
 ck_phrase("dropped leg floors in order",
           r"partition of items retains \emph{more}, $56\%$, and one whose cell "
           r"sizes follow the group's own mass profile retains $25\%$",
-          "55", 0, "25", 0)
+          "56", 0, "25", 0)
 if not (_unif > _real):
     bad.append("paper excludes the reverse leg because a routing-blind floor "
                "retains MORE; at item level it does not")
@@ -1014,18 +1025,51 @@ else:
 # ---- second-task ranges, split by target -------------------------------
 _second = r9S[r9S.task != "reassigned"].shrink_pct
 _primary = r9S[r9S.task == "reassigned"].shrink_pct
-ck_bound("second-task shrink lo", _second.min(), "30", "lower",
-         anchor="on these two targets")
-ck_bound("second-task shrink hi", _second.max(), "39", "upper",
-         anchor="on these two targets")
-ck_bound("primary shrink lo", _primary.min(), "38", "lower",
-         anchor="on the primary one")
-ck_bound("primary shrink hi", _primary.max(), "47", "upper",
-         anchor="on the primary one")
-ck_phrase("second-task ranges in order",
-          r"ranges from $30\%$ to $39\%$ on these two targets "
-          r"and from $38\%$ to $47\%$ on the primary one",
-          "30", 0, "39", 0, "38", 0, "47", 0)
+#  The shrinkage -- the quantity the paper calls transferable -- now carries
+#  a paired bootstrap interval on every target, which is what showed the
+#  replication claim outrunning its evidence on the near-independent one.
+for _tk, _lo, _hi in (("reassigned", "40", "48"),
+                      ("long-handling", "28", "38"),
+                      ("reopened", "-1", "60")):
+    _r = r19S.loc[_tk]
+    ck_bound(f"shrinkage CI lo, {_tk}", _r.lo, _lo, "lower",
+             anchor="paired bootstraps give")
+    ck_bound(f"shrinkage CI hi, {_tk}", _r.hi, _hi, "upper",
+             anchor="paired bootstraps give")
+ck("reopen P(shrinkage<=0)", r19S.loc["reopened"].p_le_zero, "0.03", 6e-3,
+   anchor="is $0.03$")
+ck_phrase("shrinkage intervals in order",
+          r"$[40,48]$ on reassignment, $[28,38]$ on long handling and "
+          r"$[-1,60]$ on reopening",
+          "40", 0, "48", 0, "28", 0, "38", 0, "-1", 0, "60", 0)
+#  The whole point is that ONE of these includes zero.  Check the shape of
+#  the claim, not only the endpoints.
+if not (r19S.loc["reopened"].lo < 0 < r19S.loc["reopened"].hi):
+    bad.append("paper says reopening's shrinkage interval includes zero; it "
+               "does not")
+else:
+    ok += 1
+if not (r19S.loc["reassigned"].lo > 0 and r19S.loc["long-handling"].lo > 0):
+    bad.append("paper says only reopening is unresolved; another target is too")
+else:
+    ok += 1
+ck_phrase("reopening's shrinkage stated as unresolved",
+          r"is \emph{not} resolvably different from zero")
+ck_phrase("concentration framed as a training-split statistic",
+          r"generate $30.2\%$ of training incidents")
+ck_phrase("draw-count provenance stated accurately",
+          r"the count set by cost and recorded in the code that produces each")
+ck_phrase("replication claim not overstated",
+          r"directionally consistent on both and resolved on neither of "
+          r"the two")
+
+#  right-censoring sensitivity
+ck_bound("right-censor shrink lo", r19C.shrink_pct.min(), "42", "lower",
+         anchor="moves between")
+ck_bound("right-censor shrink hi", r19C.shrink_pct.max(), "45", "upper",
+         anchor="moves between")
+ck_phrase("right-censoring addressed",
+          r"The extract is right-censored too")
 
 # ---- round five ---------------------------------------------------------
 ck("assignment-bearing incidents", r16F.n_both, "37{,}577", 0,
@@ -1161,7 +1205,7 @@ for dead in ["VolvoIT", "ServiceNow-IT", "saturat", "converge above",
 
 # ---- coverage of every literal -----------------------------------------
 STRUCTURAL = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "27",
-              "2027", "2013", "2014", "01", "03", "31", "95", "10"}  # section/date only000", "0.068"}
+              "2027", "2013", "2014", "01", "03", "31", "95", "10"}  # section/date only
 unaccounted = sorted(l for l in LITS if l not in STRUCTURAL and l not in seen)
 
 #  A literal that is only PINNED BY PHRASE has never been compared to data.

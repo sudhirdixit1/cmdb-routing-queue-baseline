@@ -97,6 +97,14 @@ Three rules, all learned the hard way:
   Three ranges shipped rounded inward, each narrower than the data supports.
 - Load-bearing caveats are checked with `ck_phrase(...)` too. Deleting one
   leaves every number correct and the claim wrong.
+
+  **Be precise about what that buys.** It is a hand-curated list, currently
+  about twenty sentences. A referee wrote twenty corruptions of *unguarded*
+  qualifications and fifteen passed all checks — including flipping "a lower
+  bound" to "an upper bound", which reverses the paper's central interpretive
+  claim. There is no general coverage of non-numeric assertions and this file
+  should not imply otherwise. When you add a qualification the argument leans
+  on, add its guard by hand; nothing will remind you.
 - `ck_phrase(...)` pins POSITION, not value. Every literal it names must also
   have its own `ck(...)`. A literal accounted for by a phrase alone is now a
   failure — that gap put a discredited figure in the abstract, contradicting

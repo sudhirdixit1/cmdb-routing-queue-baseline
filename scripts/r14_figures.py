@@ -1,4 +1,14 @@
-"""Replacement figG5: the dose-response and the scoping curve.
+"""figG5: the dose-response.  NO LONGER INCLUDED IN THE PAPER.
+
+Dropped at round eight: the figure plots four point estimates with no error
+bars while the text says the two coarsest have overlapping intervals, so it
+asserted a cleaner trend than the prose allows.  Its four numbers are all in
+the sentence that used to cite it.  Kept so the figure is reproducible if a
+longer format makes room for it WITH intervals.
+
+Original header follows.
+
+Replacement figG5: the dose-response and the scoping curve.
 
 The previous figG5 plotted one split's scoping curve, which is not monotone
 at this resolution and invited an explanation for a wiggle that turned out
