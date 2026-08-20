@@ -794,3 +794,90 @@ raised by a good reviewer anywhere." **All three are now fixed.**
 reviews moved technical soundness 6→5→7→8→7→6-with-new-findings and venue fit
 4→3→3→3→3→2. The second number is the one that decides it, and it has never
 moved.
+
+---
+
+## 18. Round fourteen: reviewed at the target venue, and the answer
+
+The seventh review was scoped to **ML4PM at ICPM** rather than IAAI, because
+five referees had converged on that redirect. Verdict:
+
+> **Weak Accept — 6/10 — ~65% acceptance at ML4PM.**
+
+It independently reimplemented the pipeline from raw CSVs and reproduced
+twelve headline claims, confirmed all three prior blocking defects fixed, and
+said it could not find a fourth of that severity.
+
+### The substantive finding, and it was a real one
+
+§6 calls the shrinkage *"the transferable quantity"*; §7 said it *"reproduces
+on both"* further targets. **Every interval in the paper was on a GAIN.**
+Nobody had bootstrapped the shrinkage itself. `r19_shrinkage_ci.py`:
+
+| target | shrinkage | 95% CI | P(≤0) |
+|---|---|---|---|
+| reassigned | 43.7% | [40, 48] | 0.000 |
+| long-handling | 33.5% | [28, 38] | 0.000 |
+| **reopened** | 33.3% | **[−1, 60]** | **0.03** |
+
+On the one target the paper argues is near-independent, the quantity it
+declares transferable is **not resolvably different from zero**. Long
+handling correlates +0.40 with the primary target and cannot carry a
+replication alone. The paper now says the effect is *directionally consistent
+on both and resolved on neither of the two.*
+
+**Lesson: check that the quantity you call transferable is the quantity you
+put an interval on.** For eight rounds every interval was on a gain while
+every transferability claim was about the shrinkage.
+
+### Right-censoring
+
+The paper removes 1,150 **left**-censored incidents with a two-number
+argument and said nothing about the extract boundary — while citing Weytjens
+and De Weerdt, whose subject that is. Truncating up to a month early moves
+the shrinkage between **42.5% and 44.9%**. Benign, and now stated.
+
+### A correction to our own documentation
+
+The README claimed load-bearing caveats are checked. A referee wrote **twenty
+corruptions of unguarded qualifications and fifteen passed** — including
+flipping *"a lower bound"* to *"an upper bound"*, which reverses the paper's
+central interpretive claim. The guard list is hand-curated, about twenty
+sentences, with **no general coverage of non-numeric assertions**. The README
+now says so. Do not let it drift back.
+
+### Also fixed
+
+- `"recorded beside each figure in the result files"` was **false**: `n_draws`
+  is in three of eight relevant files.
+- §9 called a training-split concentration an estate statistic.
+- `ck_phrase` over-registered stale literals from sentences that had changed,
+  marking absent values as accounted for.
+- Six §5 numbers were read from `r7_overlap.csv` — a **withdrawn** script's
+  file. Now cross-checked against the live one.
+- Related work: added Senderovich et al. (intra/inter-case features) and van
+  der Aalst, Reijers & Song (organisational mining). **The referee cited the
+  second as "van der Aalst & Song"; it is three authors.** Verified, not
+  copied.
+- Figure 3 dropped: four point estimates, no error bars, while the text says
+  two of them overlap.
+
+**329 checks, 91 corruptions**, 0 failed, 0 unaccounted, 0 missed; **188 of
+203 literals compared against data**. Body ends well inside page 6.
+
+### Where this stands
+
+The science is done and it is good. What remains needs the author, not
+another revision round:
+
+1. **Decide the venue.** Everything above assumes ML4PM. If it goes there it
+   needs reformatting to LNBIP (~12 pages), which would *relieve* the
+   compression that is now the paper's weakest axis — three referees have
+   said the six-page limit is strangling it.
+2. **Push the repository.** `r10`–`r19` are not public.
+3. **Rename it.** `cmdb-routing-queue-baseline` embeds the description §3
+   retracts, and that URL is printed in the paper.
+4. **Confirm the Acknowledgements.** It credits a practitioner whose name
+   appears nowhere in this repository, while §§11–18 record the withdrawals
+   as coming from agent-run referee rounds. Only the author can say which is
+   accurate.

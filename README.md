@@ -19,6 +19,7 @@ Single-organisation study on the BPI Challenge 2014 incident log
     python scripts/r16_field_semantics.py  # what the Open-row group actually is
     python scripts/r17_mechanism_floor.py  # the floor, rebuilt at item level
     python scripts/r18_referee_round2.py   # MI nulls, other free fields
+    python scripts/r19_shrinkage_ci.py     # intervals on the SHRINKAGE
     python scripts/r14_figures.py          # the dose-response figure
     python scripts/r4_figures.py    # baseline + coverage figures
     python scripts/r9_figures.py    # overlap diagram, second task
@@ -75,11 +76,11 @@ rewritten. If you are adding a script, print only what your output supports.
 `verify_paper.py` compares every numeric literal in the paper against a
 value computed from a result file or recomputed from the raw data, requires
 each to appear within an anchor phrase, and fails if any literal in the
-paper is unaccounted for. `attack_verifier.py` is its regression suite: 84
+paper is unaccounted for. `attack_verifier.py` is its regression suite: 91
 corruption classes drawn from defects found in earlier versions.
 
-Currently **317 checks, 0 failed, 0 unaccounted; 84 corruptions caught, 0
-missed.** 184 of 198 literals are compared against data; the rest are
+Currently **329 checks, 0 failed, 0 unaccounted; 91 corruptions caught, 0
+missed.** 188 of 203 literals are compared against data; the rest are
 capacity labels.
 
 Three rules, all learned the hard way:
