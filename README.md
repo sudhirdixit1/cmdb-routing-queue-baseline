@@ -9,7 +9,9 @@ Single-organisation study on the BPI Challenge 2014 incident log
     python scripts/r5_final.py    # nulls, mutation sensitivity
     python scripts/r6_final.py    # pooled-uncertainty gains
     python scripts/r8_final.py    # mechanism, design space, scoping
-    python scripts/r4_figures.py  # figure
+    python scripts/r9_second_task.py  # the ladder on two further targets
+    python scripts/r4_figures.py  # baseline + coverage figures
+    python scripts/r9_figures.py  # overlap diagram, second task, scoping
     python scripts/verify_paper.py    # every claim vs the result files
     python scripts/attack_verifier.py # regression suite for the verifier
     python scripts/texlint.py         # structural lint of the LaTeX
@@ -28,8 +30,9 @@ not vendored here), then runs pdflatex, bibtex, pdflatex, pdflatex. Requires
 a TeX distribution providing `pdflatex` — AAAI mandates a `\pdfinfo` block,
 which is a pdfTeX primitive, so xelatex and tectonic will not work.
 
-Current state: 3 pages against a 6-page limit, 0 errors, 0 undefined
-references.
+Current state: 6 pages, 0 errors, 0 undefined references. The body ends on
+page 5 and the references run to page 6; IAAI-27 allows 6 pages with
+references unlimited.
 
 ## Scripts e1-e16 and r1-r3, r7
 

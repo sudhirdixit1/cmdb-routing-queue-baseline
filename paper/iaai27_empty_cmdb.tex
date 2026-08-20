@@ -53,7 +53,8 @@ Adding the queue to a model that already knows the item is worth under
 $0.01$ AUC. And randomising the queue label within each item, which destroys
 the queue's identity but keeps what the item implies about it, still retains
 $91\%$ of the queue's own gain against a matched floor of $2\%$: the routing
-decision is very nearly a function of the affected item. We report two
+decision is very nearly a function of the affected item. The same shrinkage
+reproduces on two further prediction targets from the same log. We report two
 attempts that failed --- a third free-looking field drives the measured gain
 to zero and we could not establish whether it is admissible, and a
 reverse-direction measurement whose defensible nulls disagree.
@@ -197,14 +198,17 @@ without a field the service desk already records.}
 \label{tab:headline}
 \end{table}
 
-\begin{figure}[t]
+%% figure*: the artwork is 6.9in wide.  At \columnwidth (3.31in in this
+%% template) it would be scaled to 48% and its 9pt labels would render at
+%% about 4pt.  Full width renders it close to 1:1.
+\begin{figure*}[t]
 \centering
-\includegraphics[width=\columnwidth]{figG1_baselines.png}
+\includegraphics[width=\textwidth]{figG1_baselines.png}
 \caption{(a) The same quantity under three baselines; the third is
 discussed in Section~\ref{sec:failed}. (b) The ordering holds at every
 temporal split point from $55\%$ to $80\%$.}
 \label{fig:baselines}
-\end{figure}
+\end{figure*}
 
 Against four intake fields the affected item looks decisive. Adding the
 opening queue cuts its measured value by $44\%$. The gains are $28.1$ and
@@ -269,6 +273,19 @@ same randomisation within cells drawn to reproduce the item mass profile,
 retains $2\%$. The margin is $89$ points. Knowing which item an incident
 concerns is very nearly enough to reconstruct the desk's routing decision.
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figG3_overlap.png}
+\caption{(a) The overlap, drawn to scale: each circle's area is that
+field's measured gain over the intake block, and the centre distance is
+solved so that the intersection equals the measured overlap. The queue lies
+almost entirely inside the item. (b) Randomising the queue label within each
+item destroys the queue's own identity and costs little; the same
+randomisation within cells drawn to reproduce the item mass profile
+destroys almost everything.}
+\label{fig:overlap}
+\end{figure*}
+
 \paragraph{What we do not claim.}
 The reverse framing --- that the item column ``stands in for'' the queue ---
 is not established. We measured it, by randomising items within queues, and
@@ -277,6 +294,47 @@ that knows nothing about routing retains $25\%$, and a grouping matched on
 the queue's mass profile retains $-7\%$. Defensible nulls disagree about the
 floor, so the number is not interpretable and we exclude it. The two
 measurements above are what the data supports.
+
+\section{Does It Survive a Change of Task?}
+\label{sec:secondtask}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figG4_secondtask.png}
+\caption{The ladder repeated on two further targets. Bars are the measured
+value of item identity; whiskers are $95\%$ paired bootstrap intervals.}
+\label{fig:secondtask}
+\end{figure}
+
+A gap that appears on one target may be a property of that target. We
+repeated the ladder on two further outcomes from the same cohort, holding
+the cohort, the split, the estimator, the intake block and the null
+construction fixed, and changing only what is predicted.
+
+\emph{Reopening} --- whether an incident was reopened after resolution ---
+is close to an independent failure mode: it fires on $2{,}096$ incidents and
+correlates with reassignment at $+0.14$. \emph{Long handling} --- handle
+time above the training third quartile --- correlates at $+0.40$, so it
+partly re-measures the primary target, and we report it as corroboration
+rather than as independent evidence.
+
+The shrinkage reproduces on both (Figure~\ref{fig:secondtask}). On
+reopening, item identity is worth $+0.083$ against the intake block and
+$+0.055$ once the queue is admitted, a reduction of $33\%$. On long
+handling the two figures are $+0.118$ and $+0.078$, a reduction of $34\%$.
+Every rung on every target sits outside its matched-dimension null, and
+across five split points the reduction ranges from $30\%$ to $46\%$ over
+the three targets.
+
+Two qualifications. Reopening is rare and its intervals are correspondingly
+wide --- its two gains stand $5.5$ and $4.2$ pooled standard deviations
+from their nulls, far short of the margins in
+Section~\ref{sec:result} --- so it establishes the direction of the effect
+and not its size. And the reduction is not constant across targets: it is
+largest on the one the routing queue is most directly about. That is what
+the mechanism in Section~\ref{sec:mechanism} predicts, and it is why we
+state the transferable claim as the existence of the gap rather than its
+magnitude.
 
 \section{One Thing We Could Not Establish}
 \label{sec:failed}
@@ -310,6 +368,15 @@ record does not make it creation-time, and we know of no test on this export
 that settles it.
 
 \section{Estate Concentration}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figG5_scope.png}
+\caption{Identifying only the highest-volume items recovers most of the
+measured value. Coverage is the share of incidents whose item is in the
+identified set.}
+\label{fig:scope}
+\end{figure}
 
 Required CMDB scope is bounded by a property of the estate that needs no
 model. Here the top $8$ items generate $30.2\%$ of incidents, the top $64$

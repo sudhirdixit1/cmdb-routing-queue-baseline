@@ -246,3 +246,51 @@ domain."
 comments, so a `\ref{...}` written inside a `%` comment is reported as an
 undefined label. That is the lint being conservative, not a bug. Reword the
 comment; do not weaken the check (see §5).
+
+---
+
+## 10. The second task (r9) — a claim that survived
+
+`r9_second_task.py` repeats the baseline ladder on two further targets,
+which §8 named as one of the two defensible ways to add substance. It
+holds the cohort, split, estimator, intake block and null construction
+fixed and changes only what is predicted.
+
+| target | corr. with reassigned | gain, intake | gain, +queue | shrinkage |
+|---|---|---|---|---|
+| reassigned | — | +0.183 | +0.103 | 44% |
+| reopened | +0.14 | +0.083 | +0.055 | 33% |
+| long-handling | +0.40 | +0.118 | +0.078 | 34% |
+
+Every rung on every target is outside its matched-dimension null. Across
+five split points the shrinkage ranges 30–46%.
+
+**Read the caveats before quoting this.** Reopening is the only near-
+independent target and it is rare: its two gains are 5.5 and 4.2 pooled sd
+from their nulls, against 28.1 and 17.4 for reassignment. It establishes
+the *direction*, not the size. Long-handling correlates +0.40 with the
+primary target, so it is corroboration, not independent evidence. Both
+caveats are in the paper; do not let a later draft quietly promote them.
+
+**Cross-script note.** `r9` draws its null 50 times, `r6` 100 times, so the
+two disagree on the pooled z of the one row they share (r6: 28.1, r9:
+~27.4). Monte-Carlo dispersion, not a data disagreement — the gain agrees
+to ten decimals. The paper quotes r6 for that row and r9 only for the new
+targets, so no quantity appears twice with two values.
+
+### Figures
+
+`r9_figures.py` writes three. `figG3_overlap.png` is area-faithful: the
+circle areas are the two measured gains and the centre distance is solved
+with `brentq` so the intersection equals the measured overlap. If you
+change the numbers, re-run it rather than editing the picture.
+
+`figG1` is a `figure*`. Its artwork is 6.9in wide; at `\columnwidth`
+(3.31in here) it rendered at 48% and its 9pt labels came out near 4pt.
+
+### Verification
+
+Now **127 checks** and **21 corruptions**, both extended for r9. The
+residue guard caught the phrase "mass-matched" re-entering via a new figure
+caption — that phrase is banned because withdrawn finding #3 was a null
+that did not match mass. Reword; do not delete the guard.

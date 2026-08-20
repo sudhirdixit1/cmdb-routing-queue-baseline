@@ -86,7 +86,8 @@ def main():
     bibtex = str(Path(pdflatex).with_name("bibtex.exe")) \
         if Path(pdflatex).with_name("bibtex.exe").exists() else "bibtex"
 
-    for f in (f"{STEM}.tex", "references.bib", "figG1_baselines.png"):
+    for f in [f"{STEM}.tex", "references.bib"] + \
+             [p.name for p in sorted(PAPER.glob("*.png"))]:
         shutil.copy2(PAPER / f, out / f)
     fetch_kit(out)
 

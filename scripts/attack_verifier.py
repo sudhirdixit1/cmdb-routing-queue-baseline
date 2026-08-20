@@ -32,6 +32,22 @@ CORRUPTIONS = [
     ("break a tabular row", "& $+0.082$ \\\\", "& $+0.082$ \\"),
     ("fabricated literal", "before funding anything.",
      "before funding anything, across $737$ sites."),
+    # -- second task (r9).  A new claim gets the same treatment as an old one.
+    ("swap the reopen gain pair",
+     "worth $+0.083$ against the intake block and $+0.055$",
+     "worth $+0.055$ against the intake block and $+0.083$"),
+    ("inflate reopen shrinkage", "a reduction of $33\\%$", "a reduction of $53\\%$"),
+    ("corrupt long-handling gain", "figures are $+0.118$ and $+0.078$",
+     "figures are $+0.148$ and $+0.078$"),
+    ("corrupt reopen positives", "fires on $2{,}096$ incidents",
+     "fires on $3{,}096$ incidents"),
+    ("overstate target independence",
+     "correlates with reassignment at $+0.14$",
+     "correlates with reassignment at $+0.04$"),
+    ("overstate reopen evidence", "stand $5.5$ and $4.2$ pooled",
+     "stand $25.5$ and $4.2$ pooled"),
+    ("widen the shrinkage range", "ranges from $30\\%$ to $46\\%$",
+     "ranges from $40\\%$ to $46\\%$"),
 ]
 
 

@@ -51,6 +51,9 @@ adm = pd.read_csv(R / "r4_admissibility.csv").set_index("field")
 mutn = pd.read_csv(R / "r5_mutation.csv").set_index("activity")
 sens = pd.read_csv(R / "r5_sensitivity.csv")
 leak = pd.read_csv(R / "r5_leak.csv").iloc[0]
+r9L = pd.read_csv(R / "r9_ladder.csv")
+r9T = pd.read_csv(R / "r9_targets.csv").set_index("task")
+r9S = pd.read_csv(R / "r9_stability.csv")
 
 ok, bad, seen = 0, [], set()
 
@@ -372,6 +375,59 @@ ck("queue groups (cohort)",
    _ac[_ac.IncidentActivity_Type == "Open"]["Assignment Group"].nunique(), "50", 0,
    anchor="groups in the analysed cohort")
 
+
+# ---- second task (r9) ---------------------------------------------------
+def _r9(task, baseline, col):
+    s = r9L[(r9L.task == task) & (r9L.baseline == baseline)]
+    assert len(s) == 1, f"r9_ladder: {task}/{baseline} not unique"
+    return float(s.iloc[0][col])
+
+
+def _shrink(task):
+    g0 = _r9(task, "intake only", "gain")
+    gq = _r9(task, "+ routing queue", "gain")
+    return 100.0 * (g0 - gq) / g0
+
+
+ck("reopen positives", r9T.loc["reopened"].n_pos, "2{,}096", 0,
+   anchor="fires on")
+ck("reopen correlation", r9T.loc["reopened"].corr_with_reassigned, "+0.14",
+   0.005, anchor="correlates with reassignment at")
+ck("long-handling correlation", r9T.loc["long-handling"].corr_with_reassigned,
+   "+0.40", 0.005, anchor="correlates at")
+ck("reopen gain, intake", _r9("reopened", "intake only", "gain"), "+0.083",
+   0.0005, anchor="item identity is worth")
+ck("reopen gain, queue", _r9("reopened", "+ routing queue", "gain"), "+0.055",
+   0.0005, anchor="once the queue is admitted")
+ck("reopen shrinkage", _shrink("reopened"), "33", 0.5,
+   anchor="a reduction of")
+ck("long-handling gain, intake", _r9("long-handling", "intake only", "gain"),
+   "+0.118", 0.0005, anchor="the two figures are")
+ck("long-handling gain, queue",
+   _r9("long-handling", "+ routing queue", "gain"), "+0.078", 0.0005,
+   anchor="the two figures are")
+ck("long-handling shrinkage", _shrink("long-handling"), "34", 0.5,
+   anchor="a reduction of")
+ck("shrinkage range low", r9S.shrink_pct.min(), "30", 0.5,
+   anchor="the reduction ranges from")
+ck("shrinkage range high", r9S.shrink_pct.max(), "46", 0.5,
+   anchor="the reduction ranges from")
+ck("reopen z, intake", _r9("reopened", "intake only", "z_pooled"), "5.5",
+   0.05, anchor="pooled standard deviations")
+ck("reopen z, queue", _r9("reopened", "+ routing queue", "z_pooled"), "4.2",
+   0.05, anchor="pooled standard deviations")
+# the ordered pair must not be swappable without detection
+ck_phrase("reopen gains in order",
+          "worth $+0.083$ against the intake block and $+0.055$",
+          "+0.083", 0, "+0.055", 0)
+ck_phrase("long-handling gains in order",
+          "the two figures are $+0.118$ and $+0.078$", "+0.118", 0,
+          "+0.078", 0)
+# every rung on every target must clear its null, as the paper asserts
+if not (r9L.z_pooled.abs() > 3).all():
+    bad.append("paper claims every r9 rung is outside its null; it is not")
+else:
+    ok += 1
 
 # ---- residue of withdrawn claims ---------------------------------------
 for dead in ["VolvoIT", "ServiceNow-IT", "saturat", "converge above",
