@@ -11,7 +11,7 @@ Three figures:
                    the measured overlap -- so the picture cannot say
                    something the numbers do not.
   figG4_secondtask the baseline ladder repeated on three targets
-  figG5_scope      deployment scoping: recovery against CMDB coverage
+  (figG5_scope is NO LONGER written here; see the note in the body)
 """
 import sys
 from pathlib import Path
@@ -130,21 +130,19 @@ ax.set_title("admitting the queue shrinks the measured value on every target",
 fig.savefig(FIGURES / "figG4_secondtask.png")
 plt.close(fig)
 
-# -------------------------------------------------- Figure 5: scoping
-fig, ax = plt.subplots(figsize=(3.3, 2.6))
-ax.plot(SCOPE.coverage * 100, SCOPE.recovered * 100, "-o", ms=4.5, lw=1.6,
-        color=TEAL)
-for _, rr in SCOPE.iterrows():
-    if int(rr.k) in (8, 64, 256):
-        ax.annotate(f"top {int(rr.k)}", xy=(rr.coverage * 100, rr.recovered * 100),
-                    xytext=(6, -9), textcoords="offset points", fontsize=7.5,
-                    color=SLATE)
-ax.set_xlabel("share of incidents covered (%)", fontsize=8)
-ax.set_ylabel("% of the $+0.103$ recovered", fontsize=8)
-ax.tick_params(labelsize=7.5)
-fig.savefig(FIGURES / "figG5_scope.png")
-plt.close(fig)
+# -------------------------------------------------- Figure 5: WITHDRAWN HERE
+#
+# This script used to write figG5_scope.png from r8_scope.csv -- ONE temporal
+# split's scoping curve.  That curve is not monotone at this resolution, and
+# reading it as an estimate is what produced a spurious "explain the flat"
+# question in review; the across-split range at k=32 is 9 points (r14_scope).
+#
+# figG5_scope.png is now written by r14_figures.py from the split-averaged
+# curve with its band.  Do NOT reinstate a writer here: both scripts wrote the
+# same filename, so whichever ran last silently decided which figure the paper
+# shipped, and the caption only matches one of them.
 
 print(f"overlap solved: R={R:.4f} r={r:.4f} d={d:.4f} "
       f"lens={lens(d, R, r):.5f} target={overlap:.5f}")
-print("written: figG3_overlap.png, figG4_secondtask.png, figG5_scope.png")
+print("written: figG3_overlap.png, figG4_secondtask.png")
+print("figG5_scope.png is written by r14_figures.py -- see the note above.")
