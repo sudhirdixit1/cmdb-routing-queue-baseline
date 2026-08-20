@@ -75,11 +75,12 @@ rewritten. If you are adding a script, print only what your output supports.
 `verify_paper.py` compares every numeric literal in the paper against a
 value computed from a result file or recomputed from the raw data, requires
 each to appear within an anchor phrase, and fails if any literal in the
-paper is unaccounted for. `attack_verifier.py` is its regression suite: 71
+paper is unaccounted for. `attack_verifier.py` is its regression suite: 84
 corruption classes drawn from defects found in earlier versions.
 
-Currently **292 checks, 0 failed, 0 unaccounted; 71 corruptions caught, 0
-missed.**
+Currently **317 checks, 0 failed, 0 unaccounted; 84 corruptions caught, 0
+missed.** 184 of 198 literals are compared against data; the rest are
+capacity labels.
 
 Three rules, all learned the hard way:
 
@@ -96,3 +97,7 @@ Three rules, all learned the hard way:
   Three ranges shipped rounded inward, each narrower than the data supports.
 - Load-bearing caveats are checked with `ck_phrase(...)` too. Deleting one
   leaves every number correct and the claim wrong.
+- `ck_phrase(...)` pins POSITION, not value. Every literal it names must also
+  have its own `ck(...)`. A literal accounted for by a phrase alone is now a
+  failure — that gap put a discredited figure in the abstract, contradicting
+  the paper's own table, for a full revision cycle.

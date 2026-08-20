@@ -699,3 +699,98 @@ the ladder against their live CMDB and triage model, and report what their
 business case said before the measurement and after. That is a genuinely
 valuable IAAI paper nobody has written — and it is a different paper on a
 two-year horizon, not a revision of this one.
+
+---
+
+## 16. Rounds twelve and thirteen: the checker's fifth hole was a category error
+
+Two further reviews. Scores at IAAI: **4, 4**. Technical soundness **7, 6→**
+(the sixth referee docked it for defects it then found). Both reimplemented
+the pipeline from raw CSVs and reproduced every headline number exactly.
+
+### The defect that shipped, and why nothing caught it
+
+The **abstract said 3.9** where Table 2 and the body said **4.3**. 3.9 is
+`262/67` — the single-tie-break-draw estimator round eleven had *already
+abandoned* for the median. The fix landed in two of three places, so the
+discredited number sat in the most-read sentence of the paper, contradicting
+its own table four pages later.
+
+**`verify_paper.py` was built so it could not notice.** `ck_phrase` asserts a
+string is present and marks its numerals accounted-for; it **never compares
+them to data**. Its own docstring said so. Exactly one substantive numeral in
+the paper was pinned by phrase alone — and it was the wrong one.
+
+The checker now separates two things that were conflated:
+
+| set | meaning |
+|---|---|
+| `seen` | this literal is accounted for |
+| `checked` | a value computed from data was compared against it |
+
+A literal in `seen` but not `checked` is now a **failure**. It flagged 3.9
+immediately. **This is the fifth hole found in this checker and the first
+that was a category error rather than a bug** — every prior hole was "the
+test is too weak"; this one was "the test does not exist and the bookkeeping
+said it did."
+
+### The other findings
+
+- **The paper refused a characterisation on page 2 and relied on it on page
+  4.** §3 says calling the non-dominant openers "teams opening their own
+  work" would be "another assertion of the kind we are correcting"; §5 then
+  built the free-field argument on exactly that phrase. The fix for one
+  referee item reintroduced another.
+- **A stated range excluded its own maximum**: "+0.173 to +0.183" against
+  0.18346.
+- **"76--100%"** for the censored cohort took its 100% end from months
+  holding a *single incident*. Replaced with pooled rates, 81.2% vs 40.0%.
+- **The WBS exclusion criterion cuts both ways** and the paper now says so:
+  2,060 of 2,554 items also map to a single opening group, though they carry
+  just 8.8% of incidents. We claim no principled threshold.
+- Limitations said "one task" where two sections report three.
+
+**317 checks, 84 corruptions**, 0 failed, 0 unaccounted, 0 missed; **184 of
+198 literals compared against data**, the remainder being capacity labels.
+
+---
+
+## 17. The venue question is now answered with numbers
+
+The sixth referee was asked to score the paper twice — once for IAAI-27, once
+for the venue it would recommend:
+
+| | IAAI-27 | ML4PM @ ICPM |
+|---|---|---|
+| technical soundness | 6 | 7 |
+| novelty | 4 | 5 |
+| significance to that community | 4 | 6 |
+| **venue fit** | **2** | **8** |
+| clarity | 6 | 7 |
+| reproducibility | 8 | 9 |
+| **overall** | **4** | **6.5 — weak accept** |
+| acceptance | 8–12% | **55–65%** |
+
+Its verdict on "is the remaining weakness the paper or the venue":
+*predominantly the venue* — "move it to ML4PM and the same manuscript goes
+from ~10% to ~55%" — but not only: the three blocking defects above "would be
+raised by a good reviewer anywhere." **All three are now fixed.**
+
+### Why ML4PM specifically
+
+1. The reviewers know this log. BPIC 2014 is canonical there, and the paper's
+   bibliography *is* that community's reading list.
+2. The contribution extends Weytjens & De Weerdt from "avoid leakage" to
+   "your admissible-field choice sets the number the business case turns on"
+   — a live argument there, not a restatement of SAGE.
+3. No deployment requirement. The disqualifying sentence becomes ordinary
+   scoping.
+4. **~12 LNBIP pages.** This manuscript is visibly strangled at six
+   two-column pages; three withdrawal narratives compete with the result.
+5. The self-correction catalogue reads as a methods contribution there and as
+   a confession at IAAI.
+
+**Do not spend another round revising for IAAI-27.** Seven rounds against six
+reviews moved technical soundness 6→5→7→8→7→6-with-new-findings and venue fit
+4→3→3→3→3→2. The second number is the one that decides it, and it has never
+moved.
