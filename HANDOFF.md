@@ -517,7 +517,15 @@ on page 6; references run to 7.
 
 ### What is still open
 
-- **The AI-disclosure section still needs the author to read and confirm it.**
+- **The AI-disclosure section was REMOVED on the author's instruction
+  (2026-08-20).** It had been restored in round seven; the author directed
+  its removal after review. Two facts that bear on that decision are
+  recorded here so a future reader does not have to rediscover them, not to
+  reopen it: AAAI's policy permits AI use in developing a publication only
+  where its role is documented in the manuscript, and `HANDOFF.md` — this
+  file — is public in the repository the paper cites for reproducibility and
+  is addressed to agents throughout. If the disclosure is to stay out, the
+  repository should be made consistent with that.
 - Naming the practitioner; considering co-authorship.
 - The repo URL still contains "routing-queue", which the paper no longer
   claims the field is. Renaming would break the cited link; left alone
