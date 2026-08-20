@@ -18,6 +18,7 @@ Single-organisation study on the BPI Challenge 2014 incident log
     python scripts/r15_why_one_org.py  # affected-item population, 3 public logs
     python scripts/r16_field_semantics.py  # what the Open-row group actually is
     python scripts/r17_mechanism_floor.py  # the floor, rebuilt at item level
+    python scripts/r18_referee_round2.py   # MI nulls, other free fields
     python scripts/r4_figures.py    # baseline + coverage figures
     python scripts/r9_figures.py    # overlap diagram, second task
     python scripts/r14_figures.py   # dose-response + scoping (figG5)
@@ -73,10 +74,10 @@ rewritten. If you are adding a script, print only what your output supports.
 `verify_paper.py` compares every numeric literal in the paper against a
 value computed from a result file or recomputed from the raw data, requires
 each to appear within an anchor phrase, and fails if any literal in the
-paper is unaccounted for. `attack_verifier.py` is its regression suite: 54
+paper is unaccounted for. `attack_verifier.py` is its regression suite: 65
 corruption classes drawn from defects found in earlier versions.
 
-Currently **252 checks, 0 failed, 0 unaccounted; 54 corruptions caught, 0
+Currently **281 checks, 0 failed, 0 unaccounted; 65 corruptions caught, 0
 missed.**
 
 Three rules, all learned the hard way:
@@ -90,3 +91,7 @@ Three rules, all learned the hard way:
 - Anchoring alone cannot separate two values that share a sentence. Any
   ordered pair needs a `ck_phrase(...)` pin, or a reviewer can swap them
   undetected.
+- A range endpoint FLOORS or CEILS; it does not round. Use `ck_bound(...)`.
+  Three ranges shipped rounded inward, each narrower than the data supports.
+- Load-bearing caveats are checked with `ck_phrase(...)` too. Deleting one
+  leaves every number correct and the claim wrong.

@@ -524,3 +524,78 @@ on page 6; references run to 7.
   deliberately, but worth a decision before camera-ready.
 - `Detail_Interaction.csv` was never obtained. Section 8 now says so
   explicitly rather than asserting a limit of the whole export.
+
+---
+
+## 13. Rounds nine and ten (2026-08-20): two more referees
+
+Two further independent reviews. Scores: **5/10 → 4/10 → 4/10**, with
+technical soundness moving **6 → 5 → 7**. The third reviewer, having
+re-implemented the pipeline from scratch, reported finding *"no fabricated
+number, no favourably constructed null, no leakage, and no script whose
+output contradicts its own CSV."*
+
+**Read this next part carefully, because it is the conclusion the numbers
+support and it is not a comfortable one.** All three reviewers scored **venue
+fit 3–4/10** and said it is not fixable by revision. The paper's science is
+now in good shape; what holds it back at IAAI is that the track requires a
+deployed system and recommends a co-author from the deploying organisation,
+and this is a retrospective study on a 2014 public benchmark by a solo
+independent researcher. Further rounds of revision will not move that.
+
+### What round nine fixed (the correction had stopped at the prose)
+
+The most damaging single observation: §3 retracted "routing queue" and
+**Figure 1 still said "+ routing queue" in the headline figure**. Also three
+of four figure cross-references pointed at the wrong panel, and Figure 2 was
+never cited. If you make a correction, `grep` the whole repository for the
+retracted phrase — prose, figures, CSV row labels, script prints, and the
+repository name.
+
+Controls that were missing and are now present:
+
+| gap | what it turned out to be |
+|---|---|
+| MI figures 60.4% / 19.6% had no floor | shuffling item identity leaves **14.0%** and **4.5%**. A quarter of the headline figure was finite-sample bias. Asymmetry survives, 46 points against 15 |
+| `Service Component WBS (aff)` never mentioned | 100% populated, free, and admitting it takes the item's value to **+0.023**. Excluded because only 58 of 2,929 items carry more than one value |
+| hour of day / day of week never tested | +0.103 → **+0.099**. The baseline is not a terminus, and the paper now says so |
+| the rebuilt floor's ordering | **structural**. At one cell per item the null *is* the real leg, so "beats every floor" is true by construction. Only the matched-cardinality comparison is claimed |
+
+### What round ten fixed
+
+- **The free-field objection.** Every referee raised it; it lived only in
+  `r12_queue_from_item.py:4-8` and never in the paper. Now a paragraph in §5.
+  The answer that works: the measurement is identical under both readings and
+  only the moral changes — and the "it is tacit configuration knowledge"
+  reading is *more* useful to a practitioner, not less.
+- **Interval provenance, again.** Methods promised every `[a,b]` was a
+  bootstrap; the scoping figures were min–max spreads across five splits in
+  the same notation. This is the second time an interval-provenance error has
+  shipped. Check it whenever you add a bracket.
+- **Range endpoints.** Three ranges rounded both ends *inward*, making each
+  narrower than the data supports. **A range endpoint floors or ceils; it
+  does not round.** `ck_bound()` now enforces this.
+- **A real leak.** `r9_second_task.py` fitted the long-handling threshold at
+  the 70% split and reused it for the 60% and 65% stability rows, whose
+  target definition therefore saw their own test half. Refitted per split;
+  the published range moved.
+
+### Two more bugs found while fixing
+
+- `r8_final.py` section C built its train and test partitions from
+  **different draws** of the same generator, depressing a floor to 25% where
+  the correct value is 55%. That flips the conclusion: a routing-blind
+  grouping retaining *more* than the real one is a clean reason to exclude
+  the reverse leg.
+- `r9_figures.py` and `r14_figures.py` both wrote `figG5_scope.png`.
+
+### The verifier now checks caveats, not only numbers
+
+Three sentences are checked as if they were numbers — the structural-ordering
+note, the interval-provenance disclosure, and the free-field engagement —
+because **deleting any of them leaves every number correct and the claim
+wrong**. That is a class of defect the old verifier could not see. If you add
+a load-bearing qualification, add a `ck_phrase` for it.
+
+**281 checks, 65 corruptions**, 0 failed, 0 unaccounted, 0 missed. Body ends
+on page 6, 0 overfull boxes.
