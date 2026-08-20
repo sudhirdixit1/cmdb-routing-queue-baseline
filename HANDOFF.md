@@ -599,3 +599,95 @@ a load-bearing qualification, add a `ck_phrase` for it.
 
 **281 checks, 65 corruptions**, 0 failed, 0 unaccounted, 0 missed. Body ends
 on page 6, 0 overfull boxes.
+
+---
+
+## 14. Round eleven, and the conclusion four referees converged on
+
+Fourth independent review. **Reject for IAAI-27 (10–15%)** — with **technical
+soundness 8** and **reproducibility 9**, and the sentence that matters most:
+
+> "It is, on the evidence I could gather, more carefully verified than most
+> papers I review. **It is the wrong paper for this venue.**"
+
+### The worst defect in the paper was in its Limitations, and it was mine
+
+The transferable-claims sentence read *"the mechanism is the item column
+proxying for the opening group"* — the **exact leg §5 excludes** as
+floor-dominated. The paper contradicted itself in the sentence enumerating
+what a reader should carry away, and it survived four revisions **because it
+contains no numeral**. The verifier could not see it.
+
+That is the general lesson of this round: *every number correct, the claim
+wrong* is a real defect class. Seven `ck_phrase` guards now cover the
+load-bearing sentences, and `attack_verifier.py` has prose-only corruptions
+that were **MISSED** until those guards existed.
+
+### And one I introduced while fixing the previous round
+
+The correction comment I added to `r8_final.py` quoted the **pre-fix**
+numbers, so it went stale in the same edit that wrote it — the `r7_final.py`
+defect, committed while removing the `r7_final.py` defect. **When a fix
+changes an output, re-read the comment you just wrote against the new
+output.**
+
+### The rest
+
+| defect | fix |
+|---|---|
+| "every interval excludes zero" covered three gains with no interval anywhere | narrowed to the `+group` rungs, and the verifier checks the file carries them |
+| scope spreads rounded **inward** while every other range rounds outward | 52–58, 81–93, 90–96 via `ck_bound` |
+| abstract claimed the choice is "worth as much as the data" (0.080 vs 0.103) | "nearly as much" |
+| "(0.66 against 0.39)" was the **mean of two overlapping subgroups** sold as a union rate — and the verifier blessed it by averaging the same two rows | both rows reported separately |
+| rebuilt floor reported bare (30 draws, **12 points** of dispersion) | disclosed |
+| Table 2's points are one tie-break draw, its intervals average 400 | disclosed |
+| the free-field paragraph **endorsed** the reading that would falsify the headline | no longer picks a reading |
+| r8 used 50 cells, r18 used 49, so they disagreed on one quoted number | r8 uses the field's own cardinality; both give 56% |
+| 21.35% and 92.56% existed only inside the checker | live producers in `r16` |
+
+**292 checks, 71 corruptions**, 0 failed, 0 unaccounted, 0 missed. Body ends
+on page 6, 0 overfull boxes, 0 undefined references.
+
+---
+
+## 15. STOP REVISING FOR IAAI. Read this before starting a sixth round.
+
+Four independent referees. Scores: **5, 4, 4, 4**. Technical soundness went
+**6 → 5 → 7 → 8**. Venue fit went **4 → 3 → 3 → 3** and never moved, because
+it cannot:
+
+- the track states *"Tools must be deployed"*; the paper's second paragraph
+  states *"We report no deployed system"*;
+- the CFP recommends a co-author from the deploying organisation; there is no
+  deploying organisation involved at all;
+- the data is a 2013–14 public benchmark.
+
+The fourth referee's verdict on strategy: *"Spending a fifth [revision] on
+IAAI-27 is the sunk-cost move."*
+
+**The science is done.** Further rounds will keep finding small things —
+they always do — but they will not move the two scores that decide it.
+
+### Where this should go instead
+
+1. **ICPM** (International Conference on Process Mining) or its **BPI /
+   ML4PM workshops.** The data *is* a BPI Challenge log, the task is
+   textbook predictive process monitoring, and this community owns the
+   baseline-specification and leakage problem the paper is about — it
+   already cites Weytjens & De Weerdt, who are in exactly this line.
+   Single-log studies are normal there. **This is the natural home.**
+2. **Empirical Software Engineering (EMSE)** or **MSR.** Journal length would
+   un-strangle the three withdrawal sections the 6-page limit is crushing,
+   and the artifact would likely earn a badge. A journal article is also
+   stronger evidence for the scholarly-articles criterion than a 6-page
+   conference paper.
+3. **An evaluation/benchmarking venue.** The transferable claim is a
+   benchmarking claim, and such venues do not expect a deployment.
+
+### What would actually make this an IAAI paper
+
+Partner with an operator, put a co-author from that organisation on it, run
+the ladder against their live CMDB and triage model, and report what their
+business case said before the measurement and after. That is a genuinely
+valuable IAAI paper nobody has written — and it is a different paper on a
+two-year horizon, not a revision of this one.
