@@ -81,15 +81,22 @@ print(f"  AUC: intake {roc_auc_score(y, p_intake):.3f}, "
       f"+item {roc_auc_score(y, p_full):.3f}\n")
 
 # -- tie disclosure -------------------------------------------------------
-print("  Tie structure at the capacity cut (why every draw randomises ties):")
+print("  RANK DEGENERACY.  This is not a nuisance, it is a property of the")
+print("  naive baseline and it partly explains the factor below: four")
+print("  low-cardinality intake fields cannot rank finely, so most of the")
+print("  'top 5%' they nominate is drawn from one tied block.\n")
+print(f"  {'model':16s} {'distinct':>9s} {'cap.':>5s} {'tied at cut':>12s} {'above':>8s}")
+tie_rows = []
 for nm, p in (("intake only", p_intake), ("intake + group", p_base)):
-    k = int(round(len(p) * 0.10))
-    cut = np.sort(p)[::-1][k - 1]
-    n_tied = int((p == cut).sum())
-    n_above = int((p > cut).sum())
-    print(f"    {nm:16s} {len(np.unique(p)):>5,} distinct probabilities; "
-          f"at 10% the cut value is shared by {n_tied:,} rows "
-          f"({n_above:,} strictly above)")
+    for frac in CAPACITIES:
+        k = int(round(len(p) * frac))
+        cut = np.sort(p)[::-1][k - 1]
+        n_tied, n_above = int((p == cut).sum()), int((p > cut).sum())
+        tie_rows.append(dict(model=nm, capacity=frac, distinct=len(np.unique(p)),
+                             tied_at_cut=n_tied, strictly_above=n_above))
+        print(f"  {nm:16s} {len(np.unique(p)):>9,} {frac:>5.0%} {n_tied:>12,} "
+              f"{n_above:>8,}")
+pd.DataFrame(tie_rows).to_csv(RESULTS / "r11_ties.csv", index=False)
 
 
 def caught_at(p, frac, rng, idx=None):
@@ -116,7 +123,11 @@ for frac in CAPACITIES:
     _, cf = caught_at(p_full, frac, rng)
     _, ci = caught_at(p_intake, frac, rng)
     _, cn = caught_at(p_int_it, frac, rng)
-    h_pt, n_pt = cf - cb, cn - ci
+    # A referee showed these single-draw counts move by 20+ under a different
+    # tie-break seed alone, because the cut lands inside a large tie block.
+    # The POINT ESTIMATE is now the median over the same draws the interval
+    # averages; the single draw is kept only to report the spread.
+    one_h, one_n = cf - cb, cn - ci
     hb, nb, fb = [], [], []
     for rep in range(N_CAP_BOOT):
         r = np.random.default_rng(SEED + 1000 + rep)
@@ -132,6 +143,7 @@ for frac in CAPACITIES:
         if (b - a) > 0:
             fb.append((d - c) / (b - a))
     hb, nb, fb = np.array(hb), np.array(nb), np.array(fb)
+    h_pt, n_pt = int(round(np.median(hb))), int(round(np.median(nb)))
     hlo, hhi = np.percentile(hb, [2.5, 97.5])
     nlo, nhi = np.percentile(nb, [2.5, 97.5])
     flo, fhi = (np.percentile(fb, [2.5, 97.5]) if len(fb) > 10 else (np.nan, np.nan))
@@ -141,6 +153,7 @@ for frac in CAPACITIES:
                      honest_extra=h_pt, honest_lo=hlo, honest_hi=hhi,
                      naive_extra=n_pt, naive_lo=nlo, naive_hi=nhi,
                      factor=n_pt / h_pt if h_pt else np.nan,
+                     one_draw_honest=one_h, one_draw_naive=one_n,
                      factor_lo=flo, factor_hi=fhi,
                      p_honest_le_zero=p_le0,
                      honest_per_month=h_pt / months))
@@ -156,6 +169,10 @@ print("\n  READ THIS HONESTLY.  The direction is solid at every capacity and")
 print("  the factor is comfortably above one, but the denominator is a count")
 print("  difference of a few dozen incidents and its interval is wide.  The")
 print("  paper reports the factor WITH its interval and does not bold it.")
+print("\n  Point estimates are the MEDIAN of the draws.  A single tie-break")
+print("  draw gives:", ", ".join(
+    f"{r['capacity']:.0%}: honest {r['one_draw_honest']:+d} naive {r['one_draw_naive']:+d}"
+    for r in rows))
 print("  The qualitative claim the PAPER makes is weaker than an earlier")
 print("  version of this line: the overstatement is SEVERAL-FOLD, and larger")
 print("  than the 1.8x by which the omission inflates the AUC gain.  Do not")
@@ -212,4 +229,5 @@ T.to_csv(RESULTS / "r11_threshold.csv", index=False)
 print(f"\n  Magnitude is threshold-dependent -- the +group rung ranges "
       f"{T.gain_queue.min():+.3f} to {T.gain_queue.max():+.3f} --")
 print(f"  but the ordering never reverses and the shrinkage stays between")
-print(f"  {T.shrink_pct.min():.0f}% and {T.shrink_pct.max():.0f}%.  Every interval excludes zero.")
+print(f"  {T.shrink_pct.min():.0f}% and {T.shrink_pct.max():.0f}%.  Each +group rung's interval")
+print("  excludes zero -- we compute intervals for that rung only.")

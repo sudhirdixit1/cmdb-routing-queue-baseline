@@ -1,0 +1,7 @@
+model,capacity,distinct,tied_at_cut,strictly_above
+intake only,0.05,23,1944,47
+intake only,0.1,23,1944,47
+intake only,0.2,23,2437,2039
+intake + group,0.05,132,246,590
+intake + group,0.1,132,566,1269
+intake + group,0.2,132,2180,1962

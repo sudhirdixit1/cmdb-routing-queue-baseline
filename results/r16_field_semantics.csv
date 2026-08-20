@@ -1,2 +1,2 @@
-dominant,groups_open,groups_assignment,groups_all,dom_share_open,dom_share_all,agree_first_assignment,n_both,cohort_varies,open_is_last,first_asg_after_open,median_delay_min,n_no_assignment,n_incidents
-TEAM0008,50,218,240,0.6702452975470246,0.18438703110772342,0.15059743992335736,37577,0.9256407435925641,0.2134858651413486,1.0,46.13333333333333,7878,45455
+dominant,groups_open,groups_assignment,groups_all,dom_share_open,dom_share_all,agree_first_assignment,n_both,cohort_varies,open_is_last,nd_own_first,nd_appears_in_work,n_non_dominant,first_asg_after_open,median_delay_min,n_no_assignment,n_incidents
+TEAM0008,50,218,240,0.6702452975470246,0.18438703110772342,0.15059743992335736,37577,0.9256407435925641,0.2134858651413486,0.21838184338184338,0.5908332777370071,14989,1.0,46.13333333333333,7878,45455

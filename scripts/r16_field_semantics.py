@@ -106,6 +106,25 @@ print(f"  (r4_admissibility.csv reports 92.66% over the whole activity log;")
 print("   the difference is the 1,150 left-censored incidents.)")
 
 print("\n" + "=" * 88)
+print("C3. WHAT THE NON-DOMINANT OPENERS ARE NOT")
+print("=" * 88)
+# An earlier draft glossed the non-dominant openers as "a specialist team
+# opening its own work".  That was an assertion, made two sentences after the
+# paper narrates correcting an assertion.  Measure it instead.
+nd = first_open[first_open != DOM].index
+nd_asg = nd.intersection(first_asg.index)
+own_first = float((first_open[nd_asg] == first_asg[nd_asg]).mean())
+work = A[A.IncidentActivity_Type != "Open"]
+seen_groups = work.groupby("Incident ID")[G].apply(set)
+appears = float(np.mean([g in seen_groups.get(i, set())
+                         for i, g in first_open.loc[nd].items()]))
+print(f"  incidents opened by a non-dominant group: {len(nd):,}")
+print(f"  opener == first Assignment group        : {own_first:.1%}")
+print(f"  opener appears anywhere in the work rows: {appears:.1%}")
+print("\n  So they are NOT teams opening their own work.  The paper reports")
+print("  these two figures and declines to characterise the tail further.")
+
+print("\n" + "=" * 88)
 print("D. THE REAL ROUTING DECISION IS NOT AVAILABLE AT CREATION")
 print("=" * 88)
 o1 = op.sort_values("ts").groupby("Incident ID")["ts"].first()
@@ -130,6 +149,8 @@ pd.DataFrame([dict(
     dom_share_open=share_open, dom_share_all=share_all,
     agree_first_assignment=agree, n_both=len(both),
     cohort_varies=cohort_varies, open_is_last=open_is_last,
+    nd_own_first=own_first, nd_appears_in_work=appears,
+    n_non_dominant=len(nd),
     first_asg_after_open=after, median_delay_min=med_min,
     n_no_assignment=no_asg, n_incidents=len(D),
 )]).to_csv(RESULTS / "r16_field_semantics.csv", index=False)

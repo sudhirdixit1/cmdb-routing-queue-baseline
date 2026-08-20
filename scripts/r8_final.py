@@ -193,7 +193,7 @@ for lab, mu, sd in rows:
 # which is why the paper excludes this leg.  Lesson: when a fix changes an
 # output, re-read the comment you just wrote against the NEW output.
 print(f"\n  The real leg retains {100*rows[0][1]/ig:.0f}% of the item's gain; a routing-blind")
-print(f"  50-cell grouping retains {100*rows[1][1]/ig:.0f}% and a mass-matched one "
+print(f"  {len(qsz)}-cell grouping retains {100*rows[1][1]/ig:.0f}% and a mass-profile one "
       f"{100*rows[2][1]/ig:.0f}%.")
 print("  The three floors disagree by more than the effect, so this leg is not")
 print("  interpretable and is EXCLUDED from the paper.  See section 5's 'What")

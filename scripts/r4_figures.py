@@ -62,7 +62,7 @@ b.set_xlabel("temporal split point (% train)")
 b.set_ylabel("value of item identity (AUC)")
 b.legend(frameon=False, fontsize=7, loc="lower left",
          bbox_to_anchor=(0.02, 0.10))
-b.set_title("(b) stable across splits, at every level", fontsize=8.5)
+b.set_title("(b) the ordering holds at every split point", fontsize=8.5)
 fig.tight_layout(w_pad=2.6)
 fig.savefig(FIGURES / "figG1_baselines.png")
 plt.close(fig)
@@ -82,9 +82,15 @@ for lo, hi in [(28, 42), (42, 60), (65, 78), (82, 92)]:
 ax.set_xlabel("share of incidents covered (%)")
 ax.set_ylabel("% of item-identity gain recovered")
 ax.legend(frameon=False, fontsize=7.5, loc="upper left")
-ax.text(50, 18, "shaded: coverage bands within which\nthe three rules"
-                " differ by at most 2.2 points",
-        fontsize=7.4, color=SLATE)
+# The annotation that used to sit here read "shaded: coverage bands within
+# which the three rules differ by at most 2.2 points" -- a WITHDRAWN claim
+# (r6_final.py section D: uniform-random selection tops out near 40% coverage,
+# so above that this is a two-rule comparison reported as three).  The figure
+# itself is not in the paper and is kept only so the withdrawal is auditable;
+# it now says so on its face rather than asserting the retracted conclusion.
+ax.text(50, 18, "NOT IN THE PAPER.  The convergence claim this figure\n"
+                "was drawn for is WITHDRAWN; see r6_final.py section D.",
+        fontsize=7.4, color=RUST)
 fig.savefig(FIGURES / "figG2_coverage.png")
 plt.close(fig)
 print("written: figG1_baselines.png, figG2_coverage.png")

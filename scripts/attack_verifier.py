@@ -28,13 +28,13 @@ CORRUPTIONS = [
      "against a floor of $2\\%$", "against a floor of $9\\%$"),
     ("corrupt scope top-64", "$64$ recover $88\\%$", "$64$ recover $68\\%$"),
     ("corrupt scope top-8", "top $8$ recover $56\\%$", "top $8$ recover $26\\%$"),
-    ("corrupt design range", "ranges $+0.068$ to", "ranges $+0.088$ to"),
+    ("corrupt design range", "ranges $+0.067$ to", "ranges $+0.087$ to"),
     ("corrupt queue-unique CI", "$[+0.0001,+0.0034]$", "$[+0.0010,+0.0034]$"),
     ("corrupt null", "$-0.0009 \\pm 0.0005$", "$-0.0019 \\pm 0.0005$"),
     ("corrupt cohort figure", "$92.56\\%$", "$95.56\\%$"),
     ("break a tabular row",
-     "& $+262$ [$242,300$] & $3.9$ [$3.2,6.4$] \\\\",
-     "& $+262$ [$242,300$] & $3.9$ [$3.2,6.4$] \\"),
+     "& $+271$ [$242,300$] & $4.3$ [$3.2,6.4$] \\\\",
+     "& $+271$ [$242,300$] & $4.3$ [$3.2,6.4$] \\"),
     ("fabricated literal", "before funding anything.",
      "before funding anything, across $737$ sites."),
     # -- second task (r9).  A new claim gets the same treatment as an old one.
@@ -62,7 +62,7 @@ CORRUPTIONS = [
      "the first rung ranges $+0.173$ to $+0.183$",
      "the first rung ranges $+0.183$ to $+0.173$"),
     ("narrow the estimator shrinkage",
-     "the shrinkage $43\\%$ to $47\\%$", "the shrinkage $43\\%$ to $44\\%$"),
+     "the shrinkage $42\\%$ to $48\\%$", "the shrinkage $43\\%$ to $47\\%$"),
     ("hide the boosting encoder null",
      "$+0.0042 \\pm 0.0020$", "$+0.0002 \\pm 0.0020$"),
     # This one is a real defect that shipped: HANDOFF quoted the max_bins
@@ -71,13 +71,13 @@ CORRUPTIONS = [
 
     # -- r11, the operational translation.
     ("swap a capacity row's two arms",
-     "$+67$ [$43,84$] & $+262$", "$+262$ [$43,84$] & $+67$"),
+     "$+63$ [$43,84$] & $+271$", "$+271$ [$43,84$] & $+63$"),
     ("corrupt a naive catch count",
-     "$+353$ [$304,404$]", "$+853$ [$304,404$]"),
+     "$+361$ [$304,404$]", "$+861$ [$304,404$]"),
     ("inflate the honest detection gain",
-     "surfaces $67$ $[43,84]$ more", "surfaces $167$ $[43,84]$ more"),
+     "surfaces $63$ $[43,84]$ more", "surfaces $163$ $[43,84]$ more"),
     ("inflate the overstatement factor",
-     "by a factor of $3.9$ $[3.2,6.4]$", "by a factor of $9.3$ $[3.2,6.4]$"),
+     "by a factor of $4.3$ $[3.2,6.4]$", "by a factor of $9.3$ $[3.2,6.4]$"),
     ("corrupt the abstract's detection factor",
      "credits the CMDB with $3.9$", "credits the CMDB with $13.9$"),
     ("understate the AUC ratio it is contrasted with",
@@ -120,7 +120,8 @@ CORRUPTIONS = [
     # -- r14, scoping.  The across-split band is what stops a single split's
     #    curve being read as an estimate, so shrinking it is the attack.
     ("shrink the scoping band",
-     "range over $52$--$58$, $81$--$93$", "range over $55$--$57$, $87$--$89$"),
+     "range over $52$--$58\\%$, $81$--$93\\%$",
+     "range over $55$--$57\\%$, $87$--$89\\%$"),
     ("corrupt the across-split spread",
      "across-split spread is $9$ points", "across-split spread is $2$ points"),
     ("corrupt scoping without the group", "--- $89\\%$ at $k=64$",
@@ -157,7 +158,7 @@ CORRUPTIONS = [
     # -- the widest capacity's interval includes zero, which is why the paper
     #    quotes the 5% figure instead.  Hiding that is the attack.
     ("hide that the widest capacity's interval includes zero",
-     "$+18$ [$-28,82$]", "$+18$ [$8,82$]"),
+     "$+28$ [$-28,82$]", "$+28$ [$8,82$]"),
     # -- round three.  Each of these is a control a referee had to compute
     #    because the paper had not, so each gets its own corruption.
     ("hide the finite-sample floor under the MI figures",
@@ -210,11 +211,31 @@ CORRUPTIONS = [
     ("restore the abstract's parity overstatement",
      "worth nearly as much as the data itself",
      "worth as much as the data itself"),
-    ("drop the disclosure that Table 2's points are one draw",
-     "The point estimates are one\nsuch draw", "The point estimates are the\nmedian draw"),
+    ("drop the disclosure of how Table 2's points were taken",
+     "Point estimates and\nintervals are both taken over the same $400$ draws",
+     "Point estimates are a\nrepresentative draw"),
     ("broaden the interval claim back over rungs we do not measure",
      "the interval on\neach $+$group rung excludes zero",
      "every interval excludes zero, on\neach rung"),
+    # -- round six.  The title asserted the mechanism leg section 5 excludes;
+    #    the tail gloss was unevidenced; the naive baseline's rank degeneracy
+    #    partly drives the headline factor and went unreported.
+    ("restore the title that asserts the excluded leg",
+     "Admitting One Free Field Cuts a CMDB's",
+     "Half of Your CMDB's Measured Value Is Knowing"),
+    ("restore the unevidenced 'own work' gloss",
+     "calling them teams opening their own work would be another",
+     "they are teams opening their own work, which would be another"),
+    ("hide the naive baseline's rank degeneracy",
+     "emit only $23$ distinct scores", "emit $2{,}300$ distinct scores"),
+    ("overstate how often the tail opener does its own work",
+     "later work rows only $59.1\\%$", "later work rows only $95.1\\%$"),
+    ("promote the dose-response back to an independent prediction",
+     "That reading implies a consistency check, and it passes",
+     "That reading makes a prediction, and it holds"),
+    ("drop the floor's mass-matching limitation",
+     "matched on cardinality but not on mass",
+     "matched on cardinality and on mass"),
 ]
 
 

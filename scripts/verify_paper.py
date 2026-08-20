@@ -60,6 +60,7 @@ r10N = pd.read_csv(R / "r10_encoder_null.csv").set_index("estimator")
 r11C = pd.read_csv(R / "r11_capacity.csv").set_index("capacity")
 r11O = pd.read_csv(R / "r11_overstatement.csv").iloc[0]
 r11T = pd.read_csv(R / "r11_threshold.csv").set_index("threshold")
+r11Y = pd.read_csv(R / "r11_ties.csv")
 r12Q = pd.read_csv(R / "r12_queue_from_item.csv").iloc[0]
 r13S = pd.read_csv(R / "r13_shape.csv").set_index("split")
 r13R = pd.read_csv(R / "r13_reduced.csv")
@@ -116,12 +117,13 @@ def ck_bound(label, value, printed, kind, anchor):
     global ok
     seen.add(printed)
     v, target = float(value), float(printed.replace("{,}", ""))
-    if kind == "lower" and not (target <= v < target + 1):
-        bad.append(f"{label}: {v:.4g} is not in [{printed}, {target+1:g}) -- "
+    ulp = 10.0 ** (-_decimals(printed))      # the unit the paper printed in
+    if kind == "lower" and not (target <= v < target + ulp):
+        bad.append(f"{label}: {v:.6g} is not in [{printed}, {target+ulp:g}) -- "
                    f"a lower bound must floor")
         return
-    if kind == "upper" and not (target - 1 < v <= target):
-        bad.append(f"{label}: {v:.4g} is not in ({target-1:g}, {printed}] -- "
+    if kind == "upper" and not (target - ulp < v <= target):
+        bad.append(f"{label}: {v:.6g} is not in ({target-ulp:g}, {printed}] -- "
                    f"an upper bound must ceil")
         return
     if printed not in LITS and ("+" + printed) not in LITS:
@@ -301,14 +303,14 @@ ck("mirror: queue within item",
 
 # ---- design-space range --------------------------------------------------
 ds8 = pd.read_csv(R / "r8_design_space.csv")
-ck("design range low", ds8.gain.min(), "+0.068", 6e-4, anchor="cleaning cutoff the second")
-ck("design range high", ds8.gain.max(), "+0.130", 6e-4, anchor="cleaning cutoff the second")
+ck_bound("design range low", ds8.gain.min(), "+0.067", "lower", anchor="cleaning cutoff the second")
+ck_bound("design range high", ds8.gain.max(), "+0.130", "upper", anchor="cleaning cutoff the second")
 
 # ---- stability and sensitivity -----------------------------------------
-ck("stability intake min", stab["intake fields only"].min(), "+0.175", 6e-4, anchor="split points the two")
-ck("stability intake max", stab["intake fields only"].max(), "+0.193", 6e-4, anchor="split points the two")
-ck("stability queue min", stab["+ intake routing queue"].min(), "+0.091", 6e-4, anchor="split points the two")
-ck("stability queue max", stab["+ intake routing queue"].max(), "+0.118", 6e-4, anchor="split points the two")
+ck_bound("stability intake min", stab["intake fields only"].min(), "+0.175", "lower", anchor="split points the two")
+ck_bound("stability intake max", stab["intake fields only"].max(), "+0.194", "upper", anchor="split points the two")
+ck_bound("stability queue min", stab["+ intake routing queue"].min(), "+0.091", "lower", anchor="split points the two")
+ck_bound("stability queue max", stab["+ intake routing queue"].max(), "+0.119", "upper", anchor="split points the two")
 ck("sensitivity category only", sens.iloc[1].gain, "+0.106", 6e-4,
    anchor="Category alone gives")
 ck("sensitivity never-edited", sens.iloc[2].gain, "+0.107", 6e-4,
@@ -501,10 +503,10 @@ ck_phrase("positive rates in order",
 ck_phrase("conclusion restates both gains",
           "worth $+0.183$ or $+0.103$ AUC", "0.183", 0, "0.103", 0)
 ck_phrase("stability ranges in order",
-          r"gains range $+0.175$ to $+0.193$ and $+0.091$ to $+0.118$",
-          "0.175", 0, "0.193", 0, "0.091", 0, "0.118", 0)
+          r"gains range $+0.175$ to $+0.194$ and $+0.091$ to $+0.119$",
+          "+0.175", 0, "+0.194", 0, "+0.091", 0, "+0.119", 0)
 ck_phrase("design range in order",
-          "ranges $+0.068$ to $+0.130$", "+0.068", 0, "+0.130", 0)
+          "ranges $+0.067$ to $+0.130$", "+0.067", 0, "+0.130", 0)
 
 # ---- cohort-restricted scope figures ----------------------------------
 _ids = set(w["Incident ID"])
@@ -615,16 +617,16 @@ ck("estimator range intake lo", r10R.intake_lo, "+0.173", 6e-4,
    anchor="the first rung ranges")
 ck("estimator range intake hi", r10R.intake_hi, "+0.183", 6e-4,
    anchor="the first rung ranges")
-ck("estimator range queue lo", r10R.queue_lo, "+0.092", 6e-4,
-   anchor="the second")
-ck("estimator range queue hi", r10R.queue_hi, "+0.103", 6e-4,
-   anchor="the second")
-ck("estimator shrink lo", r10R.shrink_lo, "43", 0.5, anchor="the shrinkage")
-ck("estimator shrink hi", r10R.shrink_hi, "47", 0.5, anchor="the shrinkage")
+ck_bound("estimator range queue lo", r10R.queue_lo, "+0.091", "lower",
+         anchor="the second")
+ck_bound("estimator range queue hi", r10R.queue_hi, "+0.104", "upper",
+         anchor="the second")
+ck_bound("estimator shrink lo", r10R.shrink_lo, "42", "lower", anchor="the shrinkage")
+ck_bound("estimator shrink hi", r10R.shrink_hi, "48", "upper", anchor="the shrinkage")
 ck_phrase("estimator ranges in order",
-          r"the first rung ranges $+0.173$ to $+0.183$, the second $+0.092$ "
-          r"to $+0.103$, and the shrinkage $43\%$ to $47\%$",
-          "+0.173", 0, "+0.183", 0, "+0.092", 0, "+0.103", 0, "43", 0, "47", 0)
+          r"the first rung ranges $+0.173$ to $+0.183$, the second $+0.091$ "
+          r"to $+0.104$, and the shrinkage $42\%$ to $48\%$",
+          "+0.173", 0, "+0.183", 0, "+0.091", 0, "+0.104", 0, "42", 0, "48", 0)
 _e2 = r10N.loc["E2 logistic, item target-encoded"]
 _e3 = r10N.loc["E3 boosting, item target-encoded"]
 ck("E2 encoder null mean", _e2.null_mean, "-0.0001", 6e-5, anchor="returns")
@@ -640,9 +642,9 @@ ck("boosting bins", bins.n_bins, "137", 0, anchor="bins")
 #  REBUILT.  The first version of this block checked a naive arm computed
 #  from a MISMATCHED treatment model, and a factor printed without an
 #  interval.  Both were referee findings and both changed the number.
-CAPS = [(0.05, "67", "43", "84", "262", "242", "300", "3.9", "3.2", "6.4"),
-        (0.10, "33", "6", "70", "353", "304", "404", "10.7", "5.5", "39.9"),
-        (0.20, "18", "-28", "82", "481", "407", "524", "26.7", "5.8", "221.0")]
+CAPS = [(0.05, "63", "43", "84", "271", "242", "300", "4.3", "3.2", "6.4"),
+        (0.10, "37", "6", "70", "361", "304", "404", "9.8", "5.5", "39.9"),
+        (0.20, "28", "-28", "82", "470", "407", "524", "16.8", "5.8", "221.0")]
 for cap, he, hl, hh, ne, nl, nh, f, fl, fh in CAPS:
     row = r11C.loc[cap]
     tag = f"{cap:.0%}"
@@ -658,30 +660,30 @@ for cap, he, hl, hh, ne, nl, nh, f, fl, fh in CAPS:
     ck(f"cap {tag} factor hi", row.factor_hi, fh, 0.05, anchor=anc)
 #  Every table row pinned by position: nine numbers share one anchor here, so
 #  anchoring alone would let any pair of them swap undetected.
-for _sv in ("+67", "+262", "+33", "+353", "+18", "+481"):
+for _sv in ("+63", "+271", "+37", "+361", "+28", "+470"):
     seen.add(_sv)          # tokeniser yields the signed form for these cells
 ck_phrase("capacity row 5",
-          r"$5\%$  & $+67$ [$43,84$] & $+262$ [$242,300$] & $3.9$ [$3.2,6.4$]",
-          "67", 0, "43", 0, "84", 0, "262", 0, "242", 0, "300", 0,
-          "3.9", 0, "3.2", 0, "6.4", 0)
+          r"$5\%$  & $+63$ [$43,84$] & $+271$ [$242,300$] & $4.3$ [$3.2,6.4$]",
+          "63", 0, "43", 0, "84", 0, "271", 0, "242", 0, "300", 0,
+          "4.3", 0, "3.2", 0, "6.4", 0)
 ck_phrase("capacity row 10",
-          r"$10\%$ & $+33$ [$6,70$]  & $+353$ [$304,404$] & $10.7$ [$5.5,39.9$]",
-          "33", 0, "70", 0, "353", 0, "304", 0, "404", 0,
-          "10.7", 0, "5.5", 0, "39.9", 0)
+          r"$10\%$ & $+37$ [$6,70$]  & $+361$ [$304,404$] & $9.8$ [$5.5,39.9$]",
+          "37", 0, "70", 0, "361", 0, "304", 0, "404", 0,
+          "9.8", 0, "5.5", 0, "39.9", 0)
 ck_phrase("capacity row 20",
-          r"$20\%$ & $+18$ [$-28,82$] & $+481$ [$407,524$] & $26.7$ [$5.8,221.0$]",
-          "18", 0, "-28", 0, "82", 0, "481", 0, "407", 0, "524", 0,
-          "26.7", 0, "5.8", 0, "221.0", 0, "20", 0)
+          r"$20\%$ & $+28$ [$-28,82$] & $+470$ [$407,524$] & $16.8$ [$5.8,221.0$]",
+          "28", 0, "-28", 0, "82", 0, "470", 0, "407", 0, "524", 0,
+          "16.8", 0, "5.8", 0, "221.0", 0, "20", 0)
 ck("test base rate", facts.pos_test * 100, "37.2", 0.06, anchor="it fires on")
-ck("honest per month at 5%", r11C.loc[0.05].honest_per_month, "36", 0.5,
+ck("honest per month at 5%", r11C.loc[0.05].honest_per_month, "34", 0.5,
    anchor="a month at this log's volume")
 ck("auc ratio", r11O.auc_ratio, "1.8", 0.05, anchor="against a ratio of only")
 ck_phrase("headline factor in order",
-          r"overstates the operational gain by a factor of $3.9$ $[3.2,6.4]$, "
+          r"overstates the operational gain by a factor of $4.3$ $[3.2,6.4]$, "
           r"against a ratio of only $1.8$",
-          "3.9", 0, "3.2", 0, "6.4", 0, "1.8", 0)
+          "4.3", 0, "3.2", 0, "6.4", 0, "1.8", 0)
 ck_phrase("factor grows with capacity",
-          r"$10.7$ at $10\%$, $26.7$ at $20\%$", "10.7", 0, "26.7", 0)
+          r"$9.8$ at $10\%$, $16.8$ at $20\%$", "9.8", 0, "16.8", 0)
 #  The paper says the 20% interval includes zero and that is why it quotes 5%.
 if not (r11C.loc[0.20].honest_lo < 0 < r11C.loc[0.20].honest_hi):
     bad.append("paper says the 20% honest interval includes zero; it does not")
@@ -786,7 +788,7 @@ ck_phrase("floor sweep in order",
 ck_phrase("abstract does not claim parity",
           r"worth nearly as much as the data itself")
 ck_phrase("table 2 point-estimate provenance disclosed",
-          r"The point estimates are one such draw")
+          r"Point estimates and intervals are both taken over the same $400$ draws")
 ck_phrase("interval claim scoped to the rungs we measure",
           r"the interval on each $+$group rung excludes zero")
 ck_phrase("free-field objection engaged in the body",
@@ -899,7 +901,7 @@ else:
 ck_phrase("scope figures in order",
           r"the top $8$ recover $56\%$ of the $+0.103$, the top $64$ recover "
           r"$88\%$ and the top $128$ recover $93\%$; across those splits the "
-          r"three range over $52$--$58$, $81$--$93$ and $90$--$96$",
+          r"three range over $52$--$58\%$, $81$--$93\%$ and $90$--$96\%$",
           "56", 0, "53", 0, "58", 0, "64", 0, "88", 0, "82", 0, "92", 0,
           "128", 0, "93", 0, "91", 0, "95", 0)
 #  The paper must keep saying these are ranges, not bootstraps: the Methods
@@ -1018,7 +1020,7 @@ ck("assignment-bearing incidents", r16F.n_both, "37{,}577", 0,
 ck("floor dispersion at matched cells", r17S.loc[49].sd * 100, "12", 0.5,
    anchor="points at $49$ cells")
 ck("capacity bootstrap draws, restated", 400, "400", 0,
-   anchor="the intervals average over")
+   anchor="over the same $400$ draws")
 #  The paper says it computes intervals for the +group rung only.  Verify that
 #  is actually all the threshold file holds, so the narrowed claim is true.
 if not {"lo", "hi"}.issubset(r11T.columns) or r11T[["lo", "hi"]].isna().any().any():
@@ -1043,6 +1045,75 @@ if "mechanism is the item column proxying" in FLAT:
                "claim; see section 5's 'What we do not claim'")
 else:
     ok += 1
+
+# ---- round six: rank degeneracy, and the tail we no longer characterise ----
+_ti = r11Y[(r11Y.model == "intake only") & (r11Y.capacity == 0.05)].iloc[0]
+ck("naive distinct scores", _ti.distinct, "23", 0, anchor="distinct scores")
+ck("naive rows above the 5% cut", _ti.strictly_above, "47", 0,
+   anchor="rows sit strictly above")
+ck("naive tied block at 5%", _ti.tied_at_cut, "1{,}944", 0,
+   anchor="tied block of")
+ck_phrase("rank degeneracy disclosed",
+          r"emit only $23$ distinct scores over $13{,}637$ test incidents, so "
+          r"at $5\%$ capacity just $47$ rows sit strictly above the cut and "
+          r"the rest come from a tied block of $1{,}944$",
+          "23", 0, "47", 0, "1{,}944", 0)
+#  The paper says the naive baseline cannot rank finely.  Check it really is
+#  the coarser of the two, rather than trusting the sentence.
+if not (_ti.distinct < r11Y[(r11Y.model == "intake + group")
+                            & (r11Y.capacity == 0.05)].iloc[0].distinct):
+    bad.append("paper says the naive baseline ranks less finely; it does not")
+else:
+    ok += 1
+
+ck("non-dominant openers, own first assignment",
+   r16F.nd_own_first * 100, "21.8", 0.06, anchor="only $21.8")
+ck("non-dominant openers, appear in work rows",
+   r16F.nd_appears_in_work * 100, "59.1", 0.06, anchor="only $59.1")
+ck_phrase("tail not characterised",
+          r"calling them teams opening their own work would be another "
+          r"assertion of the kind we are correcting")
+#  The gloss is dropped precisely because these are low.  If they were high
+#  the sentence would be wrong in the other direction.
+if r16F.nd_appears_in_work > 0.75:
+    bad.append("paper declines to call the tail 'teams opening their own work' "
+               "because the opener rarely appears in the work rows; it does")
+else:
+    ok += 1
+
+#  The dose-response is a consistency check, not an independent prediction.
+ck_phrase("dose-response framed as a check",
+          r"That reading implies a consistency check, and it passes")
+#  The surviving floor is matched on cardinality but not on mass.
+ck_phrase("floor mass-matching limitation disclosed",
+          r"matched on cardinality but not on mass")
+
+# ---- the TITLE, which body_of() deliberately excludes -------------------
+#  The title is in the preamble, so every check above is blind to it -- and a
+#  corruption that reinstated the retracted title passed the whole suite.
+#  The title is the most-read sentence in the submission; check it here,
+#  against TEX_RAW rather than BODY.
+import re as _re
+_title = _re.search(r"\\title\{(.*?)\}\n", TEX_RAW, _re.S)
+_title_txt = _re.sub(r"\s+", " ", _title.group(1)) if _title else ""
+if not _title_txt:
+    bad.append("could not read the title out of the preamble")
+else:
+    ok += 1
+    #  Section 5 excludes the reverse leg ("the item column stands in for the
+    #  group").  A title asserting that half the value IS the group asserts
+    #  exactly it, which the paper then disowns on page 4.
+    for _banned in ("Measured Value Is Knowing", "Value Is the Routing Queue",
+                    "Is the Routing Queue"):
+        if _banned in _title_txt:
+            bad.append(f"title asserts the mechanism leg section 5 excludes: "
+                       f"'{_banned}'")
+        else:
+            ok += 1
+    if "Cuts a CMDB" not in _title_txt:
+        bad.append(f"title no longer states the measured comparison: {_title_txt!r}")
+    else:
+        ok += 1
 
 # ---- residue of withdrawn claims ---------------------------------------
 for dead in ["VolvoIT", "ServiceNow-IT", "saturat", "converge above",

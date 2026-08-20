@@ -24,8 +24,8 @@
 %% comes out wrong at the template's default of 0.
 \setcounter{secnumdepth}{2}
 
-\title{Half of Your CMDB's Measured Value Is Knowing\\
-Who Opened the Ticket}
+\title{Admitting One Free Field Cuts a CMDB's\\
+Measured Value Nearly in Half}
 
 %% IAAI-27 review is single-blind: identifying information is REQUIRED.
 \author{
@@ -192,9 +192,12 @@ teams that then do the work. One group accounts for $67.0\%$ of
 \texttt{Open} rows but only $18.4\%$ of all activity rows. And the
 \texttt{Open} group matches the group on the incident's first
 \texttt{Assignment} activity for just $15.1\%$ of the $37{,}577$ incidents
-that have one. The field is
-the group that \emph{logged} the incident --- a central service desk for two
-thirds of tickets, a specialist team opening its own work for the rest.
+that have one. The field is the group that \emph{logged} the incident: one central desk for
+two thirds of tickets, a long tail for the rest. We do not characterise that
+tail --- its openers match the first \texttt{Assignment} group only $21.8\%$
+of the time and appear anywhere in the later work rows only $59.1\%$, so
+calling them teams opening their own work would be another assertion of the
+kind we are correcting.
 It is also concentrated and unstable: the largest group holds $62.1\%$ of
 training incidents, and the number of live groups falls from $49$ to $32$
 between our two halves.
@@ -265,9 +268,9 @@ the gain's own bootstrap standard error; dividing by the null alone, as an
 earlier draft did, would report $51$ and $33$.
 
 It is not a split artifact: across six split points the two gains range
-$+0.175$ to $+0.193$ and $+0.091$ to $+0.118$ (Figure~\ref{fig:baselines}b),
+$+0.175$ to $+0.194$ and $+0.091$ to $+0.119$ (Figure~\ref{fig:baselines}b),
 and across split point, target threshold and cleaning cutoff the second
-ranges $+0.068$ to $+0.130$ --- wider than any bootstrap interval, which
+ranges $+0.067$ to $+0.130$ --- wider than any bootstrap interval, which
 conditions on all of those. Nor does the disclosed field editing explain it:
 reducing the intake block to Category alone gives $+0.106$, and restricting
 to the $44{,}227$ never-edited incidents gives $+0.107$.
@@ -281,8 +284,8 @@ sees its own outcome --- which makes the item one continuous feature and
 makes histogram boosting usable on a variable that otherwise collapses
 $2{,}554$ items into $137$ bins. Across one-hot logistic regression,
 logistic regression on the encoded item, and boosting on it, the first rung
-ranges $+0.173$ to $+0.183$, the second $+0.092$ to $+0.103$, and the
-shrinkage $43\%$ to $47\%$. Encoding a
+ranges $+0.173$ to $+0.183$, the second $+0.091$ to $+0.104$, and the
+shrinkage $42\%$ to $48\%$. Encoding a
 \emph{shuffled} item column under the same pipeline returns
 $-0.0001 \pm 0.0016$ and $+0.0042 \pm 0.0020$. The first collapses to zero;
 the second does not quite, and we report it rather than round it away
@@ -331,7 +334,9 @@ anything, the floor rises with the partition's fineness --- $41\%$ at $49$
 cells, matching the field's own cardinality, $77\%$ at $400$
 (Figure~\ref{fig:overlap}b). It is a $30$-draw Monte Carlo and its dispersion
 is wide --- $12$ points at $49$ cells --- so the margin below is indicative,
-not resolved. Note what this sweep cannot show: at one cell
+not resolved. It is also matched on cardinality but not on mass --- the real field is far
+from uniform, and our reverse-leg analysis shows mass-matching can move a
+floor by tens of points --- so it bounds the margin from one side only. Note what this sweep cannot show: at one cell
 per item the null \emph{is} the real leg, so ``the real leg beats every
 floor'' would be true by construction. The informative comparison is at
 matched cardinality, where a grouping that knows nothing about intake
@@ -364,9 +369,12 @@ only $34.1\%$. Item identity resolves the coarse contrast --- central desk or
 specialist team --- and much less of the fine one.
 
 \paragraph{The shrinkage is graded in the field's resolution.}
-That reading makes a prediction, and it holds. Coarsening the group and
-re-running the ladder gives shrinkages of $27\%$, $28\%$, $36\%$ and $44\%$
-at two, four, eleven and $49$ levels (Figure~\ref{fig:dose}). A single
+That reading implies a consistency check, and it passes. Coarsening the
+group and re-running the ladder gives shrinkages of $27\%$, $28\%$, $36\%$
+and $44\%$ at two, four, eleven and $49$ levels (Figure~\ref{fig:dose}). A check rather than a prediction, because at each resolution the shrinkage is
+close to that coarsened field's own gain over intake --- by the identity
+above, the same statement as the first measurement --- and the two coarsest
+points have overlapping intervals, so only the trend is claimed. A single
 binary flag --- central desk or not --- already recovers $61\%$ of the
 group's baseline gain and $63\%$ of the shrinkage. The field that must be
 admitted is close to one bit, far cheaper to reproduce elsewhere than a
@@ -422,16 +430,16 @@ substitution is the decision this paper is about.
 \toprule
 Capacity & honest extra & naive extra & factor \\
 \midrule
-$5\%$  & $+67$ [$43,84$] & $+262$ [$242,300$] & $3.9$ [$3.2,6.4$] \\
-$10\%$ & $+33$ [$6,70$]  & $+353$ [$304,404$] & $10.7$ [$5.5,39.9$] \\
-$20\%$ & $+18$ [$-28,82$] & $+481$ [$407,524$] & $26.7$ [$5.8,221.0$] \\
+$5\%$  & $+63$ [$43,84$] & $+271$ [$242,300$] & $4.3$ [$3.2,6.4$] \\
+$10\%$ & $+37$ [$6,70$]  & $+361$ [$304,404$] & $9.8$ [$5.5,39.9$] \\
+$20\%$ & $+28$ [$-28,82$] & $+470$ [$407,524$] & $16.8$ [$5.8,221.0$] \\
 \bottomrule
 \end{tabular}
 \caption{Extra reassignment-bound incidents surfaced by adding item
 identity, against a baseline that includes the opening group (honest) and
 one that omits it (naive). Paired bootstrap over test rows, with ties at
-the capacity cut broken at random in every draw. The point estimates are one
-such draw; the intervals average over $400$.}
+the capacity cut broken at random in every draw. Point estimates and
+intervals are both taken over the same $400$ draws.}
 \label{tab:capacity}
 \end{table}
 
@@ -444,23 +452,27 @@ identity to intake-plus-group, the naive one to intake alone, mirroring
 Table~\ref{tab:headline}. An earlier draft did not match them, crediting item
 identity with the group's own contribution.
 
-At $5\%$ capacity, knowing the affected item surfaces $67$ $[43,84]$ more
+At $5\%$ capacity, knowing the affected item surfaces $63$ $[43,84]$ more
 reassignment-bound incidents than the intake-plus-group baseline does, or
-about $36$ a month at this log's volume. An analyst who had omitted the
-group would have credited item identity with $262$ $[242,300]$. The
-omission overstates the operational gain by a factor of $3.9$ $[3.2,6.4]$,
+about $34$ a month at this log's volume. An analyst who had omitted the
+group would have credited item identity with $271$ $[242,300]$. The
+omission overstates the operational gain by a factor of $4.3$ $[3.2,6.4]$,
 against a ratio of only $1.8$ between the same two gains measured as AUC.
 
-The factor grows with capacity --- $10.7$ at $10\%$, $26.7$ at $20\%$ ---
+The factor grows with capacity --- $9.8$ at $10\%$, $16.8$ at $20\%$ ---
 but so does its interval: the honest denominator shrinks to a few dozen
 incidents, at $20\%$ it includes zero, and both of those factor intervals are
 conditioned on a positive denominator, which the $5\%$ row does not need. We
 quote the $5\%$ figure and claim only that the overstatement is several-fold
-and larger than the AUC ratio implies. It is larger because AUC averages over
-every operating point while a capacity-limited desk works at one, near the
-top of the ranking where the group-aware baseline is already near its
-ceiling. None of this says a surfaced incident is a corrected one: the log
-records no intervention.
+and larger than the AUC ratio implies. Two things make it larger. AUC averages over every operating point while a
+capacity-limited desk works at one, where the group-aware baseline is already
+near its ceiling. And the naive baseline cannot rank finely: four
+low-cardinality intake fields emit only $23$ distinct scores over $13{,}637$
+test incidents, so at $5\%$ capacity just $47$ rows sit strictly above the
+cut and the rest come from a tied block of $1{,}944$. That is a property of
+the baseline an analyst would actually use, not an artifact of ours, but it
+makes the factor partly about resolution rather than information. None of
+this says a surfaced incident is a corrected one.
 
 \paragraph{Three target definitions.}
 Because reassignment is common, we repeat the ladder at stricter
@@ -538,7 +550,7 @@ anything.
 Identifying only those items recovers most of the measured value. Averaged
 over five temporal split points, the top $8$ recover $56\%$ of the $+0.103$,
 the top $64$ recover $88\%$ and the top $128$ recover $93\%$; across those
-splits the three range over $52$--$58$, $81$--$93$ and $90$--$96$
+splits the three range over $52$--$58\%$, $81$--$93\%$ and $90$--$96\%$.
 These are min--max spreads over a design choice,
 not bootstrap intervals, and we write them as ranges to keep the
 distinction. We report the mean and range rather than one split's curve because a single
