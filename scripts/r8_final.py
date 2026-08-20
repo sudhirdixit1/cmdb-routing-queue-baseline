@@ -163,7 +163,10 @@ for label, mode in [("random cells, uniform over items", "uniform"),
         # where the correct value is 56%).  Build it once, outside.
         items = pd.Index(D[M.IDENT].astype(str).unique())
         if mode == "uniform":
-            lut = pd.Series(r.integers(0, 50, len(items)).astype(str),
+            # Use the field's own cardinality, not a hardcoded 50.  r8 used
+            # 50 here and len(qsz) below, so this table mixed two cell counts
+            # and disagreed with r18 on the same quantity.
+            lut = pd.Series(r.integers(0, len(qsz), len(items)).astype(str),
                             index=items)
         else:
             # ALSO fixed: this branch drew a cell label PER ROW, so two
@@ -181,12 +184,14 @@ for label, mode in [("random cells, uniform over items", "uniform"),
     rows.append((label, v.mean(), v.std()))
 for lab, mu, sd in rows:
     print(f"  {lab:36s} {mu:+.4f} +- {sd:.4f}   = {100*mu/ig:4.0f}% of item gain")
-# CORRECTED 2026-08-20.  These two lines used to read "A random 50-cell
-# grouping of items retains MORE than the real queue", which is the opposite
-# of what the CSV written three lines below says (real 0.0805, random-uniform
-# 0.0450).  The text was stale from a draft in which the null was drawn at row
-# level.  A referee found a live script contradicting its own output -- the
-# exact defect r7_final.py is retained as a record of.
+# CORRECTED TWICE.  On 2026-08-20 these lines were rewritten because they
+# asserted the opposite of the CSV written below them.  The SAME edit fixed
+# the partition bug above, which changed the CSV -- and the replacement
+# comment then quoted the pre-fix numbers, so it went stale the moment it was
+# written.  Corrected again: the current output is real 0.0805 against
+# random-uniform 0.1008, i.e. the routing-blind grouping DOES retain more,
+# which is why the paper excludes this leg.  Lesson: when a fix changes an
+# output, re-read the comment you just wrote against the NEW output.
 print(f"\n  The real leg retains {100*rows[0][1]/ig:.0f}% of the item's gain; a routing-blind")
 print(f"  50-cell grouping retains {100*rows[1][1]/ig:.0f}% and a mass-matched one "
       f"{100*rows[2][1]/ig:.0f}%.")

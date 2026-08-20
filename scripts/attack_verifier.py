@@ -120,7 +120,7 @@ CORRUPTIONS = [
     # -- r14, scoping.  The across-split band is what stops a single split's
     #    curve being read as an estimate, so shrinking it is the attack.
     ("shrink the scoping band",
-     "range over $53$--$58$, $82$--$92$", "range over $55$--$57$, $87$--$89$"),
+     "range over $52$--$58$, $81$--$93$", "range over $55$--$57$, $87$--$89$"),
     ("corrupt the across-split spread",
      "across-split spread is $9$ points", "across-split spread is $2$ points"),
     ("corrupt scoping without the group", "--- $89\\%$ at $k=64$",
@@ -172,8 +172,8 @@ CORRUPTIONS = [
     ("overstate how much hour and day of week move it",
      "from $+0.103$ to $+0.099$", "from $+0.103$ to $+0.049$"),
     ("hide that the routing-blind floor beats the real leg",
-     "partition of items retains \\emph{more}, $55\\%$",
-     "partition of items retains less, $15\\%$"),
+     "partition of items retains \\emph{more}, $56\\%$",
+     "partition of items retains less, $16\\%$"),
     # Deleting this caveat would restore an ordering that holds by
     # construction: at one cell per item the null IS the real leg.
     ("delete the caveat that the ordering is structural",
@@ -195,6 +195,26 @@ CORRUPTIONS = [
     ("narrow the primary-target shrinkage range",
      "from $38\\%$ to $47\\%$ on the primary one",
      "from $39\\%$ to $46\\%$ on the primary one"),
+    # -- round five.  The Limitations sentence carried the EXCLUDED reverse
+    #    leg as a transferable claim through four revisions.  It has no
+    #    numeral, so only a phrase check catches it -- and a residue guard
+    #    now bans the retracted wording outright.
+    ("restore the reversed mechanism direction in Limitations",
+     "the mechanism runs from item to group",
+     "the mechanism is the item column proxying for the opening group"),
+    ("overstate the union of the two edited-field rates",
+     "reassigned at $0.66$ and those whose Urgency was edited at $0.67$",
+     "reassigned at $0.76$ and those whose Urgency was edited at $0.67$"),
+    ("hide the rebuilt floor's Monte-Carlo dispersion",
+     "$12$ points at $49$ cells", "$2$ points at $49$ cells"),
+    ("restore the abstract's parity overstatement",
+     "worth nearly as much as the data itself",
+     "worth as much as the data itself"),
+    ("drop the disclosure that Table 2's points are one draw",
+     "The point estimates are one\nsuch draw", "The point estimates are the\nmedian draw"),
+    ("broaden the interval claim back over rungs we do not measure",
+     "the interval on\neach $+$group rung excludes zero",
+     "every interval excludes zero, on\neach rung"),
 ]
 
 

@@ -4,7 +4,7 @@ Review objection (O5).  Everything in the paper rests on one-hot logistic
 regression at a fixed penalty, so the measured gain could in principle be an
 artifact of L2 shrinkage over 2,554 sparse indicator columns.  r5_final
 REPAIR 6 established why histogram boosting cannot consume the raw item
-column -- 2,554 distinct items collapse into 256 bins -- but that is a reason
+column -- 2,554 distinct items collapse into 137 bins -- but that is a reason
 the estimator was not used, not a demonstration that the result survives a
 different one.
 
@@ -16,7 +16,9 @@ identity onto a single continuous column, so:
     adds ONE column, not 2,554, so there is no regularisation burden left for
     the effect to be an artifact of;
   * histogram boosting becomes usable, because the item is no longer a
-    high-cardinality categorical.
+    high-cardinality categorical.  (r5_binning.py measures 137 distinct bins
+    for the raw column, not the 256 max_bins PARAMETER an earlier version of
+    this docstring quoted.)
 
 Three estimators, everything else held to r4_final -- same cohort, same
 temporal split, same intake block, same opening queue, same target:

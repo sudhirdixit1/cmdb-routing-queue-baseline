@@ -96,6 +96,12 @@ print("=" * 88)
 _v = A.groupby("Incident ID")[G].nunique()
 cohort_varies = float((_v > 1).mean())
 print(f"  varies within incident, cohort only  {cohort_varies:.2%}")
+# The paper's companion figure, 21.35%, had the same defect: its only
+# producer was verify_paper.py.  Compute it here too.
+_last = A.sort_values("ts").groupby("Incident ID")[G].last()
+_shared = first_open.index.intersection(_last.index)
+open_is_last = float((first_open[_shared] == _last[_shared]).mean())
+print(f"  Open group == last observed group    {open_is_last:.2%}")
 print(f"  (r4_admissibility.csv reports 92.66% over the whole activity log;")
 print("   the difference is the 1,150 left-censored incidents.)")
 
@@ -123,7 +129,7 @@ pd.DataFrame([dict(
     groups_assignment=int(asg[G].nunique()), groups_all=n_all,
     dom_share_open=share_open, dom_share_all=share_all,
     agree_first_assignment=agree, n_both=len(both),
-    cohort_varies=cohort_varies,
+    cohort_varies=cohort_varies, open_is_last=open_is_last,
     first_asg_after_open=after, median_delay_min=med_min,
     n_no_assignment=no_asg, n_incidents=len(D),
 )]).to_csv(RESULTS / "r16_field_semantics.csv", index=False)

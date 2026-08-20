@@ -243,7 +243,7 @@ ck("blank ids", facts.n_blank, "203", 0, anchor="incident identifier")
 ck("warm-up removed", facts.n_warmup, "1{,}150", 0, anchor="left-censored")
 ck("analysed", facts.n_analysed, "45{,}455", 0, anchor="Removing them leaves")
 ck("train", facts.n_train, "31{,}818", 0, anchor="training")
-ck("test", facts.n_test, "13{,}637", 0, anchor="test incidents")
+ck("test", facts.n_test, "13{,}637", 0, anchor="$13{,}637$ test")
 ck("positive train", facts.pos_train, "0.413", 6e-4, anchor="positive rates")
 ck("positive test", facts.pos_test, "0.372", 6e-4, anchor="positive rates")
 ck("items in window", facts.n_items_all, "2{,}929", 0, anchor="items")
@@ -322,12 +322,18 @@ ck("impact edits", mutn.loc["Impact Change", "incidents"], "1{,}084", 0, anchor=
 ck("impact pct", mutn.loc["Impact Change", "pct"] * 100, "2.38", 0.006, anchor="Impact on")
 ck("ci edits", mutn.loc["Affected CI Change", "incidents"], "159", 0, anchor="affected item on")
 ck("ci pct", mutn.loc["Affected CI Change", "pct"] * 100, "0.35", 0.006, anchor="affected item on")
-ck("edited reassign rate",
-   mutn.loc[["Impact Change", "Urgency Change"], "y_touched"].mean(), "0.66", 0.006,
-   anchor="more likely to be reassigned")
-ck("clean reassign rate",
-   mutn.loc[["Impact Change", "Urgency Change"], "y_clean"].mean(), "0.39", 0.006,
-   anchor="more likely to be reassigned")
+#  This averaged two OVERLAPPING subgroups and printed the result as if it
+#  were the union rate.  The paper now prints the two rows the result file
+#  actually holds, so the checker reads them separately.
+ck("impact-edited reassign rate", mutn.loc["Impact Change", "y_touched"],
+   "0.66", 6e-3, anchor="whose Impact was edited")
+ck("urgency-edited reassign rate", mutn.loc["Urgency Change", "y_touched"],
+   "0.67", 6e-3, anchor="whose Urgency was edited")
+ck("clean reassign rate", mutn.loc["Impact Change", "y_clean"],
+   "0.39", 6e-3, anchor="for the rest")
+ck_phrase("edited vs clean in order",
+          r"reassigned at $0.66$ and those whose Urgency was edited at $0.67$, "
+          r"against $0.39$ for the rest", "0.66", 0, "0.67", 0, "0.39", 0)
 
 # ---- the section reporting a failure ------------------------------------
 ck("km identity", leak.km_identity * 100, "100.000000", 1e-9, anchor="closed-record column")
@@ -391,7 +397,8 @@ jj = w[["Incident ID"]].merge(
 jj["open_int"] = jj["Incident ID"].map(oi)
 jj["n"] = pd.to_numeric(jj["# Related Interactions"], errors="coerce")
 one = jj[jj.n == 1]
-ck("single-interaction cohort", len(one), "42{,}151", 0, anchor="exactly one related")
+ck("single-interaction cohort", len(one), "42{,}151", 0,
+   anchor="single-interaction")
 ck("interaction identity",
    (one.open_int.astype(str) == one["Related Interaction"].astype(str)).mean() * 100,
    "99.997628", 1e-5, anchor="but so does")
@@ -491,8 +498,6 @@ ck_phrase("mirror leg pinned",
 #  paper now quotes it only as history.  Pinned in the r17 block instead.
 ck_phrase("positive rates in order",
           r"positive rates $0.413$ and $0.372$", "0.413", 0, "0.372", 0)
-ck_phrase("edited vs clean in order",
-          r"($0.66$ against $0.39$)", "0.66", 0, "0.39", 0)
 ck_phrase("conclusion restates both gains",
           "worth $+0.183$ or $+0.103$ AUC", "0.183", 0, "0.103", 0)
 ck_phrase("stability ranges in order",
@@ -775,6 +780,15 @@ ck_phrase("floor sweep in order",
 #  sentence that says so is what stops the section overclaiming.  Deleting it
 #  would leave every number correct and the claim wrong, which is precisely
 #  the failure this file exists to prevent -- so it is checked like a number.
+#  Three more load-bearing qualifications with no numeral in them.  Each was
+#  a corruption the suite MISSED until it was checked as a phrase: deleting
+#  any one restores an overstatement while every number stays correct.
+ck_phrase("abstract does not claim parity",
+          r"worth nearly as much as the data itself")
+ck_phrase("table 2 point-estimate provenance disclosed",
+          r"The point estimates are one such draw")
+ck_phrase("interval claim scoped to the rungs we measure",
+          r"the interval on each $+$group rung excludes zero")
 ck_phrase("free-field objection engaged in the body",
           r"The opening group may be free only because a human at the desk "
           r"already knew what the ticket was about")
@@ -867,13 +881,15 @@ ck("binary share of shrinkage", r13O.binary_share_of_shrinkage, "63", 0.5,
 # ---- r14: scoping ------------------------------------------------------
 #  Curve values come from r14_curve_queue.csv, which is what the figure also
 #  reads, so paper, figure and check cannot drift apart.
-for _k, _mean, _lo, _hi in ((8, "56", "53", "58"), (64, "88", "82", "92"),
-                            (128, "93", "91", "95")):
+#  The spreads are min-max ranges, so their endpoints floor and ceil.  An
+#  earlier version rounded them to nearest, which narrowed all three.
+for _k, _mean, _lo, _hi in ((8, "56", "52", "58"), (64, "88", "81", "93"),
+                            (128, "93", "90", "96")):
     _row = r14C.loc[_k]
     _anc = f"the top ${_k}$ recover"
     ck(f"scope top{_k}", _row.recovered * 100, _mean, 0.5, anchor=_anc)
-    ck(f"scope top{_k} lo", _row.lo * 100, _lo, 0.5, anchor=_anc)
-    ck(f"scope top{_k} hi", _row.hi * 100, _hi, 0.5, anchor=_anc)
+    ck_bound(f"scope top{_k} lo", _row.lo * 100, _lo, "lower", anchor="range over")
+    ck_bound(f"scope top{_k} hi", _row.hi * 100, _hi, "upper", anchor="range over")
 #  The scoping figure must plot the same curve the prose quotes.
 if not (abs(r14F.top64 - r14C.loc[64].recovered) < 1e-9
         and abs(r14F.top128 - r14C.loc[128].recovered) < 1e-9):
@@ -883,7 +899,7 @@ else:
 ck_phrase("scope figures in order",
           r"the top $8$ recover $56\%$ of the $+0.103$, the top $64$ recover "
           r"$88\%$ and the top $128$ recover $93\%$; across those splits the "
-          r"three range over $53$--$58$, $82$--$92$ and $91$--$95$",
+          r"three range over $52$--$58$, $81$--$93$ and $90$--$96$",
           "56", 0, "53", 0, "58", 0, "64", 0, "88", 0, "82", 0, "92", 0,
           "128", 0, "93", 0, "91", 0, "95", 0)
 #  The paper must keep saying these are ranges, not bootstraps: the Methods
@@ -956,7 +972,7 @@ _mass = r18L.loc["random item cells, group-mass matched"].retained * 100
 #  is required to AGREE rather than being quoted.
 ck("dropped leg, equal-size floor",
    100 * drop.loc["random cells, uniform over items", "recovered"] / ov.item_gain,
-   "55", 0.6, anchor="partition of items retains")
+   "56", 0.6, anchor="partition of items retains")
 ck("dropped leg, mass-profile floor",
    100 * drop.loc["random cells, item-mass matched", "recovered"] / ov.item_gain,
    "25", 0.6, anchor="follow the group's own mass profile")
@@ -971,7 +987,7 @@ for _k8, _k18 in (("random cells, uniform over items",
     else:
         ok += 1
 ck_phrase("dropped leg floors in order",
-          r"partition of items retains \emph{more}, $55\%$, and one whose cell "
+          r"partition of items retains \emph{more}, $56\%$, and one whose cell "
           r"sizes follow the group's own mass profile retains $25\%$",
           "55", 0, "25", 0)
 if not (_unif > _real):
@@ -995,6 +1011,38 @@ ck_phrase("second-task ranges in order",
           r"ranges from $30\%$ to $39\%$ on these two targets "
           r"and from $38\%$ to $47\%$ on the primary one",
           "30", 0, "39", 0, "38", 0, "47", 0)
+
+# ---- round five ---------------------------------------------------------
+ck("assignment-bearing incidents", r16F.n_both, "37{,}577", 0,
+   anchor="activity for just")
+ck("floor dispersion at matched cells", r17S.loc[49].sd * 100, "12", 0.5,
+   anchor="points at $49$ cells")
+ck("capacity bootstrap draws, restated", 400, "400", 0,
+   anchor="the intervals average over")
+#  The paper says it computes intervals for the +group rung only.  Verify that
+#  is actually all the threshold file holds, so the narrowed claim is true.
+if not {"lo", "hi"}.issubset(r11T.columns) or r11T[["lo", "hi"]].isna().any().any():
+    bad.append("paper says it computes an interval on each +group rung; "
+               "r11_threshold.csv does not carry them")
+else:
+    ok += 1
+#  21.35% and 92.56% now have live producers as well as the checker.
+if abs(r16F.open_is_last - COHORT_LAST) > 1e-9:
+    bad.append(f"r16 open_is_last={r16F.open_is_last:.6f} disagrees with the "
+               f"checker's {COHORT_LAST:.6f}")
+else:
+    ok += 1
+#  The Limitations section must state the mechanism in the direction the
+#  paper MEASURED, not the reverse leg it excludes.  This sentence carried
+#  the excluded direction through four revisions and contains no numeral, so
+#  only a phrase check can catch it.
+ck_phrase("mechanism direction stated correctly in Limitations",
+          r"the mechanism runs from item to group")
+if "mechanism is the item column proxying" in FLAT:
+    bad.append("Limitations states the EXCLUDED reverse leg as a transferable "
+               "claim; see section 5's 'What we do not claim'")
+else:
+    ok += 1
 
 # ---- residue of withdrawn claims ---------------------------------------
 for dead in ["VolvoIT", "ServiceNow-IT", "saturat", "converge above",

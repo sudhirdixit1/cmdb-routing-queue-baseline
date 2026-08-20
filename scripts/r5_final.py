@@ -112,7 +112,10 @@ print("  key (creation-time, 1:1) identically.  Constancy is evidence of")
 # makes NO claim about this field, and in particular does not call it a leak.
 print("  granularity, not of timing.  The identity test below is not decisive")
 print("  either: Interaction ID, a creation-time key, matches its own")
-print("  closed-record column for 99.997628% of the single-interaction subset.")
+print("  closed-record column for almost -- but not quite -- all of the")
+print("  single-interaction subset.  The exact figure is recomputed in")
+print("  verify_paper.py; do not hardcode it here, which an earlier version")
+print("  of this line did.")
 print("  NEITHER TEST SETTLES THE FIELD.  The paper makes no claim about it.")
 pd.DataFrame([dict(km_identity=ident, n_interaction=n_int, n_incidents=len(D))]
              ).to_csv(RESULTS / "r5_leak.csv", index=False)
