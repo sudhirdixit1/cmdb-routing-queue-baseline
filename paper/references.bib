@@ -77,17 +77,157 @@
   doi     = {10.1145/3301300}
 }
 
-%% ------------------------------------------------------------------------
-%% REMAINING GAP, one item.
-%%
-%%  * A configuration-management reference for CSDM/ITIL.  ServiceNow's CSDM
-%%    whitepaper is the natural citation but is vendor documentation; an ITIL
-%%    4 reference may be preferable.  The paper does not currently lean on
-%%    either -- CSDM maturity claims were withdrawn during review -- so this
-%%    is optional rather than load-bearing.
-%%
-%% The three other gaps listed in an earlier version are now closed:
-%% incident triage is covered by remil2024aiops and zhang2024aiops, prior
-%% work on these logs by teinemaa2019outcome, and the evaluation-methodology
-%% point by rendle2019baselines.
-%% ------------------------------------------------------------------------
+%% ------------------------------------------------------- ITSM and the CMDB
+%% Note on the CMDB gap: a search for empirical work measuring the analytic
+%% value of a CMDB returned essentially nothing peer-reviewed -- the
+%% literature is vendor documentation and practitioner guidance.  That
+%% absence is now stated in the Background rather than papered over with a
+%% vendor whitepaper citation.
+
+@article{marrone2011itil,
+  author  = {Marrone, Mauricio and Kolbe, Lutz M.},
+  title   = {Impact of {IT} Service Management Frameworks on the {IT}
+             Organization: An Empirical Study on Benefits, Challenges and
+             Processes},
+  journal = {Business \& Information Systems Engineering},
+  volume  = {3},
+  number  = {1},
+  pages   = {5--18},
+  year    = {2011}
+}
+
+%% ------------------------------------------- AIOps and incident management
+
+@article{notaro2021aiops,
+  author  = {Notaro, Paolo and Cardoso, Jorge and Gerndt, Michael},
+  title   = {A Survey of {AIOps} Methods for Failure Management},
+  journal = {ACM Transactions on Intelligent Systems and Technology},
+  volume  = {12},
+  number  = {6},
+  year    = {2021},
+  doi     = {10.1145/3483424}
+}
+
+@inproceedings{chen2019triage,
+  author    = {Chen, Junjie and He, Xiaoting and Lin, Qingwei and Zhang,
+               Hongyu and Hao, Dan and Gao, Feng and Xu, Zhangwei and Dang,
+               Yingnong and Zhang, Dongmei},
+  title     = {Continuous Incident Triage for Large-Scale Online Service
+               Systems},
+  booktitle = {Proceedings of the 34th IEEE/ACM International Conference on
+               Automated Software Engineering (ASE)},
+  year      = {2019},
+  doi       = {10.1109/ASE.2019.00042}
+}
+
+@inproceedings{lin2018node,
+  author    = {Lin, Qingwei and Hsieh, Ken and Dang, Yingnong and Zhang,
+               Hongyu and Sui, Kaixin and Xu, Yong and Lou, Jian-Guang and
+               Li, Chenggang and Wu, Youjiang and Yao, Randolph and
+               Chintalapati, Murali and Zhang, Dongmei},
+  title     = {Predicting Node Failure in Cloud Service Systems},
+  booktitle = {Proceedings of the 26th ACM Joint European Software
+               Engineering Conference and Symposium on the Foundations of
+               Software Engineering (ESEC/FSE)},
+  year      = {2018},
+  doi       = {10.1145/3236024.3236060}
+}
+
+%% ------------------------------------- process mining and predictive monitoring
+
+@book{vanderaalst2016process,
+  author    = {van der Aalst, Wil M. P.},
+  title     = {Process Mining: Data Science in Action},
+  publisher = {Springer},
+  edition   = {2nd},
+  year      = {2016},
+  doi       = {10.1007/978-3-662-49851-4}
+}
+
+@article{verenich2019survey,
+  author  = {Verenich, Ilya and Dumas, Marlon and La Rosa, Marcello and
+             Maggi, Fabrizio Maria and Teinemaa, Irene},
+  title   = {Survey and Cross-Benchmark Comparison of Remaining Time
+             Prediction Methods in Business Process Monitoring},
+  journal = {ACM Transactions on Intelligent Systems and Technology},
+  year    = {2019},
+  doi     = {10.1145/3331449}
+}
+
+@article{suriadi2017imperfection,
+  author  = {Suriadi, Suriadi and Andrews, Robert and ter Hofstede, Arthur
+             H. M. and Wynn, Moe Thandar},
+  title   = {Event Log Imperfection Patterns for Process Mining: Towards a
+             Systematic Approach to Cleaning Event Logs},
+  journal = {Information Systems},
+  volume  = {64},
+  pages   = {132--150},
+  year    = {2017}
+}
+
+@inproceedings{weytjens2022leakage,
+  author    = {Weytjens, Hans and De Weerdt, Jochen},
+  title     = {Creating Unbiased Public Benchmark Datasets with Data Leakage
+               Prevention for Predictive Process Monitoring},
+  booktitle = {Business Process Management Workshops},
+  series    = {Lecture Notes in Business Information Processing},
+  volume    = {436},
+  pages     = {18--29},
+  publisher = {Springer},
+  year      = {2022}
+}
+
+%% ------------------------------- baselines, leakage and evaluation rigour
+
+@inproceedings{dacrema2019progress,
+  author    = {Ferrari Dacrema, Maurizio and Cremonesi, Paolo and Jannach,
+               Dietmar},
+  title     = {Are We Really Making Much Progress? A Worrying Analysis of
+               Recent Neural Recommendation Approaches},
+  booktitle = {Proceedings of the 13th ACM Conference on Recommender Systems
+               (RecSys)},
+  year      = {2019},
+  doi       = {10.1145/3298689.3347058}
+}
+
+@article{kaufman2012leakage,
+  author  = {Kaufman, Shachar and Rosset, Saharon and Perlich, Claudia and
+             Stitelman, Ori},
+  title   = {Leakage in Data Mining: Formulation, Detection, and Avoidance},
+  journal = {ACM Transactions on Knowledge Discovery from Data},
+  volume  = {6},
+  number  = {4},
+  year    = {2012},
+  doi     = {10.1145/2382577.2382579}
+}
+
+@article{kapoor2023leakage,
+  author  = {Kapoor, Sayash and Narayanan, Arvind},
+  title   = {Leakage and the Reproducibility Crisis in Machine-Learning-Based
+             Science},
+  journal = {Patterns},
+  volume  = {4},
+  number  = {9},
+  year    = {2023},
+  doi     = {10.1016/j.patter.2023.100804}
+}
+
+@inproceedings{gundersen2018reproducibility,
+  author    = {Gundersen, Odd Erik and Kjensmo, Sigbj{\o}rn},
+  title     = {State of the Art: Reproducibility in Artificial Intelligence},
+  booktitle = {Proceedings of the 32nd AAAI Conference on Artificial
+               Intelligence},
+  year      = {2018}
+}
+
+@inproceedings{bouthillier2021variance,
+  author    = {Bouthillier, Xavier and Delaunay, Pierre and Bronzi, Mirko and
+               Trofimov, Assya and Nichyporuk, Brennan and Szeto, Justin and
+               Mohammadi Sepahvand, Nazanin and Raff, Edward and Madan,
+               Kanika and Voleti, Vikram and Ebrahimi Kahou, Samira and
+               Michalski, Vincent and Arbel, Tal and Pal, Chris and
+               Varoquaux, Ga{\"e}l and Vincent, Pascal},
+  title     = {Accounting for Variance in Machine Learning Benchmarks},
+  booktitle = {Proceedings of Machine Learning and Systems (MLSys)},
+  year      = {2021}
+}

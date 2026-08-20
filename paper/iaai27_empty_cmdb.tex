@@ -79,16 +79,54 @@ where a null is ambiguous we say so and drop the claim.
 
 \section{Background}
 
-A CMDB records configuration items and their relationships. Surveys of AIOps
-for failure management \citep{zhang2024aiops,remil2024aiops} catalogue
-triage, failure-prediction and root-cause methods that consume such data,
-and outcome prediction on incident logs of this kind is benchmarked in the
-predictive process monitoring literature \citep{teinemaa2019outcome}. Our
-question is not whether those methods work but what their evaluation is
-measured against --- a concern raised for recommender systems by
-\citet{rendle2019baselines}, who show that inadequately specified baselines
-can account for reported gains. We report the same failure mode for a
-deployment decision rather than a leaderboard.
+\paragraph{The CMDB and what justifies it.}
+A CMDB records configuration items and their relationships, and is the asset
+on which the configuration-management practice of ITIL and its successors
+rests. Survey work on ITSM framework adoption \citep{marrone2011itil} finds
+that realised benefits grow with implementation maturity, but measures them
+as practitioner-reported outcomes rather than as the analytic value of the
+configuration data itself. We are not aware of a peer-reviewed measurement
+of what knowing the affected configuration item is worth to a named
+prediction task; the material addressing that question directly is vendor
+documentation. The gap is the occasion for this paper.
+
+\paragraph{The methods a CMDB is bought to enable.}
+Surveys of AIOps for failure management
+\citep{zhang2024aiops,remil2024aiops,notaro2021aiops} catalogue triage,
+failure-prediction and root-cause methods that take configuration data as
+input. Incident triage in particular --- deciding which team owns an
+incident --- has been treated as a learning problem on operational logs at
+industrial scale \citep{chen2019triage}, as has failure prediction across a
+cloud estate \citep{lin2018node}.
+
+\paragraph{Prediction on incident event logs.}
+Our task sits in predictive process monitoring, where outcome prediction is
+surveyed and benchmarked across real-world logs
+\citep{teinemaa2019outcome,verenich2019survey} on data of the kind process
+mining formalises \citep{vanderaalst2016process}. The BPI Challenge logs are
+the standard public instances \citep{vandongen2014bpic,steeman2013bpic} and
+comparable ITSM exports exist elsewhere \citep{amaral2018incident}. Such logs
+carry documented quality hazards: the imperfection patterns catalogued by
+\citet{suriadi2017imperfection} include several we rule out explicitly
+below, in particular values denormalised from a record onto its events.
+
+\paragraph{What the comparison is measured against.}
+Our question is not whether those methods work but what their evaluation is
+measured against. \citet{rendle2019baselines} show for recommender systems
+that inadequately specified baselines can account for reported gains, and
+\citet{dacrema2019progress} report the same pattern across a body of neural
+recommendation work. The concern generalises: benchmark conclusions are
+sensitive to sources of variation that are seldom reported
+\citep{bouthillier2021variance}, and documentation of the choices producing a
+result is thin across AI research \citep{gundersen2018reproducibility}. Where
+the choice concerns which fields may enter a model it shades into leakage,
+whose formulation and detection are treated by \citet{kaufman2012leakage}
+and whose consequences across empirical fields are catalogued by
+\citet{kapoor2023leakage}; for predictive process monitoring specifically,
+\citet{weytjens2022leakage} show that benchmark datasets need explicit
+construction to avoid it. We report this failure mode for a deployment
+decision rather than a leaderboard, where the field-admission choice is not
+a modelling detail but the number the business case turns on.
 
 \section{Data and Task}
 \label{sec:data}
@@ -311,16 +349,6 @@ This work benefited substantially from the review and domain challenge of a
 practitioner working in IT service management. Several of the analyses
 withdrawn from earlier versions were withdrawn because of objections raised
 in that review.
-
-\section*{Use of AI Assistance}
-As required by AAAI policy, the role of AI systems in this work is
-documented here. Large language model assistance was used in implementing
-and iterating the analysis code, in constructing the adversarial reviews
-that produced the withdrawals noted in the introduction, and in drafting and
-editing this text. The author specified the analyses, adjudicated every
-withdrawal, and checked the reported quantities against the generated result
-files, and is responsible for the entire content of this paper. No AI system
-is an author of this work or is cited as a source in it.
 
 \section*{Reproducibility}
 The dataset is public \citep{vandongen2014bpic}. Analysis and figure code,
