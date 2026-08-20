@@ -16,6 +16,8 @@ Single-organisation study on the BPI Challenge 2014 incident log
     python scripts/r13_queue_shape.py  # queue concentration, reduced-queue ladder
     python scripts/r14_scope.py        # split-averaged scoping curve
     python scripts/r15_why_one_org.py  # affected-item population, 3 public logs
+    python scripts/r16_field_semantics.py  # what the Open-row group actually is
+    python scripts/r17_mechanism_floor.py  # the floor, rebuilt at item level
     python scripts/r4_figures.py    # baseline + coverage figures
     python scripts/r9_figures.py    # overlap diagram, second task
     python scripts/r14_figures.py   # dose-response + scoping (figG5)
@@ -46,7 +48,9 @@ which is a pdfTeX primitive, so xelatex and tectonic will not work.
 
 Current state: 7 pages, 0 errors, 0 undefined references. The body ends on
 page 6 and the references run to page 7; IAAI-27 allows 6 body pages with
-references unlimited.
+references unlimited. If you add text, re-check this: the body has spilled
+onto page 7 twice and both times it was the closing sections, not the body,
+that had to give.
 
 ## What the paper claims
 
@@ -69,13 +73,17 @@ rewritten. If you are adding a script, print only what your output supports.
 `verify_paper.py` compares every numeric literal in the paper against a
 value computed from a result file or recomputed from the raw data, requires
 each to appear within an anchor phrase, and fails if any literal in the
-paper is unaccounted for. `attack_verifier.py` is its regression suite: 45
+paper is unaccounted for. `attack_verifier.py` is its regression suite: 54
 corruption classes drawn from defects found in earlier versions.
 
-Currently **227 checks, 0 failed, 0 unaccounted; 45 corruptions caught, 0
+Currently **252 checks, 0 failed, 0 unaccounted; 54 corruptions caught, 0
 missed.**
 
-Two rules, both learned the hard way:
+Three rules, all learned the hard way:
+
+- `ck()` tests rounding EQUALITY at the paper's printed precision, not a
+  tolerance. A `6e-4` tolerance on three-decimal literals let three wrong
+  last digits through while the suite reported "0 failed".
 
 - If you add a claim, add a `ck(...)` with an anchor AND a corruption to
   `attack_verifier.py`. The suite is what found the last two holes.

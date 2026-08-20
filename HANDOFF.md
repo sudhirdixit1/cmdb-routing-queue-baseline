@@ -387,3 +387,119 @@ because each anchor sits inside the other's window. Both are pinned with
   from the deploying organisation and it is the cleanest answer to the
   "no deployment" objection. Weigh against a solo-authorship preference.
 - Employer publication clearance, if applicable.
+
+---
+
+## 12. Round eight (2026-08-20): the referee found three real defects
+
+An independent referee reviewed the round-seven draft and returned **weak
+reject, 5/10**. Three findings were substantive and all three were confirmed
+by re-derivation. Two are now reported *in the paper* rather than edited away.
+
+### 1. The central field was not what we said it was
+
+The paper called the `Open`-row Assignment Group "the queue the service desk
+routed it to." **It is the group that logged the incident.** Evidence
+(`r16_field_semantics.py`):
+
+| check | value |
+|---|---|
+| distinct groups, `Open` rows vs `Assignment` rows | 50 vs 218 |
+| dominant group's share of `Open` rows vs all rows | 67.0% vs 18.4% |
+| `Open` group == first `Assignment` group | 15.1% |
+
+A routing destination cannot be less diverse than the teams doing the work.
+
+**The natural repair is not available**, and this is now a result rather than
+a footnote: the first `Assignment` occurs strictly after `Open` on every
+incident that has one (median 46 min), and 7,878 of 45,455 never have one.
+It fails the paper's own admissibility criterion. Substituting it would
+introduce exactly the leakage that criterion exists to prevent.
+
+**No measured number changed.** The field is still on the intake event, still
+100% populated, still free, still absorbs 44%. What changed is the title and
+every sentence that described the field's meaning.
+
+### 2. The mechanism's floor could not fail — fourth time at this
+
+`r8_final.py:118` drew cell labels **per row**, so two incidents sharing an
+item landed in different cells. Shuffling within those cells destroys the
+association by construction; the null could only return ~0. The published
+"retains 2%, margin 89 points" was not a measurement.
+
+Worse: **the same script already does it correctly** in section C, for the leg
+it *drops*. The surviving leg got the permissive null and the dropped leg the
+strict one.
+
+`r17_mechanism_floor.py` rebuilds it as a random partition **of items**:
+
+| cells | 10 | 49 | 100 | 200 | 400 | 800 |
+|---|---|---|---|---|---|---|
+| retained | 9% | **41%** | 54% | 69% | 77% | 82% |
+
+Honest margin at matched cardinality: **50 points, not 89** — and it is a
+function of a granularity knob, so the paper reports the sweep and claims only
+the ordering.
+
+### 3. The operational factor was misconstructed and unresolved
+
+Two defects at once. `r11` used ONE treatment model for both contrasts, so the
+"naive" arm credited item identity with the group's own contribution. And the
+factor was printed bare in a paper that refuses to resolve +0.0017's third
+decimal.
+
+Matched arms + paired bootstrap + random tie-breaking:
+
+| capacity | honest extra | naive extra | factor |
+|---|---|---|---|
+| 5% | +67 [43, 84] | +262 [242, 300] | **3.9 [3.2, 6.4]** |
+| 10% | +33 [6, 70] | +353 [304, 404] | 10.7 [5.5, 39.9] |
+| 20% | +18 [−28, 82] | +481 [407, 524] | 26.7 [5.8, 221.0] |
+
+The paper now quotes the **5%** figure because it is the only well-resolved
+one, and says why. At 20% the denominator's interval includes zero.
+
+### 4. Three printed digits were wrong, and why the verifier missed them
+
+`+0.114`→`+0.113`, `+0.176`→`+0.175`, `0.0006`→`0.0005`. Two flattered the
+claim. Cause: `ck()` compared with `tol=6e-4` against three-decimal literals
+when the half-ulp is `5e-4`.
+
+**`ck()` now tests rounding EQUALITY** at the paper's own printed precision
+(`_rounds_to`). It immediately caught a fourth case — and that one was a
+*false* positive worth understanding: a range's lower bound is **floored**,
+not rounded (76.5% justifies "76--100%", and "77" would be false), so that
+endpoint gets an explicit bound check instead.
+
+### 5. Live scripts narrating withdrawn conclusions
+
+A referee following the README's reproduce instructions ran the pipeline and
+read conclusions the paper disowns. `r8_final.py:162` printed that a random
+grouping retains **MORE** than the real one; `results/r8_dropped_leg.csv`
+written six lines later says 0.0450 vs 0.0805 — **less**. Also `r4_final.py`
+(three sites), `r5_final.py` (three sites). All corrected to state what their
+own output says.
+
+**The README's claim that this defect was confined to `r7_final.py` was
+false.** Do not assume it is confined anywhere; check.
+
+### 6. Two scripts owned one filename
+
+`r9_figures.py` and `r14_figures.py` both wrote `figG5_scope.png`, so
+whichever ran last decided which figure shipped — and only one matched the
+caption. `r14_figures.py` is now the sole writer.
+
+### Verifier
+
+**252 checks, 54 corruptions**, 0 failed, 0 unaccounted, 0 missed. Body ends
+on page 6; references run to 7.
+
+### What is still open
+
+- **The AI-disclosure section still needs the author to read and confirm it.**
+- Naming the practitioner; considering co-authorship.
+- The repo URL still contains "routing-queue", which the paper no longer
+  claims the field is. Renaming would break the cited link; left alone
+  deliberately, but worth a decision before camera-ready.
+- `Detail_Interaction.csv` was never obtained. Section 8 now says so
+  explicitly rather than asserting a limit of the whole export.
