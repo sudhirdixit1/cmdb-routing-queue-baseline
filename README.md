@@ -25,8 +25,11 @@ Single-organisation study on the BPI Challenge 2014 incident log
 
 `data/raw/` must contain Detail_Incident.csv, Detail_Change.csv and
 Detail_Incident_Activity.csv from the BPIC 2014 collection
-(doi:10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35). The raw data is not
-redistributed here.
+(doi:10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35). `r15_why_one_org.py`
+additionally needs incident_event_log.zip (UCI 498,
+doi:10.24432/C57S4H) and BPI_Challenge_2013_incidents.xes.gz
+(doi:10.4121/uuid:500573e6-accc-4b0c-9576-aa5468b10cee). All three are
+public; none is redistributed here.
 
 Note that `r4_final.py` executes its whole analysis at import, so every
 script that does `import r4_final as M` re-runs it. Expect a few minutes per
@@ -66,7 +69,7 @@ rewritten. If you are adding a script, print only what your output supports.
 `verify_paper.py` compares every numeric literal in the paper against a
 value computed from a result file or recomputed from the raw data, requires
 each to appear within an anchor phrase, and fails if any literal in the
-paper is unaccounted for. `attack_verifier.py` is its regression suite: 44
+paper is unaccounted for. `attack_verifier.py` is its regression suite: 45
 corruption classes drawn from defects found in earlier versions.
 
 Currently **227 checks, 0 failed, 0 unaccounted; 45 corruptions caught, 0
