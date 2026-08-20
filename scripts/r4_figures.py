@@ -60,8 +60,10 @@ for c, col in zip(cols, [SLATE, TEAL, RUST]):
 b.axhline(0, color="#333", lw=1)
 b.set_xlabel("temporal split point (% train)")
 b.set_ylabel("value of item identity (AUC)")
-b.legend(frameon=False, fontsize=7, loc="center left")
+b.legend(frameon=False, fontsize=7, loc="lower left",
+         bbox_to_anchor=(0.02, 0.10))
 b.set_title("(b) stable across splits, at every level", fontsize=8.5)
+fig.tight_layout(w_pad=2.6)
 fig.savefig(FIGURES / "figG1_baselines.png")
 plt.close(fig)
 

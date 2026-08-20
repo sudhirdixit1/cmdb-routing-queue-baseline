@@ -176,6 +176,17 @@ stab = []
 for tname, col in TASKS:
     for frac in (0.60, 0.65, 0.70, 0.75, 0.80):
         tr, te = M.split(D, frac)
+        # LEAK, fixed 2026-08-20.  The long-handling threshold was the 75th
+        # percentile of the FIRST 70% of rows, computed once above and reused
+        # for every split.  At cuts of 0.60 and 0.65 that threshold had seen
+        # rows in the split's own test half.  Refit the target definition on
+        # each split's training rows before measuring that split.
+        if col == "_longh":
+            n_tr = int(len(D) * frac)
+            q = _ht.iloc[:n_tr].quantile(0.75)
+            tr = tr.copy(); te = te.copy()
+            tr[col] = (_ht.iloc[:n_tr].values > q).astype(int)
+            te[col] = (_ht.iloc[n_tr:].values > q).astype(int)
         g0 = auc(tr, te, M.INTAKE + [M.IDENT], col) - auc(tr, te, M.INTAKE, col)
         gq = auc(tr, te, BQ + [M.IDENT], col) - auc(tr, te, BQ, col)
         stab.append(dict(task=tname, cut=frac, gain_intake=g0, gain_queue=gq,

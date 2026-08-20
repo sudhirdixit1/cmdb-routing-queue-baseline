@@ -126,7 +126,10 @@ print(f"  agreement                                   {abs(resid-g_direct):.4f}"
 # decomposition below is also an algebraic identity (withdrawn finding 7).
 print(f"\n  {100*vals.mean()/g_naive:.0f}% of the naive gain survives this shuffle, but DO NOT")
 print("  read that as the item standing in for the group: a routing-blind")
-print("  equal-size partition of items retains MORE (56%).  The leg is")
+print(f"  equal-size partition of items retains MORE "
+      f"({100*pd.read_csv(RESULTS / 'r8_dropped_leg.csv').set_index('leg')"
+      f".loc['random cells, uniform over items', 'recovered'] / g_naive:.0f}%)."
+      f"  The leg is")
 print("  floor-dominated and the paper excludes it.  The 'decomposition")
 print("  closes' framing is withdrawn finding 7 -- it is an algebraic")
 print("  identity, not a measurement.")

@@ -150,7 +150,7 @@ print(f"  binary flag -- main pool or not -- recovers "
 print(f"  baseline gain and {100*(g_intake-b.item_gain)/(g_intake-f.item_gain):.0f}% of the shrinkage it causes; the remaining")
 print("  resolution supplies the rest.  For a practitioner this matters more")
 print("  than the headline: the field that has to be admitted to the baseline")
-print("  is far cheaper to reproduce elsewhere than a 50-way routing taxonomy.")
+print("  is far cheaper to reproduce elsewhere than a 49-way group taxonomy.")
 pd.DataFrame([dict(
     binary_queue_gain=float(b.queue_gain), full_queue_gain=float(f.queue_gain),
     binary_share_of_queue=100 * float(b.queue_gain / f.queue_gain),

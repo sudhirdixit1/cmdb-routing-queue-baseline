@@ -84,15 +84,17 @@ CORRUPTIONS = [
      "against a ratio of only $1.8$", "against a ratio of only $1.1$"),
     ("swap the threshold ladder pair",
      "gives $+0.131$ and $+0.068$", "gives $+0.068$ and $+0.131$"),
+    # Range endpoints floor and ceil; narrowing either makes the stated
+    # range untrue, which ck_bound now catches.
     ("narrow the threshold shrinkage band",
-     "between $44\\%$ and $48\\%$", "between $44\\%$ and $45\\%$"),
+     "between $43\\%$ and $49\\%$", "between $44\\%$ and $48\\%$"),
 
     # -- r12/r13, the queue's shape and the model-free mechanism.  The
     #    balanced-accuracy figure is the one that keeps the mechanism claim
     #    honest, so removing it is the most damaging single edit available.
     ("hide the class-balanced lookup accuracy",
-     "class-balanced it reaches only $34.1\\%$",
-     "class-balanced it reaches only $74.1\\%$"),
+     "class-balanced reaches only $34.1\\%$",
+     "class-balanced reaches only $74.1\\%$"),
     ("overstate what the item tells you about the group",
      "carries $60.4\\%$ of the opening group's",
      "carries $90.4\\%$ of the opening group's"),
@@ -117,7 +119,8 @@ CORRUPTIONS = [
 
     # -- r14, scoping.  The across-split band is what stops a single split's
     #    curve being read as an estimate, so shrinking it is the attack.
-    ("shrink the scoping band", "$88\\%$ $[82,92]$", "$88\\%$ $[87,89]$"),
+    ("shrink the scoping band",
+     "range over $53$--$58$, $82$--$92$", "range over $55$--$57$, $87$--$89$"),
     ("corrupt the across-split spread",
      "across-split spread is $9$ points", "across-split spread is $2$ points"),
     ("corrupt scoping without the group", "--- $89\\%$ at $k=64$",
@@ -179,6 +182,19 @@ CORRUPTIONS = [
     ("misstate the capacity table's bootstrap draws",
      "re-ranked in each draw and use $400$",
      "re-ranked in each draw and use $4000$"),
+    # -- round four.
+    ("delete the engagement with the free-field objection",
+     "The opening group may be free only because a human at the desk",
+     "The opening group is free because nobody at the desk"),
+    ("reuse bootstrap notation for the across-split spread",
+     "These are min--max spreads over a design choice, not bootstrap",
+     "These are 95% bootstrap intervals, like every other"),
+    ("restore over-precise z statistics",
+     "roughly $28$ and\n$17$ standard deviations",
+     "roughly $28.1$ and\n$17.4$ standard deviations"),
+    ("narrow the primary-target shrinkage range",
+     "from $38\\%$ to $47\\%$ on the primary one",
+     "from $39\\%$ to $46\\%$ on the primary one"),
 ]
 
 

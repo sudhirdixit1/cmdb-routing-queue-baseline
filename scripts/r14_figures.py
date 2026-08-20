@@ -40,23 +40,24 @@ fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(3.31, 4.5))
 lv = RED.levels.values
 sh = RED.shrink_pct.values
 ax1.plot(lv, sh, "-o", color=TEAL, lw=1.8, ms=6, zorder=3)
-# The first and last labels are nudged inward so neither collides with
-# the axis; every other label is centred on its marker.
-NUDGE = {0: (7, "left"), 3: (-6, "right")}
-for j, (x, y, lab) in enumerate(zip(lv, sh, ["binary", "top 3", "top 10", "full"])):
-    dx, ha = NUDGE.get(j, (0, "center"))
+# The 2 and 4 levels sit close together on a log axis, so inline name
+# labels collided ("binary" over "top 3") and so did the 27%/28% callouts.
+# The names move onto the tick labels, and the percentages alternate above
+# and below the line.
+OFF = [(0, 11), (0, -17), (0, 11), (0, 11)]
+for j, (x, y) in enumerate(zip(lv, sh)):
     ax1.annotate(f"{y:.0f}%", (x, y), textcoords="offset points",
-                 xytext=(dx, 9), ha=ha, fontsize=8.5,
+                 xytext=OFF[j], ha="center", fontsize=8.5,
                  color=TEAL, fontweight="bold")
-    ax1.annotate(lab, (x, y), textcoords="offset points",
-                 xytext=(dx, -14), ha=ha, fontsize=8, color=SLATE)
 ax1.set_xscale("log")
 ax1.set_xticks(lv)
-ax1.set_xticklabels([str(v) for v in lv])
+ax1.set_xticklabels([f"{v}\n({n})" for v, n in
+                     zip(lv, ["binary", "top 3", "top 10", "full"])],
+                    fontsize=8)
 ax1.minorticks_off()
 ax1.set_xlabel("levels retained in the opening group")
 ax1.set_ylabel("shrinkage in the item's\nmeasured value (%)")
-ax1.set_ylim(17, 53)
+ax1.set_ylim(19, 51)
 ax1.set_xlim(1.75, 62)
 ax1.set_title("(a) graded in the field's resolution", fontsize=9)
 

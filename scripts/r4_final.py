@@ -147,7 +147,7 @@ M = pd.DataFrame(main)
 M.to_csv(RESULTS / "r4_baselines.csv", index=False)
 
 g_intake = M.iloc[0].gain; g_queue = M.iloc[1].gain; g_km = M.iloc[2].gain
-print(f"\n  omitting the routing queue inflates the gain by "
+print(f"\n  omitting the opening group inflates the gain by "
       f"{100*(g_intake-g_queue)/g_queue:.0f}%")
 print(f"  admitting the knowledge reference would take it to {g_km:+.3f}")
 # CORRECTED 2026-08-20.  "That is the finding" pointed at a claim the paper

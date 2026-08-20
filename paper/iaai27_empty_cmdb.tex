@@ -85,11 +85,10 @@ in.
 Earlier versions reported larger findings withdrawn under adversarial
 review, each an artifact of a control we built ourselves. Three corrections
 survive here as reported results rather than silent edits, because each is
-the kind of error this paper is about: a mechanism null that could not fail
-(Section~\ref{sec:mechanism}), an operational factor first reported without
-an interval (Section~\ref{sec:buys}), and --- the one that cost us a title
---- a central field whose meaning we asserted rather than checked
-(Section~\ref{sec:data}).
+the kind of error this paper is about: a null that could not fail
+(Section~\ref{sec:mechanism}), a factor reported without an interval
+(Section~\ref{sec:buys}), and a central field whose meaning we asserted
+rather than checked (Section~\ref{sec:data}).
 
 \section{Background}
 \label{sec:background}
@@ -131,26 +130,24 @@ Challenge logs are the standard public instances
 onto its events, which we rule out below.
 
 \paragraph{What the comparison is measured against.}
-The quantity we report --- the value of a feature \emph{given} a baseline
---- is what algorithm-agnostic variable-importance frameworks formalise
-\citep{williamson2021vimp}, and the overlap we measure is the feature
-interaction additive importance measures are built to handle
+The value of a feature \emph{given} a baseline is what algorithm-agnostic
+variable-importance frameworks formalise \citep{williamson2021vimp}, and our
+overlap is the interaction additive importance measures handle
 \citep{covert2020sage}. That measured importance depends on what the model
-already has is therefore not news as a statistical fact; what is not
-established is its magnitude for configuration data on a named operational
-task, or that the field it overlaps with is one the organisation already
-records for nothing. \citet{rendle2019baselines} show for recommender
-systems that inadequately specified baselines can account for reported
-gains, and \citet{dacrema2019progress} report the same across neural
-recommendation work. Benchmark conclusions are sensitive to variation that
-is seldom reported \citep{bouthillier2021variance}, and documentation of the
-choices producing a result is thin \citep{gundersen2018reproducibility}.
-Where the choice concerns which fields may enter a model it shades into
-leakage \citep{kaufman2012leakage,kapoor2023leakage}; for predictive process
-monitoring, \citet{weytjens2022leakage} show benchmark datasets need
-explicit construction to avoid it. We report this failure mode for a
-deployment decision rather than a leaderboard, where field admission is not
-a modelling detail but the number the business case turns on.
+already has is therefore not news; what is not established is its magnitude
+for configuration data on a named operational task, or that the field it
+overlaps with is one the organisation already records for nothing.
+\citet{rendle2019baselines} and \citet{dacrema2019progress} show
+inadequately specified baselines accounting for reported gains in recommender
+systems; benchmark conclusions are sensitive to variation that is seldom
+reported \citep{bouthillier2021variance}, and documentation of the choices
+producing a result is thin \citep{gundersen2018reproducibility}. Where the
+choice concerns which fields may enter, it shades into leakage
+\citep{kaufman2012leakage,kapoor2023leakage}, which for predictive process
+monitoring needs explicit construction to avoid
+\citep{weytjens2022leakage}. We report this failure mode for a deployment
+decision rather than a leaderboard, where field admission is not a modelling
+detail but the number the business case turns on.
 
 \section{Data and Task}
 \label{sec:data}
@@ -205,10 +202,9 @@ between our two halves.
 
 We report the error because the correction carries the paper's method.
 Nothing measured changes --- the field is still on the intake event, still
-$100\%$ populated, still free, and still absorbs $44\%$ of the item column's
-value. What changed is a claim about what the field \emph{meant}, made on no
-evidence, in the way this paper accuses business cases of treating
-baselines.
+$100\%$ populated, still free, still absorbs $44\%$. What changed is a claim
+about what the field \emph{meant}, made on no evidence, in the way this paper
+accuses business cases of treating baselines.
 
 \paragraph{Why not the real routing decision.}
 The obvious repair --- use the first \texttt{Assignment} group --- is not
@@ -233,7 +229,7 @@ those fields dropped and with the edited incidents removed.
 \label{sec:result}
 
 \begin{table}[t]
-\centering\small
+\centering\small\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lccc@{}}
 \toprule
 Baseline & AUC & +\,item id. & gain [95\% CI] \\
@@ -260,25 +256,23 @@ temporal split point from $55\%$ to $80\%$.}
 \end{figure*}
 
 Against four intake fields the affected item looks decisive. Adding the
-opening group cuts its measured value by $44\%$. The gains are $28.1$ and
-$17.4$ standard deviations outside a null in which the incident-to-item
+opening group cuts its measured value by $44\%$. The gains are roughly $28$ and
+$17$ standard deviations outside a null in which the incident-to-item
 association is shuffled, preserving column count and marginal distribution
-while destroying the signal --- a comparison that matters because adding
+while destroying the signal --- we round because re-drawing the same null at
+a different draw count moves the first figure by about $0.7$ --- a comparison that matters because adding
 item identity adds $2{,}554$ indicator columns, which is not free under a
 fixed penalty. These $z$ figures pool the null's Monte-Carlo dispersion with
 the gain's own bootstrap standard error; dividing by the null alone, as an
 earlier draft did, would report $51$ and $33$.
 
-The result is not a split artifact: across six temporal split points the two
-gains range $+0.175$ to $+0.193$ and $+0.091$ to $+0.118$
-(Figure~\ref{fig:baselines}b). The bootstrap interval conditions on every
-design choice, so it is narrower than the honest spread: across split point,
-target threshold and cleaning cutoff the second gain ranges $+0.068$ to
-$+0.130$. Nor does the disclosed field editing explain
-it: reducing the intake block to Category alone --- dropping Impact and
-Urgency, which are edited, and Priority, which is a deterministic function
-of them --- gives $+0.106$, and restricting to the $44{,}227$ never-edited
-incidents gives $+0.107$.
+It is not a split artifact: across six split points the two gains range
+$+0.175$ to $+0.193$ and $+0.091$ to $+0.118$ (Figure~\ref{fig:baselines}b),
+and across split point, target threshold and cleaning cutoff the second
+ranges $+0.068$ to $+0.130$ --- wider than any bootstrap interval, which
+conditions on all of those. Nor does the disclosed field editing explain it:
+reducing the intake block to Category alone gives $+0.106$, and restricting
+to the $44{,}227$ never-edited incidents gives $+0.107$.
 
 \paragraph{It is not an artifact of the estimator.}
 The dimensionality null rules out the regularisation burden of $2{,}554$
@@ -351,25 +345,39 @@ partition is.}
 \paragraph{How far this goes, and where it stops.}
 Without any estimator, item identity carries $60.4\%$ of the opening group's
 information and the group carries $19.6\%$ of the item's. Both are plug-in
-estimates over thousands of conditioning levels and are inflated by finite
-samples: shuffling item identity leaves floors of $14.0\%$ and $4.5\%$, so
-read the asymmetry, which survives with $46$ points against $15$, and not
-the levels. And it is not determination: a modal-group lookup keyed on item identity
+estimates over thousands of conditioning levels and inflated by finite
+samples --- shuffling item identity leaves floors of $14.0\%$ and $4.5\%$ ---
+so read the asymmetry, which survives with $46$ points against $15$, not the
+levels. Nor is it determination: a modal-group lookup on item identity
 reproduces which group logged the incident on $90.3\%$ of test incidents
-against $78.6\%$ for always guessing the largest group, and class-balanced
-it reaches only $34.1\%$. Item identity resolves the coarse contrast --- was
-this logged by the central desk or by a specialist team --- and much less of
-the fine one.
+against $78.6\%$ for always guessing the largest, and class-balanced reaches
+only $34.1\%$. Item identity resolves the coarse contrast --- central desk or
+specialist team --- and much less of the fine one.
 
 \paragraph{The shrinkage is graded in the field's resolution.}
-That reading makes a prediction, and it holds. Replacing the group with
-progressively coarser versions of itself and re-running the same ladder
-gives shrinkages of $27\%$, $28\%$, $36\%$ and $44\%$ at two, four, eleven
-and $49$ levels (Figure~\ref{fig:dose}a). A single binary flag --- central
-desk or not --- already recovers $61\%$ of the group's baseline gain and
-$63\%$ of the shrinkage it causes. The field that has to be admitted is
-close to one bit, which is far cheaper to reproduce in another organisation
-than a $49$-way taxonomy.
+That reading makes a prediction, and it holds. Coarsening the group and
+re-running the ladder gives shrinkages of $27\%$, $28\%$, $36\%$ and $44\%$
+at two, four, eleven and $49$ levels (Figure~\ref{fig:dose}a). A single
+binary flag --- central desk or not --- already recovers $61\%$ of the
+group's baseline gain and $63\%$ of the shrinkage. The field that must be
+admitted is close to one bit, far cheaper to reproduce elsewhere than a
+$49$-way taxonomy.
+
+\paragraph{Is the field really free?}
+One objection goes to the heart of the reading, and our own evidence
+sharpens it. The opening group may be free only because a human at the desk
+already knew what the ticket was about --- in which case it is undocumented
+configuration knowledge, and a baseline containing it is not a CMDB-free
+baseline. The one-bit result makes this concrete: the contrast doing most of
+the work is central desk against a specialist team opening its own work,
+exactly where such knowledge would sit. We cannot settle it and do not need
+to. The measurement is the same under both readings; what changes is the
+moral. If the group is independent, a CMDB is worth half what the naive
+comparison says. If it is tacit configuration knowledge, the organisation
+already holds much of what the CMDB would tell it, in a form it is not paying
+to maintain --- the more useful lesson, and the reading we would bet on.
+Either way the business case cannot be written against the intake block
+alone.
 
 \paragraph{What we do not claim.}
 The reverse framing --- that the item column ``stands in for'' the group ---
@@ -386,22 +394,20 @@ identified here. Our claim is about what an analyst's baseline choice does
 to a measured number, which does not depend on which is true.
 
 \paragraph{Two fields we did not admit, and why.}
-Our baseline is not a terminus either, and the honest way to say so is to
-price the next rungs. Hour of day and day of week are free and unambiguously
-creation-time; adding both moves the item's value from $+0.103$ to $+0.099$.
-\texttt{Service Component WBS (aff)} is a harder case: it is $100\%$
-populated and costs nothing, and admitting it takes the measured value to
-$+0.023$. We exclude it because it is a near-deterministic function of the
-item --- only $58$ of $2{,}929$ items ever carry more than one value --- so
-it is configuration data under another name rather than a free intake field.
+Our baseline is not a terminus either. Hour of day and day of week are free
+and creation-time; adding both moves the item's value from $+0.103$ to
+$+0.099$. \texttt{Service Component WBS (aff)} is harder: $100\%$ populated,
+free, and admitting it takes the measured value to $+0.023$. We exclude it as
+a near-deterministic function of the item --- only $58$ of $2{,}929$ items
+carry more than one value --- so it is configuration data under another name.
 A reader who disagrees should read our headline as $+0.023$, and that
-substitution is exactly the decision this paper is about.
+substitution is the decision this paper is about.
 
 \section{What the Difference Buys}
 \label{sec:buys}
 
 \begin{table}[t]
-\centering\small
+\centering\small\setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
 Capacity & honest extra & naive extra & factor \\
@@ -452,7 +458,7 @@ thresholds. Requiring two or more reassignments ($21.8\%$ of incidents)
 gives $+0.131$ and $+0.068$; three or more ($10.6\%$) gives $+0.151$ and
 $+0.080$. The magnitude is threshold-dependent and not monotone, but every
 interval excludes zero, the ordering never reverses, and the shrinkage stays
-between $44\%$ and $48\%$. The transferable quantity is the shrinkage, not
+between $43\%$ and $49\%$. The transferable quantity is the shrinkage, not
 the gain.
 
 \section{Does It Survive a Change of Task?}
@@ -471,7 +477,7 @@ $+0.083$ against the intake block and $+0.055$ once the group is admitted, a
 reduction of $33\%$; on long handling, $+0.118$ and $+0.078$, a reduction of
 $34\%$. Every rung sits outside its matched-dimension null, and across five
 split points the reduction ranges from $30\%$ to $39\%$ on these two targets
-and from $39\%$ to $46\%$ on the primary one. Reopening is rare
+and from $38\%$ to $47\%$ on the primary one. Reopening is rare
 and its gains stand only $5.5$ and $4.2$ pooled standard deviations from
 their nulls, so it establishes the effect's direction and not its size; and
 the reduction is largest on the target the opening group is most directly
@@ -502,15 +508,14 @@ $100.000000\%$.
 
 We therefore make no claim about this field. The $-0.003$ is also inside the
 dimensionality null of Section~\ref{sec:result} and changes sign under
-penalty tuning and at other split points, so it is not resolvable on either
-ground. This is the paper's own thesis turned on itself, and that reading is
-correct: our headline is contingent on a field-admission decision we cannot
-adjudicate, which is the exposure we argue every CMDB business case carries
-unstated. The transferable part is the negative --- a field being free,
-populated and present on an opening record does not make it creation-time.
-The collection ships an interaction detail file we did not obtain; if it
-records this field at creation the question is answerable, and our inability
-to settle it is a limit of the three files we hold, not of the export.
+penalty tuning, so it is not resolvable on either ground. This is the paper's
+thesis turned on itself, and that reading is correct: our headline is
+contingent on a field-admission decision we cannot adjudicate. The
+transferable part is the negative --- a field being free, populated and
+present on an opening record does not make it creation-time. The collection
+ships an interaction detail file we did not obtain; if it records this field
+at creation the question is answerable, and our inability to settle it is a
+limit of the three files we hold, not of the export.
 
 \section{Estate Concentration}
 \label{sec:scope}
@@ -532,15 +537,16 @@ generate $70.5\%$, and the top $128$ --- $5.0\%$ of the training vocabulary
 count before funding anything.
 
 Identifying only those items recovers most of the measured value. Averaged
-over five temporal split points, the top $8$ recover $56\%$ $[53,58]$ of the
-$+0.103$, the top $64$ recover $88\%$ $[82,92]$, and the top $128$ recover
-$93\%$ $[91,95]$ (Figure~\ref{fig:dose}b). We report the mean and range
-rather than one split's curve because a single curve is not monotone at this
-resolution: at $k=32$ the across-split spread is $9$ points, so adjacent
-values of $k$ cannot be read against each other. The same holds with the
-group removed from the baseline --- $89\%$ at $k=64$ --- so this is a
-property of the estate's concentration and not of our field-admission
-decision.
+over five temporal split points, the top $8$ recover $56\%$ of the $+0.103$,
+the top $64$ recover $88\%$ and the top $128$ recover $93\%$; across those
+splits the three range over $53$--$58$, $82$--$92$ and $91$--$95$
+(Figure~\ref{fig:dose}b). These are min--max spreads over a design choice,
+not bootstrap intervals, and we write them as ranges to keep the
+distinction. We report the mean and range rather than one split's curve because a single
+curve is not monotone at this resolution: at $k=32$ the across-split spread
+is $9$ points. The same holds with the group removed from the baseline ---
+$89\%$ at $k=64$ --- so this is a property of the estate's concentration, not
+of our field-admission decision.
 
 \section{Limitations}
 
@@ -570,12 +576,11 @@ field the organisation was already recording for nothing.
 
 \section*{Use of AI Systems}
 An AI assistant (Anthropic's Claude) was used to implement and refactor
-analysis code, to construct adversarial challenges to intermediate claims
---- several withdrawals above originated that way --- and to draft and edit
-prose the author reviewed and verified. All analyses were specified, run and
-checked by the author, who takes full responsibility for the content,
-including every numeric claim and every reference. The repository carries
-the working notes.
+analysis code, to construct adversarial challenges to intermediate claims ---
+several withdrawals above originated that way --- and to draft and edit prose
+the author reviewed and verified. All analyses were specified, run and checked
+by the author, who takes full responsibility for the content, including every
+numeric claim and reference. The repository carries the working notes.
 
 \section*{Acknowledgements}
 This work benefited from the review and domain challenge of a practitioner

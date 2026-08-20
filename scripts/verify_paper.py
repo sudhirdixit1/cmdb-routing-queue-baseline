@@ -104,6 +104,38 @@ def _rounds_to(value, printed):
     return got == expected
 
 
+def ck_bound(label, value, printed, kind, anchor):
+    """Check an INCLUSIVE range endpoint, which is floored/ceiled, not rounded.
+
+    "rates of 76--100%" is true when the observed minimum is 76.5 and false at
+    77, so the v5 rounding-equality test is the wrong test for an endpoint.
+    A referee found three ranges stated by rounding both ends INWARD, which
+    made every one of them narrower than the data supports.  Lower bounds must
+    floor, upper bounds must ceil.
+    """
+    global ok
+    seen.add(printed)
+    v, target = float(value), float(printed.replace("{,}", ""))
+    if kind == "lower" and not (target <= v < target + 1):
+        bad.append(f"{label}: {v:.4g} is not in [{printed}, {target+1:g}) -- "
+                   f"a lower bound must floor")
+        return
+    if kind == "upper" and not (target - 1 < v <= target):
+        bad.append(f"{label}: {v:.4g} is not in ({target-1:g}, {printed}] -- "
+                   f"an upper bound must ceil")
+        return
+    if printed not in LITS and ("+" + printed) not in LITS:
+        bad.append(f"{label}: '{printed}' does not appear in the paper")
+        return
+    flat_anchor = re.sub(r"\s+", " ", anchor)
+    for m in re.finditer(re.escape(flat_anchor), FLAT):
+        w = literals(FLAT[max(0, m.start() - 200): m.end() + 200])
+        if printed in w or ("+" + printed) in w:
+            ok += 1
+            return
+    bad.append(f"{label}: '{printed}' does not appear near '{anchor}'")
+
+
 def ck(label, value, printed, tol, anchor):
     """Compare a computed value against the literal the paper prints.
 
@@ -230,8 +262,13 @@ ck("gain intake lo", g0.lo, "+0.172", 6e-4, anchor="intake only")
 ck("gain intake hi", g0.hi, "+0.195", 6e-4, anchor="intake only")
 ck("gain queue lo", g1.lo, "+0.094", 6e-4, anchor="opening group")
 ck("gain queue hi", g1.hi, "+0.113", 6e-4, anchor="opening group")
-ck("z pooled intake", g0.z_pooled, "28.1", 0.06, anchor="standard deviations")
-ck("z pooled queue", g1.z_pooled, "17.4", 0.06, anchor="standard deviations")
+#  Rounded to integers in the paper: re-drawing the same null at a different
+#  count moves the first by ~0.7, so a third significant figure is not earned.
+ck("z pooled intake", g0.z_pooled, "28", 0.5, anchor="standard deviations")
+ck("z pooled queue", g1.z_pooled, "17", 0.5, anchor="standard deviations")
+_z_gap = abs(g0.z_pooled - float(r9L[(r9L.task == "reassigned")
+                                     & (r9L.baseline == "intake only")].z_pooled.iloc[0]))
+ck("z draw-count spread", _z_gap, "0.7", 0.05, anchor="by about")
 ck("z naive intake", g0.z_naive, "51", 0.6, anchor="would report")
 ck("z naive queue", g1.z_naive, "33", 0.6, anchor="would report")
 ck("pct cut", 100 * (g0.gain - g1.gain) / g0.gain, "44", 0.6,
@@ -264,8 +301,8 @@ ck("mirror: queue within item",
 
 # ---- design-space range --------------------------------------------------
 ds8 = pd.read_csv(R / "r8_design_space.csv")
-ck("design range low", ds8.gain.min(), "+0.068", 6e-4, anchor="cleaning cutoff the second gain")
-ck("design range high", ds8.gain.max(), "+0.130", 6e-4, anchor="cleaning cutoff the second gain")
+ck("design range low", ds8.gain.min(), "+0.068", 6e-4, anchor="cleaning cutoff the second")
+ck("design range high", ds8.gain.max(), "+0.130", 6e-4, anchor="cleaning cutoff the second")
 
 # ---- stability and sensitivity -----------------------------------------
 ck("stability intake min", stab["intake fields only"].min(), "+0.175", 6e-4, anchor="split points the two")
@@ -273,7 +310,7 @@ ck("stability intake max", stab["intake fields only"].max(), "+0.193", 6e-4, anc
 ck("stability queue min", stab["+ intake routing queue"].min(), "+0.091", 6e-4, anchor="split points the two")
 ck("stability queue max", stab["+ intake routing queue"].max(), "+0.118", 6e-4, anchor="split points the two")
 ck("sensitivity category only", sens.iloc[1].gain, "+0.106", 6e-4,
-   anchor="of them --- gives")
+   anchor="Category alone gives")
 ck("sensitivity never-edited", sens.iloc[2].gain, "+0.107", 6e-4,
    anchor="never-edited")
 ck("never-mutated n", sens.iloc[2].n, "44{,}227", 0, anchor="never-edited")
@@ -529,10 +566,9 @@ ck("long-handling gain, queue",
    anchor="on long handling")
 ck("long-handling shrinkage", _shrink("long-handling"), "34", 0.5,
    anchor="a reduction of")
-ck("shrinkage range low", r9S.shrink_pct.min(), "30", 0.5,
-   anchor="the reduction ranges from")
-ck("shrinkage range high", r9S.shrink_pct.max(), "46", 0.5,
-   anchor="the reduction ranges from")
+#  Superseded: this pooled all three targets into a sentence that is about
+#  the two FURTHER targets.  The split-by-target bounds live in the r18 block
+#  and use ck_bound, because range endpoints floor and ceil rather than round.
 ck("reopen z, intake", _r9("reopened", "intake only", "z_pooled"), "5.5",
    0.05, anchor="pooled standard deviations")
 ck("reopen z, queue", _r9("reopened", "+ routing queue", "z_pooled"), "4.2",
@@ -668,10 +704,10 @@ ck_phrase("threshold ladder in order",
           r"more ($10.6\%$) gives $+0.151$ and $+0.080$",
           "21.8", 0, "+0.131", 0, "+0.068", 0, "10.6", 0, "+0.151", 0,
           "+0.080", 0)
-ck("threshold shrink lo", r11T.shrink_pct.min(), "44", 0.5,
-   anchor="the shrinkage stays")
-ck("threshold shrink hi", r11T.shrink_pct.max(), "48", 0.5,
-   anchor="the shrinkage stays")
+ck_bound("threshold shrink lo", r11T.shrink_pct.min(), "43", "lower",
+         anchor="the shrinkage stays")
+ck_bound("threshold shrink hi", r11T.shrink_pct.max(), "49", "upper",
+         anchor="the shrinkage stays")
 if not ((r11T.lo > 0).all() and (r11T.hi > 0).all()):
     bad.append("paper claims every threshold interval excludes zero; it does not")
 else:
@@ -739,6 +775,9 @@ ck_phrase("floor sweep in order",
 #  sentence that says so is what stops the section overclaiming.  Deleting it
 #  would leave every number correct and the claim wrong, which is precisely
 #  the failure this file exists to prevent -- so it is checked like a number.
+ck_phrase("free-field objection engaged in the body",
+          r"The opening group may be free only because a human at the desk "
+          r"already knew what the ticket was about")
 ck_phrase("structural-ordering caveat present",
           r"at one cell per item the null \emph{is} the real leg")
 ck_phrase("conditioned-interval disclosure present",
@@ -798,13 +837,12 @@ else:
 ck("lookup accuracy", r12Q.lookup_test_all * 100, "90.3", 0.06,
    anchor="reproduces which group logged the incident")
 ck("lookup prior", r12Q.lookup_prior * 100, "78.6", 0.06,
-   anchor="always guessing the largest group")
+   anchor="always guessing the largest")
 ck("lookup balanced", r12Q.lookup_balanced_acc * 100, "34.1", 0.06,
-   anchor="class-balanced it reaches only")
+   anchor="class-balanced reaches")
 ck_phrase("lookup figures in order",
           r"on $90.3\%$ of test incidents against $78.6\%$ for always "
-          r"guessing the largest group, and class-balanced it reaches "
-          r"only $34.1\%$",
+          r"guessing the largest, and class-balanced reaches only $34.1\%$",
           "90.3", 0, "78.6", 0, "34.1", 0)
 for i, lit in enumerate(("27", "28", "36", "44")):
     ck(f"dose-response shrink {i}", r13R.iloc[i].shrink_pct, lit, 0.5,
@@ -824,7 +862,7 @@ else:
 ck("binary share of queue gain", r13O.binary_share_of_queue, "61", 0.5,
    anchor="of the group's baseline gain")
 ck("binary share of shrinkage", r13O.binary_share_of_shrinkage, "63", 0.5,
-   anchor="of the shrinkage it causes")
+   anchor="of the shrinkage")
 
 # ---- r14: scoping ------------------------------------------------------
 #  Curve values come from r14_curve_queue.csv, which is what the figure also
@@ -843,11 +881,17 @@ if not (abs(r14F.top64 - r14C.loc[64].recovered) < 1e-9
 else:
     ok += 1
 ck_phrase("scope figures in order",
-          r"the top $8$ recover $56\%$ $[53,58]$ of the $+0.103$, the top "
-          r"$64$ recover $88\%$ $[82,92]$, and the top $128$ recover $93\%$ "
-          r"$[91,95]$",
+          r"the top $8$ recover $56\%$ of the $+0.103$, the top $64$ recover "
+          r"$88\%$ and the top $128$ recover $93\%$; across those splits the "
+          r"three range over $53$--$58$, $82$--$92$ and $91$--$95$",
           "56", 0, "53", 0, "58", 0, "64", 0, "88", 0, "82", 0, "92", 0,
           "128", 0, "93", 0, "91", 0, "95", 0)
+#  The paper must keep saying these are ranges, not bootstraps: the Methods
+#  sentence promises bootstraps for every bracketed interval, and a referee
+#  caught the notation being reused for a min-max spread.
+ck_phrase("scope range provenance disclosed",
+          r"These are min--max spreads over a design choice, not bootstrap "
+          r"intervals")
 ck("scope spread at k=32", r14F.k32_spread * 100, "9", 0.5,
    anchor="across-split spread is")
 ck("scope k32 label", 32, "32", 0, anchor="across-split spread is")
@@ -939,16 +983,18 @@ else:
 # ---- second-task ranges, split by target -------------------------------
 _second = r9S[r9S.task != "reassigned"].shrink_pct
 _primary = r9S[r9S.task == "reassigned"].shrink_pct
-ck("second-task shrink lo", _second.min(), "30", 0.6,
-   anchor="on these two targets")
-ck("second-task shrink hi", _second.max(), "39", 0.6,
-   anchor="on these two targets")
-ck("primary shrink lo", _primary.min(), "39", 0.6, anchor="on the primary one")
-ck("primary shrink hi", _primary.max(), "46", 0.6, anchor="on the primary one")
+ck_bound("second-task shrink lo", _second.min(), "30", "lower",
+         anchor="on these two targets")
+ck_bound("second-task shrink hi", _second.max(), "39", "upper",
+         anchor="on these two targets")
+ck_bound("primary shrink lo", _primary.min(), "38", "lower",
+         anchor="on the primary one")
+ck_bound("primary shrink hi", _primary.max(), "47", "upper",
+         anchor="on the primary one")
 ck_phrase("second-task ranges in order",
           r"ranges from $30\%$ to $39\%$ on these two targets "
-          r"and from $39\%$ to $46\%$ on the primary one",
-          "30", 0, "39", 0, "46", 0)
+          r"and from $38\%$ to $47\%$ on the primary one",
+          "30", 0, "39", 0, "38", 0, "47", 0)
 
 # ---- residue of withdrawn claims ---------------------------------------
 for dead in ["VolvoIT", "ServiceNow-IT", "saturat", "converge above",
