@@ -54,6 +54,20 @@ leak = pd.read_csv(R / "r5_leak.csv").iloc[0]
 r9L = pd.read_csv(R / "r9_ladder.csv")
 r9T = pd.read_csv(R / "r9_targets.csv").set_index("task")
 r9S = pd.read_csv(R / "r9_stability.csv")
+# r10-r14: estimator families, operational translation, queue shape, scoping
+r10R = pd.read_csv(R / "r10_range.csv").iloc[0]
+r10N = pd.read_csv(R / "r10_encoder_null.csv").set_index("estimator")
+r11C = pd.read_csv(R / "r11_capacity.csv").set_index("capacity")
+r11V = pd.read_csv(R / "r11_capacity_naive.csv").set_index("capacity")
+r11O = pd.read_csv(R / "r11_overstatement.csv").iloc[0]
+r11T = pd.read_csv(R / "r11_threshold.csv").set_index("threshold")
+r12Q = pd.read_csv(R / "r12_queue_from_item.csv").iloc[0]
+r13S = pd.read_csv(R / "r13_shape.csv").set_index("split")
+r13R = pd.read_csv(R / "r13_reduced.csv")
+r13O = pd.read_csv(R / "r13_onebit.csv").iloc[0]
+r14F = pd.read_csv(R / "r14_scope_facts.csv").iloc[0]
+r14C = pd.read_csv(R / "r14_curve_queue.csv").set_index("k")
+bins = pd.read_csv(R / "r5_binning.csv").iloc[0]
 
 ok, bad, seen = 0, [], set()
 
@@ -316,9 +330,18 @@ ck("dropped leg uniform",
 ck("dropped leg mass",
    100 * drop.loc["random cells, item-mass matched", "recovered"] / 0.1835, "-7", 1.0,
    anchor="retains")
-ck("scope top8", scope.loc[8, "recovered"] * 100, "57.9", 0.06, anchor="top $8$ recover")
-ck("scope top64", scope.loc[64, "recovered"] * 100, "90.0", 0.06, anchor="recover")
-ck("scope top128", scope.loc[128, "recovered"] * 100, "95.4", 0.06, anchor="recover")
+#  Superseded by the split-averaged curve (r14).  r8_scope.csv holds the
+#  single-split figures the paper used to quote; they are cross-checked
+#  against the averaged curve's range rather than quoted, so that a future
+#  edit cannot reintroduce a one-split number as if it were the estimate.
+for _k in (8, 64, 128):
+    _single = scope.loc[_k, "recovered"]
+    _row = pd.read_csv(R / "r14_curve_queue.csv").set_index("k").loc[_k]
+    if not (_row.lo - 1e-9 <= _single <= _row.hi + 1e-9):
+        bad.append(f"single-split scope at k={_k} ({_single:.3f}) lies outside "
+                   f"the across-split range [{_row.lo:.3f}, {_row.hi:.3f}]")
+    else:
+        ok += 1
 
 # ---- previously exempted, now checked ----------------------------------
 ck("bootstrap resamples", 2000, "2{,}000", 0, anchor="resample paired")
@@ -339,9 +362,16 @@ ck("post low", postm.min() * 100, "35", 0.6, anchor="subsequent")
 ck("post high", postm.max() * 100, "42", 0.6, anchor="subsequent")
 
 # ---- ordered pairs and repeated values, pinned verbatim ----------------
-ck_phrase("abstract mirror pinned",
-          r"still retains $91\%$ of the queue's own gain against a matched "
-          r"floor of $2\%$", "91", 0, "2", 0)
+#  The abstract used to restate the mirror leg verbatim; it now leads on the
+#  dose-response and the detection factor instead.  Both are values repeated
+#  between abstract and body, so both are pinned by exact phrase -- that is
+#  the rule this file's v4 rebuild introduced and it still applies.
+ck_phrase("abstract dose-response pinned",
+          r"rising from $27\%$ when the queue is reduced to one bit to $44\%$ "
+          r"at full resolution", "27", 0, "44", 0)
+ck_phrase("abstract detection factor pinned",
+          r"the queue-free baseline attributes $12.7$ times as many "
+          r"additional catches", "12.7", 0)
 ck_phrase("mirror leg pinned",
           r"still retains $91\%$ of the queue's $+0.082$ gain", "91", 0)
 ck_phrase("mirror floor pinned",
@@ -371,9 +401,16 @@ ck("queue varies (cohort)", COHORT_VARIES * 100, "92.56", 0.006,
    anchor="varies within an incident")
 ck("open equals last (cohort)", COHORT_LAST * 100, "21.35", 0.06,
    anchor="last-observed queue")
-ck("queue groups (cohort)",
-   _ac[_ac.IncidentActivity_Type == "Open"]["Assignment Group"].nunique(), "50", 0,
-   anchor="groups in the analysed cohort")
+#  Superseded: the paper used to say "50 groups in the analysed cohort".  It
+#  now states the training count, which is what the models actually see, and
+#  that check lives with the other r13 shape checks below.  The cohort-wide
+#  count is still recomputed here so the two cannot silently diverge.
+_COHORT_GROUPS = _ac[_ac.IncidentActivity_Type == "Open"]["Assignment Group"].nunique()
+if _COHORT_GROUPS < r13S.loc["train"].n_groups:
+    bad.append(f"cohort has {_COHORT_GROUPS} queues, fewer than training's "
+               f"{r13S.loc['train'].n_groups}: the loaders disagree")
+else:
+    ok += 1
 
 
 # ---- second task (r9) ---------------------------------------------------
@@ -428,6 +465,217 @@ if not (r9L.z_pooled.abs() > 3).all():
     bad.append("paper claims every r9 rung is outside its null; it is not")
 else:
     ok += 1
+
+# ---- r10: three estimator families -------------------------------------
+ck("estimator range intake lo", r10R.intake_lo, "+0.173", 6e-4,
+   anchor="the first rung ranges")
+ck("estimator range intake hi", r10R.intake_hi, "+0.183", 6e-4,
+   anchor="the first rung ranges")
+ck("estimator range queue lo", r10R.queue_lo, "+0.092", 6e-4,
+   anchor="the second")
+ck("estimator range queue hi", r10R.queue_hi, "+0.103", 6e-4,
+   anchor="the second")
+ck("estimator shrink lo", r10R.shrink_lo, "43", 0.5, anchor="the shrinkage")
+ck("estimator shrink hi", r10R.shrink_hi, "47", 0.5, anchor="the shrinkage")
+ck_phrase("estimator ranges in order",
+          r"the first rung ranges $+0.173$ to $+0.183$, the second $+0.092$ "
+          r"to $+0.103$, and the shrinkage $43\%$ to $47\%$",
+          "+0.173", 0, "+0.183", 0, "+0.092", 0, "+0.103", 0, "43", 0, "47", 0)
+_e2 = r10N.loc["E2 logistic, item target-encoded"]
+_e3 = r10N.loc["E3 boosting, item target-encoded"]
+ck("E2 encoder null mean", _e2.null_mean, "-0.0001", 6e-5, anchor="returns")
+ck("E2 encoder null sd", _e2.null_sd, "0.0016", 6e-5, anchor="returns")
+ck("E3 encoder null mean", _e3.null_mean, "+0.0042", 6e-5, anchor="returns")
+ck("E3 encoder null sd", _e3.null_sd, "0.0020", 6e-5, anchor="returns")
+ck_phrase("encoder nulls in order",
+          r"returns $-0.0001 \pm 0.0016$ and $+0.0042 \pm 0.0020$",
+          "-0.0001", 0, "0.0016", 0, "+0.0042", 0, "0.0020", 0)
+ck("boosting bins", bins.n_bins, "137", 0, anchor="bins")
+
+# ---- r11: what the difference buys -------------------------------------
+for cap, rev, cb, cf, mo in ((0.05, "682", "597", "653", "30"),
+                             (0.10, "1{,}364", "1{,}119", "1{,}153", "18"),
+                             (0.20, "2{,}727", "1{,}823", "1{,}857", "18")):
+    row = r11C.loc[cap]
+    tag = f"{cap:.0%}"
+    _anc = f"(${rev}$)"          # each row is anchored on its own row label
+    ck(f"capacity {tag} reviewed", row.reviewed, rev, 0, anchor="Review capacity")
+    ck(f"capacity {tag} caught base", row.caught_base, cb, 0, anchor=_anc)
+    ck(f"capacity {tag} caught full", row.caught_full, cf, 0, anchor=_anc)
+    ck(f"capacity {tag} per month", row.extra_per_month, mo, 0.5, anchor=_anc)
+ck("capacity 5% extra", r11C.loc[0.05].extra, "+56", 0, anchor="Review capacity")
+ck("capacity 10% extra", r11C.loc[0.10].extra, "+34", 0, anchor="Review capacity")
+# the table's rows must not be swappable: pin each to its position
+ck_phrase("capacity table row 5",
+          r"$5\%$ \ \ ($682$)   & $597$   & $653$   & $+56$ & $30$",
+          "682", 0, "597", 0, "653", 0, "+56", 0, "30", 0)
+ck_phrase("capacity table row 10",
+          r"$10\%$ ($1{,}364$)  & $1{,}119$ & $1{,}153$ & $+34$ & $18$",
+          "1{,}364", 0, "1{,}119", 0, "1{,}153", 0)
+ck_phrase("capacity table row 20",
+          r"$20\%$ ($2{,}727$)  & $1{,}823$ & $1{,}857$ & $+34$ & $18$",
+          "2{,}727", 0, "1{,}823", 0, "1{,}857", 0, "20", 0)
+for cap, lit in ((0.05, "303"), (0.10, "432"), (0.20, "501")):
+    ck(f"naive extra {cap:.0%}", r11V.loc[cap].extra, lit, 0,
+       anchor="credit item identity with")
+ck_phrase("naive counts in order",
+          r"credit item identity with $303$, $432$ and $501$ instead",
+          "303", 0, "432", 0, "501", 0)
+ck("precision base 10%", r11C.loc[0.10].prec_base * 100, "82.0", 0.06,
+   anchor="moving precision from")
+ck("precision full 10%", r11C.loc[0.10].prec_full * 100, "84.5", 0.06,
+   anchor="moving precision from")
+ck("test base rate", facts.pos_test * 100, "37.2", 0.06, anchor="base rate")
+ck_phrase("precision pair in order",
+          r"moving precision from $82.0\%$ to $84.5\%$ against a $37.2\%$ base",
+          "82.0", 0, "84.5", 0, "37.2", 0)
+ck("overstatement 10%", r11O.overstatement_10pct, "12.7", 0.06,
+   anchor="overstates the operational gain")
+ck("overstatement lo", r11O.overstatement_lo, "5.4", 0.06,
+   anchor="across the three capacities")
+ck("overstatement hi", r11O.overstatement_hi, "14.7", 0.06,
+   anchor="across the three capacities")
+ck("auc ratio", r11O.auc_ratio, "1.8", 0.06, anchor="which is")
+ck_phrase("overstatement range in order",
+          r"factor of $12.7$}, and by $5.4$ to $14.7$ across the three",
+          "12.7", 0, "5.4", 0, "14.7", 0)
+ck("threshold 2 rate", r11T.loc[2].rate * 100, "21.8", 0.06,
+   anchor="Requiring two or more")
+ck("threshold 2 intake", r11T.loc[2].gain_intake, "+0.131", 6e-4,
+   anchor="Requiring two or more")
+ck("threshold 2 queue", r11T.loc[2].gain_queue, "+0.068", 6e-4,
+   anchor="Requiring two or more")
+ck("threshold 3 rate", r11T.loc[3].rate * 100, "10.6", 0.06,
+   anchor="three or more")
+ck("threshold 3 intake", r11T.loc[3].gain_intake, "+0.151", 6e-4,
+   anchor="three or more")
+ck("threshold 3 queue", r11T.loc[3].gain_queue, "+0.080", 6e-4,
+   anchor="three or more")
+ck_phrase("threshold ladder in order",
+          r"($21.8\%$ of incidents) gives $+0.131$ and $+0.068$; three or "
+          r"more ($10.6\%$) gives $+0.151$ and $+0.080$",
+          "21.8", 0, "+0.131", 0, "+0.068", 0, "10.6", 0, "+0.151", 0,
+          "+0.080", 0)
+ck("threshold shrink lo", r11T.shrink_pct.min(), "44", 0.5,
+   anchor="the shrinkage stays between")
+ck("threshold shrink hi", r11T.shrink_pct.max(), "48", 0.5,
+   anchor="the shrinkage stays between")
+if not ((r11T.lo > 0).all() and (r11T.hi > 0).all()):
+    bad.append("paper claims every threshold interval excludes zero; it does not")
+else:
+    ok += 1
+
+# ---- r12/r13: the queue's shape and what is model-free ------------------
+ck("queue groups (training)", r13S.loc["train"].n_groups, "49", 0,
+   anchor="groups in training")
+ck("queue entropy train", r13S.loc["train"].entropy, "2.43", 0.006,
+   anchor="bits")
+ck("queue eff. cardinality", r13S.loc["train"].perplexity, "5.4", 0.06,
+   anchor="effective cardinality")
+ck("queue top1 train", r13S.loc["train"].top1 * 100, "62.1", 0.06,
+   anchor="largest group holding")
+ck("queue groups test", r13S.loc["test"].n_groups, "32", 0,
+   anchor="live groups fall to")
+ck("queue top1 test", r13S.loc["test"].top1 * 100, "78.6", 0.06,
+   anchor="the largest holds")
+ck_phrase("queue shape in order",
+          r"its $49$ groups carry $2.43$ bits, an effective cardinality of "
+          r"$5.4$, with the largest group holding $62.1\%$ of incidents; in "
+          r"test the live groups fall to $32$ and the largest holds $78.6\%$",
+          "49", 0, "2.43", 0, "5.4", 0, "62.1", 0, "32", 0, "78.6", 0)
+_dom = pd.read_csv(R / "r13_dominant.csv").iloc[0]
+ck("rate inside dominant pool", _dom.rate_in, "0.309", 6e-4,
+   anchor="inside the dominant pool")
+ck("rate outside dominant pool", _dom.rate_out, "0.603", 6e-4,
+   anchor="outside it")
+#  The two anchors sit inside each other's +-200 character window, so
+#  anchoring alone cannot tell the pair apart if they are swapped.  The
+#  corruption suite caught exactly that; pin the order.
+ck_phrase("dominant-pool rates in order",
+          r"the reassignment rate is $0.309$ inside the dominant pool and "
+          r"$0.603$ outside it", "0.309", 0, "0.603", 0)
+ck("U(queue|item)", r12Q.u_queue_given_item * 100, "60.4", 0.06,
+   anchor="of the queue's information")
+ck("U(item|queue)", r12Q.u_item_given_queue * 100, "19.6", 0.06,
+   anchor="of the item's")
+#  Same swap hole as the dominant-pool rates: both literals fall inside both
+#  anchor windows.  The asymmetry IS the claim here -- reversing it would say
+#  the queue determines the item -- so the order has to be pinned.
+ck_phrase("asymmetry in order",
+          r"item identity carries $60.4\%$ of the queue's information and "
+          r"the queue carries $19.6\%$ of the item's",
+          "60.4", 0, "19.6", 0)
+if not r12Q.u_queue_given_item > r12Q.u_item_given_queue:
+    bad.append("paper claims the queue/item relationship is asymmetric in the "
+               "direction U(queue|item) > U(item|queue); the data disagree")
+else:
+    ok += 1
+ck("lookup accuracy", r12Q.lookup_test_all * 100, "90.3", 0.06,
+   anchor="reproduces the desk's choice")
+ck("lookup prior", r12Q.lookup_prior * 100, "78.6", 0.06,
+   anchor="always guessing the largest queue")
+ck("lookup balanced", r12Q.lookup_balanced_acc * 100, "34.1", 0.06,
+   anchor="class-balanced it reaches only")
+ck_phrase("lookup figures in order",
+          r"on $90.3\%$ of test incidents against $78.6\%$ for always "
+          r"guessing the largest queue, and class-balanced it reaches only "
+          r"$34.1\%$",
+          "90.3", 0, "78.6", 0, "34.1", 0)
+for i, lit in enumerate(("27", "28", "36", "44")):
+    ck(f"dose-response shrink {i}", r13R.iloc[i].shrink_pct, lit, 0.5,
+       anchor="shrinkages of")
+ck_phrase("dose-response in order",
+          r"shrinkages of $27\%$, $28\%$, $36\%$ and $44\%$ at two, four, "
+          r"eleven and $49$ levels",
+          "27", 0, "28", 0, "36", 0, "44", 0, "49", 0)
+if list(r13R.levels) != [2, 4, 11, 49]:
+    bad.append(f"paper says two/four/eleven/49 levels; data has {list(r13R.levels)}")
+else:
+    ok += 1
+if not r13R.shrink_pct.is_monotonic_increasing:
+    bad.append("paper claims the shrinkage is graded in resolution; it is not monotone")
+else:
+    ok += 1
+ck("binary share of queue gain", r13O.binary_share_of_queue, "61", 0.5,
+   anchor="of the queue's baseline gain")
+ck("binary share of shrinkage", r13O.binary_share_of_shrinkage, "63", 0.5,
+   anchor="of the shrinkage it causes")
+
+# ---- r14: scoping ------------------------------------------------------
+#  Curve values come from r14_curve_queue.csv, which is what the figure also
+#  reads, so paper, figure and check cannot drift apart.
+for _k, _mean, _lo, _hi in ((8, "56", "53", "58"), (64, "88", "82", "92"),
+                            (128, "93", "91", "95")):
+    _row = r14C.loc[_k]
+    _anc = f"the top ${_k}$ recover"
+    ck(f"scope top{_k}", _row.recovered * 100, _mean, 0.5, anchor=_anc)
+    ck(f"scope top{_k} lo", _row.lo * 100, _lo, 0.5, anchor=_anc)
+    ck(f"scope top{_k} hi", _row.hi * 100, _hi, 0.5, anchor=_anc)
+#  The scoping figure must plot the same curve the prose quotes.
+if not (abs(r14F.top64 - r14C.loc[64].recovered) < 1e-9
+        and abs(r14F.top128 - r14C.loc[128].recovered) < 1e-9):
+    bad.append("r14_scope_facts and r14_curve_queue disagree on the curve")
+else:
+    ok += 1
+ck_phrase("scope figures in order",
+          r"the top $8$ recover $56\%$ $[53,58]$ of the $+0.103$, the top "
+          r"$64$ recover $88\%$ $[82,92]$, and the top $128$ recover $93\%$ "
+          r"$[91,95]$",
+          "56", 0, "53", 0, "58", 0, "64", 0, "88", 0, "82", 0, "92", 0,
+          "128", 0, "93", 0, "91", 0, "95", 0)
+ck("scope spread at k=32", r14F.k32_spread * 100, "9", 0.5,
+   anchor="across-split spread is")
+ck("scope k32 label", 32, "32", 0, anchor="across-split spread is")
+ck("scope top64 intake baseline", r14F.top64_intake * 100, "89", 0.5,
+   anchor="the queue removed from the baseline")
+ck_phrase("scope without queue pinned",
+          r"queue removed from the baseline --- $89\%$ at $k=64$", "89", 0)
+
+#  The dropped reverse-direction null grouped items into as many cells as the
+#  cohort has opening queues.  The paper prints that count; check it against
+#  the cohort rather than leaving it as a bare literal.
+ck("reverse null cell count", _COHORT_GROUPS, "50", 0,
+   anchor="a random $50$-cell grouping")
 
 # ---- residue of withdrawn claims ---------------------------------------
 for dead in ["VolvoIT", "ServiceNow-IT", "saturat", "converge above",

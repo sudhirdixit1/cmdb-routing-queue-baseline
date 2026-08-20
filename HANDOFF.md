@@ -294,3 +294,88 @@ Now **127 checks** and **21 corruptions**, both extended for r9. The
 residue guard caught the phrase "mass-matched" re-entering via a new figure
 caption — that phrase is banned because withdrawn finding #3 was a null
 that did not match mass. Reword; do not delete the guard.
+
+---
+
+## 11. Round seven (2026-08-20): the referee round
+
+A full referee report was produced against the 2026-08-19 draft and worked
+through. Five new scripts, `r10`–`r14`. Full detail in `FINDINGS-R10-R14.md`;
+this section records only what a future agent must not undo.
+
+### What got stronger
+
+- **Three estimator families, not one.** `r10_estimators.py` re-represents
+  item identity as a single cross-fitted target-encoded column. That makes
+  the dimensionality confound *vacuous* rather than merely controlled — the
+  item is one column, not 2,554 — and makes boosting usable. Shrinkage is
+  43%/43%/47% across the three. The single-estimator limitation is gone.
+- **A detection framing.** `r11_operational.py`. At 10% review capacity the
+  queue-free baseline credits item identity with 432 extra catches where the
+  queue-aware one credits 34: **an overstatement of 12.7×**, against only
+  1.8× on AUC. This is now the abstract's second headline and it is the most
+  practitioner-legible thing in the paper.
+- **A dose-response.** `r13_queue_shape.py`. Shrinkage runs 27%, 28%, 36%,
+  44% as the queue goes from 2 to 49 levels. A graded response is much
+  better evidence for a proxy story than any single number.
+
+### What got WEAKER, and must stay weak
+
+Two claims were overstated in the 2026-08-19 draft and are now corrected.
+**Do not let a later draft quietly restore them.**
+
+1. **"The routing decision is very nearly a function of the affected item."**
+   Not supported. Model-free (`r12`): U(queue|item) is 60.4%, not 91%; the
+   modal-queue lookup scores 90.3% raw but the constant guess already scores
+   78.6%, and class-balanced the lookup reaches **34.1%**. The supported
+   claim is about the queue's *predictive content for this target*, and about
+   the *coarse* routing contrast — not about determination.
+2. **The scoping figures.** The old 57.9 / 90.0 / 95.4 were one split's
+   curve. Split-averaged they are 56 / 88 / 93 with ranges [53,58], [82,92],
+   [91,95]. Quote the averaged ones with the range.
+
+### A defect this round reproduced, and the fix
+
+The first version of `r14_scope.py` printed an explanation for the k=16→k=32
+flat in the scoping curve — and its own table contradicted it. That is
+exactly the `r7_final.py` failure mode this file warns about, reproduced by
+an agent that had read the warning. The flat is **split-specific noise**: the
+across-split range at k=32 is 9 points. Two candidate explanations were
+tested and both are false (ranks 17–32 have the joint-*largest* departure
+from the pool rate and the *highest* train-to-test correlation).
+
+Lesson to carry: a plausible mechanism you have not tested is not an
+explanation, and a curve read at one split is not a curve.
+
+### A real number error the verifier caught
+
+The draft said histogram boosting collapses 2,554 items into **256** bins.
+256 is the `max_bins` *parameter*. `r5_binning.csv` computes **137** actual
+distinct bins. Section 4 of this file had propagated the wrong figure.
+Fixed, and `attack_verifier.py` now contains "restore the wrong bin count"
+so it cannot come back.
+
+### Verifier
+
+Now **224 checks** and **44 corruptions**. The suite found two live holes in
+the new checks — swapped pairs sharing a sentence (the 60.4/19.6 asymmetry
+and the 0.309/0.603 pool rates), which anchoring alone cannot separate
+because each anchor sits inside the other's window. Both are pinned with
+`ck_phrase` now. **Any ordered pair you add needs the same treatment.**
+
+### Still needs the author
+
+- **Read `\section*{Use of AI Systems}` and confirm it describes your
+  process.** It was removed in commit `b4aded4` and has been restored,
+  because AAAI permits AI use in developing a publication *only if its role
+  is documented in the manuscript*, and `HANDOFF.md` — this file — is public
+  in the repository the paper cites for reproducibility, is addressed to
+  agents throughout, and a single-blind reviewer can follow that link. The
+  restored text is a good-faith description based on what this repository
+  evidences. Only you know whether it is accurate, and sanctions attach to
+  getting it wrong. Edit it or remove it, but do not leave it unread.
+- **Name the practitioner** in the Acknowledgements if they consent.
+- **Consider offering them co-authorship.** The CFP recommends co-authors
+  from the deploying organisation and it is the cleanest answer to the
+  "no deployment" objection. Weigh against a solo-authorship preference.
+- Employer publication clearance, if applicable.
