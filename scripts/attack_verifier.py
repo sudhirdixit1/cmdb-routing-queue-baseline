@@ -59,8 +59,8 @@ CORRUPTIONS = [
     #    is not an artifact of one estimator, so an inflated range or a hidden
     #    encoder null is exactly the corruption that would matter.
     ("swap the estimator range endpoints",
-     "the first rung ranges $+0.173$ to $+0.183$",
-     "the first rung ranges $+0.183$ to $+0.173$"),
+     "the first rung ranges $+0.173$ to $+0.184$",
+     "the first rung ranges $+0.184$ to $+0.173$"),
     ("narrow the estimator shrinkage",
      "the shrinkage $42\\%$ to $48\\%$", "the shrinkage $43\\%$ to $47\\%$"),
     ("hide the boosting encoder null",
@@ -79,7 +79,13 @@ CORRUPTIONS = [
     ("inflate the overstatement factor",
      "by a factor of $4.3$ $[3.2,6.4]$", "by a factor of $9.3$ $[3.2,6.4]$"),
     ("corrupt the abstract's detection factor",
-     "credits the CMDB with $3.9$", "credits the CMDB with $13.9$"),
+     "credits the CMDB with $4.3$", "credits the CMDB with $14.3$"),
+    # The real defect was subtler than a fabricated digit: the abstract kept
+    # the DISCREDITED single-tie-break-draw estimate while the table moved to
+    # the median.  Both were "true" of some computation; only one is the
+    # paper's.  This is the corruption that actually shipped.
+    ("restore the abstract's discredited single-draw factor",
+     "credits the CMDB with $4.3$", "credits the CMDB with $3.9$"),
     ("understate the AUC ratio it is contrasted with",
      "against a ratio of only $1.8$", "against a ratio of only $1.1$"),
     ("swap the threshold ladder pair",
@@ -236,6 +242,25 @@ CORRUPTIONS = [
     ("drop the floor's mass-matching limitation",
      "matched on cardinality but not on mass",
      "matched on cardinality and on mass"),
+    # -- round seven.
+    ("restore the range that excludes its own maximum",
+     "first rung ranges $+0.173$ to $+0.184$",
+     "first rung ranges $+0.173$ to $+0.183$"),
+    ("reinstate the censored range built from single-incident months",
+     "are reassigned at $81.2\\%$ against $40.0\\%$",
+     "show reassignment rates of $76$--$100\\%$ against"),
+    ("hide the criterion asymmetry",
+     "$2{,}060$ of $2{,}554$ training items also map to a single opening",
+     "few training items map to a single opening"),
+    ("claim a principled threshold the paper does not have",
+     "We know of no principled threshold that admits the group and",
+     "A principled threshold admits the group and"),
+    ("reintroduce the disowned tail gloss into the mechanism section",
+     "the contrast doing most of the work is the central desk against\neverything else",
+     "the contrast doing most of the work is a specialist team opening\nits own work"),
+    ("promote the cross-target ordering to a prediction",
+     "rather than predicted by it: the mechanism says nothing about how",
+     "and predicted by it: the mechanism says exactly how"),
 ]
 
 

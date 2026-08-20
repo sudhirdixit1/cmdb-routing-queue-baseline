@@ -53,7 +53,7 @@ item identity is a single column rather than $2{,}554$, and reproduces on
 two further targets and at three target thresholds. Stated as a detection
 problem it is larger than the AUC ratio of $1.8$ suggests --- at a review
 capacity of $5\%$ of arrivals, omitting the field credits the CMDB with
-$3.9$ $[3.2,6.4]$ times as many additional catches. Two measurements
+$4.3$ $[3.2,6.4]$ times as many additional catches. Two measurements
 explain the overlap: the opening group adds under $0.01$ AUC to a model that
 already knows the item, and the shrinkage is graded in the field's
 resolution, running $27\%$ to $44\%$ as it goes from one bit to $49$ levels.
@@ -159,8 +159,8 @@ Manager, with the activity log shipped alongside.
 \paragraph{Cleaning.}
 Of $46{,}809$ rows, $203$ carry no incident identifier and one an unparseable
 timestamp. A further $1{,}150$ opened before 2013-10-01 are left-censored ---
-already open when the extract began --- and show reassignment rates of
-$76$--$100\%$ against a subsequent $35$--$42\%$. Removing them leaves
+already open when the extract began --- and are reassigned at $81.2\%$
+against $40.0\%$ for the incidents we keep. Removing them leaves
 $\mathbf{45{,}455}$ incidents to 2014-03-31; a temporal $70/30$ split gives
 $31{,}818$ training and $13{,}637$ test, positive rates $0.413$ and $0.372$.
 The cutoff is not taken from the outcome: monthly volume rises from $857$
@@ -179,7 +179,8 @@ one-hot logistic regression, chosen because it is bin-free; two further
 estimator families are reported in Section~\ref{sec:result}. Encoders and
 rankings are fit on training data only; intervals are $2{,}000$-resample
 paired bootstraps, except Table~\ref{tab:capacity}, whose counts are
-re-ranked in each draw and use $400$.
+re-ranked in each draw and use $400$. Monte-Carlo nulls use $15$ to $100$
+draws, recorded beside each figure in the result files.
 
 \paragraph{The free field, and what it is not.}
 The activity log records, on the \texttt{Open} event of every incident, an
@@ -284,7 +285,7 @@ sees its own outcome --- which makes the item one continuous feature and
 makes histogram boosting usable on a variable that otherwise collapses
 $2{,}554$ items into $137$ bins. Across one-hot logistic regression,
 logistic regression on the encoded item, and boosting on it, the first rung
-ranges $+0.173$ to $+0.183$, the second $+0.091$ to $+0.104$, and the
+ranges $+0.173$ to $+0.184$, the second $+0.091$ to $+0.104$, and the
 shrinkage $42\%$ to $48\%$. Encoding a
 \emph{shuffled} item column under the same pipeline returns
 $-0.0001 \pm 0.0016$ and $+0.0042 \pm 0.0020$. The first collapses to zero;
@@ -334,9 +335,9 @@ anything, the floor rises with the partition's fineness --- $41\%$ at $49$
 cells, matching the field's own cardinality, $77\%$ at $400$
 (Figure~\ref{fig:overlap}b). It is a $30$-draw Monte Carlo and its dispersion
 is wide --- $12$ points at $49$ cells --- so the margin below is indicative,
-not resolved. It is also matched on cardinality but not on mass --- the real field is far
-from uniform, and our reverse-leg analysis shows mass-matching can move a
-floor by tens of points --- so it bounds the margin from one side only. Note what this sweep cannot show: at one cell
+not resolved. It is matched on cardinality but not on mass --- the real field is far from
+uniform, and mass-matching moves a floor by tens of points in our reverse-leg
+analysis --- so it bounds the margin from one side only. Note what this sweep cannot show: at one cell
 per item the null \emph{is} the real leg, so ``the real leg beats every
 floor'' would be true by construction. The informative comparison is at
 matched cardinality, where a grouping that knows nothing about intake
@@ -385,9 +386,10 @@ One objection goes to the heart of the reading, and our own evidence
 sharpens it. The opening group may be free only because a human at the desk
 already knew what the ticket was about --- in which case it is undocumented
 configuration knowledge, and a baseline containing it is not a CMDB-free
-baseline. The one-bit result makes this concrete: the contrast doing most of
-the work is central desk against a specialist team opening its own work,
-exactly where such knowledge would sit. We cannot settle it and do not need
+baseline. The one-bit result makes this concrete: the contrast doing most of the work
+is the central desk against everything else, and
+Section~\ref{sec:data} declines to say what everything else is, so we cannot
+say whether the knowledge sits there. We cannot settle it and do not need
 to. The measurement is the same under both readings; what changes is the
 moral. If the group is independent, a CMDB is worth half what the naive
 comparison says. If it is tacit configuration knowledge, then our
@@ -416,10 +418,15 @@ Our baseline is not a terminus either. Hour of day and day of week are free
 and creation-time; adding both moves the item's value from $+0.103$ to
 $+0.099$. \texttt{Service Component WBS (aff)} is harder: $100\%$ populated,
 free, and admitting it takes the measured value to $+0.023$. We exclude it as
-a near-deterministic function of the item --- only $58$ of $2{,}929$ items
-carry more than one value --- so it is configuration data under another name.
-A reader who disagrees should read our headline as $+0.023$, and that
-substitution is the decision this paper is about.
+near-deterministic in the item --- only $58$ of $2{,}929$ items carry more
+than one value --- so it is configuration data under another name. That
+criterion cuts both ways: $2{,}060$ of $2{,}554$ training items also map to a
+single opening group, though those items carry just $8.8\%$ of incidents, so
+the high-volume ones are the multi-group ones. We know of no principled
+threshold that admits the group and excludes the service component. A reader
+who draws the line differently should read our headline as $+0.023$ --- which
+is the decision this paper is about, and why we report a ladder rather than a
+number.
 
 \section{What the Difference Buys}
 \label{sec:buys}
@@ -503,7 +510,9 @@ and from $38\%$ to $47\%$ on the primary one. Reopening is rare
 and its gains stand only $5.5$ and $4.2$ pooled standard deviations from
 their nulls, so it establishes the effect's direction and not its size; and
 the reduction is largest on the target the opening group is most directly
-about, which is what Section~\ref{sec:mechanism} predicts. That is why we
+about --- consistent with Section~\ref{sec:mechanism} rather than predicted
+by it: the mechanism says nothing about how shrinkage should order across
+targets. That is why we
 state the transferable claim as the gap's existence rather than its
 magnitude.
 
@@ -541,30 +550,27 @@ limit of the three files we hold, not of the export.
 \section{Estate Concentration}
 \label{sec:scope}
 
-Required CMDB scope is bounded by a property of the estate that needs no
-model: the top $8$ items generate $30.2\%$ of incidents, the top $64$
-generate $70.5\%$, and the top $128$ --- $5.0\%$ of the training vocabulary
---- generate $82.0\%$, all computable from a frequency count before funding
-anything.
+Required CMDB scope is bounded by a property of the estate needing no model:
+the top $8$ items generate $30.2\%$ of incidents, the top $64$ $70.5\%$, and
+the top $128$ --- $5.0\%$ of the training vocabulary --- $82.0\%$, all from a
+frequency count before funding anything.
 
-Identifying only those items recovers most of the measured value. Averaged
-over five temporal split points, the top $8$ recover $56\%$ of the $+0.103$,
+Identifying only those items recovers most of it. Averaged over five split
+points, the top $8$ recover $56\%$ of the $+0.103$,
 the top $64$ recover $88\%$ and the top $128$ recover $93\%$; across those
 splits the three range over $52$--$58\%$, $81$--$93\%$ and $90$--$96\%$.
-These are min--max spreads over a design choice,
-not bootstrap intervals, and we write them as ranges to keep the
-distinction. We report the mean and range rather than one split's curve because a single
-curve is not monotone at this resolution: at $k=32$ the across-split spread
-is $9$ points. The same holds with the group removed from the baseline ---
+These are min--max spreads over a design choice, not bootstrap intervals,
+and we write them as ranges to keep the distinction. We give the mean and
+range rather than one split's curve because a single curve is not monotone at
+this resolution: at $k=32$ the across-split spread is $9$ points. The same holds with the group removed from the baseline ---
 $89\%$ at $k=64$ --- so this is a property of the estate's concentration, not
 of our field-admission decision.
 
 \section{Limitations}
 
-One organisation --- of necessity, not choice
-(Section~\ref{sec:background}) --- one platform, one task, six months, on
-2013 and 2014 data from an on-premises product whose estate, intake practice and
-tooling have all moved since. The values $+0.183$ and $+0.103$ are properties
+One organisation, of necessity rather than choice
+(Section~\ref{sec:background}); one platform; six months of 2013 and 2014
+data from an on-premises product whose estate and practice have moved since. The values $+0.183$ and $+0.103$ are properties
 of this estate; the transferable claims are that the gap exists, that it is
 large, that it is graded in the free field's resolution, and that the
 mechanism runs from item to group --- the group's predictive content is
@@ -572,9 +578,8 @@ largely carried by the item. The reverse, that the item column stands in for
 the group, is the leg Section~\ref{sec:mechanism} excludes. Reassignment is
 a proxy for misrouting and also fires on legitimate escalation. The
 within-item shuffle preserves item membership but not other correlates of
-identity, so it bounds the proxy share rather than isolating it. The opening
-group's distribution drifts between our halves, so the group-aware baseline
-is being asked to generalise across a shift.
+identity, so it bounds the proxy share rather than isolating it. And the
+opening group's distribution drifts between our halves.
 
 \section{Conclusion}
 
@@ -582,19 +587,18 @@ Knowing which configuration item an incident concerns is worth $+0.183$ or
 $+0.103$ AUC for predicting reassignment, depending on whether the baseline
 includes one free field: which group logged the ticket. Stated as detection
 at a fixed review capacity, the same choice moves the credited benefit
-several fold. The difference is an overlap: a model given the item has
-already been told most of what the group would say. A business case built on
-the first figure is not measuring a CMDB. It is measuring a CMDB plus a
-field the organisation was already recording for nothing.
+several fold. The difference is an overlap --- a model given the item has
+already been told most of what the group would say --- so a business case
+built on the first figure is measuring a CMDB plus a field the organisation
+was already recording for nothing.
 
-\section*{Acknowledgements}
-This work benefited from the review and domain challenge of a practitioner in
-IT service management; several analyses were withdrawn on objections raised
-there.
-
-\section*{Reproducibility}
-The dataset is public \citep{vandongen2014bpic}. Code, figures and a checker that recomputes every quantity here --- from a result file or from the raw data:
+\section*{Acknowledgements and Reproducibility}
+This work benefited from the review and domain challenge of a practitioner
+in IT service management. The dataset is public
+\citep{vandongen2014bpic}; code, figures and a checker that recomputes every
+quantity here are at
 \url{https://github.com/sudhirdixit1/cmdb-routing-queue-baseline}.
+
 
 %% No \bibliographystyle here: aaai2027.sty sets it, and a second one makes
 %% bibtex fail with "Illegal, another \bibstyle command".

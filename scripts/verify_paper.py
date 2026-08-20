@@ -77,6 +77,12 @@ r18L = pd.read_csv(R / "r18_dropped_leg_itemlevel.csv").set_index("leg")
 bins = pd.read_csv(R / "r5_binning.csv").iloc[0]
 
 ok, bad, seen = 0, [], set()
+#  `seen` means 'this literal is accounted for'.  `checked` means 'a value
+#  computed from data was compared against it'.  They are NOT the same, and
+#  conflating them is how a wrong abstract figure survived six revisions:
+#  ck_phrase registers literals but never compares them.  The coverage test
+#  at the bottom now requires `checked`, not merely `seen`.
+checked = set()
 
 
 def _decimals(printed):
@@ -133,6 +139,7 @@ def ck_bound(label, value, printed, kind, anchor):
     for m in re.finditer(re.escape(flat_anchor), FLAT):
         w = literals(FLAT[max(0, m.start() - 200): m.end() + 200])
         if printed in w or ("+" + printed) in w:
+            checked.add(printed)
             ok += 1
             return
     bad.append(f"{label}: '{printed}' does not appear near '{anchor}'")
@@ -191,6 +198,7 @@ def ck(label, value, printed, tol, anchor):
         if not near:
             bad.append(f"{label}: '{printed}' does not appear near '{anchor}'")
             return
+    checked.add(printed)
     ok += 1
 
 
@@ -205,6 +213,9 @@ def ck_phrase(label, phrase, *values_and_tols):
     """
     global ok
     flat = re.sub(r"\s+", " ", phrase)
+    #  NOTE: this pins POSITION, not value.  Every literal named here must
+    #  ALSO have its own ck()/ck_bound() call somewhere, or the coverage test
+    #  below will fail it as phrase-only.
     for v, _t in zip(values_and_tols[::2], values_and_tols[1::2]):
         seen.add(v)
     if flat in FLAT:
@@ -458,30 +469,27 @@ ck("split train pct", 70, "70", 0, anchor="temporal")
 ck("split test pct", 30, "30", 0, anchor="temporal")
 ck("stability low pct", 55, "55", 0, anchor="split point")
 ck("stability high pct", 80, "80", 0, anchor="split point")
-pre = d[d._t < "2013-10-01"]
-prem = pre.groupby(pre._t.dt.to_period("M"))._y.mean() if "_y" in pre else None
 d["_y"] = (d._ra >= 1).astype(int)
 pre = d[d._t < "2013-10-01"]
-prem = pre.groupby(pre._t.dt.to_period("M"))._y.mean()
-prem = prem[pre.groupby(pre._t.dt.to_period("M")).size() >= 5]
-#  Range endpoints are floored/ceiled, not rounded: the observed minimum is
-#  76.5%, so "rates of 76--100%" is true and "77--100%" would be false.  The
-#  rounding test added in v5 is correct for point estimates and wrong for an
-#  inclusive bound, so this endpoint is checked as a bound.
-_lo_obs = prem.min() * 100
-seen.add("76")
-if not (76 <= _lo_obs < 77):
-    bad.append(f"censored low: paper prints 76 as an inclusive lower bound; "
-               f"observed minimum is {_lo_obs:.2f}")
-elif "76" not in literals(FLAT[max(0, FLAT.find("reassignment rates") - 200):
-                              FLAT.find("reassignment rates") + 200]):
-    bad.append("censored low: '76' not near 'reassignment rates'")
+post = d[d._t >= "2013-10-01"]
+#  The paper used to give a monthly RANGE here ("76--100%").  Its 100% end
+#  came from months holding a single incident, so it was not evidence.  Both
+#  figures are now pooled rates over the two halves, each compared to data.
+_pre_pooled = pre._y.mean() * 100
+_post_pooled = post._y.mean() * 100
+ck("censored pooled rate", _pre_pooled, "81.2", 0.06, anchor="are reassigned at")
+ck("kept pooled rate", _post_pooled, "40.0", 0.06,
+   anchor="for the incidents we keep")
+ck_phrase("censoring contrast in order",
+          r"are reassigned at $81.2\%$ against $40.0\%$ for the incidents we keep",
+          "81.2", 0, "40.0", 0)
+#  The reason for dropping them is that they differ sharply.  Check the
+#  reason, not only the numbers.
+if not (_pre_pooled > _post_pooled + 20):
+    bad.append("paper drops the left-censored rows because their reassignment "
+               "rate is far higher; the gap is not there")
 else:
     ok += 1
-post = d[d._t >= "2013-10-01"]
-postm = post.groupby(post._t.dt.to_period("M"))._y.mean()
-ck("post low", postm.min() * 100, "35", 0.6, anchor="subsequent")
-ck("post high", postm.max() * 100, "42", 0.6, anchor="subsequent")
 
 # ---- ordered pairs and repeated values, pinned verbatim ----------------
 #  The abstract used to restate the mirror leg verbatim; it now leads on the
@@ -491,9 +499,14 @@ ck("post high", postm.max() * 100, "42", 0.6, anchor="subsequent")
 ck_phrase("abstract dose-response pinned",
           r"running $27\%$ to $44\%$ as it goes from one bit to $49$ levels",
           "27", 0, "44", 0, "49", 0)
+#  This literal was pinned by phrase and never compared to data -- which is
+#  how a discredited single-draw figure sat in the abstract contradicting
+#  Table 2 through six revisions.  It now carries its own ck().
+ck("abstract detection factor", r11C.loc[0.05].factor, "4.3", 0.05,
+   anchor="credits the CMDB with")
 ck_phrase("abstract detection factor pinned",
-          r"omitting the field credits the CMDB with $3.9$ $[3.2,6.4]$ times "
-          r"as many additional catches", "3.9", 0, "3.2", 0, "6.4", 0)
+          r"omitting the field credits the CMDB with $4.3$ $[3.2,6.4]$ times "
+          r"as many additional catches", "4.3", 0, "3.2", 0, "6.4", 0)
 ck_phrase("mirror leg pinned",
           r"retains $91\%$ of the group's $+0.082$ gain", "91", 0)
 #  The 2%/89-point pin is superseded: that floor is withdrawn and the
@@ -615,8 +628,8 @@ else:
 # ---- r10: three estimator families -------------------------------------
 ck("estimator range intake lo", r10R.intake_lo, "+0.173", 6e-4,
    anchor="the first rung ranges")
-ck("estimator range intake hi", r10R.intake_hi, "+0.183", 6e-4,
-   anchor="the first rung ranges")
+ck_bound("estimator range intake hi", r10R.intake_hi, "+0.184", "upper",
+         anchor="the first rung ranges")
 ck_bound("estimator range queue lo", r10R.queue_lo, "+0.091", "lower",
          anchor="the second")
 ck_bound("estimator range queue hi", r10R.queue_hi, "+0.104", "upper",
@@ -624,9 +637,9 @@ ck_bound("estimator range queue hi", r10R.queue_hi, "+0.104", "upper",
 ck_bound("estimator shrink lo", r10R.shrink_lo, "42", "lower", anchor="the shrinkage")
 ck_bound("estimator shrink hi", r10R.shrink_hi, "48", "upper", anchor="the shrinkage")
 ck_phrase("estimator ranges in order",
-          r"the first rung ranges $+0.173$ to $+0.183$, the second $+0.091$ "
+          r"the first rung ranges $+0.173$ to $+0.184$, the second $+0.091$ "
           r"to $+0.104$, and the shrinkage $42\%$ to $48\%$",
-          "+0.173", 0, "+0.183", 0, "+0.091", 0, "+0.104", 0, "42", 0, "48", 0)
+          "+0.173", 0, "+0.184", 0, "+0.091", 0, "+0.104", 0, "42", 0, "48", 0)
 _e2 = r10N.loc["E2 logistic, item target-encoded"]
 _e3 = r10N.loc["E3 boosting, item target-encoded"]
 ck("E2 encoder null mean", _e2.null_mean, "-0.0001", 6e-5, anchor="returns")
@@ -1115,6 +1128,29 @@ else:
     else:
         ok += 1
 
+# ---- round seven: the criterion asymmetry the paper now states ----------
+ck("items with a single opening group", r12Q.items_single_queue, "2{,}060", 0,
+   anchor="training items also map")
+ck("mass those items carry", r12Q.single_queue_mass * 100, "8.8", 0.06,
+   anchor="carry just")
+ck_phrase("criterion asymmetry stated",
+          r"$2{,}060$ of $2{,}554$ training items also map to a single opening "
+          r"group, though those items carry just $8.8\%$ of incidents",
+          "2{,}060", 0, "2{,}554", 0, "8.8", 0)
+if r12Q.single_queue_mass > 0.25:
+    bad.append("paper says the single-group items carry little incident mass; "
+               f"they carry {r12Q.single_queue_mass:.1%}")
+else:
+    ok += 1
+ck_phrase("no principled threshold claimed",
+          r"We know of no principled threshold that admits the group and "
+          r"excludes the service component")
+ck_phrase("tail characterisation not reused in the mechanism section",
+          r"the contrast doing most of the work is the central desk against "
+          r"everything else")
+ck_phrase("cross-target ordering not claimed as a prediction",
+          r"rather than predicted by it: the mechanism says nothing about how")
+
 # ---- residue of withdrawn claims ---------------------------------------
 for dead in ["VolvoIT", "ServiceNow-IT", "saturat", "converge above",
              "mass-matched", "perplexity"]:
@@ -1128,8 +1164,25 @@ STRUCTURAL = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "27",
               "2027", "2013", "2014", "01", "03", "31", "95", "10"}  # section/date only000", "0.068"}
 unaccounted = sorted(l for l in LITS if l not in STRUCTURAL and l not in seen)
 
+#  A literal that is only PINNED BY PHRASE has never been compared to data.
+#  That state let a stale operational factor sit in the abstract, contradicting
+#  the paper's own table, through six revisions and 77 adversarial corruptions.
+#  It is now a failure, not a silence.
+PHRASE_ONLY_OK = {
+    # capacity labels: the share reviewed, not a measured quantity
+    "5", "10", "20",
+}
+phrase_only = sorted(l for l in LITS
+                     if l not in STRUCTURAL and l in seen and l not in checked
+                     and l.lstrip("+-") not in {c.lstrip("+-") for c in checked}
+                     and l not in PHRASE_ONLY_OK)
+for _p in phrase_only:
+    bad.append(f"literal '{_p}' is pinned by phrase but never compared to "
+               f"data -- add a ck() or ck_bound() for it")
+
 print(f"\n{ok} checks passed, {len(bad)} failed")
-print(f"{len(LITS)} literals in body; {len(unaccounted)} unaccounted")
+print(f"{len(LITS)} literals in body; {len(unaccounted)} unaccounted; "
+      f"{len(checked)} compared against data")
 if bad:
     print("\nFAILED:")
     for b in bad:
