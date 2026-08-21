@@ -112,7 +112,7 @@ placed to attack has moved.
 **One suggestion that is new.** If the editor is willing, a reviewer whose work
 is on *reproducibility and verification tooling* rather than on process mining
 would be well placed to attack the part of this submission that is least like
-the rest of the literature: a checker that recomputes 410 numeric literals, a
-suite of 183 corruptions over that checker, and a claim — stated in the paper
+the rest of the literature: a checker that recomputes 417 numeric literals, a
+suite of 199 corruptions over that checker, and a claim — stated in the paper
 and in the repository — that the apparatus provably cannot see the class of
 defect that two of this paper's eleven corrections belong to.

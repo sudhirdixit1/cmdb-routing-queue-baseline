@@ -2273,9 +2273,13 @@ ck_phrase("only the trend is claimed",
 #  and to concede that it had not separated rank resolution from
 #  information.  It has now separated them, and the framing is withdrawn.
 #  These two pins are replaced by the pins on the withdrawal itself.
+#  ROUND SEVENTEEN.  "the second of this round's two corrections" pointed at
+#  round sixteen and became false when this round added three more.  A
+#  published paper has no rounds; a correction has a number, and body_of()
+#  strips every cross-reference, so the pin ends before it.
 ck_phrase("the framing is withdrawn, in the body",
-          r"That framing is withdrawn here, and the reason is the second of "
-          r"this round's two corrections")
+          r"That framing is withdrawn here, and the reason is correction "
+          r"seven in Section")
 ck_phrase("net benefit is chosen because it never breaks a tie",
           r"a threshold admits or excludes a whole tied block, so no tie is "
           r"ever broken")

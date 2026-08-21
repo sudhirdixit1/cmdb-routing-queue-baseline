@@ -206,15 +206,15 @@ rewritten. If you are adding a script, print only what your output supports.
 Current state:
 
 ```
-934 checks passed, 0 failed
+936 checks passed, 0 failed
 417 literals in body; 0 unaccounted; 405 compared against data
-198 caught, 0 missed, 0 skipped of 198
+199 caught, 0 missed, 0 skipped of 199
 ```
 
 `verify_paper.py` compares every numeric literal in the paper against a value
 computed from a result file or recomputed from the raw data, requires each to
 appear within an anchor phrase, and fails if any literal in the body is
-unaccounted for. `attack_verifier.py` is its regression suite: 198
+unaccounted for. `attack_verifier.py` is its regression suite: 199
 corruptions.
 
 ### Be precise about what that buys

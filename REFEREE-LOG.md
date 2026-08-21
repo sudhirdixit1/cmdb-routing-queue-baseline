@@ -324,6 +324,14 @@ SHA-256 is unchanged from before it read anything;
 is that a harness which can modify its subject can report success by
 construction.
 
+**An eighth surfaced only because the one-command reproduction was run end to
+end, apparently for the first time.** `r6_final.py` has not parsed since round
+four: an f-string expression split across four adjacent string literals. Every
+round since has read `results/r6_*.csv` and none could have regenerated them.
+Re-running the repaired script produced byte-identical files, so the numbers
+were right and the reproducibility claim was not. `HANDOFF.md` §20.11 has the
+account; `reproduce_all.py` now parses every script in preflight.
+
 The sixth is a process defect rather than a code one. A commit issued while the suite was rewriting the manuscript
 captured a *corrupted* manuscript. The suite's own docstring has warned about
 exactly that since round sixteen; a warning addressed to a reader is not a

@@ -174,7 +174,7 @@ its status has changed.
 **Where the work is.** Branch `round-seventeen-strong-accept`, local only. It
 is a large round: a pre-registered protocol, a corpus of twenty-four public
 files, thirteen new analyses, a rebuilt 47-page manuscript, the checker from
-674 checks to 934, the corruption suite from 149 to 199, and a referee log.
+674 checks to 936, the corruption suite from 149 to 199, and a referee log.
 
 **Why it was not pushed.** Pushing publishes. Round sixteen pushed because a
 live credential happened to be present and the plan asked for it; this round's

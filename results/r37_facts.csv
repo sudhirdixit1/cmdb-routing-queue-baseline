@@ -1,2 +1,2 @@
 n_attributes_tested,n_logs,n_free_text,n_free_text_logs,n_near_miss,min_unique,min_mean_len,min_space,min_digitstrip_ratio,min_populated,n_structurally_excluded,n_ladders,runtime_s
-596,22,0,0,102,0.4,20.0,0.5,0.5,50,152,0,22.6
+596,22,0,0,102,0.4,20.0,0.5,0.5,50,152,0,39.2

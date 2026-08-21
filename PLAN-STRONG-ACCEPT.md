@@ -444,13 +444,13 @@ artifact is already unusual; make it unarguable.
 
 - [x] Extend `verify_paper.py` to the multi-log results. Every new number is
       checked or the paper does not print it.
-      — **890 checks, 410 literals, 0 unaccounted, 401 compared against data.**
+      — **936 checks, 417 literals, 0 unaccounted, 405 compared against data.**
       Thirty-nine checks whose anchoring sentence no longer exists are named in
       a `RETIRED` set with the claim that went; that is safe only because the
       coverage census fails any literal a retirement frees.
 - [x] Grow `attack_verifier.py` with a corruption per new claim. **A claim
       without a corruption is not defended.**
-      — **149 → 183.** Nine stale entries were repointed rather than deleted,
+      — **149 → 199.** Nine stale entries were repointed rather than deleted,
       so the attack each encodes survives. Five of the new ones mutate a
       *relation* rather than a value, because that is the class corrections
       nine and ten belong to and no value mutation can reach it.
@@ -516,7 +516,7 @@ Most of this exists from round sixteen; refresh rather than rewrite.
       (the previous file's five counts were all wrong by 3–11 characters).
 - [x] Refresh every count quoted in the cover letter against a fresh
       `reproduce_all.py`
-      — 410 literals, 183 corruptions, 13 admitted logs. The letter's
+      — 417 literals, 199 corruptions, 13 admitted logs. The letter's
       "notes to self" now says explicitly that the last version quoted counts
       that had moved, so the next round checks rather than trusts.
 - [x] `PROTOCOL.md` goes in the submission as supplementary material — a
@@ -562,7 +562,7 @@ Tick every box, or record why it cannot be ticked.
       failing condition recorded field by field in `r37_free_text.csv`.
 - [x] Every new number checked by `verify_paper.py`; every new claim has a
       corruption; suite passes 0 missed, 0 skipped
-      — 890 checks, 0 unaccounted; 183 corruptions. The first run of the
+      — 936 checks, 0 unaccounted; 199 corruptions. The first run of the
       enlarged suite landed three, all prose; each is now guarded and the
       suite re-run clean.
 - [x] Four adversarial passes run, every objection dispositioned in
@@ -570,7 +570,7 @@ Tick every box, or record why it cannot be ticked.
       — 22 objections: 3 measured, 13 conceded into the text, 6 dismissed with
       reasons.
 - [x] The manuscript builds with 0 errors and 0 undefined references
-      — 45 pages, 0 errors, 0 undefined references, 2 overfull hboxes.
+      — 47 pages, 0 errors, 0 undefined references, 2 overfull hboxes.
 - [x] §12 of this file records what each phase found, including the phases
       that found nothing
       — Two phases found nothing (the free-text search, the prediction
@@ -599,7 +599,7 @@ Tick every box, or record why it cannot be ticked.
       that fails loudly when the paper is wrong
       — `python scripts/reproduce_all.py` now fetches all 24 datasets by DOI,
       checksums them, runs every analysis in dependency order, regenerates
-      every figure, verifies 410 literals and runs 183 corruptions. A
+      every figure, verifies 417 literals and runs 199 corruptions. A
       container and a hash-pinned lockfile remove the environment as a
       variable.
 - [x] **No claim resting on an unvaried choice.** For every number in the
@@ -677,8 +677,8 @@ that found against the paper**.
 | 4b — data quality (§5.2) | **Caveat replaced by a curve.** At half population the item is worth +0.082 if the tail is missing and +0.064 if the core is; reduction 39.3% against 14.2%. The regime matters more than the level, and at full population the measurement sits at the top of its own curve, so discovery tooling cannot raise it. | `r36`; 9 min |
 | 4c — free text (§5.3) | **Nothing, and the search is the deliverable.** 596 attributes over 22 logs; zero satisfy the declared criterion. UCI 498's `u_symptom` is 3.4% unique with mean length 10.9: a coded symptom, not a description. Two amendments were needed to stop the criterion admitting formatted identifiers and single-row columns. | `r37`; 23 s |
 | 4d — era (§5.4) | **Four measurements replace an apology, and the largest is new.** Across intake mixes from no central desk to 95% central desk the reduction runs 6.3% to 95.3% — a wider range than every other axis in this paper put together — and a 2026 desk with more channels sits at the end where the free field absorbs nearly all of it. | `r38`; 20 s |
-| 5 — the manuscript (§6) | Rebuilt: new title, abstract, introduction, estimand section, metric axis, population axis, corpus section, reporting standard, settled §12, four-way era decomposition, three new corrections, rewritten conclusion. 45 pages, 0 errors, 0 undefined references. | `patch_paper_r17*` |
-| 6 — the artifact (§7) | `verify_paper.py` from 674 checks to 890, 410 literals, 0 unaccounted. `ck_word` added. **The coverage census was outrun a second time** and the fix is now structural: it is a function called last, and `_lint_check_order()` fails if any check call follows it. `attack_verifier.py` from 149 corruptions to 183, five of them mutating a *relation* rather than a value. `requirements.lock` with artefact hashes; `Dockerfile` pinning BLAS threads; `reproduce_all.py` gains a fetch stage and per-script runtimes. | |
+| 5 — the manuscript (§6) | Rebuilt: new title, abstract, introduction, estimand section, metric axis, population axis, corpus section, reporting standard, settled §12, four-way era decomposition, three new corrections, rewritten conclusion. 47 pages, 0 errors, 0 undefined references. | `patch_paper_r17*` |
+| 6 — the artifact (§7) | `verify_paper.py` from 674 checks to 936, 417 literals, 0 unaccounted. `ck_word` added. **The coverage census was outrun a second time** and the fix is now structural: it is a function called last, and `_lint_check_order()` fails if any check call follows it. `attack_verifier.py` from 149 corruptions to 199, five of them mutating a *relation* rather than a value. `requirements.lock` with artefact hashes; `Dockerfile` pinning BLAS threads; `reproduce_all.py` gains a fetch stage and per-script runtimes. | |
 | 7 — adversarial round (§8) | Four passes, 22 objections, all dispositioned in `REFEREE-LOG.md`: 3 produced new measurements, 13 produced a sentence the paper did not contain, 6 dismissed with reasons. The suite then landed 3 corruptions on its first run, **all three prose**, and each is now guarded. | |
 | 8 — submission (§9) | Highlights, cover letter, CRediT, data availability and decisions refreshed against the new counts. `PROTOCOL.md` added as supplementary material. The three items needing the author's accounts are unchanged in `submission/OWNER-ACTIONS.md`. | |
 

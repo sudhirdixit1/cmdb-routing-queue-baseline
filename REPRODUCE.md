@@ -151,8 +151,13 @@ builds the cohort and stops, which is 5 seconds rather than 90:
 | `r38_era_sensitivity.py` | under 1 min |
 
 `reproduce_all.py` writes a per-script table to `logs/runtimes.csv` and prints
-the six slowest. Allow about 70 minutes to reach the verifier from a cold
-`data/`, plus the corruption suite.
+the six slowest. **A measured full run: 43 minutes** on a 14-core Windows
+laptop with `--jobs 4`, from a populated `data/`, through nine waves, the
+figures, the verifier and the build. Add two to four minutes for the fetch
+stage from cold, and 60 to 100 minutes for the corruption suite. The slowest
+six on that run were `r5_final` (8.3), `r36_population_ablation` (8.2),
+`r33_generic_ladder` (7.9), `r9_second_task` (7.6), `r8_final` (5.5) and
+`r10_estimators` (5.2).
 
 ---
 
@@ -242,7 +247,7 @@ and `_lint_check_order()` reads `verify_paper.py`'s own source and fails if any
 The guard-or-declare lint turned out to have the same bug for the same reason
 and is now called from the same block; the self-lint names both call sites.
 
-`scripts/attack_verifier.py` is the checker's regression suite: 198
+`scripts/attack_verifier.py` is the checker's regression suite: 199
 corruptions drawn from defects found in earlier versions of this work,
 including five that mutate a *relation* rather than a value, because that is
 the class the two new corrections belong to. Run it after any change to the
@@ -305,6 +310,32 @@ analyses withdrawn during review and are retained only so the withdrawals
 are auditable. Nothing in the paper depends on them. `r7_final.py:124-148`
 prints a conclusion its own output contradicts; it is kept deliberately as
 the record of a control that failed.
+
+---
+
+## 6b. If a script does not run
+
+`reproduce_all.py`'s preflight `ast.parse`s every file in `scripts/` and
+refuses to start if any fails. That check exists because
+`r6_final.py` did not parse for thirteen rounds and the failure only surfaced
+thirty minutes into wave 2 of a full run --- an f-string expression split
+across four adjacent string literals, each of which is parsed on its own.
+
+The three things that made it survive thirteen rounds are worth knowing before
+you trust any part of this apparatus:
+
+- **A checker that reads a pipeline's output cannot see a pipeline script that
+  never runs.** `verify_paper.py` passed 936 checks against `r6_gains.csv`
+  while the script that writes it could not be parsed.
+- **Cached result files hide it.** `results/r6_*.csv` were an hour older than
+  the break and were still correct, so nothing downstream complained.
+  Re-running the repaired script produced byte-identical files.
+- **Writing a reproduction script is not reproducing.** The round that wrote
+  `reproduce_all.py` documented it and cited it in the manuscript without
+  running it to completion.
+
+If you change a script, run `python scripts/reproduce_all.py --only analysis`
+before you trust anything downstream of it.
 
 ---
 

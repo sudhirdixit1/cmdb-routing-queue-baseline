@@ -1172,8 +1172,8 @@ having and worth being precise about. That is the paper.
 
 This round worked through `PLAN-STRONG-ACCEPT.md` end to end. Thirteen new
 analyses, a corpus of twenty-two public logs behind a pre-registered protocol,
-a rebuilt manuscript, five new figures, the checker from 674 checks to 934, the
-corruption suite from 149 to 198, four adversarial referee passes, an
+a rebuilt manuscript, five new figures, the checker from 674 checks to 936, the
+corruption suite from 149 to 199, four adversarial referee passes, an
 environment locked by artefact hash and a container. **Three of the thirteen
 analyses came back against the paper, two came back with nothing, and one
 removed the paper's headline.**
@@ -1410,7 +1410,7 @@ function, it is called from one late block, and `_lint_check_order()` polices
 both call sites. Verified by writing a check below the block and confirming
 the run fails with the offending line number.
 
-The suite is 198 corruptions now, and it re-runs clean.
+The suite is 199 corruptions now.
 
 **The pattern across rounds sixteen and seventeen is worth stating plainly.
 Eight holes have now been found in this verifier and every one of them was
@@ -1486,7 +1486,49 @@ can modify its subject can report success by construction, and no amount of
 checking inside it will reveal that. The check has to be that the subject did
 not move.
 
-### 20.11 What is left, and it is still not analysis
+### 20.11 The one-command reproduction had never run
+
+`scripts/reproduce_all.py` is the artifact this repository is judged on and
+the thing the manuscript cites as evidence about itself. Running it end to end
+in round seventeen -- for the first time, it turns out -- it failed in wave 2:
+
+```
+FAIL  r6_final.py    0.0 min
+SyntaxError: f-string: expecting '}'
+```
+
+`r6_final.py` **has not parsed since 2026-08-20 03:13**, the timestamp of
+commit `4c2c59a` in round four. `results/r6_*.csv` are dated 02:00 that
+morning, an hour before the break. Rounds five to sixteen all read those files
+and none of them could have regenerated one.
+
+The bug is a print statement: an f-string expression cannot span adjacent
+string literals, and one had been split across four of them, leaving the first
+with an unclosed brace. Fixing it took a minute.
+
+**The three things worth carrying forward are not the bug.**
+
+1. **The numbers were right.** Re-running the repaired script produced
+   `r6_gains.csv`, `r6_concentration.csv` and `r6_proxy.csv` **byte-identical**
+   to the committed ones. The defect was in the reproducibility claim, not in
+   the result. That is luck rather than design: nothing r6 depends on happened
+   to move.
+2. **A checker that reads a pipeline's OUTPUT cannot see a pipeline script
+   that never runs.** `verify_paper.py` passed 936 checks against
+   `r6_gains.csv` while the script that writes it could not be parsed. This is
+   the same blind spot as the corrupted-commit and the import side effect: the
+   apparatus verifies the artefact and not the process that made it.
+3. **Round sixteen wrote `reproduce_all.py`, documented it in `REPRODUCE.md`,
+   and described it in the manuscript, without ever running it to
+   completion.** Writing a reproduction script is not the same as reproducing.
+
+Two fixes. `r6_final.py` parses and has been moved out of `r8_final.py`'s wave,
+which it was reading a file from -- a dependency violation nobody had noticed
+because r6 never ran. And `reproduce_all.py`'s preflight now `ast.parse`s every
+script in `scripts/` and refuses to start if any fails, so this class costs
+seconds instead of surfacing thirty minutes into a run.
+
+### 20.12 What is left, and it is still not analysis
 
 `submission/OWNER-ACTIONS.md` is unchanged and every item in it needs the
 author's credentials or judgement: the repository rename, the push, the Zenodo
@@ -1495,7 +1537,7 @@ only the author can make. `PLAN-STRONG-ACCEPT.md` §0.3 says stop *that item
 only* and continue with everything else; that is what happened, and nothing was
 worked around.
 
-### 20.12 If you are round eighteen
+### 20.13 If you are round eighteen
 
 1. **The corpus result is negative and it is the honest ceiling.** Do not run
    the same corpus again hoping for a different answer. Either find data with

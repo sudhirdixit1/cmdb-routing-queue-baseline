@@ -72,7 +72,7 @@ source, `requirements.lock` (every dependency pinned by artefact hash), a
 `scripts/verify_paper.py`, which recomputes each numeric literal in the
 manuscript from a result file or from the raw data and fails if any literal is
 unaccounted for. `scripts/attack_verifier.py` is that checker's own regression
-suite: 198 corruptions.
+suite: 199 corruptions.
 
 The checker guards **numbers** thoroughly and **prose** only where a guard was
 written by hand. It cannot tell you that an interpretation is sound. The

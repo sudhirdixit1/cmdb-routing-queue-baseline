@@ -37,7 +37,7 @@ Nothing else in `paper/` is used by the build.
 
 ## A note on the numbers quoted in these files
 
-`934 checks`, `417 literals`, `199 corruptions`, `24 files`, `13 admitted
+`936 checks`, `417 literals`, `199 corruptions`, `24 files`, `13 admitted
 logs`, `47 pages` appear across the cover letter, the data-availability
 statement and `REPRODUCE.md`. They move whenever the manuscript does, and the
 round-sixteen versions of these files all quoted counts that had. Before

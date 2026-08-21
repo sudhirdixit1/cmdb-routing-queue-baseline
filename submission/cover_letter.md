@@ -68,7 +68,7 @@ manuscript from a result file or from the raw data. It fails if any literal in
 the body is unaccounted for, tests rounding equality at the paper's printed
 precision rather than a tolerance, and treats range endpoints as floors and
 ceilings rather than rounding them — a discipline that caught six real defects
-in this round's new tables on its first run. A second harness, a suite of 198
+in this round's new tables on its first run. A second harness, a suite of 199
 corruptions drawn from defects found in earlier versions of this work, is the
 verifier's own regression test. One command fetches all twenty-four datasets
 by DOI, checksums them, and reproduces the whole result set.
@@ -125,7 +125,7 @@ sudhir.dixit1@gmail.com
       to this letter. Elsevier permits preprints; posting first starts the
       citation clock during a ~244-day median review.
 - [ ] Confirm the three counts in the artifact paragraph against a fresh
-      `python scripts/reproduce_all.py` — 417 literals, 198 corruptions, 13
+      `python scripts/reproduce_all.py` — 417 literals, 199 corruptions, 13
       admitted logs. They move whenever the paper does, and the last version
       of this letter quoted numbers that had.
 - [ ] Offer `PROTOCOL.md` as supplementary material in the submission system,

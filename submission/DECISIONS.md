@@ -274,7 +274,7 @@ labelled as withdrawn where it appears.
 
 ## 14. Forty-five pages
 
-**Decision.** The manuscript is 45 pages and nothing was cut to make it
+**Decision.** The manuscript is 47 pages and nothing was cut to make it
 shorter.
 
 **Why.** `PLAN-STRONG-ACCEPT.md` §6.3: *Information Systems* enforces no hard

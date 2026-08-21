@@ -71,7 +71,6 @@ WAVES = [
     ["r4_final.py"],
     [
         "r5_final.py",          # nulls, mutation sensitivity
-        "r6_final.py",          # the gains the headline table prints
         "r8_final.py",          # mechanism, design space, scoping
         "r9_second_task.py",    # the ladder on two further targets
         "r12_queue_from_item.py",   # entropies r21 section A divides
@@ -89,6 +88,9 @@ WAVES = [
     [
         "r10_estimators.py",    # r21 section C reads r10_estimators.csv
         "r11_operational.py",   # r21 section C and r23 read r11_*.csv
+        #  r6 reads r8_dropped_leg.csv, so it cannot share a wave with r8.
+        #  It did, which nobody noticed because r6 never ran at all.
+        "r6_final.py",          # the gains the headline table prints
     ],
     [
         "r21_referee_round15.py",   # reads r10, r11, r12, r14, r18
@@ -153,6 +155,23 @@ def preflight():
         import numpy, pandas, sklearn, scipy, matplotlib
     except ImportError as e:
         sys.exit(f"missing dependency: {e}.  pip install -r requirements.txt")
+    #  ROUND SEVENTEEN.  r6_final.py did not PARSE for thirteen rounds, and
+    #  the failure only surfaced in wave 2 of a 70-minute run.  A checker that
+    #  reads a pipeline's output files cannot see a pipeline script that never
+    #  runs, so the parse check happens here, in seconds, before anything else.
+    import ast as _ast
+    _broken = []
+    for _p in sorted(SCRIPTS.glob("*.py")):
+        try:
+            _ast.parse(_p.read_text(encoding="utf-8"))
+        except SyntaxError as _e:
+            _broken.append(f"{_p.name}:{_e.lineno}: {_e.msg}")
+    if _broken:
+        print("\n  SCRIPTS THAT DO NOT PARSE:")
+        for _b in _broken:
+            print("    " + _b)
+        sys.exit("preflight failed: fix these before running anything")
+    print(f"  all {len(list(SCRIPTS.glob('*.py')))} scripts parse")
     print(f"\n  python {sys.version.split()[0]}   pandas {pandas.__version__}"
           f"   numpy {numpy.__version__}   scikit-learn {sklearn.__version__}")
     print(f"  scipy {scipy.__version__}   matplotlib {matplotlib.__version__}")

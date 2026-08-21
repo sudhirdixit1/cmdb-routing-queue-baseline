@@ -6,7 +6,7 @@ split point,0.7,43.673515041607914
 split point,0.75,39.198441717855324
 split point,0.8,38.752069462177495
 estimator,E1 one-hot logistic (paper),43.67351504160792
-estimator,"E2 logistic, item target-encoded",42.72924237960073
+estimator,"E2 logistic, item target-encoded",42.73104901537387
 estimator,"E3 boosting, item target-encoded",47.05958315244784
 target threshold,>=1,43.67351504160792
 target threshold,>=2,48.24444860482333
