@@ -69,7 +69,7 @@ logistic regressions over 31,818 rows and about 2,600 sparse columns.
 None is redistributed here, and none has to be fetched by hand:
 
 ```
-python scripts/fetch_corpus.py          # 23 files, 7 domains, by DOI
+python scripts/fetch_corpus.py          # 24 files, 7 domains, by DOI
 python scripts/fetch_corpus.py --list   # the manifest, no network
 ```
 

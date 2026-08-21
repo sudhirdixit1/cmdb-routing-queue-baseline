@@ -30,6 +30,20 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+#  ROUND SEVENTEEN.  attack_verifier.py rewrites the manuscript once per
+#  corruption and restores it in a finally block.  Anything that reads the
+#  manuscript while that is happening is reading a CORRUPTED file.  Round
+#  sixteen had a build and a verification do it; round seventeen had a
+#  `git add -A` commit one.  A docstring is not a control, so this is:
+_SUITE_LOCK = Path(__file__).resolve().parent.parent / "paper" / ".tex.bak"
+if _SUITE_LOCK.exists():
+    sys.exit(
+        f"REFUSING TO RUN: {_SUITE_LOCK} exists, which means attack_verifier.py\n"
+        "is running or was killed mid-flight.  If it is running, wait.  If it\n"
+        "was killed, the manuscript on disk is CORRUPTED -- restore it first:\n"
+        f"    cp {_SUITE_LOCK} {_SUITE_LOCK.with_name('iaai27_empty_cmdb.tex')}\n"
+        f"    rm {_SUITE_LOCK}")
 PAPER = ROOT / "paper"
 STEM = "iaai27_empty_cmdb"
 

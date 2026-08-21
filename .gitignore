@@ -32,3 +32,8 @@ logs/
 # The corpus is fetched by DOI, never redistributed.  CHECKSUMS.txt is tracked.
 data/corpus/*
 !data/corpus/CHECKSUMS.txt
+
+# The corruption suite writes this while it runs.  A commit made during a
+# suite run captured a CORRUPTED manuscript in round seventeen; see HANDOFF
+# section 20.11.  It is ignored so that cannot happen again.
+paper/.tex.bak

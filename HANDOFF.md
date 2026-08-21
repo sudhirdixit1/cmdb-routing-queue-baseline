@@ -1266,7 +1266,7 @@ Two further mechanisms, both new:
 ### 20.4 The corpus: falsified, as registered
 
 `PROTOCOL.md` was committed before any corpus result file existed, in a commit
-adding one file. Twenty-three files by DOI across seven domains; 22 logs parse;
+adding one file. Twenty-four files by DOI across seven domains; 22 logs parse;
 the registered rules admit 13 across six domains and exclude nine by code.
 
 Nineteen log-target pairs. The entity is resolvably worth something over the

@@ -35,6 +35,21 @@ from texnum import body_of, literals
 from common import RAW, is_missing
 
 ROOT = Path(__file__).resolve().parent.parent
+
+#  ROUND SEVENTEEN.  attack_verifier.py rewrites the manuscript once per
+#  corruption and restores it in a finally block.  Anything that reads the
+#  manuscript while that is happening is reading a CORRUPTED file.  Round
+#  sixteen had a build and a verification do it; round seventeen had a
+#  `git add -A` commit one.  A docstring is not a control, so this is:
+_SUITE_LOCK = Path(__file__).resolve().parent.parent / "paper" / ".tex.bak"
+if _SUITE_LOCK.exists():
+    sys.exit(
+        f"REFUSING TO RUN: {_SUITE_LOCK} exists, which means attack_verifier.py\n"
+        "is running or was killed mid-flight.  If it is running, wait.  If it\n"
+        "was killed, the manuscript on disk is CORRUPTED -- restore it first:\n"
+        f"    cp {_SUITE_LOCK} {_SUITE_LOCK.with_name('iaai27_empty_cmdb.tex')}\n"
+        f"    rm {_SUITE_LOCK}")
+
 TEX_RAW = (ROOT / "paper" / "iaai27_empty_cmdb.tex").read_text(encoding="utf-8")
 BODY = body_of(TEX_RAW)
 # LaTeX wraps sentences, so an anchor phrase can straddle a newline.
@@ -273,7 +288,8 @@ WORDS = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
          "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
          "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14,
          "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18,
-         "nineteen": 19, "twenty": 20, "twenty-two": 22, "twenty-three": 23}
+         "nineteen": 19, "twenty": 20, "twenty-two": 22, "twenty-three": 23,
+         "twenty-four": 24}
 
 
 def ck_word(label, value, word, anchor):
@@ -2623,6 +2639,9 @@ _r37F = pd.read_csv(R / "r37_facts.csv").iloc[0]
 _r37T = pd.read_csv(R / "r37_free_text.csv")
 _r38F = pd.read_csv(R / "r38_facts.csv").iloc[0]
 _r38D = pd.read_csv(R / "r38_axisD.csv")
+#  the file count is read from the fetcher's own manifest, so the paper
+#  and the thing that downloads the data cannot drift apart.
+import fetch_corpus as _FETCH
 
 
 def _red(key):
@@ -2822,7 +2841,7 @@ ck("estate concentration share", 90, "90", 0,
 # ---- section 11, the corpus --------------------------------------------
 ck("corpus logs parsed", _r37F.n_logs, "22", 0,
    anchor="fetched by DOI with a recorded SHA-256 for each;")
-ck_word("corpus files", 23, "twenty-three",
+ck_word("corpus files", len(_FETCH.CORPUS), "twenty-four",
         anchor="files across seven domains")
 ck("corpus admitted", _r33bF.n_logs, "13", 0,
    anchor="The registered rules admit")

@@ -26,6 +26,10 @@ TEX = ROOT / "paper" / "iaai27_empty_cmdb.tex"
 BAK = ROOT / "paper" / ".tex.bak"
 
 CORRUPTIONS = [
+    ("corrupt the corpus file count",
+     "Twenty-four files across seven domains, fetched by DOI",
+     "Twenty-six files across seven domains, fetched by DOI"),
+
     # -- the referee-driven additions --------------------------------
     ("soften the falsification qualifier",
      r"The claim registered in \texttt{PROTOCOL.md} \S8 is falsified",
@@ -707,6 +711,14 @@ def run():
     return subprocess.run([sys.executable, str(ROOT / "scripts" / "verify_paper.py")],
                           capture_output=True, text=True).returncode
 
+
+#  ROUND SEVENTEEN.  If a backup is already on disk this script was killed
+#  mid-flight and the manuscript is corrupted.  Copying over the backup would
+#  make the corruption permanent, so refuse instead.
+if BAK.exists():
+    sys.exit(f"REFUSING TO RUN: {BAK} already exists, so a previous run was "
+             f"killed and\npaper/iaai27_empty_cmdb.tex is CORRUPTED.  Restore "
+             f"it first:\n    cp {BAK} {TEX}\n    rm {BAK}")
 
 shutil.copy(TEX, BAK)
 caught = missed = skipped = 0

@@ -153,7 +153,7 @@ requirements.lock  every dependency by version AND artefact hash
 | `r24_tiefree.py` | the tie decomposition that withdrew the capacity factor |
 | `r25_figures.py`, `r39_figures.py` | the ten journal figures |
 | `base14.py` | `r4_final`'s cohort in 5 s rather than 90, by executing that file's own source up to the line that builds it |
-| `fetch_corpus.py` | 23 files, 7 domains, by DOI, with checksums |
+| `fetch_corpus.py` | 24 files, 7 domains, by DOI, with checksums |
 | `r30_instrument_matrix.py` | six instruments; the cost-ratio identity |
 | `r31_why_instruments_disagree.py` | aggregation, degeneracy, calibration, tie conventions |
 | `r32_corpus.py` | streaming XES parser; the attribute inventory |
@@ -291,7 +291,7 @@ was foreseen.
 
 ## The datasets
 
-Twenty-three files across seven domains, all public, none redistributed here.
+Twenty-four files across seven domains, all public, none redistributed here.
 `python scripts/fetch_corpus.py` resolves every DOI, downloads every file and
 records a SHA-256 for each in `data/corpus/CHECKSUMS.txt`, which is tracked.
 `REPRODUCE.md` §2 gives the identifiers, the filenames, and the two

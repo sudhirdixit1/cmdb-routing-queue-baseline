@@ -70,7 +70,7 @@ precision rather than a tolerance, and treats range endpoints as floors and
 ceilings rather than rounding them — a discipline that caught six real defects
 in this round's new tables on its first run. A second harness, a suite of 198
 corruptions drawn from defects found in earlier versions of this work, is the
-verifier's own regression test. One command fetches all twenty-three datasets
+verifier's own regression test. One command fetches all twenty-four datasets
 by DOI, checksums them, and reproduces the whole result set.
 
 I want to be equally precise about what the harness does **not** do. It guards
@@ -96,7 +96,7 @@ they do to the result.
 elsewhere, and has not been published previously. There is a single author
 with no institutional affiliation and no funding. I declare no competing
 interests; I have no relationship with any vendor in this space, nor with any
-of the organisations whose logs are analysed. All twenty-three datasets are
+of the organisations whose logs are analysed. All twenty-four datasets are
 public benchmark logs and none is redistributed. Rounds eleven to seventeen of
 the adversarial review that produced this manuscript were machine-assisted;
 this is disclosed in the paper's Acknowledgements and in the CRediT statement,

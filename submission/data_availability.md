@@ -1,6 +1,6 @@
 # Data availability statement
 
-All twenty-three files analysed in this study are public and none is
+All twenty-four files analysed in this study are public and none is
 redistributed by the author. The analysis code, the pre-registered protocol,
 the intermediate result files, the figures and the checker that recomputes
 every quantity printed in the paper are available in the repository cited in
@@ -20,7 +20,7 @@ the manuscript.
 
 ## The datasets, by persistent identifier
 
-Twenty-three files across seven domains. The first three carry the primary
+Twenty-four files across seven domains. The first three carry the primary
 analysis; the rest are the pre-registered corpus of Section 11.
 
 | Log | Domain | Identifier |

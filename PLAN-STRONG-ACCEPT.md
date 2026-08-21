@@ -464,7 +464,7 @@ artifact is already unusual; make it unarguable.
       thing round sixteen found moving a percentile.
 - [x] `reproduce_all.py` must cover the corpus, including the download step
       for each public log, by DOI, with checksums.
-      — A `fetch` stage runs `fetch_corpus.py`: 23 files, 7 domains, resolved
+      — A `fetch` stage runs `fetch_corpus.py`: 24 files, 7 domains, resolved
       through the 4TU API, SHA-256 recorded in a tracked `CHECKSUMS.txt` and
       verified on every later run. `--skip-fetch` for a populated `data/`.
 - [x] Record per-log runtimes; the corpus will be much slower than one log.
@@ -509,7 +509,7 @@ Most of this exists from round sixteen; refresh rather than rewrite.
 
 - [x] Update `submission/` — highlights, cover letter, CRediT, data
       availability (now $n$ datasets), declaration, suggested reviewers
-      — All rewritten. Data availability now lists **23 files across 7
+      — All rewritten. Data availability now lists **24 files across 7
       domains** by DOI and names `Detail_Interaction.csv` as the file the
       previous version said would settle its §9. Highlights re-cut around the
       four choices, with every character count re-derived rather than copied
@@ -597,7 +597,7 @@ Tick every box, or record why it cannot be ticked.
       own headline, and §11 states the minimum reportable form.
 - [x] A **reproducibility artifact** that a stranger runs in one command and
       that fails loudly when the paper is wrong
-      — `python scripts/reproduce_all.py` now fetches all 23 datasets by DOI,
+      — `python scripts/reproduce_all.py` now fetches all 24 datasets by DOI,
       checksums them, runs every analysis in dependency order, regenerates
       every figure, verifies 410 literals and runs 183 corruptions. A
       container and a hash-pinned lockfile remove the environment as a
@@ -668,7 +668,7 @@ that found against the paper**.
 | 1 — the reframe (§2) | **Against the plan's premise, in our favour.** The plan assumed the effect evaporates under principled instruments. It does not: AUC's 43.7% is the *smallest* of four scalar instruments (AP 60.3%, Brier skill 58.4%, Nagelkerke 56.6%). What moves is net benefit read at one operating point: 6.3% to 119.2% over the grid. Expected cost proved to be net benefit reparameterised, so six instruments, not seven. | `r30`, `r31`; 70 s + 3 s |
 | 1b — why they disagree (§2.2) | **The stated prediction failed and the failure is the finding.** The AUC increment is not localised away from the grid; it is *diffuse* — largest FPR band 18.2%, three bands to half. Two further mechanisms: at the thresholds where net benefit is lowest both baselines act on more than 94% of arrivals, and average precision's default tie convention is the adversarial bound while AUC's is the random draw. On a common convention the AUC/AP gap *widens*. | as above |
 | 1c — two defects it found | `r23_dca_grid.csv`, in the repository since round sixteen, contradicts §8.2 twice: "reaching −16.1 at p_t = 0.50" names an extremum that is −21.1 at 0.525, and "20 points, in a contiguous run from 0.100 to 0.425" describes 14. Every literal in both sentences passed `verify_paper.py`. Corrections nine and ten. | free |
-| 2 — the corpus (§3) | **Falsified, as registered.** 23 files by DOI over 7 domains; 22 parse; the pre-registered rules admit 13 over 6 domains and exclude 9 by code. 19 log-target pairs; the entity is resolvably worth something on 9; the reduction is resolvably positive on 4, from 3 logs. On 8 admitted non-ITSM logs it is resolvable on 1. `PROTOCOL.md` §8's condition is met and the paper says so. | `fetch_corpus`, `r32`, `r33`; 2 + 5 + 9 min |
+| 2 — the corpus (§3) | **Falsified, as registered.** 24 files by DOI over 7 domains; 22 parse; the pre-registered rules admit 13 over 6 domains and exclude 9 by code. 19 log-target pairs; the entity is resolvably worth something on 9; the reduction is resolvably positive on 4, from 3 logs. On 8 admitted non-ITSM logs it is resolvable on 1. `PROTOCOL.md` §8's condition is met and the paper says so. | `fetch_corpus`, `r32`, `r33`; 2 + 5 + 9 min |
 | 2b — predicting the reduction (§3.3) | **Nothing.** Leave-one-out R² = −1.323 on nine points with eleven predictors, permutation p = 0.448. Reported as the result; no in-sample fit shown in its place. | `r33b`; 24 s |
 | 2c — a validity check that had to be reported | The generic handover target does **not** reproduce the primary log's own reassignment field: prevalence 0.927 against 0.411, agreeing on 46.0%, barely above independence. The corpus measures a generic workflow outcome, not this paper's task on twelve further organisations. | `r33` validity |
 | 3 — make the lead replicate (§4) | **It does not, and it is demoted.** Only the primary log has a genuine deterministic hierarchy. BPI Challenge 2019's item/category/vendor levels cross — item category determines vendor 0.00% of the time. UCI 498's configuration link is populated on 51 of 24,918 traces. BPI Challenge 2013's product strings carry no separator, so no coarser level exists and none was invented. Plan §4.3 applied: demoted out of the lead and out of the title. | `r34`; 34 s |

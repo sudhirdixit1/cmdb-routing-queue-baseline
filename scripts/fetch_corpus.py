@@ -88,12 +88,25 @@ CORPUS = {
     # --- enforcement ------------------------------------------------------
     "RoadFines":        ("enforcement", "10.4121/uuid:270fd440-1057-4fb9-89a9-b699b47990f5",
                          12683249, "Road_Traffic_Fine_Management_Process.xes.gz", 3454978),
+    # --- ITSM, and the one file that is not on 4TU ------------------------
+    # UCI 498 lives on the UCI Machine Learning Repository, so it resolves
+    # through UCI_DIRECT below rather than through the 4TU API.  It is listed
+    # here anyway: a reader should not have to know which registry a dataset
+    # happens to sit in, and section 11 counts files, not registries.
+    "UCI498":           ("itsm", "10.24432/C57S4H",
+                         None, "incident_event_log.zip", 2400214),
+}
+
+#  key -> a direct URL, for datasets not on 4TU.
+UCI_DIRECT = {
+    "UCI498": "https://archive.ics.uci.edu/static/public/498/"
+              "incident+management+process+enriched+event+log.zip",
 }
 
 # The three already-loaded BPIC 2014 files live in data/raw and are not
 # re-downloaded; the corpus loader looks in both places.
 IN_RAW = {"BPIC14_incident", "BPIC14_activity", "BPIC14_interaction",
-          "BPIC13_incidents"}
+          "BPIC13_incidents", "UCI498"}
 
 COLLECTIONS = {"BPIC15": 5065424, "BPIC20": 5065541,
                "BPIC14": 5065469}
@@ -187,10 +200,13 @@ def fetch(key, sums):
             sums[key] = sha256(p)
             print(f"  {key:20s} present, checksum recorded")
         return
-    try:
-        url, rsize = resolve(aid, name)
-    except FileNotFoundError:
-        url, rsize = resolve_by_search(name)
+    if key in UCI_DIRECT:
+        url, rsize = UCI_DIRECT[key], size
+    else:
+        try:
+            url, rsize = resolve(aid, name)
+        except FileNotFoundError:
+            url, rsize = resolve_by_search(name)
     print(f"  {key:20s} downloading {rsize:,} bytes ...", flush=True)
     t = time.time()
     tmp = p.with_suffix(p.suffix + ".part")

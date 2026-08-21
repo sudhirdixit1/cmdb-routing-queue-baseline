@@ -10,7 +10,7 @@ this file arriving alone, and every `results/r33_*.csv` arriving later.
 **Why this exists.** Rounds one to sixteen of this project chose the analysis
 after seeing the log. Eight findings were withdrawn, and every one of them was
 an artifact of a control chosen after the fact. Extending to a corpus multiplies
-the opportunity: with twenty-three files and seven domains, an analyst who picks
+the opportunity: with twenty-four files and seven domains, an analyst who picks
 the target, the entity and the baseline per log can produce any distribution of
 results they like. This document fixes every one of those choices in advance,
 states the exclusion rules before the logs are inspected, and names the outcome

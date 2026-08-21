@@ -102,6 +102,11 @@ WAVES = [
         "r36_population_ablation.py",   # the population curve; r38 reads it
     ],
     [
+        # the null the methodologist pass asked for; rebuilds km_prov, so it
+        # must follow r35 rather than run beside it
+        "r35b_temporal_null.py",
+    ],
+    [
         # builds data/normalized/*.parquet, which r33/r34/r37 all load, and
         # writes the attribute inventory.  One parse of a 728 MB XES file
         # rather than three.
@@ -112,6 +117,7 @@ WAVES = [
     ],
     [
         "r33b_discriminate.py",         # reads r33_ladder, r33_discriminators
+        "r33c_headroom.py",             # the exclusion-rule sensitivity
         "r34_layers_and_history.py",    # reads r33_roles
         "r37_free_text.py",             # reads r33_roles
         "r38_era_sensitivity.py",       # reads r36_curve
