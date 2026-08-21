@@ -1,8 +1,15 @@
 # Alignment plan: *Information Systems* (Elsevier)
 
 **Target venue:** Information Systems, Elsevier, ISSN 0306-4379
-**Status of this document:** working plan, written 2026-08-21, after review round fifteen
-**Owner decisions still open:** §9
+**Status of this document:** working plan, written 2026-08-21 after review round
+fifteen, and **executed the same day — see §12 for the record.**
+**Owner decisions still open:** §9, all four now answered or escalated
+**What is left:** four items needing the author's credentials, and one
+judgement that is not the repository's to make — `submission/OWNER-ACTIONS.md`
+
+> **Two of the six analyses §4 asks for came back against the paper**, and
+> under §4's own rule the paper changed rather than the result. The
+> operational factor of $4.3$ is withdrawn; the replacement is $1.07$. §12.2.
 
 ---
 
@@ -238,44 +245,61 @@ be explicit:
 This is where this venue is unusually winnable. Target: **a third party reproduces
 every headline number from raw data with one command.**
 
-- [ ] Close the last corruption still slipping the suite
+- [x] Close the last corruption still slipping the suite — **and two more it
+      found afterwards.** See §12.4
 - [ ] Rename the repository — it currently embeds the description §3 retracts
+      → **needs the author's GitHub credentials**; `submission/OWNER-ACTIONS.md` §1
 - [ ] Push `r10`–`r21` (not currently public)
+      → committed locally on `round-sixteen-information-systems`;
+      **the push needs credentials**; `OWNER-ACTIONS.md` §2
 - [ ] **Mint a Zenodo DOI**; cite it in the paper
-- [ ] Write `REPRODUCE.md`: exact commands, pinned versions, expected runtimes,
-      expected outputs, and the three public dataset DOIs
-- [ ] State honestly in the README what the checker does **and does not** cover:
-      it guards numbers thoroughly and prose only where a guard was written by hand
+      → **needs a Zenodo account**; `.zenodo.json` written and complete;
+      `OWNER-ACTIONS.md` §3
+- [x] Write `REPRODUCE.md` — done, plus `scripts/reproduce_all.py`, which is
+      the one command the target at the head of this section asks for
+- [x] State honestly in the README what the checker does **and does not** cover
 
 ---
 
 ## 8. Phase 5 — Submission package
 
-- [ ] **Highlights** — 5 bullets, ≤85 characters each
-- [ ] **Cover letter** — lead with the reproducibility artifact and the
-      two-organisation replication; name the reproducibility programme explicitly
-- [ ] **Data availability statement** — all three logs public, none redistributed
-- [ ] **CRediT** statement
-- [ ] **Declaration of interests** — none
-- [ ] **Suggested reviewers** — from the leakage-in-predictive-process-monitoring
-      and organisational-mining lines
-- [ ] **arXiv preprint posted before submission** — free, permitted, and it starts
-      the citation clock during the ~244-day review
+All in `submission/`, indexed by `submission/README.md`.
+
+- [x] **Highlights** — `highlights.txt`, five bullets, longest 78 characters
+- [x] **Cover letter** — `cover_letter.md`, leading with the artifact and the
+      two-organisation replication, naming the reproducibility programme
+- [x] **Data availability statement** — `data_availability.md`
+- [x] **CRediT** statement — `credit_statement.md`, with the generative-AI
+      disclosure Elsevier's policy requires
+- [x] **Declaration of interests** — `declaration_of_interests.md`
+- [x] **Suggested reviewers** — `suggested_reviewers.md`, six names, each with
+      what they are best placed to *break*
+- [ ] **arXiv preprint posted before submission**
+      → **publishes under the author's name**; `OWNER-ACTIONS.md` §4
 
 ---
 
 ## 9. Open decisions (author)
 
-1. **Title** — pick from §5.
+1. **Title** — **settled: option 2.** Reasoning in `submission/DECISIONS.md` §1;
+   the other two remain live and switching costs one edit plus a verifier run.
 2. **Acknowledgements** — the current text credits "a practitioner in IT service
    management." The repository records rounds 11–18 as agent-run adversarial review
    and contains no practitioner's name. The manuscript has been reworded to
    describe machine-assisted adversarial review. **If a real person did review it,
    restore their credit.**
+   → **left as it stands, and flagged.** No practitioner's name appears anywhere
+   in the repository, and inventing one would be the failure §10 of the paper is
+   about. This is the one decision that could be wrong in the direction that
+   matters: `OWNER-ACTIONS.md` §5.2.
 3. **Repository URL** — `cmdb-routing-queue-baseline` embeds the retracted
    description and is printed in the paper. Proposed: `cmdb-field-admission`. The
    new repository does not exist yet.
+   → **decided, not executed.** The manuscript prints the new name; the remote
+   still carries the old one. `OWNER-ACTIONS.md` §1 has the two commands.
 4. Whether to pursue the reproducibility-paper track if invited (recommended: yes).
+   → recommendation restated in `OWNER-ACTIONS.md` §6; the artifact was built
+   for that review.
 
 ---
 
@@ -310,3 +334,121 @@ That is a methodology-and-artifact contribution in its own right, it is more nov
 than the CMDB result, and MSR, EMSE or a reproducibility track would engage with it
 directly. In that paper the CMDB study becomes the worked example rather than the
 claim. Worth writing after this submission is in.
+
+---
+
+## 12. Execution record — round sixteen, 2026-08-21
+
+Written after the plan was worked through, so that the plan is also the
+record of its own execution. Every claim below is checkable from the
+repository; the command that checks it is given.
+
+**End state.** `674 checks passed, 0 failed; 325 literals in body, 0
+unaccounted, 313 compared against data; 149 caught, 0 missed, 0 skipped of
+149; 33 pages, 0 errors, 0 undefined references.` Committed on branch
+`round-sixteen-information-systems`.
+
+```
+python scripts/reproduce_all.py     # everything, in dependency order
+```
+
+### 12.1 Phase 1 (§4) — all six runs, and two of them went against us
+
+| § | Script | Outcome |
+|---|---|---|
+| 1.1 inter-case congestion | `r22_intercase.py` §A | **survives.** Backlog at creation, arrivals in the prior hour, hour and day admitted on the same criterion as the opening group: the item's value moves $+0.103 \to +0.100$, the reduction $43.7\% \to 45.7\%$ $[41,50]$. The four features alone score $0.497$ — congestion carries nothing at this horizon. |
+| 1.2 central-desk contrast | `r22_intercase.py` §B | **survives, and strengthens.** The tautology reading predicts the central desk reassigns *more*. It reassigns *less*: $0.309$ against $0.603$, difference $-0.294$ $[-0.315,-0.275]$. Preliminary evidence was right about the direction, and it is now measured. |
+| 1.3 decision curve analysis | `r23_decision_curve.py` | **against us.** §12.2 |
+| 1.4 tie-free naive baseline | `r24_tiefree.py` | **against us, decisively.** §12.2 |
+| 1.5 encoder null on both rungs | `r10_estimators.py` §B | **a correction, and the first that goes the other way.** §12.3 |
+| 1.6 CI Type / Subtype determinism | `r21_referee_round15.py` §G | **survives.** Both $100\%$ populated; $0$ of $2{,}929$ items carry more than one value of either, so both are exact functions of item identity and cannot enter a CMDB-free baseline. The service component varies on $58$ items ($8.7\%$ of incidents); the opening group on $565$ ($92.5\%$). That gap is now the paper's quantitative statement of where the admissibility line falls. |
+
+The rule at the foot of §4 — *if a result contradicts the paper, the paper
+changes* — was applied twice, and the second time it removed the paper's own
+operational headline.
+
+### 12.2 What killed the capacity framing
+
+`r24`. At $5\%$ capacity the naive baseline nominates $682$ incidents, of
+which $635$ — $93.1\%$ of the review budget — come from a single tied block
+of $1{,}944$ rows, because the four intake fields take only $23$ distinct
+combinations. Reordering rows *inside* that block, which changes nothing
+either model knows, moves the naive arm from $-26$ (oracle) to $+608$
+(adversarial). The repair this plan asked for is impossible: cross-fitted
+target encoding of the intake block emits $19$ distinct scores, **fewer**
+than the one-hot model's $23$, because combinations unseen in training
+collapse onto the prior. The objection §1.4 set out to kill is confirmed.
+
+`r23`, independently. Net benefit never breaks a tie, because a threshold
+admits or excludes a whole tied block. Over a $31$-point grid the
+group-aware increment is resolvably positive on $20$ points, from $0.100$ to
+$0.425$. At $p_t=0.325$, where the item is worth most, omitting the free
+field overstates it by $1.07$ — against an AUC ratio of $1.8$. And at four
+grid points between $0.475$ and $0.575$ the increment is resolvably
+**negative**, reaching $-16.1$ $[-23.0,-8.9]$ per thousand.
+
+Section 8 of the paper was rebuilt on decision curve analysis and the
+capacity table deleted rather than adapted. The corrections list went from
+six to eight.
+
+### 12.3 The eighth correction
+
+The shuffled-item encoder null had run on the group-aware rung only, while
+the reduction it bounds is computed from two. Its boosting residual is
+eleven standard errors from zero — a real systematic effect. Run on both
+rungs it returns $+0.0002 \pm 0.0015$ and $-0.0036 \pm 0.0025$ on the intake
+rung, and correcting both moves the boosting reduction from $47.1\%$ to
+$50.5\%$ — **upward**. First correction in this project's history that would
+have made the result larger.
+
+### 12.4 Three holes in the checker, all found by its own suite
+
+1. **Window-level coverage.** A check vouched for its whole 400-character
+   anchor window, so any number dropped into a checked neighbourhood was
+   covered. That was the corruption the suite had never caught. Coverage is
+   now literal-level: a check vouches for the number it compared and nothing
+   else. Check count 446 → 674; literals compared 233 → 313.
+2. **A number spelled out in letters.** "Eight errors of our own" could be
+   changed to "Six" and pass: the list length was compared against a
+   constant and the word against nothing. Found by the enlarged suite, on
+   its first clean run.
+3. **The prose guard matched case-sensitively.** `RISKY` carries
+   `we withdraw`; the sentence reads `We withdraw the factor`. Every
+   load-bearing construction beginning a sentence had been unguarded since
+   the list was written. Fixing it immediately surfaced a third — *"We
+   withdraw the asymmetry and the directional claim it supported"* —
+   unguarded for eight rounds.
+
+Two of the three were found *after* the first fix looked complete. The
+lesson is the one the README now records: write the corruption before you
+believe the check.
+
+### 12.5 Phases 2 and 3
+
+Section order follows §5 exactly, with the resolution ladder promoted to §5
+of the paper as the lead contribution and a new §3 answering the
+conditional-variable-importance objection in its own section. Figures follow
+§6: the scaled Venn is cut, Fig. 1 is rebuilt with intervals on the metric's
+full range and without the knowledge-reference bar, the two-organisation
+comparison and the resolution ladder are added, the floor sweep is kept and
+redrawn from the *matched* sweep, and estate concentration rides with the
+ladder. One figure §6 did not anticipate was added: the decision curve, on
+the ground that a section rebuilt around a new instrument with no picture of
+it repeats the defect §6 exists to fix.
+
+### 12.6 What is not done, and why
+
+Four items, all of which need a credential or a name this repository does not
+hold. Each has its commands written out in `submission/OWNER-ACTIONS.md`:
+rename the GitHub repository, push, mint the Zenodo DOI, post the arXiv
+preprint. Plus one judgement that is not mine to make — whether a real
+practitioner reviewed this work and had their credit removed in error.
+
+### 12.7 §11 stands, and is stronger
+
+The separate paper this plan proposes on the checker has three more pieces of
+evidence than it did: a general coverage defect with a worked example, and
+two guard failures found by corruptions written after the fix. `HANDOFF.md`
+§19.8 records what that paper would say, including the caveat it would have
+to lead with — all eight of this paper's corrections are claims about what a
+number *means*, and the checker would have caught none of them.
