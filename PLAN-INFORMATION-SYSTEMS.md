@@ -4,8 +4,9 @@
 **Status of this document:** working plan, written 2026-08-21 after review round
 fifteen, and **executed the same day — see §12 for the record.**
 **Owner decisions still open:** §9, all four now answered or escalated
-**What is left:** four items needing the author's credentials, and one
-judgement that is not the repository's to make — `submission/OWNER-ACTIONS.md`
+**What is left:** three items needing an account this machine does not have —
+the GitHub rename, the Zenodo DOI and the arXiv posting — and one judgement
+that is not the repository's to make. `submission/OWNER-ACTIONS.md`
 
 > **Two of the six analyses §4 asks for came back against the paper**, and
 > under §4's own rule the paper changed rather than the result. The
@@ -249,9 +250,10 @@ every headline number from raw data with one command.**
       found afterwards.** See §12.4
 - [ ] Rename the repository — it currently embeds the description §3 retracts
       → **needs the author's GitHub credentials**; `submission/OWNER-ACTIONS.md` §1
-- [ ] Push `r10`–`r21` (not currently public)
-      → committed locally on `round-sixteen-information-systems`;
-      **the push needs credentials**; `OWNER-ACTIONS.md` §2
+- [x] Push `r10`–`r21` (not currently public) — **done.** `r10`–`r25`, the
+      manuscript, the results and the figures are public on `main`; Git
+      Credential Manager held a live credential. Pushed to the **old**
+      repository name, because the rename above is still outstanding
 - [ ] **Mint a Zenodo DOI**; cite it in the paper
       → **needs a Zenodo account**; `.zenodo.json` written and complete;
       `OWNER-ACTIONS.md` §3
