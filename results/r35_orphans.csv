@@ -1,0 +1,4 @@
+field,populated_orphan,populated_with_incident,distinct_orphan,distinct_with_incident,is_control
+KM number,1.0,1.0,1978,1847,False
+Closure Code,0.9999787798408488,0.9908063843500019,21,16,True
+Category,1.0,1.0,6,4,False

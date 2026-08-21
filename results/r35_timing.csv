@@ -1,0 +1,5 @@
+field,is_control,agree_all_joined,n_all_joined,agree_opened_before,n_opened_before,agree_worked_before,n_worked_before,agree_closed_before,n_closed_before
+KM number,False,1.0,41999,1.0,41998,1.0,41413,1.0,5
+Closure Code,True,0.9897378509012119,41999,0.9897376065526929,41998,0.9897133750271654,41413,0.6,5
+Category,False,0.9959760946689207,41999,0.9959759988570884,41998,0.9959915968415715,41413,1.0,5
+CI Name (aff),False,0.9774280340008096,41999,0.9774274965474546,41998,0.9774225484751166,41413,1.0,5

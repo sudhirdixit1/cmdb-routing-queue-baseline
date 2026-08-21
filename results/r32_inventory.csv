@@ -1,0 +1,597 @@
+log,attribute,cardinality,missing_rate,n,reuse,resource_like,outcome_listed,example
+BPIC14,CI Name (aff),3019,0.0,46606,15.437562106657834,False,False,SUB000508
+BPIC14,CI Type (aff),13,0.0,46606,3585.076923076923,False,False,subapplication
+BPIC14,CI Subtype (aff),65,0.0,46606,717.0153846153846,False,False,Web Based Application
+BPIC14,Service Component WBS (aff),274,0.0,46606,170.09489051094891,False,False,WBS000162
+BPIC14,Incident ID,46606,0.0,46606,1.0,False,False,IM0000004
+BPIC14,Status,2,0.0,46606,23303.0,False,True,Closed
+BPIC14,Impact,5,0.0,46606,9321.2,False,False,4.0
+BPIC14,Urgency,6,0.0,46606,7767.666666666667,False,False,4
+BPIC14,Priority,5,0.0,46606,9321.2,False,False,4.0
+BPIC14,Category,4,0.0,46606,11651.5,False,False,incident
+BPIC14,KM number,1825,0.0,46606,25.537534246575344,False,False,KM0000553
+BPIC14,Alert Status,1,0.0,46606,46606.0,False,False,closed
+BPIC14,# Reassignments,41,2.145646483285414e-05,46606,1136.7317073170732,False,True,26.0
+BPIC14,Open Time,46336,0.0,46606,1.005827002762431,False,False,05/02/2012 13:32:57
+BPIC14,Reopen Time,2282,0.9509934343217612,46606,20.42331288343558,False,False,02/12/2013 12:31:02
+BPIC14,Resolved Time,44603,0.03819250740248037,46606,1.044907293231397,False,False,04/11/2013 13:50:27
+BPIC14,Close Time,46376,0.0,46606,1.0049594617905813,False,True,04/11/2013 13:51:17
+BPIC14,Handle Time (Hours),31376,2.145646483285414e-05,46606,1.4854028556858745,False,True,"3871,691111"
+BPIC14,Closure Code,13,0.04398575290735098,46606,3585.076923076923,False,True,Other
+BPIC14,# Related Interactions,49,0.0024460369909453717,46606,951.1428571428571,False,False,1.0
+BPIC14,Related Interaction,43059,0.0024460369909453717,46606,1.0823753454562344,False,False,SD0000007
+BPIC14,# Related Incidents,24,0.9737801999742522,46606,1941.9166666666667,False,False,2.0
+BPIC14,# Related Changes,4,0.9879843796936016,46606,11651.5,False,False,1.0
+BPIC14,Related Change,232,0.9879843796936016,46606,200.88793103448276,False,False,C00000056
+BPIC14,CI Name (CBy),3651,0.02375230656996953,46606,12.765269789098877,False,False,SUB000508
+BPIC14,CI Type (CBy),13,0.02375230656996953,46606,3585.076923076923,False,False,subapplication
+BPIC14,CI Subtype (CBy),62,0.02375230656996953,46606,751.7096774193549,False,False,Web Based Application
+BPIC14,ServiceComp WBS (CBy),274,0.07473286701283097,46606,170.09489051094891,False,False,WBS000162
+BPIC14,assignment group,57,0.0,46606,817.6491228070175,True,False,TEAM0001
+BPIC14,case_id,46606,0.0,46606,1.0,False,False,IM0000004
+UCI498,case_id,24918,0.0,24918,1.0,False,False,INC0000045
+UCI498,incident_state,5,0.0,24918,4983.6,False,True,New
+UCI498,active,1,0.0,24918,24918.0,False,True,True
+UCI498,reassignment_count,2,0.0,24918,12459.0,False,True,0
+UCI498,reopen_count,1,0.0,24918,24918.0,False,True,0
+UCI498,sys_mod_count,2,0.0,24918,12459.0,False,True,0
+UCI498,made_sla,2,0.0,24918,12459.0,False,True,True
+UCI498,caller_id,5244,0.00012039489525644112,24918,4.751716247139588,False,False,Caller 2403
+UCI498,opened_by,207,0.02865398507103299,24918,120.3768115942029,True,False,Opened by  8
+UCI498,opened_at,19849,0.0,24918,1.2553781046904127,False,False,29/2/2016 01:16
+UCI498,sys_created_by,185,0.46131310699093026,24918,134.69189189189188,False,False,Created by 6
+UCI498,sys_created_at,11552,0.46131310699093026,24918,2.1570290858725762,False,False,29/2/2016 01:23
+UCI498,sys_updated_by,186,0.0,24918,133.96774193548387,False,False,Updated by 21
+UCI498,sys_updated_at,19564,0.0,24918,1.2736659169903906,False,False,29/2/2016 01:23
+UCI498,contact_type,5,0.0,24918,4983.6,False,False,Phone
+UCI498,location,219,0.002086844851111646,24918,113.78082191780823,False,False,Location 143
+UCI498,category,57,0.0015651336383337346,24918,437.1578947368421,False,False,Category 55
+UCI498,subcategory,246,0.002769082590898146,24918,101.29268292682927,False,False,Subcategory 170
+UCI498,u_symptom,500,0.2301549080985633,24918,49.836,False,False,Symptom 72
+UCI498,cmdb_ci,45,0.9979532867806405,24918,553.7333333333333,False,False,cmdb_ci 31
+UCI498,impact,3,0.0,24918,8306.0,False,False,2 - Medium
+UCI498,urgency,3,0.0,24918,8306.0,False,False,2 - Medium
+UCI498,priority,4,0.0,24918,6229.5,False,False,3 - Moderate
+UCI498,assignment_group,69,0.03635925836744522,24918,361.1304347826087,True,False,Group 56
+UCI498,assigned_to,205,0.2865398507103299,24918,121.55121951219512,True,False,Resolver 89
+UCI498,knowledge,2,0.0,24918,12459.0,False,False,True
+UCI498,u_priority_confirmation,2,0.0,24918,12459.0,False,False,False
+UCI498,notify,2,0.0,24918,12459.0,False,False,Do Not Notify
+UCI498,problem_id,162,0.9903282767477326,24918,153.8148148148148,False,False,Problem ID  2
+UCI498,rfc,96,0.9960671000882896,24918,259.5625,False,False,CHG0000127
+UCI498,vendor,2,0.9993980255237178,24918,12459.0,False,False,code 8s
+UCI498,caused_by,2,0.9999197367364957,24918,12459.0,False,False,CHG0000132
+UCI498,closed_code,17,0.004294084597479733,24918,1465.764705882353,False,True,code 5
+UCI498,resolved_by,216,0.003973031543462557,24918,115.36111111111111,False,True,Resolved by 149
+UCI498,resolved_at,18505,0.062444819006340795,24918,1.3465549851391516,False,True,29/2/2016 11:29
+UCI498,closed_at,2707,0.0,24918,9.205024011821203,False,True,5/3/2016 12:00
+UCI498,_ts,19564,0.0,24918,1.2736659169903906,False,False,2016-02-29 01:23:00
+Helpdesk,case_id,4580,0.0,4580,1.0,False,False,Case 1
+Helpdesk,Activity,6,0.0,4580,763.3333333333334,False,False,Assign seriousness
+Helpdesk,Resource,17,0.0,4580,269.4117647058824,True,False,Value 1
+Helpdesk,Complete Timestamp,4580,0.0,4580,1.0,False,False,2012/10/09 14:50:17.000
+Helpdesk,Variant,226,0.0,4580,20.265486725663717,False,False,Variant 12
+Helpdesk,Variant index,226,0.0,4580,20.265486725663717,False,False,12
+Helpdesk,Variant.1,226,0.0,4580,20.265486725663717,False,False,Variant 12
+Helpdesk,seriousness,1,0.0,4580,4580.0,False,False,Value 1
+Helpdesk,customer,394,0.0,4580,11.624365482233502,False,False,Value 1
+Helpdesk,product,21,0.0,4580,218.0952380952381,False,False,Value 1
+Helpdesk,responsible_section,7,0.0,4580,654.2857142857143,False,False,Value 1
+Helpdesk,seriousness_2,4,0.0,4580,1145.0,False,False,Value 1
+Helpdesk,service_level,4,0.0,4580,1145.0,False,False,Value 1
+Helpdesk,service_type,3,0.0,4580,1526.6666666666667,False,False,Value 1
+Helpdesk,support_section,7,0.0,4580,654.2857142857143,False,False,Value 1
+Helpdesk,workgroup,4,0.0,4580,1145.0,True,False,Value 1
+Helpdesk,_ts,4580,0.0,4580,1.0,False,False,2012-10-09 14:50:17
+BPIC13_incidents,case:concept:name,7554,0.0,7554,1.0,False,True,1-364285768
+BPIC13_incidents,org:group,338,0.0,7554,22.349112426035504,True,False,V30
+BPIC13_incidents,resource country,29,0.0,7554,260.48275862068965,False,False,France
+BPIC13_incidents,organization country,23,0.0,7554,328.4347826086956,False,False,fr
+BPIC13_incidents,org:resource,806,0.0,7554,9.372208436724566,True,False,Frederic
+BPIC13_incidents,organization involved,18,0.0,7554,419.6666666666667,False,False,Org line A2
+BPIC13_incidents,org:role,20,0.11066984379136881,7554,377.7,True,False,A2_4
+BPIC13_incidents,concept:name,3,0.0,7554,2518.0,False,True,Accepted
+BPIC13_incidents,impact,4,0.0,7554,1888.5,False,False,Medium
+BPIC13_incidents,product,704,0.0,7554,10.730113636363637,False,False,PROD582
+BPIC13_incidents,lifecycle:transition,9,0.0,7554,839.3333333333334,False,True,In Progress
+BPIC13_incidents,time:timestamp,7471,0.0,7554,1.0111096238789987,False,True,2010-03-31T16:59:42+02:00
+BPIC13_open,case:concept:name,819,0.0,819,1.0,False,True,1-147898401
+BPIC13_open,org:group,11,0.0,819,74.45454545454545,True,False,Org line A2
+BPIC13_open,resource country,14,0.0,819,58.5,False,False,Sweden
+BPIC13_open,org:resource,199,0.009768009768009768,819,4.115577889447236,True,False,Tomas
+BPIC13_open,oranization country,14,0.0,819,58.5,False,False,cn
+BPIC13_open,org:role,25,0.2600732600732601,819,32.76,True,False,A2_2
+BPIC13_open,concept:name,3,0.0,819,273.0,False,True,Accepted
+BPIC13_open,impact,4,0.0,819,204.75,False,False,Medium
+BPIC13_open,product,139,0.0,819,5.892086330935252,False,False,PROD753
+BPIC13_open,time:timestamp,819,0.0,819,1.0,False,True,2006-11-07T10:00:36+01:00
+BPIC13_open,lifecycle:transition,5,0.0,819,163.8,False,True,In Progress
+BPIC13_closed,case:concept:name,1487,0.0,1487,1.0,False,True,1-109135791
+BPIC13_closed,org:group,13,0.0,1487,114.38461538461539,True,False,Org line A2
+BPIC13_closed,resource country,19,0.0,1487,78.26315789473684,False,False,INDIA
+BPIC13_closed,organization country,17,0.0,1487,87.47058823529412,False,False,se
+BPIC13_closed,org:resource,412,0.0033624747814391394,1487,3.6092233009708736,True,False,Minnie
+BPIC13_closed,organization involved,271,0.0,1487,5.487084870848708,False,False,J11 2nd
+BPIC13_closed,org:role,26,0.3389374579690652,1487,57.19230769230769,True,False,A2_2
+BPIC13_closed,concept:name,4,0.0,1487,371.75,False,True,Queued
+BPIC13_closed,impact,4,0.0,1487,371.75,False,False,High
+BPIC13_closed,product,337,0.0,1487,4.41246290801187,False,False,PROD191
+BPIC13_closed,lifecycle:transition,6,0.0,1487,247.83333333333334,False,True,Awaiting Assignment
+BPIC13_closed,time:timestamp,1487,0.0,1487,1.0,False,True,2006-01-11T15:49:42+01:00
+BPIC12,case:REG_DATE,13087,0.0,13087,1.0,False,False,2011-10-01T00:38:44.546+02:00
+BPIC12,case:concept:name,13087,0.0,13087,1.0,False,True,173688
+BPIC12,case:AMOUNT_REQ,631,0.0,13087,20.740095087163233,False,False,20000
+BPIC12,org:resource,1,0.0,13087,13087.0,True,False,112
+BPIC12,lifecycle:transition,1,0.0,13087,13087.0,False,True,COMPLETE
+BPIC12,concept:name,1,0.0,13087,13087.0,False,True,A_SUBMITTED
+BPIC12,time:timestamp,13087,0.0,13087,1.0,False,True,2011-10-01T00:38:44.546+02:00
+BPIC17,case:LoanGoal,13,0.07505791995937669,31509,2423.769230769231,False,False,Existing loan takeover
+BPIC17,case:ApplicationType,2,0.0,31509,15754.5,False,False,New credit
+BPIC17,case:concept:name,31509,0.0,31509,1.0,False,True,Application_652823628
+BPIC17,case:RequestedAmount,701,0.0,31509,44.94864479315264,False,False,20000.0
+BPIC17,Action,1,0.0,31509,31509.0,False,False,Created
+BPIC17,org:resource,111,0.0,31509,283.86486486486484,True,False,User_1
+BPIC17,concept:name,1,0.0,31509,31509.0,False,True,A_Create Application
+BPIC17,EventOrigin,1,0.0,31509,31509.0,False,False,Application
+BPIC17,EventID,31509,0.0,31509,1.0,False,False,Application_652823628
+BPIC17,lifecycle:transition,1,0.0,31509,31509.0,False,True,complete
+BPIC17,time:timestamp,31509,0.0,31509,1.0,False,True,2016-01-01T09:51:15.304Z
+BPIC19,case:Spend area text,20,0.013065378534484813,251734,12586.7,False,False,CAPEX & SOCS
+BPIC19,case:Company,4,0.0,251734,62933.5,False,False,companyID_0000
+BPIC19,case:Document Type,3,0.0,251734,83911.33333333333,False,False,EC Purchase order
+BPIC19,case:Sub spend area text,135,0.013065378534484813,251734,1864.6962962962964,False,False,Facility Management
+BPIC19,case:Purchasing Document,76349,0.0,251734,3.297148620152196,False,False,2000000000
+BPIC19,case:Purch. Doc. Category name,1,0.0,251734,251734.0,False,False,Purchase order
+BPIC19,case:Vendor,1975,0.0,251734,127.46025316455696,False,False,vendorID_0000
+BPIC19,case:Item Type,6,0.0,251734,41955.666666666664,False,False,Standard
+BPIC19,case:Item Category,4,0.0,251734,62933.5,False,False,"3-way match, invoice before GR"
+BPIC19,case:Spend classification text,3,0.013065378534484813,251734,83911.33333333333,False,False,NPR
+BPIC19,case:Source,1,0.0,251734,251734.0,False,False,sourceSystemID_0000
+BPIC19,case:Name,1899,0.0,251734,132.56134807793575,False,False,vendor_0000
+BPIC19,case:GR-Based Inv. Verif.,2,0.0,251734,125867.0,False,False,false
+BPIC19,case:Item,490,0.0,251734,513.7428571428571,False,False,00001
+BPIC19,case:concept:name,251734,0.0,251734,1.0,False,True,2000000000_00001
+BPIC19,case:Goods Receipt,2,0.0,251734,125867.0,False,False,true
+BPIC19,User,355,0.014217388195476178,251734,709.1098591549296,False,False,batch_00
+BPIC19,org:resource,355,0.014217388195476178,251734,709.1098591549296,True,False,batch_00
+BPIC19,concept:name,8,0.0,251734,31466.75,False,True,SRM: Created
+BPIC19,Cumulative net worth (EUR),16229,0.0,251734,15.5113685378027,False,True,298.0
+BPIC19,time:timestamp,44373,0.0,251734,5.673134563811327,False,True,2018-01-02T12:53:00.000Z
+BPIC15_1,case:endDate,478,0.20266889074228525,1199,2.50836820083682,False,False,2014-07-18T00:00:00+02:00
+BPIC15_1,case:caseStatus,3,0.0,1199,399.6666666666667,False,False,O
+BPIC15_1,case:SUMleges,613,0.24437030859049208,1199,1.9559543230016314,False,False,157.09305
+BPIC15_1,case:last_phase,27,0.0,1199,44.407407407407405,False,True,Beschikking verzonden
+BPIC15_1,case:case_type,1,0.0,1199,1199.0,False,False,557669
+BPIC15_1,case:concept:name,1199,0.0,1199,1.0,False,True,10009138
+BPIC15_1,case:Responsible_actor,20,0.0008340283569641367,1199,59.95,False,False,560464
+BPIC15_1,case:parts,88,0.0016680567139282735,1199,13.625,False,False,"Bouw,Reclame"
+BPIC15_1,case:termName,13,0.25771476230191825,1199,92.23076923076923,False,False,Termijn bezwaar en beroep 1
+BPIC15_1,case:endDatePlanned,86,0.8857381150959133,1199,13.94186046511628,False,False,2014-07-18T00:00:00+02:00
+BPIC15_1,case:startDate,741,0.0,1199,1.6180836707152497,False,False,2014-04-11T00:00:00+02:00
+BPIC15_1,case:requestComplete,2,0.0,1199,599.5,False,False,TRUE
+BPIC15_1,case:IDofConceptCase,810,0.3244370308590492,1199,1.480246913580247,False,False,10009280
+BPIC15_1,question,7,0.0,1199,171.28571428571428,False,False,EMPTY
+BPIC15_1,dateFinished,994,0.0,1199,1.2062374245472838,False,False,2014-04-14 00:00:00
+BPIC15_1,dueDate,1146,0.04420350291909925,1199,1.0462478184991273,False,False,2014-04-17T09:30:39+02:00
+BPIC15_1,action_code,14,0.0,1199,85.64285714285714,False,False,01_HOOFD_010
+BPIC15_1,activityNameEN,13,0.0,1199,92.23076923076923,False,False,register submission date request
+BPIC15_1,planned,1198,0.0008340283569641367,1199,1.0008347245409015,False,False,2014-04-15T09:30:39+02:00
+BPIC15_1,time:timestamp,731,0.0,1199,1.640218878248974,False,True,2014-04-11T00:00:00+02:00
+BPIC15_1,monitoringResource,21,0.0,1199,57.095238095238095,False,False,2670601
+BPIC15_1,org:resource,15,0.0,1199,79.93333333333334,True,False,9264148
+BPIC15_1,activityNameNL,13,0.0,1199,92.23076923076923,False,False,registratie datum binnenkomst aanvraag
+BPIC15_1,concept:name,14,0.0,1199,85.64285714285714,False,True,01_HOOFD_010
+BPIC15_1,lifecycle:transition,1,0.0,1199,1199.0,False,True,complete
+BPIC15_1,case:landRegisterID,140,0.8590492076730609,1199,8.564285714285715,False,False,719458
+BPIC15_1,case:caseProcedure,2,0.9115929941618015,1199,599.5,False,False,Uitgebreid
+BPIC15_1,case:Includes_subCases,2,0.21434528773978315,1199,599.5,False,False,J
+BPIC15_2,case:Includes_subCases,2,0.25,832,416.0,False,False,J
+BPIC15_2,case:concept:name,832,0.0,832,1.0,False,True,10358444
+BPIC15_2,case:Responsible_actor,7,0.0,832,118.85714285714286,False,False,4634935
+BPIC15_2,case:endDate,671,0.14543269230769232,832,1.239940387481371,False,False,2013-09-30T00:00:00+02:00
+BPIC15_2,case:caseStatus,2,0.0,832,416.0,False,False,G
+BPIC15_2,case:parts,63,0.003605769230769231,832,13.206349206349206,False,False,Milieu (vergunning)
+BPIC15_2,case:caseProcedure,2,0.75,832,416.0,False,False,Uitgebreid
+BPIC15_2,case:last_phase,22,0.001201923076923077,832,37.81818181818182,False,True,Zaak afgehandeld
+BPIC15_2,case:case_type,1,0.0,832,832.0,False,False,557669
+BPIC15_2,case:startDate,582,0.0,832,1.429553264604811,False,False,2012-03-21T00:00:00+01:00
+BPIC15_2,case:requestComplete,2,0.0,832,416.0,False,False,FALSE
+BPIC15_2,monitoringResource,9,0.0,832,92.44444444444444,False,False,4634935
+BPIC15_2,org:resource,9,0.0,832,92.44444444444444,True,False,560530
+BPIC15_2,activityNameNL,13,0.0,832,64.0,False,False,registratie datum binnenkomst aanvraag
+BPIC15_2,concept:name,14,0.0,832,59.42857142857143,False,True,01_HOOFD_010
+BPIC15_2,question,8,0.0,832,104.0,False,False,EMPTY
+BPIC15_2,dateFinished,724,0.0,832,1.149171270718232,False,False,2013-01-10 12:07:35
+BPIC15_2,action_code,13,0.001201923076923077,832,64.0,False,False,01_HOOFD_010
+BPIC15_2,activityNameEN,13,0.0,832,64.0,False,False,register submission date request
+BPIC15_2,planned,824,0.009615384615384616,832,1.0097087378640777,False,False,2012-03-23T10:21:14+01:00
+BPIC15_2,lifecycle:transition,1,0.0,832,832.0,False,True,complete
+BPIC15_2,time:timestamp,567,0.0,832,1.4673721340388006,False,True,2012-03-21T00:00:00+01:00
+BPIC15_2,case:SUMleges,363,0.30408653846153844,832,2.2920110192837466,False,False,250.58176
+BPIC15_2,case:IDofConceptCase,310,0.6262019230769231,832,2.6838709677419357,False,False,11666578
+BPIC15_2,case:termName,9,0.8401442307692307,832,92.44444444444444,False,False,Termijn bezwaar en beroep 1
+BPIC15_2,case:landRegisterID,203,0.7391826923076923,832,4.098522167487685,False,False,19898959
+BPIC15_2,dueDate,231,0.7223557692307693,832,3.601731601731602,False,False,2014-02-05T14:26:22+01:00
+BPIC15_3,case:Includes_subCases,2,0.24059616749467708,1409,704.5,False,False,N
+BPIC15_3,case:concept:name,1409,0.0,1409,1.0,False,True,3004646
+BPIC15_3,case:Responsible_actor,20,0.0,1409,70.45,False,False,560922
+BPIC15_3,case:caseStatus,2,0.0,1409,704.5,False,False,G
+BPIC15_3,case:last_phase,27,0.0,1409,52.18518518518518,False,True,Advies bekend
+BPIC15_3,case:case_type,1,0.0,1409,1409.0,False,False,557669
+BPIC15_3,case:termName,13,0.18594748048261178,1409,108.38461538461539,False,False,Termijn tot besluit
+BPIC15_3,case:startDate,818,0.0,1409,1.7224938875305624,False,False,2010-10-04T00:00:00+02:00
+BPIC15_3,case:requestComplete,2,0.0,1409,704.5,False,False,TRUE
+BPIC15_3,question,11,0.0,1409,128.0909090909091,False,False,4-10-2010 0:00:00
+BPIC15_3,dateFinished,1191,0.0,1409,1.18303946263644,False,False,2010-10-25 14:38:39
+BPIC15_3,dueDate,1365,0.031227821149751596,1409,1.0322344322344323,False,False,2010-10-11T12:00:06+02:00
+BPIC15_3,action_code,9,0.0,1409,156.55555555555554,False,False,01_HOOFD_010
+BPIC15_3,activityNameEN,8,0.0,1409,176.125,False,False,register submission date request
+BPIC15_3,planned,1407,0.0014194464158978,1409,1.0014214641080312,False,False,2010-10-09T12:00:06+02:00
+BPIC15_3,time:timestamp,811,0.0,1409,1.7373612823674476,False,True,2010-10-04T00:00:00+02:00
+BPIC15_3,monitoringResource,16,0.0,1409,88.0625,False,False,560922
+BPIC15_3,org:resource,10,0.0,1409,140.9,True,False,560922
+BPIC15_3,activityNameNL,8,0.0,1409,176.125,False,False,registratie datum binnenkomst aanvraag
+BPIC15_3,concept:name,9,0.0,1409,156.55555555555554,False,True,01_HOOFD_010
+BPIC15_3,lifecycle:transition,1,0.0,1409,1409.0,False,True,complete
+BPIC15_3,case:endDate,698,0.10574875798438609,1409,2.018624641833811,False,False,2010-11-12T00:00:00+01:00
+BPIC15_3,case:parts,93,0.0198722498225692,1409,15.150537634408602,False,False,Milieu (vergunning)
+BPIC15_3,case:SUMleges,532,0.41731724627395317,1409,2.648496240601504,False,False,795.792
+BPIC15_3,case:caseProcedure,2,0.8942512420156139,1409,704.5,False,False,Regulier
+BPIC15_3,case:IDofConceptCase,804,0.42867281760113557,1409,1.7524875621890548,False,False,3061852
+BPIC15_3,case:endDatePlanned,18,0.9822569198012775,1409,78.27777777777777,False,False,2010-12-06T00:00:00+01:00
+BPIC15_3,case:landRegisterID,206,0.8190205819730305,1409,6.839805825242719,False,False,3876955
+BPIC15_4,case:concept:name,1053,0.0,1053,1.0,False,True,10002357
+BPIC15_4,case:Responsible_actor,9,0.0,1053,117.0,False,False,1550894
+BPIC15_4,case:endDate,614,0.07502374169040836,1053,1.714983713355049,False,False,2014-08-20T00:00:00+02:00
+BPIC15_4,case:caseStatus,2,0.0,1053,526.5,False,False,O
+BPIC15_4,case:parts,52,0.00949667616334283,1053,20.25,False,False,Bouw
+BPIC15_4,case:SUMleges,476,0.2621082621082621,1053,2.21218487394958,False,False,398.92447
+BPIC15_4,case:last_phase,25,0.0,1053,42.12,False,True,Besluit onherroepelijk
+BPIC15_4,case:case_type,1,0.0,1053,1053.0,False,False,557669
+BPIC15_4,case:startDate,696,0.0,1053,1.5129310344827587,False,False,2014-08-05T00:00:00+02:00
+BPIC15_4,case:requestComplete,2,0.0,1053,526.5,False,False,TRUE
+BPIC15_4,case:IDofConceptCase,621,0.41025641025641024,1053,1.6956521739130435,False,False,10002463
+BPIC15_4,question,18,0.0,1053,58.5,False,False,EMPTY
+BPIC15_4,dateFinished,894,0.0,1053,1.1778523489932886,False,False,2014-08-06 00:00:00
+BPIC15_4,dueDate,597,0.43304843304843305,1053,1.763819095477387,False,False,2014-08-11T08:28:55+02:00
+BPIC15_4,action_code,14,0.000949667616334283,1053,75.21428571428571,False,False,01_HOOFD_010
+BPIC15_4,activityNameEN,15,0.0,1053,70.2,False,False,register submission date request
+BPIC15_4,planned,1047,0.005698005698005698,1053,1.005730659025788,False,False,2014-08-07T08:28:55+02:00
+BPIC15_4,time:timestamp,685,0.0,1053,1.5372262773722627,False,True,2014-08-05T00:00:00+02:00
+BPIC15_4,monitoringResource,11,0.0,1053,95.72727272727273,False,False,560752
+BPIC15_4,org:resource,7,0.0,1053,150.42857142857142,True,False,560752
+BPIC15_4,activityNameNL,15,0.0,1053,70.2,False,False,registratie datum binnenkomst aanvraag
+BPIC15_4,concept:name,15,0.0,1053,70.2,False,True,01_HOOFD_010
+BPIC15_4,lifecycle:transition,1,0.0,1053,1053.0,False,True,complete
+BPIC15_4,case:termName,13,0.8110161443494777,1053,81.0,False,False,Termijn tot besluit
+BPIC15_4,case:caseProcedure,2,0.8841405508072174,1053,526.5,False,False,Uitgebreid
+BPIC15_4,case:landRegisterID,85,0.9031339031339032,1053,12.388235294117647,False,False,10236564
+BPIC15_4,case:Includes_subCases,2,0.1889838556505223,1053,526.5,False,False,N
+BPIC15_4,case:endDatePlanned,2,0.9981006647673314,1053,526.5,False,False,2013-06-12T00:00:00+02:00
+BPIC15_5,case:endDate,726,0.06228373702422145,1156,1.5922865013774106,False,False,2014-02-24T00:00:00+01:00
+BPIC15_5,case:caseStatus,3,0.0,1156,385.3333333333333,False,False,G
+BPIC15_5,case:SUMleges,565,0.19204152249134948,1156,2.046017699115044,False,False,186.303
+BPIC15_5,case:last_phase,25,0.0,1156,46.24,False,True,Besluit onherroepelijk
+BPIC15_5,case:case_type,1,0.0,1156,1156.0,False,False,557669
+BPIC15_5,case:concept:name,1156,0.0,1156,1.0,False,True,10061280
+BPIC15_5,case:Responsible_actor,8,0.0,1156,144.5,False,False,560604
+BPIC15_5,case:landRegisterID,856,0.02249134948096886,1156,1.3504672897196262,False,False,6966675
+BPIC15_5,case:parts,106,0.0017301038062283738,1156,10.90566037735849,False,False,Bouw
+BPIC15_5,case:termName,10,0.7603806228373703,1156,115.6,False,False,Termijn bezwaar en beroep 1
+BPIC15_5,case:startDate,754,0.0,1156,1.53315649867374,False,False,2014-01-06T00:00:00+01:00
+BPIC15_5,case:requestComplete,2,0.0,1156,578.0,False,False,TRUE
+BPIC15_5,case:IDofConceptCase,637,0.44809688581314877,1156,1.814756671899529,False,False,10061287
+BPIC15_5,question,2,0.0,1156,578.0,False,False,EMPTY
+BPIC15_5,dateFinished,934,0.0,1156,1.2376873661670236,False,False,2014-01-10 00:00:00
+BPIC15_5,dueDate,1124,0.02768166089965398,1156,1.0284697508896796,False,False,2014-01-15T08:45:53+01:00
+BPIC15_5,action_code,12,0.0008650519031141869,1156,96.33333333333333,False,False,01_HOOFD_010
+BPIC15_5,activityNameEN,12,0.0,1156,96.33333333333333,False,False,register submission date request
+BPIC15_5,planned,1154,0.0017301038062283738,1156,1.001733102253033,False,False,2014-01-13T08:45:53+01:00
+BPIC15_5,time:timestamp,749,0.0,1156,1.5433911882510014,False,True,2014-01-06T00:00:00+01:00
+BPIC15_5,monitoringResource,16,0.0,1156,72.25,False,False,8492512
+BPIC15_5,org:resource,18,0.0,1156,64.22222222222223,True,False,8492512
+BPIC15_5,activityNameNL,12,0.0,1156,96.33333333333333,False,False,registratie datum binnenkomst aanvraag
+BPIC15_5,concept:name,13,0.0,1156,88.92307692307692,False,True,01_HOOFD_010
+BPIC15_5,lifecycle:transition,1,0.0,1156,1156.0,False,True,complete
+BPIC15_5,case:caseProcedure,2,0.9160899653979239,1156,578.0,False,False,Regulier
+BPIC15_5,case:Includes_subCases,2,0.2577854671280277,1156,578.0,False,False,J
+BPIC15_5,case:endDatePlanned,3,0.9974048442906575,1156,385.3333333333333,False,False,2010-12-02T00:00:00+01:00
+BPIC20_domestic,case:id,10500,0.0,10500,1.0,False,False,declaration 86791
+BPIC20_domestic,case:concept:name,10500,0.0,10500,1.0,False,True,declaration 86791
+BPIC20_domestic,case:BudgetNumber,1,0.0,10500,10500.0,False,False,budget 86566
+BPIC20_domestic,case:DeclarationNumber,10048,0.04304761904761905,10500,1.044984076433121,False,False,declaration number 86792
+BPIC20_domestic,case:Amount,8326,0.0,10500,1.261109776603411,False,False,26.85120450862128
+BPIC20_domestic,id,10500,0.0,10500,1.0,False,False,st_step 86794_0
+BPIC20_domestic,org:resource,1,0.0,10500,10500.0,True,False,STAFF MEMBER
+BPIC20_domestic,concept:name,2,0.0,10500,5250.0,False,True,Declaration SUBMITTED by EMPLOYEE
+BPIC20_domestic,time:timestamp,10483,0.0,10500,1.0016216731851568,False,True,2017-01-09T09:49:50.000+01:00
+BPIC20_domestic,org:role,1,0.0,10500,10500.0,True,False,EMPLOYEE
+BPIC20_intl,case:Permit travel permit number,5595,0.0035664444099860445,6449,1.1526362823949956,False,False,travel permit number 76456
+BPIC20_intl,case:DeclarationNumber,6189,0.04031632811288572,6449,1.042010017773469,False,False,declaration number 76458
+BPIC20_intl,case:Amount,6100,0.0,6449,1.0572131147540984,False,False,39.66456144659199
+BPIC20_intl,case:RequestedAmount,6100,0.0,6449,1.0572131147540984,False,False,39.66456144659199
+BPIC20_intl,case:Permit TaskNumber,5,0.3628469530159715,6449,1289.8,False,False,task 427
+BPIC20_intl,case:Permit BudgetNumber,207,0.0,6449,31.154589371980677,False,False,budget 922
+BPIC20_intl,case:OriginalAmount,6100,0.0,6449,1.0572131147540984,False,False,39.66456144659199
+BPIC20_intl,case:Permit ProjectNumber,824,0.3617615134129322,6449,7.826456310679611,False,False,project 73472
+BPIC20_intl,case:concept:name,6449,0.0,6449,1.0,False,True,declaration 76457
+BPIC20_intl,case:Permit OrganizationalEntity,27,0.0,6449,238.85185185185185,False,False,organizational unit 65458
+BPIC20_intl,case:travel permit number,6033,0.0,6449,1.0689540858610973,False,False,travel permit number 76456
+BPIC20_intl,case:Permit RequestedBudget,5259,0.0,6449,1.2262787602205742,False,False,41.613444658859
+BPIC20_intl,case:id,6449,0.0,6449,1.0,False,False,declaration 76457
+BPIC20_intl,case:Permit ID,6028,0.0,6449,1.0698407431984074,False,False,travel permit 76455
+BPIC20_intl,case:Permit id,5608,0.0,6449,1.1499643366619114,False,False,travel permit 76455
+BPIC20_intl,case:BudgetNumber,718,0.0012405024034734067,6449,8.981894150417828,False,False,budget 144133
+BPIC20_intl,case:Permit ActivityNumber,144,0.936579314622422,6449,44.78472222222222,False,False,activity 46005
+BPIC20_intl,case:AdjustedAmount,6101,0.0,6449,1.0570398295361416,False,False,39.66456144659199
+BPIC20_intl,id,6024,0.0,6449,1.0705511288180611,False,False,rv_travel permit 76455_6
+BPIC20_intl,org:resource,1,0.0,6449,6449.0,True,False,STAFF MEMBER
+BPIC20_intl,concept:name,4,0.0,6449,1612.25,False,True,Start trip
+BPIC20_intl,time:timestamp,5742,0.0,6449,1.1231278300243817,False,True,2016-10-05T00:00:00.000+02:00
+BPIC20_intl,org:role,1,0.0,6449,6449.0,True,False,EMPLOYEE
+BPIC20_prepaid,case:Rfp_id,2099,0.0,2099,1.0,False,False,request for payment 73550
+BPIC20_prepaid,case:Permit travel permit number,1317,0.0800381133873273,2099,1.5937737281700834,False,False,travel permit number 76315
+BPIC20_prepaid,case:Task,434,0.38828013339685563,2099,4.836405529953917,False,False,task 71977
+BPIC20_prepaid,case:OrganizationalEntity,26,0.0,2099,80.73076923076923,False,False,organizational unit 65463
+BPIC20_prepaid,case:RequestedAmount,2049,0.0,2099,1.0244021473889702,False,False,854.5798378437331
+BPIC20_prepaid,case:Activity,4,0.3892329680800381,2099,524.75,False,False,activity 505
+BPIC20_prepaid,case:Permit TaskNumber,4,0.4001905669366365,2099,524.75,False,False,task 427
+BPIC20_prepaid,case:Permit BudgetNumber,138,0.07384468794664126,2099,15.210144927536232,False,False,budget 6198
+BPIC20_prepaid,case:Permit ProjectNumber,402,0.39971414959504525,2099,5.221393034825871,False,False,project 2260
+BPIC20_prepaid,case:Project,28,0.013816102906145784,2099,74.96428571428571,False,False,project 503
+BPIC20_prepaid,case:concept:name,2099,0.0,2099,1.0,False,True,request for payment 73550
+BPIC20_prepaid,case:Permit OrganizationalEntity,21,0.07384468794664126,2099,99.95238095238095,False,False,organizational unit 65455
+BPIC20_prepaid,case:Permit RequestedBudget,1296,0.0,2099,1.6195987654320987,False,False,1979.272103997747
+BPIC20_prepaid,case:Cost Type,1,0.0,2099,2099.0,False,False,0
+BPIC20_prepaid,case:Permit id,1326,0.07384468794664126,2099,1.5829562594268476,False,False,travel permit 73549
+BPIC20_prepaid,case:Permit ActivityNumber,57,0.9256788947117676,2099,36.824561403508774,False,False,activity 7905
+BPIC20_prepaid,case:RfpNumber,1999,0.04764173415912339,2099,1.0500250125062531,False,False,request for payment number 73551
+BPIC20_prepaid,id,1565,0.0,2099,1.3412140575079872,False,False,st_step 73555_0
+BPIC20_prepaid,org:resource,1,0.0,2099,2099.0,True,False,STAFF MEMBER
+BPIC20_prepaid,concept:name,3,0.0,2099,699.6666666666666,False,True,Permit SUBMITTED by EMPLOYEE
+BPIC20_prepaid,time:timestamp,1564,0.0,2099,1.342071611253197,False,True,2017-01-09T14:48:43.000+01:00
+BPIC20_prepaid,org:role,1,0.0,2099,2099.0,True,False,EMPLOYEE
+BPIC20_permit,case:OrganizationalEntity,29,0.0,7065,243.6206896551724,False,False,organizational unit 65458
+BPIC20_permit,case:ProjectNumber,884,0.41797593772116065,7065,7.992081447963801,False,False,project 73472
+BPIC20_permit,case:TaskNumber,5,0.4191082802547771,7065,1413.0,False,False,task 427
+BPIC20_permit,case:dec_id_0,4451,0.3699929228591649,7065,1.5872837564592226,False,False,declaration 76457
+BPIC20_permit,case:ActivityNumber,166,0.9336164189667374,7065,42.56024096385542,False,False,activity 46005
+BPIC20_permit,case:TotalDeclared,5680,0.0,7065,1.243838028169014,False,False,39.66456144659199
+BPIC20_permit,case:concept:name,7065,0.0,7065,1.0,False,True,travel permit 76455
+BPIC20_permit,case:RequestedAmount_0,3180,0.19278131634819534,7065,2.2216981132075473,False,False,56
+BPIC20_permit,case:Overspent,2,0.0,7065,3532.5,False,False,false
+BPIC20_permit,case:travel permit number,6902,0.023071479122434537,7065,1.0236163430889598,False,False,travel permit number 76456
+BPIC20_permit,case:DeclarationNumber_0,4377,0.3804670912951168,7065,1.6141192597669636,False,False,declaration number 76458
+BPIC20_permit,case:id,7065,0.0,7065,1.0,False,False,travel permit 76455
+BPIC20_permit,case:RequestedBudget,6256,0.0,7065,1.1293158567774937,False,False,41.613444658859
+BPIC20_permit,case:BudgetNumber,226,0.0,7065,31.261061946902654,False,False,budget 922
+BPIC20_permit,case:OverspentAmount,6622,0.0,7065,1.0668982180610087,False,False,0.0
+BPIC20_permit,id,7065,0.0,7065,1.0,False,False,rv_travel permit 76455_6
+BPIC20_permit,org:resource,1,0.0,7065,7065.0,True,False,STAFF MEMBER
+BPIC20_permit,concept:name,3,0.0,7065,2355.0,False,True,Start trip
+BPIC20_permit,time:timestamp,6684,0.0,7065,1.0570017953321365,False,True,2016-10-05T00:00:00.000+02:00
+BPIC20_permit,org:role,1,0.0,7065,7065.0,True,False,EMPLOYEE
+BPIC20_permit,case:dec_id_5,26,0.9963198867657467,7065,271.7307692307692,False,False,declaration 73574
+BPIC20_permit,case:dec_id_6,14,0.9980184005661713,7065,504.64285714285717,False,False,declaration 73576
+BPIC20_permit,case:dec_id_3,121,0.9828733191790516,7065,58.388429752066116,False,False,declaration 73570
+BPIC20_permit,case:dec_id_4,51,0.9927813163481953,7065,138.52941176470588,False,False,declaration 73572
+BPIC20_permit,case:dec_id_1,999,0.8585987261146497,7065,7.072072072072072,False,False,declaration 73566
+BPIC20_permit,case:dec_id_2,309,0.9562632696390658,7065,22.864077669902912,False,False,declaration 73568
+BPIC20_permit,case:DeclarationNumber_10,2,0.9997169143665959,7065,3532.5,False,False,declaration number 73585
+BPIC20_permit,case:RequestedAmount_16,1,0.9998584571832979,7065,7065.0,False,False,18
+BPIC20_permit,case:RequestedAmount_14,2,0.9997169143665959,7065,3532.5,False,False,191
+BPIC20_permit,case:RequestedAmount_15,1,0.9998584571832979,7065,7065.0,False,False,153
+BPIC20_permit,case:dec_id_9,5,0.9992922859164898,7065,1413.0,False,False,declaration 73582
+BPIC20_permit,case:RequestedAmount_12,3,0.9995753715498938,7065,2355.0,False,False,219
+BPIC20_permit,case:DeclarationNumber_14,1,0.9998584571832979,7065,7065.0,False,False,declaration number 73593
+BPIC20_permit,case:DeclarationNumber_13,2,0.9997169143665959,7065,3532.5,False,False,declaration number 73591
+BPIC20_permit,case:RequestedAmount_13,3,0.9995753715498938,7065,2355.0,False,False,297
+BPIC20_permit,case:dec_id_7,7,0.9990092002830856,7065,1009.2857142857143,False,False,declaration 73578
+BPIC20_permit,case:RequestedAmount_10,4,0.9994338287331918,7065,1766.25,False,False,242
+BPIC20_permit,case:DeclarationNumber_12,2,0.9997169143665959,7065,3532.5,False,False,declaration number 73589
+BPIC20_permit,case:dec_id_8,6,0.9991507430997877,7065,1177.5,False,False,declaration 73580
+BPIC20_permit,case:DeclarationNumber_11,3,0.9995753715498938,7065,2355.0,False,False,declaration number 73587
+BPIC20_permit,case:RequestedAmount_11,4,0.9994338287331918,7065,1766.25,False,False,309
+BPIC20_permit,case:DeclarationNumber_16,1,0.9998584571832979,7065,7065.0,False,False,declaration number 73597
+BPIC20_permit,case:DeclarationNumber_15,1,0.9998584571832979,7065,7065.0,False,False,declaration number 73595
+BPIC20_permit,case:DeclarationNumber_8,6,0.9991507430997877,7065,1177.5,False,False,declaration number 73581
+BPIC20_permit,case:DeclarationNumber_9,4,0.9994338287331918,7065,1766.25,False,False,declaration number 73583
+BPIC20_permit,case:DeclarationNumber_4,42,0.9940552016985138,7065,168.21428571428572,False,False,declaration number 73573
+BPIC20_permit,case:DeclarationNumber_5,19,0.997310686482661,7065,371.8421052631579,False,False,declaration number 73575
+BPIC20_permit,case:DeclarationNumber_6,11,0.9984430290162775,7065,642.2727272727273,False,False,declaration number 73577
+BPIC20_permit,case:DeclarationNumber_7,6,0.9991507430997877,7065,1177.5,False,False,declaration number 73579
+BPIC20_permit,case:RequestedAmount_4,51,0.9924982307147913,7065,138.52941176470588,False,False,612
+BPIC20_permit,case:DeclarationNumber_1,911,0.8710544939844302,7065,7.755214050493962,False,False,declaration number 73567
+BPIC20_permit,case:RequestedAmount_3,129,0.9807501769285208,7065,54.76744186046512,False,False,37
+BPIC20_permit,case:DeclarationNumber_2,274,0.9612172682236376,7065,25.784671532846716,False,False,declaration number 73569
+BPIC20_permit,case:RequestedAmount_2,359,0.9453644727530078,7065,19.67966573816156,False,False,355
+BPIC20_permit,case:RequestedAmount_1,1054,0.8196744515215852,7065,6.70303605313093,False,False,37
+BPIC20_permit,case:DeclarationNumber_3,101,0.9857041755130928,7065,69.95049504950495,False,False,declaration number 73571
+BPIC20_permit,case:RequestedAmount_8,8,0.9988676574663836,7065,883.125,False,False,17
+BPIC20_permit,case:RequestedAmount_7,8,0.9988676574663836,7065,883.125,False,False,170
+BPIC20_permit,case:RequestedAmount_6,13,0.9981599433828733,7065,543.4615384615385,False,False,341
+BPIC20_permit,case:RequestedAmount_5,23,0.9967445152158528,7065,307.17391304347825,False,False,623
+BPIC20_permit,case:RequestedAmount_9,6,0.9991507430997877,7065,1177.5,False,False,232
+BPIC20_permit,case:dec_id_16,1,0.9998584571832979,7065,7065.0,False,False,declaration 73596
+BPIC20_permit,case:dec_id_13,2,0.9997169143665959,7065,3532.5,False,False,declaration 73590
+BPIC20_permit,case:dec_id_12,2,0.9997169143665959,7065,3532.5,False,False,declaration 73588
+BPIC20_permit,case:dec_id_15,1,0.9998584571832979,7065,7065.0,False,False,declaration 73594
+BPIC20_permit,case:dec_id_14,1,0.9998584571832979,7065,7065.0,False,False,declaration 73592
+BPIC20_permit,case:dec_id_11,3,0.9995753715498938,7065,2355.0,False,False,declaration 73586
+BPIC20_permit,case:dec_id_10,2,0.9997169143665959,7065,3532.5,False,False,declaration 73584
+BPIC20_permit,case:Activity_1,2,0.9654635527246992,7065,3532.5,False,False,activity 505
+BPIC20_permit,case:Activity_0,4,0.8828025477707007,7065,1766.25,False,False,activity 505
+BPIC20_permit,case:RfpNumber_0,1276,0.8193913658881812,7065,5.536833855799373,False,False,request for payment number 73551
+BPIC20_permit,case:OrganizationalEntity_0,24,0.8124557678697806,7065,294.375,False,False,organizational unit 65463
+BPIC20_permit,case:Rfp_id_0,1325,0.8124557678697806,7065,5.332075471698113,False,False,request for payment 73550
+BPIC20_permit,case:RfpNumber_1,347,0.9508846426043879,7065,20.360230547550433,False,False,request for payment number 73553
+BPIC20_permit,case:OrganizationalEntity_1,15,0.9490445859872612,7065,471.0,False,False,organizational unit 65463
+BPIC20_permit,case:Cost Type_1,1,0.9490445859872612,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_0,1,0.8124557678697806,7065,7065.0,False,False,0
+BPIC20_permit,case:Task_1,162,0.9654635527246992,7065,43.611111111111114,False,False,task 71977
+BPIC20_permit,case:Task_0,409,0.8826610049539986,7065,17.273838630806846,False,False,task 71977
+BPIC20_permit,case:Project_0,1,0.8124557678697806,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Rfp_id_1,360,0.9490445859872612,7065,19.625,False,False,request for payment 73552
+BPIC20_permit,case:Project_1,1,0.9490445859872612,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Activity_3,1,0.9967445152158528,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Activity_2,2,0.989242745930644,7065,3532.5,False,False,activity 505
+BPIC20_permit,case:Cost Type_3,1,0.9951875442321302,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_2,1,0.9842887473460722,7065,7065.0,False,False,0
+BPIC20_permit,case:RfpNumber_2,106,0.9849964614295824,7065,66.65094339622641,False,False,request for payment number 76935
+BPIC20_permit,case:RfpNumber_3,33,0.9953290870488323,7065,214.0909090909091,False,False,request for payment number 76937
+BPIC20_permit,case:OrganizationalEntity_2,13,0.9842887473460722,7065,543.4615384615385,False,False,organizational unit 65457
+BPIC20_permit,case:OrganizationalEntity_3,10,0.9951875442321302,7065,706.5,False,False,organizational unit 65457
+BPIC20_permit,case:Project_2,1,0.9842887473460722,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Project_3,1,0.9951875442321302,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Rfp_id_3,34,0.9951875442321302,7065,207.7941176470588,False,False,request for payment 76936
+BPIC20_permit,case:Rfp_id_2,111,0.9842887473460722,7065,63.648648648648646,False,False,request for payment 76934
+BPIC20_permit,case:Task_3,22,0.9967445152158528,7065,321.1363636363636,False,False,task 6280
+BPIC20_permit,case:Task_2,58,0.989242745930644,7065,121.8103448275862,False,False,task 6280
+BPIC20_permit,case:Rfp_id_10,2,0.9997169143665959,7065,3532.5,False,False,request for payment 22798
+BPIC20_permit,case:Rfp_id_11,1,0.9998584571832979,7065,7065.0,False,False,request for payment 22800
+BPIC20_permit,case:Rfp_id_12,1,0.9998584571832979,7065,7065.0,False,False,request for payment 22802
+BPIC20_permit,case:Rfp_id_13,1,0.9998584571832979,7065,7065.0,False,False,request for payment 22804
+BPIC20_permit,case:Rfp_id_14,1,0.9998584571832979,7065,7065.0,False,False,request for payment 22806
+BPIC20_permit,case:Project_11,1,0.9998584571832979,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Project_12,1,0.9998584571832979,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Project_10,1,0.9997169143665959,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Project_13,1,0.9998584571832979,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Project_14,1,0.9998584571832979,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Cost Type_7,1,0.9997169143665959,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_6,1,0.9997169143665959,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_9,1,0.9997169143665959,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_8,1,0.9997169143665959,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_5,1,0.9994338287331918,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_4,1,0.9984430290162775,7065,7065.0,False,False,0
+BPIC20_permit,case:OrganizationalEntity_8,2,0.9997169143665959,7065,3532.5,False,False,organizational unit 65465
+BPIC20_permit,case:OrganizationalEntity_9,2,0.9997169143665959,7065,3532.5,False,False,organizational unit 65465
+BPIC20_permit,case:Task_10,2,0.9997169143665959,7065,3532.5,False,False,task 22780
+BPIC20_permit,case:OrganizationalEntity_6,2,0.9997169143665959,7065,3532.5,False,False,organizational unit 65465
+BPIC20_permit,case:Task_11,1,0.9998584571832979,7065,7065.0,False,False,task 22780
+BPIC20_permit,case:OrganizationalEntity_7,2,0.9997169143665959,7065,3532.5,False,False,organizational unit 65465
+BPIC20_permit,case:Task_12,1,0.9998584571832979,7065,7065.0,False,False,task 22780
+BPIC20_permit,case:Task_13,1,0.9998584571832979,7065,7065.0,False,False,task 22780
+BPIC20_permit,case:Task_14,1,0.9998584571832979,7065,7065.0,False,False,task 22780
+BPIC20_permit,case:RfpNumber_10,2,0.9997169143665959,7065,3532.5,False,False,request for payment number 22799
+BPIC20_permit,case:RfpNumber_12,1,0.9998584571832979,7065,7065.0,False,False,request for payment number 22803
+BPIC20_permit,case:RfpNumber_11,1,0.9998584571832979,7065,7065.0,False,False,request for payment number 22801
+BPIC20_permit,case:OrganizationalEntity_4,5,0.9984430290162775,7065,1413.0,False,False,organizational unit 65465
+BPIC20_permit,case:Project_6,1,0.9997169143665959,7065,7065.0,False,False,project 503
+BPIC20_permit,case:RfpNumber_14,1,0.9998584571832979,7065,7065.0,False,False,request for payment number 22807
+BPIC20_permit,case:OrganizationalEntity_5,4,0.9994338287331918,7065,1766.25,False,False,organizational unit 65465
+BPIC20_permit,case:Project_7,1,0.9997169143665959,7065,7065.0,False,False,project 503
+BPIC20_permit,case:RfpNumber_13,1,0.9998584571832979,7065,7065.0,False,False,request for payment number 22805
+BPIC20_permit,case:Project_8,1,0.9997169143665959,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Project_9,1,0.9997169143665959,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Project_4,1,0.9984430290162775,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Project_5,1,0.9994338287331918,7065,7065.0,False,False,project 503
+BPIC20_permit,case:Activity_12,1,0.9998584571832979,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Activity_11,1,0.9998584571832979,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Activity_14,1,0.9998584571832979,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Activity_13,1,0.9998584571832979,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Activity_10,1,0.9997169143665959,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:OrganizationalEntity_14,1,0.9998584571832979,7065,7065.0,False,False,organizational unit 65465
+BPIC20_permit,case:OrganizationalEntity_13,1,0.9998584571832979,7065,7065.0,False,False,organizational unit 65465
+BPIC20_permit,case:RfpNumber_8,2,0.9997169143665959,7065,3532.5,False,False,request for payment number 22795
+BPIC20_permit,case:RfpNumber_9,2,0.9997169143665959,7065,3532.5,False,False,request for payment number 22797
+BPIC20_permit,case:RfpNumber_6,2,0.9997169143665959,7065,3532.5,False,False,request for payment number 22792
+BPIC20_permit,case:RfpNumber_7,1,0.9998584571832979,7065,7065.0,False,False,request for payment number 24071
+BPIC20_permit,case:RfpNumber_4,11,0.9984430290162775,7065,642.2727272727273,False,False,request for payment number 22788
+BPIC20_permit,case:RfpNumber_5,4,0.9994338287331918,7065,1766.25,False,False,request for payment number 22790
+BPIC20_permit,case:OrganizationalEntity_12,1,0.9998584571832979,7065,7065.0,False,False,organizational unit 65465
+BPIC20_permit,case:OrganizationalEntity_11,1,0.9998584571832979,7065,7065.0,False,False,organizational unit 65465
+BPIC20_permit,case:OrganizationalEntity_10,2,0.9997169143665959,7065,3532.5,False,False,organizational unit 65465
+BPIC20_permit,case:Rfp_id_7,2,0.9997169143665959,7065,3532.5,False,False,request for payment 22793
+BPIC20_permit,case:Rfp_id_8,2,0.9997169143665959,7065,3532.5,False,False,request for payment 22794
+BPIC20_permit,case:Rfp_id_5,4,0.9994338287331918,7065,1766.25,False,False,request for payment 22789
+BPIC20_permit,case:Rfp_id_6,2,0.9997169143665959,7065,3532.5,False,False,request for payment 22791
+BPIC20_permit,case:Rfp_id_4,11,0.9984430290162775,7065,642.2727272727273,False,False,request for payment 22787
+BPIC20_permit,case:Rfp_id_9,2,0.9997169143665959,7065,3532.5,False,False,request for payment 22796
+BPIC20_permit,case:Activity_9,1,0.9997169143665959,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Activity_8,1,0.9997169143665959,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Activity_5,1,0.9994338287331918,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Activity_4,1,0.9987261146496815,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Activity_7,1,0.9997169143665959,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Activity_6,1,0.9997169143665959,7065,7065.0,False,False,activity 505
+BPIC20_permit,case:Cost Type_13,1,0.9998584571832979,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_14,1,0.9998584571832979,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_10,1,0.9997169143665959,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_11,1,0.9998584571832979,7065,7065.0,False,False,0
+BPIC20_permit,case:Cost Type_12,1,0.9998584571832979,7065,7065.0,False,False,0
+BPIC20_permit,case:Task_5,4,0.9994338287331918,7065,1766.25,False,False,task 22780
+BPIC20_permit,case:Task_4,9,0.9987261146496815,7065,785.0,False,False,task 22780
+BPIC20_permit,case:Task_9,2,0.9997169143665959,7065,3532.5,False,False,task 22780
+BPIC20_permit,case:Task_8,2,0.9997169143665959,7065,3532.5,False,False,task 22780
+BPIC20_permit,case:Task_7,2,0.9997169143665959,7065,3532.5,False,False,task 22780
+BPIC20_permit,case:Task_6,2,0.9997169143665959,7065,3532.5,False,False,task 22780
+BPIC20_rfp,case:Rfp_id,6886,0.0,6886,1.0,False,False,request for payment 148214
+BPIC20_rfp,case:Project,78,0.07203020621550973,6886,88.28205128205128,False,False,project 148216
+BPIC20_rfp,case:Task,596,0.7287249491722335,6886,11.553691275167786,False,False,task 147557
+BPIC20_rfp,case:concept:name,6886,0.0,6886,1.0,False,True,request for payment 148214
+BPIC20_rfp,case:OrganizationalEntity,36,0.0,6886,191.27777777777777,False,False,organizational unit 65463
+BPIC20_rfp,case:Cost Type,1,0.0,6886,6886.0,False,False,0
+BPIC20_rfp,case:RequestedAmount,6449,0.0,6886,1.0677624437897348,False,False,34.33634285099345
+BPIC20_rfp,case:Activity,5,0.7319198373511473,6886,1377.2,False,False,activity 505
+BPIC20_rfp,case:RfpNumber,6321,0.08205053732210282,6886,1.0893845910457207,False,False,request for payment number 148215
+BPIC20_rfp,id,6886,0.0,6886,1.0,False,False,st_step 148220_0
+BPIC20_rfp,org:resource,1,0.0,6886,6886.0,True,False,STAFF MEMBER
+BPIC20_rfp,concept:name,2,0.0,6886,3443.0,False,True,Request For Payment SUBMITTED by EMPLOYE
+BPIC20_rfp,time:timestamp,6883,0.0,6886,1.0004358564579399,False,True,2017-01-09T09:17:18.000+01:00
+BPIC20_rfp,org:role,1,0.0,6886,6886.0,True,False,EMPLOYEE
+Sepsis,case:concept:name,1049,0.0009523809523809524,1050,1.0009532888465205,False,True,A
+Sepsis,InfectionSuspected,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,org:group,4,0.0,1050,262.5,True,False,A
+Sepsis,DiagnosticBlood,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,DisfuncOrg,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,SIRSCritTachypnea,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,Hypotensie,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,SIRSCritHeartRate,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,Infusion,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,DiagnosticArtAstrup,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,concept:name,6,0.0,1050,175.0,False,True,ER Registration
+Sepsis,Age,15,0.0,1050,70.0,False,False,85
+Sepsis,DiagnosticIC,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,DiagnosticSputum,2,0.05238095238095238,1050,525.0,False,False,false
+Sepsis,DiagnosticLiquor,2,0.05238095238095238,1050,525.0,False,False,false
+Sepsis,DiagnosticOther,2,0.05238095238095238,1050,525.0,False,False,false
+Sepsis,SIRSCriteria2OrMore,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,DiagnosticXthorax,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,SIRSCritTemperature,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,time:timestamp,1050,0.0,1050,1.0,False,True,2014-10-22T11:15:41.000+02:00
+Sepsis,DiagnosticUrinaryCulture,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,SIRSCritLeucos,2,0.05238095238095238,1050,525.0,False,False,false
+Sepsis,Oligurie,2,0.05238095238095238,1050,525.0,False,False,false
+Sepsis,DiagnosticLacticAcid,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,lifecycle:transition,1,0.0,1050,1050.0,False,True,complete
+Sepsis,Diagnose,145,0.2419047619047619,1050,7.241379310344827,False,False,A
+Sepsis,Hypoxie,2,0.05238095238095238,1050,525.0,False,False,false
+Sepsis,DiagnosticUrinarySediment,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,DiagnosticECG,2,0.05238095238095238,1050,525.0,False,False,true
+Sepsis,Leucocytes,18,0.9828571428571429,1050,58.333333333333336,False,False,10.2
+Sepsis,CRP,9,0.9914285714285714,1050,116.66666666666667,False,False,102.0
+HospitalBilling,case:concept:name,99996,4e-05,100000,1.000040001600064,False,True,A
+HospitalBilling,isCancelled,1,0.0,100000,100000.0,False,True,false
+HospitalBilling,diagnosis,907,0.65011,100000,110.25358324145535,False,False,A
+HospitalBilling,time:timestamp,97991,0.0,100000,1.0205018828259738,False,True,2012-12-16T19:33:10.000+01:00
+HospitalBilling,caseType,14,0.0,100000,7142.857142857143,False,False,A
+HospitalBilling,speciality,23,0.0,100000,4347.826086956522,False,False,A
+HospitalBilling,org:resource,1012,0.0,100000,98.81422924901186,True,False,ResA
+HospitalBilling,concept:name,1,0.0,100000,100000.0,False,True,NEW
+HospitalBilling,blocked,2,0.0,100000,50000.0,False,False,false
+HospitalBilling,isClosed,2,0.0,100000,50000.0,False,True,true
+HospitalBilling,flagD,2,0.0,100000,50000.0,False,False,true
+HospitalBilling,flagB,1,0.0,100000,100000.0,False,False,false
+HospitalBilling,flagA,1,0.0,100000,100000.0,False,False,false
+HospitalBilling,state,1,0.0,100000,100000.0,False,True,In progress
+HospitalBilling,lifecycle:transition,1,0.0,100000,100000.0,False,True,complete
+RoadFines,case:concept:name,150370,0.0,150370,1.0,False,True,A1
+RoadFines,amount,113,0.0,150370,1330.7079646017698,False,False,35.0
+RoadFines,org:resource,147,0.0,150370,1022.9251700680272,True,False,561
+RoadFines,dismissal,24,0.0,150370,6265.416666666667,False,False,NIL
+RoadFines,concept:name,1,0.0,150370,150370.0,False,True,Create Fine
+RoadFines,vehicleClass,4,0.0,150370,37592.5,False,False,A
+RoadFines,totalPaymentAmount,1,0.0,150370,150370.0,False,False,0.0
+RoadFines,lifecycle:transition,1,0.0,150370,150370.0,False,True,complete
+RoadFines,time:timestamp,4819,0.0,150370,31.2035692052293,False,True,2006-07-24T00:00:00+02:00
+RoadFines,article,66,0.0,150370,2278.3333333333335,False,False,157
+RoadFines,points,9,0.0,150370,16707.777777777777,False,False,0
