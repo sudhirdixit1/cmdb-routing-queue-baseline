@@ -1,0 +1,49 @@
+{
+  "upload_type": "software",
+  "title": "Identity, Not Attributes: analysis code, derived results and verification harness",
+  "description": "<p>Analysis code, derived result files, figures and a verification harness for the study <em>Identity, Not Attributes: What Configuration Data Contributes to Incident Prediction in Two Organisations</em>.</p><p>The repository measures what configuration data contributes to predicting incident reassignment on two public ITSM event logs (BPI Challenge 2014, Rabobank Group ICT; BPI Challenge 2013, Volvo IT), and reports that the answer is set less by the configuration data than by two decisions that are rarely written down: which layer of the configuration hierarchy is being bought, and which already-recorded fields the comparison baseline is allowed to contain.</p><p><strong>What is included.</strong> Every analysis script, every derived <code>results/*.csv</code>, the figure generator, the LaTeX source, and <code>scripts/verify_paper.py</code>, which recomputes each of the 325 numeric literals in the manuscript from a result file or from the raw data and fails if any literal in the body is unaccounted for. <code>scripts/attack_verifier.py</code> is that checker's own regression suite: 119 corruptions drawn from defects found in earlier versions of this work. <code>scripts/reproduce_all.py</code> runs the whole thing in dependency order in one command.</p><p><strong>What is not included.</strong> No row of any dataset. All three event logs are public and are cited by persistent identifier in <code>REPRODUCE.md</code>; none is redistributed here.</p><p><strong>What the harness does not do.</strong> It guards numbers thoroughly and prose only where a guard was written by hand. The paper reports eight of the author's own errors as results rather than editing them away, and all eight are claims about what a number means -- the checker would have caught none of them. This is stated in the repository and in the paper in the same words.</p>",
+  "creators": [
+    {
+      "name": "Dixit, Sudhir",
+      "affiliation": "Independent Researcher"
+    }
+  ],
+  "keywords": [
+    "configuration management database",
+    "CMDB",
+    "predictive process monitoring",
+    "process mining",
+    "IT service management",
+    "incident management",
+    "variable importance",
+    "baseline specification",
+    "decision curve analysis",
+    "reproducibility",
+    "BPI Challenge 2014",
+    "BPI Challenge 2013"
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "language": "eng",
+  "related_identifiers": [
+    {
+      "identifier": "10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:500573e6-accc-4b0c-9576-aa5468b10cee",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.24432/C57S4H",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    }
+  ],
+  "notes": "Analysis code for a manuscript submitted to Information Systems (Elsevier). Once the article has a DOI, add it here with relation 'isSupplementTo' and re-release."
+}

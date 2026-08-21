@@ -1,0 +1,31 @@
+HIGHLIGHTS
+
+Elsevier allows three to five bullets, each at most 85 characters including
+spaces. These are the five, with their lengths, so a future edit can check
+the limit without re-counting by hand.
+
+[78] What a CMDB supplies here is a stable identifier, not configuration attributes
+[77] A 256-way service grouping captures three quarters of instance-level CI value
+[72] Admitting one already-recorded field halves the measured value of a CMDB
+[69] The reduction is 36-48% across the design space, on two organisations
+[73] Eight of the authors' own errors are reported as results, not edited away
+
+
+-- paste-ready, without the length prefixes --
+
+What a CMDB supplies here is a stable identifier, not configuration attributes
+A 256-way service grouping captures three quarters of instance-level CI value
+Admitting one already-recorded field halves the measured value of a CMDB
+The reduction is 36-48% across the design space, on two organisations
+Eight of the authors' own errors are reported as results, not edited away
+
+
+-- alternatives, if a reviewer asks for the operational result instead --
+
+[79] A per-item outcome rate, with no model, scores 0.744 against a full model 0.748
+[79] Net benefit puts the operational overstatement at 1.07, not the 4.3 we withdrew
+
+The second of these is the round's largest correction, and it belongs in the
+list if the editor prefers highlights that name what the paper retracts. It
+is left out of the five above only because the fifth bullet already says the
+corrections are there and points a reader at them.

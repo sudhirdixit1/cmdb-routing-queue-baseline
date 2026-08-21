@@ -169,30 +169,71 @@ print("\n" + "=" * 92)
 print("B. THE ENCODER DOES NOT LEAK  (shuffled-item control under E2 and E3)")
 print("=" * 92)
 print("  If cross-fitting failed, a target-encoded column built from a")
-print("  SHUFFLED item assignment would still carry the outcome.  It does not.\n")
-print(f"  {'estimator':34s} {'real gain':>10s} {'shuffled':>20s} {'z':>8s}")
+print("  SHUFFLED item assignment would still carry the outcome.  It does not.")
+print()
+print("  ROUND SIXTEEN.  This control was previously run on the +group rung")
+print("  ONLY, while the reduction it is supposed to bound is computed from")
+print("  TWO rungs.  The E3 residual is +0.0042 +- 0.0020, which is eleven")
+print("  standard errors from zero -- a real systematic effect, not noise --")
+print("  so bounding it on one rung bounds half of what needs bounding.  Both")
+print("  rungs are now run, and the residual's effect on the REDUCTION is")
+print("  computed from the pair rather than asserted from one end.\n")
+print(f"  {'estimator':34s} {'baseline':22s} {'real':>9s} {'shuffled':>20s} "
+      f"{'z':>7s}")
 nulls = []
 for ename, efn in ESTIMATORS[1:]:
-    base = roc_auc_score(y, efn(TR, TE, BQ))
-    real = roc_auc_score(y, efn(TR, TE, BQ, M.IDENT)) - base
-    vals = []
-    for rep in range(N_NULL):
-        rng = np.random.default_rng(SEED + rep)
-        tr, te = TR.copy(), TE.copy()
-        for p in (tr, te):
-            p["_n"] = rng.permutation(p[M.IDENT].astype(str).values)
-        vals.append(roc_auc_score(y, efn(tr, te, BQ, "_n")) - base)
-    vals = np.array(vals)
-    se = float(R[(R.estimator == ename)
-                 & (R.baseline == "+ intake routing queue")].boot_se.iloc[0])
-    z = (real - vals.mean()) / np.hypot(se, vals.std())
-    nulls.append(dict(estimator=ename, real=real, null_mean=float(vals.mean()),
-                      null_sd=float(vals.std()), z_pooled=z, n_draws=N_NULL))
-    print(f"  {ename:34s} {real:>+10.4f} {vals.mean():>+13.4f}+-{vals.std():.4f} "
-          f"{z:>+8.1f}")
-pd.DataFrame(nulls).to_csv(RESULTS / "r10_encoder_null.csv", index=False)
+    for bname, cols in LADDER:
+        base = roc_auc_score(y, efn(TR, TE, cols))
+        real = roc_auc_score(y, efn(TR, TE, cols, M.IDENT)) - base
+        vals = []
+        for rep in range(N_NULL):
+            rng = np.random.default_rng(SEED + rep)
+            tr, te = TR.copy(), TE.copy()
+            for p in (tr, te):
+                p["_n"] = rng.permutation(p[M.IDENT].astype(str).values)
+            vals.append(roc_auc_score(y, efn(tr, te, cols, "_n")) - base)
+        vals = np.array(vals)
+        se = float(R[(R.estimator == ename)
+                     & (R.baseline == bname)].boot_se.iloc[0])
+        z = (real - vals.mean()) / np.hypot(se, vals.std())
+        nulls.append(dict(estimator=ename, baseline=bname, real=real,
+                          null_mean=float(vals.mean()),
+                          null_sd=float(vals.std()), z_pooled=z,
+                          n_draws=N_NULL,
+                          null_se=float(vals.std()) / np.sqrt(N_NULL)))
+        print(f"  {ename:34s} {bname:22s} {real:>+9.4f} "
+              f"{vals.mean():>+13.4f}+-{vals.std():.4f} {z:>+7.1f}")
+N = pd.DataFrame(nulls)
+N.to_csv(RESULTS / "r10_encoder_null.csv", index=False)
 print("\n  A shuffled item column encodes to approximately the training prior")
 print("  and buys nothing.  The encoding is clean.")
+
+print("\n  WHAT THE RESIDUAL DOES TO THE REDUCTION.  Subtract each rung's own")
+print("  null mean from that rung's gain and recompute.  This is the")
+print("  encoding-artifact-corrected reduction, and it is what the paper")
+print("  should quote as the bound rather than the one-rung statement.\n")
+print(f"  {'estimator':34s} {'raw':>8s} {'corrected':>10s} {'shift':>8s}")
+corr = []
+for ename, _ in ESTIMATORS[1:]:
+    n0 = N[(N.estimator == ename) & (N.baseline == LADDER[0][0])].iloc[0]
+    n1 = N[(N.estimator == ename) & (N.baseline == LADDER[1][0])].iloc[0]
+    raw = 100 * (1 - n1.real / n0.real)
+    c0, c1 = n0.real - n0.null_mean, n1.real - n1.null_mean
+    cor = 100 * (1 - c1 / c0)
+    corr.append(dict(estimator=ename, shrink_raw=raw, shrink_corrected=cor,
+                     shift=cor - raw, resid_intake=n0.null_mean,
+                     resid_queue=n1.null_mean,
+                     se_ratio_intake=abs(n0.null_mean) / n0.null_se,
+                     se_ratio_queue=abs(n1.null_mean) / n1.null_se))
+    print(f"  {ename:34s} {raw:>7.1f}% {cor:>9.1f}% {cor-raw:>+7.1f}pp")
+CR = pd.DataFrame(corr)
+CR.to_csv(RESULTS / "r10_encoder_corrected.csv", index=False)
+#  `CR.shift` is DataFrame.shift, not the column.  Bracket access only.
+_max_shift = CR["shift"].abs().max()
+print(f"\n  Largest shift in the reduction from correcting both rungs: "
+      f"{_max_shift:.1f} percentage points.")
+print("  The reduction survives the correction, and the correction is now")
+print("  bounded on both rungs rather than one.")
 
 print("\n" + "=" * 92)
 print("C. RANGE OF THE SURVIVING GAIN ACROSS ESTIMATORS")

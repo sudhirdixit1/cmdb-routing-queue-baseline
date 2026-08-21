@@ -73,8 +73,10 @@ ax1.set_title("shrinkage is graded in the field's resolution",
               fontsize=9)
 
 fig.tight_layout(h_pad=1.6)
-for d in (FIGURES, Path(__file__).resolve().parent.parent / "paper"):
-    fig.savefig(d / "figG5_scope.png")
+#  ROUND SIXTEEN.  This figure is not in the journal manuscript -- see the
+#  header -- so it no longer writes into paper/, where build_journal.py
+#  copies every PNG it finds and would ship an unused one.
+fig.savefig(FIGURES / "figG5_scope.png")
 print("wrote figG5_scope.png")
 print(f"  (a) levels {list(lv)} -> shrinkage {[round(s,1) for s in sh]}")
 print("  (the scoping panel was dropped; section 9 states its numbers)")

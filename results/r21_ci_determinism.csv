@@ -1,0 +1,5 @@
+field,levels_train,levels_cohort,population,items_multi,n_items,incident_mass_multi,deterministic
+CI Type (aff),13,13,1.0,0,2929,0.0,True
+CI Subtype (aff),61,65,1.0,0,2929,0.0,True
+Service Component WBS (aff),256,272,1.0,58,2929,0.08674513254867451,False
+intake_group,49,50,1.0,565,2929,0.9247607523924761,False

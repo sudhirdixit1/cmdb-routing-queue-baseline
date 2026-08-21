@@ -1,0 +1,18 @@
+knob,setting,shrinkage
+split point,0.55,48.2139135686063
+split point,0.6,46.24686941972175
+split point,0.65,42.5622734494694
+split point,0.7,43.673515041607914
+split point,0.75,39.198441717855324
+split point,0.8,38.752069462177495
+estimator,E1 one-hot logistic (paper),43.67351504160792
+estimator,"E2 logistic, item target-encoded",42.72924237960073
+estimator,"E3 boosting, item target-encoded",47.05958315244784
+target threshold,>=1,43.67351504160792
+target threshold,>=2,48.24444860482333
+target threshold,>=3,46.83511267004537
+cleaning cutoff,1900-01-01,43.99813882857865
+cleaning cutoff,2013-10-01,43.67351504160793
+cleaning cutoff,2013-10-15,38.53720898685492
+cleaning cutoff,2013-11-01,39.223694015447684
+cleaning cutoff,2013-12-01,36.11589819434011

@@ -1,0 +1,2 @@
+factor_paper,factor_naive_reencoded,factor_both_reencoded,factor_oracle,factor_adversarial,naive_random,naive_oracle,naive_adversarial,honest_random,honest_oracle,honest_adversarial,honest_oracle_lo,honest_oracle_hi,auc_ratio,n_intake_combos_test,n_intake_combos_train,distinct_onehot,distinct_composite
+4.301587301587301,4.174603174603175,2.2672413793103448,-1.0833333333333333,5.846153846153846,271.0,-26.0,608.0,63.0,24.0,104.0,9.0,40.0,1.7753637578107206,23,23,23,19

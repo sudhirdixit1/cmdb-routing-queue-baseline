@@ -1,0 +1,910 @@
+%% Information Systems (Elsevier) -- research article.
+%% Compile: pdflatex -> bibtex -> pdflatex x2
+%%
+%% This document was retargeted from IAAI-27 in round fifteen.  Seven
+%% referees over fifteen rounds scored the technical work between 6 and 8
+%% and the IAAI venue fit between 2 and 4, on the ground that the track
+%% requires a deployed tool and this paper reports none.  The file name is
+%% retained so the version history stays legible.
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{amsmath}   % \text inside math; elsarticle does not load it
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[hyphens]{url}
+\urlstyle{rm}
+
+\journal{Information Systems}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{The Baseline Decides the Business Case: Field Admission and the
+Measured Value of Configuration Data in Two IT Service Organisations}
+
+\author[ind]{Sudhir Dixit}
+\ead{sudhir.dixit1@gmail.com}
+\address[ind]{Independent Researcher}
+
+\begin{abstract}
+Configuration management database (CMDB) programmes are justified by the
+analytics they enable, and that justification is a comparison against a
+baseline the analyst chooses. We measure how much that choice is worth. On a
+public event log of $45{,}455$ incidents from a bank's IT operation whose
+affected-item field is $100\%$ populated, predicting at intake whether an
+incident will be reassigned, knowing the affected configuration item is
+worth $+0.183$ AUC against four intake fields and $+0.103$
+$[+0.094,+0.113]$ once one further field the organisation already records is
+admitted: which group logged the incident. Across every design choice we
+varied --- split point, target threshold, cleaning cutoff and estimator
+family --- the reduction ranges $36.1\%$ to $48.3\%$, and the ordering never
+reverses. The pattern replicates on a second organisation, tool and country:
+on the BPI Challenge 2013 log the same ladder gives a reduction of $61.3\%$
+$[54,68]$ on that challenge's own ping-pong target and $43.9\%$ $[31,55]$ at a
+stricter threshold, though the free field is more tightly coupled to the
+target there, so we read it as an upper bound. Stated as detection at a
+review capacity of $5\%$ of arrivals, omitting the field credits the CMDB
+with $4.3$ $[3.2,6.4]$ times as many additional catches. We also report what
+the measurement does \emph{not} support: the mechanism evidence is weaker
+than we previously published, a per-item outcome rate with no model and no
+other field reaches $0.744$ against the full model's $0.748$, and a $256$-way
+service-component grouping captures three quarters of what instance-level
+identity is worth. Six errors of our own are reported as results rather than
+edited away, two of them found in the round that produced this version.
+\end{abstract}
+
+\begin{keyword}
+configuration management database \sep predictive process monitoring \sep
+baseline specification \sep variable importance \sep IT service management
+\sep incident management
+\end{keyword}
+
+\end{frontmatter}
+
+\section{Introduction}
+\label{sec:intro}
+
+A CMDB programme is expensive and is justified by what it will enable. That
+justification rests on a comparison whose second arm --- performance without
+configuration data --- is a choice the analyst makes, usually silently, by
+deciding which already-available fields to include.
+
+On two organisations' incident logs that choice moves the answer by roughly
+half, and we can say where the difference goes. The quantity we measure is
+not a model's accuracy in the ordinary sense but the number a funding
+decision turns on, and that number is set by a field-admission choice rarely
+written down.
+
+\paragraph{What kind of contribution this is.}
+We report no deployed system. This is a retrospective study on two public
+benchmarks, offered as an evaluation practice.
+Section~\ref{sec:buys} states what the choice costs in units closer to those
+a service desk operates in, and Section~\ref{sec:resolution} states which
+\emph{layer} of configuration data carries the value, which is the question a
+buyer actually faces.
+
+\paragraph{On what this paper used to claim.}
+Earlier versions reported larger findings withdrawn under adversarial
+review, each an artifact of a control we built ourselves.
+Section~\ref{sec:corrections} lists six corrections that survive here as
+reported results rather than silent edits, because each is the kind of error
+this paper is about. Two were found in the round that produced this version,
+and one of them --- a claim about a public dataset that our own repository
+contradicted --- had stood through eight rounds of review.
+
+\section{Background}
+\label{sec:background}
+
+\paragraph{The CMDB and what justifies it.}
+A CMDB records configuration items and their relationships, and is the asset
+on which the configuration-management practice of ITIL and its successors
+rests. Survey work on ITSM framework adoption \citep{marrone2011itil} finds
+that realised benefits grow with implementation maturity, but measures them
+as practitioner-reported outcomes rather than as the analytic value of the
+configuration data itself.
+
+\paragraph{What is and is not already measured.}
+Prior peer-reviewed work uses the affected configuration item as one input
+among many without isolating its value. \citet{schad2022reassign} predict
+ticket reassignment --- our own target --- with a relational graph
+convolutional network on a public ServiceNow log, with the configuration
+item among the incident-node features. \citet{sarnovsky2018predictive}, working
+on the same Rabobank log we use, report ROC AUC and rank CI type, CI subtype
+and service component among the most significant attributes.
+\citet{kapel2026change} predict change-induced incidents at a large bank and
+rank CI Name third by SHAP importance, behind two free-text fields. None of
+the three performs a controlled with-and-without comparison attributing a
+change in a fixed metric to configuration-item identity against a stated
+baseline, which is what we do; but the reader should note that the
+question is not untouched, and that in the one study which ranks a
+free-text field against the configuration item, free text wins.
+
+\paragraph{The methods a CMDB is bought to enable.}
+Surveys of AIOps for failure management
+\citep{zhang2024aiops,remil2024aiops,notaro2021aiops} catalogue triage,
+failure-prediction and root-cause methods that take configuration data as
+input. Incident triage in particular --- deciding which team owns an
+incident --- has been treated as a learning problem on operational logs at
+industrial scale \citep{chen2019triage}, as has failure prediction across a
+cloud estate \citep{lin2018node}.
+
+\paragraph{Prediction on incident event logs.}
+Our task sits at the boundary of predictive process monitoring, surveyed and
+benchmarked across real-world logs \citep{teinemaa2019outcome,verenich2019survey}
+on data of the kind process mining formalises \citep{vanderaalst2016process}.
+We predict at $t=0$ from creation-time attributes with no prefix, which is
+tabular classification on a process log rather than prefix-based monitoring
+in the sense those benchmarks evaluate; we note that
+\citet{teinemaa2019outcome} explicitly excluded the 2013 and 2014 BPI
+Challenge logs from their benchmark for lacking a static/dynamic attribute
+split. The BPI Challenge logs are the standard public instances
+\citep{vandongen2014bpic,steeman2013bpic}; comparable exports exist elsewhere
+\citep{amaral2018incident}. Such logs carry documented quality hazards
+\citep{suriadi2017imperfection}. One hazard bears directly on us and we
+state it as our own measurement rather than attributing it: values recorded
+once per record can be replicated onto every event of that record, which
+makes constancy across a case uninformative about when the value became
+known. Establishing what a resource stamp on an event denotes is the business
+of organisational mining \citep{vanderaalst2005social}, which is what
+Section~\ref{sec:data} does from first principles for the field our result
+turns on.
+
+\paragraph{What the comparison is measured against.}
+The value of a feature \emph{given} a baseline is what algorithm-agnostic
+variable-importance frameworks formalise; \citet{williamson2021vimp} develop
+this for $R^2$-type predictiveness and \citet{williamson2023vimp} extend it
+to AUC, which is our metric. Our overlap is the redundancy that additive
+importance measures share credit for \citep{covert2020sage}. We do not simply
+compute a Shapley-style attribution because a business case needs a feature's
+value against the baseline the organisation will actually have, not an
+average over baselines it will not. That measured importance depends on what
+the model already has is therefore not news; what is not established is its
+magnitude for configuration data on a named operational task, or that the
+field it overlaps with is one the organisation already records for nothing.
+
+The estimand itself --- the change in a fixed metric when one variable joins
+an existing model --- has been argued over in biostatistics for two decades,
+and that literature reached our conclusion first. \citet{cook2007roc} shows
+that an increment in AUC is a poor measure of a variable's incremental value
+and depends heavily on the model it is added to. \citet{vickers2006dca}
+supply the principled replacement for the capacity-limited framing we use in
+Section~\ref{sec:buys}. We claim no priority over these; we report that the
+failure mode they describe is, on operational data, large enough to change a
+procurement decision.
+
+Within machine learning, \citet{rendle2019baselines} and
+\citet{dacrema2019progress} show insufficiently tuned baselines accounting for
+reported gains in recommender systems; benchmark conclusions are sensitive to
+variation that is seldom reported \citep{bouthillier2021variance}, and
+documentation of the choices producing a result is thin
+\citep{gundersen2018reproducibility}. Where the choice concerns which fields
+may enter, it shades into leakage \citep{kaufman2012leakage,kapoor2023leakage},
+whose formal treatments accommodate admission rules as constraints set by the
+problem definition rather than derived from it. In predictive process
+monitoring, \citet{weytjens2022leakage} show that avoiding a different
+leak --- case prefixes shared between training and test under naive temporal
+splitting --- needs explicit construction; we adopt their strict temporal
+splitting and, at their prompting, examine the extract boundary in
+Section~\ref{sec:data}. We report a field-admission failure mode for a
+deployment decision rather than a leaderboard, where it is not a modelling
+detail but the number the business case turns on.
+
+\section{Data and Task}
+\label{sec:data}
+
+\subsection{The primary organisation}
+
+We use the incident records of the BPI Challenge 2014 log
+\citep{vandongen2014bpic} from Rabobank Group ICT, recorded in HP Service
+Manager, with the activity log shipped alongside. The configuration-item
+column we use is \texttt{CI Name (aff)}, the item affected at the time the
+incident was recorded, not the closure-time \texttt{CI Name (CBy)}.
+
+\paragraph{Cleaning.}
+Of $46{,}809$ rows, $203$ carry no incident identifier and one an unparseable
+timestamp. A further $1{,}150$ opened before 2013-10-01 are left-censored ---
+already open when the extract began --- and are reassigned at $81.2\%$
+against $40.0\%$ for the incidents we keep. Removing them leaves
+$\mathbf{45{,}455}$ incidents to 2014-03-31; a temporal $70/30$ split gives
+$31{,}818$ training and $13{,}637$ test, positive rates $0.413$ and $0.372$.
+The cutoff is not taken from the outcome: monthly volume rises from $857$
+incidents in September 2013 to $8{,}606$ in October. The extract is
+right-censored too --- incidents opened near its end cannot have long lives
+--- so we re-measured on cohorts truncated up to a month early; the shrinkage
+moves between $42\%$ and $45\%$, so the boundary does not drive it. The
+affected-item field is $100\%$ populated across $2{,}929$ items, $2{,}554$
+seen in training. That population rate is a property of the extract and of a
+tool configuration that copies the item onto the incident from the
+originating interaction record; it is not evidence about CMDB accuracy in
+general, and Section~\ref{sec:limits} returns to the point.
+
+\paragraph{Task and estimator.}
+Predict at creation whether an incident will later be reassigned. We call
+the target reassignment rather than misrouting throughout: it fires on
+$37.2\%$ of test incidents, which is routine handling and not error, and
+Section~\ref{sec:buys} reports the ladder at stricter thresholds. Median
+handling time rises from $1.59$ hours for incidents never reassigned to
+$47.53$ hours for those reassigned five or more times; we use this to
+motivate the task, not as a recoverable saving.
+
+The intake block is four fields carried on the incident form: Category,
+Impact, Urgency and Priority. It is effectively three. \texttt{Priority} is a
+deterministic function of \texttt{(Impact, Urgency)} on this log --- $19$
+occupied cells, none carrying more than one Priority, across all $46{,}809$
+rows --- so it adds no information, and dropping it moves intake AUC from
+$0.562$ to $0.564$. \citet{sarnovsky2018predictive} reported this redundancy
+on this same log in 2018. We keep the column because it is what an analyst
+building the naive arm would include, and we disclose it because a paper
+arguing that baselines are under-specified should not ship an
+under-specified baseline in silence.
+
+The primary estimator is one-hot logistic regression, chosen because it is
+bin-free: scikit-learn's \texttt{LogisticRegression} with L2 penalty,
+inverse regularisation strength $C=1.0$, the \texttt{lbfgs} solver and a cap
+of $3000$ iterations, with \texttt{OneHotEncoder} set to ignore unseen
+levels. The penalty is held fixed across every arm; tuning it per arm on an
+inner split of training data moves the headline reduction from $43.7\%$ to
+$43.2\%$. Two further estimator specifications are reported in
+Section~\ref{sec:result}. Encoders and rankings are fit on training data
+only; intervals are $2{,}000$-resample paired bootstraps, except
+Table~\ref{tab:capacity}, whose counts are re-ranked in each draw and use
+$400$. Monte-Carlo nulls use $15$ to $100$ draws, the count set by cost and
+recorded in the code that produces each. Every sampling script is seeded
+from a single constant, so the reported figures are reproducible exactly.
+
+\paragraph{The free field, and what it is not.}
+The activity log records, on the \texttt{Open} event of every incident, an
+assignment group: $49$ in training, none missing. An earlier draft of this
+paper called it the queue the service desk routed the incident to. That was
+an assertion, not a finding, and it is wrong. Three checks say so. The
+\texttt{Open} rows carry $50$ distinct groups where the \texttt{Assignment}
+rows carry $218$, and a routing destination cannot be less diverse than the
+teams that then do the work. One group accounts for $67.0\%$ of
+\texttt{Open} rows but only $18.4\%$ of all activity rows. And the
+\texttt{Open} group matches the group on the incident's first
+\texttt{Assignment} activity for just $15.1\%$ of the $37{,}577$ incidents
+that have one. The field is the group that \emph{logged} the incident: one central desk for
+two thirds of tickets, a long tail for the rest. We do not characterise that
+tail --- its openers match the first \texttt{Assignment} group only $21.8\%$
+of the time and appear anywhere in the later work rows only $59.1\%$, so
+calling them teams opening their own work would be another assertion of the
+kind we are correcting.
+It is also concentrated and unstable: the largest group holds $62.1\%$ of
+training incidents, and the number of live groups falls from $49$ to $32$
+between our two halves.
+
+\paragraph{Why not the real routing decision.}
+The obvious repair --- use the first \texttt{Assignment} group --- is not
+available: it occurs strictly after \texttt{Open} on every incident that has
+one, a median of $46$ minutes later, and $7{,}878$ of $45{,}455$ never have
+one. It fails the criterion below, and substituting it would introduce the
+leakage that criterion prevents.
+
+\paragraph{Admissibility, and mutation.}
+A field on the \texttt{Open} row is admitted only if it is a per-event
+observation, tested by whether it varies across an incident's activity rows;
+the opening group varies for $92.56\%$ of cohort incidents and matches the
+last-observed group for only $21.35\%$. Because the incident file is a
+closed-record snapshot we also report how often each field is edited after
+creation: Urgency on $1{,}107$ incidents ($2.44\%$), Impact on $1{,}084$
+($2.38\%$), the affected item on $159$ ($0.35\%$). Incidents whose Impact was edited are
+reassigned at $0.66$ and those whose Urgency was edited at $0.67$, against
+$0.39$ for the rest, so this is not neutral; Section~\ref{sec:result} reports the headline with
+those fields dropped and with the edited incidents removed. The activity log
+carries no Category or Priority change type, so for those two fields the
+snapshot cannot be audited at all; our disclosure covers the fields for which
+an audit exists, not every field we use.
+
+\subsection{The second organisation}
+\label{sec:secondorg}
+
+Until this round we described this study as single-organisation of necessity,
+on the ground that of the three public ITSM incident logs in common use, one
+records the affected item on every incident, the second on $0.2\%$, and the
+third had no such field at all. The third clause was false, and our own
+repository contained the evidence: the BPI Challenge 2013 incident log
+\citep{steeman2013bpic} from Volvo IT, recorded in VINST, carries a
+\texttt{product} attribute with $704$ distinct values, exactly one per trace,
+on all $7{,}554$ traces and none missing. It is a coarser identifier than an
+instance-level CI name, but it is an affected-item field, and the challenge's
+own headline question was ping-pong behaviour between teams --- the same
+outcome our primary target measures.
+
+We therefore run the ladder there too. The item analogue is
+\texttt{product}; the free field is the \texttt{org:group} on the first
+event, of which there are $338$; the intake block is \texttt{impact}, the one
+intake-form field the two logs share. The target is at least one change of
+\texttt{org:group} along the case, which fires on $50.6\%$ of cases, with a
+stricter variant at two or more changes ($27.2\%$). We use the same temporal
+$70/30$ split and the same estimator.
+
+One difference cuts against us and we state it rather than let a reader find
+it. On BPI Challenge 2014 the opening group matches the incident's first
+\texttt{Assignment} group only $15.1\%$ of the time: it is the desk that
+logged the ticket, a different object from the routing sequence that defines
+the target. On BPI Challenge 2013 the opening group \emph{is} the first term
+of the \texttt{org:group} sequence whose variation defines ping-pong. The
+coupling is therefore strictly tighter there, the free field is
+correspondingly worth more ($+0.188$ against $+0.082$), and the Volvo
+reduction should be read as an upper bound rather than as a second draw from
+the same distribution.
+
+\section{The Result}
+\label{sec:result}
+
+\begin{table}[t]
+\centering\small\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}llccc@{}}
+\toprule
+Organisation & Baseline & AUC & +\,item id. & gain [95\% CI] \\
+\midrule
+Rabobank & intake only & 0.562 & 0.746 & $+0.183$ [$+0.172,+0.195$] \\
+(BPIC 2014) & + opening group & 0.644 & 0.748 & $+0.103$ [$+0.094,+0.113$] \\
+\midrule
+Volvo IT & intake only & --- & --- & $+0.238$ \\
+(BPIC 2013) & + opening group & --- & --- & $+0.092$ \\
+\bottomrule
+\end{tabular}
+\caption{The value of knowing the affected configuration item, with and
+without a field the organisation already records, on two organisations. The
+Volvo rungs use a coarser item identifier and a more tightly coupled free
+field; see Section~\ref{sec:secondorg}.}
+\label{tab:headline}
+\end{table}
+
+%% figure*: the artwork is 6.9in wide.
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figG1_baselines.png}
+\caption{(a) The same quantity under three baselines; the third is
+discussed in Section~\ref{sec:failed}. (b) The ordering holds at every
+temporal split point from $55\%$ to $80\%$.}
+\label{fig:baselines}
+\end{figure}
+
+Against four intake fields the affected item looks decisive. Adding the
+opening group cuts its measured value by $44\%$. The gains are roughly $28$ and
+$17$ standard deviations outside a null in which the incident-to-item
+association is shuffled, preserving column count and marginal distribution
+while destroying the signal --- we round because re-drawing the same null at
+a different draw count moves the first figure by about $0.7$ --- a comparison that matters because adding
+item identity adds $2{,}554$ indicator columns, which is not free under a
+fixed penalty. These $z$ figures pool the null's Monte-Carlo dispersion with
+the gain's own bootstrap standard error; dividing by the null alone, as an
+earlier draft did, would report $51$ and $33$. Because these nulls use as
+few as $15$ draws, a two-digit $z$ is an extrapolation from a dispersion
+estimate and not a tail probability; the load-bearing statement is that no
+null draw comes near either gain.
+
+It is not a split artifact: across six split points the two gains range
+$+0.175$ to $+0.194$ and $+0.091$ to $+0.119$ (Figure~\ref{fig:baselines}b),
+and across split point, target threshold and cleaning cutoff the second
+ranges $+0.067$ to $+0.130$ --- wider than any bootstrap interval, which
+conditions on all of those. Nor does the disclosed field editing explain it:
+reducing the intake block to Category alone gives $+0.106$, and restricting
+to the $44{,}227$ never-edited incidents gives $+0.107$.
+
+\paragraph{The reduction, over the whole design space.}
+The reduction rather than either gain is what we argue transfers, so it needs
+the same disclosure. Across split points it runs $38.7\%$ to $48.3\%$; across
+the three target thresholds $43.6\%$ to $48.3\%$; across the three estimator
+specifications $42.7\%$ to $47.1\%$; and across five cleaning cutoffs from no
+censoring removal at all to a two-month truncation, $36.1\%$ to $44.0\%$.
+Over the whole design space it runs $\mathbf{36.1\%}$ to $\mathbf{48.3\%}$.
+The bootstrap interval of $[40,48]$ we report at the published setting
+conditions on every one of those knobs, and an earlier version of this paper
+quoted it without saying so while asserting in its title that the reduction
+was nearly a half. At the low end of the design space it is closer to a
+third. What survives across the space is that the reduction is large and its
+sign never changes.
+
+\paragraph{It replicates on a second organisation.}
+On Volvo IT the same ladder gives $+0.238$ against intake and $+0.092$ once
+the opening group is admitted, a reduction of $61.3\%$ $[54,68]$; at the
+stricter two-change threshold, $+0.249$ and $+0.139$, a reduction of $43.9\%$
+$[31,55]$. Neither interval includes zero. Across six temporal split points
+the first runs $60.3\%$ to $67.8\%$ and the second $40.8\%$ to $53.8\%$. The
+qualitative claim --- that admitting one field the organisation already
+records removes a large fraction of the item's measured value --- holds on a
+second organisation, a second tool and a second country. The magnitude does
+not transfer, and Section~\ref{sec:secondorg} gives a structural reason to
+expect the Volvo figure to be the larger of the two.
+
+\paragraph{It is not an artifact of the estimator.}
+The dimensionality null rules out the regularisation burden of $2{,}554$
+sparse columns, but a reader may want the effect shown where that burden
+cannot arise. We re-represent item identity as a single cross-fitted
+target-encoded column --- fitted on training only, out-of-fold, so no row
+sees its own outcome --- which makes the item one continuous feature and
+makes histogram boosting usable on a variable that otherwise collapses
+$2{,}554$ items into $137$ bins. Across one-hot logistic regression,
+logistic regression on the encoded item, and boosting on it, the first rung
+ranges $+0.173$ to $+0.184$, the second $+0.091$ to $+0.104$, and the
+reduction $42\%$ to $48\%$. Encoding a
+\emph{shuffled} item column under the same pipeline returns
+$-0.0001 \pm 0.0016$ and $+0.0042 \pm 0.0020$. The first collapses to zero;
+the second does not quite, and we report it rather than round it away
+because it bounds how much of the boosting rung could be encoding
+artifact. That control was run on the group-aware rung only, so it bounds
+the artifact on one of the two rungs the reduction is computed from.
+
+\section{Where the Difference Goes}
+\label{sec:mechanism}
+
+The two rows differ by $0.080$, which is not itself informative: for any two
+variables, the drop in one's gain when the other joins the baseline equals
+the drop in the other's. Read four ways, the item is worth $+0.183$ over
+intake and $+0.103$ once the group is present; the group is worth $+0.082$
+over intake and $+0.002$ once the item is present.
+
+This section is weaker than the version we published previously, and the
+weakening is the round's main technical finding. Of the four legs that
+supported the overlap reading, one has been withdrawn as an algebraic
+identity, one no longer resolves once its null is matched properly, and two
+survive.
+
+\paragraph{What survives, first.}
+Adding the opening group to a model that already knows the
+item is worth $+0.0017$ $[+0.0001,+0.0034]$. It clears a matched-dimension
+null of $-0.0009 \pm 0.0005$ that no draw reaches, so it is not the cost of
+adding columns; but across split points and penalties it ranges $+0.0002$ to
+$+0.0072$, so the honest statement is that its unique contribution is
+\emph{under $0.01$ AUC and not resolvable more finely}. Because the real
+column is nearly constant within an item while the null's is drawn per row,
+this null is matched on dimension but not on that collinearity, and a
+sceptical reader should treat the interval as the weaker of the two claims.
+
+\paragraph{What survives, second.}
+Item identity does not determine the group, but predicts it far better than
+chance: a modal-group lookup on item identity reproduces which group logged
+the incident on $90.3\%$ of test incidents against $78.6\%$ for always
+guessing the largest, while class-balanced accuracy reaches only $34.1\%$.
+Item identity resolves the coarse contrast --- central desk or specialist
+team --- and much less of the fine one. The two variables share
+$1.47$ bits of mutual information.
+
+\paragraph{A margin that was a knob.}
+Randomising the group label \emph{within} each item --- which destroys the
+label's own identity while preserving what the item implies about it ---
+retains $91\%$ of the group's $+0.082$ gain. We previously compared that
+against a floor built by randomising within a random partition \emph{of
+items} at $49$ cells, matching the opening group's own cardinality, which
+retains $42\%$, and reported the $49$-point margin as evidence that item
+identity specifically was doing the work.
+
+That comparison is not matched. The real leg partitions on item identity,
+which is $2{,}929$ cells; the floor was drawn at $49$. Retention rises
+monotonically with the fineness of the partition, so the margin is a
+function of a knob that was set to the value maximising it. The stated
+ground for stopping the sweep --- that at one cell per item the null becomes
+the real thing --- is wrong, because a \emph{random} partition of $n$ items
+into $n$ cells is not the identity partition and stays routing-blind. Swept
+out to matched granularity the floor retains $87.5\% \pm 3.6\%$ against the
+real leg's $91.0\% \pm 1.6\%$: a margin of $3.5$ points at $z=0.9$, against
+this project's own resolvability bar of $|z|>3$. We therefore withdraw the
+margin. What the sweep shows is that retention is high at fine granularity
+whether or not the cells mean anything, which is a fact about granularity and
+not about routing.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figG3_overlap.png}
+\caption{(a) The overlap, drawn to scale: each circle's area is that
+field's measured gain over the intake block, and the centre distance is
+solved so that the intersection equals the measured overlap. The opening
+group lies almost entirely inside the item. (b) Randomising the group label
+within each item, against the same randomisation within a random partition
+of items, as a function of how fine the partition is. The margin closes as
+the partition approaches the granularity of the real leg.}
+\label{fig:overlap}
+\end{figure}
+
+\paragraph{A withdrawn measurement: the asymmetry was an identity.}
+We previously reported that, without any estimator, item identity carries
+$60.4\%$ of the opening group's information while the group carries $19.6\%$
+of the item's, and read the asymmetry as evidence that the mechanism runs
+from item to group. The reading is unsupported and the measurement is
+circular. The uncertainty coefficient $U(A\mid B) = I(A;B)/H(A)$, and mutual
+information is symmetric, so the ratio of the two coefficients is identically
+$H(\text{item})/H(\text{group})$ --- a function of two marginal entropies and
+of nothing else. On this log that ratio is $3.09$, and the two coefficients,
+their shuffled floors, and the floor-corrected excesses we published all
+stand in that same ratio to six decimal places. Any two variables whose
+entropies stand in that ratio produce those two numbers, whether or not
+either determines the other. We withdraw the asymmetry and the directional
+claim it supported. The mutual information itself, $1.47$ bits, is a real
+measurement and is reported above; its \emph{direction} is not measurable
+this way.
+
+\paragraph{The reduction is graded in the field's resolution.}
+Coarsening the group and re-running the ladder gives reductions of $27\%$,
+$28\%$, $36\%$ and $44\%$ at two, four, eleven and $49$ levels. This is a
+consistency check rather than an independent prediction, because at each
+resolution the reduction is close to that coarsened field's own gain over
+intake --- by the identity above, the same statement as the first
+measurement --- and the two coarsest points have overlapping intervals, so
+only the trend is claimed. A single binary flag --- central desk or not ---
+already recovers $61\%$ of the group's baseline gain and $63\%$ of the
+reduction. The field that must be admitted is close to one bit, far cheaper
+to reproduce elsewhere than a $49$-way taxonomy.
+
+\paragraph{Is the field really free?}
+One objection goes to the heart of the reading. The opening group may be free
+only because a human at the desk already knew what the ticket was about ---
+in which case it is undocumented configuration knowledge, and a baseline
+containing it is not a CMDB-free baseline. A third reading is at least as
+likely and we had missed it: the contrast may be an intake-channel
+indicator, separating an out-of-hours or overflow or automated route from the
+central desk, in which case it is neither independent of the item nor
+configuration knowledge held by a person. The one-bit result makes the
+question concrete without settling it: the contrast doing most of the work is
+the central desk against everything else, and Section~\ref{sec:data} declines
+to say what everything else is. The measurement is the same under all three
+readings; the moral is not. If the group is independent, a CMDB is worth half
+what the naive comparison says. If it is tacit configuration knowledge, our
+$+0.103$ is a lower bound and the organisation already holds much of what the
+CMDB would tell it, unpaid for. The log cannot identify which is true, so we
+choose none of them. What survives either way is that the business case
+cannot be written against the intake block alone.
+
+\paragraph{What we do not claim.}
+The reverse framing --- that the item column ``stands in for'' the group ---
+is not established. We measured it, by randomising items within groups, and
+obtained $44\%$ of the item's gain --- but a routing-blind equal-size
+partition of items retains \emph{more}, $56\%$, and one whose cell sizes
+follow the group's own mass profile retains $25\%$. The leg is floor-dominated and we exclude it. Nor do we claim
+a direction of causation: the log records no counterfactual, so whether the
+item drives who logs the ticket or both follow a third cause is not
+identified here. Our claim is about what an analyst's baseline choice does
+to a measured number, which does not depend on which is true.
+
+\paragraph{Two fields we did not admit, and why.}
+Our baseline is not a terminus either. Hour of day and day of week are free
+and creation-time; adding both moves the item's value from $+0.103$ to
+$+0.099$. \texttt{Service Component WBS (aff)} is harder: $100\%$ populated,
+free, and admitting it takes the measured value to $+0.023$. We exclude it as
+near-deterministic in the item --- only $58$ of $2{,}929$ items carry more
+than one value --- so it is configuration data under another name. That
+criterion cuts both ways: $2{,}060$ of $2{,}554$ training items also map to a
+single opening group, though those items carry just $8.8\%$ of incidents, so
+the high-volume ones are the multi-group ones. We know of no principled
+threshold that admits the group and excludes the service component. A reader
+who draws the line differently should read our headline as $+0.023$ --- which
+is the decision this paper is about, and why we report a ladder rather than a
+number.
+
+\section{How Fine Must Configuration Data Be?}
+\label{sec:resolution}
+
+The field-admission question has a companion that is more directly a buying
+decision: not whether configuration data is worth anything, but at what
+resolution. Four nested groupings of the same estate are all $100\%$
+populated and free once the item is known. Measured over the
+intake-plus-group baseline of $0.644$:
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Grouping & levels & AUC & gain \\
+\midrule
+CI Type (aff)               & $13$    & 0.671 & $+0.027$ \\
+CI Subtype (aff)            & $61$    & 0.657 & $+0.013$ \\
+Service Component WBS (aff) & $256$   & 0.722 & $+0.078$ \\
+CI Name (aff)               & $2{,}554$ & 0.748 & $+0.103$ \\
+\midrule
+CI Name, marginal over the service component & --- & --- & $+0.023$ \\
+\bottomrule
+\end{tabular}
+\caption{At what resolution configuration data carries its value, over a
+baseline that already contains the opening group.}
+\label{tab:resolution}
+\end{table}
+
+A $256$-way service-component grouping captures three quarters of what
+instance-level identity is worth, and instance identity adds $+0.023$ over
+it. The classification layers proper --- CI type and subtype --- carry
+little, and CI Subtype scores below CI Type despite being finer, which is
+what a fixed penalty does to a sparser column. This is the same $+0.023$ that
+Section~\ref{sec:mechanism} reports for admitting the service component to
+the baseline, seen from the other side: the two are the same quantity, and a
+reader who regards an application or service register as something an
+organisation has without a configuration-management practice should read the
+CMDB's marginal contribution here as that figure.
+
+\paragraph{The signal is an outcome history keyed on identity.}
+A per-item reassignment rate computed on the training half and applied to the
+test half as a lookup table --- no model, no other field, no configuration
+attribute of any kind --- scores $0.744$, against $0.745$ for item identity
+alone under the full estimator and $0.748$ for the paper's complete model. Whatever the CMDB
+supplies here, it is not the item's attributes; it is a stable identifier
+under which six months of outcomes can be accumulated. The defensible reading
+is that maintaining such an identifier across a changing estate --- dedupe,
+reconciliation, retirement --- is itself a configuration-management function,
+and we think that reading is right. But it is a different claim from ``the
+CMDB is worth $+0.103$'', and an organisation that can key its ticket history
+on any stable token can have most of this without one.
+
+\paragraph{Estate concentration.}
+Required scope is bounded by a property of the estate needing no model:
+the top $8$ items generate $30.2\%$ of training incidents, the top $64$
+$70.5\%$, and the top $128$ --- $5.0\%$ of the training vocabulary ---
+$82.0\%$, all from a frequency count before funding anything.
+Identifying only those items recovers most of the value. Averaged over five
+split points, the top $8$ recover $56\%$ of the $+0.103$,
+the top $64$ recover $88\%$ and the top $128$ recover $93\%$; across those
+splits the three range over $52$--$58\%$, $81$--$93\%$ and $90$--$96\%$.
+These are min--max spreads over a design choice, not bootstrap intervals,
+and we write them as ranges to keep the distinction. We give the mean and
+range rather than one split's curve because a single curve is not monotone at
+this resolution: at $k=32$ the across-split spread is $9$ points. The same holds with the group removed from the baseline ---
+$89\%$ at $k=64$ --- so this is a property of the estate's concentration, not
+of our field-admission decision. Taken with the resolution ladder, the
+practical reading is that the marginal AUC of the $2{,}801$ items
+outside the top $128$ is small, and that is where the cost of a CMDB
+programme lives.
+
+\section{What the Difference Buys}
+\label{sec:buys}
+
+\begin{table}[t]
+\centering\small\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Capacity & honest extra & naive extra & factor \\
+\midrule
+$5\%$  & $+63$ [$43,84$] & $+271$ [$242,300$] & $4.3$ [$3.2,6.4$] \\
+$10\%$ & $+37$ [$6,70$]  & $+361$ [$304,404$] & --- \\
+$20\%$ & $+28$ [$-28,82$] & $+470$ [$407,524$] & --- \\
+\bottomrule
+\end{tabular}
+\caption{Extra reassignment-bound incidents surfaced by adding item
+identity, against a baseline that includes the opening group (honest) and
+one that omits it (naive). Paired bootstrap over test rows, with ties at
+the capacity cut broken at random in every draw. Point estimates and
+intervals are both taken over the same $400$ draws. Factors are not quoted
+at $10\%$ and $20\%$ because the honest denominator is a few dozen incidents
+and its interval includes zero at $20\%$; a ratio conditioned on the draws
+where the denominator is positive is not a confidence interval for anything.}
+\label{tab:capacity}
+\end{table}
+
+An AUC difference is not a quantity a service desk can act on, so we state
+the same comparison as detection. Fix a review capacity --- the share of
+arrivals a desk can look at before routing --- rank the test incidents by
+predicted risk, and count how many reassignment-bound incidents each model
+surfaces. Both arms use matched models: the honest contrast adds item
+identity to intake-plus-group, the naive one to intake alone, mirroring
+Table~\ref{tab:headline}. An earlier draft did not match them, crediting item
+identity with the group's own contribution.
+
+At $5\%$ capacity, knowing the affected item surfaces $63$ $[43,84]$ more
+reassignment-bound incidents than the intake-plus-group baseline does, or
+about $34$ a month at this log's volume. An analyst who had omitted the
+group would have credited item identity with $271$ $[242,300]$. The
+omission overstates the operational gain by a factor of $4.3$ $[3.2,6.4]$,
+against a ratio of only $1.8$ between the same two gains measured as AUC.
+
+Two things make it larger, and one of them is not about information. AUC
+averages over every operating point while a capacity-limited desk works at
+one, where the group-aware baseline is near its ceiling. And the naive
+baseline cannot rank finely: four low-cardinality intake fields, one of them
+the redundant Priority column, emit only $23$ distinct scores over $13{,}637$
+test incidents, so at $5\%$ capacity just $47$ rows sit strictly above the
+cut and the rest come from a tied block of $1{,}944$. The naive top-5\% is
+therefore mostly a random draw from a tie. That is a property of the baseline
+an analyst would use, not an artifact of ours, but it means the factor is
+partly about rank resolution rather than information, and we have not
+separated the two. None of this says a surfaced incident is a corrected one.
+
+We report this framing because a desk-facing number is more useful than an
+AUC delta, and we flag that it is ad hoc: a capacity at which a desk reviews
+$5\%$ of arrivals is a modelling convenience, not an operating model any desk
+we know of runs. Decision curve analysis \citep{vickers2006dca} supplies the
+principled version --- net benefit across a range of thresholds --- and a
+study designed around this question should use it.
+
+\paragraph{Three target definitions.}
+Because reassignment is common, we repeat the ladder at stricter
+thresholds. Requiring two or more reassignments ($21.8\%$ of incidents)
+gives $+0.131$ and $+0.068$; three or more ($10.6\%$) gives $+0.151$ and
+$+0.080$. The magnitude is threshold-dependent and not monotone, but the interval on
+each $+$group rung excludes zero (we compute intervals for that rung only),
+the ordering never reverses, and the reduction stays between $43\%$ and
+$49\%$.
+
+\section{Does It Survive a Change of Task?}
+\label{sec:secondtask}
+
+A gap on one target may be a property of it, so we repeated the ladder on two
+further outcomes within the primary organisation. \emph{Reopening} is close
+to an independent failure mode: $2{,}096$ incidents, correlating with
+reassignment at $+0.14$. \emph{Long handling} --- handle time above the
+training third quartile --- correlates at $+0.40$, so it is corroboration
+only.
+
+On reopening, item identity is worth $+0.083$ against the intake block and
+$+0.055$ once the group is admitted, a reduction of $33\%$; on long handling,
+$+0.118$ and $+0.078$, a reduction of $34\%$. Every rung sits outside its
+matched-dimension null. But the reduction is what we argue transfers, so it
+needs its own interval, and paired bootstraps give $[40,48]$ on reassignment,
+$[28,38]$ on long handling and $[-1,60]$ on reopening. On the one target we
+argue is near-independent the reduction is \emph{not} resolvably different
+from zero ($P \le 0$ is $0.03$), and long handling, correlated at $+0.40$
+with the primary target, cannot carry a replication alone. Reopening is rare
+and its gains stand only $5.5$ and $4.2$ pooled standard deviations from
+their nulls.
+
+Cross-target replication within one organisation therefore fails to resolve,
+and cross-organisation replication (Section~\ref{sec:result}) succeeds. We
+take the second as the stronger evidence, because the objection it answers
+--- that the effect is a property of one estate --- is the one a reader
+should press hardest, and because both Volvo intervals exclude zero. The
+reduction is largest on the target the opening group is most directly about,
+which is consistent with Section~\ref{sec:mechanism} rather than predicted by
+it: the mechanism says nothing about how the reduction should order across
+targets.
+
+\section{One Thing We Could Not Establish}
+\label{sec:failed}
+
+A third field, the knowledge-article reference, sits on the same
+\texttt{Open} row, is $100\%$ populated, and costs nothing. Adding it to the
+baseline raises AUC to $0.805$ and drives the measured value of item
+identity to $-0.003$. Whether that figure belongs in Table~\ref{tab:headline}
+depends on whether the field is available at creation, and we could not
+determine this.
+
+Two structural tests both fail. A field that varies within an incident is
+certainly a per-event observation; the knowledge reference never varies ---
+but neither does \texttt{Interaction ID}, which has $45{,}426$ distinct
+values for $45{,}455$ incidents and is plainly a creation-time key, so
+constancy is evidence of granularity, not timing. Exact identity with the
+closed record fares no better: the knowledge reference matches its
+closed-record column for $100.000000\%$ of incidents, but so does
+\texttt{Interaction ID} for $99.997628\%$ of the $42{,}151$ single-interaction
+incidents --- one mismatch against a pass mark of $100.000000\%$.
+
+We therefore make no claim about this field. The $-0.003$ is also inside the
+dimensionality null of Section~\ref{sec:result} and changes sign under
+penalty tuning, so it is not resolvable on either ground. This is the paper's
+thesis turned on itself, and that reading is correct: our headline is
+contingent on a field-admission decision we cannot adjudicate. The
+transferable part is the negative --- a field being free, populated and
+present on an opening record does not make it creation-time. The collection
+ships an interaction detail file we did not obtain; if it records this field
+at creation the question is answerable, and our inability to settle it is a
+limit of the three files we hold, not of the export.
+
+\section{Corrections}
+\label{sec:corrections}
+
+Six errors are reported here rather than edited away, because each is an
+instance of the failure this paper is about --- a control, a claim or a
+baseline asserted rather than checked --- and because the pattern across them
+is more informative than any one.
+
+\begin{enumerate}
+\item \textbf{A null that could not fail.} The mechanism's floor was
+originally drawn by assigning cell labels per \emph{row}, so two incidents
+sharing an item landed in different cells and the association was destroyed
+by construction. The null could only return zero, and we published a margin
+of $89$ points against it (Section~\ref{sec:mechanism}).
+
+\item \textbf{The same null, rebuilt, was still a knob.} Rebuilt at item
+level it was swept only to $800$ cells while the leg it bounds uses
+$2{,}929$, and the reported margin was taken at the cell count that maximised
+it. At matched granularity the margin is $3.5$ points at $z=0.9$ and we now
+withdraw it. This is the fifth time a null in this project has been drawn at
+the wrong level.
+
+\item \textbf{An asymmetry that was an algebraic identity.} The
+estimator-free evidence for the direction of the mechanism was a ratio of two
+uncertainty coefficients, which is identically the ratio of two marginal
+entropies. It was published for eight rounds with both entropies sitting in
+the same results file, one division away.
+
+\item \textbf{An operational factor reported without an interval.} The
+capacity-table factor was first printed as a point estimate on an
+unmatched pair of models (Section~\ref{sec:buys}).
+
+\item \textbf{A central field whose meaning we asserted.} The opening group
+was described as the routing queue for several versions. It is the group that
+logged the incident (Section~\ref{sec:data}).
+
+\item \textbf{A claim about a public dataset that our own repository
+refuted.} We wrote that the third public ITSM log has no affected-item field.
+It has one, populated on every case, and a script in our own repository had
+been treating it as such (Section~\ref{sec:secondorg}). This was the sole
+support for describing the study as single-organisation of necessity, which
+we had presented as a constraint rather than a choice. It was a choice.
+\end{enumerate}
+
+Five of the six flattered the result, and the sixth --- the dataset claim ---
+excused its principal limitation. We draw the obvious inference about the
+direction in which unchecked assertions travel, and note that the paper's
+verification apparatus, which recomputes every number it prints, would not
+have caught any of the six: all six are claims about what a number
+\emph{means}.
+
+\section{Limitations}
+\label{sec:limits}
+
+\paragraph{Estate and era.}
+Two organisations, two platforms, both on-premises products, and six months
+of 2013 and 2014 data in the primary case. The values $+0.183$ and $+0.103$ are
+properties of one estate; what we argue transfers is that the gap exists and
+is large. Practice has moved since: discovery tooling auto-populates a large
+fraction of a modern estate, event-driven incidents arrive with the item
+already stamped by the monitoring source, and service mapping rather than
+item identity is where much current CMDB spend goes. The counterfactual we
+model --- an organisation with no item field at all --- is not the
+counterfactual a 2026 buyer faces, which is about relationship depth and data
+health rather than existence.
+
+\paragraph{Data quality.}
+Our item field is $100\%$ populated because the tool copies it from the
+originating interaction record. Real CMDBs are not this clean, and a lower
+population or accuracy rate would reduce the item's measured value. Our
+$+0.103$ should be read as an upper bound for an estate whose configuration
+data is worse than this one's, which is most of them.
+
+\paragraph{Intake channel.}
+The free field's informativeness depends on an intake mix in which two thirds
+of tickets pass a central desk. Where tickets are opened by end users through
+a portal or by an integration account, the field may carry far less, or may
+not exist in a comparable form. The one-bit result implies the contrast that
+matters is central desk against everything else, and that contrast is a
+property of how the organisation takes work in.
+
+\paragraph{Free text.}
+Neither log carries a usable short description, and every real deployment
+has one. \citet{kapel2026change} rank two free-text fields above CI Name for
+a related target. If free text absorbs much of the item's value, the
+field-admission argument becomes stronger and the CMDB's measured value
+smaller; we cannot test it here, and it is the most important open question
+this study leaves.
+
+\paragraph{Construct and mechanism.}
+Reassignment is a proxy for misrouting and also fires on legitimate
+escalation; the within-item shuffle preserves item membership but not other
+correlates of identity, so it bounds the proxy share rather than isolating
+it; and the opening group's distribution drifts between our halves. After
+this round's withdrawals, we do not claim a measured direction for the
+mechanism.
+
+\section{Conclusion}
+
+Knowing which configuration item an incident concerns is worth $+0.183$ or
+$+0.103$ AUC for predicting reassignment, depending on whether the baseline
+includes one field the organisation already records: which group logged the
+ticket. The reduction runs $36.1\%$ to $48.3\%$ across the design space, and the
+pattern replicates on a second organisation. Stated as detection at a fixed
+review capacity, the same choice moves the credited benefit several fold. The
+difference is an overlap --- a model given the item has already been told
+most of what the group would say --- so a business case built on the first
+figure is measuring a CMDB plus a field the organisation was already
+recording for nothing.
+
+Two qualifications belong in the same breath. Which figure is right depends
+on an admission line we cannot draw principledly: admit the service component
+instead and the number is $+0.023$. And what the item supplies on this task
+is a stable key under which outcomes accumulate, not the configuration
+attributes a CMDB is usually bought for. The transferable claim is not a
+number. It is that the number is chosen, and that whoever writes the business
+case is choosing it.
+
+\section*{Acknowledgements and Reproducibility}
+The manuscript was subjected to fifteen rounds of adversarial review, the
+later rounds machine-assisted, in which each round was asked to break the
+previous version's claims; the corrections in Section~\ref{sec:corrections}
+came from that process. The datasets are public
+\citep{vandongen2014bpic,steeman2013bpic}; code, figures and a checker that
+recomputes every quantity here:
+\url{https://github.com/sudhirdixit1/cmdb-field-admission}.
+
+\bibliographystyle{elsarticle-harv}
+\bibliography{references}
+
+\end{document}

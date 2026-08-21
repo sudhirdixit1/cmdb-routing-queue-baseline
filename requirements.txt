@@ -1,0 +1,13 @@
+# Pinned to the interpreter and library versions the published figures were
+# computed on.  Python 3.10.0.
+#
+# Why pinned: scikit-learn's LogisticRegression solver defaults have moved
+# between minor versions, and this paper's verifier tests rounding EQUALITY
+# at the printed precision rather than a tolerance.  An unpinned environment
+# can therefore fail verify_paper.py on the third decimal while computing
+# nothing wrong.
+numpy==2.2.6
+pandas==2.3.1
+scipy==1.15.3
+scikit-learn==1.7.2
+matplotlib==3.10.5

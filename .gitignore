@@ -24,3 +24,7 @@ build/
 # Superseded workbooks from a withdrawn analysis; kept on disk, out of the repo.
 capability_readiness_matrix.xlsx
 capability_readiness_matrix_filled.xlsx
+
+# Run logs from scripts/reproduce_all.py.  Regenerated on every run;
+# the numbers they contain live in results/*.csv, which IS tracked.
+logs/

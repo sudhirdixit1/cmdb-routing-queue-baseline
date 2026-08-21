@@ -1,12 +1,22 @@
 # HANDOFF
 
-For whoever picks this up next. Read §4 (withdrawn findings) and §12 (the
-round-eight corrections) before you write any code — those are the parts
-that will save you time.
+For whoever picks this up next. **Start at §19 (round sixteen).** It is the
+current state; everything before it is history, some of it retracted
+history. Then read §4 (withdrawn findings) — that is the part that will
+save you time.
 
-**§1–§5 below were written earlier and parts of them are now WRONG.** Where
-they conflict with §11 or §12, the later section wins. The stale bits are
-marked, but do not trust an unmarked sentence in §1–§5 without checking.
+**§§1–18 were written earlier and much of §§1–5 is now WRONG.** The paper is
+no longer a single-organisation study, is no longer aimed at IAAI, is no
+longer six pages, and no longer reports the operational factor §1 quotes.
+Where an earlier section conflicts with a later one, the later wins. Where
+anything conflicts with §19, §19 wins.
+
+**One-line summary of where this is:** a 33-page Elsevier `elsarticle`
+manuscript targeted at *Information Systems*, with 674 verified numeric
+claims, a 149-corruption regression suite the verifier now passes cleanly,
+five figures, a one-command reproduction script, and a submission package.
+What is left needs the author's credentials, not another revision round —
+see `submission/OWNER-ACTIONS.md`.
 
 ---
 
@@ -88,10 +98,20 @@ Do not reuse code from these without re-deriving why it was abandoned.
 
 ## 3. How to check the current state
 
+⚠️ **These counts are round-eight's and are stale.** Current, and the only
+command you need:
+
+```
+python scripts/reproduce_all.py    # everything, in dependency order
+```
+
+Individual stages, if you want them:
+
 ```
 python scripts/texlint.py          # must exit 0 before anything else
-python scripts/verify_paper.py     # 252 checks, 0 failed, 0 unaccounted
-python scripts/attack_verifier.py  # 54 caught, 0 missed, 0 skipped
+python scripts/verify_paper.py     # 674 checks, 0 failed, 0 unaccounted
+python scripts/attack_verifier.py  # 149 caught, 0 missed, 0 skipped
+python scripts/build_journal.py    # 33 pages, 0 errors, 0 undefined refs
 ```
 
 `verify_paper.py` runs `texlint` first and refuses to proceed on a document
@@ -881,3 +901,267 @@ another revision round:
    appears nowhere in this repository, while §§11–18 record the withdrawals
    as coming from agent-run referee rounds. Only the author can say which is
    accurate.
+
+---
+
+## 19. Round sixteen (2026-08-21): the venue plan, executed
+
+This round worked through `PLAN-INFORMATION-SYSTEMS.md` end to end. Six new
+analyses, a restructured manuscript, five new figures, a rebuilt verifier, a
+one-command reproduction, and a submission package. **Two of the six new
+analyses came back against the paper**, and both changed it.
+
+### 19.1 What was run, and what it found
+
+| Plan item | Script | Verdict |
+|---|---|---|
+| 1.1 inter-case congestion | `r22_intercase.py` | **survives.** Four free creation-time queueing features move the item's value from +0.103 to +0.100 and the reduction from 43.7% to 45.7% [41,50]. The four alone score AUC 0.497 — at this horizon, on this log, congestion carries nothing. |
+| 1.2 central-desk contrast | `r22_intercase.py` §B | **survives, and strengthens.** The tautology reading predicts the central desk reassigns *more*; it reassigns *less*, 0.309 against 0.603, difference −0.294 [−0.315,−0.275]. |
+| 1.3 decision curve analysis | `r23_decision_curve.py` | **against us.** See §19.2. |
+| 1.4 tie-free naive baseline | `r24_tiefree.py` | **against us, decisively.** See §19.2. |
+| 1.5 encoder null on both rungs | `r10_estimators.py` §B | **a correction, in our favour.** See §19.3. |
+| 1.6 CI Type/Subtype determinism | `r21_referee_round15.py` §G | **survives.** 0 of 2,929 items carry more than one value of either. The service component varies on 58 items / 8.7% of incidents; the opening group on 565 items / 92.5%. That gap is now the paper's quantitative statement of where the admissibility line falls. |
+
+### 19.2 The round's main finding: section 8 did not survive
+
+The paper reported that omitting the free field overstates the CMDB's
+**operational** value by a factor of **4.3** at a 5% review capacity, against
+1.8 measured as AUC. Two independent controls killed it.
+
+**`r24`: the factor's sign is a tie-break.** At 5% capacity the naive
+baseline nominates 682 incidents, of which **635 (93.1%)** come from a single
+tied block of 1,944 rows — because the four intake fields take only **23**
+distinct combinations, so no function of them can rank 13,637 incidents into
+more than 23 classes. Reordering rows *inside* that block, which changes
+nothing any model knows:
+
+| tie policy | naive arm | honest arm | factor |
+|---|---|---|---|
+| random (the paper's, and the only implementable one) | +271 | +63 | 4.3 |
+| oracle (positives first) | **−26** | +24 | — |
+| adversarial (negatives first) | +608 | +104 | 5.8 |
+
+The obvious repair — target-encode the intake block so it ranks more finely —
+is **impossible**: the composite encoding emits **19** distinct scores, fewer
+than the one-hot model's 23, because combinations unseen in training collapse
+onto the prior. One further detail worth knowing: the 47 rows the naive
+baseline ranks strictly above its own 5% cut contain **9** positives, a rate
+of 19% against a base rate of 37%. At the top of its own ranking it is worse
+than guessing.
+
+**`r23`: net benefit does not reproduce the factor.** Decision curve analysis
+never breaks a tie, because a threshold admits or excludes a whole tied
+block. Over a 31-point grid the group-aware increment is resolvably positive
+on 20 points, in a run from 0.100 to 0.425. At **p_t = 0.325**, where the
+item is worth most, it adds **86.9** per thousand over the group-aware
+baseline and 92.8 over the intake block: an overstatement of **1.07**, which
+is *smaller* than the AUC ratio of 1.8, not several-fold.
+
+Both controls have the same cause. A 5% capacity is an operating point deep
+in the upper tail, where the group-aware baseline is near its ceiling and the
+item adds almost nothing. **The paper had measured the overstatement at the
+one operating point where its own honest arm had the least to give.**
+
+**And one thing nobody had looked for.** Net benefit is resolvably
+**negative** at four grid points between 0.475 and 0.575, reaching **−16.1
+[−23.0,−8.9]** per thousand at p_t = 0.50. At a one-for-one exchange rate,
+adding item identity to a group-aware model makes the desk worse off. This is
+in Section 8 and again in the Limitations, with the only mechanism the paper
+has: a model with 2,554 item indicators can be confidently wrong where a
+coarse model abstains.
+
+Section 8 was rebuilt on net benefit. The capacity table was **deleted, not
+adapted** — adapting a check for a withdrawn claim is how a withdrawn claim
+survives — and the verifier now asserts that its figures (9.8, 16.8, 221.0,
+39.9, 3.2, 6.4, 242, 300, 361, 470, 524, 407, 404, 304) stay out of the
+paper.
+
+### 19.3 The eighth correction, which goes the other way
+
+Plan item 1.5. The shuffled-item encoder null had been run on the **+group
+rung only**, while the reduction it bounds is computed from two rungs. Its
+boosting residual is +0.0042 ± 0.0020 — **eleven standard errors from zero**,
+a real systematic effect rather than noise. Run on both rungs it returns
++0.0002 ± 0.0015 and −0.0036 ± 0.0025 on the intake rung, and correcting both
+moves the boosting reduction from 47.1% to **50.5%**.
+
+That is the first correction in this project's history that would have made
+the result **larger** had it been noticed earlier. Seven of eight still
+flatter the result or excuse a limitation; one does not. The paper says so.
+
+### 19.4 The verifier: three holes closed, two of them found late
+
+`attack_verifier.py` had one entry it had never caught — *fabricate
+independent extracts*, which appends `confirmed on $10$ independent extracts`
+to a sentence some check had anchored.
+
+**The hole.** A check vouched for its whole 400-character anchor window. Any
+number dropped into a checked neighbourhood was therefore "covered", whatever
+its value.
+
+**The fix.** `_cover()` in `verify_paper.py`. A check now vouches for **the
+literal it compared**, at the positions where that literal appears in its
+window, and for nothing else. A value the paper states in four places is four
+claims and needs four checks, each anchored to the sentence that makes it.
+
+Consequences worth knowing before you edit the paper:
+
+- The check count went from 446 to **674**, and literals compared against
+  data from 233 to **313**, on a body that grew from 244 literals to 325.
+- **Restating a number in the abstract or conclusion now needs its own
+  check.** That is the intent: a restatement is where a discredited figure
+  survives, and this project has shipped exactly that defect.
+- A second bug surfaced while fixing this: the `unaccounted` census was
+  computed **halfway down the file**, so every check written below it was
+  invisible to it. Twenty-two correctly checked literals were being reported
+  as unaccounted. It now runs immediately before the report.
+- Two new structural contexts were added — the `tabcolsep` layout command and
+  the odds transform `1-p_t` — because both are notation, not claims.
+
+**Then the enlarged suite found two more, on its first clean run.** Both are
+worth reading before you touch the checker.
+
+- **A number spelled out in letters is still a number.** "Eight errors of our
+  own are reported as results" could be changed to "Six" and pass: the
+  corrections list length was compared against the constant `8`, and the word
+  against nothing. The tokeniser only sees digits, so it could not reach it.
+  The word is now parsed and compared to the list length, and each of the
+  eight corrections carries its own phrase pin, so softening one fails even
+  when every number in it stays correct.
+- **The guard list matched case-sensitively.** `RISKY` carries `we withdraw`;
+  the corrections list says `We withdraw the factor`; the match never fired.
+  Every load-bearing construction that happens to begin a sentence has been
+  unguarded since the list was written. It is `.lower()` now — and the moment
+  it was, it surfaced a third sentence, *"We withdraw the asymmetry and the
+  directional claim it supported"*, which had been unguarded for eight
+  rounds.
+
+That is three holes in one round, two of them found by corruptions written
+*after* the first fix. The lesson is the one this file keeps recording: the
+suite is the part that works. Write the corruption before you believe the
+check.
+
+### 19.5 What else changed
+
+**The manuscript.** Restructured to the plan's §5 order: the resolution
+ladder is promoted from §7 to §5 and is now the lead contribution; a new §3
+answers the conditional-variable-importance objection explicitly rather than
+in a clause; both organisations appear from §4 rather than as a late
+addition. 33 pages, 0 errors, 0 undefined references.
+
+**Figures.** The scaled Venn is **cut** — it encoded three numbers from the
+adjacent sentence and drew AUC gains as areas, which implies they compose
+like a measure. Five new ones in `r25_figures.py`: the two-baseline ladder
+with intervals on the metric's full range (the old one was truncated at 0.50
+and carried a knowledge-reference bar §9 declines to claim); the resolution
+ladder and estate concentration; the two-organisation comparison; the floor
+sweep redrawn from the **matched** sweep (`r21`) rather than the truncated
+one (`r17`); and the decision curve.
+
+**A figure bug worth recording.** The first draft of the resolution-ladder
+panel drew an arrow from the service component's AUC to the full model's and
+labelled it +0.026. That is not the marginal. The model containing *both* the
+service component and the item scores 0.745, *below* the model containing
+only the item at 0.748, so the difference of those two points on that axis is
+a different quantity from the one the paper reports (+0.023). Read the ladder
+file; do not subtract two points off a chart.
+
+**Reproduction.** `scripts/reproduce_all.py` runs everything in dependency
+order with a preflight that names any missing raw file and its DOI, warns on
+unpinned library versions, and refuses to continue. `REPRODUCE.md` documents
+runtimes, determinism, the dependency graph, the two file-format traps, and
+— at length — what the checker does *not* cover.
+
+**Submission package.** `submission/` holds the highlights (with character
+counts), the cover letter, CRediT, the data availability statement, the
+declaration of interests, six suggested reviewers with what each is best
+placed to break, `DECISIONS.md`, and `OWNER-ACTIONS.md`.
+
+### 19.6 What is left, and it is not analysis
+
+Everything remaining needs the author's credentials or judgement. All of it
+is in **`submission/OWNER-ACTIONS.md`**, with the exact commands:
+
+1. **Create/rename the GitHub repository** to `cmdb-field-admission`. The
+   live remote still embeds the description §3 retracts, and the manuscript
+   already prints the new name — the two disagree today.
+2. **Push.** `r10`–`r25` are still not public, and the paper's claim about
+   itself is false until they are.
+3. **Mint the Zenodo DOI.** `.zenodo.json` is written and complete; the flow
+   is four clicks.
+4. **Post the arXiv preprint before submitting.** cs.SE primary.
+5. **Confirm the acknowledgement.** The manuscript now describes the later
+   review rounds as machine-assisted, which is what this repository records.
+   If a real practitioner reviewed the work, that credit was removed in
+   error. This is the one decision that could be wrong in the direction that
+   matters.
+
+The title was settled (`submission/DECISIONS.md` §1) so the manuscript would
+build; the two alternatives from the plan remain live and switching costs one
+edit plus a verifier run.
+
+### 19.7 If you are the next round
+
+Three things to press hardest, in order:
+
+1. **The negative band in §8.2.** The paper reports it and offers one
+   sentence of mechanism. That is honest but thin. If a coarser model beats
+   the item-aware one at high thresholds, is that regularisation,
+   calibration, or something about which items sit at the top of the
+   ranking? Nobody has looked.
+2. **The oracle bound in §8.1 favours coarse models by construction.** It
+   grants every model perfect ordering inside its own score classes, and
+   coarse models have larger classes. The paper uses it correctly — as a
+   bound showing the factor is not a measurement — but a referee could argue
+   it proves less than it appears to. Check the argument before defending it.
+3. **Free text is still the largest untested threat** and neither log has it.
+   Kapel et al. rank two free-text fields above CI Name for a related target.
+   If free text absorbs the item's value, §5's conclusion gets stronger and
+   the CMDB's measured value gets smaller. A third log with a short
+   description would settle it, and none of the three public ones has one.
+
+### 19.8 The checker is a paper, and this round strengthened the case
+
+`PLAN-INFORMATION-SYSTEMS.md` §11 argues that the most original artefact this
+project has produced is the **checker**, not the CMDB finding, and that it is
+worth a paper of its own once this submission is in. Round sixteen adds two
+concrete pieces of evidence for that, and they are worth writing down while
+they are fresh.
+
+**The hole that was closed is a general defect, not a local one.**
+Window-level coverage — "a check vouches for the neighbourhood it looked in"
+— is the obvious way to build this and is what any first implementation will
+do. It is wrong for a reason that generalises: the neighbourhood is not the
+claim. Every verification harness of this shape has the same hole, and the
+only reason this one's was found is that somebody wrote the corruption. That
+is a methodological point with a worked example attached.
+
+**The corruption suite found the defect the verifier could not, three times
+in one round.** 149 corruptions. One had survived every version of the
+checker for eight rounds — the window-level coverage hole. Two more were
+found *after* that fix, on the first clean run of the enlarged suite:
+changing the spelled-out count of corrections from "Eight" to "Six" passed,
+because the word was checked against a constant and not against the list;
+and softening "We withdraw the factor" to "We qualify the factor" passed,
+because the guard list matched case-sensitively and the sentence begins with
+a capital. Fixing the second immediately surfaced a third sentence that had
+been unguarded for eight rounds for the same reason.
+
+The suite is the part of this apparatus that has actually earned its keep,
+and the ratio is stark: the verifier has never once caught an error in the
+paper that a human had not already found, while the suite has now found
+eight holes in the verifier.
+
+**What that paper would say.** Occurrence-level, literal-level coverage of
+every numeric claim; guard-or-declare linting of directional prose; and an
+adversarial regression suite over the checker itself, with a defect taxonomy
+drawn from sixteen rounds of real errors — every one of which is recorded in
+this file with its cause. The CMDB study becomes the worked example rather
+than the claim. MSR, EMSE, or a reproducibility track would engage with it
+directly.
+
+**One caveat the paper would have to lead with**, because it is the honest
+finding: all eight corrections this project reports are claims about what a
+number *means*, and the checker would have caught none of them. A harness
+that guards arithmetic perfectly and interpretation not at all is worth
+having and worth being precise about. That is the paper.

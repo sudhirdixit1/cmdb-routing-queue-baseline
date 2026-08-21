@@ -289,3 +289,98 @@
   year    = {2005},
   doi     = {10.1007/s10606-005-9005-9}
 }
+
+%% ------------------------------------------------------ round fifteen
+%% The three works below are the closest prior art and were missing.  All
+%% metadata verified against the publisher record in August 2026; the
+%% characterisations are deliberately narrow, because each of these papers
+%% uses the configuration item WITHOUT isolating its value, which is the
+%% distinction our contribution rests on.
+
+@article{schad2022reassign,
+  author  = {Schad, J{\"o}rg and Sambasivan, Rajiv and Woodward, Christopher},
+  title   = {Predicting help desk ticket reassignments with graph
+             convolutional networks},
+  journal = {Machine Learning with Applications},
+  volume  = {7},
+  pages   = {100237},
+  year    = {2022},
+  doi     = {10.1016/j.mlwa.2021.100237},
+  note    = {Relational GCN on the UCI ServiceNow log; predicts ticket
+             reassignment, our own target, with the configuration item
+             among the incident-node features}
+}
+
+@article{sarnovsky2018predictive,
+  author  = {Sarnovsk{\'y}, Martin and Surma, Juraj},
+  title   = {Predictive Models for Support of Incident Management Process
+             in {IT} Service Management},
+  journal = {Acta Electrotechnica et Informatica},
+  volume  = {18},
+  number  = {1},
+  pages   = {57--62},
+  year    = {2018},
+  doi     = {10.15546/aeei-2018-0009},
+  note    = {Same Rabobank Group log as this paper; reports ROC AUC and
+             ranks CI type, CI subtype and service component among the most
+             significant attributes. Also reports that Priority is computed
+             from Impact and Urgency}
+}
+
+@inproceedings{kapel2026change,
+  author    = {Kapel, Eileen and Lennartz, Jan and Cruz, Lu{\'\i}s and
+               Spinellis, Diomidis and van Deursen, Arie},
+  title     = {Learning from Change: Predictive Models for Incident
+               Prevention in a Regulated {IT} Environment},
+  booktitle = {Proceedings of the IEEE/ACM 48th International Conference on
+               Software Engineering: Software Engineering in Practice
+               (ICSE-SEIP)},
+  year      = {2026},
+  doi       = {10.1145/3786583.3786876},
+  note      = {SHAP ranks CI Name third among features for change-induced
+               incident risk at a large bank, behind two free-text fields}
+}
+
+%% ------------------------------- the incremental-value literature
+%% This paper's estimand -- the change in a fixed metric when one variable
+%% joins an existing model -- has been argued over in biostatistics since
+%% 2004.  Cook (2007) is our thesis, published nineteen years earlier.
+
+@article{cook2007roc,
+  author  = {Cook, Nancy R.},
+  title   = {Use and Misuse of the Receiver Operating Characteristic Curve
+             in Risk Prediction},
+  journal = {Circulation},
+  volume  = {115},
+  number  = {7},
+  pages   = {928--935},
+  year    = {2007},
+  doi     = {10.1161/CIRCULATIONAHA.106.672402}
+}
+
+@article{vickers2006dca,
+  author  = {Vickers, Andrew J. and Elkin, Elena B.},
+  title   = {Decision Curve Analysis: A Novel Method for Evaluating
+             Prediction Models},
+  journal = {Medical Decision Making},
+  volume  = {26},
+  number  = {6},
+  pages   = {565--574},
+  year    = {2006},
+  doi     = {10.1177/0272989X06295361}
+}
+
+@article{williamson2023vimp,
+  author  = {Williamson, Brian D. and Gilbert, Peter B. and
+             Simon, Noah R. and Carone, Marco},
+  title   = {A General Framework for Inference on Algorithm-Agnostic
+             Variable Importance},
+  journal = {Journal of the American Statistical Association},
+  volume  = {118},
+  number  = {543},
+  pages   = {1645--1658},
+  year    = {2023},
+  doi     = {10.1080/01621459.2021.2003200},
+  note    = {The AUC-capable companion to the R-squared framework of
+             williamson2021vimp; supplies valid inference for our estimand}
+}

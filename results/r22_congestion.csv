@@ -1,0 +1,2 @@
+n_parsed,n_cohort,auc_congestion_alone,gain_intake,gain_intake_cong,gain_group,gain_group_cong,marginal_congestion,red_cong,red_group,red_both,red_both_lo,red_both_hi,red_both_p_le0,n_draws,backlog_bins,arr_bins,backlog_median,arr1h_median
+46606,45455,0.49726877591829993,0.18345785349865806,0.18189318021344236,0.10333536025591061,0.09953254414552659,0.003802816110384022,0.8528788794681663,43.67351504160793,45.74637048925537,41.75208101436793,49.71823046042906,0.0,2000,10,10,1228.0,40.0

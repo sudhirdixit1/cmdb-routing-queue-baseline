@@ -1,0 +1,2 @@
+prevalence,n_test,factor_lo_named,factor_hi_named,factor_lo_recal,factor_hi_recal,grid_lo,grid_hi,n_grid,resolved_lo,resolved_hi,n_resolved,n_negative,n_naive_resolved,ratio_lo_resolved,ratio_hi_resolved,ratio_at_max_honest,threshold_at_max_honest,max_honest,max_honest_at,max_naive,max_naive_at,n_boot
+0.37200263987680576,13637,1.076153597934818,22.624999999999865,1.1011288805268113,23.61764705882339,0.05,0.8,31,0.1,0.425,20,4,29,1.0498004181714546,8.999318336741656,1.0677997875398357,0.325,0.08692582000494298,0.325,0.13255114761311135,0.375,2000
