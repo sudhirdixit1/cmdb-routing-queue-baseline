@@ -1410,7 +1410,7 @@ function, it is called from one late block, and `_lint_check_order()` polices
 both call sites. Verified by writing a check below the block and confirming
 the run fails with the offending line number.
 
-The suite is 199 corruptions now.
+The suite is 199 corruptions now, and the final run is 199 caught, 0 missed, 0 skipped.
 
 **The pattern across rounds sixteen and seventeen is worth stating plainly.
 Eight holes have now been found in this verifier and every one of them was
@@ -1537,7 +1537,27 @@ only the author can make. `PLAN-STRONG-ACCEPT.md` §0.3 says stop *that item
 only* and continue with everything else; that is what happened, and nothing was
 worked around.
 
-### 20.13 If you are round eighteen
+### 20.13 The final state, measured
+
+Everything below was measured on the artifact as committed, not estimated.
+
+| | |
+|---|---|
+| manuscript | 47 pages, 0 errors, 0 undefined references, 2 overfull hboxes |
+| `verify_paper.py` | 936 checks passed, 0 failed; 417 literals in the body, 0 unaccounted, 405 compared against data |
+| `attack_verifier.py` | 199 caught, 0 missed, 0 skipped |
+| `reproduce_all.py` | 9 waves, 34 scripts, both figure sets, the verifier and the build: **43 minutes**, every stage passed |
+| corpus | 24 files, 7 domains, all checksums verified; 22 logs parse; 13 admitted |
+| scripts | 105 files, all parse |
+| `test_checker_purity.py` | guard fires, both files restored |
+
+The verification figure is the one worth reading twice: it is 936 checks
+against **freshly regenerated** result files, not against the files that were
+on disk when the paper was written. Several of those files moved in their last
+bits between runs, exactly as REPRODUCE.md §4 documents for BLAS thread
+counts, and not one printed literal moved with them.
+
+### 20.14 If you are round eighteen
 
 1. **The corpus result is negative and it is the honest ceiling.** Do not run
    the same corpus again hoping for a different answer. Either find data with

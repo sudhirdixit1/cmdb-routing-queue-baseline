@@ -562,9 +562,11 @@ Tick every box, or record why it cannot be ticked.
       failing condition recorded field by field in `r37_free_text.csv`.
 - [x] Every new number checked by `verify_paper.py`; every new claim has a
       corruption; suite passes 0 missed, 0 skipped
-      — 936 checks, 0 unaccounted; 199 corruptions. The first run of the
-      enlarged suite landed three, all prose; each is now guarded and the
-      suite re-run clean.
+      — **936 checks, 0 failed, 0 unaccounted; 199 corruptions caught, 0
+      missed, 0 skipped.** The first run of the enlarged suite landed three,
+      all prose; each is now guarded and the suite re-runs clean. The whole
+      pipeline runs end to end in **43 minutes** and the verification above
+      is against freshly regenerated result files.
 - [x] Four adversarial passes run, every objection dispositioned in
       `REFEREE-LOG.md`
       — 22 objections: 3 measured, 13 conceded into the text, 6 dismissed with
