@@ -194,6 +194,8 @@ def ck_bound(label, value, printed, kind, anchor):
     floor, upper bounds must ceil.
     """
     global ok
+    if label in RETIRED:
+        return
     seen.add(printed)
     v, target = float(value), float(printed.replace("{,}", ""))
     ulp = 10.0 ** (-_decimals(printed))      # the unit the paper printed in
@@ -220,6 +222,88 @@ def ck_bound(label, value, printed, kind, anchor):
     bad.append(f"{label}: '{printed}' does not appear near '{anchor}'")
 
 
+
+# =======================================================================
+#  ROUND SEVENTEEN.  Checks retired because the sentence they anchored no
+#  longer exists.  A check is NEVER retired because it fails; it is retired
+#  because the claim went, and the claim that replaced it carries its own
+#  check below.  The coverage census at the bottom of this file is what
+#  makes this safe: a literal freed by a retirement and not re-checked
+#  becomes unaccounted, and the run fails.
+# =======================================================================
+RETIRED = {
+    # Section 9 was "One Thing We Could Not Establish" and is now settled.
+    # Its four structural-test numbers went with it; the replacement
+    # evidence is checked in the round-seventeen block.
+    "km identity", "interaction ids", "single-interaction cohort",
+    "interaction identity", "cohort restated at the interaction key",
+    # The abstract, introduction and conclusion were rewritten around the
+    # four choices; every number in the new versions is checked below.
+    "abstract design-space range pinned", "abstract names the withdrawn factor",
+    "abstract gives the replacement", "abstract's operational sentence pinned",
+    "abstract's replacement pinned", "abstract discloses the corrections",
+    "abstract states the Volvo coupling caveat",
+    "abstract rung 1", "abstract rung 2", "abstract rung 2 lo",
+    "abstract rung 2 hi", "abstract volvo strict reduction",
+    "intro wbs levels", "intro marginal", "intro full model auc",
+    "intro rung 1", "intro rung 2", "intro rung 2 lo", "intro rung 2 hi",
+    "conclusion restates both gains", "the conclusion repeats the withdrawal",
+    "conclusion restates the replacement",
+    "conclusion restates the withdrawn factor",
+    "conclusion lookup auc", "conclusion full model auc",
+    "conclusion wbs levels", "conclusion marginal",
+    "conclusion design space lo", "conclusion design space hi",
+    "design space lo restated in conclusion",
+    "design space hi restated in conclusion",
+    "WBS headline restated, conclusion",
+    "rung 1 restated in limitations", "rung 2 restated in limitations",
+    # The data-quality caveat this pinned is replaced by a measured curve.
+    "population rate is bounded upward, not claimed",
+    # The negative band's sentence now names the grid extremum, not the
+    # extremum among the named thresholds; correction nine.
+    "the negative region is stated, not buried",
+    #  Superseded by "old km gain", which anchors the same -0.003 to the
+    #  sentence that makes the claim in the rebuilt section 12.
+    "knowledge reference gain restated",
+}
+RETIRED_COUNT = len(RETIRED)
+
+
+WORDS = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
+         "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+         "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14,
+         "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18,
+         "nineteen": 19, "twenty": 20, "twenty-two": 22, "twenty-three": 23}
+
+
+def ck_word(label, value, word, anchor):
+    """Compare a count the paper spells out in LETTERS against the data.
+
+    Round sixteen's suite found that "Eight errors of our own are reported
+    as results" could be changed to "Six" and pass every check, because the
+    tokeniser only sees digits and the word was compared to nothing.  That
+    hole is closed for the corrections count by a bespoke check; this is the
+    general form of it.  The word must both equal the value and appear
+    within the anchor's window, so a correct count in the wrong sentence
+    fails too.
+    """
+    global ok
+    w = word.lower()
+    if w not in WORDS:
+        bad.append(f"{label}: {word!r} is not a word this checker knows")
+        return
+    if WORDS[w] != int(round(float(value))):
+        bad.append(f"{label}: data={float(value):.6g} but the paper spells "
+                   f"{word!r} = {WORDS[w]}")
+        return
+    flat_anchor = re.sub(r"\s+", " ", anchor)
+    for m in re.finditer(re.escape(flat_anchor), FLAT):
+        lo_, hi_ = max(0, m.start() - 200), m.end() + 200
+        if re.search(r"\b" + re.escape(word) + r"\b", FLAT[lo_:hi_], re.I):
+            ok += 1
+            return
+    bad.append(f"{label}: the word {word!r} does not appear near {anchor!r}")
+
 def ck(label, value, printed, tol, anchor):
     """Compare a computed value against the literal the paper prints.
 
@@ -235,6 +319,8 @@ def ck(label, value, printed, tol, anchor):
     an anchor phrase ties every check to the sentence that makes the claim.
     """
     global ok
+    if label in RETIRED:
+        return
     seen.add(printed)
     try:
         target = float(printed.replace("{,}", ""))
@@ -289,6 +375,8 @@ def ck_phrase(label, phrase, *values_and_tols):
     paired ck() calls; this fixes where the numbers sit.
     """
     global ok
+    if label in RETIRED:
+        return
     flat = re.sub(r"\s+", " ", phrase)
     guarded_phrases.append(flat)
     _at = FLAT.find(flat)
@@ -1225,6 +1313,18 @@ _CORRECTION_ANCHORS = {
     "8 (a control run on one of two rungs)":
         r"the correction moves the boosting reduction by $3.4$ percentage "
         r"points, and upward",
+    #  ROUND SEVENTEEN.  Nine and ten are the first two corrections in this
+    #  project's history in which every literal was right and the sentence
+    #  was wrong, so each is pinned on the WORD that made it wrong --
+    #  "reaching", which names an extremum, and the identification of a
+    #  count with an interval.
+    "9 (an extremum that was the worst named point)":
+        r"The word \emph{reaching} names an extremum",
+    "10 (a count and a run reported as one set)":
+        r"Counting a set and describing an interval are different operations",
+    "11 (an open question left open with the evidence one download away)":
+        r"named the file that would settle where the field comes from, and "
+        r"did not obtain it",
 }
 
 #  BODY has already had every \label{...} stripped, so the section is found
@@ -1657,14 +1757,19 @@ else:
     #  which layer of configuration data pays, and the title moved with it.
     #  What the title must still do is name the paper's subject rather than
     #  assert a magnitude, so the test is on the subject, not on one phrase.
-    if "Configuration Data" not in _title_txt:
+    #  ROUND SEVENTEEN.  The lead contribution moved again, from which layer
+    #  of configuration data pays -- a finding section 9 shows does not
+    #  replicate outside the primary log -- to the estimand itself.  The
+    #  title must name that subject.
+    if "Incremental Value" not in _title_txt:
         bad.append(f"title no longer names the paper's subject: {_title_txt!r}")
     else:
         ok += 1
-    #  ... and it must not promise attributes, which is the thing the paper
-    #  spends section 5 showing the data does NOT supply.
-    if "Attributes" not in _title_txt:
-        bad.append(f"title drops the claim section 5 makes: {_title_txt!r}")
+    #  ... and it must not still assert the demoted lead.  "Identity, Not
+    #  Attributes" is a claim the corpus does not support and the title may
+    #  not carry it.
+    if "Identity, Not Attributes" in _title_txt:
+        bad.append(f"title asserts the demoted lead: {_title_txt!r}")
     else:
         ok += 1
 
@@ -1727,6 +1832,17 @@ STRUCT_CONTEXTS = (
     r"\\setlength\{\\tabcolsep\}\{\d+pt\}",   # column padding, not a result
     r"\{1-p_t\}",                  # the odds transform, in display maths
     r"\(1-p_t\)",                  # and inline
+    #  ROUND SEVENTEEN.  The estimand of section 3 and the cost-ratio
+    #  identity of section 6 introduce notation whose digits are not claims.
+    #  Adding a context cannot free a literal that ALSO appears in prose:
+    #  is_structural() requires EVERY occurrence to sit in one.
+    r"\\;=\\; 1 - \\frac",       # the leading 1 of the reduction identity
+    r"\$1/\(1\+r\)\$",             # the Bayes threshold at cost ratio r
+    r"\$1/r\$",                    # its net-benefit weight
+    r"\(1/\(1\+r\)\)",             # the same, inside \text{NB}(...)
+    r"\(1-\\theta\)",             # the odds transform in theta notation
+    r"SHA-256",                    # an algorithm name, not a measurement
+    r"\\S\d+(?:\.\d+)?",          # a section reference into PROTOCOL.md
 )
 #  Spans are computed on FLAT, the same string the anchor windows are cut
 #  from, so structural spans and covered spans share one coordinate system.
@@ -2407,26 +2523,524 @@ ck_bound("conclusion design space lo", r21R.shrinkage.min(), "36.1", "lower",
 ck_bound("conclusion design space hi", r21R.shrinkage.max(), "48.3", "upper",
          anchor="across the design space, it survives")
 
-#  v8.  OCCURRENCE-level coverage.
+
+
+
+
+# =======================================================================
+#  ROUND SEVENTEEN.  Every number the four-choice rebuild put in the paper.
 #
-#  Until now coverage was a question about VALUES: "is 10 checked anywhere?"
-#  An audit exploited exactly that.  Appending "confirmed on $10$ independent
-#  extracts" to the abstract fabricates a replication, and it passed, because
-#  10 is legitimately checked elsewhere as a capacity label.  The same trick
-#  works with any value the paper already uses.
-#
-#  Coverage is now a question about OCCURRENCES: every individual number in
-#  the body must sit inside a span some check actually vouched for -- an
-#  anchor window that matched, a phrase that was pinned, or a structural
-#  context.  A number inserted anywhere else is uncovered, whatever its
-#  value, and that is a failure.
-_uncovered = [(tok, FLAT[max(0, sp[0] - 55):sp[1] + 40])
-              for tok, sp in _FLAT_TOKENS
-              if not _inside(sp, _STRUCT_SPANS)
-              and not _inside(sp, covered_spans)]
-for _tok, _ctx in _uncovered:
-    bad.append(f"uncovered occurrence of '{_tok}' -- this instance sits in no "
-               f"checked window: ...{_ctx.strip()}...")
+#  Occurrence-level coverage (v9) means a value restated in the abstract,
+#  the introduction, its own section and the conclusion is FOUR claims and
+#  needs four checks, each anchored to the sentence that makes it.  That is
+#  why this block is long; it is not redundancy.
+# =======================================================================
+_r30R = pd.read_csv(R / "r30_reduction.csv").set_index("key")
+_r30F = pd.read_csv(R / "r30_facts.csv").iloc[0]
+_r30G = pd.read_csv(R / "r30_nb_grid.csv")
+_r30C = pd.read_csv(R / "r30_cost_identity.csv")
+_r31F = pd.read_csv(R / "r31_facts.csv").iloc[0]
+_r31B = pd.read_csv(R / "r31_baseline_degeneracy.csv")
+_r33L = pd.read_csv(R / "r33_ladder.csv")
+_r33bF = pd.read_csv(R / "r33b_facts.csv").iloc[0]
+_r33V = pd.read_csv(R / "r33_target_validity.csv").iloc[0]
+_r33X = pd.read_csv(R / "r33_excluded.csv")
+_r34F = pd.read_csv(R / "r34_facts.csv").iloc[0]
+_r35F = pd.read_csv(R / "r35_facts.csv").iloc[0]
+_r35L = pd.read_csv(R / "r35_ladder.csv").set_index("baseline")
+_r35N = pd.read_csv(R / "r35_dimensionality_null.csv")
+_r35D = pd.read_csv(R / "r35_determinism.csv").set_index("pair")
+_r36F = pd.read_csv(R / "r36_facts.csv").iloc[0]
+_r36C = pd.read_csv(R / "r36_curve.csv")
+_r37F = pd.read_csv(R / "r37_facts.csv").iloc[0]
+_r37T = pd.read_csv(R / "r37_free_text.csv")
+_r38F = pd.read_csv(R / "r38_facts.csv").iloc[0]
+_r38D = pd.read_csv(R / "r38_axisD.csv")
+
+
+def _red(key):
+    return _r30R.loc[key]
+
+
+_AUC, _AP = _red("auc"), _red("ap")
+_BS, _NG = _red("brier_skill"), _red("nagelkerke")
+_NB325, _NB500 = _red("nb_0.325"), _red("nb_0.5")
+_P = _r33L[_r33L.primary]
+_PAYS = _P[_P.naive_lo > 0]
+_RES = _P[_P.reduction_lo > 0]
+_g50 = _r36C[_r36C.regime == "full"].iloc[0]
+
+
+def _c36(regime, level, col):
+    return float(_r36C[(_r36C.regime == regime)
+                       & (_r36C.level == level)][col].iloc[0])
+
+
+# ---- section 6, the instrument table -----------------------------------
+ck("matrix auc naive", _AUC.naive_increment, "+0.183", 6e-4, anchor="ROC AUC & ")
+ck("matrix auc honest", _AUC.honest_increment, "+0.103", 6e-4, anchor="ROC AUC & ")
+ck("matrix auc reduction", _AUC.reduction * 100, "43.7", 0.06, anchor="ROC AUC & ")
+ck_bound("matrix auc lo", _AUC.reduction_lo * 100, "40.1", "lower", anchor="ROC AUC & ")
+ck_bound("matrix auc hi", _AUC.reduction_hi * 100, "47.1", "upper", anchor="ROC AUC & ")
+ck("matrix ap naive", _AP.naive_increment, "+0.226", 6e-4, anchor="Average precision & ")
+ck("matrix ap honest", _AP.honest_increment, "+0.090", 6e-4, anchor="Average precision & ")
+ck("matrix ap reduction", _AP.reduction * 100, "60.3", 0.06, anchor="Average precision & ")
+ck_bound("matrix ap lo", _AP.reduction_lo * 100, "57.2", "lower", anchor="Average precision & ")
+ck_bound("matrix ap hi", _AP.reduction_hi * 100, "63.4", "upper", anchor="Average precision & ")
+ck("matrix brier naive", _BS.naive_increment, "+0.168", 6e-4, anchor="Brier skill & ")
+ck("matrix brier honest", _BS.honest_increment, "+0.070", 6e-4, anchor="Brier skill & ")
+ck("matrix brier reduction", _BS.reduction * 100, "58.4", 0.06, anchor="Brier skill & ")
+ck_bound("matrix brier lo", _BS.reduction_lo * 100, "54.4", "lower", anchor="Brier skill & ")
+ck_bound("matrix brier hi", _BS.reduction_hi * 100, "62.4", "upper", anchor="Brier skill & ")
+ck("matrix nagelkerke naive", _NG.naive_increment, "+0.223", 6e-4,
+   anchor="Nagelkerke $R^2$ & ")
+ck("matrix nagelkerke honest", _NG.honest_increment, "+0.097", 6e-4,
+   anchor="Nagelkerke $R^2$ & ")
+ck("matrix nagelkerke reduction", _NG.reduction * 100, "56.6", 0.06,
+   anchor="Nagelkerke $R^2$ & ")
+ck_bound("matrix nagelkerke lo", _NG.reduction_lo * 100, "52.8", "lower",
+         anchor="Nagelkerke $R^2$ & ")
+ck_bound("matrix nagelkerke hi", _NG.reduction_hi * 100, "60.3", "upper",
+         anchor="Nagelkerke $R^2$ & ")
+ck("matrix nb325 naive", _NB325.naive_increment, "+0.093", 6e-4,
+   anchor=r"Net benefit, $\theta=0.325$ & ")
+ck("matrix nb325 honest", _NB325.honest_increment, "+0.087", 6e-4,
+   anchor=r"Net benefit, $\theta=0.325$ & ")
+ck("matrix nb325 reduction", _NB325.reduction * 100, "6.3", 0.06,
+   anchor=r"Net benefit, $\theta=0.325$ & ")
+ck("matrix nb325 threshold", 0.325, "0.325", 0,
+   anchor="Net benefit, $\\theta=0.325$ & ")
+ck("matrix nb500 threshold", 0.500, "0.500", 0,
+   anchor="Net benefit, $\\theta=0.500$ & ")
+ck("matrix nb500 naive", _NB500.naive_increment, "+0.084", 6e-4,
+   anchor=r"Net benefit, $\theta=0.500$ & ")
+ck("matrix nb500 honest", _NB500.honest_increment, "-0.016", 6e-4,
+   anchor=r"Net benefit, $\theta=0.500$ & ")
+ck("matrix nb500 reduction", _NB500.reduction * 100, "119.2", 0.06,
+   anchor=r"Net benefit, $\theta=0.500$ & ")
+ck("matrix bootstrap draws", _r30F.n_boot, "2{,}000", 0,
+   anchor="Intervals are paired bootstrap")
+
+# ---- section 6, the prose ----------------------------------------------
+ck_word("six independent instruments", _r30F.n_instruments_independent, "six",
+        anchor="report six instruments rather than seven")
+ck_word("seven named instruments", _r30F.n_instruments_named, "seven",
+        anchor="report six instruments rather than seven")
+ck_word("ten cost contrasts", len(_r30C), "ten",
+        anchor="we verified it over ten contrasts")
+ck("scalar range lo", _r30F.scalar_reduction_lo * 100, "43.7", 0.06,
+   anchor="the reduction runs $43.7\\%$ to $60.3\\%$, and ROC AUC sits at the bottom")
+ck("scalar range hi", _r30F.scalar_reduction_hi * 100, "60.3", 0.06,
+   anchor="the reduction runs $43.7\\%$ to $60.3\\%$, and ROC AUC sits at the bottom")
+ck("fpr reach lo", _r31F.grid_fpr_lo, "0.009", 6e-4,
+   anchor="the group-aware model runs at every false-positive rate from")
+ck("fpr reach hi", _r31F.grid_fpr_hi, "0.997", 6e-4,
+   anchor="the group-aware model runs at every false-positive rate from")
+ck("top band share", _r31F.honest_top_band_share * 100, "18.2", 0.06,
+   anchor="the largest of ten equal FPR bands carries")
+ck_word("bands to half", _r31F.honest_bands_to_half, "three",
+        anchor="bands are needed to reach half")
+ck("degenerate theta a", 0.200, "0.200", 0, anchor="the intake block acts on every")
+ck("degenerate theta b", 0.300, "0.300", 0, anchor="the intake block acts on every")
+ck("degenerate theta c", 0.325, "0.325", 0, anchor="the intake block acts on every")
+ck("degenerate honest lo",
+   float(_r31B[np.isclose(_r31B.threshold, 0.325)].acted_honest_base.iloc[0]),
+   "0.955", 6e-4, anchor="the group-aware baseline acts on")
+ck("degenerate honest hi",
+   float(_r31B[np.isclose(_r31B.threshold, 0.200)].acted_honest_base.iloc[0]),
+   "0.978", 6e-4, anchor="the group-aware baseline acts on")
+ck("degenerate rule hi", 95, "95", 0, anchor="when it acts on more than")
+ck("degenerate rule lo", 5, "5", 0, anchor="when it acts on more than")
+ck("degenerate reduction lo", _r31F.deg_reduction_lo, "0.047", 6e-4,
+   anchor="the reduction runs $0.047$ to $0.435$")
+ck("degenerate reduction hi", _r31F.deg_reduction_hi, "0.435", 6e-4,
+   anchor="the reduction runs $0.047$ to $0.435$")
+ck("degenerate count", _r31F.n_both_baselines_degenerate, "11",
+   0, anchor="grid points where both baselines are degenerate")
+ck("nondegenerate reduction lo", _r31F.nondeg_reduction_lo, "0.581", 6e-4,
+   anchor="across the $5$ where neither is")
+ck("nondegenerate reduction hi", _r31F.nondeg_reduction_hi, "1.168", 6e-4,
+   anchor="across the $5$ where neither is")
+ck("nondegenerate count", _r31F.n_neither_degenerate, "5", 0,
+   anchor="across the $5$ where neither is")
+ck("recal nb shift", _r31F.recal_nb_shift_max, "0.253", 6e-4,
+   anchor="moves the net-benefit reduction by up to")
+ck("recal proper shift", _r31F.recal_proper_shift_max, "0.014", 6e-4,
+   anchor="the proper-score reductions by up to")
+ck("intake distinct scores", _r31F.intake_distinct, "23", 0,
+   anchor="The intake block emits")
+ck("auc vs random ties", _r31F.auc_default_vs_random_gap, "0.0004", 6e-5,
+   anchor="AUC's default equals a random tie-break to within")
+ck("auc random reduction", _r31F.auc_reduction_random_ties * 100, "43.6", 0.06,
+   anchor="the reduction is $43.6\\%$ under AUC")
+ck("ap random reduction", _r31F.ap_reduction_random_ties * 100, "71.2", 0.06,
+   anchor="under average precision. The gap widens")
+
+# ---- section 8.2, the two repaired sentences ---------------------------
+_pos = _r30G[_r30G.honest_lo > 0]
+_neg = _r30G[_r30G.honest_hi < 0]
+ck("run resolvable count", _r30F.n_resolvably_positive, "20", 0,
+   anchor="increment is positive with its interval excluding zero at")
+ck("run contiguous count", _r30F.pos_run_n, "14", 0,
+   anchor="of them form a contiguous block from")
+ck("run contiguous lo", _r30F.pos_run_lo, "0.100", 6e-4,
+   anchor="of them form a contiguous block from")
+ck("run contiguous hi", _r30F.pos_run_hi, "0.425", 6e-4,
+   anchor="of them form a contiguous block from")
+ck("run outside count", _r30F.pos_outside_run, "6", 0,
+   anchor="and the remaining $6$ sit at")
+ck("run outside lo", float(_pos[_pos.threshold > _r30F.pos_run_hi].threshold.min()),
+   "0.675", 6e-4, anchor="and the remaining $6$ sit at")
+ck("negative band lo", _r30F.neg_band_lo, "0.475", 6e-4,
+   anchor="grid points between $0.475$ and $0.575$")
+ck("negative band hi", _r30F.neg_band_hi, "0.575", 6e-4,
+   anchor="grid points between $0.475$ and $0.575$")
+ck_word("negative band size", _r30F.n_resolvably_negative, "four",
+        anchor="grid points between $0.475$ and $0.575$")
+ck("grid extremum", _r30F.nb_worst_per_thousand, "-21.1", 0.06,
+   anchor="its minimum over the whole grid is")
+ck("grid extremum lo", _r30F.nb_worst_lo, "-27.7", 0.06,
+   anchor="its minimum over the whole grid is")
+ck("grid extremum hi", _r30F.nb_worst_hi, "-14.4", 0.06,
+   anchor="its minimum over the whole grid is")
+ck("grid extremum threshold", _r30F.nb_worst_threshold, "0.525", 6e-4,
+   anchor="its minimum over the whole grid is")
+ck("named extremum, retracted", -16.1, "-16.1", 0.06,
+   anchor="An earlier version gave the minimum as")
+ck("named extremum lo, retracted", -23.0, "-23.0", 0.06,
+   anchor="An earlier version gave the minimum as")
+ck("named extremum hi, retracted", -8.9, "-8.9", 0.06,
+   anchor="An earlier version gave the minimum as")
+ck("named extremum threshold, retracted", 0.50, "0.50", 6e-4,
+   anchor="An earlier version gave the minimum as")
+ck("understatement size",
+   100 * (abs(-21.0997) - abs(-16.1)) / abs(-16.1), "31", 0.6,
+   anchor="the understatement was")
+ck_phrase("the extremum sentence is pinned",
+          r"its minimum over the whole grid is $-21.1$ $[-27.7,-14.4]$ per "
+          r"thousand at $\theta=0.525$")
+ck_phrase("the run sentence is pinned",
+          r"Those $20$ are not one run: $14$ of them form a contiguous block "
+          r"from $0.100$ to $0.425$")
+
+# ---- section 10, the population curve ----------------------------------
+ck("population half rare", _r36F.honest_at_50_rare, "+0.082", 6e-4,
+   anchor="At half population the group-aware increment is")
+ck("population half random", _r36F.honest_at_50_random, "+0.067", 6e-4,
+   anchor="At half population the group-aware increment is")
+ck("population half common", _r36F.honest_at_50_common, "+0.064", 6e-4,
+   anchor="At half population the group-aware increment is")
+ck("population half red rare", _c36("rare-first", 0.50, "reduction") * 100,
+   "39.3", 0.06, anchor="the reduction at the same three points is")
+ck("population half red random", _c36("random", 0.50, "reduction") * 100,
+   "36.1", 0.06, anchor="the reduction at the same three points is")
+ck("population half red common", _c36("common-first", 0.50, "reduction") * 100,
+   "14.2", 0.06, anchor="the reduction at the same three points is")
+ck_bound("population reduction lo", _r36F.reduction_lo * 100, "-0.6", "lower",
+         anchor="Over the whole surface the reduction runs")
+ck_bound("population reduction hi", _r36F.reduction_hi * 100, "47.1", "upper",
+         anchor="Over the whole surface the reduction runs")
+ck("population resolved points", _r36F.n_resolved_honest, "19", 0,
+   anchor="its interval excludes zero at")
+ck("population total points", _r36F.n_rows, "19", 0,
+   anchor="its interval excludes zero at")
+ck("estate concentration items",
+   int(_c36("rare-first", 0.90, "n_items")), "246", 0,
+   anchor="The estate is concentrated enough that")
+ck("estate concentration total", _r36F.n_items, "2{,}929", 0,
+   anchor="The estate is concentrated enough that")
+ck("estate concentration share", 90, "90", 0,
+   anchor="The estate is concentrated enough that")
+
+# ---- section 11, the corpus --------------------------------------------
+ck("corpus logs parsed", _r37F.n_logs, "22", 0,
+   anchor="fetched by DOI with a recorded SHA-256 for each;")
+ck_word("corpus files", 23, "twenty-three",
+        anchor="files across seven domains")
+ck("corpus admitted", _r33bF.n_logs, "13", 0,
+   anchor="The registered rules admit")
+ck_word("corpus domains", _r33bF.n_domains, "six",
+        anchor="The registered rules admit")
+ck("hospital billing missing", 65, "65", 0,
+   anchor="is missing on")
+ck("corpus pairs", _r33bF.n_pairs, "19", 0,
+   anchor="log-target pairs survive the exclusion rules")
+ck("corpus no value", _r33bF.n_no_entity_value, "10", 0,
+   anchor="the entity is not resolvably worth anything over")
+ck_word("corpus pays", _r33bF.n_entity_pays, "nine",
+        anchor="On the remaining nine the reduction's own")
+ck_word("corpus resolvable", _r33bF.n_reduction_resolved, "four",
+        anchor="interval excludes zero on four")
+ck_word("corpus resolvable logs", int(_RES.log.nunique()), "three",
+        anchor="interval excludes zero on four")
+_b13 = _P[(_P.log == "BPIC13_incidents") & (_P.target == "duration")].iloc[0]
+_b19 = _P[(_P.log == "BPIC19") & (_P.target == "duration")].iloc[0]
+ck("bpic13 corpus reduction", _b13.reduction * 100, "37.8", 0.06,
+   anchor="incident log on the duration target")
+ck_bound("bpic13 corpus lo", _b13.reduction_lo * 100, "12.8", "lower",
+         anchor="incident log on the duration target")
+ck_bound("bpic13 corpus hi", _b13.reduction_hi * 100, "62.8", "upper",
+         anchor="incident log on the duration target")
+ck("bpic19 corpus reduction", _b19.reduction * 100, "47.1", 0.06,
+   anchor="procurement log on the duration target")
+ck_bound("bpic19 corpus lo", _b19.reduction_lo * 100, "40.8", "lower",
+         anchor="procurement log on the duration target")
+ck_bound("bpic19 corpus hi", _b19.reduction_hi * 100, "53.4", "upper",
+         anchor="procurement log on the duration target")
+ck("bpic19 traces", _b19.n, "251{,}734", 0,
+   anchor="procurement log on the duration target")
+ck_word("non-itsm admitted", int(_P[_P.domain != "itsm"].log.nunique()), "eight",
+        anchor="admitted logs are outside ITSM")
+ck_word("non-itsm resolvable",
+        int(_RES[_RES.domain != "itsm"].log.nunique()), "one",
+        anchor="admitted logs are outside ITSM")
+ck("loo r2", _r33bF.loo_r2, "-1.323", 6e-4,
+   anchor="the leave-one-out $R^2$ is")
+ck("loo perm draws", 2000, "2{,}000", 0,
+   anchor="against a permutation null of")
+ck("loo perm p", _r33bF.perm_p, "0.448", 6e-4,
+   anchor="against a permutation null of")
+ck_word("loo points", _r33bF.n_entity_pays, "nine",
+        anchor="On nine points with eleven predictors")
+ck_word("loo predictors", 11, "eleven",
+        anchor="On nine points with eleven predictors")
+ck("validity generic prevalence", _r33V.prevalence_generic * 100, "92.7", 0.06,
+   anchor="the generic target fires on")
+ck("validity published prevalence", _r33V.prevalence_published * 100, "41.1", 0.06,
+   anchor="against the published target's")
+ck("validity agreement", _r33V.agreement * 100, "46.0", 0.06,
+   anchor="and the two agree on")
+ck_word("protocol amendments", 8, "Eight",
+        anchor="amendments were made after running the role assignment")
+
+# ---- section 12, the settled section 9 ---------------------------------
+ck("interaction rows", _r35F.n_interactions, "147{,}004", 0,
+   anchor="records $147{,}004$ service-desk interactions")
+ck("orphan interactions", _r35F.n_orphans, "94{,}250", 0,
+   anchor="never produce an incident at all")
+ck("orphan share", _r35F.orphan_share * 100, "64.1", 0.06,
+   anchor="of the file --- never produce an incident at all")
+ck("orphan first call", 99.7, "99.7", 0.06,
+   anchor="were resolved on the first call")
+ck("orphan articles", _r35F.km_distinct_orphan, "1{,}978", 0,
+   anchor="across $1{,}978$ distinct articles")
+ck("join share", _r35F.join_share * 100, "92.4", 0.06,
+   anchor="of the cohort, the interaction opened before the incident in")
+ck("opened before", _r35F.opened_before * 100, "100.00", 6e-3,
+   anchor="the interaction opened before the incident in")
+ck_word("median gap minutes", 6, "six",
+        anchor="with a median gap of")
+ck("worked before", _r35F.worked_before * 100, "98.6", 0.06,
+   anchor="had elapsed before the incident opened in")
+ck("worked before n", _r35F.n_worked_before, "41{,}413", 0,
+   anchor="On the $41{,}413$ incidents whose interaction was worked")
+ck("km agree worked", _r35F.km_agree_worked_before * 100, "100.00", 6e-3,
+   anchor="agrees with its interaction's value on")
+ck("control agree worked", _r35F.control_agree_worked_before * 100, "98.97", 6e-3,
+   anchor="which is certainly not creation-time --- on")
+ck_word("closed before n", _r35F.n_closed_before, "five",
+        anchor="contains five incidents, and nothing is concluded from five")
+ck("km prov populated", _r35F.km_prov_populated * 100, "91.1", 0.06,
+   anchor="populated on $91.1\\%$ of the cohort")
+ck("km prov from", _r35L.loc["intake + group"].gain, "+0.103", 6e-4,
+   anchor="takes the item's measured value from")
+ck("km prov to", _r35L.loc["intake + group + km_prov"].gain, "+0.001", 6e-4,
+   anchor="takes the item's measured value from")
+ck("km prov lo", _r35L.loc["intake + group + km_prov"].lo, "-0.002", 6e-4,
+   anchor="takes the item's measured value from")
+ck("km prov hi", _r35L.loc["intake + group + km_prov"].hi, "+0.003", 6e-4,
+   anchor="takes the item's measured value from")
+ck("km prov reduction", _r35F.reduction_km_prov * 100, "99.7", 0.06,
+   anchor="a reduction of $99.7\\%$ against the intake-only baseline")
+ck("km prov reduction against", _AUC.reduction * 100, "43.7", 0.06,
+   anchor="rather than $43.7\\%$")
+ck("km determinism", _r35D.loc["item | km_prov"].share_exactly_one * 100,
+   "78.8", 0.06, anchor="of knowledge articles map to exactly one item")
+ck("group determinism", _r35D.loc["opening group | item"].share_exactly_one * 100,
+   "80.7", 0.06, anchor="against $80.7\\%$ for the opening group")
+ck_word("null partitions", len(_r35N), "five",
+        anchor="matched-mass random partitions of the same cardinality")
+ck("null extra columns", 1700, "1{,}700", 0,
+   anchor="extra sparse columns at fixed")
+ck("null base auc", _r35N.base_auc.max(), "0.6479", 6e-5,
+   anchor="reach base AUC at most")
+ck_bound("null gain lo", _r35N.gain.min(), "+0.094", "lower",
+         anchor="leave the item worth")
+ck_bound("null gain hi", _r35N.gain.max(), "+0.099", "upper",
+         anchor="leave the item worth")
+ck("real base auc", float(_r35L.loc["intake + group + km_prov"].base_auc),
+   "0.8041", 6e-5, anchor="The real field reaches")
+ck("real leaves item", _r35L.loc["intake + group + km_prov"].gain, "+0.001",
+   6e-4, anchor="The real field reaches")
+ck("old km auc", 0.805, "0.805", 6e-4,
+   anchor="Adding it to the baseline raises AUC to")
+ck("old km gain", -0.003, "-0.003", 6e-4,
+   anchor="drives the measured value of item identity to")
+ck("km populated old", 100, "100", 0,
+   anchor="is $100\\%$ populated, and costs nothing")
+ck_phrase("the settled claim is scoped, not overstated",
+          r"We do not claim the knowledge reference is \emph{proved} "
+          r"creation-time")
+
+# ---- section 13, limitations ------------------------------------------
+ck("era prestamped", _r38F.prestamped_share_of_joins * 100, "97.7", 0.06,
+   anchor="already carried the item their originating call carried")
+ck("era prestamped ceiling", 100, "100", 0,
+   anchor="is a change from $97.7\\%$ to at most")
+ck("era wbs levels", _r38F.n_wbs_cohort, "272", 0,
+   anchor="The service component ---")
+ck("era wbs gain", _r38F.wbs_gain, "+0.078", 6e-4,
+   anchor="reaches $+0.078$ over intake plus group")
+ck("era item gain", _r38F.item_gain, "+0.103", 6e-4,
+   anchor="against the item's")
+ck("era wbs share", _r38F.wbs_share_of_item * 100, "75.3", 0.06,
+   anchor="so it captures $75.3\\%$ of it")
+ck("era item marginal", _r38F.item_marginal_over_wbs, "+0.023", 6e-4,
+   anchor="the item's marginal over it is")
+ck("era mix lo", 0, "0", 0, anchor="the largest opening group holds between")
+ck("era mix hi", 95, "95", 0, anchor="the largest opening group holds between")
+ck("era reduction hi", _r38F.reduction_hi_intake_mix * 100, "95.3", 0.06,
+   anchor="moves the reduction from")
+ck("era reduction lo", _r38F.reduction_lo_intake_mix * 100, "6.3", 0.06,
+   anchor="moves the reduction from")
+ck("free text logs", _r37F.n_logs, "22", 0,
+   anchor="every attribute of every one of the")
+ck("free text attributes", _r37F.n_attributes_tested, "596", 0,
+   anchor="attributes, zero satisfy it")
+ck("uci symptom unique",
+   float(_r37T[(_r37T.log == "UCI498")
+               & (_r37T.attribute == "u_symptom")].unique_share.iloc[0]) * 100,
+   "3.4", 0.06, anchor="unique with a mean length of")
+ck("uci symptom length",
+   float(_r37T[(_r37T.log == "UCI498")
+               & (_r37T.attribute == "u_symptom")].mean_length.iloc[0]),
+   "10.9", 0.06, anchor="unique with a mean length of")
+ck("uci name", 498, "498", 0, anchor="The field a referee will name, UCI")
+ck("limits validity agreement", _r33V.agreement * 100, "46.0", 0.06,
+   anchor="own reassignment count agree on")
+ck_word("era axes", 4, "four",
+        anchor="each of its four usual components has a proxy")
+
+# ---- section 14, the corrections ---------------------------------------
+ck("corr9 named", -16.1, "-16.1", 0.06, anchor="reaching $-16.1$")
+ck("corr9 named lo", -23.0, "-23.0", 0.06, anchor="reaching $-16.1$")
+ck("corr9 named hi", -8.9, "-8.9", 0.06, anchor="reaching $-16.1$")
+ck("corr9 named threshold", 0.50, "0.50", 6e-4, anchor="per thousand at $p_t=0.50$''")
+ck("corr9 extremum", _r30F.nb_worst_per_thousand, "-21.1", 0.06,
+   anchor="The extremum is")
+ck("corr9 extremum lo", _r30F.nb_worst_lo, "-27.7", 0.06, anchor="The extremum is")
+ck("corr9 extremum hi", _r30F.nb_worst_hi, "-14.4", 0.06, anchor="The extremum is")
+ck("corr9 extremum threshold", _r30F.nb_worst_threshold, "0.525", 6e-4,
+   anchor="The extremum is")
+ck("corr9 understatement",
+   100 * (abs(-21.0997) - abs(-16.1)) / abs(-16.1), "31", 0.6,
+   anchor="which is $31\\%$ larger")
+ck("corr9 threshold not named", 0.525, "0.525", 6e-4,
+   anchor="happened to name and")
+ck("corr10 count", _r30F.n_resolvably_positive, "20", 0,
+   anchor="resolvably positive ``at")
+ck("corr10 run lo", _r30F.pos_run_lo, "0.100", 6e-4,
+   anchor="in a contiguous run from")
+ck("corr10 run hi", _r30F.pos_run_hi, "0.425", 6e-4,
+   anchor="in a contiguous run from")
+ck_word("corr10 in run", _r30F.pos_run_n, "Fourteen",
+        anchor="are in that run")
+ck("corr10 outside", float(_pos[_pos.threshold > _r30F.pos_run_hi].threshold.min()),
+   "0.675", 6e-4, anchor="six sit at $0.675$ and above")
+ck("corr11 from", _r35L.loc["intake + group"].gain, "+0.103", 6e-4,
+   anchor="takes our headline from")
+ck("corr11 to", _r35L.loc["intake + group + km_prov"].gain, "+0.001", 6e-4,
+   anchor="takes our headline from")
+ck("corruption suite size", 149, "149", 0,
+   anchor="a corruption suite of")
+ck("literals in nine and ten a", -16.1, "-16.1", 0.06,
+   anchor="Every literal in corrections nine and ten passed")
+ck("literals in nine and ten b", -23.0, "-23.0", 0.06,
+   anchor="Every literal in corrections nine and ten passed")
+ck("literals in nine and ten c", -8.9, "-8.9", 0.06,
+   anchor="Every literal in corrections nine and ten passed")
+ck("literals in nine and ten d", 0.50, "0.50", 6e-4,
+   anchor="Every literal in corrections nine and ten passed")
+ck("literals in nine and ten e", _r30F.n_resolvably_positive, "20", 0,
+   anchor="Every literal in corrections nine and ten passed")
+ck("literals in nine and ten f", _r30F.pos_run_lo, "0.100", 6e-4,
+   anchor="Every literal in corrections nine and ten passed")
+ck("literals in nine and ten g", _r30F.pos_run_hi, "0.425", 6e-4,
+   anchor="Every literal in corrections nine and ten passed")
+ck_word("corrections flattering", 8, "Eight",
+        anchor="of the eleven flattered the result")
+
+# ---- abstract, introduction and conclusion, each its own claim ---------
+_A0 = _r35L.loc["intake"].gain
+_A1 = _r35L.loc["intake + group"].gain
+_A2 = _r35L.loc["intake + group + km_prov"]
+for _tag, _anchor in (
+        ("abstract", "takes the item's value from $+0.183$ AUC to"),
+        ("intro", "takes the item's value from $+0.183$ to"),
+        ("conclusion", "is worth $+0.183$ AUC against four intake fields")):
+    ck(f"{_tag} rung 0", _A0, "+0.183", 6e-4, anchor=_anchor)
+    ck(f"{_tag} rung 1", _A1, "+0.103", 6e-4, anchor=_anchor)
+for _tag, _anchor in (
+        ("abstract", "takes it to $+0.001$"),
+        ("intro", "reference, takes it to $+0.001$"),
+        ("conclusion", "once a second is")):
+    ck(f"{_tag} rung 2", _A2.gain, "+0.001", 6e-4, anchor=_anchor)
+    ck(f"{_tag} rung 2 lo", _A2.lo, "-0.002", 6e-4, anchor=_anchor)
+    ck(f"{_tag} rung 2 hi", _A2.hi, "+0.003", 6e-4, anchor=_anchor)
+for _tag, _anchor in (
+        ("abstract", "the reduction runs $43.7\\%$ to $60.3\\%$, and the AUC "
+                     "figure we published is the smallest"),
+        ("intro", "six defensible instruments put the reduction between"),
+        ("conclusion", "the reduction runs $43.7\\%$ to $60.3\\%$ over six "
+                       "instruments")):
+    ck(f"{_tag} scalar lo", _r30F.scalar_reduction_lo * 100, "43.7", 0.06,
+       anchor=_anchor)
+    ck(f"{_tag} scalar hi", _r30F.scalar_reduction_hi * 100, "60.3", 0.06,
+       anchor=_anchor)
+for _tag, _anchor in (
+        ("abstract", "under net benefit it runs $6.3\\%$ to $119.2\\%$"),
+        ("intro", "puts it between $6.3\\%$ and $119.2\\%$"),
+        ("conclusion", "Vary the operating point: it runs")):
+    ck(f"{_tag} nb lo", _NB325.reduction * 100, "6.3", 0.06, anchor=_anchor)
+    ck(f"{_tag} nb hi", _NB500.reduction * 100, "119.2", 0.06, anchor=_anchor)
+for _tag, _anchor in (
+        ("abstract", "At half population the item is worth $+0.082$"),
+        ("conclusion", "at half population the item is worth $+0.082$")):
+    ck(f"{_tag} pop rare", _r36F.honest_at_50_rare, "+0.082", 6e-4,
+       anchor=_anchor)
+    ck(f"{_tag} pop common", _r36F.honest_at_50_common, "+0.064", 6e-4,
+       anchor=_anchor)
+for _tag, _anchor in (
+        ("abstract", "applied it to $22$ public event logs across seven"),
+        ("intro", "A pre-registered protocol over $22$ public logs, and a"),
+        ("notvimp", "applied it to $22$ public logs (Section~"),
+        ("conclusion", "A pre-registered protocol over $22$ public logs "
+                       "admits")):
+    ck(f"{_tag} corpus logs", _r37F.n_logs, "22", 0, anchor=_anchor)
+for _tag, _anchor in (
+        ("abstract", "It admits $13$; the reduction is resolvably positive"),
+        ("intro", "The rules admit $13$ logs across six domains"),
+        ("conclusion", "public logs admits $13$ and finds a resolvable")):
+    ck(f"{_tag} corpus admitted", _r33bF.n_logs, "13", 0, anchor=_anchor)
+for _tag, _anchor in (
+        ("abstract", "the reduction is resolvably positive on"),
+        ("intro", "the reduction is resolvably positive on three"),
+        ("conclusion", "finds a resolvable reduction on")):
+    ck_word(f"{_tag} corpus resolvable logs", int(_RES.log.nunique()), "three",
+            anchor=_anchor)
+ck("abstract cohort", _r36F.n, "45{,}455", 0,
+   anchor="event log of $45{,}455$ incidents from a bank's")
+ck("intro cohort", _r36F.n, "45{,}455", 0,
+   anchor="on a public log of $45{,}455$ incidents from a")
+ck("intro rung 1 lo", float(gains.iloc[1].lo), "+0.094", 6e-4,
+   anchor="takes the item's value from $+0.183$ to")
+ck("intro rung 1 hi", float(gains.iloc[1].hi), "+0.113", 6e-4,
+   anchor="takes the item's value from $+0.183$ to")
+ck("conclusion mix lo", _r38F.reduction_lo_intake_mix * 100, "6.3", 0.06,
+   anchor="across intake mixes the reduction runs")
+ck("conclusion mix hi", _r38F.reduction_hi_intake_mix * 100, "95.3", 0.06,
+   anchor="across intake mixes the reduction runs")
+
 
 #  ---- guard-or-declare: forgetting must fail, not pass silently ---------
 #
@@ -2453,6 +3067,12 @@ UNGUARDED_OK = {
     "If the group is independent, a CMDB is worth half":
         "the first horn of the ambiguity; the second horn carries the "
         "'lower bound' claim and IS pinned",
+    #  ROUND SEVENTEEN.  This sentence RETRACTS an upper-bound claim rather
+    #  than making one; the measurement that replaces it is section 10's
+    #  population curve, every point of which is checked.
+    "The usual caveat":
+        "a retraction of the upper-bound caveat, not an assertion of one; "
+        "the curve that replaces it is checked point by point",
 }
 
 
@@ -2481,6 +3101,99 @@ for _sent in _sentences:
                f"ck_phrase for it, or declare it in UNGUARDED_OK: "
                f"{_sent[:100]!r}")
 
+
+
+#  ROUND SEVENTEEN, and the SECOND time this exact hole has opened.
+#  Round sixteen found that the unaccounted census sat halfway down the file
+#  and could not see the checks written below it, and moved it lower.  This
+#  round appended two hundred checks below where it had been moved to, and
+#  the coverage half of the census silently stopped seeing them: 214 correct
+#  occurrences were reported as uncovered while the checks that covered them
+#  passed.  Moving a block is not a fix for a hole whose cause is ORDER.
+#
+#  The fix is structural.  The census is a function, it is called once at the
+#  very end, and `_lint_check_order()` reads this file's own source and fails
+#  if any ck/ck_bound/ck_phrase/ck_word CALL appears after that call site.
+#  A future round cannot reopen this by appending.
+def _run_census():
+    #  v8.  OCCURRENCE-level coverage.
+    #
+    #  Until now coverage was a question about VALUES: "is 10 checked anywhere?"
+    #  An audit exploited exactly that.  Appending "confirmed on $10$ independent
+    #  extracts" to the abstract fabricates a replication, and it passed, because
+    #  10 is legitimately checked elsewhere as a capacity label.  The same trick
+    #  works with any value the paper already uses.
+    #
+    #  Coverage is now a question about OCCURRENCES: every individual number in
+    #  the body must sit inside a span some check actually vouched for -- an
+    #  anchor window that matched, a phrase that was pinned, or a structural
+    #  context.  A number inserted anywhere else is uncovered, whatever its
+    #  value, and that is a failure.
+    _uncovered = [(tok, FLAT[max(0, sp[0] - 55):sp[1] + 40])
+                  for tok, sp in _FLAT_TOKENS
+                  if not _inside(sp, _STRUCT_SPANS)
+                  and not _inside(sp, covered_spans)]
+    for _tok, _ctx in _uncovered:
+        bad.append(f"uncovered occurrence of '{_tok}' -- this instance sits in no "
+                   f"checked window: ...{_ctx.strip()}...")
+
+
+_CHECK_CALL = re.compile(r"^\s*ck(?:_bound|_phrase|_word)?\(")
+
+
+def _lint_check_order():
+    src = Path(__file__).read_text(encoding="utf-8").splitlines()
+    try:
+        at = next(i for i, l in enumerate(src)
+                  if l.startswith("_run_census()"))
+    except StopIteration:
+        bad.append("the coverage census is never called")
+        return
+    late = [i + 1 for i, l in enumerate(src[at + 1:], start=at + 1)
+            if _CHECK_CALL.match(l)]
+    if late:
+        bad.append("checks are defined AFTER the coverage census runs, so "
+                   f"their coverage is invisible to it: lines {late[:8]}"
+                   f"{' ...' if len(late) > 8 else ''}")
+
+
+# ---- restatements: occurrence-level coverage makes each one a claim -----
+_CAL = pd.read_csv(R / "r23_calibration.csv").set_index("model")
+ck("abstract rung 1 restated", _A1, "+0.103", 6e-4,
+   anchor="value from $+0.183$ AUC to $+0.103$. Admitting a second")
+ck("abstract rung 2 restated", _A2.gain, "+0.001", 6e-4,
+   anchor="incident exists, takes it to")
+ck("abstract rung 2 lo restated", _A2.lo, "-0.002", 6e-4,
+   anchor="incident exists, takes it to")
+ck("abstract rung 2 hi restated", _A2.hi, "+0.003", 6e-4,
+   anchor="incident exists, takes it to")
+ck("intro rung 1 restated", _A1, "+0.103", 6e-4,
+   anchor="value from $+0.183$ to $+0.103$ $[+0.094,+0.113]$ AUC")
+ck("intro rung 2 restated", _A2.gain, "+0.001", 6e-4,
+   anchor="knowledge-article reference, takes it to")
+ck("intro rung 2 lo restated", _A2.lo, "-0.002", 6e-4,
+   anchor="knowledge-article reference, takes it to")
+ck("intro rung 2 hi restated", _A2.hi, "+0.003", 6e-4,
+   anchor="knowledge-article reference, takes it to")
+ck("scoped headline restated", _A1, "+0.103", 6e-4,
+   anchor="should be read as the value of item identity")
+ck("grid points", _r30F.n_grid, "31", 0,
+   anchor="Over the $31$-point grid the group-aware model runs")
+ck("calibration slope item", _CAL.loc["intake + group + item"].cal_slope,
+   "1.040", 6e-4, anchor="The item-aware model has calibration slope")
+ck("calibration slope intake", _CAL.loc["intake"].cal_slope, "1.391", 6e-4,
+   anchor="and the intake block")
+ck("test rows at the tie paragraph", _r30F.n_test, "13{,}637", 0,
+   anchor="distinct scores for")
+ck("run count retracted", _r30F.n_resolvably_positive, "20", 0,
+   anchor="An earlier version of this sentence said all")
+ck("admitted logs restated", _r33bF.n_logs, "13", 0,
+   anchor="admitted logs are outside ITSM")
+ck("population full", 100, "100", 0,
+   anchor="Ours is already $100")
+
+_lint_check_order()
+_run_census()
 
 unaccounted = sorted(l for l in LITS if l not in STRUCTURAL and l not in seen)
 

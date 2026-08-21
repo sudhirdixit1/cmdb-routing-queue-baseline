@@ -32,59 +32,56 @@
 
 \begin{frontmatter}
 
-\title{Identity, Not Attributes: What Configuration Data Contributes to
-Incident Prediction in Two Organisations}
+\title{Four Choices Behind One Number: Reporting the Incremental Value
+of a Recorded Field}
 
 \author[ind]{Sudhir Dixit}
 \ead{sudhir.dixit1@gmail.com}
 \address[ind]{Independent Researcher}
 
 \begin{abstract}
-A configuration management database (CMDB) programme is justified by the
-analytics it enables, and that justification is a comparison against a
-baseline the analyst chooses. We measure what configuration data contributes
-on a named operational task in two organisations, and find the answer set
-less by the data than by two decisions that are rarely written down: which
-layer of the configuration hierarchy is being bought, and which
-already-recorded fields the comparison baseline is allowed to contain.
+Papers, business cases and tool evaluations report what a recorded field is
+worth as a single number. That number is a function of four choices which are
+almost never stated: the \emph{baseline} of already-recorded fields the
+comparison is allowed to contain, the \emph{metric}, the \emph{operating
+point}, and the \emph{population} of the register the field reads from. We
+write the quantity as $V(f \mid B, m, \theta)$ and propose that a
+feature-value claim be reported as a surface over those arguments rather than
+as a point.
 
-On a public event log of $45{,}455$ incidents from a bank's IT operation,
-predicting at intake whether an incident will be reassigned, a $256$-way
-service-component grouping captures three quarters of what instance-level
-identity is worth, and instance identity adds $+0.023$ AUC over it. A
-per-item outcome rate --- no model, and no configuration attribute of any
-kind --- scores $0.744$ against the full model's $0.748$. What the CMDB
-supplies on this task is a stable identifier under which outcome history
-accumulates, not the configuration attributes it is bought for.
+The demonstration is a configuration management database (CMDB) on a public
+event log of $45{,}455$ incidents from a bank's IT operation, predicting at
+intake whether an incident will be reassigned. Each choice moves the answer by
+more than the effect the previous version of this paper reported. Admitting
+one further field the organisation already records --- which group logged the
+incident --- takes the item's value from $+0.183$ AUC to $+0.103$. Admitting a
+second, which a file we had not obtained now shows is written by the service
+desk before the incident exists, takes it to $+0.001$ $[-0.002,+0.003]$: the
+headline does not survive our own admissibility criterion once the evidence to
+apply it is in hand. Under six defensible instruments on the same scores the
+reduction runs $43.7\%$ to $60.3\%$, and the AUC figure we published is the
+smallest of them; under net benefit it runs $6.3\%$ to $119.2\%$ across the
+operating range, and the item is resolvably harmful in a band above the base
+rate. At half population the item is worth $+0.082$ if the register's long
+tail is missing and $+0.064$ if its core is.
 
-The second decision explains why the headline number moves. Knowing the
-affected item is worth $+0.183$ AUC against four intake fields and $+0.103$
-$[+0.094,+0.113]$ once one further field the organisation already records is
-admitted: which group logged the incident. Across every design choice we
-varied --- split point, target threshold, cleaning cutoff and estimator
-family --- the reduction ranges $36.1\%$ to $48.3\%$, and the ordering never
-reverses. Four free creation-time congestion features leave it there. The
-pattern replicates on a second organisation, tool and country: on the BPI
-Challenge 2013 log the same ladder gives a reduction of $61.3\%$ $[54,68]$ on
-that challenge's own ping-pong target and $43.9\%$ $[31,55]$ at a stricter
-threshold, though the free field is more tightly coupled to the target
-there, so we read it as an upper bound.
+We pre-registered a generic protocol and applied it to $22$ public event logs
+across seven domains. It admits $13$; the reduction is resolvably positive on
+three. The generality claim we registered is therefore falsified, and we
+report the negative, the exclusions and the condition that does govern: on
+most logs the entity is worth nothing to the intake baseline, so there is no
+value for a free field to absorb.
 
-We report what the measurement does not support in the same detail. Eight
-errors of our own are reported as results rather than edited away, two of
-them found in the round that produced this version. The larger of the two is
-this paper's own: an operational overstatement we had reported as a factor of
-$4.3$ at a fixed review capacity does not survive, because its sign reverses
-when ties inside the naive baseline's scores are broken differently. Restated
-as net benefit across the whole range of decision thresholds, omitting the
-free field overstates the item's value by $1.07$ at the threshold where that
-value is largest.
+Eleven errors of our own are reported as results rather than edited away,
+three of them found in the round that produced this version. Two are claims
+whose every individual number was correct and whose asserted relation between
+them was not.
 \end{abstract}
 
 \begin{keyword}
-configuration management database \sep predictive process monitoring \sep
-baseline specification \sep variable importance \sep IT service management
-\sep incident management \sep decision curve analysis
+incremental value \sep baseline specification \sep evaluation metrics \sep
+predictive process monitoring \sep configuration management database \sep
+variable importance \sep decision curve analysis \sep pre-registration
 \end{keyword}
 
 \end{frontmatter}
@@ -92,38 +89,72 @@ baseline specification \sep variable importance \sep IT service management
 \section{Introduction}
 \label{sec:intro}
 
-A CMDB programme is expensive and is justified by what it will enable. That
-justification rests on a comparison whose second arm --- performance without
-configuration data --- is a choice the analyst makes, usually silently, by
-deciding which already-available fields to include. It also rests on a
-quantity that is almost never separated out: which \emph{layer} of the
-configuration hierarchy the benefit comes from, given that an instance-level
-register costs far more to build and maintain than a service register.
+A business case for a data programme is a comparison, and the second arm of
+that comparison --- performance \emph{without} the data --- is a choice the
+analyst makes, usually silently. So is the metric the comparison is stated
+in, so is the operating point at which that metric is read, and so is the
+assumed completeness of the register being bought. Each of those choices is
+routinely left implicit, and the result is reported as one number.
 
-This paper measures both, on two organisations' incident logs, and reports
-three things.
+We write the quantity such a claim actually names as
+\begin{equation}
+V(f \mid B, m, \theta),
+\label{eq:estimand}
+\end{equation}
+the incremental value of a feature $f$ over a baseline feature set $B$, under
+metric $m$, at operating point $\theta$; and for a feature that is a lookup
+into a register we treat that register's population as a fourth choice, one
+that acts on $f$ rather than on the comparison. The claim of this paper is not
+that $V$ depends on those arguments --- that is a theorem, and
+Section~\ref{sec:notvimp} says whose --- but that on a real decision, with
+every choice held to a defensible range, the dependence is larger than the
+effect being reported. We demonstrate it by taking our own previously
+published headline apart along each argument in turn. One of those
+demonstrations removes the headline.
+
+The demonstration runs on a configuration management database (CMDB): the
+register of items an IT estate contains, bought to make operational analytics
+possible, evaluated here on a named task --- predicting at intake whether an
+incident will be reassigned --- on a public log of $45{,}455$ incidents from a
+bank's IT operation.
+
+This paper reports four things.
 
 \begin{enumerate}
-\item \textbf{Identity, not attributes, and not at instance level.} A
-$256$-way service-component grouping of the same estate captures three
-quarters of what instance-level identity is worth on this task, and instance
-identity adds $+0.023$ over it. Below that, a per-item outcome rate applied
-as a lookup table --- no model, no other field, no configuration attribute
---- reaches $0.744$ against the full model's $0.748$. What the configuration
-data supplies here is a stable key under which six months of outcomes
-accumulate (Section~\ref{sec:layer}).
+\item \textbf{Every choice moves the answer, and the baseline choice removes
+it.} Admitting one further field the organisation already records --- which
+group logged the incident --- takes the item's value from $+0.183$ to
+$+0.103$ $[+0.094,+0.113]$ AUC. Admitting a second, the knowledge-article
+reference, takes it to $+0.001$ $[-0.002,+0.003]$. The previous version
+declined to admit that second field because it could not establish when the
+value was written; a file from the same public collection, which we had not
+obtained, settles where it comes from (Sections~\ref{sec:admission}
+and~\ref{sec:failed}).
 
-\item \textbf{The measured value turns on a field-admission choice.}
-Against four intake fields, item identity is worth $+0.183$ AUC; against
-those fields plus one the organisation already records for nothing, $+0.103$
-$[+0.094,+0.113]$. The reduction runs $36.1\%$ to $48.3\%$ across the design
-space and replicates on a second organisation, tool and country
-(Section~\ref{sec:admission}).
+\item \textbf{The metric and the operating point are choices of the same
+kind.} On identical scores, six defensible instruments put the reduction
+between $43.7\%$ and $60.3\%$, and ROC AUC --- the number the previous
+version printed --- is the \emph{smallest} of them. Net benefit, read at a
+single operating point as decision-analytic practice requires, puts it
+between $6.3\%$ and $119.2\%$ depending on which point, and the item is
+resolvably harmful in a band above the base rate. We identify which mechanism
+produces which disagreement (Sections~\ref{sec:metric} and~\ref{sec:opp}).
 
-\item \textbf{Eight corrections, reported as results.} Six were found in
-earlier rounds; two in the round that produced this version. Both of the
-new ones removed a claim the previous version made, and one of them is the
-paper's own operational headline (Section~\ref{sec:corrections}).
+\item \textbf{A pre-registered protocol over $22$ public logs, and a
+falsified generality claim.} We registered a generic procedure, a corpus and
+an exclusion rule before running any of them. The rules admit $13$ logs
+across six domains; the reduction is resolvably positive on three. The
+registered claim that the effect is a property of process event logs rather
+than of ITSM data is therefore \emph{falsified}, and
+Section~\ref{sec:corpus} reports the negative together with the condition
+that does govern: on most logs the entity is worth nothing to the intake
+baseline, so there is no value for a free field to absorb.
+
+\item \textbf{Eleven corrections, reported as results.} Eight were found in
+earlier rounds; three in the round that produced this version. Two of the
+three are claims in which every individual number was correct and the
+relation the prose asserted between them was not
+(Section~\ref{sec:corrections}).
 \end{enumerate}
 
 \paragraph{What kind of contribution this is.}
@@ -242,13 +273,40 @@ detail but the number the business case turns on.
 \section{This Is Not Just Conditional Variable Importance}
 \label{sec:notvimp}
 
-The objection we expect first, and the one this paper would deserve if it
-stopped at Section~\ref{sec:admission}, is that measured importance is
-baseline-relative, that \citet{williamson2023vimp} and \citet{covert2020sage}
-formalise exactly that, and that a study reporting it on one log is reporting
-a known fact with a new number attached. The objection is correct about the
-formal content and we concede it in those terms. Four things are added here
-that no formal framework supplies.
+\subsection{The estimand}
+Equation~\ref{eq:estimand} names
+$V(f \mid B, m, \theta) = m(B \cup \{f\}, \theta) - m(B, \theta)$. For two
+nested baselines $B_0 \subset B_1$ we report the \emph{admissibility
+reduction}
+\begin{equation}
+R(f \mid B_0, B_1, m, \theta) \;=\; 1 - \frac{V(f \mid B_1, m, \theta)}
+{V(f \mid B_0, m, \theta)},
+\label{eq:reduction}
+\end{equation}
+the share of a feature's apparent value already carried by fields the
+organisation records for nothing. $\theta$ is absent for metrics that
+integrate over the operating range; Section~\ref{sec:metric} says which those
+are. We report $R$ only where $V(f \mid B_0, m, \theta)$ is positive in every
+bootstrap draw. A ratio whose denominator crosses zero is not a quantity, and
+this paper has previously printed one that did.
+
+Four independent choices therefore sit inside any single-number claim: which
+already-recorded fields $B$ contains, which $m$, which $\theta$, and --- for a
+feature that is a lookup into a register --- how completely that register is
+populated. Sections~\ref{sec:admission}, \ref{sec:metric}, \ref{sec:opp}
+and~\ref{sec:population} vary one at a time on one dataset, holding the cohort,
+the split, the estimator and the seed fixed throughout, so that any movement
+is attributable to the choice and to nothing else.
+Section~\ref{sec:standard} states what we propose be reported in place of a
+point.
+
+\subsection{What is and is not new here}
+The objection we expect first is that measured importance is baseline-relative,
+that \citet{williamson2023vimp} and \citet{covert2020sage} formalise exactly
+that, and that a study reporting it on one log is reporting a known fact with
+a new number attached. The objection is correct about the formal content and
+we concede it in those terms. Four things are added here that no formal
+framework supplies.
 
 \paragraph{A magnitude on a named decision.}
 Those frameworks establish that a feature's importance is defined only
@@ -278,20 +336,30 @@ is what makes the analyst's choice invisible rather than merely arbitrary:
 nothing in the data flags the omission, and the omitted field has no price
 tag to prompt a question about it.
 
-\paragraph{It replicates across organisations, and no framework predicts that.}
+\paragraph{The metric argument is not in those frameworks at all.}
+\citet{williamson2023vimp} and \citet{covert2020sage} are stated for a fixed
+predictiveness measure. Nothing in them says that two defensible measures
+applied to the \emph{same scores} disagree about how much of a feature's value
+a second feature absorbs, still less by how much. That is an empirical
+question, Section~\ref{sec:metric} answers it here, and the answer is that on
+this decision the metric choice moves the reduction by more than the free
+field does.
+
+\paragraph{Where it appears and where it does not, measured rather than
+assumed.}
 Baseline-relativity is a theorem; whether a particular pair of fields overlaps
-in a particular estate is an empirical question with no general answer. That
-the same ladder produces the same ordering and a reduction of the same order
-on a second organisation, a second tool and a second country
-(Section~\ref{sec:admission}) is evidence about how ITSM data is
-generated, not about the definition of variable importance.
+in a particular estate is an empirical question with no general answer. We
+pre-registered a protocol and applied it to $22$ public logs
+(Section~\ref{sec:corpus}) rather than generalising from one. The answer is
+mostly negative and is reported as such.
 
 \paragraph{What we do not claim.}
 We do not claim a new estimator, a new importance measure, or priority over
-\citet{cook2007roc}, who stated the underlying point for AUC in 2007. The
-contribution is measurement and evaluation practice, and
-Section~\ref{sec:layer} rather than Section~\ref{sec:admission} is where the
-paper's novel finding sits.
+\citet{cook2007roc}, who stated the underlying point for AUC in 2007. Nor do
+we claim any of the four choices is illegitimate: each is correct about the
+question it asks. The contribution is that those are different questions,
+that a single number answers one of them without saying which, and that on
+this decision the spread between them is larger than the effect.
 
 \section{Data and Task}
 \label{sec:data}
@@ -873,8 +941,113 @@ who draws the line differently should read our headline as $+0.023$ --- which
 is the decision this paper is about, and why we report a ladder rather than a
 number.
 
-\section{What the Difference Buys}
+\section{The Metric Axis}
+\label{sec:metric}
+
+Section~\ref{sec:admission} varied $B$ and held $m$ at ROC AUC. This section
+holds $B$ and the scores fixed and varies $m$. Same cohort, same split, same
+four fitted models, same seed: the only thing that changes is what is
+computed from the scores.
+
+\subsection{Seven instruments, six of them independent}
+Table~\ref{tab:instruments} reports the reduction of Equation~\ref{eq:reduction}
+under every instrument we can defend for this question. Detection at a fixed
+review capacity is kept in the table although Section~\ref{sec:withdrawn}
+withdrew it as a headline, because a matrix of instruments is the right place
+to show what a tie-degenerate instrument does to a ratio.
+
+Expected cost at a stated cost ratio is \emph{not} a seventh axis. At cost
+ratio $r$ the Bayes threshold is $1/(1+r)$, so the net-benefit weight
+$\theta/(1-\theta)$ is exactly $1/r$ and the cost avoided per case is
+$r \cdot \text{NB}(1/(1+r))$ identically. The two therefore give the same
+reduction; we verified it over ten contrasts, where the two agree to machine
+precision, and report six instruments rather than seven.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrr}
+\toprule
+instrument & $V(f \mid B_0)$ & $V(f \mid B_1)$ & reduction \\
+\midrule
+ROC AUC              & $+0.183$ & $+0.103$ & $43.7\%$ $[40.1,47.1]$ \\
+Average precision    & $+0.226$ & $+0.090$ & $60.3\%$ $[57.2,63.4]$ \\
+Brier skill          & $+0.168$ & $+0.070$ & $58.4\%$ $[54.4,62.4]$ \\
+Nagelkerke $R^2$     & $+0.223$ & $+0.097$ & $56.6\%$ $[52.8,60.3]$ \\
+\midrule
+Net benefit, $\theta=0.325$ & $+0.093$ & $+0.087$ & $6.3\%$ \\
+Net benefit, $\theta=0.500$ & $+0.084$ & $-0.016$ & $119.2\%$ \\
+\bottomrule
+\end{tabular}
+\caption{The same reduction under four instruments that integrate over the
+operating range and two readings of one that does not. $B_0$ is the four
+intake fields; $B_1$ adds the opening group. Intervals are paired bootstrap,
+$2{,}000$ draws, one resampled index set per draw shared by all four models.
+The net-benefit rows carry no interval on the ratio because the whole point of
+the row pair is that the ratio is not one number.}
+\label{tab:instruments}
+\end{table}
+
+\paragraph{The number we published is the smallest of them.}
+Across the four instruments that integrate over the operating range the
+reduction runs $43.7\%$ to $60.3\%$, and ROC AUC sits at the bottom of that
+range. The previous version of this paper reported the AUC figure and treated
+the more principled instruments as a threat to it; on this data they are not,
+and a referee reading only Section~\ref{sec:withdrawn} would have drawn the
+opposite conclusion. This is the second correction in this project's history
+that goes against the direction its errors usually take, and we record it as
+such rather than quietly banking it.
+
+\subsection{Why the instruments disagree}
+Three mechanisms are testable and we test all three. Each makes a prediction
+that can fail, and the first one did.
+
+\paragraph{Aggregation, which is the largest.}
+AUC is $\int \text{TPR}\,d\text{FPR}$, so the increment a feature buys can be
+attributed to regions of the operating range without any modelling choice: the
+integral is additive over a partition of the FPR axis and the parts sum to the
+whole, which we assert rather than assume. We predicted the increment would be
+concentrated somewhere the net-benefit grid does not reach. It is not. Over the
+$31$-point grid the group-aware model runs at every false-positive rate from
+$0.009$ to $0.997$, and the item's advantage is \emph{diffuse}: the largest of
+ten equal FPR bands carries $18.2\%$ of it and three bands are needed to reach
+half. AUC sums that whole profile; net benefit at one $\theta$ reads one point
+of it. The two are not disagreeing about a fact.
+
+\paragraph{Baseline degeneracy, which explains where net benefit is lowest.}
+At $\theta = 0.200$, $0.300$ and $0.325$ the intake block acts on every
+incident in the test half: as a decision rule it \emph{is} treat-all, and the
+group-aware baseline acts on $0.955$ to $0.978$ of them, barely
+distinguishable from it.
+An increment measured against a rule that does nothing comes out nearly the
+same on both rungs, and their ratio near one. Calling a baseline degenerate
+when it acts on more than $95\%$ or fewer than $5\%$ of arrivals --- a
+threshold we declare before applying it --- the reduction runs $0.047$ to
+$0.435$ across the $11$ grid points where both baselines are degenerate and
+$0.581$ to $1.168$ across the $5$ where neither is.
+
+\paragraph{Calibration, which is real and provably not the whole story.}
+The item-aware model has calibration slope $1.040$ and the intake block
+$1.391$. Recalibrating on a held-out tail of the training half moves the
+net-benefit reduction by up to $0.253$ where the denominator is safe and the
+proper-score reductions by up to $0.014$. It moves the AUC and average
+precision reductions by exactly zero, because a monotone rescaling cannot
+change a rank statistic --- a prediction that would have failed loudly had the
+recalibration not been monotone, and did not.
+
+\paragraph{And a tie convention the two rank statistics do not share.}
+The intake block emits $23$ distinct scores for $13{,}637$ incidents.
+Average precision's default value equals its \emph{negatives-first} bound, to
+machine precision, on all four models, because the precision-recall curve is
+evaluated where a tied block has been admitted whole; AUC's default equals a
+random tie-break to within $0.0004$. Put both on the only convention a desk
+could implement, the reduction is $43.6\%$ under AUC and $71.2\%$ under
+average precision. The gap widens rather than closes, which is the outcome we
+did not expect and report because we did not.
+
+\section{What the Difference Buys: the Operating-Point Axis}
 \label{sec:buys}
+\label{sec:opp}
 
 An AUC difference is not a quantity a service desk can act on, so earlier
 versions of this paper stated the same comparison as detection at a fixed
@@ -1034,10 +1207,14 @@ denominator is crossing zero is not a quantity.}
 
 \paragraph{Where the item pays, and by how much less than it appears to.}
 Over a grid of $31$ thresholds from $0.05$ to $0.80$, the group-aware
-increment is positive with its interval excluding zero at $20$ points, in a
-contiguous run from $0.100$ to $0.425$ --- the region either side of this
-cohort's base rate. The naive increment is positive and resolved at $29$ of
-the $31$. At the threshold where item identity is worth most, $p_t=0.325$,
+increment is positive with its interval excluding zero at $20$ points. Those
+$20$ are not one run: $14$ of them form a contiguous block from $0.100$ to
+$0.425$, the region either side of this cohort's base rate, and the remaining
+$6$ sit at $0.675$ and above, on the far side of the negative band described
+below. An earlier version of this sentence said all $20$ lay in the run; every
+number in it was correct and the relation asserted between them was not
+(Section~\ref{sec:corrections}). The naive increment is positive and resolved
+at $29$ of the $31$. At the threshold where item identity is worth most, $p_t=0.325$,
 it adds $86.9$ reassignment-bound incidents per thousand arrivals over the
 group-aware baseline and $92.8$ over the intake block: omitting the free
 field overstates its value there by a factor of $1.07$. This is the number
@@ -1045,12 +1222,16 @@ that replaces the withdrawn $4.3$, and it is smaller than the ratio of
 $1.8$ between the same two gains measured as AUC.
 
 \paragraph{And where it does not pay at all.}
-Above the resolved region the increment decays and then turns negative: at
+Above the contiguous region the increment decays and then turns negative: at
 four grid points between $0.475$ and $0.575$ the group-aware increment's
-interval lies entirely below zero, reaching $-16.1$ $[-23.0,-8.9]$ per
-thousand at $p_t=0.50$. At a one-for-one exchange rate, adding item identity
-to a model that already knows the opening group makes the desk worse off on
-this task. We have no mechanism to offer for that beyond the obvious one ---
+interval lies entirely below zero, and its minimum over the whole grid is
+$-21.1$ $[-27.7,-14.4]$ per thousand at $\theta=0.525$. An earlier version
+gave the minimum as $-16.1$ $[-23.0,-8.9]$ at $\theta=0.50$, which is the
+worst point among the five this paper had chosen to name rather than the worst
+point on the grid; the understatement was $31\%$ and it flattered us
+(Section~\ref{sec:corrections}). At a one-for-one exchange rate, adding item
+identity to a model that already knows the opening group makes the desk worse
+off on this task. We have no mechanism to offer for that beyond the obvious one ---
 a model with $2{,}554$ item indicators can be confidently wrong where a
 coarse model abstains --- and we report it because it is the operating region
 in which a desk that reviews a small share of arrivals is working, and
@@ -1067,84 +1248,333 @@ benefit does not claim otherwise: it
 counts detections against reviews at a stated exchange rate, and what a
 detection is worth to a particular desk is a quantity this log cannot supply.
 
-\section{One Thing We Could Not Establish}
+\section{The Population Axis}
+\label{sec:population}
+
+Our item field is $100\%$ populated. Real registers are not, and every
+practitioner who has read a draft of this paper has said so. That is a
+measurement, not a caveat, so we make it one: we mask the item column to a
+declared population level and re-measure the whole ladder, leaving both
+baselines untouched, so the curve is the value of a partially populated
+register rather than the value of a smaller dataset. A masked item becomes an
+explicit empty level rather than a dropped row, because a desk with a
+half-empty register still has the incidents.
+
+How an estate empties turns out to matter more than how empty it is, so we
+report three regimes: items masked independently at random; the least frequent
+items dropped whole, which is how a real estate degrades because discovery and
+manual curation cover the big central things first; and the most frequent
+dropped whole, which is not realistic and is reported as the other end of the
+range. At half population the group-aware increment is $+0.082$ when the long
+tail is missing, $+0.067$ at random, and $+0.064$ when the core is; the
+reduction at the same three points is $39.3\%$, $36.1\%$ and $14.2\%$. Over
+the whole surface the reduction runs $-0.6\%$ to $47.1\%$, and its interval
+excludes zero at $19$ of the $19$ points measured. Figure~\ref{fig:population}
+draws it.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figK3_population.png}
+\caption{What a partially populated register is worth. Left: the item's value
+over intake plus the opening group, against the share of incidents whose item
+is recorded, under three degradation regimes. Right: the reduction of
+Equation~\ref{eq:reduction} on the same axis. The estate is concentrated
+enough that $246$ of $2{,}929$ items carry $90\%$ of the incidents, which is
+why dropping the tail costs so little.}
+\label{fig:population}
+\end{figure}
+
+The practical reading is that a buyer who prices a half-populated register
+from the random curve will be wrong in whichever direction their estate
+actually degrades, and by roughly a factor of three in the reduction. The
+usual caveat --- ``our figure is an upper bound because real data is worse''
+--- is not supported on this axis either: at full population the measurement
+sits at the top of its own curve, so better discovery tooling cannot raise it.
+
+\section{The Corpus: Where the Effect Appears, and Where It Does Not}
+\label{sec:corpus}
+
+Everything above is one log. This section asks whether the admissibility
+effect is a property of process event logs in general or of ITSM data in
+particular, under a protocol registered before any of it was run.
+
+\subsection{Pre-registration}
+\texttt{PROTOCOL.md}, supplied as supplementary material and committed to the
+repository in a commit that adds no result file, fixes in advance: the two
+targets, both reported for every log; the rules that assign every attribute to
+exactly one of the high-cost entity $f$, the free per-event field $g$, the
+intake block $B_0$, a layer, or excluded; six exclusion codes; the estimator,
+split, seed and instruments; the log-level discriminators, computed before any
+model is fitted; and the outcome that would falsify the claim. Eight
+amendments were made after running the role assignment, which reads no
+outcome, and before fitting any model; each is recorded in that file with its
+reason, and every one is the registered text failing to implement its own
+stated intent. The check that they stop there is that after them the generic
+rules assign the primary log exactly the roles this paper assigns by hand ---
+$f$ the configuration item, $g$ the opening group, $B_0$ the four intake
+fields, and the CI type and subtype as layers --- although nothing in the
+rules names that log or those fields.
+
+\subsection{The corpus, and what the rules exclude}
+Twenty-three files across seven domains, fetched by DOI with a recorded
+SHA-256 for each; $22$ logs parse. The registered rules admit $13$ across six
+domains and exclude nine with a code. Two exclusions are worth stating as
+findings rather than as bookkeeping. In BPI Challenge 2012 and in all five BPI
+Challenge 2020 sub-logs, \emph{every case is opened by the same actor}: the
+opening resource stamp has cardinality one, there is no free opening field to
+admit, and the question this paper asks cannot arise. In the Hospital Billing
+log the only reusable entity, \texttt{diagnosis}, is missing on $65\%$ of first
+events and no other attribute reaches the registered cardinality floor.
+
+\subsection{The result, which is mostly negative}
+Nineteen log-target pairs survive the exclusion rules.
+Figure~\ref{fig:corpus} shows every one where a reduction exists to be
+measured. On $10$ of the $19$ the entity is not resolvably worth anything over
+the intake block at all, so there is nothing for a free field to absorb and
+$R$ is undefined rather than small. On the remaining nine the reduction's own
+interval excludes zero on four, drawn from three logs: the primary log on both
+targets, BPI Challenge 2013's incident log on the duration target
+($37.8\%$ $[12.8,62.8]$), and BPI Challenge 2019's procurement log on the
+duration target ($47.1\%$ $[40.8,53.4]$ on $251{,}734$ traces).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figK4_corpus.png}
+\caption{Every log-target pair where the entity is resolvably worth something
+over the intake block, so that a reduction exists. A hollow ring marks a pair
+whose reduction has no reportable interval because the denominator is not
+positive in every draw.}
+\label{fig:corpus}
+\end{figure}
+
+Eight of the $13$ admitted logs are outside ITSM, and the reduction is
+resolvable on one of them. \texttt{PROTOCOL.md} \S8 states that the claim is
+falsified if the effect appears on the two published ITSM logs and not on a
+majority of the admitted non-ITSM logs. It is falsified. We report that rather
+than reframing the claim to fit, and the paper's scope is bounded accordingly:
+what generalises is the \emph{estimand} and the practice of reporting it as a
+surface, not the magnitude of any particular reduction.
+
+\subsection{Two things the corpus does establish}
+\paragraph{A precondition, not a moderator.}
+We attempted the prediction the plan for this round asked for: regress the
+reduction on log properties measurable before any model is fitted --- entity
+cardinality, its concentration, the mutual information between $f$ and $g$,
+trace length, whether $g$ is a person or a team, and four more. On nine points
+with eleven predictors the leave-one-out $R^2$ is $-1.323$ against a
+permutation null of $2{,}000$ shuffles at $p = 0.448$: the fit predicts a
+held-out reduction worse than its own mean does. We report that and show no
+in-sample fit in its place. What the corpus does show is coarser and more
+useful: the effect requires an entity that predicts the outcome at all, and on
+most public logs it does not.
+
+\paragraph{A generic target is not the published target, and we checked.}
+The protocol's handover target counts distinct opening groups in a trace. The
+primary log ships its own reassignment count, which is what this paper's other
+sections use. They are not the same construction and they do not agree: the
+generic target fires on $92.7\%$ of incidents against the published target's
+$41.1\%$, and the two agree on $46.0\%$ of them, barely above what
+independence between two marginals of that size would give. The tautology
+control of \texttt{PROTOCOL.md} \S4.3 splits with them --- under the generic
+target the largest opening group has the higher rate, under the published
+target the lower. The corpus measures a generic workflow outcome; it does not
+measure this paper's task on twelve further organisations, and it would have
+been easy to write as though it did.
+
+\section{A Reporting Standard}
+\label{sec:standard}
+
+We propose that a feature-value claim be reported as a surface over the
+arguments of Equation~\ref{eq:estimand} rather than as a point, and that the
+minimum reportable form is:
+
+\begin{enumerate}
+\item \textbf{The baseline ladder.} Every already-recorded field admitted to
+$B$, named, with the admissibility criterion stated before it is applied, and
+$V$ at each rung. A field the organisation already holds and does not admit is
+a decision, and its cost is the difference between two rungs.
+\item \textbf{At least one integrating and one operating-point instrument.}
+On this data the two families differ by more than the effect. Reporting only
+one is reporting one of two answers without saying which question was asked.
+\item \textbf{The operating range, not a chosen point.} If the claim is
+decision-analytic, the whole curve with intervals, and explicitly the region
+where the increment is not resolvable or is negative.
+\item \textbf{The register's population, if the feature is a lookup.} With the
+degradation regime named, because the regime moves the answer by more than the
+level does.
+\end{enumerate}
+
+Figure~\ref{fig:surface} is that report for one instrument on this data, and
+Figure~\ref{fig:instruments} is the same claim across instruments. Neither
+figure contains a number that is not in a result file, and every number in
+both is re-derived from those files by the checker described in
+Section~\ref{sec:corrections}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figK1_instruments.png}
+\caption{Left: the reduction under six instruments, paired bootstrap
+intervals, the published AUC figure dashed. Right: the same reduction under
+one instrument across the operating range. The shaded band is where the item's
+increment over a group-aware baseline is resolvably negative.}
+\label{fig:instruments}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figK2_surface.png}
+\caption{$V(f \mid B, m, \theta)$ at $m$ = net benefit, both baselines, every
+operating point, with paired bootstrap bands. A single number for ``what the
+item is worth'' is a choice of one $x$-coordinate and one of these two
+curves.}
+\label{fig:surface}
+\end{figure}
+
+\section{The Question We Could Not Answer, Answered}
 \label{sec:failed}
 
-A third field, the knowledge-article reference, sits on the same
-\texttt{Open} row, is $100\%$ populated, and costs nothing. Adding it to the
-baseline raises AUC to $0.805$ and drives the measured value of item
-identity to $-0.003$. Whether that figure belongs in Table~\ref{tab:headline}
-depends on whether the field is available at creation, and we could not
-determine this.
+The previous version of this paper had a section here titled ``One Thing We
+Could Not Establish''. A third field, the knowledge-article reference, sits on
+the same \texttt{Open} row, is $100\%$ populated, and costs nothing. Adding it
+to the baseline raises AUC to $0.805$ and drives the measured value of item
+identity to $-0.003$. Whether that figure belonged in the headline depended on
+whether the field is available at creation, and we could not determine it from
+the three files we held. That section named the missing evidence: an
+interaction detail file shipped in the same public collection, which we had not
+obtained.
 
-Two structural tests both fail. A field that varies within an incident is
-certainly a per-event observation; the knowledge reference never varies ---
-but neither does \texttt{Interaction ID}, which has $45{,}426$ distinct
-values for $45{,}455$ incidents and is plainly a creation-time key, so
-constancy is evidence of granularity, not timing. Exact identity with the
-closed record fares no better: the knowledge reference matches its
-closed-record column for $100.000000\%$ of incidents, but so does
-\texttt{Interaction ID} for $99.997628\%$ of the $42{,}151$ single-interaction
-incidents --- one mismatch against a pass mark of $100.000000\%$.
+We obtained it. \texttt{Detail\_Interaction.csv} records $147{,}004$
+service-desk interactions.
 
-We therefore make no claim about this field. The $-0.003$ is also inside the
-dimensionality null of Section~\ref{sec:admission} and changes sign under
-penalty tuning, so it is not resolvable on either ground. This is the paper's
-thesis turned on itself, and that reading is correct: our headline is
-contingent on a field-admission decision we cannot adjudicate. The
-transferable part is the negative --- a field being free, populated and
-present on an opening record does not make it creation-time. The collection
-ships an interaction detail file we did not obtain; if it records this field
-at creation the question is answerable, and our inability to settle it is a
-limit of the three files we hold, not of the export.
+\paragraph{What it settles.}
+$94{,}250$ of those interactions --- $64.1\%$ of the file --- never produce an
+incident at all, and $99.7\%$ of those were resolved on the first call. Every
+one of them carries a knowledge reference, across $1{,}978$ distinct articles.
+A field the incident process assigns cannot be populated on records the
+incident process never touches, so the reference is written by the service desk
+during the call. Of the incidents that do join an interaction, $92.4\%$ of the
+cohort, the interaction opened before the incident in $100.00\%$ of cases with
+a median gap of six minutes, and the desk's recorded handling time on it had
+elapsed before the incident opened in $98.6\%$.
+
+\paragraph{What it does not settle, and we say so.}
+Agreement with the closed record still cannot discriminate. On the $41{,}413$
+incidents whose interaction was worked to completion first, the knowledge
+reference agrees with its interaction's value on $100.00\%$ and the closure
+code --- which is certainly not creation-time --- on $98.97\%$. The reasoning
+of the previous version stands: an interaction is itself a closed record. The
+subset whose interaction had formally \emph{closed} before the incident opened
+contains five incidents, and nothing is concluded from five.
+
+\paragraph{The consequence, which removes our headline.}
+Admitting the reference carried by an interaction that was worked to
+completion before the incident opened --- populated on $91.1\%$ of the
+cohort --- takes the item's measured value from $+0.103$ to $+0.001$
+$[-0.002,+0.003]$, a reduction of $99.7\%$ against the intake-only baseline
+rather than $43.7\%$. Figure~\ref{fig:knowledge} draws the ladder.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figK5_knowledge.png}
+\caption{What item identity is worth as the baseline admits more of what the
+organisation already recorded. The shaded band is the range left by five
+matched-mass random partitions of the same cardinality as the knowledge
+reference.}
+\label{fig:knowledge}
+\end{figure}
+
+\paragraph{Two nulls, because a result of that size is not believed on sight.}
+A collapse to zero could be collinearity --- the reference being item identity
+relabelled --- or dimensionality, $1{,}700$ extra sparse columns at fixed
+penalty being a burden the item must then overcome. Neither survives.
+$78.8\%$ of knowledge articles map to exactly one item, against $80.7\%$ for
+the opening group, which absorbs less than half of the item's value rather
+than all of it; so determinism at that level does not collapse a marginal. And
+five matched-mass random partitions of the same cardinality --- built by
+slicing a permutation rather than by \texttt{searchsorted} on cumulative mass,
+which is the bug that killed correction three --- reach base AUC at most
+$0.6479$ and leave the item worth $+0.094$ to $+0.099$. The real field reaches
+$0.8041$ and leaves it worth $+0.001$.
+
+\paragraph{What this does to the paper.}
+Our thesis is that the measured value of a field is set by an admission
+decision the analyst makes silently. The strongest available demonstration of
+that thesis is that it removes our own headline, and this is that
+demonstration. We do not claim the knowledge reference is \emph{proved}
+creation-time; we claim the balance of evidence has moved decisively, that a
+paper whose headline is contingent on excluding a field must report what
+admitting it does, and that $+0.103$ should be read as the value of item
+identity \emph{given that one particular free field is admitted and another is
+not}. Section~\ref{sec:standard} is the general form of that sentence.
 
 \section{Limitations}
 \label{sec:limits}
 
-\paragraph{Estate and era.}
-Two organisations, two platforms, both on-premises products, and six months
-of 2013 and 2014 data in the primary case. The values $+0.183$ and $+0.103$ are
-properties of one estate; what we argue transfers is that the gap exists and
-is large. Practice has moved since: discovery tooling auto-populates a large
-fraction of a modern estate, event-driven incidents arrive with the item
-already stamped by the monitoring source, and service mapping rather than
-item identity is where much current CMDB spend goes. The counterfactual we
-model --- an organisation with no item field at all --- is not the
-counterfactual a 2026 buyer faces, which is about relationship depth and data
-health rather than existence. Section~\ref{sec:layer} is the part of this
-paper that speaks to that buyer, and it says the service layer carries most
-of the measured value.
+\paragraph{Era, decomposed into four measurements.}
+The primary log is six months of 2013 and 2014 from one estate, and practice
+has moved. ``Practice has moved'' is not one claim, however, and each of its
+four usual components has a proxy in data we hold.
+\emph{(i)~Discovery auto-populates the estate.} Ours is already $100\%$
+populated, so the measurement sits at the top of its own curve and better
+tooling cannot raise it; what a modern estate changes is which part of the
+register is populated, and Section~\ref{sec:population} measures that.
+\emph{(ii)~Incidents arrive pre-stamped.} In 2014, $97.7\%$ of incidents that
+came through the service desk already carried the item their originating call
+carried. A change that pre-stamps arrivals is a change from $97.7\%$ to at
+most $100\%$.
+\emph{(iii)~Service mapping rather than item identity.} The service component
+--- $272$ values in this cohort --- reaches $+0.078$ over intake plus group
+against the item's $+0.103$, so it captures $75.3\%$ of it, and the item's
+marginal over it is $+0.023$.
+\emph{(iv)~More intake channels, fewer central desks.} This is the largest
+sensitivity in the paper. Subsampling the cohort so that the largest opening
+group holds between $0\%$ and $95\%$ of it moves the reduction from $95.3\%$
+to $6.3\%$: when one desk opens everything the opening group carries almost no
+information and absorbs almost nothing, and when opening is distributed it
+absorbs nearly all of the item's apparent value. A 2026 organisation with more
+channels sits at the end of that sweep where the free field matters
+\emph{more}, not less.
 
 \paragraph{Data quality.}
-Our item field is $100\%$ populated because the tool copies it from the
-originating interaction record. Real CMDBs are not this clean, and a lower
-population or accuracy rate would reduce the item's measured value. Our
-$+0.103$ should be read as an upper bound for an estate whose configuration
-data is worse than this one's, which is most of them.
+Section~\ref{sec:population} replaces the caveat this paragraph used to make.
+What remains is that we measure population and not \emph{accuracy}: a register
+that is fully populated with wrong values is not modelled here, and we have no
+way to detect one in a public export.
 
-\paragraph{Intake channel.}
-The free field's informativeness depends on an intake mix in which two thirds
-of tickets pass a central desk. Where tickets are opened by end users through
-a portal or by an integration account, the field may carry far less, or may
-not exist in a comparable form. The one-bit result implies the contrast that
-matters is central desk against everything else, and that contrast is a
-property of how the organisation takes work in.
-
-\paragraph{Free text.}
-Neither log carries a usable short description, and every real deployment
-has one. \citet{kapel2026change} rank two free-text fields above CI Name for
-a related target. If free text absorbs much of the item's value, the
-field-admission argument becomes stronger and the CMDB's measured value
-smaller; we cannot test it here, and it is the most important open question
-this study leaves.
+\paragraph{Free text, and a search rather than a regret.}
+Neither of the published logs carries a usable short description, and every
+real deployment has one. \citet{kapel2026change} rank two free-text fields
+above CI Name for a related target. We therefore searched: every attribute of
+every one of the $22$ parsed logs, against a criterion declared in
+\texttt{PROTOCOL.md} \S7 before the search ran. Of $596$ attributes, zero
+satisfy it. The field a referee will name, UCI 498's \texttt{u\_symptom}, is
+$3.4\%$ unique with a mean length of $10.9$ characters: a coded symptom, not a
+description. Two amendments were needed to stop the criterion admitting
+formatted identifiers, and they are recorded. The threat is real, it is the
+most important open question this study leaves, and it cannot be tested on
+public process-mining data. We report the search rather than the regret.
 
 \paragraph{Construct and mechanism.}
 Reassignment is a proxy for misrouting and also fires on legitimate
 escalation; the within-item shuffle preserves item membership but not other
 correlates of identity, so it bounds the proxy share rather than isolating
 it; and the opening group's distribution drifts between our halves. After
-this round's withdrawals, we do not claim a measured direction for the
+round sixteen's withdrawals, we do not claim a measured direction for the
 mechanism.
+
+\paragraph{The corpus measures a different target from the rest of the paper.}
+Section~\ref{sec:corpus} applies a generic handover target so that one rule
+can run on twenty-two logs. On the primary log that target and the log's own
+reassignment count agree on $46.0\%$ of incidents. The corpus therefore bounds
+the generality of the \emph{estimand and the practice}, not of this paper's
+particular magnitude, and we say so there rather than letting thirteen log
+names imply thirteen replications.
+
+\paragraph{What is still outside reach.}
+No deployment, no organisational partner and no practitioner validation; a
+single author with no institutional affiliation; public benchmark data whose
+newest log is from 2019. None of the four is fixable by further analysis and
+we would rather state them than have them inferred.
 
 \paragraph{The operational statement is a detection statement.}
 Net benefit counts detections against reviews at a stated exchange rate. It
@@ -1158,7 +1588,7 @@ high-dimensional model.
 \section{Corrections}
 \label{sec:corrections}
 
-Eight errors of our own are reported as results rather than
+Eleven errors of our own are reported as results rather than
 edited away, because each is an
 instance of the failure this paper is about --- a control, a claim or a
 baseline asserted rather than checked --- and because the pattern across them
@@ -1214,53 +1644,94 @@ reduction it is meant to bound is computed from two rungs, and its residual
 under boosting is eleven standard errors from zero rather than noise. Run on
 both rungs, the correction moves the boosting reduction by $3.4$ percentage
 points, and upward (Section~\ref{sec:admission}).
+
+\item \textbf{An extremum that was the worst of the points we had named.} We
+wrote that the group-aware increment turns negative, ``reaching $-16.1$
+$[-23.0,-8.9]$ per thousand at $p_t=0.50$''. The word \emph{reaching} names an
+extremum. The extremum is $-21.1$ $[-27.7,-14.4]$ at $\theta=0.525$, which is
+$31\%$ larger; $0.50$ was in the list of five thresholds our own table
+happened to name and $0.525$ was not. Every literal in that sentence was
+correct and was computed from a file already in the repository
+(Section~\ref{sec:dca}).
+
+\item \textbf{A count and a run reported as the same set.} We wrote that the
+increment is resolvably positive ``at $20$ points, in a contiguous run from
+$0.100$ to $0.425$''. Fourteen are in that run; six sit at $0.675$ and above.
+Counting a set and describing an interval are different operations and this
+sentence performed one and reported the other (Section~\ref{sec:dca}).
+
+\item \textbf{An open question we left open with the evidence one download
+away.} The previous version reported that it could not establish whether the
+knowledge-article reference is available at incident creation, named the file
+that would settle where the field comes from, and did not obtain it. The file
+is in the same public collection as the three we used. Obtaining it shows the
+reference is written by the service desk on calls that never become incidents
+at all, and admitting it takes our headline from $+0.103$ to $+0.001$
+(Section~\ref{sec:failed}). We record this as a correction rather than as
+progress because the paper's own thesis is that an unexamined admission
+decision sets the answer, and we left ours unexamined for a round.
 \end{enumerate}
 
-Six of the eight flattered the result, one --- the dataset claim ---
-excused its principal limitation, and one, the eighth, would have made the
-result larger had we noticed it earlier. We draw the obvious inference about
-the direction in which unchecked assertions travel, and note that the paper's
-verification apparatus, which recomputes every number it prints, would not
-have caught any of them: all eight are claims about what a number
-\emph{means}.
+Eight of the eleven flattered the result, one --- the dataset claim ---
+excused its principal limitation, one would have made the result larger had we
+noticed it earlier, and one removed the result altogether. We draw the obvious
+inference about the direction in which unchecked assertions travel.
+
+Two of the three found this round are worth separating out, because they are a
+kind the apparatus was built to catch and could not. The paper is checked by a
+program that re-derives every numeric literal from a result file, and a
+corruption suite of $149$ mutations that has found eight holes in that
+program. Every literal in corrections nine and ten passed: $-16.1$, $-23.0$,
+$-8.9$, $0.50$, $20$, $0.100$ and $0.425$ are all correct values sitting in
+correct places. What was wrong was the relation the prose asserted between
+them --- an extremum in the first case, a set-equals-interval identification in
+the second. A checker that verifies numbers and not the words joining them
+will certify both. The checker now compares the named extremum against the
+extremum and the stated count against the run length, and the general lesson
+--- that a directional word is a claim and needs a check of its own --- is the
+one this project keeps relearning.
 
 \section{Conclusion}
 
-What configuration data contributes to this task is a stable identifier under
-which outcome history accumulates, not the configuration attributes a CMDB is
-usually bought for: a per-item outcome rate with no model reaches $0.744$
-against the full model's $0.748$, and a $256$-way service-component grouping
-captures three quarters of what instance-level identity is worth, with
-instance identity adding $+0.023$ over it. The layer an organisation is
-buying, and not the fact of buying, is what the measured value turns on.
+What a recorded field is worth is not a number. It is
+$V(f \mid B, m, \theta)$, and on this decision every one of those arguments
+moves the answer by more than the effect we set out to report.
 
-The size of that measured value is set by a second choice. Knowing which
-configuration item an incident concerns is worth $+0.183$ or
-$+0.103$ AUC for predicting reassignment, depending on whether the baseline
-includes one field the organisation already records: which group logged the
-ticket. The reduction runs $36.1\%$ to $48.3\%$ across the design space, it
-survives the admission of free congestion features, and the
-pattern replicates on a second organisation. The
-difference is an overlap --- a model given the item has already been told
-most of what the group would say --- so a business case built on the first
-figure is measuring a CMDB plus a field the organisation was already
-recording for nothing.
+Vary the baseline: knowing which configuration item an incident concerns is
+worth $+0.183$ AUC against four intake fields, $+0.103$ once one further field
+the organisation already records is admitted, and $+0.001$
+$[-0.002,+0.003]$ once a second is. Vary the metric on those same scores: the
+reduction runs $43.7\%$ to $60.3\%$ over six instruments, and the figure we
+previously published is the smallest of them. Vary the operating point: it
+runs $6.3\%$ to $119.2\%$, and in a band above the base rate the item is
+resolvably harmful. Vary the register's population and the regime by which it
+empties: at half population the item is worth $+0.082$ or $+0.064$ depending
+on whether the tail or the core is missing. Vary how the organisation takes
+work in: across intake mixes the reduction runs $6.3\%$ to $95.3\%$.
 
-Three qualifications belong in the same breath. Which figure is right depends
-on an admission line we cannot draw principledly: admit the service component
-instead and the number is $+0.023$. Stated operationally rather than as AUC,
-the overstatement is far smaller than we previously reported --- $1.07$ at
-the threshold where the item is worth most --- and we withdraw the factor of
-$4.3$ that an earlier version printed. And in a band of thresholds above the
-base rate, the item is worth nothing at all over a group-aware baseline. The
-transferable claim is not a number. It is that the number is chosen, and that
-whoever writes the business case is choosing it.
+None of those variations is a defect in any instrument or an error in any
+measurement. Each is correct about the question it asks. The point is that a
+single number answers one of those questions without saying which, and that
+the person writing the business case is the person choosing.
+
+We tried to make the finding general and it did not go. A pre-registered
+protocol over $22$ public logs admits $13$ and finds a resolvable reduction on
+three; the registered generality claim is falsified and Section~\ref{sec:corpus}
+reports it. What the corpus does establish is the precondition: the effect
+needs an entity that predicts the outcome at all, and on most public process
+logs there is not one. What we offer in its place is
+Section~\ref{sec:standard}: a minimum reportable form for an incremental-value
+claim, demonstrated on data where following it removes the paper's own
+headline. That is the strongest evidence we can give that it is worth
+following.
 
 \section*{Acknowledgements and Reproducibility}
-The manuscript was subjected to sixteen rounds of adversarial review, the
+The manuscript was subjected to seventeen rounds of adversarial review, the
 later rounds machine-assisted, in which each round was asked to break the
 previous version's claims; the corrections in Section~\ref{sec:corrections}
-came from that process. The author set every research question, adjudicated
+came from that process. The protocol of Section~\ref{sec:corpus} was
+registered in the repository before the analyses it governs were run, in a
+commit that adds no result file. The author set every research question, adjudicated
 every proposed correction against the data, and is responsible for the
 content. The datasets are public
 \citep{vandongen2014bpic,steeman2013bpic}; code, figures and a checker that
