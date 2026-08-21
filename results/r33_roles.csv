@@ -1,0 +1,161 @@
+log,domain,attribute,role,cardinality,missing,reuse,coverage,resource_like,g_alt
+BPIC14,itsm,CI Name (aff),f_registered,3019,0.0,15.437562106657834,0.9469317694178229,False,False
+BPIC14,itsm,CI Type (aff),layer,13,0.0,3585.076923076923,1.0,False,False
+BPIC14,itsm,CI Subtype (aff),layer,65,0.0,717.0153846153846,0.9994278357888714,False,False
+BPIC14,itsm,Service Component WBS (aff),unused,274,0.0,170.09489051094891,0.9919897010441997,False,False
+BPIC14,itsm,Incident ID,unused,46606,0.0,1.0,0.0,False,False
+BPIC14,itsm,Impact,B0,5,0.0,9321.2,0.9997854384208268,False,False
+BPIC14,itsm,Urgency,B0,6,0.0,7767.666666666667,0.999928479473609,False,False
+BPIC14,itsm,Priority,B0,5,0.0,9321.2,0.9997854384208268,False,False
+BPIC14,itsm,Category,B0,4,0.0,11651.5,1.0,False,False
+BPIC14,itsm,KM number,unused,1825,0.0,25.537534246575344,0.9409240452009727,False,False
+BPIC14,itsm,Related Interaction,unused,43059,0.0024460369909453717,1.0823753454562344,0.06558432270061508,False,False
+BPIC14,itsm,assignment group,g,57,0.0,817.6491228070175,0.9998569589472178,True,False
+BPIC14,itsm,case_id,unused,46606,0.0,1.0,0.0,False,False
+UCI498,itsm,case_id,unused,24918,0.0,1.0,0.0,False,False
+UCI498,itsm,caller_id,f_registered,5244,0.00012039489525644112,4.751716247139588,0.8388175494917068,False,False
+UCI498,itsm,opened_by,unused,207,0.02865398507103299,120.3768115942029,0.9755216693418941,True,False
+UCI498,itsm,sys_created_by,B0,185,0.46131310699093026,134.69189189189188,0.9871589085072231,False,False
+UCI498,itsm,contact_type,B0,5,0.0,4983.6,0.9768592830390583,False,False
+UCI498,itsm,location,unused,219,0.002086844851111646,113.78082191780823,0.9926431246655966,False,False
+UCI498,itsm,category,B0,57,0.0015651336383337346,437.1578947368421,0.9890315676832531,False,False
+UCI498,itsm,subcategory,unused,246,0.002769082590898146,101.29268292682927,0.9895666131621188,False,False
+UCI498,itsm,u_symptom,unused,500,0.2301549080985633,49.836,0.9907704654895666,False,False
+UCI498,itsm,impact,B0,3,0.0,8306.0,1.0,False,False
+UCI498,itsm,urgency,B0,3,0.0,8306.0,1.0,False,False
+UCI498,itsm,priority,B0,4,0.0,6229.5,1.0,False,False
+UCI498,itsm,assignment_group,B0,69,0.03635925836744522,361.1304347826087,0.9997324772605671,True,True
+UCI498,itsm,assigned_to,g,205,0.2865398507103299,121.55121951219512,0.9854200107009096,True,False
+UCI498,itsm,knowledge,B0,2,0.0,12459.0,1.0,False,False
+UCI498,itsm,u_priority_confirmation,B0,2,0.0,12459.0,1.0,False,False
+UCI498,itsm,notify,B0,2,0.0,12459.0,1.0,False,False
+Helpdesk,itsm,case_id,unused,4580,0.0,1.0,0.0,False,False
+Helpdesk,itsm,Resource,g,17,0.0,269.4117647058824,0.962882096069869,True,False
+Helpdesk,itsm,Variant,unused,226,0.0,20.265486725663717,0.9221251819505094,False,False
+Helpdesk,itsm,Variant index,unused,226,0.0,20.265486725663717,0.9221251819505094,False,False
+Helpdesk,itsm,Variant.1,unused,226,0.0,20.265486725663717,0.9221251819505094,False,False
+Helpdesk,itsm,customer,f_registered,394,0.0,11.624365482233502,0.8056768558951966,False,False
+Helpdesk,itsm,product,B0,21,0.0,218.0952380952381,0.9868995633187773,False,False
+Helpdesk,itsm,responsible_section,B0,7,0.0,654.2857142857143,1.0,False,False
+Helpdesk,itsm,seriousness_2,B0,4,0.0,1145.0,1.0,False,False
+Helpdesk,itsm,service_level,B0,4,0.0,1145.0,1.0,False,False
+Helpdesk,itsm,service_type,B0,3,0.0,1526.6666666666667,1.0,False,False
+Helpdesk,itsm,support_section,B0,7,0.0,654.2857142857143,1.0,False,False
+Helpdesk,itsm,workgroup,B0,4,0.0,1145.0,1.0,True,True
+BPIC13_incidents,itsm,org:group,unused,338,0.0,22.349112426035504,0.9779444199382443,True,False
+BPIC13_incidents,itsm,resource country,B0,29,0.0,260.48275862068965,0.9991177767975298,False,False
+BPIC13_incidents,itsm,organization country,B0,23,0.0,328.4347826086956,0.9991177767975298,False,False
+BPIC13_incidents,itsm,org:resource,g,806,0.0,9.372208436724566,0.940891045434495,True,False
+BPIC13_incidents,itsm,organization involved,B0,18,0.0,419.6666666666667,0.9995588883987648,False,False
+BPIC13_incidents,itsm,org:role,B0,20,0.11066984379136881,377.7,0.9995588883987648,True,True
+BPIC13_incidents,itsm,impact,B0,4,0.0,1888.5,1.0,False,False
+BPIC13_incidents,itsm,product,f_registered,704,0.0,10.730113636363637,0.948831054256727,False,False
+BPIC13_closed,itsm,org:group,B0,13,0.0,114.38461538461539,0.9955257270693513,True,True
+BPIC13_closed,itsm,resource country,B0,19,0.0,78.26315789473684,0.9910514541387024,False,False
+BPIC13_closed,itsm,organization country,B0,17,0.0,87.47058823529412,0.9977628635346756,False,False
+BPIC13_closed,itsm,org:resource,g,412,0.0033624747814391394,3.6092233009708736,0.7181208053691275,True,False
+BPIC13_closed,itsm,organization involved,unused,271,0.0,5.487084870848708,0.8187919463087249,False,False
+BPIC13_closed,itsm,org:role,B0,26,0.3389374579690652,57.19230769230769,1.0,True,False
+BPIC13_closed,itsm,impact,B0,4,0.0,371.75,1.0,False,False
+BPIC13_closed,itsm,product,f_registered,337,0.0,4.41246290801187,0.8008948545861297,False,False
+BPIC17,lending,case:LoanGoal,B0,13,0.07505791995937669,2423.769230769231,1.0,False,False
+BPIC17,lending,case:ApplicationType,B0,2,0.0,15754.5,1.0,False,False
+BPIC17,lending,case:RequestedAmount,f_registered,701,0.0,44.94864479315264,0.9852956733312176,False,False
+BPIC17,lending,org:resource,g,111,0.0,283.86486486486484,0.9535597164921189,True,False
+BPIC17,lending,EventID,unused,31509,0.0,1.0,0.0,False,False
+BPIC19,procurement,case:Spend area text,B0,20,0.013065378534484813,12586.7,1.0,False,False
+BPIC19,procurement,case:Company,B0,4,0.0,62933.5,0.9999735172998239,False,False
+BPIC19,procurement,case:Document Type,B0,3,0.0,83911.33333333333,1.0,False,False
+BPIC19,procurement,case:Sub spend area text,B0,135,0.013065378534484813,1864.6962962962964,0.9999337932495598,False,False
+BPIC19,procurement,case:Purchasing Document,f_registered,76349,0.0,3.297148620152196,0.004078335827120933,False,False
+BPIC19,procurement,case:Vendor,f_amended,1975,0.0,127.46025316455696,0.989406919929556,False,False
+BPIC19,procurement,case:Item Type,B0,6,0.0,41955.666666666664,1.0,False,False
+BPIC19,procurement,case:Item Category,B0,4,0.0,62933.5,1.0,False,False
+BPIC19,procurement,case:Spend classification text,B0,3,0.013065378534484813,83911.33333333333,1.0,False,False
+BPIC19,procurement,case:Name,layer,1899,0.0,132.56134807793575,0.9895790574807007,False,False
+BPIC19,procurement,case:GR-Based Inv. Verif.,B0,2,0.0,125867.0,1.0,False,False
+BPIC19,procurement,case:Item,unused,490,0.0,513.7428571428571,0.9977754531852068,False,False
+BPIC19,procurement,User,unused,355,0.014217388195476178,709.1098591549296,0.7114974642814581,False,False
+BPIC19,procurement,org:resource,g,355,0.014217388195476178,709.1098591549296,0.7114974642814581,True,False
+BPIC15_1,permitting,case:caseStatus,B0,3,0.0,399.6666666666667,0.9972222222222222,False,False
+BPIC15_1,permitting,case:SUMleges,unused,613,0.24437030859049208,1.9559543230016314,0.33611111111111114,False,False
+BPIC15_1,permitting,case:Responsible_actor,B0,20,0.0008340283569641367,59.95,0.9916666666666667,False,False
+BPIC15_1,permitting,case:parts,f_registered,88,0.0016680567139282735,13.625,0.9166666666666666,False,False
+BPIC15_1,permitting,case:termName,B0,13,0.25771476230191825,92.23076923076923,0.9472222222222222,False,False
+BPIC15_1,permitting,case:requestComplete,B0,2,0.0,599.5,1.0,False,False
+BPIC15_1,permitting,case:IDofConceptCase,unused,810,0.3244370308590492,1.480246913580247,0.24722222222222223,False,False
+BPIC15_1,permitting,question,B0,7,0.0,171.28571428571428,0.9972222222222222,False,False
+BPIC15_1,permitting,activityNameEN,B0,13,0.0,92.23076923076923,0.9861111111111112,False,False
+BPIC15_1,permitting,monitoringResource,B0,21,0.0,57.095238095238095,0.9277777777777778,False,False
+BPIC15_1,permitting,org:resource,g,15,0.0,79.93333333333334,0.7916666666666666,True,False
+BPIC15_1,permitting,activityNameNL,B0,13,0.0,92.23076923076923,0.9861111111111112,False,False
+BPIC15_1,permitting,case:Includes_subCases,B0,2,0.21434528773978315,599.5,0.2861111111111111,False,False
+BPIC15_3,permitting,case:Includes_subCases,B0,2,0.24059616749467708,704.5,1.0,False,False
+BPIC15_3,permitting,case:Responsible_actor,B0,20,0.0,70.45,0.9929078014184397,False,False
+BPIC15_3,permitting,case:caseStatus,B0,2,0.0,704.5,1.0,False,False
+BPIC15_3,permitting,case:termName,B0,13,0.18594748048261178,108.38461538461539,0.9976359338061466,False,False
+BPIC15_3,permitting,case:requestComplete,B0,2,0.0,704.5,1.0,False,False
+BPIC15_3,permitting,question,B0,11,0.0,128.0909090909091,0.9929078014184397,False,False
+BPIC15_3,permitting,activityNameEN,B0,8,0.0,176.125,1.0,False,False
+BPIC15_3,permitting,monitoringResource,B0,16,0.0,88.0625,0.9976359338061466,False,False
+BPIC15_3,permitting,org:resource,g,10,0.0,140.9,1.0,True,False
+BPIC15_3,permitting,activityNameNL,B0,8,0.0,176.125,1.0,False,False
+BPIC15_3,permitting,case:parts,f_amended,93,0.0198722498225692,15.150537634408602,0.9219858156028369,False,False
+BPIC15_3,permitting,case:SUMleges,f_registered,532,0.41731724627395317,2.648496240601504,0.475177304964539,False,False
+BPIC15_3,permitting,case:IDofConceptCase,unused,804,0.42867281760113557,1.7524875621890548,0.30969267139479906,False,False
+BPIC15_4,permitting,case:Responsible_actor,B0,9,0.0,117.0,1.0,False,False
+BPIC15_4,permitting,case:caseStatus,B0,2,0.0,526.5,1.0,False,False
+BPIC15_4,permitting,case:parts,f_amended,52,0.00949667616334283,20.25,0.9746835443037974,False,False
+BPIC15_4,permitting,case:SUMleges,f_registered,476,0.2621082621082621,2.21218487394958,0.4651898734177215,False,False
+BPIC15_4,permitting,case:requestComplete,B0,2,0.0,526.5,1.0,False,False
+BPIC15_4,permitting,case:IDofConceptCase,unused,621,0.41025641025641024,1.6956521739130435,0.3069620253164557,False,False
+BPIC15_4,permitting,question,B0,18,0.0,58.5,0.9968354430379747,False,False
+BPIC15_4,permitting,activityNameEN,B0,15,0.0,70.2,0.9746835443037974,False,False
+BPIC15_4,permitting,monitoringResource,B0,11,0.0,95.72727272727273,0.9240506329113924,False,False
+BPIC15_4,permitting,org:resource,g,7,0.0,150.42857142857142,0.9968354430379747,True,False
+BPIC15_4,permitting,activityNameNL,B0,15,0.0,70.2,0.9746835443037974,False,False
+BPIC15_4,permitting,case:Includes_subCases,B0,2,0.1889838556505223,526.5,0.370253164556962,False,False
+BPIC15_5,permitting,case:caseStatus,B0,3,0.0,385.3333333333333,1.0,False,False
+BPIC15_5,permitting,case:SUMleges,f_registered,565,0.19204152249134948,2.046017699115044,0.3371757925072046,False,False
+BPIC15_5,permitting,case:Responsible_actor,B0,8,0.0,144.5,1.0,False,False
+BPIC15_5,permitting,case:landRegisterID,unused,856,0.02249134948096886,1.3504672897196262,0.21902017291066284,False,False
+BPIC15_5,permitting,case:parts,f_amended,106,0.0017301038062283738,10.90566037735849,0.9279538904899135,False,False
+BPIC15_5,permitting,case:requestComplete,B0,2,0.0,578.0,1.0,False,False
+BPIC15_5,permitting,case:IDofConceptCase,unused,637,0.44809688581314877,1.814756671899529,0.3170028818443804,False,False
+BPIC15_5,permitting,question,B0,2,0.0,578.0,1.0,False,False
+BPIC15_5,permitting,activityNameEN,B0,12,0.0,96.33333333333333,0.9884726224783862,False,False
+BPIC15_5,permitting,monitoringResource,B0,16,0.0,72.25,0.8270893371757925,False,False
+BPIC15_5,permitting,org:resource,g,18,0.0,64.22222222222223,0.6657060518731989,True,False
+BPIC15_5,permitting,activityNameNL,B0,12,0.0,96.33333333333333,0.9884726224783862,False,False
+BPIC15_5,permitting,case:Includes_subCases,B0,2,0.2577854671280277,578.0,0.14121037463976946,False,False
+Sepsis,healthcare,InfectionSuspected,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,org:group,g,4,0.0,262.5,1.0,True,False
+Sepsis,healthcare,DiagnosticBlood,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,DisfuncOrg,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,SIRSCritTachypnea,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,Hypotensie,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,SIRSCritHeartRate,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,Infusion,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,DiagnosticArtAstrup,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,Age,B0,15,0.0,70.0,1.0,False,False
+Sepsis,healthcare,DiagnosticIC,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,DiagnosticSputum,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,DiagnosticLiquor,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,DiagnosticOther,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,SIRSCriteria2OrMore,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,DiagnosticXthorax,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,SIRSCritTemperature,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,DiagnosticUrinaryCulture,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,SIRSCritLeucos,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,Oligurie,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,DiagnosticLacticAcid,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,Diagnose,f_registered,145,0.2419047619047619,7.241379310344827,0.9206349206349206,False,False
+Sepsis,healthcare,Hypoxie,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,DiagnosticUrinarySediment,B0,2,0.05238095238095238,525.0,1.0,False,False
+Sepsis,healthcare,DiagnosticECG,B0,2,0.05238095238095238,525.0,1.0,False,False
+RoadFines,enforcement,amount,f_registered,113,0.0,1330.7079646017698,0.18614085256367627,False,False
+RoadFines,enforcement,org:resource,g,147,0.0,1022.9251700680272,0.6325508190906874,True,False
+RoadFines,enforcement,dismissal,B0,24,0.0,6265.416666666667,0.9999778324577154,False,False
+RoadFines,enforcement,vehicleClass,B0,4,0.0,37592.5,1.0,False,False
+RoadFines,enforcement,article,f_amended,66,0.0,2278.3333333333335,0.9995344816120236,False,False
+RoadFines,enforcement,points,B0,9,0.0,16707.777777777777,0.9994014763583161,False,False

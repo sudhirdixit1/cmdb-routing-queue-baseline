@@ -293,4 +293,114 @@ acceptable one and it will not be dressed up.
 Any change is appended below with its date and reason, and the original text
 stays. Nothing is edited in place.
 
-*(no changes yet)*
+**All six amendments below were made after running §3's role assignment and
+before fitting a single model.** The role assignment reads attribute names,
+cardinalities, missing rates, within-trace variation and the split point. It
+reads no outcome and no target. `r33_generic_ladder.py --roles-only` is that
+stage and it can be re-run to check the claim. Every amendment is a
+consequence of the registered text failing to implement its own stated intent,
+not of a result being unwelcome.
+
+### Amendment 1 (2026-08-21) — a register's values must recur
+
+§3.3(ii) admits any attribute whose values are reused across two traces on
+average. On BPI Challenge 2019 that admits `case:Purchasing Document`:
+76,349 values over 251,734 traces, reuse 3.3. A purchase order with three
+line items is a coarsening of the case key, not a maintained register, and
+almost none of its values recur across the temporal split.
+
+**Added:** a second condition, that at least 50% of test-half traces carry a
+value of $f$ seen in the training half. It reads feature values and the split
+point only.
+
+**Both selections are reported for every log** — `f_rule = registered` and
+`f_rule = amended` in `r33_ladder.csv` — so a reader can see what the
+amendment did. On BPI Challenge 2019 it changes $f$ from
+`case:Purchasing Document` to `case:Vendor`; on the four BPI Challenge 2015
+municipalities it changes it from `case:SUMleges` (a fee amount) to
+`case:parts`; on every other admitted log it changes nothing.
+
+### Amendment 2 (2026-08-21) — "any timestamp" was not implemented
+
+§3.1 excludes "any timestamp". The first implementation matched a fixed list
+of names, which missed `sys_created_at`, `case:endDate`, `case:startDate`,
+`case:REG_DATE` and `Complete Timestamp` — and the registered rules made two
+of those the high-cost entity, which is a meaningless analysis.
+
+**Added:** a column is a timestamp if its name looks like one, or if more than
+90% of its values are date-shaped (carry a date or time separator) and parse.
+
+*A defect inside this amendment, recorded because it is the kind that ships.*
+The first version omitted the "carry a separator" clause. A bare integer
+parses as a date, so `Impact`, `Urgency` and `Priority` — the published
+paper's own intake block — were classified as timestamps and thrown away, and
+BPI Challenge 2014's $B_0$ came out as two attributes instead of four. Caught
+by reading the printed $B_0$ against the paper.
+
+### Amendment 3 (2026-08-21) — a relabelling of the activity is the activity
+
+§3.1 excludes `concept:name`. BPI Challenge 2015 ships `activityNameEN` and
+`activityNameNL`; the Helpdesk log's activity column is named `Activity`.
+
+**Added:** an attribute mutually deterministic with `concept:name` is excluded
+as an alias of it, and `activity` is added to the outcome-field list as the
+Helpdesk log's spelling of the same column.
+
+### Amendment 4 (2026-08-21) — §3.5 was not implemented, and §3 requires it
+
+§3 says every attribute is assigned to **exactly one** role and §3.5 gives
+deterministic coarsenings of $f$ their own. The first implementation left them
+in $B_0$, which put `CI Type (aff)` and `CI Subtype (aff)` — the resolution
+ladder the paper reports in its §5 — into the baseline the ladder is measured
+against.
+
+**Added:** the coarsening test (every value of $f$ maps to exactly one value of
+the attribute) runs before $B_0$ is formed, and matching attributes take the
+`layer` role.
+
+### Amendment 5 (2026-08-21) — the "caused by" family is an outcome
+
+The registered rules made `CI Name (CBy)` (3,651 values) the high-cost entity
+on the flagship log, in preference to `CI Name (aff)` (3,019). A *caused-by*
+attribution is the output of diagnosis. `common.py`'s `FIELD_CLASS`, written
+in round one, already classes the `(CBy)` family as `relational` rather than
+`configuration`.
+
+**Added:** the `(CBy)` family, the `# Related …` counts, `Related Change`,
+`Reopen Time`, `Resolved Time`, `Alert Status`, `sys_updated_by` and
+`sys_updated_at` to the outcome-field list.
+
+### Amendment 6 (2026-08-21) — outcome-field names are normalised
+
+Entries are matched against a name with any `case:` prefix stripped, but the
+list held some entries with the prefix. `case:Goods Receipt` was reaching the
+layer role on BPI Challenge 2019 as a result. The list is now normalised the
+same way as the lookup.
+
+### What the amendments do to the flagship log, as a check
+
+After all six, §3 assigns BPI Challenge 2014 exactly the roles the published
+paper assigns by hand: $f$ = `CI Name (aff)`, $g$ = the opening assignment
+group, $B_0$ = {`Impact`, `Urgency`, `Priority`, `Category`}, layers =
+{`CI Type (aff)`, `CI Subtype (aff)`}. Nothing in the rules names that log or
+those fields. That agreement is the closest thing to a validation the protocol
+can have, and it is the reason the amendments stop here.
+
+### The corpus after §3 and §4.4
+
+**Admitted (13 logs, 6 domains):** BPIC14, UCI498, Helpdesk,
+BPIC13_incidents, BPIC13_closed (ITSM); BPIC17 (lending); BPIC19
+(procurement); BPIC15_1, _3, _4, _5 (permitting); Sepsis (healthcare);
+RoadFines (enforcement).
+
+**Excluded (9), with the registered code:** BPIC13_open and BPIC15_2
+(`SMALL_N`); BPIC12 and all five BPIC 2020 sub-logs (`NO_G`);
+HospitalBilling (`NO_F`).
+
+The `NO_G` exclusions are not a technical failure and are reported in the
+paper as a substantive property. In BPI Challenge 2012 and in every BPI
+Challenge 2020 sub-log, **every case is opened by the same actor** — the
+opening resource stamp has cardinality one — so there is no free opening field
+to admit and the question this paper asks cannot arise. `NO_F` on Hospital
+Billing is the same kind of fact: its only reusable entity, `diagnosis`, is
+missing on 65% of first events.

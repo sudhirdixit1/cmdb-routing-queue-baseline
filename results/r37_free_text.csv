@@ -1,0 +1,597 @@
+log,attribute,n,unique_share,mean_length,space_share,digitstrip_ratio,structurally_excluded,is_free_text,fails,example
+BPIC14,CI Name (aff),32624,0.08070745463462482,8.995586071603727,0.0,0.020508925180402583,-,False,"unique, length, space, not-an-id",SUB000508
+BPIC14,CI Type (aff),32624,0.0003984796468857283,11.162027954879843,0.003157184894556155,1.0,-,False,"unique, length, space",subapplication
+BPIC14,CI Subtype (aff),32624,0.0018391368317802845,19.79466037273173,0.8647314860225601,1.0,-,False,"unique, length",Web Based Application
+BPIC14,Service Component WBS (aff),32624,0.007938940657184895,9.0,0.0,0.003861003861003861,-,False,"unique, length, space, not-an-id",WBS000162
+BPIC14,Incident ID,32624,1.0,9.0,0.0,3.065228052967141e-05,-,False,"length, space, not-an-id",IM0000004
+BPIC14,Status,32624,6.130456105934282e-05,6.00275870524767,0.00027587052476704265,1.0,outcome-field,False,"unique, length, space, outcome-field",Closed
+BPIC14,Impact,32624,0.00012260912211868564,3.0,0.0,0.25,-,False,"unique, length, space, not-an-id",4.0
+BPIC14,Urgency,32624,0.00015326140264835703,1.0,0.0,0.2,-,False,"unique, length, space, not-an-id",4
+BPIC14,Priority,32624,0.00012260912211868564,3.0,0.0,0.25,-,False,"unique, length, space, not-an-id",4.0
+BPIC14,Category,32624,0.00012260912211868564,11.062714565963708,0.20417484060814126,1.0,-,False,"unique, length, space",incident
+BPIC14,KM number,32624,0.05002452182442374,9.0,0.0,0.0006127450980392157,-,False,"unique, length, space, not-an-id",KM0000553
+BPIC14,Alert Status,32624,3.065228052967141e-05,6.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",closed
+BPIC14,# Reassignments,32623,0.0012261288048309475,3.0150813842994206,0.0,0.025,outcome-field,False,"unique, length, space, not-an-id, outcome-field",26.0
+BPIC14,Open Time,32624,0.9944825895046592,19.0,1.0,3.082234003205523e-05,timestamp,False,"length, not-an-id, timestamp",05/02/2012 13:32:57
+BPIC14,Reopen Time,1720,0.9994186046511628,19.0,1.0,0.0005817335660267597,outcome-field,False,"length, not-an-id, outcome-field",02/12/2013 12:31:02
+BPIC14,Resolved Time,31320,0.99514687100894,19.0,1.0,3.208418891170431e-05,outcome-field,False,"length, not-an-id, outcome-field",04/11/2013 13:50:27
+BPIC14,Close Time,32624,0.9951875919568416,19.0,1.0,3.080050512828411e-05,outcome-field,False,"length, not-an-id, outcome-field",04/11/2013 13:51:17
+BPIC14,Handle Time (Hours),32623,0.7432179750482788,10.355883885602182,0.0,8.248783304462591e-05,outcome-field,False,"length, space, not-an-id, outcome-field","3871,691111"
+BPIC14,Closure Code,31219,0.0004164130817771229,8.866075146545374,0.206444793234889,1.0,outcome-field,False,"unique, length, space, outcome-field",Other
+BPIC14,# Related Interactions,32522,0.0012299366582620996,3.0016911629051104,0.0,0.025,outcome-field,False,"unique, length, space, not-an-id, outcome-field",1.0
+BPIC14,Related Interaction,32522,0.9222680031978353,9.155525490437242,0.0,6.668000266720011e-05,-,False,"length, space, not-an-id",SD0000007
+BPIC14,# Related Incidents,778,0.02442159383033419,3.020565552699229,0.0,0.05263157894736842,outcome-field,False,"unique, length, space, not-an-id, outcome-field",2.0
+BPIC14,# Related Changes,405,0.009876543209876543,3.0,0.0,0.25,outcome-field,False,"unique, length, space, not-an-id, outcome-field",1.0
+BPIC14,Related Change,405,0.4271604938271605,9.093827160493827,0.0,0.011560693641618497,outcome-field,False,"length, space, not-an-id, outcome-field",C00000056
+BPIC14,CI Name (CBy),31801,0.087701644602371,8.99556617716424,0.0,0.01936177841520258,outcome-field,False,"unique, length, space, not-an-id, outcome-field",SUB000508
+BPIC14,CI Type (CBy),31801,0.00040879217634665576,11.013490141819439,0.0026728719222665954,1.0,outcome-field,False,"unique, length, space, outcome-field",subapplication
+BPIC14,CI Subtype (CBy),31801,0.0017609509134932863,19.237319581145247,0.8502562812490173,1.0,outcome-field,False,"unique, length, outcome-field",Web Based Application
+BPIC14,ServiceComp WBS (CBy),30094,0.00863959593274407,9.0,0.0,0.0038461538461538464,outcome-field,False,"unique, length, space, not-an-id, outcome-field",WBS000162
+BPIC14,assignment group,32624,0.0017165277096615988,8.0,0.0,0.017857142857142856,-,False,"unique, length, space, not-an-id",TEAM0001
+BPIC14,case_id,32624,1.0,9.0,0.0,3.065228052967141e-05,-,False,"length, space, not-an-id",IM0000004
+UCI498,case_id,17442,1.0,10.0,0.0,5.733287467033597e-05,-,False,"length, space, not-an-id",INC0000045
+UCI498,incident_state,17442,0.00028666437335167987,4.400928792569659,0.011409242059396859,1.0,outcome-field,False,"unique, length, space, outcome-field",New
+UCI498,active,17442,5.733287467033597e-05,4.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",True
+UCI498,reassignment_count,17442,0.00011466574934067194,1.0,0.0,0.5,outcome-field,False,"unique, length, space, not-an-id, outcome-field",0
+UCI498,reopen_count,17442,5.733287467033597e-05,1.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",0
+UCI498,sys_mod_count,17442,0.00011466574934067194,1.0,0.0,0.5,outcome-field,False,"unique, length, space, not-an-id, outcome-field",0
+UCI498,made_sla,17442,0.00011466574934067194,4.00005733287467,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",True
+UCI498,caller_id,17439,0.2595332301164058,10.78966683869488,1.0,0.0002209456473707468,-,False,"unique, length, not-an-id",Caller 2403
+UCI498,opened_by,16728,0.009026781444285032,13.386597321855572,1.0,0.006622516556291391,-,False,"unique, length, not-an-id",Opened by  8
+UCI498,opened_at,17442,0.7850017199862401,14.663398692810457,1.0,7.303534910896874e-05,timestamp,False,"length, not-an-id, timestamp",29/2/2016 01:16
+UCI498,sys_created_by,10187,0.01413566310002945,13.248944733483851,1.0,0.006944444444444444,-,False,"unique, length, not-an-id",Created by 6
+UCI498,sys_created_at,10187,0.8484342789830176,14.641111220182585,1.0,0.00011570056693277797,timestamp,False,"length, not-an-id, timestamp",29/2/2016 01:23
+UCI498,sys_updated_by,17442,0.008313266827198715,13.784829721362229,1.0,0.006896551724137931,outcome-field,False,"unique, length, not-an-id, outcome-field",Updated by 21
+UCI498,sys_updated_at,17442,0.7726178190574475,14.663398692810457,1.0,7.420599584446424e-05,outcome-field,False,"length, not-an-id, outcome-field",29/2/2016 01:23
+UCI498,contact_type,17442,0.00011466574934067194,5.0,0.0,1.0,-,False,"unique, length, space",Phone
+UCI498,location,17390,0.010925819436457734,11.721621621621622,1.0,0.005263157894736842,-,False,"unique, length, not-an-id",Location 143
+UCI498,category,17416,0.002468994028479559,10.952687184198439,1.0,0.023255813953488372,-,False,"unique, length, not-an-id",Category 55
+UCI498,subcategory,17386,0.01207868399861958,14.765558495341079,1.0,0.004761904761904762,-,False,"unique, length, not-an-id",Subcategory 170
+UCI498,u_symptom,13307,0.0340422334109867,10.877057187946194,1.0,0.002207505518763797,-,False,"unique, length, not-an-id",Symptom 72
+UCI498,cmdb_ci,46,0.8695652173913043,9.847826086956522,1.0,0.025,-,False,"length, not-an-id, too-few-rows",cmdb_ci 31
+UCI498,impact,17442,0.0001719986240110079,9.893475518862516,1.0,1.0,-,False,"unique, length",2 - Medium
+UCI498,urgency,17442,0.0001719986240110079,9.889232886136911,1.0,1.0,-,False,"unique, length",2 - Medium
+UCI498,priority,17442,0.00022933149868134388,11.80380690287811,1.0,1.0,-,False,"unique, length",3 - Moderate
+UCI498,assignment_group,16584,0.004040038591413411,7.96134828750603,1.0,0.014925373134328358,-,False,"unique, length, not-an-id",Group 56
+UCI498,assigned_to,12858,0.013610203764193498,11.468346554674133,1.0,0.005714285714285714,-,False,"unique, length, not-an-id",Resolver 89
+UCI498,knowledge,17442,0.00011466574934067194,4.796296296296297,0.0,1.0,-,False,"unique, length, space",True
+UCI498,u_priority_confirmation,17442,0.00011466574934067194,4.999312005503956,0.0,1.0,-,False,"unique, length, space",False
+UCI498,notify,17442,0.00011466574934067194,12.993808049535604,1.0,1.0,-,False,"unique, length",Do Not Notify
+UCI498,problem_id,183,0.6502732240437158,14.081967213114755,1.0,0.008403361344537815,-,False,"length, not-an-id",Problem ID  2
+UCI498,rfc,79,0.9873417721518988,10.0,0.0,0.01282051282051282,-,False,"length, space, not-an-id",CHG0000127
+UCI498,vendor,3,0.6666666666666666,7.666666666666667,1.0,1.0,-,False,"length, too-few-rows",code 8s
+UCI498,caused_by,2,1.0,10.0,0.0,0.5,-,False,"length, space, not-an-id, too-few-rows",CHG0000132
+UCI498,closed_code,17377,0.0009207573228980837,6.034470852275997,1.0,0.0625,outcome-field,False,"unique, length, not-an-id, outcome-field",code 5
+UCI498,resolved_by,17353,0.010315219270443151,14.445686624791103,1.0,0.00558659217877095,outcome-field,False,"unique, length, not-an-id, outcome-field",Resolved by 149
+UCI498,resolved_at,16208,0.7959032576505429,14.697680157946692,1.0,7.751937984496124e-05,outcome-field,False,"length, not-an-id, outcome-field",29/2/2016 11:29
+UCI498,closed_at,17442,0.09666322669418645,14.664946680426556,1.0,0.0005931198102016608,outcome-field,False,"unique, length, not-an-id, outcome-field",5/3/2016 12:00
+UCI498,_ts,17442,0.7726178190574475,19.0,1.0,7.420599584446424e-05,timestamp,False,"length, not-an-id, timestamp",2016-02-29 01:23:00
+Helpdesk,case_id,3206,1.0,8.764815970056144,1.0,0.00031191515907673113,-,False,"length, not-an-id",Case 3608
+Helpdesk,Activity,3206,0.0018714909544603868,17.87024329382408,0.9996880848409233,1.0,outcome-field,False,"unique, length, outcome-field",Assign seriousness
+Helpdesk,Resource,3206,0.004678727386150967,7.16032439176544,1.0,0.06666666666666667,-,False,"unique, length, not-an-id",Value 2
+Helpdesk,Complete Timestamp,3206,1.0,23.0,1.0,0.00031191515907673113,timestamp,False,"not-an-id, timestamp",2010/01/13 08:40:25.000
+Helpdesk,Variant,3206,0.04834684965689332,9.172489082969433,1.0,0.0064516129032258064,-,False,"unique, length, not-an-id",Variant 33
+Helpdesk,Variant index,3206,0.04834684965689332,1.1724890829694323,0.0,0.0064516129032258064,-,False,"unique, length, space, not-an-id",33
+Helpdesk,Variant.1,3206,0.04834684965689332,9.172489082969433,1.0,0.0064516129032258064,-,False,"unique, length, not-an-id",Variant 33
+Helpdesk,seriousness,3206,0.00031191515907673113,7.0,1.0,1.0,-,False,"unique, length",Value 1
+Helpdesk,customer,3206,0.10106051154086089,8.233624454148472,1.0,0.0030864197530864196,-,False,"unique, length, not-an-id",Value 63
+Helpdesk,product,3206,0.0056144728633811605,7.041796631316282,1.0,0.05555555555555555,-,False,"unique, length, not-an-id",Value 3
+Helpdesk,responsible_section,3206,0.002183406113537118,7.0,1.0,0.14285714285714285,-,False,"unique, length, not-an-id",Value 5
+Helpdesk,seriousness_2,3206,0.0012476606363069245,7.0,1.0,0.25,-,False,"unique, length, not-an-id",Value 1
+Helpdesk,service_level,3206,0.0012476606363069245,7.0,1.0,0.25,-,False,"unique, length, not-an-id",Value 2
+Helpdesk,service_type,3206,0.0009357454772301934,7.0,1.0,0.3333333333333333,-,False,"unique, length, not-an-id",Value 1
+Helpdesk,support_section,3206,0.002183406113537118,7.0,1.0,0.14285714285714285,-,False,"unique, length, not-an-id",Value 4
+Helpdesk,workgroup,3206,0.0012476606363069245,7.0,1.0,0.25,-,False,"unique, length, not-an-id",Value 3
+Helpdesk,_ts,3206,1.0,19.0,1.0,0.00031191515907673113,timestamp,False,"length, not-an-id, timestamp",2010-01-13 08:40:25
+BPIC13_incidents,case:concept:name,5287,1.0,11.0,0.0,0.00018914318138831096,outcome-field,False,"length, space, not-an-id, outcome-field",1-364285768
+BPIC13_incidents,org:group,5287,0.05636466805371666,3.3204085492717987,0.10913561566105542,0.12080536912751678,-,False,"unique, length, space, not-an-id",V30
+BPIC13_incidents,resource country,5287,0.005296009078872707,5.415169283147343,0.0043502931719311515,1.0,-,False,"unique, length, space",France
+BPIC13_incidents,organization country,5287,0.004161149990542841,1.9958388500094573,0.0,1.0,-,False,"unique, length, space",fr
+BPIC13_incidents,org:resource,5287,0.13410251560431247,6.039720068091546,0.018725174957442785,1.0,-,False,"unique, length, space",Frederic
+BPIC13_incidents,organization involved,5287,0.003215434083601286,9.830149423113296,0.9360696046907508,0.5882352941176471,-,False,"unique, length",Org line A2
+BPIC13_incidents,org:role,4675,0.004064171122994653,3.9101604278074866,0.0,0.2631578947368421,-,False,"unique, length, space, not-an-id",A2_4
+BPIC13_incidents,concept:name,5287,0.0005674295441649329,7.680158880272367,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",Accepted
+BPIC13_incidents,impact,5287,0.0007565727255532438,4.625496500851145,0.0,1.0,-,False,"unique, length, space",Medium
+BPIC13_incidents,product,5287,0.11632305655381124,6.925288443351617,0.00018914318138831096,0.0065040650406504065,-,False,"unique, length, space, not-an-id",PROD582
+BPIC13_incidents,lifecycle:transition,5287,0.0013240022697181767,12.278418763003593,0.9994325704558351,1.0,outcome-field,False,"unique, length, outcome-field",In Progress
+BPIC13_incidents,time:timestamp,5287,0.9907319841119727,25.0,0.0,0.00019091256204658267,outcome-field,False,"space, not-an-id, outcome-field",2010-03-31T16:59:42+02:00
+BPIC13_open,case:concept:name,573,1.0,11.0,0.0,0.0017452006980802793,outcome-field,False,"length, space, not-an-id, outcome-field",1-147898401
+BPIC13_open,org:group,573,0.017452006980802792,10.539267015706807,1.0,0.7,-,False,"unique, length",Org line A2
+BPIC13_open,resource country,573,0.02268760907504363,6.200698080279232,0.04886561954624782,1.0,-,False,"unique, length, space",Sweden
+BPIC13_open,org:resource,567,0.25925925925925924,5.654320987654321,0.005291005291005291,1.0,-,False,"unique, length, space",Tomas
+BPIC13_open,oranization country,573,0.02268760907504363,1.9965095986038395,0.0,1.0,-,False,"unique, length, space",cn
+BPIC13_open,org:role,398,0.06281407035175879,3.5251256281407035,0.0,0.2,-,False,"unique, length, space, not-an-id",A2_2
+BPIC13_open,concept:name,573,0.005235602094240838,7.841186736474695,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",Accepted
+BPIC13_open,impact,573,0.006980802792321117,5.020942408376963,0.0,1.0,-,False,"unique, length, space",Medium
+BPIC13_open,product,573,0.16579406631762653,6.87958115183246,0.0,0.010526315789473684,-,False,"unique, length, space, not-an-id",PROD753
+BPIC13_open,time:timestamp,573,1.0,25.0,0.0,0.0017452006980802793,outcome-field,False,"space, not-an-id, outcome-field",2006-11-07T10:00:36+01:00
+BPIC13_open,lifecycle:transition,573,0.008726003490401396,11.497382198952879,0.9668411867364747,1.0,outcome-field,False,"unique, length, outcome-field",In Progress
+BPIC13_closed,case:concept:name,1040,1.0,11.0,0.0,0.0009615384615384616,outcome-field,False,"length, space, not-an-id, outcome-field",1-109135791
+BPIC13_closed,org:group,1040,0.011538461538461539,10.65576923076923,1.0,0.6666666666666666,-,False,"unique, length",Org line A2
+BPIC13_closed,resource country,1040,0.015384615384615385,5.655769230769231,0.035576923076923075,1.0,-,False,"unique, length, space",INDIA
+BPIC13_closed,organization country,1040,0.015384615384615385,1.9961538461538462,0.0,1.0,-,False,"unique, length, space",se
+BPIC13_closed,org:resource,1039,0.30317613089509143,5.965351299326275,0.0019249278152069298,1.0,-,False,"unique, length, space",Minnie
+BPIC13_closed,organization involved,1040,0.21153846153846154,7.207692307692308,0.9663461538461539,0.11363636363636363,-,False,"unique, length, not-an-id",J11 2nd
+BPIC13_closed,org:role,652,0.03987730061349693,3.523006134969325,0.0,0.19230769230769232,-,False,"unique, length, space, not-an-id",A2_2
+BPIC13_closed,concept:name,1040,0.0028846153846153848,7.9490384615384615,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",Queued
+BPIC13_closed,impact,1040,0.0038461538461538464,5.077884615384615,0.0,1.0,-,False,"unique, length, space",High
+BPIC13_closed,product,1040,0.2605769230769231,6.775,0.0,0.007380073800738007,-,False,"unique, length, space, not-an-id",PROD191
+BPIC13_closed,lifecycle:transition,1040,0.004807692307692308,11.051923076923076,0.9721153846153846,1.0,outcome-field,False,"unique, length, outcome-field",Awaiting Assignment
+BPIC13_closed,time:timestamp,1040,1.0,25.0,0.0,0.0009615384615384616,outcome-field,False,"space, not-an-id, outcome-field",2006-01-11T15:49:42+01:00
+BPIC12,case:REG_DATE,9160,1.0,29.0,0.0,0.0001091703056768559,timestamp,False,"space, not-an-id, timestamp",2011-10-01T00:38:44.546+02:00
+BPIC12,case:concept:name,9160,1.0,6.0,0.0,0.0001091703056768559,outcome-field,False,"length, space, not-an-id, outcome-field",173688
+BPIC12,case:AMOUNT_REQ,9160,0.0546943231441048,4.5019650655021834,0.0,0.001996007984031936,-,False,"unique, length, space, not-an-id",20000
+BPIC12,org:resource,9160,0.0001091703056768559,3.0,0.0,1.0,-,False,"unique, length, space",112
+BPIC12,lifecycle:transition,9160,0.0001091703056768559,8.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",COMPLETE
+BPIC12,concept:name,9160,0.0001091703056768559,11.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",A_SUBMITTED
+BPIC12,time:timestamp,9160,1.0,29.0,0.0,0.0001091703056768559,outcome-field,False,"space, not-an-id, outcome-field",2011-10-01T00:38:44.546+02:00
+BPIC17,case:LoanGoal,20228,0.0006426735218508997,13.346104409729088,0.6542910816689737,1.0,-,False,"unique, length",Existing loan takeover
+BPIC17,case:ApplicationType,22056,9.067827348567283e-05,10.114481320275662,1.0,1.0,-,False,"unique, length",New credit
+BPIC17,case:concept:name,22056,1.0,21.48816648531012,0.0,4.5339136742836415e-05,outcome-field,False,"space, not-an-id, outcome-field",Application_652823628
+BPIC17,case:RequestedAmount,22056,0.026251360174102286,6.299102285092492,0.0,0.0017271157167530224,-,False,"unique, length, space, not-an-id",20000.0
+BPIC17,Action,22056,4.5339136742836415e-05,7.0,0.0,1.0,-,False,"unique, length, space",Created
+BPIC17,org:resource,22056,0.0041712005803409506,6.308396808124773,0.0,0.010869565217391304,-,False,"unique, length, space, not-an-id",User_1
+BPIC17,concept:name,22056,4.5339136742836415e-05,20.0,1.0,1.0,outcome-field,False,"unique, length, outcome-field",A_Create Application
+BPIC17,EventOrigin,22056,4.5339136742836415e-05,11.0,0.0,1.0,-,False,"unique, length, space",Application
+BPIC17,EventID,22056,1.0,21.48816648531012,0.0,4.5339136742836415e-05,-,False,"space, not-an-id",Application_652823628
+BPIC17,lifecycle:transition,22056,4.5339136742836415e-05,8.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",complete
+BPIC17,time:timestamp,22056,1.0,24.0,0.0,4.5339136742836415e-05,outcome-field,False,"space, not-an-id, outcome-field",2016-01-01T09:51:15.304Z
+BPIC19,case:Spend area text,174634,0.00011452523563567232,9.64241785677474,0.17327668151677222,1.0,-,False,"unique, length, space",Sales
+BPIC19,case:Company,176213,1.7024850606935926e-05,14.0,0.0,0.3333333333333333,-,False,"unique, length, space, not-an-id",companyID_0000
+BPIC19,case:Document Type,176213,1.7024850606935926e-05,11.0532650825989,1.0,1.0,-,False,"unique, length",Standard PO
+BPIC19,case:Sub spend area text,174634,0.0007558665551954373,17.880584536802683,0.6581421716275181,1.0,-,False,"unique, length",Products for Resale
+BPIC19,case:Purchasing Document,176213,0.3002275655031127,10.0,0.0,1.8902162407379404e-05,-,False,"unique, length, space, not-an-id",4507004931
+BPIC19,case:Purch. Doc. Category name,176213,5.674950202311974e-06,14.0,1.0,1.0,-,False,"unique, length",Purchase order
+BPIC19,case:Vendor,176213,0.009976562455664452,13.0,0.0,0.0005688282138794084,-,False,"unique, length, space, not-an-id",vendorID_0670
+BPIC19,case:Item Type,176213,3.404970121387185e-05,8.32545271915239,0.0,1.0,-,False,"unique, length, space",Standard
+BPIC19,case:Item Category,176213,2.2699800809247898e-05,28.79082133554278,0.941990659031967,1.0,-,False,unique,"3-way match, invoice before GR"
+BPIC19,case:Spend classification text,174634,1.7178785345350848e-05,2.349187443453165,0.0,1.0,-,False,"unique, length, space",NPR
+BPIC19,case:Source,176213,5.674950202311974e-06,19.0,0.0,1.0,-,False,"unique, length, space",sourceSystemID_0000
+BPIC19,case:Name,176213,0.009579315941502613,11.0,0.0,0.0005924170616113745,-,False,"unique, length, space, not-an-id",vendor_0645
+BPIC19,case:GR-Based Inv. Verif.,176213,1.1349900404623949e-05,4.94001010141136,0.0,1.0,-,False,"unique, length, space",false
+BPIC19,case:Item,176213,0.0018273339651444559,5.0,0.0,0.003105590062111801,-,False,"unique, length, space, not-an-id",00010
+BPIC19,case:concept:name,176213,1.0,16.0,0.0,5.674950202311974e-06,outcome-field,False,"length, space, not-an-id, outcome-field",4507004931_00010
+BPIC19,case:Goods Receipt,176213,1.1349900404623949e-05,4.002474278288208,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",true
+BPIC19,User,173442,0.0011473576181086473,8.0,0.0,0.010050251256281407,-,False,"unique, length, space, not-an-id",user_329
+BPIC19,org:resource,173442,0.0011473576181086473,8.0,0.0,0.010050251256281407,-,False,"unique, length, space, not-an-id",user_329
+BPIC19,concept:name,176213,4.5399601618495795e-05,25.924977158325436,1.0,1.0,outcome-field,False,"unique, outcome-field",Vendor creates invoice
+BPIC19,Cumulative net worth (EUR),176213,0.0794266030315584,5.182313450199475,0.0,7.144898542440698e-05,outcome-field,False,"unique, length, space, not-an-id, outcome-field",325.0
+BPIC19,time:timestamp,176213,0.20888924199690148,24.0,0.0,2.716726887446005e-05,outcome-field,False,"unique, space, not-an-id, outcome-field",1948-01-26T22:59:00.000Z
+BPIC15_1,case:endDate,716,0.4818435754189944,25.0,0.0,0.002898550724637681,timestamp,False,"space, not-an-id, timestamp",2014-06-10T14:13:27+02:00
+BPIC15_1,case:caseStatus,839,0.0023837902264600714,1.0,0.0,1.0,-,False,"unique, length, space",G
+BPIC15_1,case:SUMleges,631,0.6973058637083994,8.177496038034866,0.0,0.004545454545454545,-,False,"length, space, not-an-id",1354.2542
+BPIC15_1,case:last_phase,839,0.026221692491060787,19.37783075089392,1.0,1.0,outcome-field,False,"unique, length, outcome-field",Buiten behandeling gelaten
+BPIC15_1,case:case_type,839,0.0011918951132300357,6.0,0.0,1.0,-,False,"unique, length, space",557669
+BPIC15_1,case:concept:name,839,1.0,7.0,0.0,0.0011918951132300357,outcome-field,False,"length, space, not-an-id, outcome-field",2760925
+BPIC15_1,case:Responsible_actor,838,0.021479713603818614,6.569212410501193,0.0,0.05555555555555555,-,False,"unique, length, space, not-an-id",4901428
+BPIC15_1,case:parts,837,0.07526881720430108,12.605734767025089,0.2712066905615293,1.0,-,False,"unique, length, space","Inrit/Uitweg,Inrit/Uitweg"
+BPIC15_1,case:termName,612,0.017973856209150325,26.130718954248366,1.0,0.8181818181818182,-,False,unique,Termijn ter inzage verlenging
+BPIC15_1,case:endDatePlanned,35,0.8285714285714286,25.0,0.0,0.034482758620689655,timestamp,False,"space, not-an-id, too-few-rows, timestamp",2010-12-29T00:00:00+01:00
+BPIC15_1,case:startDate,839,0.5816448152562574,25.0,0.0,0.0020491803278688526,timestamp,False,"space, not-an-id, timestamp",2010-10-05T00:00:00+02:00
+BPIC15_1,case:requestComplete,839,0.0023837902264600714,4.151370679380214,0.0,1.0,-,False,"unique, length, space",TRUE
+BPIC15_1,case:IDofConceptCase,539,1.0,7.0,0.0,0.0018552875695732839,-,False,"length, space, not-an-id",2760933
+BPIC15_1,question,839,0.007151370679380214,5.054827175208581,0.004767580452920143,0.5,-,False,"unique, length, space, not-an-id",5-10-2010 0:00:00
+BPIC15_1,dateFinished,839,0.9797377830750894,19.0,1.0,0.0012165450121654502,timestamp,False,"length, not-an-id, timestamp",2010-10-07 14:57:22
+BPIC15_1,dueDate,822,1.0,25.0,0.0,0.0012165450121654502,timestamp,False,"space, not-an-id, timestamp",2010-10-10T14:43:08+02:00
+BPIC15_1,action_code,839,0.011918951132300357,12.038140643623361,0.0,0.6,activity-alias,False,"unique, length, space, activity-alias",01_HOOFD_010
+BPIC15_1,activityNameEN,839,0.010727056019070322,32.06197854588796,1.0,1.0,-,False,unique,register submission date request
+BPIC15_1,planned,838,1.0,25.0,0.0,0.0011933174224343676,timestamp,False,"space, not-an-id, timestamp",2010-10-08T14:43:08+02:00
+BPIC15_1,time:timestamp,839,0.5697258641239571,25.0,0.0,0.0020920502092050207,outcome-field,False,"space, not-an-id, outcome-field",2010-10-05T00:00:00+02:00
+BPIC15_1,monitoringResource,839,0.02026221692491061,6.131108462455304,0.0,0.058823529411764705,-,False,"unique, length, space, not-an-id",560894
+BPIC15_1,org:resource,839,0.014302741358760428,6.019070321811681,0.0,0.08333333333333333,-,False,"unique, length, space, not-an-id",560872
+BPIC15_1,activityNameNL,839,0.010727056019070322,38.06555423122765,1.0,1.0,-,False,unique,registratie datum binnenkomst aanvraag
+BPIC15_1,concept:name,839,0.011918951132300357,12.038140643623361,0.0,0.6,outcome-field,False,"unique, length, space, outcome-field",01_HOOFD_010
+BPIC15_1,lifecycle:transition,839,0.0011918951132300357,8.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",complete
+BPIC15_1,case:landRegisterID,96,0.8333333333333334,6.71875,0.0,0.0125,-,False,"length, space, not-an-id",720164
+BPIC15_1,case:caseProcedure,83,0.024096385542168676,9.566265060240964,0.0,1.0,-,False,"unique, length, space",Uitgebreid
+BPIC15_1,case:Includes_subCases,839,0.0023837902264600714,1.0,0.0,1.0,-,False,"unique, length, space",N
+BPIC15_2,case:Includes_subCases,581,0.0034423407917383822,1.0,0.0,1.0,-,False,"unique, length, space",N
+BPIC15_2,case:concept:name,582,1.0,7.390034364261169,0.0,0.001718213058419244,outcome-field,False,"length, space, not-an-id, outcome-field",3871304
+BPIC15_2,case:Responsible_actor,582,0.012027491408934709,6.1048109965635735,0.0,0.14285714285714285,-,False,"unique, length, space, not-an-id",560458
+BPIC15_2,case:endDate,522,0.9310344827586207,25.0,0.0,0.00205761316872428,timestamp,False,"space, not-an-id, timestamp",2013-12-03T16:21:50+01:00
+BPIC15_2,case:caseStatus,582,0.003436426116838488,1.0,0.0,1.0,-,False,"unique, length, space",G
+BPIC15_2,case:parts,579,0.08290155440414508,14.20034542314335,0.35060449050086356,1.0,-,False,"unique, length, space",Milieu (vergunning)
+BPIC15_2,case:caseProcedure,178,0.011235955056179775,9.49438202247191,0.0,1.0,-,False,"unique, length, space",Uitgebreid
+BPIC15_2,case:last_phase,582,0.029209621993127148,16.716494845360824,1.0,1.0,outcome-field,False,"unique, length, outcome-field",Procedure afgebroken
+BPIC15_2,case:case_type,582,0.001718213058419244,6.0,0.0,1.0,-,False,"unique, length, space",557669
+BPIC15_2,case:startDate,582,0.6907216494845361,25.0,0.0,0.0024875621890547263,timestamp,False,"space, not-an-id, timestamp",2011-03-16T00:00:00+01:00
+BPIC15_2,case:requestComplete,582,0.003436426116838488,4.152920962199313,0.0,1.0,-,False,"unique, length, space",TRUE
+BPIC15_2,monitoringResource,582,0.012027491408934709,6.065292096219931,0.0,0.14285714285714285,-,False,"unique, length, space, not-an-id",560458
+BPIC15_2,org:resource,582,0.012027491408934709,6.0034364261168385,0.0,0.14285714285714285,-,False,"unique, length, space, not-an-id",560532
+BPIC15_2,activityNameNL,582,0.015463917525773196,38.21993127147766,1.0,1.0,-,False,unique,datum ter inzage MER
+BPIC15_2,concept:name,582,0.01718213058419244,12.154639175257731,0.0,0.3,outcome-field,False,"unique, length, space, not-an-id, outcome-field",01_HOOFD_080
+BPIC15_2,question,582,0.012027491408934709,5.097938144329897,0.00859106529209622,0.42857142857142855,-,False,"unique, length, space, not-an-id",29-6-2010 0:00:00
+BPIC15_2,dateFinished,582,0.9810996563573883,19.0,1.0,0.0017513134851138354,timestamp,False,"length, not-an-id, timestamp",2011-09-12 10:20:20
+BPIC15_2,action_code,582,0.01718213058419244,12.154639175257731,0.0,0.3,activity-alias,False,"unique, length, space, not-an-id, activity-alias",01_HOOFD_080
+BPIC15_2,activityNameEN,582,0.015463917525773196,31.920962199312715,1.0,1.0,-,False,unique,date for inspection MER
+BPIC15_2,planned,575,1.0,25.0,0.0,0.0017391304347826088,timestamp,False,"space, not-an-id, timestamp",2011-04-28T09:15:18+02:00
+BPIC15_2,lifecycle:transition,582,0.001718213058419244,8.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",complete
+BPIC15_2,time:timestamp,582,0.6666666666666666,25.0,0.0,0.002577319587628866,outcome-field,False,"space, not-an-id, outcome-field",2010-06-29T00:00:00+02:00
+BPIC15_2,case:SUMleges,403,0.652605459057072,7.253101736972705,0.0,0.0076045627376425855,-,False,"length, space, not-an-id",84.3
+BPIC15_2,case:IDofConceptCase,142,0.9929577464788732,7.647887323943662,0.0,0.0070921985815602835,-,False,"length, space, not-an-id",3462766
+BPIC15_2,case:termName,64,0.125,23.25,1.0,0.875,-,False,unique,Termijn tot besluit na geen zienswijzen
+BPIC15_2,case:landRegisterID,33,0.9393939393939394,7.7272727272727275,0.0,0.03225806451612903,-,False,"length, space, not-an-id, too-few-rows",4573854
+BPIC15_2,dueDate,20,1.0,25.0,0.0,0.05,timestamp,False,"space, not-an-id, too-few-rows, timestamp",2014-02-14T14:24:28+01:00
+BPIC15_3,case:Includes_subCases,985,0.0020304568527918783,1.0,0.0,1.0,-,False,"unique, length, space",J
+BPIC15_3,case:concept:name,986,1.0,7.0,0.0,0.0010141987829614604,outcome-field,False,"length, space, not-an-id, outcome-field",3090877
+BPIC15_3,case:Responsible_actor,986,0.018255578093306288,6.482758620689655,0.0,0.05555555555555555,-,False,"unique, length, space, not-an-id",3442724
+BPIC15_3,case:caseStatus,986,0.002028397565922921,1.0,0.0,1.0,-,False,"unique, length, space",G
+BPIC15_3,case:last_phase,986,0.02535496957403651,18.676470588235293,1.0,1.0,outcome-field,False,"unique, length, outcome-field",Vergunning verleend
+BPIC15_3,case:case_type,986,0.0010141987829614604,6.0,0.0,1.0,-,False,"unique, length, space",557669
+BPIC15_3,case:termName,766,0.015665796344647518,26.12793733681462,0.9960835509138382,0.9166666666666666,-,False,unique,Termijn tot besluit omgezet
+BPIC15_3,case:startDate,986,0.5720081135902637,25.0,0.0,0.0017730496453900709,timestamp,False,"space, not-an-id, timestamp",2010-11-03T00:00:00+01:00
+BPIC15_3,case:requestComplete,986,0.002028397565922921,4.158215010141988,0.0,1.0,-,False,"unique, length, space",TRUE
+BPIC15_3,question,986,0.009127789046653144,5.116632860040568,0.009127789046653144,0.3333333333333333,-,False,"unique, length, space, not-an-id",EMPTY
+BPIC15_3,dateFinished,986,0.9776876267748479,19.0,1.0,0.001037344398340249,timestamp,False,"length, not-an-id, timestamp",2010-12-09 10:09:41
+BPIC15_3,dueDate,957,1.0,25.0,0.0,0.0010449320794148381,timestamp,False,"space, not-an-id, timestamp",2013-05-15T09:57:47+02:00
+BPIC15_3,action_code,986,0.009127789046653144,12.06997971602434,0.0,0.6666666666666666,activity-alias,False,"unique, length, space, activity-alias",01_HOOFD_065_2
+BPIC15_3,activityNameEN,986,0.008113590263691683,32.07910750507099,1.0,1.0,-,False,unique,enter senddate procedure confirmation
+BPIC15_3,planned,984,1.0,25.0,0.0,0.0010162601626016261,timestamp,False,"space, not-an-id, timestamp",2010-12-10T10:08:38+01:00
+BPIC15_3,time:timestamp,986,0.563894523326572,25.0,0.0,0.0017985611510791368,outcome-field,False,"space, not-an-id, outcome-field",2010-01-01T00:00:00+01:00
+BPIC15_3,monitoringResource,986,0.015212981744421906,6.085192697768763,0.0,0.06666666666666667,-,False,"unique, length, space, not-an-id",560922
+BPIC15_3,org:resource,986,0.010141987829614604,6.04158215010142,0.0,0.1,-,False,"unique, length, space, not-an-id",3148844
+BPIC15_3,activityNameNL,986,0.008113590263691683,38.1369168356998,1.0,1.0,-,False,unique,invoeren verzenddatum procedurebevestiging
+BPIC15_3,concept:name,986,0.009127789046653144,12.06997971602434,0.0,0.6666666666666666,outcome-field,False,"unique, length, space, outcome-field",01_HOOFD_065_2
+BPIC15_3,lifecycle:transition,986,0.0010141987829614604,8.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",complete
+BPIC15_3,case:endDate,900,0.5488888888888889,25.0,0.0,0.0020242914979757085,timestamp,False,"space, not-an-id, timestamp",2011-06-09T00:00:00+02:00
+BPIC15_3,case:parts,964,0.07053941908713693,11.614107883817427,0.21887966804979253,1.0,-,False,"unique, length, space",Milieu (vergunning)
+BPIC15_3,case:SUMleges,556,0.6726618705035972,7.248201438848921,0.0,0.0053475935828877,-,False,"length, space, not-an-id",23847.627
+BPIC15_3,case:caseProcedure,113,0.017699115044247787,9.52212389380531,0.0,1.0,-,False,"unique, length, space",Uitgebreid
+BPIC15_3,case:IDofConceptCase,513,0.9980506822612085,7.0,0.0,0.001953125,-,False,"length, space, not-an-id",5726449
+BPIC15_3,case:endDatePlanned,24,0.7083333333333334,25.0,0.0,0.058823529411764705,timestamp,False,"space, not-an-id, too-few-rows, timestamp",2010-12-06T00:00:00+01:00
+BPIC15_3,case:landRegisterID,128,0.828125,7.0,0.0,0.009433962264150943,-,False,"length, space, not-an-id",5726441
+BPIC15_4,case:concept:name,737,1.0,7.0,0.0,0.0013568521031207597,outcome-field,False,"length, space, not-an-id, outcome-field",4284682
+BPIC15_4,case:Responsible_actor,737,0.012211668928086838,6.242876526458616,0.0,0.1111111111111111,-,False,"unique, length, space, not-an-id",560852
+BPIC15_4,case:endDate,702,0.6438746438746439,25.0,0.0,0.0022123893805309734,timestamp,False,"space, not-an-id, timestamp",2011-01-11T00:00:00+01:00
+BPIC15_4,case:caseStatus,737,0.0027137042062415195,1.0,0.0,1.0,-,False,"unique, length, space",G
+BPIC15_4,case:parts,728,0.06456043956043957,12.240384615384615,0.26785714285714285,1.0,-,False,"unique, length, space","Bouw,Sloop"
+BPIC15_4,case:SUMleges,534,0.6460674157303371,7.438202247191011,0.0,0.002898550724637681,-,False,"length, space, not-an-id",1438.3435
+BPIC15_4,case:last_phase,737,0.021709633649932156,19.371777476255087,1.0,1.0,outcome-field,False,"unique, length, outcome-field",Besluit genomen
+BPIC15_4,case:case_type,737,0.0013568521031207597,6.0,0.0,1.0,-,False,"unique, length, space",557669
+BPIC15_4,case:startDate,737,0.6594301221166893,25.0,0.0,0.00205761316872428,timestamp,False,"space, not-an-id, timestamp",2010-10-27T00:00:00+02:00
+BPIC15_4,case:requestComplete,737,0.0027137042062415195,4.126187245590231,0.0,1.0,-,False,"unique, length, space",TRUE
+BPIC15_4,case:IDofConceptCase,402,1.0,7.0,0.0,0.0024875621890547263,-,False,"length, space, not-an-id",4167229
+BPIC15_4,question,737,0.023066485753052916,5.320217096336499,0.025780189959294438,0.17647058823529413,-,False,"unique, length, space, not-an-id",EMPTY
+BPIC15_4,dateFinished,737,0.9430122116689281,19.0,1.0,0.0014388489208633094,timestamp,False,"length, not-an-id, timestamp",2011-01-04 16:09:51
+BPIC15_4,dueDate,333,1.0,25.0,0.0,0.003003003003003003,timestamp,False,"space, not-an-id, timestamp",2012-03-24T08:30:05+01:00
+BPIC15_4,action_code,737,0.012211668928086838,12.056987788331073,0.0,0.4444444444444444,activity-alias,False,"unique, length, space, not-an-id, activity-alias",01_HOOFD_190_2
+BPIC15_4,activityNameEN,737,0.010854816824966078,31.83582089552239,1.0,1.0,-,False,unique,enter senddate procedure confirmation
+BPIC15_4,planned,732,1.0,25.0,0.0,0.001366120218579235,timestamp,False,"space, not-an-id, timestamp",2010-10-08T11:23:39+02:00
+BPIC15_4,time:timestamp,737,0.6445047489823609,25.0,0.0,0.002105263157894737,outcome-field,False,"space, not-an-id, outcome-field",2009-11-18T00:00:00+01:00
+BPIC15_4,monitoringResource,737,0.013568521031207599,6.1275440976933515,0.0,0.1,-,False,"unique, length, space, not-an-id",560852
+BPIC15_4,org:resource,737,0.008141112618724558,6.025780189959295,0.0,0.16666666666666666,-,False,"unique, length, space, not-an-id",560852
+BPIC15_4,activityNameNL,737,0.010854816824966078,37.858887381275444,1.0,1.0,-,False,unique,invoeren verzenddatum procedurebevestiging
+BPIC15_4,concept:name,737,0.012211668928086838,12.056987788331073,0.0,0.4444444444444444,outcome-field,False,"unique, length, space, not-an-id, outcome-field",01_HOOFD_190_2
+BPIC15_4,lifecycle:transition,737,0.0013568521031207597,8.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",complete
+BPIC15_4,case:termName,36,0.16666666666666666,23.833333333333332,1.0,1.0,-,False,"unique, too-few-rows",Termijn tot besluit omgezet
+BPIC15_4,case:caseProcedure,100,0.02,9.92,0.0,1.0,-,False,"unique, length, space",Uitgebreid
+BPIC15_4,case:landRegisterID,56,0.8392857142857143,7.0,0.0,0.02127659574468085,-,False,"length, space, not-an-id",4581491
+BPIC15_4,case:Includes_subCases,737,0.0027137042062415195,1.0,0.0,1.0,-,False,"unique, length, space",J
+BPIC15_4,case:endDatePlanned,2,1.0,25.0,0.0,0.5,timestamp,False,"space, not-an-id, too-few-rows, timestamp",2013-06-12T00:00:00+02:00
+BPIC15_5,case:endDate,786,0.688295165394402,25.0,0.0,0.0018484288354898336,timestamp,False,"space, not-an-id, timestamp",2011-08-30T16:04:09+02:00
+BPIC15_5,case:caseStatus,809,0.003708281829419036,1.0,0.0,1.0,-,False,"unique, length, space",G
+BPIC15_5,case:SUMleges,677,0.6056129985228951,7.865583456425406,0.0,0.0024390243902439024,-,False,"length, space, not-an-id",258.801
+BPIC15_5,case:last_phase,809,0.02595797280593325,19.864029666254634,1.0,1.0,outcome-field,False,"unique, length, outcome-field",Vergunning onherroepelijk
+BPIC15_5,case:case_type,809,0.0012360939431396785,6.0,0.0,1.0,-,False,"unique, length, space",557669
+BPIC15_5,case:concept:name,809,1.0,7.0,0.0,0.0012360939431396785,outcome-field,False,"length, space, not-an-id, outcome-field",4511735
+BPIC15_5,case:Responsible_actor,809,0.009888751545117428,6.0,0.0,0.125,-,False,"unique, length, space, not-an-id",560604
+BPIC15_5,case:landRegisterID,795,0.7710691823899372,7.0,0.0,0.0016313213703099511,-,False,"length, space, not-an-id",4504496
+BPIC15_5,case:parts,807,0.10161090458488228,15.604708798017349,0.32589838909541513,1.0,-,False,"unique, length, space",Brandveilig gebruik (vergunning)
+BPIC15_5,case:termName,66,0.10606060606060606,24.71212121212121,1.0,0.8571428571428571,-,False,unique,Termijn tot besluit
+BPIC15_5,case:startDate,809,0.6341161928306551,25.0,0.0,0.001949317738791423,timestamp,False,"space, not-an-id, timestamp",2009-11-23T00:00:00+01:00
+BPIC15_5,case:requestComplete,809,0.002472187886279357,4.236093943139679,0.0,1.0,-,False,"unique, length, space",TRUE
+BPIC15_5,case:IDofConceptCase,401,0.9975062344139651,7.002493765586035,0.0,0.0025,-,False,"length, space, not-an-id",3445895
+BPIC15_5,question,809,0.002472187886279357,5.0,0.0,1.0,-,False,"unique, length, space",EMPTY
+BPIC15_5,dateFinished,809,0.92336217552534,19.0,1.0,0.0013386880856760374,timestamp,False,"length, not-an-id, timestamp",2011-07-07 11:03:40
+BPIC15_5,dueDate,791,1.0,25.0,0.0,0.0012642225031605564,timestamp,False,"space, not-an-id, timestamp",2011-07-10T11:01:39+02:00
+BPIC15_5,action_code,808,0.009900990099009901,12.042079207920793,0.0,0.25,activity-alias,False,"unique, length, space, not-an-id, activity-alias",01_HOOFD_010
+BPIC15_5,activityNameEN,809,0.009888751545117428,31.96044499381953,1.0,1.0,-,False,unique,register submission date request
+BPIC15_5,planned,807,1.0,25.0,0.0,0.0012391573729863693,timestamp,False,"space, not-an-id, timestamp",2011-07-08T11:01:39+02:00
+BPIC15_5,time:timestamp,809,0.6279357231149567,25.0,0.0,0.001968503937007874,outcome-field,False,"space, not-an-id, outcome-field",2009-11-23T00:00:00+01:00
+BPIC15_5,monitoringResource,809,0.0173053152039555,6.357231149567367,0.0,0.07142857142857142,-,False,"unique, length, space, not-an-id",1254625
+BPIC15_5,org:resource,809,0.014833127317676144,6.4635352286773795,0.0,0.08333333333333333,-,False,"unique, length, space, not-an-id",1254625
+BPIC15_5,activityNameNL,809,0.009888751545117428,38.0185414091471,1.0,1.0,-,False,unique,registratie datum binnenkomst aanvraag
+BPIC15_5,concept:name,809,0.011124845488257108,12.04202719406675,0.0,0.3333333333333333,outcome-field,False,"unique, length, space, not-an-id, outcome-field",01_HOOFD_010
+BPIC15_5,lifecycle:transition,809,0.0012360939431396785,8.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",complete
+BPIC15_5,case:caseProcedure,62,0.03225806451612903,9.806451612903226,0.0,1.0,-,False,"unique, length, space",Regulier
+BPIC15_5,case:Includes_subCases,809,0.002472187886279357,1.0,0.0,1.0,-,False,"unique, length, space",J
+BPIC15_5,case:endDatePlanned,3,1.0,25.0,0.0,0.3333333333333333,timestamp,False,"space, not-an-id, too-few-rows, timestamp",2010-12-02T00:00:00+01:00
+BPIC20_domestic,case:id,7349,1.0,17.616138250102054,1.0,0.00013607293509320997,-,False,"length, not-an-id",declaration 86791
+BPIC20_domestic,case:concept:name,7349,1.0,17.616138250102054,1.0,0.00013607293509320997,outcome-field,False,"length, not-an-id, outcome-field",declaration 86791
+BPIC20_domestic,case:BudgetNumber,7349,0.00013607293509320997,12.0,1.0,1.0,-,False,"unique, length",budget 86566
+BPIC20_domestic,case:DeclarationNumber,7046,1.0,24.6172296338348,1.0,0.0001419244961680386,-,False,not-an-id,declaration number 86792
+BPIC20_domestic,case:Amount,7349,0.8092257449993197,16.793713430398693,0.0,0.00016815200941651252,-,False,"length, space, not-an-id",26.85120450862128
+BPIC20_domestic,id,7349,1.0,15.616138250102054,1.0,0.00013607293509320997,-,False,"length, not-an-id",st_step 86794_0
+BPIC20_domestic,org:resource,7349,0.00013607293509320997,12.0,1.0,1.0,-,False,"unique, length",STAFF MEMBER
+BPIC20_domestic,concept:name,7349,0.00027214587018641994,32.94611511770309,1.0,1.0,outcome-field,False,"unique, outcome-field",Declaration SUBMITTED by EMPLOYEE
+BPIC20_domestic,time:timestamp,7349,0.9993196353245339,29.0,0.0,0.00013616557734204794,outcome-field,False,"space, not-an-id, outcome-field",2017-01-09T09:49:50.000+01:00
+BPIC20_domestic,org:role,7349,0.00013607293509320997,8.0,0.0,1.0,-,False,"unique, length, space",EMPLOYEE
+BPIC20_intl,case:Permit travel permit number,4491,0.837452683144066,25.65330661322645,1.0,0.00026588673225206064,-,False,not-an-id,travel permit number 76456
+BPIC20_intl,case:DeclarationNumber,4336,1.0,23.95272140221402,1.0,0.00023062730627306272,-,False,not-an-id,declaration number 76458
+BPIC20_intl,case:Amount,4514,0.9474966770048737,16.77027027027027,0.0,0.00023380874444704232,-,False,"length, space, not-an-id",39.66456144659199
+BPIC20_intl,case:RequestedAmount,4514,0.9474966770048737,16.77027027027027,0.0,0.00023380874444704232,-,False,"length, space, not-an-id",39.66456144659199
+BPIC20_intl,case:Permit TaskNumber,2930,0.0017064846416382253,8.014675767918089,1.0,0.2,-,False,"unique, length, not-an-id",task 427
+BPIC20_intl,case:Permit BudgetNumber,4514,0.04164820558263181,10.544085068675233,1.0,0.005319148936170213,-,False,"unique, length, not-an-id",budget 922
+BPIC20_intl,case:OriginalAmount,4514,0.9474966770048737,16.77027027027027,0.0,0.00023380874444704232,-,False,"length, space, not-an-id",39.66456144659199
+BPIC20_intl,case:Permit ProjectNumber,2932,0.2281718963165075,12.152114597544339,1.0,0.0014947683109118087,-,False,"unique, length, not-an-id",project 73472
+BPIC20_intl,case:concept:name,4514,1.0,16.952813469206912,1.0,0.00022153300841825432,outcome-field,False,"length, not-an-id, outcome-field",declaration 76457
+BPIC20_intl,case:Permit OrganizationalEntity,4514,0.005538325210456358,25.0,1.0,0.04,-,False,"unique, not-an-id",organizational unit 65458
+BPIC20_intl,case:travel permit number,4514,0.9299955693398316,25.957908728400533,1.0,0.00023820867079561695,-,False,not-an-id,travel permit number 76456
+BPIC20_intl,case:Permit RequestedBudget,4514,0.7904297740363314,17.2027027027027,0.0,0.0002802690582959641,-,False,"length, space, not-an-id",41.613444658859
+BPIC20_intl,case:id,4514,1.0,16.952813469206912,1.0,0.00022153300841825432,-,False,"length, not-an-id",declaration 76457
+BPIC20_intl,case:Permit ID,4514,0.9291094373061586,18.952591936198495,1.0,0.0002384358607534573,-,False,"length, not-an-id",travel permit 76455
+BPIC20_intl,case:Permit id,4514,0.8360655737704918,18.65485157288436,1.0,0.00026497085320614734,-,False,"length, not-an-id",travel permit 76455
+BPIC20_intl,case:BudgetNumber,4507,0.1428888395828711,13.0,1.0,0.0015527950310559005,-,False,"unique, length, not-an-id",budget 144133
+BPIC20_intl,case:Permit ActivityNumber,282,0.38652482269503546,13.301418439716311,1.0,0.009174311926605505,-,False,"unique, length, not-an-id",activity 46005
+BPIC20_intl,case:AdjustedAmount,4514,0.9477182100132919,16.773593265396546,0.0,0.0002337540906965872,-,False,"length, space, not-an-id",39.66456144659199
+BPIC20_intl,id,4514,0.9282233052724856,15.949933540097474,1.0,0.00047732696897374703,-,False,"length, not-an-id",rv_travel permit 76455_6
+BPIC20_intl,org:resource,4514,0.00022153300841825432,12.0,1.0,1.0,-,False,"unique, length",STAFF MEMBER
+BPIC20_intl,concept:name,4514,0.0008861320336730173,26.41493132476739,1.0,1.0,outcome-field,False,"unique, outcome-field",Start trip
+BPIC20_intl,time:timestamp,4514,0.8890119627824545,29.0,0.0,0.00024919013207077,outcome-field,False,"space, not-an-id, outcome-field",2016-10-05T00:00:00.000+02:00
+BPIC20_intl,org:role,4514,0.00022153300841825432,8.0,0.0,1.0,-,False,"unique, length, space",EMPLOYEE
+BPIC20_prepaid,case:Rfp_id,1469,1.0,24.911504424778762,1.0,0.0006807351940095302,-,False,not-an-id,request for payment 73550
+BPIC20_prepaid,case:Permit travel permit number,1413,0.6503892427459307,25.70488322717622,1.0,0.001088139281828074,-,False,not-an-id,travel permit number 76315
+BPIC20_prepaid,case:Task,900,0.36777777777777776,9.67,1.0,0.0030211480362537764,-,False,"unique, length, not-an-id",task 71977
+BPIC20_prepaid,case:OrganizationalEntity,1469,0.014295439074200136,25.0,1.0,0.047619047619047616,-,False,"unique, not-an-id",organizational unit 65463
+BPIC20_prepaid,case:RequestedAmount,1469,0.9809394145677331,17.342409802586793,0.0,0.0006939625260235947,-,False,"length, space, not-an-id",854.5798378437331
+BPIC20_prepaid,case:Activity,899,0.004449388209121246,12.03337041156841,1.0,0.25,outcome-field,False,"unique, length, not-an-id, outcome-field",activity 505
+BPIC20_prepaid,case:Permit TaskNumber,907,0.0033076074972436605,8.015435501653803,1.0,0.3333333333333333,-,False,"unique, length, not-an-id",task 427
+BPIC20_prepaid,case:Permit BudgetNumber,1423,0.08573436401967674,10.59451862262825,1.0,0.00819672131147541,-,False,"unique, length, not-an-id",budget 6198
+BPIC20_prepaid,case:Permit ProjectNumber,908,0.3392070484581498,12.280837004405287,1.0,0.003246753246753247,-,False,"unique, length, not-an-id",project 2260
+BPIC20_prepaid,case:Project,1456,0.010302197802197802,11.059752747252746,1.0,0.06666666666666667,-,False,"unique, length, not-an-id",project 503
+BPIC20_prepaid,case:concept:name,1469,1.0,24.911504424778762,1.0,0.0006807351940095302,outcome-field,False,"not-an-id, outcome-field",request for payment 73550
+BPIC20_prepaid,case:Permit OrganizationalEntity,1423,0.011946591707659873,25.0,1.0,0.058823529411764705,-,False,"unique, not-an-id",organizational unit 65455
+BPIC20_prepaid,case:Permit RequestedBudget,1469,0.6194690265486725,16.915588835942817,0.0,0.001098901098901099,-,False,"length, space, not-an-id",1979.272103997747
+BPIC20_prepaid,case:Cost Type,1469,0.0006807351940095302,1.0,0.0,1.0,-,False,"unique, length, space",0
+BPIC20_prepaid,case:Permit id,1423,0.651440618411806,18.70695713281799,1.0,0.0010787486515641855,-,False,"length, not-an-id",travel permit 73549
+BPIC20_prepaid,case:Permit ActivityNumber,116,0.3879310344827586,13.301724137931034,1.0,0.022222222222222223,-,False,"unique, length, not-an-id",activity 7905
+BPIC20_prepaid,case:RfpNumber,1413,1.0,31.901627742392073,1.0,0.0007077140835102619,-,False,not-an-id,request for payment number 73551
+BPIC20_prepaid,id,1469,0.7161334240980258,14.915588835942819,1.0,0.0009505703422053232,-,False,"length, not-an-id",st_step 73555_0
+BPIC20_prepaid,org:resource,1469,0.0006807351940095302,12.0,1.0,1.0,-,False,"unique, length",STAFF MEMBER
+BPIC20_prepaid,concept:name,1469,0.0020422055820285907,29.10142954390742,1.0,1.0,outcome-field,False,"unique, outcome-field",Permit SUBMITTED by EMPLOYEE
+BPIC20_prepaid,time:timestamp,1469,0.7161334240980258,29.0,0.0,0.0009505703422053232,outcome-field,False,"space, not-an-id, outcome-field",2017-01-09T14:48:43.000+01:00
+BPIC20_prepaid,org:role,1469,0.0006807351940095302,8.0,0.0,1.0,-,False,"unique, length, space",EMPLOYEE
+BPIC20_permit,case:OrganizationalEntity,4945,0.0058645096056622855,25.0,1.0,0.034482758620689655,-,False,"unique, not-an-id",organizational unit 65458
+BPIC20_permit,case:ProjectNumber,2912,0.25583791208791207,12.364354395604396,1.0,0.0013422818791946308,-,False,"unique, length, not-an-id",project 73472
+BPIC20_permit,case:TaskNumber,2908,0.0017193947730398899,8.016506189821182,1.0,0.2,-,False,"unique, length, not-an-id",task 427
+BPIC20_permit,case:dec_id_0,3270,1.0,16.85565749235474,1.0,0.0003058103975535168,-,False,"length, not-an-id",declaration 76457
+BPIC20_permit,case:ActivityNumber,319,0.4012539184952978,13.360501567398119,1.0,0.0078125,-,False,"length, not-an-id",activity 46005
+BPIC20_permit,case:TotalDeclared,4945,0.849747219413549,15.277047522750253,0.0,0.00023798191337458352,-,False,"length, space, not-an-id",39.66456144659199
+BPIC20_permit,case:concept:name,4945,1.0,18.849544994944388,1.0,0.00020222446916076846,outcome-field,False,"length, not-an-id, outcome-field",travel permit 76455
+BPIC20_permit,case:RequestedAmount_0,4211,0.625029684160532,6.804084540489195,0.0,0.0011398176291793312,-,False,"length, space, not-an-id",56
+BPIC20_permit,case:Overspent,4945,0.0004044489383215369,4.714661274014156,0.0,1.0,-,False,"unique, length, space",false
+BPIC20_permit,case:travel permit number,4818,1.0,25.848277293482774,1.0,0.00020755500207555002,-,False,not-an-id,travel permit number 76456
+BPIC20_permit,case:DeclarationNumber_0,3214,1.0,23.856253889234598,1.0,0.00031113876789047915,-,False,not-an-id,declaration number 76458
+BPIC20_permit,case:id,4945,1.0,18.849544994944388,1.0,0.00020222446916076846,-,False,"length, not-an-id",travel permit 76455
+BPIC20_permit,case:RequestedBudget,4945,0.9007077856420627,16.816986855409503,0.0,0.000224517287831163,-,False,"length, space, not-an-id",41.613444658859
+BPIC20_permit,case:BudgetNumber,4945,0.04226491405460061,10.619413549039434,1.0,0.004784688995215311,-,False,"unique, length, not-an-id",budget 922
+BPIC20_permit,case:OverspentAmount,4945,0.9443882709807887,17.31284125379171,0.0,0.00042826552462526765,-,False,"length, space, not-an-id",0.0
+BPIC20_permit,id,4945,1.0,15.792719919110212,1.0,0.0004044489383215369,-,False,"length, not-an-id",rv_travel permit 76455_6
+BPIC20_permit,org:resource,4945,0.00020222446916076846,12.0,1.0,1.0,-,False,"unique, length",STAFF MEMBER
+BPIC20_permit,concept:name,4945,0.0006066734074823053,26.10798786653185,1.0,1.0,outcome-field,False,"unique, outcome-field",Start trip
+BPIC20_permit,time:timestamp,4945,0.9456016177957532,29.0,0.0,0.000213857998289136,outcome-field,False,"space, not-an-id, outcome-field",2016-10-05T00:00:00.000+02:00
+BPIC20_permit,org:role,4945,0.00020222446916076846,8.0,0.0,1.0,-,False,"unique, length, space",EMPLOYEE
+BPIC20_permit,case:dec_id_5,19,1.0,16.842105263157894,1.0,0.05263157894736842,-,False,"length, not-an-id, too-few-rows",declaration 73574
+BPIC20_permit,case:dec_id_6,11,1.0,16.818181818181817,1.0,0.09090909090909091,-,False,"length, not-an-id, too-few-rows",declaration 73576
+BPIC20_permit,case:dec_id_3,102,1.0,16.833333333333332,1.0,0.00980392156862745,-,False,"length, not-an-id",declaration 73570
+BPIC20_permit,case:dec_id_4,42,1.0,16.761904761904763,1.0,0.023809523809523808,-,False,"length, not-an-id, too-few-rows",declaration 73572
+BPIC20_permit,case:dec_id_1,780,1.0,16.85,1.0,0.001282051282051282,-,False,"length, not-an-id",declaration 73566
+BPIC20_permit,case:dec_id_2,254,1.0,16.84251968503937,1.0,0.003937007874015748,-,False,"length, not-an-id",declaration 73568
+BPIC20_permit,case:DeclarationNumber_10,2,1.0,24.0,1.0,0.5,-,False,"not-an-id, too-few-rows",declaration number 73585
+BPIC20_permit,case:RequestedAmount_16,1,1.0,2.0,0.0,1.0,-,False,"length, space, too-few-rows",18
+BPIC20_permit,case:RequestedAmount_14,2,1.0,10.5,0.0,1.0,-,False,"length, space, too-few-rows",191
+BPIC20_permit,case:RequestedAmount_15,1,1.0,3.0,0.0,1.0,-,False,"length, space, too-few-rows",153
+BPIC20_permit,case:dec_id_9,4,1.0,17.0,1.0,0.25,-,False,"length, not-an-id, too-few-rows",declaration 73582
+BPIC20_permit,case:RequestedAmount_12,3,1.0,7.666666666666667,0.0,0.6666666666666666,-,False,"length, space, too-few-rows",219
+BPIC20_permit,case:DeclarationNumber_14,1,1.0,24.0,1.0,1.0,-,False,too-few-rows,declaration number 73593
+BPIC20_permit,case:DeclarationNumber_13,2,1.0,24.0,1.0,0.5,-,False,"not-an-id, too-few-rows",declaration number 73591
+BPIC20_permit,case:RequestedAmount_13,3,1.0,8.0,0.0,0.6666666666666666,-,False,"length, space, too-few-rows",297
+BPIC20_permit,case:dec_id_7,5,1.0,17.0,1.0,0.2,-,False,"length, not-an-id, too-few-rows",declaration 73578
+BPIC20_permit,case:RequestedAmount_10,4,1.0,10.25,0.0,0.5,-,False,"length, space, not-an-id, too-few-rows",242
+BPIC20_permit,case:DeclarationNumber_12,2,1.0,24.0,1.0,0.5,-,False,"not-an-id, too-few-rows",declaration number 73589
+BPIC20_permit,case:dec_id_8,5,1.0,17.0,1.0,0.2,-,False,"length, not-an-id, too-few-rows",declaration 73580
+BPIC20_permit,case:DeclarationNumber_11,3,1.0,24.0,1.0,0.3333333333333333,-,False,"not-an-id, too-few-rows",declaration number 73587
+BPIC20_permit,case:RequestedAmount_11,4,1.0,6.75,0.0,0.5,-,False,"length, space, not-an-id, too-few-rows",309
+BPIC20_permit,case:DeclarationNumber_16,1,1.0,24.0,1.0,1.0,-,False,too-few-rows,declaration number 73597
+BPIC20_permit,case:DeclarationNumber_15,1,1.0,24.0,1.0,1.0,-,False,too-few-rows,declaration number 73595
+BPIC20_permit,case:DeclarationNumber_8,5,1.0,24.0,1.0,0.2,-,False,"not-an-id, too-few-rows",declaration number 73581
+BPIC20_permit,case:DeclarationNumber_9,4,1.0,24.0,1.0,0.25,-,False,"not-an-id, too-few-rows",declaration number 73583
+BPIC20_permit,case:DeclarationNumber_4,35,1.0,23.8,1.0,0.02857142857142857,-,False,"not-an-id, too-few-rows",declaration number 73573
+BPIC20_permit,case:DeclarationNumber_5,14,1.0,23.785714285714285,1.0,0.07142857142857142,-,False,"not-an-id, too-few-rows",declaration number 73575
+BPIC20_permit,case:DeclarationNumber_6,9,1.0,23.88888888888889,1.0,0.1111111111111111,-,False,"not-an-id, too-few-rows",declaration number 73577
+BPIC20_permit,case:DeclarationNumber_7,5,1.0,24.0,1.0,0.2,-,False,"not-an-id, too-few-rows",declaration number 73579
+BPIC20_permit,case:RequestedAmount_4,43,0.9534883720930233,5.813953488372093,0.0,0.07317073170731707,-,False,"length, space, not-an-id, too-few-rows",612
+BPIC20_permit,case:DeclarationNumber_1,715,1.0,23.848951048951047,1.0,0.0013986013986013986,-,False,not-an-id,declaration number 73567
+BPIC20_permit,case:RequestedAmount_3,117,0.9487179487179487,6.358974358974359,0.0,0.02702702702702703,-,False,"length, space, not-an-id",37
+BPIC20_permit,case:DeclarationNumber_2,228,1.0,23.842105263157894,1.0,0.0043859649122807015,-,False,not-an-id,declaration number 73569
+BPIC20_permit,case:RequestedAmount_2,323,0.9380804953560371,7.408668730650155,0.0,0.009900990099009901,-,False,"length, space, not-an-id",355
+BPIC20_permit,case:RequestedAmount_1,1010,0.8524752475247525,7.389108910891089,0.0,0.003484320557491289,-,False,"length, space, not-an-id",37
+BPIC20_permit,case:DeclarationNumber_3,89,1.0,23.84269662921348,1.0,0.011235955056179775,-,False,not-an-id,declaration number 73571
+BPIC20_permit,case:RequestedAmount_8,7,1.0,6.714285714285714,0.0,0.2857142857142857,-,False,"length, space, not-an-id, too-few-rows",17
+BPIC20_permit,case:RequestedAmount_7,7,1.0,6.857142857142857,0.0,0.2857142857142857,-,False,"length, space, not-an-id, too-few-rows",170
+BPIC20_permit,case:RequestedAmount_6,11,1.0,5.545454545454546,0.0,0.2727272727272727,-,False,"length, space, not-an-id, too-few-rows",341
+BPIC20_permit,case:RequestedAmount_5,18,1.0,6.111111111111111,0.0,0.1111111111111111,-,False,"length, space, not-an-id, too-few-rows",623
+BPIC20_permit,case:RequestedAmount_9,6,1.0,7.5,0.0,0.3333333333333333,-,False,"length, space, not-an-id, too-few-rows",232
+BPIC20_permit,case:dec_id_16,1,1.0,17.0,1.0,1.0,-,False,"length, too-few-rows",declaration 73596
+BPIC20_permit,case:dec_id_13,2,1.0,17.0,1.0,0.5,-,False,"length, not-an-id, too-few-rows",declaration 73590
+BPIC20_permit,case:dec_id_12,2,1.0,17.0,1.0,0.5,-,False,"length, not-an-id, too-few-rows",declaration 73588
+BPIC20_permit,case:dec_id_15,1,1.0,17.0,1.0,1.0,-,False,"length, too-few-rows",declaration 73594
+BPIC20_permit,case:dec_id_14,1,1.0,17.0,1.0,1.0,-,False,"length, too-few-rows",declaration 73592
+BPIC20_permit,case:dec_id_11,3,1.0,17.0,1.0,0.3333333333333333,-,False,"length, not-an-id, too-few-rows",declaration 73586
+BPIC20_permit,case:dec_id_10,2,1.0,17.0,1.0,0.5,-,False,"length, not-an-id, too-few-rows",declaration 73584
+BPIC20_permit,case:Activity_1,194,0.010309278350515464,12.02061855670103,1.0,0.5,-,False,"unique, length, not-an-id",activity 505
+BPIC20_permit,case:Activity_0,620,0.004838709677419355,12.016129032258064,1.0,0.3333333333333333,-,False,"unique, length, not-an-id",activity 505
+BPIC20_permit,case:RfpNumber_0,963,1.0,31.82969885773624,1.0,0.0010384215991692627,-,False,not-an-id,request for payment number 73551
+BPIC20_permit,case:OrganizationalEntity_0,996,0.020080321285140562,25.0,1.0,0.05,-,False,"unique, not-an-id",organizational unit 65463
+BPIC20_permit,case:Rfp_id_0,996,1.0,24.832329317269075,1.0,0.001004016064257028,-,False,not-an-id,request for payment 73550
+BPIC20_permit,case:RfpNumber_1,282,1.0,31.79432624113475,1.0,0.0035460992907801418,-,False,not-an-id,request for payment number 73553
+BPIC20_permit,case:OrganizationalEntity_1,292,0.04452054794520548,25.0,1.0,0.07692307692307693,-,False,"unique, not-an-id",organizational unit 65463
+BPIC20_permit,case:Cost Type_1,292,0.003424657534246575,1.0,0.0,1.0,-,False,"unique, length, space",0
+BPIC20_permit,case:Cost Type_0,996,0.001004016064257028,1.0,0.0,1.0,-,False,"unique, length, space",0
+BPIC20_permit,case:Task_1,194,0.6804123711340206,9.61340206185567,1.0,0.007575757575757576,-,False,"length, not-an-id",task 71977
+BPIC20_permit,case:Task_0,621,0.5442834138486312,9.621578099838969,1.0,0.0029585798816568047,-,False,"length, not-an-id",task 71977
+BPIC20_permit,case:Project_0,996,0.001004016064257028,11.0,1.0,1.0,-,False,"unique, length",project 503
+BPIC20_permit,case:Rfp_id_1,292,1.0,24.79794520547945,1.0,0.003424657534246575,-,False,not-an-id,request for payment 73552
+BPIC20_permit,case:Project_1,292,0.003424657534246575,11.0,1.0,1.0,-,False,"unique, length",project 503
+BPIC20_permit,case:Activity_3,16,0.0625,12.0,1.0,1.0,-,False,"unique, length, too-few-rows",activity 505
+BPIC20_permit,case:Activity_2,62,0.03225806451612903,12.03225806451613,1.0,0.5,-,False,"unique, length, not-an-id",activity 505
+BPIC20_permit,case:Cost Type_3,27,0.037037037037037035,1.0,0.0,1.0,-,False,"unique, length, space, too-few-rows",0
+BPIC20_permit,case:Cost Type_2,94,0.010638297872340425,1.0,0.0,1.0,-,False,"unique, length, space",0
+BPIC20_permit,case:RfpNumber_2,90,1.0,31.755555555555556,1.0,0.011111111111111112,-,False,not-an-id,request for payment number 76935
+BPIC20_permit,case:RfpNumber_3,26,1.0,31.73076923076923,1.0,0.038461538461538464,-,False,"not-an-id, too-few-rows",request for payment number 76937
+BPIC20_permit,case:OrganizationalEntity_2,94,0.11702127659574468,25.0,1.0,0.09090909090909091,-,False,"unique, not-an-id",organizational unit 65457
+BPIC20_permit,case:OrganizationalEntity_3,27,0.37037037037037035,25.0,1.0,0.1,-,False,"unique, not-an-id, too-few-rows",organizational unit 65457
+BPIC20_permit,case:Project_2,94,0.010638297872340425,11.0,1.0,1.0,-,False,"unique, length",project 503
+BPIC20_permit,case:Project_3,27,0.037037037037037035,11.0,1.0,1.0,-,False,"unique, length, too-few-rows",project 503
+BPIC20_permit,case:Rfp_id_3,27,1.0,24.74074074074074,1.0,0.037037037037037035,-,False,"not-an-id, too-few-rows",request for payment 76936
+BPIC20_permit,case:Rfp_id_2,94,1.0,24.75531914893617,1.0,0.010638297872340425,-,False,not-an-id,request for payment 76934
+BPIC20_permit,case:Task_3,16,1.0,9.75,1.0,0.0625,-,False,"length, not-an-id, too-few-rows",task 6280
+BPIC20_permit,case:Task_2,62,0.7580645161290323,9.612903225806452,1.0,0.02127659574468085,-,False,"length, not-an-id",task 6280
+BPIC20_permit,case:Rfp_id_10,2,1.0,25.0,1.0,0.5,-,False,"not-an-id, too-few-rows",request for payment 22798
+BPIC20_permit,case:Rfp_id_11,1,1.0,25.0,1.0,1.0,-,False,too-few-rows,request for payment 22800
+BPIC20_permit,case:Rfp_id_12,1,1.0,25.0,1.0,1.0,-,False,too-few-rows,request for payment 22802
+BPIC20_permit,case:Rfp_id_13,1,1.0,25.0,1.0,1.0,-,False,too-few-rows,request for payment 22804
+BPIC20_permit,case:Rfp_id_14,1,1.0,25.0,1.0,1.0,-,False,too-few-rows,request for payment 22806
+BPIC20_permit,case:Project_11,1,1.0,11.0,1.0,1.0,-,False,"length, too-few-rows",project 503
+BPIC20_permit,case:Project_12,1,1.0,11.0,1.0,1.0,-,False,"length, too-few-rows",project 503
+BPIC20_permit,case:Project_10,2,0.5,11.0,1.0,1.0,-,False,"length, too-few-rows",project 503
+BPIC20_permit,case:Project_13,1,1.0,11.0,1.0,1.0,-,False,"length, too-few-rows",project 503
+BPIC20_permit,case:Project_14,1,1.0,11.0,1.0,1.0,-,False,"length, too-few-rows",project 503
+BPIC20_permit,case:Cost Type_7,2,0.5,1.0,0.0,1.0,-,False,"length, space, too-few-rows",0
+BPIC20_permit,case:Cost Type_6,2,0.5,1.0,0.0,1.0,-,False,"length, space, too-few-rows",0
+BPIC20_permit,case:Cost Type_9,2,0.5,1.0,0.0,1.0,-,False,"length, space, too-few-rows",0
+BPIC20_permit,case:Cost Type_8,2,0.5,1.0,0.0,1.0,-,False,"length, space, too-few-rows",0
+BPIC20_permit,case:Cost Type_5,4,0.25,1.0,0.0,1.0,-,False,"unique, length, space, too-few-rows",0
+BPIC20_permit,case:Cost Type_4,8,0.125,1.0,0.0,1.0,-,False,"unique, length, space, too-few-rows",0
+BPIC20_permit,case:OrganizationalEntity_8,2,1.0,25.0,1.0,0.5,-,False,"not-an-id, too-few-rows",organizational unit 65465
+BPIC20_permit,case:OrganizationalEntity_9,2,1.0,25.0,1.0,0.5,-,False,"not-an-id, too-few-rows",organizational unit 65465
+BPIC20_permit,case:Task_10,2,1.0,10.0,1.0,0.5,-,False,"length, not-an-id, too-few-rows",task 22780
+BPIC20_permit,case:OrganizationalEntity_6,2,1.0,25.0,1.0,0.5,-,False,"not-an-id, too-few-rows",organizational unit 65465
+BPIC20_permit,case:Task_11,1,1.0,10.0,1.0,1.0,-,False,"length, too-few-rows",task 22780
+BPIC20_permit,case:OrganizationalEntity_7,2,1.0,25.0,1.0,0.5,-,False,"not-an-id, too-few-rows",organizational unit 65465
+BPIC20_permit,case:Task_12,1,1.0,10.0,1.0,1.0,-,False,"length, too-few-rows",task 22780
+BPIC20_permit,case:Task_13,1,1.0,10.0,1.0,1.0,-,False,"length, too-few-rows",task 22780
+BPIC20_permit,case:Task_14,1,1.0,10.0,1.0,1.0,-,False,"length, too-few-rows",task 22780
+BPIC20_permit,case:RfpNumber_10,2,1.0,32.0,1.0,0.5,-,False,"not-an-id, too-few-rows",request for payment number 22799
+BPIC20_permit,case:RfpNumber_12,1,1.0,32.0,1.0,1.0,-,False,too-few-rows,request for payment number 22803
+BPIC20_permit,case:RfpNumber_11,1,1.0,32.0,1.0,1.0,-,False,too-few-rows,request for payment number 22801
+BPIC20_permit,case:OrganizationalEntity_4,8,0.625,25.0,1.0,0.2,-,False,"not-an-id, too-few-rows",organizational unit 65465
+BPIC20_permit,case:Project_6,2,0.5,11.0,1.0,1.0,-,False,"length, too-few-rows",project 503
+BPIC20_permit,case:RfpNumber_14,1,1.0,32.0,1.0,1.0,-,False,too-few-rows,request for payment number 22807
+BPIC20_permit,case:OrganizationalEntity_5,4,1.0,25.0,1.0,0.25,-,False,"not-an-id, too-few-rows",organizational unit 65465
+BPIC20_permit,case:Project_7,2,0.5,11.0,1.0,1.0,-,False,"length, too-few-rows",project 503
+BPIC20_permit,case:RfpNumber_13,1,1.0,32.0,1.0,1.0,-,False,too-few-rows,request for payment number 22805
+BPIC20_permit,case:Project_8,2,0.5,11.0,1.0,1.0,-,False,"length, too-few-rows",project 503
+BPIC20_permit,case:Project_9,2,0.5,11.0,1.0,1.0,-,False,"length, too-few-rows",project 503
+BPIC20_permit,case:Project_4,8,0.125,11.0,1.0,1.0,-,False,"unique, length, too-few-rows",project 503
+BPIC20_permit,case:Project_5,4,0.25,11.0,1.0,1.0,-,False,"unique, length, too-few-rows",project 503
+BPIC20_permit,case:Activity_12,1,1.0,12.0,1.0,1.0,-,False,"length, too-few-rows",activity 505
+BPIC20_permit,case:Activity_11,1,1.0,12.0,1.0,1.0,-,False,"length, too-few-rows",activity 505
+BPIC20_permit,case:Activity_14,1,1.0,12.0,1.0,1.0,-,False,"length, too-few-rows",activity 505
+BPIC20_permit,case:Activity_13,1,1.0,12.0,1.0,1.0,-,False,"length, too-few-rows",activity 505
+BPIC20_permit,case:Activity_10,2,0.5,12.0,1.0,1.0,-,False,"length, too-few-rows",activity 505
+BPIC20_permit,case:OrganizationalEntity_14,1,1.0,25.0,1.0,1.0,-,False,too-few-rows,organizational unit 65465
+BPIC20_permit,case:OrganizationalEntity_13,1,1.0,25.0,1.0,1.0,-,False,too-few-rows,organizational unit 65465
+BPIC20_permit,case:RfpNumber_8,2,1.0,32.0,1.0,0.5,-,False,"not-an-id, too-few-rows",request for payment number 22795
+BPIC20_permit,case:RfpNumber_9,2,1.0,32.0,1.0,0.5,-,False,"not-an-id, too-few-rows",request for payment number 22797
+BPIC20_permit,case:RfpNumber_6,2,1.0,32.0,1.0,0.5,-,False,"not-an-id, too-few-rows",request for payment number 22792
+BPIC20_permit,case:RfpNumber_7,1,1.0,32.0,1.0,1.0,-,False,too-few-rows,request for payment number 24071
+BPIC20_permit,case:RfpNumber_4,8,1.0,32.0,1.0,0.125,-,False,"not-an-id, too-few-rows",request for payment number 22788
+BPIC20_permit,case:RfpNumber_5,4,1.0,32.0,1.0,0.25,-,False,"not-an-id, too-few-rows",request for payment number 22790
+BPIC20_permit,case:OrganizationalEntity_12,1,1.0,25.0,1.0,1.0,-,False,too-few-rows,organizational unit 65465
+BPIC20_permit,case:OrganizationalEntity_11,1,1.0,25.0,1.0,1.0,-,False,too-few-rows,organizational unit 65465
+BPIC20_permit,case:OrganizationalEntity_10,2,1.0,25.0,1.0,0.5,-,False,"not-an-id, too-few-rows",organizational unit 65465
+BPIC20_permit,case:Rfp_id_7,2,1.0,25.0,1.0,0.5,-,False,"not-an-id, too-few-rows",request for payment 22793
+BPIC20_permit,case:Rfp_id_8,2,1.0,25.0,1.0,0.5,-,False,"not-an-id, too-few-rows",request for payment 22794
+BPIC20_permit,case:Rfp_id_5,4,1.0,25.0,1.0,0.25,-,False,"not-an-id, too-few-rows",request for payment 22789
+BPIC20_permit,case:Rfp_id_6,2,1.0,25.0,1.0,0.5,-,False,"not-an-id, too-few-rows",request for payment 22791
+BPIC20_permit,case:Rfp_id_4,8,1.0,25.0,1.0,0.125,-,False,"not-an-id, too-few-rows",request for payment 22787
+BPIC20_permit,case:Rfp_id_9,2,1.0,25.0,1.0,0.5,-,False,"not-an-id, too-few-rows",request for payment 22796
+BPIC20_permit,case:Activity_9,2,0.5,12.0,1.0,1.0,-,False,"length, too-few-rows",activity 505
+BPIC20_permit,case:Activity_8,2,0.5,12.0,1.0,1.0,-,False,"length, too-few-rows",activity 505
+BPIC20_permit,case:Activity_5,4,0.25,12.0,1.0,1.0,-,False,"unique, length, too-few-rows",activity 505
+BPIC20_permit,case:Activity_4,6,0.16666666666666666,12.0,1.0,1.0,-,False,"unique, length, too-few-rows",activity 505
+BPIC20_permit,case:Activity_7,2,0.5,12.0,1.0,1.0,-,False,"length, too-few-rows",activity 505
+BPIC20_permit,case:Activity_6,2,0.5,12.0,1.0,1.0,-,False,"length, too-few-rows",activity 505
+BPIC20_permit,case:Cost Type_13,1,1.0,1.0,0.0,1.0,-,False,"length, space, too-few-rows",0
+BPIC20_permit,case:Cost Type_14,1,1.0,1.0,0.0,1.0,-,False,"length, space, too-few-rows",0
+BPIC20_permit,case:Cost Type_10,2,0.5,1.0,0.0,1.0,-,False,"length, space, too-few-rows",0
+BPIC20_permit,case:Cost Type_11,1,1.0,1.0,0.0,1.0,-,False,"length, space, too-few-rows",0
+BPIC20_permit,case:Cost Type_12,1,1.0,1.0,0.0,1.0,-,False,"length, space, too-few-rows",0
+BPIC20_permit,case:Task_5,4,1.0,10.0,1.0,0.25,-,False,"length, not-an-id, too-few-rows",task 22780
+BPIC20_permit,case:Task_4,6,1.0,10.0,1.0,0.16666666666666666,-,False,"length, not-an-id, too-few-rows",task 22780
+BPIC20_permit,case:Task_9,2,1.0,10.0,1.0,0.5,-,False,"length, not-an-id, too-few-rows",task 22780
+BPIC20_permit,case:Task_8,2,1.0,10.0,1.0,0.5,-,False,"length, not-an-id, too-few-rows",task 22780
+BPIC20_permit,case:Task_7,2,1.0,10.0,1.0,0.5,-,False,"length, not-an-id, too-few-rows",task 22780
+BPIC20_permit,case:Task_6,2,1.0,10.0,1.0,0.5,-,False,"length, not-an-id, too-few-rows",task 22780
+BPIC20_rfp,case:Rfp_id,4820,1.0,26.0,1.0,0.0002074688796680498,-,False,not-an-id,request for payment 148214
+BPIC20_rfp,case:Project,4474,0.01586946803755029,13.43004023245418,1.0,0.014084507042253521,-,False,"unique, length, not-an-id",project 148216
+BPIC20_rfp,case:Task,1336,0.37050898203592814,10.258982035928144,1.0,0.00202020202020202,-,False,"unique, length, not-an-id",task 147557
+BPIC20_rfp,case:concept:name,4820,1.0,26.0,1.0,0.0002074688796680498,outcome-field,False,"not-an-id, outcome-field",request for payment 148214
+BPIC20_rfp,case:OrganizationalEntity,4820,0.007468879668049793,25.0,1.0,0.027777777777777776,-,False,"unique, not-an-id",organizational unit 65463
+BPIC20_rfp,case:Cost Type,4820,0.0002074688796680498,1.0,0.0,1.0,-,False,"unique, length, space",0
+BPIC20_rfp,case:RequestedAmount,4820,0.9464730290456431,17.37240663900415,0.0,0.00021920210434020167,-,False,"length, space, not-an-id",34.33634285099345
+BPIC20_rfp,case:Activity,1318,0.0030349013657056147,12.01289833080425,1.0,0.25,outcome-field,False,"unique, length, not-an-id, outcome-field",activity 505
+BPIC20_rfp,case:RfpNumber,4419,1.0,33.0,1.0,0.00022629554197782303,-,False,not-an-id,request for payment number 148215
+BPIC20_rfp,id,4820,1.0,16.0,1.0,0.0002074688796680498,-,False,"length, not-an-id",st_step 148220_0
+BPIC20_rfp,org:resource,4820,0.0002074688796680498,12.0,1.0,1.0,-,False,"unique, length",STAFF MEMBER
+BPIC20_rfp,concept:name,4820,0.0004149377593360996,40.95850622406639,1.0,1.0,outcome-field,False,"unique, outcome-field",Request For Payment SUBMITTED by EMPLOYEE
+BPIC20_rfp,time:timestamp,4820,0.999792531120332,29.0,0.0,0.00020751193193608634,outcome-field,False,"space, not-an-id, outcome-field",2017-01-09T09:17:18.000+01:00
+BPIC20_rfp,org:role,4820,0.0002074688796680498,8.0,0.0,1.0,-,False,"unique, length, space",EMPLOYEE
+Sepsis,case:concept:name,735,1.0,2.3360544217687074,0.0,1.0,outcome-field,False,"length, space, outcome-field",XJ
+Sepsis,InfectionSuspected,695,0.0028776978417266188,4.197122302158274,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,org:group,735,0.005442176870748299,1.0,0.0,1.0,-,False,"unique, length, space",A
+Sepsis,DiagnosticBlood,695,0.0028776978417266188,4.220143884892086,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,DisfuncOrg,695,0.0028776978417266188,4.943884892086331,0.0,1.0,-,False,"unique, length, space",false
+Sepsis,SIRSCritTachypnea,695,0.0028776978417266188,4.434532374100719,0.0,1.0,-,False,"unique, length, space",false
+Sepsis,Hypotensie,695,0.0028776978417266188,4.956834532374101,0.0,1.0,-,False,"unique, length, space",false
+Sepsis,SIRSCritHeartRate,695,0.0028776978417266188,4.228776978417266,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,Infusion,695,0.0028776978417266188,4.237410071942446,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,DiagnosticArtAstrup,695,0.0028776978417266188,4.723741007194245,0.0,1.0,-,False,"unique, length, space",false
+Sepsis,concept:name,735,0.00816326530612245,14.663945578231292,0.9714285714285714,1.0,outcome-field,False,"unique, length, outcome-field",ER Registration
+Sepsis,Age,735,0.02040816326530612,2.0,0.0,0.06666666666666667,-,False,"unique, length, space, not-an-id",90
+Sepsis,DiagnosticIC,695,0.0028776978417266188,4.194244604316546,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,DiagnosticSputum,695,0.0028776978417266188,4.976978417266187,0.0,1.0,-,False,"unique, length, space",false
+Sepsis,DiagnosticLiquor,695,0.0028776978417266188,4.994244604316547,0.0,1.0,-,False,"unique, length, space",false
+Sepsis,DiagnosticOther,695,0.0028776978417266188,4.99568345323741,0.0,1.0,-,False,"unique, length, space",false
+Sepsis,SIRSCriteria2OrMore,695,0.0028776978417266188,4.19136690647482,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,DiagnosticXthorax,695,0.0028776978417266188,4.260431654676259,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,SIRSCritTemperature,695,0.0028776978417266188,4.240287769784173,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,time:timestamp,735,1.0,29.0,0.0,0.0013605442176870747,outcome-field,False,"space, not-an-id, outcome-field",2013-11-07T08:18:29.000+01:00
+Sepsis,DiagnosticUrinaryCulture,695,0.0028776978417266188,4.555395683453237,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,SIRSCritLeucos,695,0.0028776978417266188,4.959712230215827,0.0,1.0,-,False,"unique, length, space",false
+Sepsis,Oligurie,695,0.0028776978417266188,4.981294964028777,0.0,1.0,-,False,"unique, length, space",false
+Sepsis,DiagnosticLacticAcid,695,0.0028776978417266188,4.235971223021583,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,lifecycle:transition,735,0.0013605442176870747,8.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",complete
+Sepsis,Diagnose,557,0.22082585278276481,1.3123877917414721,0.0,1.0,-,False,"unique, length, space",C
+Sepsis,Hypoxie,695,0.0028776978417266188,4.981294964028777,0.0,1.0,-,False,"unique, length, space",false
+Sepsis,DiagnosticUrinarySediment,695,0.0028776978417266188,4.5194244604316545,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,DiagnosticECG,695,0.0028776978417266188,4.280575539568345,0.0,1.0,-,False,"unique, length, space",true
+Sepsis,Leucocytes,11,1.0,3.6363636363636362,0.0,0.09090909090909091,-,False,"length, space, not-an-id, too-few-rows",21.4
+Sepsis,CRP,9,1.0,4.333333333333333,0.0,0.1111111111111111,-,False,"length, space, not-an-id, too-few-rows",342.0
+HospitalBilling,case:concept:name,69997,1.0,3.72853122276669,0.0,1.0,outcome-field,False,"length, space, outcome-field",RB
+HospitalBilling,isCancelled,70000,1.4285714285714285e-05,5.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",false
+HospitalBilling,diagnosis,24600,0.03451219512195122,1.8845528455284553,0.0,1.0,-,False,"unique, length, space",S
+HospitalBilling,time:timestamp,70000,0.9820714285714286,29.0,0.0,1.4546512473634446e-05,outcome-field,False,"space, not-an-id, outcome-field",2012-12-13T10:13:18.000+01:00
+HospitalBilling,caseType,70000,0.0002,1.0,0.0,1.0,-,False,"unique, length, space",B
+HospitalBilling,speciality,70000,0.00032857142857142856,1.0,0.0,1.0,-,False,"unique, length, space",C
+HospitalBilling,org:resource,70000,0.012628571428571428,4.7432428571428575,0.0,1.0,-,False,"unique, length, space",ResN
+HospitalBilling,concept:name,70000,1.4285714285714285e-05,3.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",NEW
+HospitalBilling,blocked,70000,2.857142857142857e-05,4.999871428571429,0.0,1.0,-,False,"unique, length, space",false
+HospitalBilling,isClosed,70000,2.857142857142857e-05,4.0721428571428575,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",true
+HospitalBilling,flagD,70000,2.857142857142857e-05,4.257028571428571,0.0,1.0,-,False,"unique, length, space",true
+HospitalBilling,flagB,70000,1.4285714285714285e-05,5.0,0.0,1.0,-,False,"unique, length, space",false
+HospitalBilling,flagA,70000,1.4285714285714285e-05,5.0,0.0,1.0,-,False,"unique, length, space",false
+HospitalBilling,state,70000,1.4285714285714285e-05,11.0,1.0,1.0,outcome-field,False,"unique, length, outcome-field",In progress
+HospitalBilling,lifecycle:transition,70000,1.4285714285714285e-05,8.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",complete
+RoadFines,case:concept:name,105259,1.0,6.0329758025442,0.0,4.75018763241148e-05,outcome-field,False,"length, space, not-an-id, outcome-field",S38735
+RoadFines,amount,105259,0.0006555258932727843,4.139551012264985,0.0,0.014492753623188406,-,False,"unique, length, space, not-an-id",62.59
+RoadFines,org:resource,105259,0.0010735424049249946,2.734331506094491,0.0,0.008849557522123894,-,False,"unique, length, space, not-an-id",18
+RoadFines,dismissal,105259,0.0002185086310909281,2.9908416382447105,0.0,0.8695652173913043,-,False,"unique, length, space",NIL
+RoadFines,concept:name,105259,9.50037526482296e-06,11.0,1.0,1.0,outcome-field,False,"unique, length, outcome-field",Create Fine
+RoadFines,vehicleClass,105259,3.800150105929184e-05,1.0,0.0,1.0,-,False,"unique, length, space",A
+RoadFines,totalPaymentAmount,105259,9.50037526482296e-06,3.0,0.0,1.0,-,False,"unique, length, space",0.0
+RoadFines,lifecycle:transition,105259,9.50037526482296e-06,8.0,0.0,1.0,outcome-field,False,"unique, length, space, outcome-field",complete
+RoadFines,time:timestamp,105259,0.028862140054532155,25.0,0.0,0.0003291639236339697,outcome-field,False,"unique, space, not-an-id, outcome-field",2000-01-01T00:00:00+01:00
+RoadFines,article,105259,0.0005510217653597317,2.5349566307869162,0.0,0.017241379310344827,-,False,"unique, length, space, not-an-id",158
+RoadFines,points,105259,7.600300211858368e-05,1.00027551088268,0.0,0.125,-,False,"unique, length, space, not-an-id",0

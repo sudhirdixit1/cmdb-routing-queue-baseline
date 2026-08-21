@@ -82,7 +82,84 @@ OUTCOME_FIELDS = {
     "accepted", "selected", "case:selected", "case:accepted",
     # Sepsis / billing terminal fields
     "dischargereason", "closecode", "isclosed", "iscancelled",
+    # --- PROTOCOL.md section 10, amendment 5 (declared 2026-08-21) --------
+    # The BPIC 2014 "caused by" family.  common.py's own FIELD_CLASS already
+    # classes these as `relational`, not `configuration`: a caused-by
+    # attribution is the OUTPUT of diagnosis, not an intake observation.  The
+    # registered rules would otherwise make `CI Name (CBy)` the high-cost
+    # entity on the flagship log, in preference to `CI Name (aff)`.
+    "ci name (cby)", "ci type (cby)", "ci subtype (cby)",
+    "servicecomp wbs (cby)",
+    # counts that grow after creation
+    "# related interactions", "# related incidents", "# related changes",
+    "related change", "reopen time", "resolved time", "alert status",
+    # post-creation stamps
+    "sys_updated_by", "sys_updated_at",
+    # the activity column under its CSV name in the Helpdesk log; section 3.1
+    # registers concept:name and this is that column
+    "activity",
 }
+
+# Entries are matched against the name with any "case:" prefix stripped, so
+# they are normalised the same way here -- `case:Goods Receipt` was reaching
+# the layer role because the set held the prefixed spelling and the lookup
+# used the stripped one.
+OUTCOME_FIELDS = {(x[5:] if x.startswith("case:") else x) for x in OUTCOME_FIELDS}
+
+# --- PROTOCOL.md section 10, amendment 2 (declared 2026-08-21) ------------
+# Section 3.1 excludes "any timestamp".  Matching a fixed list of names does
+# not implement that: it missed `sys_created_at`, `case:endDate`,
+# `case:startDate`, `case:REG_DATE` and `Complete Timestamp`, and the
+# registered rules made two of them the high-cost entity.  A column is a
+# timestamp if its name looks like one OR if more than 90% of its non-missing
+# values parse as a date.  Both tests read feature values only.
+_TIME_NAME = re.compile(r"(^|[^a-z])(date|time|timestamp)([^a-z]|$)|_at$|_date$",
+                        re.I)
+
+
+# A bare integer parses as a date.  The first version of this test therefore
+# threw away `Impact`, `Urgency` and `Priority` -- the paper's own intake block
+# -- because "4" is a year.  A value is only date-shaped if it carries a
+# separator.
+_DATEISH = re.compile(r"\d{1,4}[-/.]\d{1,2}[-/.]\d{1,4}|\d{1,2}:\d{2}")
+
+
+def looks_like_timestamp(name, series):
+    if _TIME_NAME.search(str(name)):
+        return True
+    v = series[~is_missing(series)].astype(str).head(2000)
+    if len(v) == 0:
+        return False
+    if float(v.str.contains(_DATEISH, regex=True).mean()) < 0.90:
+        return False
+    parsed = pd.to_datetime(v, errors="coerce", format="mixed", dayfirst=True,
+                            utc=True)
+    return float(parsed.notna().mean()) > 0.90
+
+
+# --- PROTOCOL.md section 10, amendment 3 (declared 2026-08-21) ------------
+# Section 3.1 excludes `concept:name`.  An attribute that is a RELABELLING of
+# concept:name is concept:name, and BPIC 2015 ships two (`activityNameEN`,
+# `activityNameNL`).  Mutual determinism is the test, and it reads no outcome.
+def is_activity_alias(a, act):
+    a = pd.Series(a).astype(str)
+    act = pd.Series(act).astype(str)
+    if a.nunique() < 2:
+        return False
+    fwd = pd.DataFrame({"a": a.values, "b": act.values}).groupby("a")["b"].nunique()
+    rev = pd.DataFrame({"a": a.values, "b": act.values}).groupby("b")["a"].nunique()
+    return bool((fwd == 1).all() and (rev == 1).all())
+
+
+# --- PROTOCOL.md section 10, amendment 4 (declared 2026-08-21) ------------
+# Section 3.5 gives deterministic coarsenings of f their own role, and
+# section 3 says every attribute has exactly ONE role, so a coarsening of f
+# may not also sit in B0.  The first implementation put them there.
+def is_coarsening_of(a, f):
+    """Every value of f maps to exactly one value of a."""
+    t = pd.DataFrame({"f": pd.Series(f).astype(str).values,
+                      "a": pd.Series(a).astype(str).values})
+    return bool((t.groupby("f")["a"].nunique() == 1).all())
 
 _ATTR_TAGS = {"string", "date", "int", "float", "boolean", "id"}
 
