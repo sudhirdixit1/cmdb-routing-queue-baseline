@@ -1,8 +1,8 @@
 # Cover letter
 
 **To:** The Editors-in-Chief, *Information Systems*
-**Re:** *Identity, Not Attributes: What Configuration Data Contributes to
-Incident Prediction in Two Organisations*
+**Re:** *Four Choices Behind One Number: Reporting the Incremental Value of a
+Recorded Field*
 **Article type:** Research article
 
 ---
@@ -10,83 +10,98 @@ Incident Prediction in Two Organisations*
 Dear Editors,
 
 I am submitting the manuscript above for consideration in *Information
-Systems*. It is an empirical study on two public ITSM event logs, and I am
-sending it to this journal for a specific reason: of the venues I considered,
-this is the one whose reproducibility validation programme is designed to
-engage with what the work's strongest asset actually is.
+Systems*. It is a methodological paper with an empirical demonstration on
+public event logs, and I am sending it to this journal for a specific reason:
+of the venues I considered, this is the one whose reproducibility validation
+programme is designed to engage with what the work's strongest asset actually
+is.
 
-**The artifact is the point, and it is finished.** The submission is
-accompanied by a public repository containing every analysis script, every
-derived result file, the figure generator, and a verification harness that
-recomputes each of the 325 numeric literals in the manuscript from a result
-file or from the raw data. It fails if any literal in the body is
-unaccounted for, tests rounding equality at the paper's printed precision
-rather than a tolerance, and treats range endpoints as floors and ceilings
-rather than rounding them. A second harness — a suite of 149 corruptions
-drawn from defects found in earlier versions of this work — is the
-verifier's own regression test. One command reproduces the whole result set
-from the raw logs; `REPRODUCE.md` gives the dataset identifiers, the pinned
-library versions, expected runtimes and expected output. Should the
-manuscript be selected for the reproducibility validation programme, I would
-welcome that, and the repository is built for it.
+**What the paper contributes.** Papers, business cases and tool evaluations
+report what a recorded field is worth as a single number. That number is a
+function of four choices which are almost never stated: the baseline of
+already-recorded fields the comparison may contain, the metric, the operating
+point, and the population of the register the field reads from. I write the
+quantity as *V(f | B, m, θ)*, propose that a feature-value claim be reported
+as a surface over those arguments, and then demonstrate on one dataset that
+each choice moves the answer by more than the effect being reported.
 
-I want to be equally precise about what the harness does **not** do. It
-guards numbers thoroughly and prose only where a guard was written by hand.
-The paper reports eight of my own errors as results rather than editing them
-away, and all eight are claims about what a number *means* — the checker
-would have caught none of them. Both the repository and the manuscript say
-so in those words.
+The demonstration is a configuration management database on a public log of
+45,455 incidents. Admitting one further field the organisation already
+records takes the item's value from +0.183 AUC to +0.103; admitting a second
+takes it to +0.001 [−0.002, +0.003]. Six defensible instruments on identical
+scores put the reduction between 43.7% and 60.3%, and ROC AUC — the figure
+the previous version of this work reported — is the smallest of them. Net
+benefit, read at one operating point, puts it between 6.3% and 119.2%
+depending on the point, and the item is resolvably harmful in a band above the
+base rate. At half population the register is worth +0.082 or +0.064
+depending on which half is missing.
 
-**What the paper contributes.** A CMDB programme is justified by the
-analytics it enables, and that justification is a comparison against a
-baseline the analyst chooses. On these logs the answer turns out to be set
-less by the configuration data than by two decisions that are rarely written
-down. First, which layer is being bought: a 256-way service-component
-grouping captures three quarters of what instance-level item identity is
-worth, and instance identity adds +0.023 AUC over it — while a per-item
-outcome rate with no model and no configuration attribute of any kind reaches
-0.744 against the full model's 0.748. What the CMDB supplies on this task is
-a stable identifier under which outcome history accumulates, not the
-attributes it is bought for. Second, which already-recorded fields the
-baseline may contain: admitting one free field halves the item's measured
-value, and the reduction runs 36.1% to 48.3% across the design space.
+**The strongest evidence I can offer for the reporting standard is that
+following it removed my own headline.** The previous version of this work
+declined to admit a second free field because it could not establish when the
+value was written, and named the file that would settle it. That file ships in
+the same public collection and I had not obtained it. I obtained it, it
+settles the question, and admitting the field takes the result from +0.103 to
++0.001. Section 12 reports that, with two nulls, and Section 14 records it as
+one of the paper's corrections rather than as progress.
 
-**It replicates across organisations.** The same ladder, on the BPI Challenge
-2013 log from Volvo IT — a second organisation, a second tool and a second
-country — gives a reduction of 61.3% [54, 68] on that challenge's own
-ping-pong target and 43.9% [31, 55] at a stricter threshold. I state in the
-paper that the free field is more tightly coupled to the target there, so
-the Volvo figure should be read as an upper bound rather than a second draw
-from the same distribution.
+**I tried to make the finding general and it did not go.** I pre-registered a
+protocol — the corpus, two targets, the rules assigning every attribute to a
+role, six exclusion codes, the estimator, the seed, the instruments, and the
+outcome that would falsify the claim — and committed it before any corpus
+result file existed, in a commit that adds no result file. The rules admit 13
+logs across six domains; the reduction is resolvably positive on three. The
+claim I registered is falsified by its own criterion and Section 11 says so.
+What the corpus does establish is the precondition, and it is the same
+phenomenon the paper measures directly on the primary log: where the opening
+field is nearly constant — in BPI Challenge 2012 and every BPI Challenge 2020
+sub-log every case is opened by the same actor — there is nothing for it to
+absorb.
 
-**On the corrections.** Two of the eight were found in the round that
-produced this version, and the larger of them removes the paper's own
-previous operational headline: a factor of 4.3, which I now show has a sign
-set by how ties inside a coarse baseline's scores are broken, and which
-decision curve analysis replaces with 1.07. The manuscript also reports a
-band of decision thresholds in which the configuration item is worth nothing
-at all over the group-aware baseline. I would rather submit a paper that says
-these things than one that does not.
+**The artifact.** The submission is accompanied by a public repository
+containing every analysis script, the pre-registered protocol, a referee log
+recording twenty-two adversarial objections with their dispositions, every
+derived result file, the figure generators, an environment locked by artefact
+hash and a container that additionally pins BLAS thread counts, and a
+verification harness that recomputes each of the 410 numeric literals in the
+manuscript from a result file or from the raw data. It fails if any literal in
+the body is unaccounted for, tests rounding equality at the paper's printed
+precision rather than a tolerance, and treats range endpoints as floors and
+ceilings rather than rounding them — a discipline that caught six real defects
+in this round's new tables on its first run. A second harness, a suite of 183
+corruptions drawn from defects found in earlier versions of this work, is the
+verifier's own regression test. One command fetches all twenty-three datasets
+by DOI, checksums them, and reproduces the whole result set.
 
-**Scope fit.** The task is prediction at case creation on incident event
-logs; the paper's semantic core is an organisational-mining question —
-establishing from the log, rather than from documentation, what a group
-stamp on an opening event denotes — and its methodological core is
-baseline specification and leakage-adjacent field admission in predictive
-process monitoring. I have engaged the inter-case perspective directly, by
-admitting four free creation-time congestion features and reporting what
+I want to be equally precise about what the harness does **not** do. It guards
+numbers thoroughly and prose only where a guard was written by hand. The paper
+reports eleven of my own errors as results rather than editing them away, and
+all eleven are claims about what a number *means* — the checker would have
+caught none of them. Two of the three found in this round are sentences in
+which every individual literal was correct and the relation the prose asserted
+between them was not: an extremum that was the worst of the points the paper
+happened to name, and a count identified with an interval. Both are reported,
+both are now checked, and I regard the defect class as a contribution rather
+than an embarrassment.
+
+**Scope fit.** The estimand is an evaluation-practice question; the
+demonstration is prediction at case creation on incident event logs; and the
+paper's semantic core is an organisational-mining question — establishing from
+the log, rather than from documentation, what a stamp on an opening event
+denotes and when it was written. I engage the inter-case perspective directly,
+by admitting four free creation-time congestion features and reporting what
 they do to the result.
 
 **Declarations.** The manuscript is original, is not under consideration
 elsewhere, and has not been published previously. There is a single author
 with no institutional affiliation and no funding. I declare no competing
-interests; I have no relationship with any vendor in this space, nor with
-either of the organisations whose logs are analysed. All three datasets are
-public benchmark logs and none is redistributed. Rounds eleven to eighteen of
+interests; I have no relationship with any vendor in this space, nor with any
+of the organisations whose logs are analysed. All twenty-three datasets are
+public benchmark logs and none is redistributed. Rounds eleven to seventeen of
 the adversarial review that produced this manuscript were machine-assisted;
-this is disclosed in the paper's Acknowledgements and in the CRediT
-statement, as your generative-AI policy requires. Suggested reviewers are
-listed separately.
+this is disclosed in the paper's Acknowledgements and in the CRediT statement,
+as your generative-AI policy requires. Suggested reviewers are listed
+separately.
 
 Thank you for considering the manuscript.
 
@@ -101,14 +116,18 @@ sudhir.dixit1@gmail.com
 ## Notes to self before sending — delete this section
 
 - [ ] Replace the repository URL throughout once the renamed repository
-      exists (§9 of the plan; the manuscript prints
+      exists (`submission/OWNER-ACTIONS.md` §1; the manuscript prints
       `github.com/sudhirdixit1/cmdb-field-admission`, which is **not yet
       created** — the live remote is still `cmdb-routing-queue-baseline`).
 - [ ] Add the Zenodo DOI once minted, both here and in the manuscript's
-      Acknowledgements. `submission/zenodo.json` is ready to upload.
+      Acknowledgements. `.zenodo.json` is ready to upload.
 - [ ] Post the arXiv preprint **before** submitting, and add its identifier
       to this letter. Elsevier permits preprints; posting first starts the
       citation clock during a ~244-day median review.
-- [ ] Confirm the counts in paragraph two against a fresh
-      `python scripts/reproduce_all.py` (325 literals, 149 corruptions) —
-      they move whenever the paper does.
+- [ ] Confirm the three counts in the artifact paragraph against a fresh
+      `python scripts/reproduce_all.py` — 410 literals, 183 corruptions, 13
+      admitted logs. They move whenever the paper does, and the last version
+      of this letter quoted numbers that had.
+- [ ] Offer `PROTOCOL.md` as supplementary material in the submission system,
+      not only as a repository file. A pre-registration a referee has to go
+      looking for is doing half its job.

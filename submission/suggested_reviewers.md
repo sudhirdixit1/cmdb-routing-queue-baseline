@@ -81,3 +81,38 @@ previous version made. A reviewer who reads the Corrections section as
 evidence of unreliability rather than of method has read it as intended
 except for the sign. The author would rather that reviewer be assigned than
 avoided.
+
+---
+
+## Round-seventeen addendum: what each is now best placed to break
+
+The manuscript changed substantially between the version this list was drawn
+for and the one being submitted. The six names stand; what they are best
+placed to attack has moved.
+
+- **De Weerdt** and **Dumas** now also face a *pre-registered protocol* over
+  22 public logs (`PROTOCOL.md`), with eight declared amendments. The sharpest
+  attack available to either is on the generic targets: the handover target
+  agrees with the primary log's own reassignment field on only 46.0% of
+  incidents, which §11 reports and which bounds what the corpus can be said to
+  replicate.
+- **Senderovich** should be pointed at §13's intake-mix sweep. It is the
+  paper's largest sensitivity and it is a *subsample* of one organisation, not
+  a second organisation, which §13 concedes in those words.
+- **Martin** now has a second semantic claim to attack, and it is the one that
+  removes the paper's headline: that the knowledge-article reference is written
+  by the service desk rather than by the incident process. §12's evidence is
+  that the field is populated on all 94,250 interactions that never become an
+  incident. If that inference is wrong, §12 is wrong.
+- The two reviewers listed for evaluation methodology should be pointed at §7.
+  The claim that six defensible instruments on identical scores put the same
+  reduction between 43.7% and 60.3% is the paper's methodological core, and the
+  place it is most exposed is the choice of which six count as defensible.
+
+**One suggestion that is new.** If the editor is willing, a reviewer whose work
+is on *reproducibility and verification tooling* rather than on process mining
+would be well placed to attack the part of this submission that is least like
+the rest of the literature: a checker that recomputes 410 numeric literals, a
+suite of 183 corruptions over that checker, and a claim — stated in the paper
+and in the repository — that the apparatus provably cannot see the class of
+defect that two of this paper's eleven corrections belong to.

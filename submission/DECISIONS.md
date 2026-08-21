@@ -130,3 +130,156 @@ extracts` to a checked sentence: a check used to vouch for its whole
 "covered". A check now vouches for the number it compared and nothing else.
 That took the check count from 446 to 674 and the corruption suite from
 109 of 110 to 149 of 149.
+
+---
+---
+
+# Decisions taken in round seventeen, and why
+
+`PLAN-STRONG-ACCEPT.md` §0.3 says a decision is taken and recorded, never
+parked. These are the ones round seventeen took.
+
+---
+
+## 9. Title — changed, and the previous choice is now wrong
+
+**Chosen:** *Four Choices Behind One Number: Reporting the Incremental Value
+of a Recorded Field*.
+
+**Why the previous title had to go.** *Identity, Not Attributes* names a
+finding that this round showed does not replicate. `r34` tested the four layer
+hierarchies `PLAN-STRONG-ACCEPT.md` §4.1 named before any was run. Only the
+primary log has a genuine deterministic hierarchy; BPI Challenge 2019's
+item/category/vendor levels **cross** — item category determines vendor on
+0.00% of items — so it is not a hierarchy and was not treated as one. UCI
+498's configuration link is populated on 51 of 24,918 traces. BPI Challenge
+2013's product strings carry no separator in any value, so no coarser level
+exists and none was invented by clustering. Plan §4.3 says: replicate it on at
+least two more logs or demote it out of the lead. It did not, so it is
+demoted, and a title may not name a demoted claim.
+
+**Rejected alternatives.**
+
+- *V(f | B, m, θ): Reporting the Incremental Value of a Recorded Field.*
+  Names the estimand precisely and is unreadable in a table of contents.
+- *A Feature's Value Is Not a Number.* Shorter and more quotable, and it
+  asserts a negative the paper spends forty pages qualifying.
+- *What a Configuration Register Is Worth, and to Whom.* Keeps the CMDB in the
+  title, which is the empirical demonstration rather than the contribution,
+  and would misdirect a reader about what the paper is for.
+
+**The constraint the choice had to satisfy.** `verify_paper.py` asserts the
+title names the paper's subject and does not assert a magnitude the body
+ranges over. It now additionally asserts the title does **not** carry
+*Identity, Not Attributes*. To overturn: edit `\title{}` and re-run the
+verifier.
+
+**One honest wrinkle.** "Four" is a claim about how many choices are usually
+left implicit, not about how many exist. The estimator is a fifth and the
+cohort a sixth. §3 says so, because a hostile referee asked
+(`REFEREE-LOG.md`, H1) and the alternative was a title that overclaims by one
+word.
+
+---
+
+## 10. The generality claim is reported as falsified
+
+**Decision.** `PROTOCOL.md` §8 registered a falsification condition before the
+corpus was run. The condition is met. The paper reports the claim as falsified
+by its own criterion, in those words, in the abstract, the introduction, §11
+and the conclusion.
+
+**Why not soften it.** Pre-registration is worth nothing if the verdict is
+renegotiated after the fact. The whole value of §8 is that it was written
+before the answer was known.
+
+**What the paper adds beside it, because the hostile pass was right**
+(`REFEREE-LOG.md`, H2). On 10 of 19 log-target pairs the entity is not
+resolvably worth anything over the intake block, so the reduction has no
+denominator and the test had no power. Reporting that as a falsification alone
+would conflate *absent* with *untestable*. §11 states both: the registered
+claim is falsified by the registered criterion, and a narrower claim — that
+where a high-cost entity predicts at all, a free opening stamp absorbs a large
+share of it — is neither refuted nor asserted by this corpus.
+
+---
+
+## 11. Eight amendments to a pre-registered protocol, declared rather than hidden
+
+**Decision.** Every amendment is recorded in `PROTOCOL.md` §10 with its date,
+its reason and the original text left in place, and both the registered and
+the amended selection are reported for every log where they differ.
+
+**Why this is not protocol laundering.** All eight were made after running the
+role assignment, which reads attribute names, cardinalities, missing rates and
+the split point, and **reads no outcome and no target**;
+`r33_generic_ladder.py --roles-only` is that stage and can be re-run to check.
+Every one is the registered text failing to implement its own stated intent:
+§3.1 says "any timestamp" and the first implementation matched a name list
+that missed five; §3.5 gives coarsenings of *f* their own role and the first
+implementation left them in the baseline.
+
+**The check that they stop there.** After all eight, the generic rules assign
+the primary log exactly the roles the published paper assigns by hand — *f*
+the configuration item, *g* the opening group, *B₀* the four intake fields,
+and CI Type and CI Subtype as layers — although nothing in the rules names
+that log or those fields. That agreement is the closest thing to a validation
+the protocol can have and it is why the amendments stop.
+
+**A defect inside amendment 2, recorded because it is the kind that ships.** A
+bare integer parses as a date, so the first version of the timestamp test
+classified `Impact`, `Urgency` and `Priority` — the published paper's own
+intake block — as timestamps and threw them away. Caught by reading the
+printed baseline against the paper.
+
+---
+
+## 12. The knowledge reference is admitted, and the headline goes with it
+
+**Decision.** §12 reports that admitting the knowledge-article reference takes
+item identity from +0.103 to +0.001 [−0.002, +0.003], and the abstract,
+introduction and conclusion carry that figure beside the other two.
+
+**What is claimed and what is not.** The paper claims the field is written by
+the service desk and not by the incident process — it is populated on 100% of
+the 94,250 interactions that never become an incident, across 1,978 distinct
+articles, 99.7% of them resolved on the first call. It does **not** claim the
+field is proved available at creation: agreement with a closed record still
+cannot discriminate it from the closure code, and §12 says so. What changed is
+the balance of evidence, and a paper whose headline is contingent on excluding
+a field must report what admitting it does.
+
+**Why the result is believed.** Two nulls, both reported. A matched-mass
+random partition of the same cardinality reaches base AUC at most 0.6479 over
+five draws and leaves the item worth +0.094 to +0.099; a partition matched
+additionally on each cell's distribution over twenty time strata does not
+reproduce it either. The real field reaches 0.8041 and leaves the item worth
++0.001. And it is not the item relabelled: 78.8% of articles map to exactly
+one item against 80.7% for the opening group, which absorbs less than half of
+the item's value rather than all of it.
+
+---
+
+## 13. Detection at a fixed capacity stays in the instrument table
+
+**Decision.** Round sixteen withdrew it as a headline. It is nonetheless a row
+in §7's instrument matrix.
+
+**Why.** A matrix of instruments is the right place to show what a
+tie-degenerate instrument does to a ratio, and deleting it would leave a
+reader unable to see why the withdrawn number was as large as it was. It is
+labelled as withdrawn where it appears.
+
+---
+
+## 14. Forty-five pages
+
+**Decision.** The manuscript is 45 pages and nothing was cut to make it
+shorter.
+
+**Why.** `PLAN-STRONG-ACCEPT.md` §6.3: *Information Systems* enforces no hard
+limit; do not pad, and do not compress out a disclosure to save a page. Every
+section added this round carries a measurement. If an editor asks for a cut,
+§9's mechanism material and §13's per-axis detail move to supplementary
+material without removing a claim, and that is recorded here so the decision
+does not have to be re-made under time pressure.

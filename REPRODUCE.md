@@ -33,8 +33,26 @@ around it, and the figures were computed on `matplotlib` 3.10.5.
 ```
 python -m venv .venv
 .venv\Scripts\activate          # Windows;  source .venv/bin/activate elsewhere
-pip install -r requirements.txt
+pip install --require-hashes -r requirements.lock
 ```
+
+`requirements.lock` pins every dependency by version **and** by the SHA-256 of
+every artefact PyPI serves for it, so `--require-hashes` refuses a different
+build of the same version. `requirements.txt` still lists the five direct
+dependencies for a reader who only wants to look. Regenerate the lockfile with
+`python scripts/make_lockfile.py`.
+
+**Or run the container**, which additionally pins the thread counts §4 says
+move a bootstrap percentile:
+
+```
+docker build -t emptycmdb .
+docker run --rm -v "$PWD/data:/work/data" -v "$PWD/results:/work/results" \
+           -v "$PWD/figures:/work/figures" emptycmdb
+```
+
+The data directory is mounted rather than baked in: nothing in this repository
+redistributes anybody's data.
 
 **A TeX distribution providing `pdflatex` and `bibtex`**, only if you want
 the PDF. `scripts/build_journal.py` looks on `PATH` and then in the usual
@@ -46,10 +64,28 @@ logistic regressions over 31,818 rows and about 2,600 sparse columns.
 
 ---
 
-## 2. The three datasets
+## 2. The datasets
 
-None is redistributed here. Fetch each from its persistent identifier and
-put the named files in `data/raw/`.
+None is redistributed here, and none has to be fetched by hand:
+
+```
+python scripts/fetch_corpus.py          # 23 files, 7 domains, by DOI
+python scripts/fetch_corpus.py --list   # the manifest, no network
+```
+
+`fetch_corpus.py` resolves each dataset's DOI through the 4TU.ResearchData API,
+downloads the named file, and records its SHA-256 in
+`data/corpus/CHECKSUMS.txt`, which **is** tracked in git. On every later run the
+checksum is verified and an unchanged file is skipped, so a reader can assert
+that the corpus they have is the corpus the paper was written against.
+
+The checksums cannot be pinned in advance: they are recorded on first download
+and verified from then on. A checksum a reader cannot independently obtain
+proves nothing, and the DOI is the citable identifier.
+
+The five files below are the ones the primary analysis needs and are read from
+`data/raw/`; the other eighteen land in `data/corpus/` and are used only by the
+corpus sections.
 
 | File | Collection | Identifier |
 |---|---|---|
@@ -90,13 +126,33 @@ cost below.
 | `r20_second_org.py` | under 1 min (no `r4` import) |
 | `r21_referee_round15.py` | 15–20 min (150 model fits in section B) |
 | `r22`, `r23`, `r24` | 6–10 min each |
-| `r25_figures.py` | seconds (reads result files only) |
+| `r25_figures.py`, `r39_figures.py` | seconds each (read result files only) |
 | `verify_paper.py` | 1–2 min |
-| `attack_verifier.py` | **40–70 min** (one full verifier run per corruption) |
+| `attack_verifier.py` | **40–90 min** (one full verifier run per corruption) |
 | `build_journal.py` | under 1 min |
 
-`reproduce_all.py` runs the independent scripts in parallel and takes about
-45 minutes to reach the verifier, plus the corruption suite.
+Round seventeen's scripts, which do not import `r4_final` and therefore skip
+its fixed cost — `base14.py` executes `r4_final`'s source up to the line that
+builds the cohort and stops, which is 5 seconds rather than 90:
+
+| Step | Approximate wall clock |
+|---|---|
+| `fetch_corpus.py` | 2–4 min for 1.0 GB, network permitting |
+| `r30_instrument_matrix.py` | 1–2 min |
+| `r31_why_instruments_disagree.py` | seconds |
+| `r32_corpus.py` | 3–5 min (parses a 728 MB XES once and caches it) |
+| `r33_generic_ladder.py` | **9–12 min** (13 logs, both targets, every g) |
+| `r33b`, `r33c` | under 1 min each |
+| `r34_layers_and_history.py` | under 1 min |
+| `r35_interaction_file.py` | 1–2 min |
+| `r35b_temporal_null.py` | 1–2 min |
+| `r36_population_ablation.py` | **9–10 min** (19 ladders, each bootstrapped) |
+| `r37_free_text.py` | under 1 min |
+| `r38_era_sensitivity.py` | under 1 min |
+
+`reproduce_all.py` writes a per-script table to `logs/runtimes.csv` and prints
+the six slowest. Allow about 70 minutes to reach the verifier from a cold
+`data/`, plus the corruption suite.
 
 ---
 
@@ -162,11 +218,34 @@ It also cannot tell you that an interpretation is sound. The paper reports
 eight corrections; **all eight are claims about what a number means, and the
 checker would have caught none of them.**
 
-`scripts/attack_verifier.py` is the checker's regression suite: 149
-corruptions drawn from defects found in earlier versions of this work. Run it
-after any change to the verifier. If you add a claim, add a `ck(...)` with an
-anchor **and** a corruption; the suite is what found every hole the verifier
-has had.
+It also cannot tell you that an interpretation is sound. **Two of the eleven
+corrections this paper reports are sentences in which every literal was
+correct** — the extremum that was the worst of the points we had named, and
+the count identified with an interval — and no check that compares numbers to
+data can see either. The checker now compares the named extremum against the
+extremum and the stated count against the run length, which closes those two
+instances and not the class.
+
+`ck_word` is new in this version: a count the paper spells out in letters is
+compared to the data that produces it. Round sixteen's suite showed that
+"Eight errors of our own" could be changed to "Six" and pass, because the
+tokeniser only sees digits.
+
+**The census runs last, and this file lints itself to keep it there.** The
+unaccounted-and-coverage census was outrun twice: round sixteen found it
+sitting halfway down the file, invisible to the checks below it, and moved it;
+round seventeen appended two hundred checks below where it had been moved to
+and the coverage half silently stopped seeing them. Moving a block does not
+fix a hole whose cause is order. It is now a function called once at the end,
+and `_lint_check_order()` reads `verify_paper.py`'s own source and fails if any
+`ck`/`ck_bound`/`ck_phrase`/`ck_word` **call** appears after that call site.
+
+`scripts/attack_verifier.py` is the checker's regression suite: 183
+corruptions drawn from defects found in earlier versions of this work,
+including five that mutate a *relation* rather than a value, because that is
+the class the two new corrections belong to. Run it after any change to the
+verifier. If you add a claim, add a `ck(...)` with an anchor **and** a
+corruption; the suite is what found every hole the verifier has had.
 
 ---
 
@@ -198,7 +277,22 @@ common.py
                                                         r14, r18]
 r15_why_one_org.py                 three public logs   [needs all three files]
 r20_second_org.py                  the second organisation   [BPIC 2013 only]
-r25_figures.py                     the journal figures  [reads results only]
+
+base14.py                          r4_final's cohort in 5 s, not 90
+├── r30_instrument_matrix.py       the six instruments
+├── r31_why_instruments_disagree.py    the three mechanisms  [needs r30's grid]
+├── r35_interaction_file.py        the settled section 12
+├── r35b_temporal_null.py          the time-profile-matched null   [needs r35]
+├── r36_population_ablation.py     the population curve
+└── r38_era_sensitivity.py         the four era axes    [needs r36's curve]
+
+r32_corpus.py                      parses 22 logs once, caches parquet
+└── r33_generic_ladder.py          the pre-registered corpus ladder
+    ├── r33b_discriminate.py       the prediction attempt
+    ├── r33c_headroom.py           the exclusion-rule sensitivity
+    ├── r34_layers_and_history.py  layers; the outcome-history control
+    └── r37_free_text.py           the free-text search
+r25_figures.py, r39_figures.py     the journal figures  [read results only]
 verify_paper.py                    [needs every result file above]
 attack_verifier.py                 [needs verify_paper.py to pass first]
 build_journal.py                   [needs paper/ and a TeX distribution]

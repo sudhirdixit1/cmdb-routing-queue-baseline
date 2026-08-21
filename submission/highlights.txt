@@ -4,28 +4,41 @@ Elsevier allows three to five bullets, each at most 85 characters including
 spaces. These are the five, with their lengths, so a future edit can check
 the limit without re-counting by hand.
 
-[78] What a CMDB supplies here is a stable identifier, not configuration attributes
-[77] A 256-way service grouping captures three quarters of instance-level CI value
-[72] Admitting one already-recorded field halves the measured value of a CMDB
-[69] The reduction is 36-48% across the design space, on two organisations
-[73] Eight of the authors' own errors are reported as results, not edited away
+[76] What a recorded field is worth depends on four choices, all usually implicit
+[73] Six defensible instruments put the same reduction between 43.7% and 60.3%
+[78] Admitting one more already-recorded field takes the item from +0.103 to +0.001
+[76] A pre-registered protocol over 22 public logs falsifies our generality claim
+[74] Eleven of the authors' own errors are reported as results, not edited away
 
 
 -- paste-ready, without the length prefixes --
 
-What a CMDB supplies here is a stable identifier, not configuration attributes
-A 256-way service grouping captures three quarters of instance-level CI value
-Admitting one already-recorded field halves the measured value of a CMDB
-The reduction is 36-48% across the design space, on two organisations
-Eight of the authors' own errors are reported as results, not edited away
+What a recorded field is worth depends on four choices, all usually implicit
+Six defensible instruments put the same reduction between 43.7% and 60.3%
+Admitting one more already-recorded field takes the item from +0.103 to +0.001
+A pre-registered protocol over 22 public logs falsifies our generality claim
+Eleven of the authors' own errors are reported as results, not edited away
 
 
--- alternatives, if a reviewer asks for the operational result instead --
+-- alternatives, if the editor prefers a different emphasis --
 
-[79] A per-item outcome rate, with no model, scores 0.744 against a full model 0.748
-[79] Net benefit puts the operational overstatement at 1.07, not the 4.3 we withdrew
+[76] Net benefit puts the same reduction between 6.3% and 119.2% across the range
+[72] At half population the register is worth +0.082 or +0.064, by which half
+[78] Two corrections are sentences where every number was right and the claim wrong
 
-The second of these is the round's largest correction, and it belongs in the
-list if the editor prefers highlights that name what the paper retracts. It
-is left out of the five above only because the fifth bullet already says the
-corrections are there and points a reader at them.
+The third of these names the round's most transferable finding — a defect
+class no checker that compares numbers to data can see — and it belongs in
+the list if the editor prefers highlights that name a methodological point
+over ones that name a magnitude. It is left out of the five above only
+because the fifth bullet already says the corrections are there and points a
+reader at them.
+
+-- a note on the fourth bullet --
+
+"Falsifies our generality claim" is deliberate and is not hedged. A referee
+who reads only the highlights should learn from them that the corpus result
+is negative, because that is what a reader who stops there most needs to
+know. Section 11 states the verdict precisely: the claim registered in
+PROTOCOL.md section 8 is falsified by its own criterion, and on 10 of the 19
+log-target pairs the entity is worth nothing to the intake baseline, so the
+corpus is uninformative about a narrower claim rather than refuting one.

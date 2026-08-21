@@ -1,16 +1,22 @@
-# Identity, not attributes — analysis repository
+# Four choices behind one number — analysis repository
 
-Code, derived results, figures and a verification harness for a study of
-what configuration data contributes to incident prediction, on two public
-ITSM event logs.
+Code, derived results, figures, a pre-registered protocol and a verification
+harness for a study of what a recorded field is worth, and of how much that
+answer depends on choices the analyst usually leaves implicit.
 
-**Paper:** `paper/iaai27_empty_cmdb.tex` — *Identity, Not Attributes: What
-Configuration Data Contributes to Incident Prediction in Two Organisations*.
-Targeted at *Information Systems* (Elsevier). The file name is a fossil of
-the IAAI-27 draft this was retargeted from and is retained so the version
-history stays legible.
+**Paper:** `paper/iaai27_empty_cmdb.tex` — *Four Choices Behind One Number:
+Reporting the Incremental Value of a Recorded Field*. Targeted at *Information
+Systems* (Elsevier). The file name is a fossil of the IAAI-27 draft this was
+retargeted from and is retained so the version history stays legible.
 
-**Reproduction:** `REPRODUCE.md`. One command:
+**Pre-registration:** `PROTOCOL.md`, committed before any corpus result file
+existed. `git log --stat` shows that commit adding one file.
+
+**Referee log:** `REFEREE-LOG.md` — twenty-two objections from four
+adversarial passes, each with its disposition, including the six dismissed.
+
+**Reproduction:** `REPRODUCE.md`. One command, which now fetches all 23
+datasets by DOI and checksums them:
 
 ```bash
 python scripts/reproduce_all.py
@@ -20,28 +26,36 @@ python scripts/reproduce_all.py
 
 ## What the paper claims
 
-Three things, in the order the paper makes them.
+Four things, in the order the paper makes them.
 
-1. **Identity, not attributes, and not at instance level.** On the BPI
-   Challenge 2014 incident log, a 256-way service-component grouping captures
-   three quarters of what instance-level configuration-item identity is worth
-   for predicting reassignment, and instance identity adds **+0.023 AUC**
-   over it. A per-item outcome rate applied as a lookup — no model, no
-   configuration attribute of any kind — reaches **0.744** against the full
-   model's **0.748**. What the CMDB supplies on this task is a stable key
-   under which outcome history accumulates.
+1. **Every choice moves the answer, and the baseline choice removes it.** On
+   the BPI Challenge 2014 incident log, item identity is worth **+0.183 AUC**
+   against four intake fields, **+0.103 [+0.094, +0.113]** once the group that
+   logged the incident is admitted, and **+0.001 [−0.002, +0.003]** once the
+   knowledge-article reference is. The previous version declined to admit that
+   second field because it could not establish when the value was written; the
+   interaction detail file, which we had not obtained, settles where it comes
+   from.
 
-2. **The measured value is set by a field-admission decision.** Item identity
-   is worth **+0.183 AUC** against four intake fields and **+0.103
-   [+0.094, +0.113]** once one further field the organisation already records
-   is admitted — the group that logged the incident. The reduction runs
-   **36.1% to 48.3%** across the design space, survives the admission of four
-   free creation-time congestion features, and replicates on a second
-   organisation, tool and country (BPI Challenge 2013, Volvo IT).
+2. **The metric and the operating point are choices of the same kind.** On
+   identical scores, six defensible instruments put the reduction between
+   **43.7% and 60.3%**, and ROC AUC — the number the previous version printed
+   — is the smallest of them. Net benefit, read at one operating point, puts
+   it between **6.3% and 119.2%** depending on which point, and the item is
+   resolvably harmful in a band above the base rate.
 
-3. **Eight corrections, reported as results rather than edited away.** Six
-   from earlier rounds; two from the round that produced this version. Both
-   of the new ones removed a claim the previous version made.
+3. **A pre-registered protocol over 22 public logs, and a falsified
+   generality claim.** The registered rules admit **13** logs across six
+   domains; the reduction is resolvably positive on **three**. The claim we
+   registered is falsified by its own criterion, and we report the negative
+   with the condition that does govern: on 10 of 19 log-target pairs the
+   entity is worth nothing to the intake baseline, so there is no value for a
+   free field to absorb.
+
+4. **Eleven corrections, reported as results rather than edited away.** Eight
+   from earlier rounds; three from the round that produced this version. Two
+   of the three are sentences in which every literal was correct and the
+   relation asserted between them was not.
 
 ---
 
@@ -74,6 +88,36 @@ paper is about.
 The mechanism withdrawals from round fifteen — an asymmetry that was an
 algebraic identity, and a margin that was a granularity knob — stand.
 
+**Round seventeen withdrew three more, and two of them are a new kind.**
+
+- **An extremum that was the worst of the points we had named.** The paper
+  said the group-aware increment turns negative, "reaching −16.1
+  [−23.0, −8.9] per thousand at p_t = 0.50". *Reaching* names an extremum.
+  The extremum is **−21.1 [−27.7, −14.4] at θ = 0.525**, 31% larger; 0.50 was
+  in the list of five thresholds our own table happened to name.
+
+- **A count reported as an interval.** "Resolvably positive at 20 points, in
+  a contiguous run from 0.100 to 0.425." Fourteen are in that run; six sit at
+  0.675 and above.
+
+  Every literal in both sentences was correct and every one passed the
+  checker. What was wrong was the relation the prose asserted between them.
+  No check that compares numbers to data can see that class of defect, and
+  the suite now carries five corruptions that mutate a relation rather than a
+  value.
+
+- **"One Thing We Could Not Establish" is established, and it removes the
+  headline.** The previous version could not tell whether the
+  knowledge-article reference is available at incident creation, named the
+  file that would settle it, and did not obtain it. `Detail_Interaction.csv`
+  is in the same public collection: 94,250 of its 147,004 interactions never
+  become an incident at all and every one of them carries a knowledge
+  reference, so the field is written by the service desk and not by the
+  incident process. Admitting it takes item identity from **+0.103 to +0.001
+  [−0.002, +0.003]** (`r35`). Two nulls — one matched on cell mass, one
+  additionally matched on each cell's distribution over twenty time strata —
+  reproduce neither the base AUC nor the collapse (`r35`, `r35b`).
+
 ---
 
 ## Layout
@@ -84,7 +128,14 @@ scripts/        every analysis, the figure generator, the checker
 results/        every derived CSV the scripts produce
 figures/        every figure, including ones not in the paper
 submission/     highlights, cover letter, CRediT, data availability
-data/raw/       the three public logs.  NOT in version control.
+data/raw/       the five files the primary analysis reads.  NOT in git.
+data/corpus/    the other eighteen, fetched by DOI.  NOT in git; its
+                CHECKSUMS.txt IS.
+data/normalized/  one parquet per parsed log, so a 728 MB XES is read once
+PROTOCOL.md     the pre-registration
+REFEREE-LOG.md  four adversarial passes, 22 objections, every disposition
+Dockerfile      a pinned environment, including BLAS thread counts
+requirements.lock  every dependency by version AND artefact hash
 ```
 
 ### Scripts that matter
@@ -100,7 +151,18 @@ data/raw/       the three public logs.  NOT in version control.
 | `r22_intercase.py` | congestion features; the central-desk contrast |
 | `r23_decision_curve.py` | net benefit — the instrument section 8 now uses |
 | `r24_tiefree.py` | the tie decomposition that withdrew the capacity factor |
-| `r25_figures.py` | the five journal figures |
+| `r25_figures.py`, `r39_figures.py` | the ten journal figures |
+| `base14.py` | `r4_final`'s cohort in 5 s rather than 90, by executing that file's own source up to the line that builds it |
+| `fetch_corpus.py` | 23 files, 7 domains, by DOI, with checksums |
+| `r30_instrument_matrix.py` | six instruments; the cost-ratio identity |
+| `r31_why_instruments_disagree.py` | aggregation, degeneracy, calibration, tie conventions |
+| `r32_corpus.py` | streaming XES parser; the attribute inventory |
+| `r33_generic_ladder.py` | the pre-registered ladder over 13 logs |
+| `r34_layers_and_history.py` | layer hierarchies; the outcome-history control |
+| `r35_interaction_file.py` | the file section 12 said would settle it |
+| `r36_population_ablation.py` | the population curve, three regimes |
+| `r37_free_text.py` | the free-text search: 596 attributes, zero hits |
+| `r38_era_sensitivity.py` | the era limitation as four measurements |
 | `verify_paper.py` | recomputes every number in the paper |
 | `attack_verifier.py` | the checker's own regression suite |
 | `reproduce_all.py` | all of the above, in order, one command |
@@ -144,22 +206,32 @@ rewritten. If you are adding a script, print only what your output supports.
 Current state:
 
 ```
-674 checks passed, 0 failed
-325 literals in body; 0 unaccounted; 313 compared against data
-149 caught, 0 missed, 0 skipped of 149
+890 checks passed, 0 failed
+410 literals in body; 0 unaccounted; 401 compared against data
+183 caught, 0 missed, 0 skipped of 183
 ```
 
 `verify_paper.py` compares every numeric literal in the paper against a value
 computed from a result file or recomputed from the raw data, requires each to
 appear within an anchor phrase, and fails if any literal in the body is
-unaccounted for. `attack_verifier.py` is its regression suite: 149 corruptions.
+unaccounted for. `attack_verifier.py` is its regression suite: 183
+corruptions.
 
 ### Be precise about what that buys
 
 It guards **numbers** thoroughly and **prose** only where a guard was written
 by hand. There is no general coverage of non-numeric assertions and this file
-will not imply otherwise. All eight corrections the paper reports are claims
+will not imply otherwise. All eleven corrections the paper reports are claims
 about what a number *means*, and the checker would have caught none of them.
+
+Round seventeen's suite made that concrete. Three corruptions landed on the
+first run of the enlarged suite and all three were prose: softening "It is
+falsified" to "It is largely supported"; reversing "the headline does not
+survive our own admissibility criterion"; and swapping the two ends of a
+three-way population comparison, where both values stay checked and only
+their attribution moves. Each is now guarded, and the general point is that
+the guard list is a list — it grows one defect at a time and nothing on it
+was foreseen.
 
 ### Rules, all learned the hard way
 
@@ -193,16 +265,32 @@ about what a number *means*, and the checker would have caught none of them.
   every load-bearing construction that begins a sentence — "We withdraw…",
   "We exclude…" — escaped the guard. Making it case-insensitive immediately
   surfaced a sentence that had been unguarded for eight rounds.
+- **A count the paper spells out is compared to the data** (round seventeen).
+  `ck_word()` generalises the bespoke fix round sixteen put on the corrections
+  count. "Six instruments rather than seven", "three bands", "five incidents"
+  — each is now compared to the number the result file produces.
+- **The census runs last, and the file lints itself to keep it there** (round
+  seventeen). This is the *second* time the coverage census has been outrun by
+  checks written below it. Moving the block is not a fix for a hole whose
+  cause is order: `_lint_check_order()` reads `verify_paper.py`'s own source
+  and fails if any check **call** appears after the census call site.
+- **Retiring a check is explicit and safe only because of coverage** (round
+  seventeen). Thirty-nine checks whose anchoring sentence no longer exists sit
+  in a `RETIRED` set naming the claim that went. That is safe only because a
+  literal freed by a retirement and not re-checked becomes unaccounted and the
+  run fails. Never retire a check because it fails.
 - If you add a claim, add a `ck(...)` with an anchor **and** a corruption to
   `attack_verifier.py`. The suite is what found every hole the verifier has
-  had — three of them in round sixteen alone, two of those written *after*
-  the first fix looked complete. Write the corruption before you believe the
-  check.
+  had — three in round sixteen and three more in round seventeen, all six
+  written *after* a fix looked complete. Write the corruption before you
+  believe the check.
 
 ---
 
 ## The datasets
 
-All three are public; none is redistributed here. `REPRODUCE.md` §2 gives the
-identifiers, the filenames, and the two file-format traps that have each cost
-a debugging session.
+Twenty-three files across seven domains, all public, none redistributed here.
+`python scripts/fetch_corpus.py` resolves every DOI, downloads every file and
+records a SHA-256 for each in `data/corpus/CHECKSUMS.txt`, which is tracked.
+`REPRODUCE.md` §2 gives the identifiers, the filenames, and the two
+file-format traps that have each cost a debugging session.

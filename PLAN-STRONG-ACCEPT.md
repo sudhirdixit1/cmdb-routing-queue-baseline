@@ -442,18 +442,39 @@ and could carry 45 if every page earns it.
 The reproducibility programme is the reason this venue was chosen. The
 artifact is already unusual; make it unarguable.
 
-- [ ] Extend `verify_paper.py` to the multi-log results. Every new number is
+- [x] Extend `verify_paper.py` to the multi-log results. Every new number is
       checked or the paper does not print it.
-- [ ] Grow `attack_verifier.py` with a corruption per new claim. **A claim
+      — **890 checks, 410 literals, 0 unaccounted, 401 compared against data.**
+      Thirty-nine checks whose anchoring sentence no longer exists are named in
+      a `RETIRED` set with the claim that went; that is safe only because the
+      coverage census fails any literal a retirement frees.
+- [x] Grow `attack_verifier.py` with a corruption per new claim. **A claim
       without a corruption is not defended.**
-- [ ] Add an environment lockfile (`conda-lock` or `pip-compile` hashes)
+      — **149 → 183.** Nine stale entries were repointed rather than deleted,
+      so the attack each encodes survives. Five of the new ones mutate a
+      *relation* rather than a value, because that is the class corrections
+      nine and ten belong to and no value mutation can reach it.
+- [x] Add an environment lockfile (`conda-lock` or `pip-compile` hashes)
       alongside `requirements.txt`, and a container definition. Round sixteen
       found that a BLAS thread-count change moved a bootstrap percentile.
-- [ ] `reproduce_all.py` must cover the corpus, including the download step
+      — `requirements.lock` pins 19 packages by version **and** by the SHA-256
+      of every artefact PyPI serves; `scripts/make_lockfile.py` regenerates it.
+      `Dockerfile` pins the interpreter, the hashes, and
+      `OMP/OPENBLAS/MKL/NUMEXPR/VECLIB_NUM_THREADS=1`, which is the specific
+      thing round sixteen found moving a percentile.
+- [x] `reproduce_all.py` must cover the corpus, including the download step
       for each public log, by DOI, with checksums.
-- [ ] Record per-log runtimes; the corpus will be much slower than one log.
-- [ ] Keep the README's statement of what the checker does **not** cover, and
+      — A `fetch` stage runs `fetch_corpus.py`: 23 files, 7 domains, resolved
+      through the 4TU API, SHA-256 recorded in a tracked `CHECKSUMS.txt` and
+      verified on every later run. `--skip-fetch` for a populated `data/`.
+- [x] Record per-log runtimes; the corpus will be much slower than one log.
+      — `logs/runtimes.csv`, written by `reproduce_all.py`, with the six
+      slowest printed. `REPRODUCE.md` §3 carries the table.
+- [x] Keep the README's statement of what the checker does **not** cover, and
       update it if the coverage changes.
+      — Kept and strengthened. It now names the three prose corruptions that
+      landed on the enlarged suite's first run, and says the guard list grows
+      one defect at a time and nothing on it was foreseen.
 
 ---
 
@@ -486,14 +507,27 @@ explicit concession in the text. **Log every objection and its disposition in
 
 Most of this exists from round sixteen; refresh rather than rewrite.
 
-- [ ] Update `submission/` — highlights, cover letter, CRediT, data
+- [x] Update `submission/` — highlights, cover letter, CRediT, data
       availability (now $n$ datasets), declaration, suggested reviewers
-- [ ] Refresh every count quoted in the cover letter against a fresh
+      — All rewritten. Data availability now lists **23 files across 7
+      domains** by DOI and names `Detail_Interaction.csv` as the file the
+      previous version said would settle its §9. Highlights re-cut around the
+      four choices, with every character count re-derived rather than copied
+      (the previous file's five counts were all wrong by 3–11 characters).
+- [x] Refresh every count quoted in the cover letter against a fresh
       `reproduce_all.py`
-- [ ] `PROTOCOL.md` goes in the submission as supplementary material — a
+      — 410 literals, 183 corruptions, 13 admitted logs. The letter's
+      "notes to self" now says explicitly that the last version quoted counts
+      that had moved, so the next round checks rather than trusts.
+- [x] `PROTOCOL.md` goes in the submission as supplementary material — a
       pre-registered protocol is a rigour signal and reviewers should see it
-- [ ] Carry forward the three items in `submission/OWNER-ACTIONS.md` that
+      — Offered as supplementary material in the data-availability statement
+      and in the cover letter's pre-send checklist.
+- [x] Carry forward the three items in `submission/OWNER-ACTIONS.md` that
       need the author's accounts (GitHub rename, Zenodo DOI, arXiv)
+      — Carried forward unchanged; none is doable without the author's
+      credentials and none was attempted. Plan §0.3 says stop *that item
+      only*, which is what happened.
 
 ---
 
@@ -503,39 +537,104 @@ Tick every box, or record why it cannot be ticked.
 
 **Necessary — the paper is not finished without these**
 
-- [ ] The instrument matrix is run and the reduction's dependence on the
+- [x] The instrument matrix is run and the reduction's dependence on the
       instrument is measured, explained and figured (§2)
-- [ ] At least **eight** logs, at least **four** domains, one pre-registered
+      — Six independent instruments (seven named; expected cost proved to be
+      net benefit reparameterised). `figK1`, `figK2`. Three mechanisms tested,
+      one prediction failed and the failure is reported as the finding.
+- [x] At least **eight** logs, at least **four** domains, one pre-registered
       protocol (§3)
-- [ ] The layer finding either replicates on ≥2 further logs or is demoted
+      — **13 logs, 6 domains**, from a 22-log corpus, under `PROTOCOL.md`
+      committed before any result file existed.
+- [x] The layer finding either replicates on ≥2 further logs or is demoted
       out of the lead (§4)
-- [ ] `Detail_Interaction.csv` obtained and §9's open question settled (§5.1)
-- [ ] The population-ablation curve replaces the data-quality caveat (§5.2)
-- [ ] Free text either measured or its absence documented as a search (§5.3)
-- [ ] Every new number checked by `verify_paper.py`; every new claim has a
+      — It does not replicate on any. Demoted out of the lead **and out of the
+      title**.
+- [x] `Detail_Interaction.csv` obtained and §9's open question settled (§5.1)
+      — Obtained; the field is written by the service desk; admitting it takes
+      the headline to +0.001. §9 is now a settled section and correction
+      eleven.
+- [x] The population-ablation curve replaces the data-quality caveat (§5.2)
+      — Three degradation regimes, 19 points, 18 with intervals excluding
+      zero. `figK3`.
+- [x] Free text either measured or its absence documented as a search (§5.3)
+      — Documented as a search: 596 attributes, 22 logs, zero hits, with the
+      failing condition recorded field by field in `r37_free_text.csv`.
+- [x] Every new number checked by `verify_paper.py`; every new claim has a
       corruption; suite passes 0 missed, 0 skipped
-- [ ] Four adversarial passes run, every objection dispositioned in
+      — 890 checks, 0 unaccounted; 183 corruptions. The first run of the
+      enlarged suite landed three, all prose; each is now guarded and the
+      suite re-run clean.
+- [x] Four adversarial passes run, every objection dispositioned in
       `REFEREE-LOG.md`
-- [ ] The manuscript builds with 0 errors and 0 undefined references
-- [ ] §12 of this file records what each phase found, including the phases
+      — 22 objections: 3 measured, 13 conceded into the text, 6 dismissed with
+      reasons.
+- [x] The manuscript builds with 0 errors and 0 undefined references
+      — 45 pages, 0 errors, 0 undefined references, 2 overfull hboxes.
+- [x] §12 of this file records what each phase found, including the phases
       that found nothing
+      — Two phases found nothing (the free-text search, the prediction
+      attempt) and three found against the paper; all five are in §12 in those
+      words.
 
 **Sufficient — what would actually make a referee write "strong accept"**
 
 - [ ] A finding that is **general**: the effect is a property of process
       logs, with named conditions under which it appears and does not
-- [ ] A **methods contribution** other papers must cite: the
+      — **NOT ACHIEVED, and this is the round's honest ceiling.** The
+      pre-registered generality claim is falsified by its own criterion. What
+      *is* achieved is the second half of the sentence: the condition is named
+      and measured. Where the opening field is nearly constant there is
+      nothing for it to absorb — cardinality one in BPI Challenge 2012 and all
+      five BPI Challenge 2020 sub-logs, 7 to 18 in the permitting logs — and
+      §13's intake-mix sweep measures that dependence directly on the primary
+      log, from 95.3% down to 6.3%. A condition without a general effect is
+      half of what §10 asked for and the paper does not claim the other half.
+- [x] A **methods contribution** other papers must cite: the
       $V(f \mid B, m, \theta)$ reporting standard, demonstrated
-- [ ] A **reproducibility artifact** that a stranger runs in one command and
+      — §3 defines it, §§6–10 vary one argument at a time on one dataset with
+      everything else held fixed, §12 demonstrates it removing this paper's
+      own headline, and §11 states the minimum reportable form.
+- [x] A **reproducibility artifact** that a stranger runs in one command and
       that fails loudly when the paper is wrong
-- [ ] **No claim resting on an unvaried choice.** For every number in the
+      — `python scripts/reproduce_all.py` now fetches all 23 datasets by DOI,
+      checksums them, runs every analysis in dependency order, regenerates
+      every figure, verifies 410 literals and runs 183 corruptions. A
+      container and a hash-pinned lockfile remove the environment as a
+      variable.
+- [x] **No claim resting on an unvaried choice.** For every number in the
       abstract, a reader can find where the paper varies the choices behind
       it
+      — Each abstract figure names its section: the baseline ladder (§6), the
+      instrument matrix (§7), the operating range (§8), the population curve
+      (§10). The one abstract number whose choice is *not* varied is the
+      estimator, and §3 says so and points at the three families `r10`
+      compares.
 
 **And the honest test.** Before you declare this done, write the rejection
 letter yourself — the strongest one you can, in the voice of a referee who
 wants to reject. If you can write a persuasive one, you are not finished. If
 the best you can manage is the four items in §0.4, you are.
+
+> **Written, at the end of `REFEREE-LOG.md`, and it is persuasive.** *The
+> paper's general claim is a reporting standard demonstrated on a single
+> organisation's log; its attempt to generalise returned a negative; and its
+> most striking result — that the register adds nothing once two free fields
+> are admitted — rests on a field-admission judgement the authors themselves
+> say is not proved.*
+>
+> By the plan's own test, this round is **not finished** in the sense §10
+> means, and the honest reading is the one §0.4 anticipated: the four items
+> outside reach are still outside reach, and a fifth has joined them — the
+> effect does not generalise on public data, which is a fact about the data
+> and about the effect, not about the execution.
+>
+> What is worth noting is what the letter cannot say. Every clause of it is a
+> sentence the paper already contains, in the abstract or in §11 or in §12.
+> There is no clause naming a claim the paper makes that the data does not
+> support, and finding one was the object of four adversarial passes. That is
+> the strongest position this work can be in without a deployment, an
+> organisational partner, or data newer than 2019.
 
 ---
 
@@ -559,8 +658,46 @@ Recorded so it is not proposed as a fresh idea in round nineteen.
 
 ## 12. Execution record
 
-*Append after each phase. Nothing here until something has run.*
+Executed 2026-08-21 on branch `round-seventeen-strong-accept`, in one session,
+by an agent instructed to run the plan to completion without asking. Every
+phase is recorded below, **including the two that found nothing and the three
+that found against the paper**.
 
-| Phase | Started | Outcome | Cost |
-|---|---|---|---|
-| | | | |
+| Phase | Outcome | Cost |
+|---|---|---|
+| 1 — the reframe (§2) | **Against the plan's premise, in our favour.** The plan assumed the effect evaporates under principled instruments. It does not: AUC's 43.7% is the *smallest* of four scalar instruments (AP 60.3%, Brier skill 58.4%, Nagelkerke 56.6%). What moves is net benefit read at one operating point: 6.3% to 119.2% over the grid. Expected cost proved to be net benefit reparameterised, so six instruments, not seven. | `r30`, `r31`; 70 s + 3 s |
+| 1b — why they disagree (§2.2) | **The stated prediction failed and the failure is the finding.** The AUC increment is not localised away from the grid; it is *diffuse* — largest FPR band 18.2%, three bands to half. Two further mechanisms: at the thresholds where net benefit is lowest both baselines act on more than 94% of arrivals, and average precision's default tie convention is the adversarial bound while AUC's is the random draw. On a common convention the AUC/AP gap *widens*. | as above |
+| 1c — two defects it found | `r23_dca_grid.csv`, in the repository since round sixteen, contradicts §8.2 twice: "reaching −16.1 at p_t = 0.50" names an extremum that is −21.1 at 0.525, and "20 points, in a contiguous run from 0.100 to 0.425" describes 14. Every literal in both sentences passed `verify_paper.py`. Corrections nine and ten. | free |
+| 2 — the corpus (§3) | **Falsified, as registered.** 23 files by DOI over 7 domains; 22 parse; the pre-registered rules admit 13 over 6 domains and exclude 9 by code. 19 log-target pairs; the entity is resolvably worth something on 9; the reduction is resolvably positive on 4, from 3 logs. On 8 admitted non-ITSM logs it is resolvable on 1. `PROTOCOL.md` §8's condition is met and the paper says so. | `fetch_corpus`, `r32`, `r33`; 2 + 5 + 9 min |
+| 2b — predicting the reduction (§3.3) | **Nothing.** Leave-one-out R² = −1.323 on nine points with eleven predictors, permutation p = 0.448. Reported as the result; no in-sample fit shown in its place. | `r33b`; 24 s |
+| 2c — a validity check that had to be reported | The generic handover target does **not** reproduce the primary log's own reassignment field: prevalence 0.927 against 0.411, agreeing on 46.0%, barely above independence. The corpus measures a generic workflow outcome, not this paper's task on twelve further organisations. | `r33` validity |
+| 3 — make the lead replicate (§4) | **It does not, and it is demoted.** Only the primary log has a genuine deterministic hierarchy. BPI Challenge 2019's item/category/vendor levels cross — item category determines vendor 0.00% of the time. UCI 498's configuration link is populated on 51 of 24,918 traces. BPI Challenge 2013's product strings carry no separator, so no coarser level exists and none was invented. Plan §4.3 applied: demoted out of the lead and out of the title. | `r34`; 34 s |
+| 3b — the outcome-history control (§4.2) | **This is what replicates.** Across 19 pairs a per-entity historical rate with no model and no attribute reaches 6.1% to 109.3% of what the fitted model reaches above chance, and matches or beats it on 3. | `r34` §B |
+| 4a — the file §9 named (§5.1) | **Settled, and it removes the headline.** `Detail_Interaction.csv`, 147,004 rows, same DOI. 94,250 interactions (64.1%) never become an incident and every one carries a knowledge reference across 1,978 articles; 99.7% were first-call resolutions. Admitting the field takes item identity from +0.103 to +0.001 [−0.002,+0.003]. Two nulls pass. Correction eleven. | `r35`, `r35b`; 85 s + 90 s |
+| 4b — data quality (§5.2) | **Caveat replaced by a curve.** At half population the item is worth +0.082 if the tail is missing and +0.064 if the core is; reduction 39.3% against 14.2%. The regime matters more than the level, and at full population the measurement sits at the top of its own curve, so discovery tooling cannot raise it. | `r36`; 9 min |
+| 4c — free text (§5.3) | **Nothing, and the search is the deliverable.** 596 attributes over 22 logs; zero satisfy the declared criterion. UCI 498's `u_symptom` is 3.4% unique with mean length 10.9: a coded symptom, not a description. Two amendments were needed to stop the criterion admitting formatted identifiers and single-row columns. | `r37`; 23 s |
+| 4d — era (§5.4) | **Four measurements replace an apology, and the largest is new.** Across intake mixes from no central desk to 95% central desk the reduction runs 6.3% to 95.3% — a wider range than every other axis in this paper put together — and a 2026 desk with more channels sits at the end where the free field absorbs nearly all of it. | `r38`; 20 s |
+| 5 — the manuscript (§6) | Rebuilt: new title, abstract, introduction, estimand section, metric axis, population axis, corpus section, reporting standard, settled §12, four-way era decomposition, three new corrections, rewritten conclusion. 45 pages, 0 errors, 0 undefined references. | `patch_paper_r17*` |
+| 6 — the artifact (§7) | `verify_paper.py` from 674 checks to 890, 410 literals, 0 unaccounted. `ck_word` added. **The coverage census was outrun a second time** and the fix is now structural: it is a function called last, and `_lint_check_order()` fails if any check call follows it. `attack_verifier.py` from 149 corruptions to 183, five of them mutating a *relation* rather than a value. `requirements.lock` with artefact hashes; `Dockerfile` pinning BLAS threads; `reproduce_all.py` gains a fetch stage and per-script runtimes. | |
+| 7 — adversarial round (§8) | Four passes, 22 objections, all dispositioned in `REFEREE-LOG.md`: 3 produced new measurements, 13 produced a sentence the paper did not contain, 6 dismissed with reasons. The suite then landed 3 corruptions on its first run, **all three prose**, and each is now guarded. | |
+| 8 — submission (§9) | Highlights, cover letter, CRediT, data availability and decisions refreshed against the new counts. `PROTOCOL.md` added as supplementary material. The three items needing the author's accounts are unchanged in `submission/OWNER-ACTIONS.md`. | |
+
+### What this round would say to round eighteen
+
+1. **The corpus result is the honest ceiling and it is negative.** Do not run
+   it again hoping for a different answer; run a *different* corpus, or accept
+   the bound. The condition that governs is measured and it is simple: where
+   the opening field is nearly constant there is nothing for it to absorb.
+
+2. **Two of this round's three corrections are a defect class, not incidents.**
+   Every literal was correct and the relation the prose asserted was not. The
+   suite now carries five corruptions of that shape. Write more of them; they
+   are the only thing that finds this class.
+
+3. **The census was outrun twice.** If a fix is "move the block", it is not a
+   fix. `_lint_check_order()` is the fix.
+
+4. **What is left is still not analysis.** `submission/OWNER-ACTIONS.md` is
+   unchanged: the repository rename, the push, the Zenodo DOI, the arXiv
+   preprint, and the one judgement about the acknowledgement that only the
+   author can make.
