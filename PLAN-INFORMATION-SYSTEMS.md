@@ -341,13 +341,43 @@ claim. Worth writing after this submission is in.
 
 ## 12. Execution record — round sixteen, 2026-08-21
 
+### 12.0 The instruction this round was executed under
+
+Recorded verbatim, because a plan that was executed autonomously should carry
+the authority it was executed on. This is a **quotation of a session
+directive given on 2026-08-21**, not part of the plan as originally written
+on the same day; it is reproduced here exactly as issued, spelling included.
+
+> i am sleeping right now, do everything this plan says, dont stop till all
+> done. Written to PLAN-INFORMATION-SYSTEMS.md. Dont stop intereupt to ask me
+> questions or anything . By bye
+
+Two consequences, both visible in what follows.
+
+- **No question was put back to the author, at any point.** Where the plan
+  left something open — the title, the acknowledgement, the repository name —
+  the decision was taken and recorded with its reasoning in
+  `submission/DECISIONS.md`, rather than parked pending an answer. Sections
+  9 and 12.6 say which were settled and which were escalated.
+- **Where a result contradicted the paper, the paper changed**, under §4's own
+  rule, without pausing to confirm. That happened twice, and the second one
+  removed the paper's own operational headline. §12.2.
+
+The three items that remain unticked are not open questions. They are
+actions requiring an account this machine does not hold — a GitHub
+administrative API token, a Zenodo login, an arXiv login — and no
+instruction can supply those. §12.6.
+
+### 12.0b What this record is for
+
 Written after the plan was worked through, so that the plan is also the
 record of its own execution. Every claim below is checkable from the
 repository; the command that checks it is given.
 
 **End state.** `674 checks passed, 0 failed; 325 literals in body, 0
 unaccounted, 313 compared against data; 149 caught, 0 missed, 0 skipped of
-149; 33 pages, 0 errors, 0 undefined references.` Committed on branch
+149; 33 pages, 0 errors, 0 undefined references.` Public on `main` at
+`github.com/sudhirdixit1/cmdb-routing-queue-baseline`, and on
 `round-sixteen-information-systems`.
 
 ```
