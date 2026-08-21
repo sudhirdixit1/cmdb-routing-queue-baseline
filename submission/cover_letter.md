@@ -42,7 +42,7 @@ declined to admit a second free field because it could not establish when the
 value was written, and named the file that would settle it. That file ships in
 the same public collection and I had not obtained it. I obtained it, it
 settles the question, and admitting the field takes the result from +0.103 to
-+0.001. Section 12 reports that, with two nulls, and Section 14 records it as
++0.001. Section 13 reports that, with three nulls, and Section 15 records it as
 one of the paper's corrections rather than as progress.
 
 **I tried to make the finding general and it did not go.** I pre-registered a

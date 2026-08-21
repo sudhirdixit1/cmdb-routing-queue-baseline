@@ -50,7 +50,17 @@ if _SUITE_LOCK.exists():
         f"    cp {_SUITE_LOCK} {_SUITE_LOCK.with_name('iaai27_empty_cmdb.tex')}\n"
         f"    rm {_SUITE_LOCK}")
 
-TEX_RAW = (ROOT / "paper" / "iaai27_empty_cmdb.tex").read_text(encoding="utf-8")
+_TEX_PATH = ROOT / "paper" / "iaai27_empty_cmdb.tex"
+#  ROUND SEVENTEEN.  The checker must not modify the thing it is checking.
+#  A check that read the corruption suite's size with `import
+#  attack_verifier` RAN the suite -- attack_verifier.py is a script -- so
+#  every invocation of this file became a 199-corruption run in which every
+#  corruption "passed" because the nested checker refused to start.  A clean
+#  199/199 from a checker that had checked nothing.  The specific cause is
+#  fixed; this is the general guard.
+import hashlib as _hashlib
+_TEX_SHA_AT_START = _hashlib.sha256(_TEX_PATH.read_bytes()).hexdigest()
+TEX_RAW = _TEX_PATH.read_text(encoding="utf-8")
 BODY = body_of(TEX_RAW)
 # LaTeX wraps sentences, so an anchor phrase can straddle a newline.
 # Collapse whitespace before any context search.
@@ -1427,6 +1437,9 @@ ck_phrase("the item can be worth less than nothing, and the paper says so",
           r"adding item identity to a model that already knows the opening "
           r"group makes the desk worse off on this task")
 
+ck_phrase("the suite's provenance claim is pinned",
+          r"a corruption suite of $199$ mutations which has found every hole "
+          r"that program has ever had")
 ck_phrase("the falsification verdict is pinned",
           r"It is falsified. We report that rather than reframing the claim "
           r"to fit")
@@ -3037,7 +3050,29 @@ ck("corr11 from", _r35L.loc["intake + group"].gain, "+0.103", 6e-4,
    anchor="takes our headline from")
 ck("corr11 to", _r35L.loc["intake + group + km_prov"].gain, "+0.001", 6e-4,
    anchor="takes our headline from")
-ck("corruption suite size", 149, "149", 0,
+#  ROUND SEVENTEEN.  This compared the constant 149 against the literal 149,
+#  so it could not fail when the suite grew -- the same shape of defect as the
+#  corrections count in round sixteen.  It reads the suite's own list now.
+#
+#  It PARSES that file; it does not import it.  `import attack_verifier`
+#  executes the suite, because attack_verifier.py is a script: the first
+#  version of this check turned every run of the checker into a run of the
+#  199-corruption suite, and every corruption then "passed" only because the
+#  nested checker refused to start while the lock file existed.  Reading a
+#  list length must not have side effects.
+def _suite_size():
+    import ast as _ast
+    src = (Path(__file__).resolve().parent / "attack_verifier.py").read_text(
+        encoding="utf-8")
+    for node in _ast.walk(_ast.parse(src)):
+        if (isinstance(node, _ast.Assign)
+                and any(getattr(t, "id", None) == "CORRUPTIONS"
+                        for t in node.targets)):
+            return len(node.value.elts)
+    raise RuntimeError("CORRUPTIONS list not found in attack_verifier.py")
+
+
+ck("corruption suite size", _suite_size(), "199", 0,
    anchor="a corruption suite of")
 ck("literals in nine and ten a", -16.1, "-16.1", 0.06,
    anchor="Every literal in corrections nine and ten passed")
@@ -3382,6 +3417,16 @@ ck_phrase("the registered criterion is named as the criterion",
 _lint_check_order()
 _run_guard_lint()
 _run_census()
+
+#  ROUND SEVENTEEN.  Purity check: nothing this file did may have touched the
+#  manuscript.  See the note beside _TEX_SHA_AT_START.
+if _hashlib.sha256(_TEX_PATH.read_bytes()).hexdigest() != _TEX_SHA_AT_START:
+    bad.append("THE CHECKER MODIFIED THE MANUSCRIPT WHILE CHECKING IT. "
+               "Every result below is meaningless.  Something this file "
+               "imports has a side effect on paper/iaai27_empty_cmdb.tex; "
+               "find it before trusting anything.")
+else:
+    ok += 1
 
 unaccounted = sorted(l for l in LITS if l not in STRUCTURAL and l not in seen)
 

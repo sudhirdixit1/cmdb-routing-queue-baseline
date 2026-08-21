@@ -1418,7 +1418,75 @@ found by the suite, never by the verifier and never by reading.** Of the
 eight, six were about prose or about order and two were about coverage. The arithmetic half
 of this apparatus has never once caught an error a human had not already found.
 
-### 20.9 What is left, and it is still not analysis
+### 20.9 A corrupted manuscript reached a commit
+
+Recorded in full because it is a process defect, it has now happened three
+times in two rounds, and a docstring did not stop it.
+
+`attack_verifier.py` copies the manuscript to `paper/.tex.bak`, rewrites it
+once per corruption, and restores it in a `finally` block. Its docstring has
+said since round sixteen that anything reading the manuscript during a run is
+reading a corrupted file, and that a build and a verification both did.
+
+Round seventeen did it a third way. A `git add -A && git commit` issued while
+the suite was running captured `paper/.tex.bak` **and** a manuscript carrying
+an injected `$58.2\%$` where `$18.2\%$` belongs -- the "inflate the
+diffuseness figure" corruption, frozen mid-flight. Commit `6456088` contains
+it. Nobody noticed at the time; it surfaced when the suite was stopped, the
+manuscript restored from its backup, and the routine verification run showed a
+one-line diff against the commit.
+
+**The lesson is not "be careful".** It is that a warning addressed to a reader
+is not a control, and this repository already knew that -- it is the argument
+for the corruption suite in the first place. Three controls now exist and each
+was tested by creating the lock file and confirming the refusal:
+
+1. `paper/.tex.bak` is in `.gitignore`, so no commit can capture it.
+2. `verify_paper.py` and `build_journal.py` exit immediately if it exists, and
+   print the two commands that restore the manuscript.
+3. `attack_verifier.py` exits immediately if it *already* exists, which is the
+   other failure mode: a run killed mid-flight leaves a corrupted manuscript,
+   and a second run would copy over the good backup and make the corruption
+   permanent.
+
+**If you are the next round and you see `paper/.tex.bak`:** the suite is
+running, or it was killed. In the second case the manuscript on disk is
+corrupted. Restore it before doing anything else, including reading it.
+
+### 20.10 The worst thing this round did, and it was not in the paper
+
+Late in the round a check was added to compare the corruption suite's size
+against the number the paper prints. The first version read it with
+`import attack_verifier`.
+
+`attack_verifier.py` is a script. Importing it **ran** it. Every invocation of
+`verify_paper.py` therefore became a 199-corruption run, and every one of those
+corruptions reported *caught* -- not because the checker caught anything, but
+because the nested checker hit the new lock-file guard and refused to start,
+which returns a non-zero exit code, which the suite reads as a catch.
+
+**A clean `199 caught, 0 missed, 0 skipped` was produced by an apparatus that
+had checked nothing.** It is the worst failure mode this project has had,
+because every other one produced a visible error and this one produced a
+green result.
+
+Two fixes, and the second is the general one.
+
+1. The suite's size is now **parsed** from `attack_verifier.py` with `ast`,
+   not imported. Reading a list length must not have side effects.
+2. `verify_paper.py` records the manuscript's SHA-256 before it reads
+   anything and asserts it is unchanged before it reports. Any future side
+   effect on the manuscript, from any import, fails loudly.
+   `scripts/test_checker_purity.py` injects a deliberate side effect above the
+   guard, confirms it fires, and restores both files; run it after any change
+   to the checker's imports.
+
+**The lesson generalises past this repository.** A verification harness that
+can modify its subject can report success by construction, and no amount of
+checking inside it will reveal that. The check has to be that the subject did
+not move.
+
+### 20.11 What is left, and it is still not analysis
 
 `submission/OWNER-ACTIONS.md` is unchanged and every item in it needs the
 author's credentials or judgement: the repository rename, the push, the Zenodo
@@ -1427,7 +1495,7 @@ only the author can make. `PLAN-STRONG-ACCEPT.md` §0.3 says stop *that item
 only* and continue with everything else; that is what happened, and nothing was
 worked around.
 
-### 20.10 If you are round eighteen
+### 20.12 If you are round eighteen
 
 1. **The corpus result is negative and it is the honest ceiling.** Do not run
    the same corpus again hoping for a different answer. Either find data with

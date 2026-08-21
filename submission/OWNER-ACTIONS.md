@@ -159,3 +159,73 @@ Say yes. It is a second publication from the same work, co-authored with the
 reproducibility reviewers, and this repository was built for exactly that
 review. `REPRODUCE.md` is written for a stranger with the three DOIs and a
 Python install.
+
+---
+---
+
+# Round seventeen: what changed in this list, and one new item
+
+Nothing in §§1, 3, 4 and 5 above is done. They all still need your accounts or
+your judgement, and none was attempted. §2 (*Push*) needs re-reading, because
+its status has changed.
+
+## 0. NEW — round seventeen is committed but **not pushed**
+
+**Where the work is.** Branch `round-seventeen-strong-accept`, local only. It
+is a large round: a pre-registered protocol, a corpus of twenty-four public
+files, thirteen new analyses, a rebuilt 47-page manuscript, the checker from
+674 checks to 934, the corruption suite from 149 to 199, and a referee log.
+
+**Why it was not pushed.** Pushing publishes. Round sixteen pushed because a
+live credential happened to be present and the plan asked for it; this round's
+plan does not ask for a push, and publishing a manuscript that retracts its own
+previous headline is a decision worth taking deliberately rather than as a side
+effect. `PLAN-STRONG-ACCEPT.md` §0.3 says a credential item stops *that item
+only*, which is what happened.
+
+**Do, when you are ready.**
+
+```bash
+git checkout round-seventeen-strong-accept
+git log --oneline main..HEAD          # read the messages before you push
+python scripts/reproduce_all.py       # confirm it still passes on your machine
+git push -u origin round-seventeen-strong-accept
+```
+
+**Read this before you push.** The commit `6456088` in that branch contains a
+**corrupted manuscript**: a `git add -A` issued while the corruption suite was
+rewriting the file froze an injected `$58.2\%$` where `$18.2\%$` belongs. The
+very next commit, `9b5b340`, restores it and adds three controls so it cannot
+happen again. Nothing after `9b5b340` is affected and the branch tip is
+correct. If you would rather the history not contain it, the two commits can be
+squashed before pushing:
+
+```bash
+git rebase -i 6456088~1     # mark 9b5b340 as 'fixup'
+```
+
+That is a judgement call about whether a public history should show a mistake
+being made and repaired, or only the repaired state. This project's whole
+argument is for the former, so the default is to leave it — and `HANDOFF.md`
+§20.9 describes it either way.
+
+## 1. Repository rename — unchanged, still blocks the citation
+
+The manuscript still prints `github.com/sudhirdixit1/cmdb-field-admission` and
+the live remote is still `cmdb-routing-queue-baseline`. §1 above has the
+commands.
+
+## 3, 4, 5 — unchanged
+
+The Zenodo DOI, the arXiv preprint and the acknowledgement decision are as
+described above. Two notes:
+
+- **`.zenodo.json` is updated and ready.** Round seventeen rewrote its title,
+  description, keywords and `isDerivedFrom` relations: fourteen dataset DOIs,
+  the current literal and corruption counts, and the pre-registration.
+  Regenerate with `python scripts/patch_zenodo_r17.py` if the counts move
+  again.
+- **The acknowledgement decision is unchanged and is still the one that could
+  be wrong in the direction that matters.** The manuscript describes rounds
+  eleven to seventeen as machine-assisted. If a real practitioner reviewed this
+  work, that credit was removed in error and only you can say so.

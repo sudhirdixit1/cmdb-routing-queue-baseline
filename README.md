@@ -159,7 +159,7 @@ requirements.lock  every dependency by version AND artefact hash
 | `r32_corpus.py` | streaming XES parser; the attribute inventory |
 | `r33_generic_ladder.py` | the pre-registered ladder over 13 logs |
 | `r34_layers_and_history.py` | layer hierarchies; the outcome-history control |
-| `r35_interaction_file.py` | the file section 12 said would settle it |
+| `r35_interaction_file.py` | the file the old section 9 said would settle it |
 | `r36_population_ablation.py` | the population curve, three regimes |
 | `r37_free_text.py` | the free-text search: 596 attributes, zero hits |
 | `r38_era_sensitivity.py` | the era limitation as four measurements |

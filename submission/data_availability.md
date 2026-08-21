@@ -49,7 +49,7 @@ control, and the one thing that is tracked —
 **One file is new to this version and is worth naming.** The BPI Challenge
 2014 collection ships `Detail_Interaction.csv`, which the previous version of
 this paper did not obtain and named as the evidence that would settle its
-Section 9. It is obtained, it settles it, and Section 12 reports the result.
+Section 9. It is obtained, it settles it, and Section 13 reports the result.
 
 ## Pre-registration
 

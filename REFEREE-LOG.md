@@ -50,7 +50,7 @@ $48.3\%$, a range far wider than any bootstrap interval in the paper. A
 reader should treat that range, not the bootstrap interval, as the honest
 width.
 
-### M3. `km_prov` conditions on a data-derived subset, so section 12 may be selecting on the outcome. **DISMISSED, with the reason**
+### M3. `km_prov` conditions on a data-derived subset, so section 13 may be selecting on the outcome. **DISMISSED, with the reason**
 
 The objection would hold if the analysis were run on the incidents whose
 interaction was worked to completion first. It is not. `km_prov` is a
@@ -81,7 +81,7 @@ so every synthetic cell has the same size and the same distribution through
 time as the real one it copies. Both properties are asserted rather than
 assumed. Result: base AUC at most $0.6483$ against the real field's $0.8041$ —
 a gap of $0.1558$ — and the item left worth $+0.092$ to $+0.101$ against
-$+0.001$. Temporal coherence reproduces neither number. §12 reports all three
+$+0.001$. Temporal coherence reproduces neither number. §13 reports all three
 nulls.
 
 ### M5. `NO_HEADROOM` reads the target's prevalence on the full log, including the test half. **MEASURED**
@@ -309,6 +309,27 @@ in this pass, so it reported as unguarded two sentences that were pinned. That
 is the third instance in two rounds of one bug — a consumer placed above its
 producers — and it is fixed the same way the census was, by moving it into a
 function called from one late block that `_lint_check_order()` polices.
+
+**And running the suite exposed a sixth and a seventh.** The seventh is the
+worst thing this round did. A check added to compare the corruption suite's
+size against the number the paper prints read it with `import
+attack_verifier` — which, `attack_verifier.py` being a script, *ran* the
+suite. Every invocation of the checker became a 199-corruption run in which
+every corruption reported *caught*, because the nested checker hit the
+lock-file guard and refused to start. **A clean 199/199 produced by an
+apparatus that had checked nothing.** The size is parsed now rather than
+imported, and `verify_paper.py` additionally asserts that the manuscript's
+SHA-256 is unchanged from before it read anything;
+`scripts/test_checker_purity.py` proves that guard fires. The general lesson
+is that a harness which can modify its subject can report success by
+construction.
+
+The sixth is a process defect rather than a code one. A commit issued while the suite was rewriting the manuscript
+captured a *corrupted* manuscript. The suite's own docstring has warned about
+exactly that since round sixteen; a warning addressed to a reader is not a
+control. `paper/.tex.bak` is now gitignored, and the verifier, the build and
+the suite itself all refuse to start while it exists. `HANDOFF.md` §20.9 has
+the full account.
 
 Three objections produced new measurements (M4, M5, P4). Thirteen produced a
 sentence the paper did not previously contain. Six were dismissed and the

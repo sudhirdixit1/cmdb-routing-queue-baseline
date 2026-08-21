@@ -1,7 +1,7 @@
 {
   "upload_type": "software",
-  "title": "Identity, Not Attributes: analysis code, derived results and verification harness",
-  "description": "<p>Analysis code, derived result files, figures and a verification harness for the study <em>Identity, Not Attributes: What Configuration Data Contributes to Incident Prediction in Two Organisations</em>.</p><p>The repository measures what configuration data contributes to predicting incident reassignment on two public ITSM event logs (BPI Challenge 2014, Rabobank Group ICT; BPI Challenge 2013, Volvo IT), and reports that the answer is set less by the configuration data than by two decisions that are rarely written down: which layer of the configuration hierarchy is being bought, and which already-recorded fields the comparison baseline is allowed to contain.</p><p><strong>What is included.</strong> Every analysis script, every derived <code>results/*.csv</code>, the figure generator, the LaTeX source, and <code>scripts/verify_paper.py</code>, which recomputes each of the 325 numeric literals in the manuscript from a result file or from the raw data and fails if any literal in the body is unaccounted for. <code>scripts/attack_verifier.py</code> is that checker's own regression suite: 119 corruptions drawn from defects found in earlier versions of this work. <code>scripts/reproduce_all.py</code> runs the whole thing in dependency order in one command.</p><p><strong>What is not included.</strong> No row of any dataset. All three event logs are public and are cited by persistent identifier in <code>REPRODUCE.md</code>; none is redistributed here.</p><p><strong>What the harness does not do.</strong> It guards numbers thoroughly and prose only where a guard was written by hand. The paper reports eight of the author's own errors as results rather than editing them away, and all eight are claims about what a number means -- the checker would have caught none of them. This is stated in the repository and in the paper in the same words.</p>",
+  "title": "Four Choices Behind One Number: analysis code, a pre-registered protocol, derived results and a verification harness",
+  "description": "<p>Analysis code, a pre-registered protocol, derived result files, figures and a verification harness for the study <em>Four Choices Behind One Number: Reporting the Incremental Value of a Recorded Field</em>.</p><p>The study argues, and then measures, that what a recorded field is worth is a function of four choices which are almost never stated: the baseline of already-recorded fields the comparison may contain, the metric, the operating point, and the population of the register the field reads from. The demonstration is a configuration management database on a public log of 45,455 incidents, and each choice moves the answer by more than the effect being reported. Admitting one further already-recorded field takes the item's value from +0.183 AUC to +0.103; admitting a second takes it to +0.001.</p><p><strong>Pre-registration.</strong> <code>PROTOCOL.md</code> fixes the corpus, the targets, the rules assigning every attribute to a role, the exclusion codes, the estimator, the seed, the instruments and the outcome that would falsify the claim. It was committed before any corpus result file existed, in a commit that adds no result file. The registered generality claim is falsified by its own criterion and the paper reports the negative.</p><p><strong>What is included.</strong> Every analysis script, every derived <code>results/*.csv</code>, the figure generators, the LaTeX source, an environment locked by artefact hash, a container that pins BLAS thread counts, a referee log recording twenty-two adversarial objections with their dispositions, and <code>scripts/verify_paper.py</code>, which recomputes each of the 417 numeric literals in the manuscript from a result file or from the raw data and fails if any literal in the body is unaccounted for. <code>scripts/attack_verifier.py</code> is that checker's own regression suite: 199 corruptions drawn from defects found in earlier versions of this work. <code>scripts/reproduce_all.py</code> fetches all twenty-four public files by DOI, checksums them, and runs the whole thing in dependency order in one command.</p><p><strong>What is not included.</strong> No row of any dataset. All twenty-four files are public and are cited by persistent identifier below and in <code>REPRODUCE.md</code>; none is redistributed here.</p><p><strong>What the harness does not do.</strong> It guards numbers thoroughly and prose only where a guard was written by hand. The paper reports eleven of the author's own errors as results rather than editing them away, and all eleven are claims about what a number means -- the checker would have caught none of them. Two of the three found in the final round are sentences in which every individual literal was correct and the relation the prose asserted between them was not. This is stated in the repository and in the paper in the same words.</p>",
   "creators": [
     {
       "name": "Dixit, Sudhir",
@@ -9,18 +9,18 @@
     }
   ],
   "keywords": [
+    "incremental value",
+    "baseline specification",
+    "evaluation metrics",
+    "pre-registration",
+    "predictive process monitoring",
     "configuration management database",
     "CMDB",
-    "predictive process monitoring",
-    "process mining",
-    "IT service management",
-    "incident management",
     "variable importance",
-    "baseline specification",
     "decision curve analysis",
     "reproducibility",
-    "BPI Challenge 2014",
-    "BPI Challenge 2013"
+    "event log",
+    "IT service management"
   ],
   "license": "MIT",
   "access_right": "open",
@@ -39,7 +39,73 @@
       "scheme": "doi"
     },
     {
+      "identifier": "10.4121/uuid:3537c19d-6c64-4b1d-815d-915ab0e479da",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:c2c3b154-ab26-4b31-a0e8-8f2350ddac11",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:0c60edf1-6f83-4e75-9367-4c63b3e9d5bb",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
       "identifier": "10.24432/C57S4H",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:3926db30-f712-4394-aebc-75976070e91f",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:5f3067df-f10b-45da-b98b-86ae4c7a310b",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:d06aff4b-79f0-45e6-8ec8-e19730c248f1",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:31a308ef-c844-48da-948c-305d167a0ec1",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:52fb97d4-4588-43c9-9d04-3604d4613b51",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:915d2bfb-7e84-49ad-a286-dc35f063a460",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:76c46b83-c930-4798-a1c9-4be94dfeb741",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:270fd440-1057-4fb9-89a9-b699b47990f5",
       "relation": "isDerivedFrom",
       "resource_type": "dataset",
       "scheme": "doi"
