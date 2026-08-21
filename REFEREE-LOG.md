@@ -26,8 +26,10 @@ destroy more than it means to?*
 
 $R = 1 - V(f \mid B_1)/V(f \mid B_0)$ divides two AUC increments. An AUC
 increment has no natural zero of the kind a ratio needs, so "$43.7\%$ of the
-value is absorbed" and "$60.3\%$" under Brier skill are not the same quantity
-measured twice. The referee is right, and the objection is the paper's own
+value is absorbed" under AUC and "$60.3\%$" under average precision are not
+the same quantity measured twice. (The first draft of that sentence in the
+paper attributed $60.3\%$ to Brier skill, which is $58.4\%$; the checker
+caught it, because the value and the instrument named beside it disagreed.) The referee is right, and the objection is the paper's own
 thesis stated formally: $R$ is metric-relative *by construction*, not merely
 empirically.
 
@@ -64,19 +66,34 @@ because a knowledge article is used in bursts. So the null shows the collapse
 is not a dimensionality artifact, but it does not show it is not "any
 temporally coherent grouping of this size".
 
-**Disposition.** A third null was added: a partition matched on cell size
-**and** built from contiguous blocks of the time-ordered cohort, so each
-synthetic cell is as temporally coherent as a real field can be.
-`r35_dimensionality_null.csv` carries both, and §12 reports both.
+**Disposition.** A third null was added, and the obvious construction was
+rejected first. Building cells from contiguous blocks of the time-ordered
+cohort gives *perfect* temporal coherence and is useless here: the split is
+temporal, so every test cell would be unseen in training, the model could not
+use any of them, and the null would collapse to the baseline for a reason
+unrelated to the question. A null that cannot fail is this project's
+most-repeated defect.
+
+What `r35b_temporal_null.py` runs instead is a permutation that preserves each
+cell's **temporal profile exactly**: the time-ordered cohort is cut into twenty
+equal-count strata, and labels are reassigned at random *within* each stratum,
+so every synthetic cell has the same size and the same distribution through
+time as the real one it copies. Both properties are asserted rather than
+assumed. Result: base AUC at most $0.6483$ against the real field's $0.8041$ —
+a gap of $0.1558$ — and the item left worth $+0.092$ to $+0.101$ against
+$+0.001$. Temporal coherence reproduces neither number. §12 reports all three
+nulls.
 
 ### M5. `NO_HEADROOM` reads the target's prevalence on the full log, including the test half. **MEASURED**
 
 That is a use of test-set information to decide inclusion. It selects on class
 balance rather than on effect, so it is mild, but it is not nothing.
 
-**Disposition.** Re-run with the rule applied to the **training half only**;
-the admitted set is reported in `r33_headroom_sensitivity.csv` and §11 states
-the result. Recorded whichever way it came out.
+**Disposition.** Re-run with the rule applied to the **training half only**.
+`r33c_headroom.py` fits no model — the prevalence and the split point are all
+it needs — and **0 of 26 admission decisions change**. The peek exists in the
+registered text and changes nothing in the result. §11 says so in one
+sentence.
 
 ### M6. Flooring a bootstrap percentile is not conservative in any distributional sense. **DISMISSED, with the reason**
 
@@ -276,6 +293,22 @@ weaker one.
 | practitioner | 5 | 0 | 4 | 0 | 1 |
 | hostile generalist | 6 | 0 | 4 | 0 | 2 |
 | **total** | **22** | **3** | **13** | **0** | **6** |
+
+**And then the corruption suite found three more, all of them prose.** The
+enlarged suite's first run landed "It is falsified" softened to "It is largely
+supported", the abstract's "does not survive" reversed, and the two ends of a
+three-way population comparison swapped. Each is now guarded. Repairing them
+exposed a fourth: retiring a check for a rewritten sentence had silently
+unguarded the admission that item identity can make a desk *worse* off, and a
+corruption that had been caught for a round started passing. **A retirement can
+unguard prose it was not retired for, and only the suite can see that.**
+
+Repairing *those* exposed a fifth, in the checker rather than the paper: the
+guard-or-declare lint consumes `guarded_phrases` and sat above the pins added
+in this pass, so it reported as unguarded two sentences that were pinned. That
+is the third instance in two rounds of one bug — a consumer placed above its
+producers — and it is fixed the same way the census was, by moving it into a
+function called from one late block that `_lint_check_order()` polices.
 
 Three objections produced new measurements (M4, M5, P4). Thirteen produced a
 sentence the paper did not previously contain. Six were dismissed and the

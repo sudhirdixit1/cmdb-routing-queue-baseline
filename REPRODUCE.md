@@ -239,8 +239,10 @@ and the coverage half silently stopped seeing them. Moving a block does not
 fix a hole whose cause is order. It is now a function called once at the end,
 and `_lint_check_order()` reads `verify_paper.py`'s own source and fails if any
 `ck`/`ck_bound`/`ck_phrase`/`ck_word` **call** appears after that call site.
+The guard-or-declare lint turned out to have the same bug for the same reason
+and is now called from the same block; the self-lint names both call sites.
 
-`scripts/attack_verifier.py` is the checker's regression suite: 183
+`scripts/attack_verifier.py` is the checker's regression suite: 198
 corruptions drawn from defects found in earlier versions of this work,
 including five that mutate a *relation* rather than a value, because that is
 the class the two new corrections belong to. Run it after any change to the

@@ -1165,3 +1165,286 @@ finding: all eight corrections this project reports are claims about what a
 number *means*, and the checker would have caught none of them. A harness
 that guards arithmetic perfectly and interpretation not at all is worth
 having and worth being precise about. That is the paper.
+
+---
+
+## 20. Round seventeen (2026-08-21): the plan for a strong accept, executed
+
+This round worked through `PLAN-STRONG-ACCEPT.md` end to end. Thirteen new
+analyses, a corpus of twenty-two public logs behind a pre-registered protocol,
+a rebuilt manuscript, five new figures, the checker from 674 checks to 934, the
+corruption suite from 149 to 198, four adversarial referee passes, an
+environment locked by artefact hash and a container. **Three of the thirteen
+analyses came back against the paper, two came back with nothing, and one
+removed the paper's headline.**
+
+### 20.1 What was run, and what it found
+
+| Plan item | Script | Verdict |
+|---|---|---|
+| 2.1 the instrument matrix | `r30_instrument_matrix.py` | **against the plan's premise, in our favour.** The plan expected the effect to evaporate under principled instruments. AUC's 43.7% is the *smallest* of four scalar instruments: average precision 60.3%, Brier skill 58.4%, Nagelkerke 56.6%. |
+| 2.2 why they disagree | `r31_why_instruments_disagree.py` | **the stated prediction failed.** See §20.3. |
+| 3 the corpus | `fetch_corpus.py`, `r32`, `r33` | **falsified, as registered.** See §20.4. |
+| 3.3 predicting the reduction | `r33b_discriminate.py` | **nothing.** Leave-one-out R² = −1.323, permutation p = 0.448. |
+| 4.1 layer hierarchies | `r34_layers_and_history.py` | **does not replicate.** See §20.5. |
+| 4.2 outcome history | `r34` §B | **survives, and it is what generalises.** |
+| 5.1 the interaction file | `r35`, `r35b` | **settles §9, and removes the headline.** See §20.2. |
+| 5.2 population ablation | `r36_population_ablation.py` | **survives; the regime matters more than the level.** |
+| 5.3 free text | `r37_free_text.py` | **nothing, and the search is the deliverable.** 596 attributes, 22 logs, zero hits. |
+| 5.4 era sensitivity | `r38_era_sensitivity.py` | **survives, and produced the paper's largest sensitivity.** Across intake mixes the reduction runs 6.3% to 95.3%. |
+
+### 20.2 The round's main finding: the headline does not survive its own criterion
+
+`PLAN-STRONG-ACCEPT.md` §5.1 said the file that would settle §9's open
+question is one download away and that the only losing outcome is not
+looking. It is 21,873,186 bytes and it took four minutes.
+
+**What it settles.** 94,250 of `Detail_Interaction.csv`'s 147,004 service-desk
+interactions — 64.1% — never become an incident at all, 99.7% of those were
+resolved on the first call, and **every one of them carries a knowledge
+reference**, across 1,978 distinct articles. A field the incident process
+assigns cannot be populated on records the incident process never touches. The
+reference is written at the desk.
+
+**What it does not settle, and the paper says so.** Agreement with the closed
+record still cannot discriminate: on the 41,413 incidents whose interaction was
+worked to completion before the incident opened, the knowledge reference agrees
+with its interaction's value on 100.00% and the closure code — certainly not
+creation-time — on 98.97%. §9's own reasoning stands. The subset whose
+interaction had formally *closed* first contains **five** incidents and nothing
+is concluded from five; `MIN_N` is declared at 100 in the source, above the
+counts.
+
+**The consequence.** Admitting the interaction-carried reference where the
+interaction was worked to completion first — populated on 91.1% of the cohort —
+takes item identity from **+0.103 to +0.001 [−0.002,+0.003]**. The reduction
+against the intake baseline is 99.7%, not 43.7%.
+
+**Two nulls, because a result of that size is not believed on sight.**
+
+- *Dimensionality.* Five matched-mass random partitions of the same
+  cardinality, built by slicing a permutation rather than by `searchsorted` on
+  cumulative mass — the bug that killed withdrawn finding 3 — reach base AUC at
+  most 0.6479 and leave the item worth +0.094 to +0.099. The real field reaches
+  0.8041 and leaves it worth +0.001.
+- *Temporal coherence.* Objection M4 in `REFEREE-LOG.md`: a random partition has
+  no temporal structure and a real field does. `r35b` adds a partition matched
+  on cell size **and** on each cell's distribution over twenty time strata. It
+  does not reproduce either number. Note what was *not* done: a contiguous-block
+  partition would give perfect temporal coherence and would be useless, because
+  under a temporal split every test cell would be unseen in training and the
+  null could not fail. That is this project's most-repeated defect and it was
+  not repeated.
+- *Collinearity.* 78.8% of articles map to exactly one item, against 80.7% for
+  the opening group, which absorbs less than half of the item's value rather
+  than all of it. Determinism at that level does not collapse a marginal.
+
+### 20.3 The mechanism section's prediction failed, and the failure is the finding
+
+`r31`'s header predicted that the AUC increment would be concentrated in a
+region of the operating range the net-benefit grid does not reach. It is not.
+The group-aware model runs at every false-positive rate from 0.009 to 0.997 and
+the increment is **diffuse**: the largest of ten equal FPR bands carries 18.2%
+of it and three bands are needed to reach half. AUC sums that whole profile;
+net benefit at one θ reads one point of it. The two are not disagreeing about a
+fact.
+
+Two further mechanisms, both new:
+
+- **Baseline degeneracy.** At θ = 0.200, 0.300 and 0.325 the intake block acts
+  on *every* incident in the test half — it is treat-all — and the group-aware
+  baseline acts on 0.955 to 0.978. Across the 11 grid points where both
+  baselines are degenerate the reduction runs 0.047 to 0.435; across the 5
+  where neither is, 0.581 to 1.168.
+- **Tie conventions the two rank statistics do not share.** Average precision's
+  default value equals its *negatives-first* bound to machine precision on all
+  four models, because the precision-recall curve is evaluated where a tied
+  block has been admitted whole. AUC's default equals a random tie-break to
+  within 0.0004. Put both on the only implementable convention and the
+  reduction is 43.6% under AUC and 71.2% under AP: **the gap widens.**
+
+### 20.4 The corpus: falsified, as registered
+
+`PROTOCOL.md` was committed before any corpus result file existed, in a commit
+adding one file. Twenty-three files by DOI across seven domains; 22 logs parse;
+the registered rules admit 13 across six domains and exclude nine by code.
+
+Nineteen log-target pairs. The entity is resolvably worth something over the
+intake block on **9**; the reduction's own interval excludes zero on **4**, from
+three logs — the primary log on both targets, BPI Challenge 2013 incidents on
+duration (37.8% [12.8,62.8]) and BPI Challenge 2019 on duration (47.1%
+[40.8,53.4] on 251,734 traces). Of eight admitted non-ITSM logs it is resolvable
+on one. `PROTOCOL.md` §8's falsification condition is met.
+
+**Three things about that verdict are worth carrying forward.**
+
+1. **The hostile pass was right that "falsified" needs qualifying, and the
+   paper qualifies it.** On 10 of 19 pairs the reduction has no denominator, so
+   the test had no power. The registered claim is falsified by the registered
+   criterion; a narrower claim is neither refuted nor asserted. Both sentences
+   are in §11.
+
+2. **A validity check that had to be run and had to be reported.** The generic
+   handover target does *not* reproduce the primary log's own `# Reassignments`
+   field: prevalence 0.927 against 0.411, agreeing on 46.0% of incidents,
+   barely above what independence between two marginals of that size gives. The
+   corpus measures a generic workflow outcome, not this paper's task on twelve
+   further organisations, and it would have been easy to write as though it did.
+
+3. **The exclusions are the finding.** In BPI Challenge 2012 and all five BPI
+   Challenge 2020 sub-logs *every case is opened by the same actor* — the
+   opening resource stamp has cardinality one — so there is no free opening
+   field to admit. The permitting logs are the same condition in weaker form,
+   cardinality 7 to 18, and none of them shows the effect. §13's intake-mix
+   sweep measures exactly that dependence on the primary log: from 95.3% at no
+   central desk to 6.3% at a 95% central desk. **The sweep on one log predicts
+   the corpus**, and that link is the strongest thing the corpus produced.
+
+### 20.5 The lead contribution does not replicate, and is demoted out of the title
+
+`PLAN-STRONG-ACCEPT.md` §4.1 named four candidate hierarchies before any was
+run. `r34` tested all four.
+
+- **BPI Challenge 2019.** `case:Item` → `case:Item Category` is deterministic on
+  72.65% of items and `case:Item Category` → `case:Vendor` on **0.00%**. The
+  levels cross. It is not a hierarchy and was not treated as one.
+- **UCI 498.** `cmdb_ci` is populated on 51 of 24,918 traces (0.20%). Too few for
+  a ladder; reported as such.
+- **Helpdesk.** `product` → `support_section` is deterministic on 90.48%,
+  `support_section` → `service_type` on 57.14%. Not a hierarchy.
+- **BPI Challenge 2013.** No separator appears in more than 0% of `product`
+  values, so the strings carry no decomposable structure. **No hierarchy was
+  invented by clustering**, because a grouping chosen after seeing the outcome
+  is not a hierarchy.
+
+Plan §4.3 says: replicate on ≥2 further logs or demote out of the lead. It did
+not. It is demoted out of the lead, out of the abstract's first position, and
+out of the title.
+
+**What does replicate is the outcome-history control.** Across 19 pairs a
+per-entity historical rate with no model and no attribute reaches 6.1% to 109.3%
+of what the fitted model reaches above chance, and matches or beats it on three.
+
+### 20.6 Corrections nine, ten and eleven — and nine and ten are a new class
+
+**Nine.** §8.2 said the group-aware increment turns negative, "reaching −16.1
+[−23.0,−8.9] per thousand at p_t = 0.50". *Reaching* names an extremum. The
+extremum is **−21.1 [−27.7,−14.4] at θ = 0.525**, 31% larger. 0.50 was in the
+list of five thresholds the paper's own table happened to name; 0.525 was not.
+
+**Ten.** §8.2 said the increment is resolvably positive "at 20 points, in a
+contiguous run from 0.100 to 0.425". Fourteen are in that run; six sit at 0.675
+and above.
+
+**Both were derivable from `r23_dca_grid.csv`, which has been in this
+repository since round sixteen, and every literal in both sentences passed
+`verify_paper.py`.** What was wrong is the relation the prose asserted between
+them — an extremum in the first case, a set-equals-interval identification in
+the second. **A checker that verifies numbers and not the words joining them
+will certify both.** The checker now compares the named extremum against the
+extremum and the stated count against the run length, which closes those two
+instances and not the class; the suite carries five corruptions that mutate a
+relation rather than a value.
+
+**Eleven.** §9 named the file that would settle its open question and did not
+obtain it. Recorded as a correction rather than as progress, because the
+paper's own thesis is that an unexamined admission decision sets the answer,
+and this one was left unexamined for a round.
+
+### 20.7 The verifier: the census was outrun a second time
+
+Round sixteen found the unaccounted census sitting halfway down `verify_paper.py`,
+invisible to the checks written below it, and **moved it lower**. Round
+seventeen appended two hundred checks below where it had been moved to, and the
+coverage half of the census silently stopped seeing them: 214 correct
+occurrences were reported as uncovered while the checks covering them passed.
+
+**Moving a block is not a fix for a hole whose cause is order.** The census is
+now a function called once at the very end, and `_lint_check_order()` reads
+`verify_paper.py`'s own source and fails if any `ck`/`ck_bound`/`ck_phrase`/
+`ck_word` **call** appears after that call site. A future round cannot reopen
+it by appending.
+
+Also this round:
+
+- **`ck_word`.** Any count the paper spells out in letters is compared to the
+  data that produces it. It generalises the bespoke fix round sixteen put on the
+  corrections count after the suite showed "Eight errors of our own" could be
+  changed to "Six" and pass.
+- **`ck_bound` earned its keep on the first run.** Six interval endpoints in the
+  new tables were *rounded* rather than floored and ceiled, which states an
+  interval narrower than the data supports. `[40.2,47.1]` is now `[40.1,47.1]`,
+  and five others moved.
+- **Retirement is explicit.** Thirty-nine checks whose anchoring sentence no
+  longer exists sit in a `RETIRED` set naming the claim that went. That is safe
+  only because a literal freed by a retirement and not re-checked becomes
+  unaccounted and the run fails. A check is never retired because it fails.
+
+### 20.8 Three corruptions landed, and all three were prose
+
+The enlarged suite's first run caught 180 of 183 and landed three:
+
+- softening "It is falsified" to "It is largely supported";
+- reversing "the headline **does not** survive our own admissibility criterion";
+- swapping the two ends of a three-way population comparison, where both values
+  stay checked and only their attribution moves.
+
+Two are directional constructions `RISKY` did not contain; the third is the
+ordered-pair hole `ck_phrase` exists for, on a triple this round added and did
+not pin.
+
+**Repairing them exposed a fourth, and it is the one to remember.** Retiring
+the check that anchored the old negative-band sentence -- correct, because
+correction nine rewrote that sentence -- also removed the only pin on the
+admission that *adding item identity to a group-aware model can make the desk
+worse off*. A corruption that deletes that admission had been caught for a
+round and started passing. **A retirement can unguard prose it was not retired
+for**, and nothing but the suite can see that.
+
+**Repairing THOSE exposed a fifth, in the checker.** The guard-or-declare lint
+consumes `guarded_phrases`, and it sat above the `ck_phrase` pins added in the
+referee pass, so it reported as unguarded two sentences that were pinned.
+That is the third instance in two rounds of one bug -- a consumer placed above
+its producers -- and it is fixed the same way the census was: the lint is a
+function, it is called from one late block, and `_lint_check_order()` polices
+both call sites. Verified by writing a check below the block and confirming
+the run fails with the offending line number.
+
+The suite is 198 corruptions now, and it re-runs clean.
+
+**The pattern across rounds sixteen and seventeen is worth stating plainly.
+Eight holes have now been found in this verifier and every one of them was
+found by the suite, never by the verifier and never by reading.** Of the
+eight, six were about prose or about order and two were about coverage. The arithmetic half
+of this apparatus has never once caught an error a human had not already found.
+
+### 20.9 What is left, and it is still not analysis
+
+`submission/OWNER-ACTIONS.md` is unchanged and every item in it needs the
+author's credentials or judgement: the repository rename, the push, the Zenodo
+DOI, the arXiv preprint, and the one decision about the acknowledgement that
+only the author can make. `PLAN-STRONG-ACCEPT.md` §0.3 says stop *that item
+only* and continue with everything else; that is what happened, and nothing was
+worked around.
+
+### 20.10 If you are round eighteen
+
+1. **The corpus result is negative and it is the honest ceiling.** Do not run
+   the same corpus again hoping for a different answer. Either find data with
+   a reusable high-cost entity that actually predicts — which public
+   process-mining data mostly does not have — or accept the bound and stop.
+
+2. **Corrections nine and ten are a class, not two incidents.** Every literal
+   correct, the relation wrong. If you write one new sentence that relates two
+   numbers, write the corruption that breaks the relation before you believe the
+   check.
+
+3. **Do not "move the block".** The census was outrun twice. `_lint_check_order()`
+   is the fix; keep it.
+
+4. **The checker paper is still the strongest thing here.** §19.8 argued it and
+   this round adds three more pieces of evidence: a hole that reopened because
+   the fix was positional, a defect class the harness provably cannot see, and a
+   ratio that is now six-to-zero in the suite's favour. `PLAN-INFORMATION-SYSTEMS.md`
+   §11 remains right that it belongs at MSR or EMSE, and *after* this
+   submission rather than instead of it.

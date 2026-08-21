@@ -206,15 +206,15 @@ rewritten. If you are adding a script, print only what your output supports.
 Current state:
 
 ```
-890 checks passed, 0 failed
-410 literals in body; 0 unaccounted; 401 compared against data
-183 caught, 0 missed, 0 skipped of 183
+934 checks passed, 0 failed
+417 literals in body; 0 unaccounted; 405 compared against data
+198 caught, 0 missed, 0 skipped of 198
 ```
 
 `verify_paper.py` compares every numeric literal in the paper against a value
 computed from a result file or recomputed from the raw data, requires each to
 appear within an anchor phrase, and fails if any literal in the body is
-unaccounted for. `attack_verifier.py` is its regression suite: 183
+unaccounted for. `attack_verifier.py` is its regression suite: 198
 corruptions.
 
 ### Be precise about what that buys
@@ -275,10 +275,12 @@ was foreseen.
   cause is order: `_lint_check_order()` reads `verify_paper.py`'s own source
   and fails if any check **call** appears after the census call site.
 - **Retiring a check is explicit and safe only because of coverage** (round
-  seventeen). Thirty-nine checks whose anchoring sentence no longer exists sit
+  seventeen). Forty-two checks whose anchoring sentence no longer exists sit
   in a `RETIRED` set naming the claim that went. That is safe only because a
   literal freed by a retirement and not re-checked becomes unaccounted and the
-  run fails. Never retire a check because it fails.
+  run fails. Never retire a check because it fails — and note that a
+  retirement can unguard PROSE it was not retired for, which is how the suite
+  caught one this round.
 - If you add a claim, add a `ck(...)` with an anchor **and** a corruption to
   `attack_verifier.py`. The suite is what found every hole the verifier has
   had — three in round sixteen and three more in round seventeen, all six
