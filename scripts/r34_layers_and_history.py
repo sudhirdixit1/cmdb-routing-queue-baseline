@@ -270,8 +270,8 @@ for key in ADMITTED:
         prior = float(tr["_y"].mean())
         key_te = te[f].astype(str)
         score = key_te.map(rate).fillna(prior).values
-        unseen = float(~key_te.isin(rate.index).values.mean()) \
-            if len(key_te) else np.nan
+        unseen = (float((~key_te.isin(rate.index)).mean())
+                  if len(key_te) else np.nan)
         try:
             a_hist = roc_auc_score(yte, score)
             a_model = roc_auc_score(yte, L.fit(tr, te, b0 + [f]))

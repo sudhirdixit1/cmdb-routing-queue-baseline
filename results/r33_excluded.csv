@@ -1,17 +1,18 @@
 log,domain,code,detail
-Helpdesk,itsm,NO_HEADROOM,handover prev=0.9993
+Helpdesk,itsm,NO_HEADROOM,handover/primary prev=0.9993
+Helpdesk,itsm,NO_HEADROOM,handover/g=workgroup prev=0.0011
 BPIC13_open,itsm,SMALL_N,n=819
 BPIC13_closed,itsm,NO_TEST_VARIATION,duration
 BPIC12,lending,NO_G,n=13087
-BPIC17,lending,NO_HEADROOM,handover prev=0.9977
-BPIC19,procurement,NO_HEADROOM,handover prev=0.9631
+BPIC17,lending,NO_HEADROOM,handover/primary prev=0.9977
+BPIC19,procurement,NO_HEADROOM,handover/primary prev=0.9631
 BPIC15_2,permitting,SMALL_N,n=832
-BPIC15_5,permitting,NO_HEADROOM,handover prev=0.9593
+BPIC15_5,permitting,NO_HEADROOM,handover/primary prev=0.9593
 BPIC20_domestic,expenses,NO_G,n=10500
 BPIC20_intl,expenses,NO_G,n=6449
 BPIC20_prepaid,expenses,NO_G,n=2099
 BPIC20_permit,expenses,NO_G,n=7065
 BPIC20_rfp,expenses,NO_G,n=6886
-Sepsis,healthcare,NO_HEADROOM,handover prev=1.0000
+Sepsis,healthcare,NO_HEADROOM,handover/primary prev=1.0000
 HospitalBilling,healthcare,NO_F,n=100000
-RoadFines,enforcement,NO_HEADROOM,handover prev=0.0037
+RoadFines,enforcement,NO_HEADROOM,handover/primary prev=0.0037

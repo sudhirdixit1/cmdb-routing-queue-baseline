@@ -1,0 +1,23 @@
+stage,discriminator,n,spearman,perm_p
+does the entity pay at all,n,19,0.27014196338978474,0.294
+does the entity pay at all,card_f,19,0.09647927263920884,0.708
+does the entity pay at all,card_g,19,0.09647927263920884,0.746
+does the entity pay at all,n_b0,19,-0.2822902968392768,0.252
+does the entity pay at all,nmi_f_g,19,0.15436683622273414,0.546
+does the entity pay at all,entropy_f,19,-0.019295854527841768,0.964
+does the entity pay at all,top1pct_share,19,0.07718341811136707,0.758
+does the entity pay at all,g_is_stamp,19,-0.4564354645876384,0.09
+does the entity pay at all,events_mean,19,-0.13507098169489237,0.558
+does the entity pay at all,coverage_f,19,0.5402839267795695,0.016
+does the entity pay at all,prevalence,19,-0.057735026918962574,0.878
+how much the free field takes,n,9,0.4033755872716886,0.296
+how much the free field takes,card_f,9,0.8235584906796976,0.01
+how much the free field takes,card_g,9,0.5042194840896107,0.172
+how much the free field takes,n_b0,9,-0.025318484177091663,0.94
+how much the free field takes,nmi_f_g,9,0.8067511745433772,0.014
+how much the free field takes,entropy_f,9,0.7563292261344161,0.018
+how much the free field takes,top1pct_share,9,-0.1176512129542425,0.796
+how much the free field takes,g_is_stamp,9,-0.18257418583505536,0.718
+how much the free field takes,events_mean,9,-0.3193390065900868,0.356
+how much the free field takes,coverage_f,9,-0.050421948408961074,0.93
+how much the free field takes,prevalence,9,-0.26666666666666666,0.48

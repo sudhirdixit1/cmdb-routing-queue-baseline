@@ -14,9 +14,11 @@ person who does not know it.  Everything the order encodes is below.
 
 FOUR THINGS IT WILL NOT DO, each stated rather than silently skipped:
 
-  * It will not download the datasets.  All three are public and none is
-    redistributed here; REPRODUCE.md gives the DOIs and the filenames.  The
-    preflight check below names any that are missing and stops.
+  * It will not redistribute anybody's data.  The FETCH stage downloads all
+    23 corpus files from their DOIs through the 4TU API and records a
+    SHA-256 for each; nothing is vendored into this repository.  Pass
+    --skip-fetch if you already have them, and the preflight below names any
+    that are still missing and stops.
   * It will not install a TeX distribution.  Without pdflatex the build step
     is skipped with a message and the exit status still reflects everything
     else.
@@ -27,9 +29,11 @@ FOUR THINGS IT WILL NOT DO, each stated rather than silently skipped:
     numbers thoroughly and prose only where a guard was written by hand.
 
 Options:
+    --skip-fetch    omit the corpus download (assumes data/ is populated)
     --skip-attack   omit the corruption suite (40-70 min on its own)
     --skip-pdf      omit the LaTeX build
-    --only STAGE    run one stage: analysis | figures | verify | attack | pdf
+    --only STAGE    run one stage:
+                    fetch | analysis | figures | verify | attack | pdf
     --jobs N        parallel workers for the analysis stage (default: 4)
 """
 import argparse
@@ -44,6 +48,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS = ROOT / "scripts"
 RAW = ROOT / "data" / "raw"
 LOGS = ROOT / "logs"
+RUNTIMES = []
 
 NEEDED_FILES = {
     "Detail_Incident.csv":
@@ -89,12 +94,42 @@ WAVES = [
         "r21_referee_round15.py",   # reads r10, r11, r12, r14, r18
         "r23_decision_curve.py",    # reads r11_capacity, r11_overstatement
     ],
+    # ---- round seventeen -------------------------------------------------
+    [
+        "r30_instrument_matrix.py",     # the instrument matrix; r39 reads it
+        "r31_why_instruments_disagree.py",  # mechanisms behind r30
+        "r35_interaction_file.py",      # settles section 9; r39 reads it
+        "r36_population_ablation.py",   # the population curve; r38 reads it
+    ],
+    [
+        # builds data/normalized/*.parquet, which r33/r34/r37 all load, and
+        # writes the attribute inventory.  One parse of a 728 MB XES file
+        # rather than three.
+        "r32_corpus.py",
+    ],
+    [
+        "r33_generic_ladder.py",        # the pre-registered corpus ladder
+    ],
+    [
+        "r33b_discriminate.py",         # reads r33_ladder, r33_discriminators
+        "r34_layers_and_history.py",    # reads r33_roles
+        "r37_free_text.py",             # reads r33_roles
+        "r38_era_sensitivity.py",       # reads r36_curve
+    ],
 ]
-FIGURES = ["r25_figures.py"]
+FIGURES = ["r25_figures.py", "r39_figures.py"]
 
 
 def hdr(msg):
     print(f"\n{'=' * 78}\n{msg}\n{'=' * 78}", flush=True)
+
+
+def stage_fetch():
+    hdr("FETCH  (by DOI, with checksums; nothing is redistributed here)")
+    rc = subprocess.run([sys.executable, "-u", str(SCRIPTS / "fetch_corpus.py")],
+                        cwd=str(SCRIPTS))
+    if rc.returncode != 0:
+        sys.exit("fetch failed")
 
 
 def preflight():
@@ -142,6 +177,7 @@ def run(script, label=None):
         for line in log.read_text(encoding="utf-8",
                                   errors="replace").splitlines()[-12:]:
             print("        " + line)
+    RUNTIMES.append(dict(script=script, ok=(rc == 0), seconds=round(dt, 1)))
     return script, rc == 0, dt
 
 
@@ -199,19 +235,23 @@ def stage_pdf():
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--skip-fetch", action="store_true")
     ap.add_argument("--skip-attack", action="store_true")
     ap.add_argument("--skip-pdf", action="store_true")
-    ap.add_argument("--only", choices=["analysis", "figures", "verify",
-                                       "attack", "pdf"])
+    ap.add_argument("--only", choices=["fetch", "analysis", "figures",
+                                       "verify", "attack", "pdf"])
     ap.add_argument("--jobs", type=int, default=4)
     a = ap.parse_args()
 
     t0 = time.time()
     if a.only:
         preflight() if a.only == "analysis" else None
-        {"analysis": lambda: stage_analysis(a.jobs), "figures": stage_figures,
+        {"fetch": stage_fetch,
+         "analysis": lambda: stage_analysis(a.jobs), "figures": stage_figures,
          "verify": stage_verify, "attack": stage_attack, "pdf": stage_pdf}[a.only]()
     else:
+        if not a.skip_fetch:
+            stage_fetch()
         preflight()
         stage_analysis(a.jobs)
         stage_figures()
@@ -220,6 +260,18 @@ def main():
             stage_attack()
         if not a.skip_pdf:
             stage_pdf()
+    if RUNTIMES:
+        import csv
+        LOGS.mkdir(exist_ok=True)
+        with open(LOGS / "runtimes.csv", "w", newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=["script", "ok", "seconds"])
+            w.writeheader()
+            w.writerows(RUNTIMES)
+        slow = sorted(RUNTIMES, key=lambda r: -r["seconds"])[:6]
+        print(chr(10) + "  slowest stages, in minutes:")
+        for r in slow:
+            print(f"    {r['script']:34s} {r['seconds'] / 60:5.1f}")
+        print(f"  full per-script table in logs/runtimes.csv")
     hdr(f"DONE in {(time.time() - t0) / 60:.0f} minutes")
     print("Every stage that ran, passed.  What that does and does not")
     print("establish is in REPRODUCE.md section 5 -- read it before quoting")

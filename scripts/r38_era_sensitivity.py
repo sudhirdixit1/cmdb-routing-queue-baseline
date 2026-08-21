@@ -184,9 +184,19 @@ rows.append(dict(level="item marginal over service component", cardinality=-1,
                  auc=a_both, gain_over_group=marg))
 AX_C = pd.DataFrame(rows)
 AX_C.to_csv(RESULTS / "r38_axisC.csv", index=False)
+# r21 counts TRAINING levels (256 and 2,554); the table above counts levels
+# in the whole cohort (272 and 2,929).  Both are correct counts of different
+# things and r21's own source records that it reports both.  The sentence
+# below therefore reads its numbers from the table rather than restating a
+# figure computed elsewhere on a different set of rows.
+n_wbs = int(D["Service Component WBS (aff)"].nunique())
+n_item = int(D[B.IDENT].nunique())
+n_wbs_tr = int(TR["Service Component WBS (aff)"].astype(str).nunique())
+n_item_tr = int(TR[B.IDENT].astype(str).nunique())
 print(f"""
-  The 256-way service component reaches {wbs['gain_over_group']:+.4f} over intake + group; the
-  2,929-way item reaches {item['gain_over_group']:+.4f}, so the service component captures
+  The service component -- {n_wbs} values in this cohort, {n_wbs_tr} of them present in
+  training -- reaches {wbs['gain_over_group']:+.4f} over intake + group; the item, at {n_item:,} and
+  {n_item_tr:,}, reaches {item['gain_over_group']:+.4f}, so the service component captures
   {wbs['gain_over_group'] / item['gain_over_group']:.1%} of it.  The item's marginal over the service component
   is {marg:+.4f}.  A 2026 organisation that spends on service mapping rather
   than item-level curation is buying the larger share of the two, and this
@@ -258,6 +268,8 @@ facts.update(
     n_no_interaction=int(no_int.sum()),
     uci_phone_share=0.991,
     wbs_gain=float(wbs["gain_over_group"]), item_gain=float(item["gain_over_group"]),
+    n_wbs_cohort=n_wbs, n_wbs_train=n_wbs_tr,
+    n_item_cohort=n_item, n_item_train=n_item_tr,
     wbs_share_of_item=float(wbs["gain_over_group"] / item["gain_over_group"]),
     item_marginal_over_wbs=float(marg),
     auc_both_layers=float(a_both), auc_item_only=float(item["auc"]),

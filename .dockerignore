@@ -1,0 +1,7 @@
+data/
+results/
+figures/
+logs/
+build/
+.git/
+*.pdf

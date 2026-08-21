@@ -1,0 +1,12 @@
+log,fine,coarse,card_fine,card_coarse,share_exactly_one,max_distinct,deterministic,n
+UCI498,cmdb_ci,subcategory,45,16.0,0.9111111111111111,3.0,False,51
+UCI498,subcategory,category,16,10.0,0.875,5.0,False,51
+Helpdesk,product,support_section,21,7.0,0.9047619047619048,7.0,False,4580
+Helpdesk,support_section,service_type,7,3.0,0.5714285714285714,3.0,False,4580
+BPIC19,case:Item,case:Item Category,490,4.0,0.726530612244898,4.0,False,248445
+BPIC19,case:Item Category,case:Vendor,4,1944.0,0.0,1353.0,False,248445
+BPIC19,case:Vendor,case:Spend area text,1944,20.0,0.8503086419753086,10.0,False,248445
+BPIC14,CI Name (aff),CI Subtype (aff),3019,65.0,1.0,1.0,True,46606
+BPIC14,CI Subtype (aff),CI Type (aff),65,13.0,0.9076923076923077,3.0,False,46606
+BPIC13_incidents,product,NONE FOUND,704,,,,False,7554
+BPIC13_closed,product,NONE FOUND,337,,,,False,1487
