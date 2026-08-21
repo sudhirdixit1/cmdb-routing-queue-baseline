@@ -28,3 +28,7 @@ capability_readiness_matrix_filled.xlsx
 # Run logs from scripts/reproduce_all.py.  Regenerated on every run;
 # the numbers they contain live in results/*.csv, which IS tracked.
 logs/
+
+# The corpus is fetched by DOI, never redistributed.  CHECKSUMS.txt is tracked.
+data/corpus/*
+!data/corpus/CHECKSUMS.txt
