@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fieldvalue"
+version = "0.1.0"
+description = "Report what a recorded field is worth as a surface, not a number."
+readme = "fieldvalue/README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Sudhir Dixit", email = "sudhir.dixit1@gmail.com"}]
+keywords = ["incremental value", "baseline specification", "evaluation",
+            "feature importance", "decision curve analysis"]
+dependencies = ["numpy>=1.23", "pandas>=1.5", "scikit-learn>=1.1"]
+
+[project.optional-dependencies]
+plot = ["matplotlib>=3.5"]
+test = ["pytest>=7"]
+
+[project.scripts]
+fieldvalue = "fieldvalue.cli:main"
+
+[tool.setuptools]
+packages = ["fieldvalue", "fieldvalue.tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["fieldvalue/tests"]

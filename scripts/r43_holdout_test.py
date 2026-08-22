@@ -42,7 +42,7 @@ TRAIN_FRAC = L.TRAIN_FRAC
 #  inspected or counted by any script in this repository before this file ran.
 HOLDOUT = {
     "BPIC11": ("healthcare", "Hospital_log.xes.gz"),
-    "BPIC18": ("agriculture", "BPI_Challenge_2018.xes.gz"),
+    "BPIC18": ("agriculture", "BPI Challenge 2018.xes.gz"),
 }
 
 

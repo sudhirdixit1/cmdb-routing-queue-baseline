@@ -1,0 +1,3 @@
+log,domain,code,detail
+BPIC18,agriculture,NO_TEST_VARIATION,duration
+BPIC18,agriculture,NO_HEADROOM,handover prev=1.0000

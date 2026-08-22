@@ -1,0 +1,2 @@
+version,n_quantities,n_agree,max_abs_diff,tol,refused_single_number,n_surface_cells,n_metrics,n_grid,auc_reduction,runtime_s
+0.1.0,20,20,2.220446049250313e-16,1e-09,True,35,4,31,0.43673515041607924,1.9

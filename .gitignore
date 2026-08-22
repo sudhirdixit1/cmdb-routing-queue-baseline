@@ -44,3 +44,6 @@ paper/.tex.bak
 # they are the evidence the human codes were assigned from.
 data/audit/fulltext/
 data/audit/meta/
+
+# The worked example's cached download.  Fetched by DOI on first run.
+data/example/
