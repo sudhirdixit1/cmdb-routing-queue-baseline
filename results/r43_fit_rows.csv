@@ -1,0 +1,10 @@
+log,domain,target,H_g,g_lift,card_g,entity_pays_resolved,reduction_resolved
+BPIC14,itsm,duration,0.38822239050973273,0.036458404752261475,57,True,True
+BPIC14,itsm,handover,0.38822239050973273,0.09137092115577905,57,True,True
+BPIC13_incidents,itsm,duration,0.836143532391993,0.021507151372459843,806,True,True
+BPIC13_incidents,itsm,handover,0.836143532391993,0.012725385635191877,806,True,False
+BPIC19,procurement,duration,0.7497511326211502,0.013878411050636141,355,True,True
+BPIC15_3,permitting,duration,0.5690731919383271,0.0015544041450779034,10,True,False
+BPIC15_4,permitting,duration,0.5560699748079273,0.008565679793043957,7,True,False
+Sepsis,healthcare,duration,0.2743627828980834,0.006428571428571228,4,True,False
+RoadFines,enforcement,duration,0.8642586464876824,-0.000194875737814737,147,True,False
