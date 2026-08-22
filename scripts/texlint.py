@@ -62,8 +62,15 @@ def check_other(src):
         c = len(re.findall(r"\\end\{" + env + r"\}", src))
         if o != c:
             problems.append(f"unbalanced {env}: {o} begin, {c} end")
-    if src.count("$") % 2:
-        problems.append(f"odd number of $ delimiters ({src.count('$')})")
+    #  ROUND EIGHTEEN.  An ESCAPED dollar is a currency sign, not a math
+    #  delimiter, and counting it as one made this lint refuse a document
+    #  that compiles.  The audit section quotes a dollar amount, which is the
+    #  first time this file has ever seen one.  A lint that is wrong about
+    #  the artifact is worse than no lint, because it blocks the checker that
+    #  would have found the real defects.
+    _math = re.sub(r"\\\$", "", src)
+    if _math.count("$") % 2:
+        problems.append(f"odd number of $ delimiters ({_math.count('$')})")
     for cmd in ("\\label", "\\ref", "\\cite"):
         for m in re.finditer(re.escape(cmd) + r"\{([^}]*)\}", src):
             if not m.group(1).strip():

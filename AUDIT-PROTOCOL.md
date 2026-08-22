@@ -359,7 +359,7 @@ support, which is narrower and sharper:
 > (55%), and it is almost always the **metric** axis (45%) or the **baseline**
 > axis (30%). **Not one paper in the subsample reports the increment across a
 > range of operating points, and not one across a range of register
-> populations** — 0 of 20 on each, a Wilson upper bound of 16.1%.
+> populations** — 0 of 20 on each, a Wilson upper bound of 16.2% (floored and ceiled, not rounded).
 
 **The mechanical coder is a lower bound, and its under-detection is measured
 rather than assumed.** Against a read of the paper it missed 39 `yes` codes

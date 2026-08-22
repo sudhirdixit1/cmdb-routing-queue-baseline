@@ -1,0 +1,2 @@
+log,n_rows,n_cols,n_cells,n_finite,r_min,r_max,r_span,reference_threshold,n_population_levels,n_threshold_points
+BPIC14,6,5,30,30,-0.5267175572519751,0.5978680987568443,1.1245856560088194,0.4,4,31

@@ -229,3 +229,61 @@ described above. Two notes:
   be wrong in the direction that matters.** The manuscript describes rounds
   eleven to seventeen as machine-assisted. If a real practitioner reviewed this
   work, that credit was removed in error and only you can say so.
+
+---
+
+## Round eighteen added three items
+
+### A. The seven-day blind re-code of the literature audit
+
+**Why it is yours.** `AUDIT-PROTOCOL.md` §7.4 registers an intra-rater
+reliability check: re-code a random 20% of the included papers **at least
+seven days after** the first pass, blind to it. It needs elapsed time and a
+human coder, and an agent has neither. Everything else is prepared.
+
+**Do.**
+
+1. Wait until on or after **2026-08-29** (seven days after the first coding).
+2. Open `results/r40_validation_sample.csv`. It holds the 30 papers already
+   drawn with the registered seed; the first 11 rows are the 20% subsample the
+   kappa analysis used.
+3. For each, read the extract in `data/audit/adjudication/<oa_id>.txt` — or
+   better, the paper itself — and assign the five codes from
+   `AUDIT-PROTOCOL.md` §5 **without looking at `r40_adjudication.csv`**.
+4. Write them to `results/r40_recode.csv` with the columns
+   `oa_id,B_stated,B_justified,M_justified,Theta_stated,Range_reported`.
+5. Run `python scripts/r40_audit.py --report`. If the file exists the report
+   will pick it up; if the agreement is poor, **that is the finding** and the
+   Limitations sentence about it changes to say so.
+
+**Do not** adjust the first pass to match the second. The sheet carries both.
+
+### B. Time to first decision, for the venue decision
+
+**Why it is yours.** `submission/DECISIONS.md` §15 records the venue decision
+as *Empirical Software Engineering*, with *Information Systems* as the first
+fallback, and names criterion 5 — median time to first decision — as the one
+thing that would flip the ordering. It is not in any API and is not on a page
+a script can trust.
+
+**Do.** Read the two journals' own "review speed" figures:
+
+- EMSE: <https://link.springer.com/journal/10664> → *Journal metrics*
+- Information Systems: <https://www.sciencedirect.com/journal/information-systems> → *Journal insights*
+
+If EMSE's submission-to-first-decision is materially worse, submit to
+*Information Systems* instead and change §15's first line. Nothing else in the
+paper depends on it.
+
+### C. The registered-reports route, if it is open
+
+**Why it is yours.** EMSE has published six papers 2019–2026 that describe
+themselves as registered reports. This paper has a pre-registered protocol, a
+pre-registered audit and a pre-registered prediction, and a registered-reports
+route would convert the "contribution is incremental" objection into a review
+of the design. Whether the route is open to a paper whose results already
+exist is an editorial question.
+
+**Do.** Ask the handling editor, in the cover letter, whether a
+results-already-collected submission is eligible for their registered-reports
+handling. One sentence; the cover letter has a slot for it.

@@ -283,3 +283,85 @@ section added this round carries a measurement. If an editor asks for a cut,
 §9's mechanism material and §13's per-axis detail move to supplementary
 material without removing a claim, and that is recorded here so the decision
 does not have to be re-made under time pressure.
+
+---
+
+## 15. The venue decision, re-taken: *Empirical Software Engineering*
+
+**Decision.** Submit to **Empirical Software Engineering** (Springer).
+*Information Systems* — the incumbent since round fifteen — is the first
+fallback; *Journal of Systems and Software* is the second.
+
+**Why the decision was re-taken at all.** Round fifteen retargeted the paper
+to *Information Systems* when it was a CMDB empirical study. Its centre of
+gravity is now evaluation methodology with a CMDB demonstration, a
+pre-registered literature audit, three propositions, a prospective test and a
+tool. That may not be the same journal's paper, and `PLAN-REVIEWER-PROOF.md`
+§8 says an inherited decision is worth less than a re-examined one —
+*including when the re-examination changes nothing*. It did not change
+nothing.
+
+**The criteria, fixed before comparing** (§8.1), and what each one says:
+
+| # | criterion | verdict |
+|---|---|---|
+| 1 | publishes evaluation-methodology work with empirical demonstrations | EMSE, TOSEM, JSS yes; IS yes but rarely |
+| 2 | a reproducibility or artifact track that engages the paper's strongest asset | EMSE open-science policy and badges; TOSEM ACM badging; JSS badges; **IS has no formal track** |
+| 3 | publishes literature audits | EMSE yes, a standing category; JSS and TOSEM yes; IS rare |
+| 4 | length allowance | no hard limit at any of the four |
+| 5 | median time to first decision | **not machine-collectable; owner action** |
+| 6 | accepts single-author unaffiliated submissions **in practice**, counted | see below |
+
+**Criterion 6 is the uncomfortable one and it is measured, not assumed.**
+`r48_venue.py` counts, over 3,360 research articles published 2024–2026 in
+eight candidate venues: **five are single-author *and* unaffiliated —
+0.15%.** In the incumbent, **zero of 275**. In *Empirical Software
+Engineering*, zero of 502. The only venue with any at all is *Journal of
+Systems and Software*, at 5 of 755 (0.66%). The median paper at every
+candidate has four authors.
+
+That does not discriminate between EMSE and the incumbent, because neither has
+one. What it does establish is that **the author profile of this submission is
+close to unprecedented at every venue considered**, and that fact belongs in
+the cover letter and in the Limitations rather than in a hope. It is now in
+both.
+
+**What decided it, then.** Criteria 1–3, plus two things the count reached:
+
+- *Empirical Software Engineering* carries **6** papers 2019–2026 whose title
+  or abstract says "registered report"; *Information Systems* carries **0**.
+  This paper has a pre-registered protocol, a pre-registered audit and a
+  pre-registered prediction. Few submissions are better shaped for a venue
+  that has actually run that route.
+- Its topical share — the fraction of recent articles whose title or abstract
+  carries this paper's vocabulary — is **17.3%** against the incumbent's
+  **13.5%**.
+
+**And one argument that is about the next paper, stated so it is not
+mistaken for evidence about this one.** `HANDOFF.md` §19.8 and §20.10 argue
+that the verification apparatus is a stronger contribution than the CMDB
+finding and belongs at MSR or EMSE. If that paper follows this one, the two
+sit in the same place. That is a convenience, not a reason, and it did not
+decide anything on its own.
+
+**Rejected alternatives, with the reason.**
+
+- *Information Systems* (incumbent). Rejected on criteria 2 and 3: no artifact
+  track, and audits are rare. Kept as the first fallback because seven
+  referees over fifteen rounds scored the technical work 6–8 there and the
+  CMDB demonstration reads naturally in it.
+- *ACM TOSEM*. Highest topical share (20.8%) and strong on 1–3, but the median
+  paper has five authors and the venue's centre is software engineering
+  methods rather than measurement practice. Rejected, narrowly.
+- *Journal of Systems and Software*. The only venue with any single-author
+  unaffiliated papers. Rejected as primary because its audit and methodology
+  culture is comparable to EMSE's rather than better and its topical share is
+  lower (13.1%); kept as the second fallback for exactly the criterion-6
+  reason.
+- *Decision Support Systems*, *Information & Management*, *BISE*, *ACM TMIS*.
+  Rejected on criterion 1 or 3, and I&M on topical share (3.1%).
+
+**What would change this.** Criterion 5. If EMSE's median time to first
+decision is materially worse than the incumbent's, the ordering of the first
+two flips. That check is in `OWNER-ACTIONS.md` with the URL, because it is not
+in any API.

@@ -1,0 +1,2 @@
+n_cells,K_b,K_g,K_f,n_rho,n_main,n_rep,n_boot,r_true_lo,r_true_hi,max_abs_bias,mean_abs_bias,min_coverage,max_coverage,mean_coverage,bias_at_5k,bias_at_60k,max_metric_spread,max_threshold_spread,max_baseline_spread,max_population_spread,runtime_s
+960,4,6,40,6,60000,40,400,0.1328895331262817,0.9999999999999984,0.004408025135485827,0.0025362358021760734,0.85,0.975,0.9333333333333332,0.021730199140752023,0.0025362358021760734,0.18746043671764678,4.014153283168765,0.6064873274775163,0.05374377626480897,2011.8

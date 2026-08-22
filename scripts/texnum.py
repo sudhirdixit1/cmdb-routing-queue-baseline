@@ -23,11 +23,23 @@ def strip_comments(tex: str) -> str:
 
 
 def body_of(tex: str) -> str:
+    #  ROUND EIGHTEEN, and it is the same shape as every other hole this
+    #  apparatus has had: a consumer that silently stops seeing part of its
+    #  input.  This function used to cut the body at \bibliographystyle,
+    #  which was a convenient end-marker in a paper that had no appendix.
+    #  The moment round eighteen moved five subsections and added five more
+    #  into an \appendix -- which sits AFTER the bibliography commands in
+    #  this document -- every number in them became invisible: 870 checks
+    #  failed with "does not appear in the paper" against text that was
+    #  sitting in the file.  An appendix is part of the paper and its numbers
+    #  are claims.  The body now runs to \end{document} and the two
+    #  bibliography COMMANDS are removed individually.
     if "\\begin{document}" in tex:
         tex = tex.split("\\begin{document}", 1)[1]
-    for marker in ("\\bibliographystyle", "\\end{document}"):
-        if marker in tex:
-            tex = tex.split(marker, 1)[0]
+    if "\\end{document}" in tex:
+        tex = tex.split("\\end{document}", 1)[0]
+    tex = re.sub(r"\\bibliographystyle\{[^}]*\}", " ", tex)
+    tex = re.sub(r"\\bibliography\{[^}]*\}", " ", tex)
     tex = strip_comments(tex)
     tex = re.sub(r"\\includegraphics\[[^\]]*\]\{[^}]*\}", " ", tex)
     tex = re.sub(r"\\cite[a-z]*\{[^}]*\}", " ", tex)
