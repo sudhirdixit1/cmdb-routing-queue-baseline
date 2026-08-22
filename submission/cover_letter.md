@@ -174,7 +174,7 @@ sudhir.dixit1@gmail.com
       to this letter. Elsevier permits preprints; posting first starts the
       citation clock during a ~244-day median review.
 - [ ] Confirm the three counts in the artifact paragraph against a fresh
-      `python scripts/reproduce_all.py` — 417 literals, 199 corruptions, 13
+      `python scripts/reproduce_all.py` — 608 literals, 255 corruptions, 13
       admitted logs. They move whenever the paper does, and the last version
       of this letter quoted numbers that had.
 - [ ] Offer `PROTOCOL.md` as supplementary material in the submission system,

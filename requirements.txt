@@ -11,3 +11,16 @@ pandas==2.3.1
 scipy==1.15.3
 scikit-learn==1.7.2
 matplotlib==3.10.5
+
+# --- round eighteen -------------------------------------------------------
+# The audit fetches its frame from the OpenAlex API and its full texts from
+# each work's own open-access location, and reads those PDFs.  Neither
+# touches a number the verifier checks against a printed literal, so these
+# two are pinned for reproducibility of the FETCH rather than of a figure:
+# a different PyMuPDF extracts slightly different text, which can move a
+# quote or a page number in results/r40_coding.csv.
+requests==2.32.5
+pymupdf==1.26.6
+# fieldvalue's test suite.  Not needed to reproduce a number; needed to
+# reproduce the claim that the package's 91 tests pass.
+pytest==8.4.2

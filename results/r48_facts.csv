@@ -1,2 +1,2 @@
 n_venues,years,n_works,incumbent_single_unaffiliated,incumbent_n_single_unaffiliated,incumbent_share_topical,incumbent_median_authors,best_single_unaffiliated_venue,best_single_unaffiliated_share,best_topical_venue,best_topical_share,incumbent_registered_reports,max_registered_reports,best_registered_reports_venue,min_single_unaffiliated,max_single_unaffiliated,runtime_s
-8,2024-2026,3360,0.0,0,0.13454545454545455,4.0,Journal of Systems and Software,0.006622516556291391,ACM TOSEM,0.20811099252934898,0,6,Empirical Software Engineering,0.0,0.006622516556291391,24.5
+8,2024-2026,3360,0.0,0,0.13454545454545455,4.0,Journal of Systems and Software,0.006622516556291391,ACM TOSEM,0.20811099252934898,0,6,Empirical Software Engineering,0.0,0.006622516556291391,30.9

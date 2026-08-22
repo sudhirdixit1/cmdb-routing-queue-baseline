@@ -35,7 +35,7 @@ python scripts/reproduce_all.py
 | a registered prediction, tested | two correct predictions, **both negative**, so half the rule is untested |
 | a runnable standard | `fieldvalue/`: 91 tests, refuses to emit one number, agrees with our pipeline 20/20 |
 | corrections | **twelve**, reported as classes in the text and incidents in an appendix |
-| verification | 1,358 checks, 0 failed; 243 corruptions |
+| verification | 1,388 checks, 0 failed; 255 corruptions; a 67-minute one-command reproduction |
 
 Three things came back against the paper this round: the audit refuted the
 *strong* form of its own premise, the prospective test tested only half of

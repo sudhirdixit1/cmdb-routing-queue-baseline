@@ -1758,13 +1758,14 @@ venue considered.
 
 | | |
 |---|---|
-| manuscript | 71 pages total, 42 of main text; 0 errors, 0 undefined references, 10 overfull hboxes |
-| `verify_paper.py` | 1,386 checks passed, 0 failed; 607 literals in the body, 0 unaccounted, 587 compared against data |
-| `attack_verifier.py` | 253 corruptions, of which 19 mutate a relation rather than a value |
+| manuscript | 72 pages total, 42 of main text; 0 errors, 0 undefined references, 10 overfull hboxes |
+| `verify_paper.py` | 1,388 checks passed, 0 failed; 608 literals in the body, 0 unaccounted, 588 compared against data |
+| `attack_verifier.py` | 255 corruptions, of which 19 mutate a relation rather than a value; final run 255 caught, 0 missed, 0 skipped |
 | `fieldvalue/` | 91 tests, 0 failed; independence check 20 of 20 to 2.2e-16 |
 | audit | 600 sampled, 369 full texts, 54 included, 30 read, 20 confirmed |
 | corrections | twelve, as five classes in the text and twelve incidents in an appendix |
 | adversarial passes | six, every objection dispositioned in `REFEREE-LOG.md` |
+| `reproduce_all.py` | 13 waves, 42 scripts, the holdout stage, the package stage, both figure sets, the verifier and the build: **67 minutes**, every stage passed |
 
 ### 21.10 If you are round nineteen
 

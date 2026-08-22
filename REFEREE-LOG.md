@@ -544,6 +544,21 @@ record carries 69 works for 2019–2026 and *none* flagged open access; CAiSE
 carries one; ICPM has no source record. The venues are covered through the
 citation frame and the venue mix of the included set is reported.
 
+### A5. The topical pre-filter is a constructed control. Null it. **MEASURED — and it runs the conservative way**
+
+Frame A filters titles and abstracts by keyword; frame B does not. If the
+filter selected papers that are unusually careful, the audit understates the
+practice failure.
+
+**Measured** (`r49_frame_null.csv`): on the four codes where the two frames can
+be compared, the filtered frame's papers are **more** careful on every one, by
+up to 23.3 percentage points on `M_justified`; on `Range_reported` both frames
+are at zero. The unfiltered arm is 11 papers, so this is a direction and not an
+estimate — and the direction is the one that makes the reported failure a lower
+bound.
+
+**Disposition.** §4.4 reports it, with the small-n caveat in the same sentence.
+
 ### A4. `unclear` on `Theta_stated` is larger than `yes`. **DISMISSED — that is what `unclear` is for**
 
 23 of 54 under the mechanical coder. The protocol registers `unclear` as a

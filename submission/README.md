@@ -31,8 +31,8 @@ was decided and what is still yours to do.
 ## The manuscript itself
 
 Not in this directory. `paper/iaai27_empty_cmdb.tex` builds to
-`paper/iaai27_empty_cmdb.pdf` via `python scripts/build_journal.py`: 47
-pages, 0 errors, 0 undefined references. The file name is a fossil of the
+`paper/iaai27_empty_cmdb.pdf` via `python scripts/build_journal.py`: 72
+pages (42 of main text), 0 errors, 0 undefined references. The file name is a fossil of the
 IAAI-27 draft this was retargeted from; Elsevier's system renames uploads
 anyway.
 
@@ -42,7 +42,7 @@ Nothing else in `paper/` is used by the build.
 
 ## A note on the numbers quoted in these files
 
-`936 checks`, `417 literals`, `199 corruptions`, `24 files`, `13 admitted
+`1,388 checks`, `608 literals`, `255 corruptions`, `24 files`, `13 admitted
 logs`, `47 pages` appear across the cover letter, the data-availability
 statement and `REPRODUCE.md`. They move whenever the manuscript does, and the
 round-sixteen versions of these files all quoted counts that had. Before

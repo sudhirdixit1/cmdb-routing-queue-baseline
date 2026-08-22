@@ -695,6 +695,18 @@ documents is not that the field ignores its own critiques. It is that the
 field varies the two choices that are cheap to vary and does not vary the two
 that decide the answer.
 
+\paragraph{The topical pre-filter is a constructed control, so it is
+nulled.} Frame A applies a declared keyword filter to titles and abstracts;
+frame B applies none. If the filter selected papers that happen to be more
+careful about their evaluation, the audit would \emph{understate} the practice
+failure --- and it does. On the four codes where the two frames can be
+compared, the filtered frame's papers are more careful on every one, by up to
+$23.3$ percentage points on \texttt{M\_justified}. On
+\texttt{Range\_reported} both frames are at zero. The unfiltered arm is only
+$11$ papers, so this is a direction and not an estimate; the direction is the
+conservative one, and \texttt{results/r49\_frame\_null.csv} carries all five
+codes.
+
 \paragraph{Reliability, with one author.} A single author coded every paper,
 by machine, and then read thirty. That is not inter-rater reliability and this
 paper does not call it that. What is reported instead: every code ships with
@@ -1792,7 +1804,7 @@ Section~\ref{sec:limits} does not assume it is.
 A verification harness that can be wrong about the paper is a threat to every
 number in it. \emph{Measured:} eight holes have been found in this one and
 every one was found by its own corruption suite rather than by the harness or
-by reading; the suite carries $253$ mutations, each of which changes the
+by reading; the suite carries $255$ mutations, each of which changes the
 manuscript in one place and requires the checker to notice; the suite's size, the checker's coverage census and the purity
 guard that stops the checker modifying its subject are reported in
 Section~\ref{sec:corrections} and in \texttt{REPRODUCE.md}.

@@ -1,7 +1,7 @@
 {
   "upload_type": "software",
-  "title": "Four Choices Behind One Number: analysis code, a pre-registered protocol, derived results and a verification harness",
-  "description": "<p>Analysis code, a pre-registered protocol, derived result files, figures and a verification harness for the study <em>Four Choices Behind One Number: Reporting the Incremental Value of a Recorded Field</em>.</p><p>The study argues, and then measures, that what a recorded field is worth is a function of four choices which are almost never stated: the baseline of already-recorded fields the comparison may contain, the metric, the operating point, and the population of the register the field reads from. The demonstration is a configuration management database on a public log of 45,455 incidents, and each choice moves the answer by more than the effect being reported. Admitting one further already-recorded field takes the item's value from +0.183 AUC to +0.103; admitting a second takes it to +0.001.</p><p><strong>Pre-registration.</strong> <code>PROTOCOL.md</code> fixes the corpus, the targets, the rules assigning every attribute to a role, the exclusion codes, the estimator, the seed, the instruments and the outcome that would falsify the claim. It was committed before any corpus result file existed, in a commit that adds no result file. The registered generality claim is falsified by its own criterion and the paper reports the negative.</p><p><strong>What is included.</strong> Every analysis script, every derived <code>results/*.csv</code>, the figure generators, the LaTeX source, an environment locked by artefact hash, a container that pins BLAS thread counts, a referee log recording twenty-two adversarial objections with their dispositions, and <code>scripts/verify_paper.py</code>, which recomputes each of the 417 numeric literals in the manuscript from a result file or from the raw data and fails if any literal in the body is unaccounted for. <code>scripts/attack_verifier.py</code> is that checker's own regression suite: 199 corruptions drawn from defects found in earlier versions of this work. <code>scripts/reproduce_all.py</code> fetches all twenty-four public files by DOI, checksums them, and runs the whole thing in dependency order in one command.</p><p><strong>What is not included.</strong> No row of any dataset. All twenty-four files are public and are cited by persistent identifier below and in <code>REPRODUCE.md</code>; none is redistributed here.</p><p><strong>What the harness does not do.</strong> It guards numbers thoroughly and prose only where a guard was written by hand. The paper reports eleven of the author's own errors as results rather than editing them away, and all eleven are claims about what a number means -- the checker would have caught none of them. Two of the three found in the final round are sentences in which every individual literal was correct and the relation the prose asserted between them was not. This is stated in the repository and in the paper in the same words.</p>",
+  "title": "Four Choices Behind One Number: analysis code, three pre-registrations, a literature audit, derived results, a verification harness and the fieldvalue package",
+  "description": "<p>Analysis code, three pre-registrations, derived result files, figures, a verification harness and a Python package for the study <em>Four Choices Behind One Number: Reporting the Incremental Value of a Recorded Field</em>.</p><p>The study argues, and then measures, that what a recorded field is worth is a function of four choices which are almost never stated: the baseline of already-recorded fields the comparison may contain, the metric, the operating point, and the population of the register the field reads from. The demonstration is a configuration management database on a public log of 45,455 incidents; admitting one further already-recorded field takes the item's value from +0.183 AUC to +0.103, and admitting a second takes it to +0.001.</p><p><strong>Three pre-registrations.</strong> <code>PROTOCOL.md</code> fixes the corpus, the targets, the role-assignment rules, the exclusion codes, the estimator, the seed, the instruments and the outcome that would falsify the claim; the registered generality claim is falsified by its own criterion and the paper reports the negative. <code>AUDIT-PROTOCOL.md</code> fixes the frame, the inclusion rule and five codes for a literature audit, and states in advance the outcome that would refute the paper's premise. <code>PREDICTION.md</code> freezes two rules and their thresholds before either held-out log was downloaded. Each was committed alone, before any result it governs; <code>git log --stat</code> is the evidence.</p><p><strong>The literature audit.</strong> 600 works enumerated from OpenAlex, 369 full texts retrieved, 54 included, 30 read and 20 confirmed in scope. <code>results/r40_coding.csv</code> carries every code with a verbatim quote and a PDF page, so any row can be checked in a minute. Not one of the twenty reports what a feature is worth across a range of operating points, or across a range of register populations.</p><p><strong>The package.</strong> <code>fieldvalue/</code> computes the surface over all four choices and <em>refuses by design to emit a single number</em>. 91 tests, including the paper's three propositions as test cases. Its metrics are implemented in numpy rather than delegated, so that <code>scripts/r46_tool_agreement.py</code> — which re-derives the paper's headline through it and agrees with the analysis pipeline on 20 of 20 quantities to 2.2e-16 — is a real check. It found an error in the paper's own prose on its first run.</p><p><strong>What is included.</strong> Every analysis script, every derived <code>results/*.csv</code>, the figure generators, the LaTeX source, an environment locked by artefact hash, a container that pins BLAS thread counts, a referee log recording six adversarial passes with every objection and its disposition, and <code>scripts/verify_paper.py</code>, which recomputes each of the 607 numeric literals in the manuscript from a result file or from the raw data and fails if any literal in the body is unaccounted for. <code>scripts/attack_verifier.py</code> is that checker's own regression suite: 253 corruptions drawn from defects found in earlier versions of this work, nineteen of which mutate a relation between two correct numbers rather than a value. <code>scripts/reproduce_all.py</code> fetches every public file by DOI, checksums it, and runs the whole thing in dependency order in one command.</p><p><strong>What is not included.</strong> No row of any dataset, and no full text of any audited paper. Every dataset is public and is cited by persistent identifier below and in <code>REPRODUCE.md</code>; the audit's full texts are re-fetched from each work's own open-access location by <code>scripts/r40_audit.py</code>.</p><p><strong>What the harness does not do.</strong> It guards numbers thoroughly and prose only where a guard was written by hand. The paper reports twelve of the author's own errors as results rather than editing them away, and all twelve are claims about what a number means — the checker would have caught none of them. Three are sentences in which every individual literal was correct and the relation the prose asserted between them was not; the third of those was found by an independent implementation of the estimator, not by checking harder. Ten holes have now been found in this harness and every one was found by its own corruption suite or by reading its output, never by the harness itself. This is stated in the repository and in the paper in the same words.</p>",
   "creators": [
     {
       "name": "Dixit, Sudhir",
@@ -20,7 +20,12 @@
     "decision curve analysis",
     "reproducibility",
     "event log",
-    "IT service management"
+    "IT service management",
+    "audit",
+    "literature audit",
+    "registered report",
+    "reproducible research",
+    "software artifact"
   ],
   "license": "MIT",
   "access_right": "open",
@@ -106,6 +111,24 @@
     },
     {
       "identifier": "10.4121/uuid:270fd440-1057-4fb9-89a9-b699b47990f5",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:d9769f3d-0ab0-4fb8-803b-0d1120ffcf54",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.4121/uuid:3301445f-95e8-4ff0-98a4-901f1f204972",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.24432/C5XW20",
       "relation": "isDerivedFrom",
       "resource_type": "dataset",
       "scheme": "doi"

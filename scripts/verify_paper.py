@@ -4392,6 +4392,12 @@ ck("business case lo", _A2.gain, "+0.001", 6e-4,
 ck("business case hi", _A0, "+0.183", 6e-4,
    anchor="and between $+0.001$ and $+0.183$ across the baselines")
 
+_r49N = pd.read_csv(R / "r49_frame_null.csv").set_index("code")
+ck("frame null max gap", _r49F.a5_max_abs_gap * 100, "23.3", 0.06,
+   anchor="are more careful on every one, by up to")
+ck("frame null unfiltered n", _r49F.a5_n_frame_b, "11", 0,
+   anchor="The unfiltered arm is only")
+
 _lint_check_order()
 _run_guard_lint()
 _run_census()

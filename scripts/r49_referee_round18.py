@@ -206,12 +206,50 @@ def a1_audit_spotcheck(n_rows=6, seed=20260819):
     return D
 
 
+# =====================================================================
+# A5.  "Your topical pre-filter is a constructed control.  Null it."
+#      Frame A applies a keyword filter to titles and abstracts; frame B
+#      applies none.  If the filter selects papers that are unusually
+#      careful about metrics, the audit understates the practice failure.
+#      Comparing the two frames' codes is the null, and it costs nothing.
+# =====================================================================
+def a5_frame_null():
+    print("=" * 92)
+    print("A5  the topical pre-filter, nulled: frame A against frame B")
+    print("=" * 92)
+    S = pd.read_csv(RESULTS / "r40_screening.csv")
+    INC = S[S.screen_amd == "INCLUDED"]
+    CODES = ["B_stated", "B_justified", "M_justified", "Theta_stated",
+             "Range_reported"]
+    rows = []
+    for code in CODES:
+        a = INC[INC.frame == "A"][code]
+        b = INC[INC.frame == "B"][code]
+        rows.append(dict(code=code, n_A=len(a), n_B=len(b),
+                         yes_A=int((a == "yes").sum()),
+                         yes_B=int((b == "yes").sum()),
+                         p_A=float((a == "yes").mean()) if len(a) else np.nan,
+                         p_B=float((b == "yes").mean()) if len(b) else np.nan))
+        rows[-1]["gap"] = rows[-1]["p_A"] - rows[-1]["p_B"]
+    D = pd.DataFrame(rows)
+    D.to_csv(RESULTS / "r49_frame_null.csv", index=False)
+    print(D.to_string(index=False))
+    print(f"\n  the filtered frame ({int(D.n_A.iloc[0])} papers) against the "
+          f"unfiltered one ({int(D.n_B.iloc[0])})")
+    print(f"  largest gap in any code: {D.gap.abs().max():.3f}")
+    print("  A gap that is POSITIVE means the pre-filter selected papers that "
+          "are MORE\n  careful, which would make the audit understate the "
+          "practice failure.")
+    return D
+
+
 def main():
     t0 = time.time()
     D2 = m2_baseline_spread()
     D4 = m4_prop3_tolerance()
     D1 = p1_holdout_roles()
     DA = a1_audit_spotcheck()
+    D5 = a5_frame_null()
     F = pd.DataFrame([dict(
         m2_min_real_spread=float(D2.real_spread.min()),
         m2_max_real_spread=float(D2.real_spread.max()),
@@ -232,6 +270,12 @@ def main():
         a1_codes_checked=len(DA),
         a1_quotes_on_page=int(DA.quote_on_that_page.sum()) if len(DA) else 0,
         a1_papers=int(DA.oa_id.nunique()) if len(DA) else 0,
+        a5_n_frame_a=int(D5.n_A.iloc[0]), a5_n_frame_b=int(D5.n_B.iloc[0]),
+        a5_max_abs_gap=float(D5.gap.abs().max()),
+        a5_max_gap_code=str(D5.loc[D5.gap.abs().idxmax()].code),
+        a5_gap_direction=("filtered frame more careful"
+                          if D5.loc[D5.gap.abs().idxmax()].gap > 0
+                          else "unfiltered frame more careful"),
         runtime_s=round(time.time() - t0, 1))])
     F.to_csv(RESULTS / "r49_facts.csv", index=False)
     print("\n" + "=" * 92)

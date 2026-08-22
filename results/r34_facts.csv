@@ -1,2 +1,2 @@
 n_hierarchies_attempted,n_hierarchies_with_two_levels,n_deterministic_pairs,n_pairs_tested,n_history_rows,history_auc_min,history_auc_max,history_share_min,history_share_max,n_history_beats_model,runtime_s
-4,3,1,11,19,0.5037654498419086,0.8717266613298857,0.061368411436923134,1.0925698225891443,3,49.5
+4,3,1,11,19,0.5037654498419086,0.8717266613298857,0.061368411436923134,1.0925698225891443,3,39.5

@@ -897,6 +897,14 @@ CORRUPTIONS = [
      r"This is not an instruction to put a surface in a business case.",
      r"A business case should contain the surface."),
 
+    ("reverse the frame null's direction",
+     r"the filtered frame's papers are more careful on every one, by up to "
+     r"$23.3$ percentage points",
+     r"the filtered frame's papers are less careful on every one, by up to "
+     r"$23.3$ percentage points"),
+    ("delete the frame null's small-n caveat",
+     r"so this is a direction and not an estimate",
+     r"so this is an estimate"),
 ]
 
 

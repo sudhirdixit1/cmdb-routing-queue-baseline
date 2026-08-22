@@ -232,7 +232,7 @@ which closes those three instances and not the class.
 re-derives the paper's headline surface through `fieldvalue`, the package
 shipped with the paper, and on its first run it printed a range the paper's
 own prose contradicted. That is worth stating plainly: after eighteen rounds
-and 1,358 checks, the defect was found by computing the same quantity a second
+and 1,388 checks, the defect was found by computing the same quantity a second
 way, not by checking the first way harder.
 
 `ck_word` is new in this version: a count the paper spells out in letters is
@@ -264,10 +264,10 @@ and `_lint_check_order()` reads `verify_paper.py`'s own source and fails if any
 The guard-or-declare lint turned out to have the same bug for the same reason
 and is now called from the same block; the self-lint names both call sites.
 
-`scripts/attack_verifier.py` is the checker's regression suite: 243
+`scripts/attack_verifier.py` is the checker's regression suite: 255
 corruptions drawn from defects found in earlier versions of this work,
-including fourteen that mutate a *relation* rather than a value — nine of them
-added in round eighteen — because that is the class three of the corrections
+including nineteen that mutate a *relation* rather than a value — nine of them
+added in round eighteen, and ten more attacking a concession — because that is the class three of the corrections
 belong to. A relation corruption leaves every literal in the paper correct and
 sitting in a correct place, and changes only the word joining two of them: the
 suite reorders the three logs' spreads, swaps the simulation's bias and
