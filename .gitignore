@@ -37,3 +37,10 @@ data/corpus/*
 # suite run captured a CORRUPTED manuscript in round seventeen; see HANDOFF
 # section 20.11.  It is ignored so that cannot happen again.
 paper/.tex.bak
+
+# Audit full texts: other people's PDFs, extracted.  Not redistributed.
+# scripts/r40_audit.py --fetch regenerates them from the DOIs in
+# results/r40_sample.csv.  The adjudication extracts ARE committed, because
+# they are the evidence the human codes were assigned from.
+data/audit/fulltext/
+data/audit/meta/

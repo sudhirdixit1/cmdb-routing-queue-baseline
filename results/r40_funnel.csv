@@ -1,0 +1,9 @@
+step,n
+enumerated and deduplicated,600
+full text retrieved,369
+reports a quantitative performance metric,177
+"included, amended screen",54
+"included, registered screen",117
+excluded: NO_FULLTEXT,231
+excluded: NO_METRIC,192
+excluded: NO_ABLATION,123

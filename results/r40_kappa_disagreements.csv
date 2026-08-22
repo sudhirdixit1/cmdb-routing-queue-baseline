@@ -1,0 +1,10 @@
+oa_id,doi,title,B_stated,B_justified,M_justified,Theta_stated,Range_reported,B_stated_B,B_justified_B,M_justified_B,Theta_stated_B,Range_reported_B
+W3094439486,10.1007/s10664-021-09976-2,Topic recommendation for software repositories using multi-label classification algorithms,no,no,yes,no,unclear,no,no,unclear,yes,unclear
+W3195958055,10.1007/s10664-021-09996-y,Predicting unstable software benchmarks using static source code features,unclear,no,no,yes,no,unclear,no,no,unclear,unclear
+W4200151996,10.1016/j.is.2021.101957,Data pre-processing pipeline generation for AutoETL,no,no,no,yes,no,unclear,no,no,unclear,no
+W4309389067,10.1007/s10664-022-10229-z,Workflow analysis of data science code in public GitHub repositories,unclear,no,yes,unclear,no,yes,no,no,unclear,unclear
+W4318822511,10.1016/j.im.2023.103759,Will they take this offer? A machine learning price elasticity model for predicting upselling acceptance of premium airline seating,unclear,no,no,unclear,no,unclear,no,no,yes,no
+W4320883647,10.1016/j.dss.2023.113940,A decision support framework to incorporate textual data for early student dropout prediction in higher education,unclear,no,unclear,no,no,unclear,no,unclear,unclear,unclear
+W4386315295,10.1007/978-3-031-41620-0_18,Interactive Multi-interest Process Pattern Discovery,unclear,no,no,unclear,no,unclear,unclear,unclear,unclear,no
+W4389337815,10.1007/s10664-023-10374-z,Assessing the utility of text-to-SQL approaches for satisfying software developer information needs,no,no,no,no,no,no,no,unclear,no,no
+W4407809720,10.1007/s10664-025-10617-1,Hold on! is my feedback useful? evaluating the usefulness of code review comments,yes,no,no,unclear,no,unclear,unclear,no,unclear,no

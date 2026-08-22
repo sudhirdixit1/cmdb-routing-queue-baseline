@@ -1,0 +1,31 @@
+oa_id,included_adj,B_stated_adj,B_justified_adj,M_justified_adj,Theta_stated_adj,Range_reported_adj,range_axis_adj,range_axes_adj,note
+W2807851731,no,no,no,yes,yes,no,none,none,"with/without is the optimisation process, not a named feature"
+W2911862380,yes,no,no,no,no,no,none,none,"with/without a feature-selection method; baseline is 'all features', not enumerated"
+W2956440216,yes,yes,no,yes,yes,no,none,none,forward selection monitored on F-measure and accuracy; increment not reported as a range
+W3047535465,yes,no,no,yes,yes,no,none,none,n-gram vs single-word features; admitted sentence was about rebalancing
+W3094439486,yes,no,no,unclear,yes,yes,metric,metric,increment stated at five metric levels: R@5 P@5 F1@5 S@5 LRAP
+W3097594944,yes,yes,no,yes,yes,yes,baseline,baseline;metric,M1..M8 are several baselines; increment reported under AUC and TDL
+W3118316820,yes,unclear,no,yes,yes,no,none,none,tutorial-style; AUPRC argued over AUC at length
+W3195958055,yes,yes,yes,yes,no,yes,metric,metric,collinear features excluded with a reason; increment under AUC and MCC
+W4206583545,no,yes,no,no,unclear,yes,metric,metric,"with/without is data pre-processing, not a named feature"
+W4221051771,yes,unclear,yes,no,no,no,none,none,features excluded for zero information gain
+W4294192778,yes,yes,no,yes,yes,yes,metric,baseline;metric,RFM feature block; increment +62% AUCPR and +58% F1
+W4296311716,yes,yes,unclear,yes,yes,no,none,none,meta-features vs meta-instances; recall argued as the primary target
+W4309389067,yes,unclear,no,unclear,no,yes,baseline,baseline,feature ablation over combinations and vector sizes
+W4318822511,yes,yes,yes,unclear,yes,yes,metric,metric,attributes excluded because they sparsified the segmentation
+W4389625424,yes,unclear,no,no,no,no,none,none,with and without inheritance and delegation metrics; F-measure only
+W4391092733,no,unclear,no,no,no,no,none,none,reducts and XAI consistency; no with/without performance comparison
+W4392471232,yes,unclear,yes,unclear,yes,yes,baseline,baseline;metric,108 configurations; feature-selection ablation across them
+W4396746070,yes,yes,yes,yes,yes,yes,metric,metric,metric-type ablation across precision recall F-measure AUC MCC
+W4400843015,yes,unclear,no,no,no,yes,metric,metric,intercase features against baselines without them; MAE and RMSE
+W4400888954,no,no,no,no,yes,yes,threshold,threshold,"compares test-selection methods, not features"
+W4401669391,no,unclear,no,no,no,no,none,none,"with/without SMOTE, not a feature"
+W4410172493,no,unclear,no,no,no,no,none,none,UX experiment; no predictive performance comparison
+W4412431056,yes,unclear,no,no,no,yes,baseline,baseline,improvements ranging from 2% to 20% across context types
+W4414915885,yes,yes,no,no,no,no,none,none,"inverse ablation by variable group; F1 only, one baseline"
+W4417461554,yes,unclear,no,yes,yes,yes,metric,baseline;metric,encoding approaches compared; AUCROC and MCC
+W4417517238,no,no,no,no,no,no,none,none,admitted by a scenario sentence; no feature ablation
+W7135236593,no,no,no,no,no,no,none,none,"eye-tracking comprehension experiment, not prediction"
+W7154486995,no,unclear,no,no,unclear,yes,metric,metric,AutoML over pipelines; the with/without sentence is about prior work
+W7161625273,no,no,no,no,unclear,no,none,none,"ablation of method components, not features"
+W7167600363,yes,no,no,yes,yes,no,none,none,Weak-ATD labels are a data source; coverage range is over projects

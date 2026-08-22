@@ -1,0 +1,31 @@
+oa_id,doi,title,year,venue,B_stated,B_justified,M_justified,Theta_stated,Range_reported
+W2807851731,10.1016/j.is.2019.03.005,Binary classification in unstructured space with hypergraph case-based reasoning,2019,Information Systems,no,no,no,unclear,no
+W2911862380,10.1016/j.is.2019.02.003,Boosting decision stumps for dynamic feature selection on data streams,2019,Information Systems,unclear,yes,no,unclear,no
+W2956440216,10.1016/j.is.2019.101479,Detecting coherent explorations in SQL workloads,2019,Information Systems,unclear,no,yes,unclear,no
+W3047535465,10.1007/s10664-020-09854-3,Wait for it: identifying “On-Hold” self-admitted technical debt,2020,Empirical Software Engineering,unclear,no,no,unclear,no
+W3094439486,10.1007/s10664-021-09976-2,Topic recommendation for software repositories using multi-label classification algorithms,2021,Empirical Software Engineering,no,no,yes,no,unclear
+W3097594944,10.1016/j.dss.2020.113446,Predicting donation behavior: Acquisition modeling in the nonprofit sector using Facebook data,2020,Decision Support Systems,unclear,no,no,unclear,no
+W3118316820,10.1016/j.dss.2021.113492,Data engineering for fraud detection,2021,Decision Support Systems,unclear,no,no,yes,no
+W3195958055,10.1007/s10664-021-09996-y,Predicting unstable software benchmarks using static source code features,2021,Empirical Software Engineering,unclear,no,no,yes,no
+W4206583545,10.1016/j.dss.2021.113728,Fraudulent review detection model focusing on emotional expressions and explicit aspects: investigating the potential of feature engineering,2022,Decision Support Systems,unclear,no,no,unclear,no
+W4221051771,10.1007/s10664-022-10126-5,On the adequacy of static analysis warnings with respect to code smell prediction,2022,Empirical Software Engineering,yes,no,no,yes,no
+W4294192778,10.1016/j.dss.2022.113866,CATCHM: A novel network-based credit card fraud detection method using node representation learning,2022,Decision Support Systems,no,no,no,yes,no
+W4296311716,10.1016/j.is.2022.102123,A meta-learning configuration framework for graph-based similarity search indexes,2022,Information Systems,unclear,no,yes,unclear,no
+W4309389067,10.1007/s10664-022-10229-z,Workflow analysis of data science code in public GitHub repositories,2022,Empirical Software Engineering,unclear,no,yes,unclear,no
+W4318822511,10.1016/j.im.2023.103759,Will they take this offer? A machine learning price elasticity model for predicting upselling acceptance of premium airline seating,2023,Information & Management,unclear,no,no,unclear,no
+W4389625424,10.1007/s10664-023-10408-6,On the adoption and effects of source code reuse on defect proneness and maintenance effort,2023,Empirical Software Engineering,unclear,yes,no,no,unclear
+W4391092733,10.1109/tai.2024.3357041,Why Should I Trust Your Explanation? An Evaluation Approach for XAI Methods Applied to Predictive Process Monitoring Results,2024,IEEE Transactions on Artificial Intelligence,no,no,no,yes,no
+W4392471232,10.1007/s10664-023-10436-2,Machine learning-based test smell detection,2024,Empirical Software Engineering,unclear,no,no,unclear,no
+W4396746070,10.1007/s10664-024-10455-7,Just-in-Time crash prediction for mobile apps,2024,Empirical Software Engineering,unclear,yes,yes,yes,no
+W4400843015,10.1016/j.is.2024.102432,LS-ICE: A Load State Intercase Encoding framework for improved predictive monitoring of business processes,2024,Information Systems,yes,no,no,no,no
+W4400888954,10.1007/s10664-024-10515-y,Towards Exploring the Limitations of Test Selection Techniques on Graph Neural Networks: An Empirical Study,2024,Empirical Software Engineering,no,no,no,no,no
+W4401669391,10.1007/s10664-024-10463-7,The best ends by the best means: ethical concerns in app reviews,2024,Empirical Software Engineering,no,no,no,no,no
+W4410172493,10.1007/s10664-025-10659-5,A comparative study on reward models for user interface adaptation with reinforcement learning,2025,Empirical Software Engineering,no,no,no,unclear,no
+W4412431056,10.1016/j.engappai.2025.111387,Outcome-oriented local explanation using context-aware process patterns,2025,Engineering Applications of Artificial Intelligence,unclear,no,no,unclear,no
+W4414915885,10.1007/s10664-025-10706-1,Ecosystem-wide influences on pull request decisions: insights from NPM,2025,Empirical Software Engineering,unclear,yes,no,unclear,no
+W4417461554,10.1007/s12599-025-00969-9,From Source to Target: Leveraging Transfer Learning for Predictive Process Monitoring in Organizations,2025,Business & Information Systems Engineering,no,no,no,unclear,no
+W4417517238,10.1007/s10664-026-10869-5,PatchTrack: A comprehensive analysis of ChatGPT’s influence on pull request outcomes,2026,Empirical Software Engineering,no,no,no,no,no
+W7135236593,10.1007/s10664-025-10721-2,The Effect of Comments on Program Comprehension: An Eye-tracking Study,2026,Empirical Software Engineering,no,no,no,yes,no
+W7154486995,10.1007/s10664-026-10862-y,Automated machine learning for test case prioritisation,2026,Empirical Software Engineering,no,no,no,yes,no
+W7161625273,10.1007/s44311-026-00048-6,DA-CIL: Drift-Adaptive Class Incremental Learning for dynamic processes,2026,Process Science,no,no,no,unclear,no
+W7167600363,10.1007/s10664-026-10916-1,Reducing labeling effort in architecture technical debt detection through active learning and explainable AI,2026,Empirical Software Engineering,no,no,no,unclear,no

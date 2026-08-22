@@ -257,3 +257,114 @@ person's rules, not agreement between two people.*
 
 Any change is appended below with its date and reason, and the original text
 stays. Nothing is edited in place.
+
+### Amendment 1 (2026-08-22) — the registered patterns do not implement the registered rule
+
+**All three defects below were found by reading the coder's own output on the
+first run, before any proportion was written into the manuscript, and every
+one of them is a case of the registered *pattern* failing to implement the
+registered *intent*. The registered coding is not deleted: `r40_audit.py`
+runs both and `results/r40_coding.csv` carries a `_reg` and an `_amd` column
+for every code, so a reader can see exactly what the amendment did.**
+
+**Defect A — the screen admits sentences that are not ablations.** §4's class
+list says *with/without*. The pattern implementing it allowed the object of
+"without" to be `data` or `information`, which admitted
+
+> "Without basic knowledge over the data domain (e.g. …)"
+> "…fully applicable without requiring users to manually create a data set…"
+
+Neither is a comparison of predictive performance with and without a named
+feature.
+
+*Amended:* the object of "without" must be a `feature`, `attribute`,
+`variable`, `field` or `predictor` — the four nouns §4's inclusion rule names —
+and the matching sentence, or one of its two neighbours, must carry **both** a
+metric term and a number, because §4 requires the comparison to be
+*quantitative*. A sentence whose only numbers are bracketed citation markers is
+not a quantitative result and is rejected.
+
+**Defect B — three of the five codes matched sentences that are not about the
+model's evaluation.** Observed on the first run:
+
+- `M_justified` matched *"SQuID achieves much higher F1 scores, because SQL's
+  precision for these tasks is close to 0"* — a result, not a justification of
+  a metric.
+- `Theta_stated` matched *"clearly below the often-used threshold of 10"* (a
+  variance-inflation-factor diagnostic) and *"we set the threshold for document
+  frequency at a maximum of 0…"* (a text-preprocessing parameter). Neither is
+  an operating point of a classifier.
+- `B_stated` matched *"Table 3 summarizes some relevant features of the
+  analyzed survey"* — features of a literature survey, not of a baseline.
+
+*Amended:* every strong match must sit in an **evaluation context**.
+`M_justified` requires a metric term, a reason connective and an
+evaluation word in one sentence. `Theta_stated` requires the
+threshold/cut-off to appear with classification, prediction, decision, alert,
+probability or score vocabulary, or to be one of the cost-ratio and
+integrates-over-thresholds forms, which are already unambiguous.
+`Range_reported` requires a metric term in the matched sentence. `B_stated`'s
+bare `Table N … features` form is demoted from strong to weak, which makes it
+code `unclear` rather than `yes`.
+
+**Defect C — `unclear` was doing two jobs.** A weak-only match coded `unclear`
+whether the weak pattern was genuinely ambiguous or merely imprecise. The
+amended rules keep `unclear` for weak-only matches and report it separately, as
+§5 requires, and the amended `_amd` columns are the ones the paper's
+proportions are computed from — with the registered `_reg` proportions printed
+beside them in the same table.
+
+**What the amendment does not do.** It does not add a code, remove a code,
+change a threshold, change the frame, change the sample, or change the
+inclusion rule's *statement*. It makes three patterns implement the sentence
+above them. `results/r40_proportions.csv` reports both codings and the paper
+prints both.
+
+### Amendment 2 (2026-08-22) — the mechanical coder is validated against a read
+
+§7.3 registered a validation subsample of twenty. Reading the first run's
+output showed the mechanical coder erring in both directions, so the
+subsample is **enlarged to thirty** and its result is promoted: the paper
+reports the mechanical proportions on the full included set *and* the
+adjudicated proportions on the validation subsample, with the confusion
+between them, and it does not present the mechanical proportions as if the
+adjudication had agreed with them.
+
+The adjudication reads, for every paper in the subsample, a deterministic
+extract assembled by `r40_audit.py --extract`: every sentence carrying a
+metric term, every sentence carrying baseline, feature, threshold, cost or
+metric-justification vocabulary, and the ablation sentence that admitted the
+paper. The extract is written to `data/audit/adjudication/` so a referee can
+see the evidence the codes were assigned from. The adjudicated codes are in
+`results/r40_adjudication.csv`, one row per paper, with the mechanical code
+beside each.
+
+### Amendment 3 (2026-08-22) — what the audit found, and what it forces
+
+Recorded here rather than only in the manuscript, because §1 named an outcome
+that would refute the paper's premise and the outcome that arrived is between
+the two the protocol anticipated.
+
+**The registered refutation test is not met.** On the adjudicated subsample,
+`B_stated` is 40% and `M_justified` is 50%; §1 required a majority on both.
+The premise is not refuted.
+
+**The strong wording is not supported and comes out of the paper.** "A large
+majority state none of the four choices" is false: 40% enumerate the baseline,
+50% argue the metric, 60% state an operating point or say the metric
+integrates over one. The manuscript's claim is rewritten to what the data
+support, which is narrower and sharper:
+
+> Reporting the increment at more than one level of *some* choice is common
+> (55%), and it is almost always the **metric** axis (45%) or the **baseline**
+> axis (30%). **Not one paper in the subsample reports the increment across a
+> range of operating points, and not one across a range of register
+> populations** — 0 of 20 on each, a Wilson upper bound of 16.1%.
+
+**The mechanical coder is a lower bound, and its under-detection is measured
+rather than assumed.** Against a read of the paper it missed 39 `yes` codes
+and asserted 9 that a read does not support; on `Range_reported` it found 0
+where a read finds 11 of 20. **The paper's primary proportions are therefore
+the adjudicated ones on n = 20, with the mechanical proportions on n = 54
+reported beside them as a lower bound and labelled as one.** The screen's own
+precision is 20 of 30 (66.7%), and that number is reported too.
