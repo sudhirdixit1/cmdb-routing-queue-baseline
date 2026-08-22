@@ -691,10 +691,10 @@ CORRUPTIONS = [
      r"$30.0\%$ report the increment at more than one level of the metric "
      r"and $45.0\%$ at more than one baseline"),
     ("RELATION: reorder the three logs' baseline spreads",
-     r"the spread is $0.565$, $0.467$ and $0.654$ against reference values "
-     r"of $0.350$, $0.378$ and $0.471$",
-     r"the spread is $0.467$, $0.654$ and $0.565$ against reference values "
-     r"of $0.350$, $0.378$ and $0.471$"),
+     r"the baseline choice moves $R$ by $0.565$, $0.467$ and $0.654$ against "
+     r"reference values of $0.350$, $0.378$ and $0.471$",
+     r"the baseline choice moves $R$ by $0.467$, $0.654$ and $0.565$ against "
+     r"reference values of $0.350$, $0.378$ and $0.471$"),
     ("RELATION: swap the simulation's bias and standard deviation",
      r"$1.0$ & $1.0000$ & $1.0027$ & $+0.0027$ & $0.0028$ & $0.850$",
      r"$1.0$ & $1.0000$ & $1.0027$ & $0.0028$ & $+0.0027$ & $0.850$"),

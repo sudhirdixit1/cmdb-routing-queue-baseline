@@ -1578,3 +1578,222 @@ counts, and not one printed literal moved with them.
    ratio that is now six-to-zero in the suite's favour. `PLAN-INFORMATION-SYSTEMS.md`
    §11 remains right that it belongs at MSR or EMSE, and *after* this
    submission rather than instead of it.
+
+## 21. Round eighteen (2026-08-22): the plan to remove every nameable reason to reject, executed
+
+This round worked through `PLAN-REVIEWER-PROOF.md` end to end. A
+pre-registered literature audit of 600 papers, three propositions, a
+prospective test on two logs this project had never opened, the full surface
+on three organisations, a simulation whose answer is known by construction, a
+Python package that ships the reporting standard, a rebuilt manuscript with a
+threats section and ten appendices, the checker from 936 checks to 1,386, the
+corruption suite from 199 to 253, and six adversarial passes rather than four.
+
+**Four of the new analyses came back against the paper.** One refuted the
+paper's own premise as stated, one tested only half of what it was built to
+test, one found the twelfth correction, and one — an adversarial pass —
+weakened the paper's central claim before it shipped.
+
+### 21.1 What was run, and what it found
+
+| Plan item | Script | Verdict |
+|---|---|---|
+| §2 the literature audit | `r40_audit.py` | **against the paper's premise.** See §21.2. |
+| §3 three propositions | `r41_propositions.py` | **all three hold**, and P1's exact zero needed an integer construction to be exact. |
+| §4 the registered prediction | `r42`, `r43` | **survives, and tests half of itself.** See §21.4. |
+| §5.1 the four axes on three logs | `r44_axes_multilog.py` | **replicates, and then an adversarial pass halved the claim.** See §21.6. |
+| §5.2 the simulation | `r45_simulation.py` | **the estimator is nearly unbiased.** Bias ≤ 0.0044, coverage 0.850–0.975. |
+| §6 the tool | `fieldvalue/`, `r46_tool_agreement.py` | **20 of 20 quantities agree to 2.2e-16**, and it found correction twelve. |
+| §7 the manuscript | — | 42 pages of main text against a target of 36 and the plan's own budget of 41. |
+| §8 the venue | `r48_venue.py` | **the decision changed.** Empirical Software Engineering, not the incumbent. |
+
+### 21.2 The audit refuted the strong form of this paper's own premise
+
+`AUDIT-PROTOCOL.md` was committed before a single paper was screened and
+stated, in advance, the outcome that would refute the paper: a majority
+stating their baseline *and* a majority justifying their metric.
+
+That outcome did not arrive, but the wording had to change anyway. On the 20
+papers a read confirms are in scope: **40% enumerate their baseline, 50% argue
+their metric, 60% state an operating point.** A field that does that is not
+ignoring the critique, and "a large majority state none of the four choices"
+is false. It is out of the paper.
+
+**What survives is narrower and sharper.** Reporting the increment at more
+than one level of *some* choice is common — 55% — and it is almost always the
+metric (45%) or the baseline (30%). **Not one of the twenty reports it across
+a range of operating points, and not one across a range of register
+populations.** Those are the two axes on which this paper's own answer moves
+most. The practice failure is not that the field ignores its critiques; it is
+that the field varies the two choices that are cheap to vary and not the two
+that decide the answer.
+
+**And the mechanical coder is not usable on its own, which is measured rather
+than assumed.** Against a read of thirty papers it missed 39 `yes` codes and
+asserted 9 a read does not support; on `Range_reported` it found none where a
+read finds 11 of 20. The screen's precision is 66.7%. The paper's primary
+proportions are therefore the adjudicated ones on n = 20 and the mechanical
+ones are printed beside them, labelled a lower bound. Two independent
+implementations of the same five rules agree with κ between 0.256 and 0.501,
+which is poor, and the paper prints that too.
+
+### 21.3 Three defects in the audit's own patterns, found by reading its output
+
+Recorded because the pattern is the round's most repeated one: **the apparatus
+finds nothing; reading its output finds everything.**
+
+Amendment 1 to `AUDIT-PROTOCOL.md` records three registered patterns that did
+not implement the registered rule above them — "without basic knowledge over
+the data domain" admitted as an ablation, a variance-inflation-factor
+threshold coded as an operating point, a literature survey's feature table
+coded as a baseline. **A fourth is recorded because it was discarded:** the
+first fix made "quantitative" a sentence-neighbourhood requirement and cut the
+included set from 117 to 15, because most papers state the ablation in prose
+and put the numbers in a table. That attempt is in the amendment and is not
+what runs.
+
+### 21.4 The prospective test survives, and tests half of itself
+
+`PREDICTION.md` was committed before either held-out log was downloaded. Two
+rules were registered, and **the reason there are two is a finding**: the form
+`PLAN-REVIEWER-PROOF.md` §4.2 named — normalised entropy of the opening field
+— reaches an in-sample balanced accuracy of 0.600 on the nine pairs it was
+fitted to, four false positives and one true negative, and the flagship log
+has the second *lowest* normalised entropy of the nine. The form the data
+support, V(g | B0) > 0.013302, separates all nine. It was chosen after the
+first failed and the registration says so.
+
+BPI Challenge 2011 yields two scored pairs. Both rules predict "not
+resolvable" and both are right. BPI Challenge 2018 is excluded on both targets
+by registered codes. **Both scored pairs are negatives, so the rules' positive
+half was never tested at all**, and the paper says that rather than counting
+two true negatives as a win. `PREDICTION.md` §4 stated before the logs were
+opened that at most four pairs could be scored and the power was very low; it
+was lower than that.
+
+The 4TU census since the cut-off finds nine datasets and no event log, so this
+round leaves a later one nothing it spent.
+
+### 21.5 Correction twelve, found by computing the same thing a second way
+
+§8's "under net benefit it runs 6.3% to 119.2% **across the operating range**"
+names an extremum that is not the extremum. Over the 28 grid points where the
+denominator is resolvably positive it runs 4.7% at θ = 0.175 to 134.1% at
+θ = 0.575. 6.3% and 119.2% are the values at two of the five thresholds the
+paper's own table happens to name.
+
+Every literal was correct. It is the third instance of the class corrections
+nine and ten belong to, and **it was found by `r46_tool_agreement.py` on its
+first run** — an independent implementation printing the same quantity — not
+by 1,386 checks, and not by reading. That is the argument for the
+independence check stated as evidence rather than as a hope.
+
+### 21.6 An adversarial pass weakened the paper's central claim, before it shipped
+
+The three-log surface's baseline spread was computed over a four-rung ladder
+whose bottom rung is the intercept-only model. V(f | ∅) is large for reasons
+that have nothing to do with this paper.
+
+| log | all six pairs | real baselines only | reference R |
+|---|---|---|---|
+| BPIC 2014 | 0.565 | 0.346 | 0.350 |
+| BPIC 2013 incidents | 0.467 | 0.347 | 0.378 |
+| BPIC 2019 | 0.654 | 0.382 | 0.471 |
+
+"On every one of the three logs the baseline choice alone moves R by more than
+R itself" was true only of the unrestricted ladder. **It is gone.** The paper
+now states both versions, says the restricted one is the honest one, and
+scopes the exceeds-the-effect claim to BPI Challenge 2014, where 0.346 against
+0.350 is within a hundredth. On the other two the axis moves the answer by
+*less* than the effect.
+
+The pass that found it is the methodologist's, and it found it by asking a
+question the paper had not asked itself: *which rungs would an analyst
+actually build?*
+
+### 21.7 Two more holes in the apparatus, both opened by adding material
+
+Eight holes had been found in this verifier before this round. Two more, and
+both are the same shape as the previous eight.
+
+1. **`texnum.body_of` cut the paper at `\bibliographystyle`.** That was a
+   convenient end-marker in a document with no appendix. The moment this round
+   moved five subsections and added five more into an `\appendix` — which in
+   this document sits after the bibliography commands — **every number in ten
+   appendices became invisible**, and 870 checks failed against text sitting
+   in the file. A consumer that silently stops seeing part of its input: the
+   census twice, the guard lint once, and now the tokeniser.
+
+2. **`ck_word` never consulted `RETIRED`.** It was the one check family that
+   did not, so a retired word-count went on failing after its sentence had
+   gone. A retirement that does not retire is worse than none, because the
+   failure looks like a real defect and invites someone to change the paper to
+   match a check that should not be running.
+
+**And `ck_bound` earned its keep for the second round running.** Eleven
+interval endpoints in material written this round were stated by rounding both
+ends inward, which makes every one narrower than the data supports. All eleven
+are widened. The check that catches this was added in round seventeen after a
+referee found three; it found eleven in one pass here, all mine, all new.
+
+### 21.8 The venue decision changed
+
+`r48_venue.py` counts, over 3,360 research articles published 2024–2026 in
+eight candidate venues: **five are single-author and unaffiliated — 0.15%.**
+In the incumbent, zero of 275. In Empirical Software Engineering, zero of 502.
+The only venue with any is *Journal of Systems and Software*, 5 of 755.
+
+That does not discriminate between the two front-runners. What decided it:
+EMSE publishes systematic literature work as a standing category, has an
+open-science policy that engages this work's strongest asset, carries six
+registered-report papers 2019–2026 against the incumbent's zero, and has a
+topical share of 17.3% against 13.5%. `submission/DECISIONS.md` §15 records
+the criteria, the counts and every rejected alternative.
+
+**The author-profile count is in the cover letter and the Limitations, not in
+a hope.** This submission is close to unprecedented on that axis at every
+venue considered.
+
+### 21.9 The final state, measured
+
+| | |
+|---|---|
+| manuscript | 71 pages total, 42 of main text; 0 errors, 0 undefined references, 10 overfull hboxes |
+| `verify_paper.py` | 1,386 checks passed, 0 failed; 607 literals in the body, 0 unaccounted, 587 compared against data |
+| `attack_verifier.py` | 253 corruptions, of which 19 mutate a relation rather than a value |
+| `fieldvalue/` | 91 tests, 0 failed; independence check 20 of 20 to 2.2e-16 |
+| audit | 600 sampled, 369 full texts, 54 included, 30 read, 20 confirmed |
+| corrections | twelve, as five classes in the text and twelve incidents in an appendix |
+| adversarial passes | six, every objection dispositioned in `REFEREE-LOG.md` |
+
+### 21.10 If you are round nineteen
+
+1. **The audit is the round's most valuable asset and its weakest
+   instrument.** Its primary numbers rest on twenty papers read by one person.
+   The single highest-value thing a next round can do is enlarge the
+   adjudicated subsample — not the frame, not the mechanical coder, the
+   *read*. Every extra paper read moves the intervals more than any amount of
+   pattern-tuning will.
+
+2. **The prospective test is half-tested and the held-out set is spent.**
+   `results/r42_new_since.csv` shows no event log has been published on 4TU
+   since the cut-off. Do not re-open BPI Challenge 2011 or 2018 hoping for a
+   different answer; wait for a log that does not exist yet, or accept the
+   half-test and say so, which is what the paper does.
+
+3. **Do not tune a pattern set against its own output without recording the
+   attempt.** Amendment 1 records three defects and one discarded
+   over-correction, and the discarded one is the entry that will stop someone
+   repeating it.
+
+4. **The checker paper is still the strongest thing here**, and this round
+   adds three pieces of evidence: a tenth hole opened by adding an appendix, a
+   defect found by an independent implementation rather than by checking
+   harder, and a suite that is now nineteen-for-nineteen on relation
+   mutations. `PLAN-INFORMATION-SYSTEMS.md` §11 remains right that it belongs
+   at MSR or EMSE, and *after* this submission.
+
+5. **Read the output of anything you build.** Every defect this round found in
+   its own new work — three audit patterns, one over-correction, eleven
+   interval endpoints, two apparatus holes, one weakened central claim — was
+   found by looking at what the new thing printed, never by the thing itself.

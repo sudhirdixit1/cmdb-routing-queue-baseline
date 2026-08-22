@@ -660,6 +660,60 @@ Recorded so it is not proposed as fresh in round nineteen.
 what it cost. Numbers in this record are checked against the result files like
 any other numbers. Record the phases that found nothing, in those words.*
 
+### The record
+
+*Executed 2026-08-22 on branch `round-eighteen-reviewer-proof`, under a
+directive to work through the plan without stopping to ask questions. Every
+phase ran. Four came back against the paper and one of those was the plan's
+own premise.*
+
 | Phase | Outcome | Cost |
 |---|---|---|
-| | | |
+| **§2 the audit** | **Against the paper's premise, and the paper changed.** 600 papers, 369 full texts, 54 included, 30 read, 20 confirmed. `B_stated` 40%, `M_justified` 50% — so "a large majority state none of the four" is false and is withdrawn. What survives: **0 of 20 report the increment across a range of operating points, and 0 of 20 across a range of register populations.** Three registered patterns did not implement their own rules and one over-correction was discarded; all four are in amendment 1. | ~3 h |
+| **§3 the propositions** | **All three hold.** P1's exact zero needed an integer construction — the first version, in proportions, produced 4.4e-4 and failed its own assertion. P3 is ten of twelve, and the two failures are named; a referee pass then measured the count across sixteen tolerance cells, where it runs 8 to 12. | ~1 h |
+| **§4 the prediction** | **Registered, tested, and half of it is untested.** The form the plan named reaches in-sample balanced accuracy 0.600 and is registered anyway, beside the form that separates all nine. Two scored pairs on BPI Challenge 2011, both correct, **both negative**. BPI Challenge 2018 excluded by registered codes because 99.9% of its cases open with `0;n/a`. | ~2 h |
+| **§5.1 three organisations** | **Replicates, and then an adversarial pass halved it.** The baseline spread exceeded R on all three logs over the full ladder; restricted to baselines an analyst would build it is 0.346, 0.347, 0.382 against 0.350, 0.378, 0.471. The stronger sentence is gone. | ~1 h |
+| **§5.2 the simulation** | **Survives, and it is the strongest new evidence about the estimator.** Bias ≤ 0.0044 at n = 60,000, coverage 0.850–0.975, and the ordering of the four axes matches the three real logs on data nobody chose to make agree. | ~1 h |
+| **§6 the tool** | **Survives, and it found correction twelve on its first run.** 91 tests, `float(s)` raises, 20 of 20 quantities agree with the pipeline to 2.2e-16. | ~2 h |
+| **§7 the manuscript** | 42 pages of main text against a target of 36 and the plan's own per-section budget of 41. Nine blocks moved to appendices, each with a pointer; a threats section the plan allocated and the paper did not have was added. | ~4 h |
+| **§8 the venue** | **The decision changed.** Empirical Software Engineering. Criterion 6 was counted: 5 of 3,360 recent articles across eight venues are single-author and unaffiliated. | ~0.5 h |
+| **§9 the artifact** | 1,386 checks, 0 failed, 0 unaccounted. 253 corruptions, 19 of them relation mutations. Two more holes found in the checker, both by adding material. | ~2 h |
+| **§10 six passes** | Six briefs, every objection dispositioned. One weakened the paper's central claim; four produced measurements; four were dismissed with reasons. | ~1.5 h |
+
+### The honest test, taken
+
+`PLAN-STRONG-ACCEPT.md` §10 asks for the strongest rejection letter the author
+can write, and §11 above sets the target: *a rejection letter whose only
+remaining clauses are the four items in §0.5.* Here is the strongest one
+available now.
+
+> The manuscript is careful and its artifact is unusually strong. It is not
+> ready. **(a)** The central empirical claim — that the choices move the
+> answer by more than the effect — is established on one log and, on the
+> other two, the baseline axis moves it by *less* than the effect. **(b)** The
+> audit's primary numbers rest on twenty papers read by a single author, whose
+> own mechanical instrument disagrees with that reading on 39 codes. **(c)**
+> The prospective test scored two pairs, both negative, so the rule's positive
+> half is untested. **(d)** There is no deployment, no partner, and a single
+> unaffiliated author.
+
+**Three of those four clauses are sentences the paper writes about itself**,
+and the fourth is §0.5's. That is not the target §11 set — the target was a
+letter containing *only* §0.5's four items, and (a), (b) and (c) are about
+contribution and scope. **The plan did not finish.**
+
+What it did instead is worth stating precisely, because it is not nothing: at
+the start of this round those three clauses were true and unstated, and a
+referee would have had to find them. Now the paper states each of them, in the
+referee's own terms, with the measurement that establishes it. A reviewer who
+writes that letter is quoting the manuscript.
+
+### What the next round should not repeat
+
+- **Do not enlarge the audit's frame.** Its constraint is the twenty papers
+  read, not the six hundred enumerated.
+- **Do not re-open the held-out logs.** They are spent, and
+  `r42_new_since.csv` shows there is nothing else yet.
+- **Do not chase the page target by cutting a section that carries a claim.**
+  `submission/DECISIONS.md` §16 names the four pages that would go next and
+  why they have not.
