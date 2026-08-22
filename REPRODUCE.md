@@ -219,22 +219,39 @@ bound" to "an upper bound", which reverses the paper's central interpretive
 claim. When you add a qualification the argument leans on, add its guard by
 hand; nothing will remind you.
 
-It also cannot tell you that an interpretation is sound. The paper reports
-eight corrections; **all eight are claims about what a number means, and the
-checker would have caught none of them.**
+It also cannot tell you that an interpretation is sound. **Three of the
+twelve corrections this paper reports are sentences in which every literal was
+correct** — the extremum that was the worst of the points we had named, the
+count identified with an interval, and the range across the operating range
+that was the range across five named thresholds — and no check that compares
+numbers to data can see any of them. The checker now compares each named
+extremum against the extremum and each stated count against the run length,
+which closes those three instances and not the class.
 
-It also cannot tell you that an interpretation is sound. **Two of the eleven
-corrections this paper reports are sentences in which every literal was
-correct** — the extremum that was the worst of the points we had named, and
-the count identified with an interval — and no check that compares numbers to
-data can see either. The checker now compares the named extremum against the
-extremum and the stated count against the run length, which closes those two
-instances and not the class.
+**The third was found by something outside the checker.** `r46_tool_agreement.py`
+re-derives the paper's headline surface through `fieldvalue`, the package
+shipped with the paper, and on its first run it printed a range the paper's
+own prose contradicted. That is worth stating plainly: after eighteen rounds
+and 1,358 checks, the defect was found by computing the same quantity a second
+way, not by checking the first way harder.
 
 `ck_word` is new in this version: a count the paper spells out in letters is
 compared to the data that produces it. Round sixteen's suite showed that
 "Eight errors of our own" could be changed to "Six" and pass, because the
 tokeniser only sees digits.
+
+**Two more holes, both opened by adding material rather than by editing
+code.** `texnum.body_of` used to cut the paper at `\bibliographystyle`, which
+was a convenient end-marker in a document with no appendix. The moment round
+eighteen moved five subsections and added five more into an `\appendix` —
+which in this document sits after the bibliography commands — **every number
+in ten appendices became invisible to the checker**, and 870 checks failed
+against text sitting in the file. The body now runs to `\end{document}` and
+the two bibliography commands are removed individually. Separately, `ck_word`
+was the one check family that never consulted the `RETIRED` set, so a retired
+word-count went on failing after its sentence had gone; a retirement that does
+not retire is worse than none, because the failure looks like a real defect
+and invites someone to change the paper.
 
 **The census runs last, and this file lints itself to keep it there.** The
 unaccounted-and-coverage census was outrun twice: round sixteen found it
@@ -247,12 +264,45 @@ and `_lint_check_order()` reads `verify_paper.py`'s own source and fails if any
 The guard-or-declare lint turned out to have the same bug for the same reason
 and is now called from the same block; the self-lint names both call sites.
 
-`scripts/attack_verifier.py` is the checker's regression suite: 199
+`scripts/attack_verifier.py` is the checker's regression suite: 243
 corruptions drawn from defects found in earlier versions of this work,
-including five that mutate a *relation* rather than a value, because that is
-the class the two new corrections belong to. Run it after any change to the
+including fourteen that mutate a *relation* rather than a value — nine of them
+added in round eighteen — because that is the class three of the corrections
+belong to. A relation corruption leaves every literal in the paper correct and
+sitting in a correct place, and changes only the word joining two of them: the
+suite reorders the three logs' spreads, swaps the simulation's bias and
+standard deviation columns, exchanges the two axes the audit reports, and
+restates the corrected operating range as the two named thresholds it used to
+be. Run it after any change to the
 verifier. If you add a claim, add a `ck(...)` with an anchor **and** a
 corruption; the suite is what found every hole the verifier has had.
+
+---
+
+## 5b. What round eighteen added, and what each stage needs
+
+| stage | what it needs | what it writes |
+|---|---|---|
+| `r40_audit.py` | the network, once; then `data/audit/` | the frame, the funnel, the coding sheet, the proportions |
+| `r41_propositions.py` | nothing at all | the three constructions, executed and asserted |
+| `r42_holdout_fetch.py` | the network; two DOIs | the held-out logs, with checksums, and the 4TU census |
+| `r43_holdout_test.py --fit` | `r33b_table.csv` and the r32 caches | the two frozen thresholds |
+| `r43_holdout_test.py` | the held-out logs | the prospective test's confusion matrix |
+| `r44_axes_multilog.py` | the r32 caches | the four-axis surface on three logs |
+| `r45_simulation.py` | nothing at all | the estimator against a known answer |
+| `r46_tool_agreement.py` | `r30_instruments.csv`, `fieldvalue` | 20 quantities, two code paths |
+| `r47_signature_figure.py` | `r44_surface.csv` | the signature figure and its caption |
+| `r48_venue.py` | the network | the venue counts |
+| `python -m pytest fieldvalue` | nothing | 91 tests |
+| `examples/worked_example.py` | the network, once | the surface on UCI Adult |
+
+**The order between `r43 --fit` and `r43` is the claim, not a convenience.**
+`--fit` reads only round-seventeen results; the second call opens the held-out
+logs. `reproduce_all.py` runs them in that order in a stage of its own.
+
+**Three stages need the network and cache what they fetch**, so a second run
+is offline: the audit's full texts, the held-out logs, and the venue counts.
+Nothing is redistributed here.
 
 ---
 

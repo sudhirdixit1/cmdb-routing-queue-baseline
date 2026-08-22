@@ -33,7 +33,8 @@ Options:
     --skip-attack   omit the corruption suite (40-70 min on its own)
     --skip-pdf      omit the LaTeX build
     --only STAGE    run one stage:
-                    fetch | analysis | figures | verify | attack | pdf
+                    fetch | analysis | figures | holdout | package |
+                    verify | attack | pdf
     --jobs N        parallel workers for the analysis stage (default: 4)
 """
 import argparse
@@ -61,6 +62,8 @@ NEEDED_FILES = {
         "BPI Challenge 2013, doi:10.4121/uuid:500573e6-accc-4b0c-9576-aa5468b10cee",
     "incident_event_log.zip":
         "UCI 498, doi:10.24432/C57S4H",
+    "Detail_Interaction.csv":
+        "BPI Challenge 2014, same collection; settles section 14",
 }
 
 #  Waves.  Everything inside a wave is independent of everything else inside
@@ -122,7 +125,29 @@ WAVES = [
         "r33c_headroom.py",             # the exclusion-rule sensitivity
         "r34_layers_and_history.py",    # reads r33_roles
         "r37_free_text.py",             # reads r33_roles
-        "r38_era_sensitivity.py",       # reads r36_curve
+        "r38_era_sensitivity.py",
+    ],
+    # ---- round eighteen --------------------------------------------------
+    [
+        #  The audit needs the network for its frame and its full texts; it
+        #  caches both, so a re-run is offline.  It reads no result file, so
+        #  it can go in the same wave as the propositions and the simulation,
+        #  which read nothing either.
+        "r40_audit.py",
+        "r41_propositions.py",         # pure construction; no data at all
+        "r45_simulation.py",           # a world whose answer is known
+        "r48_venue.py",                # the venue counts, from OpenAlex
+    ],
+    [
+        #  r43 --fit reads r33b_table.csv, so it follows r33b.
+        "r42_holdout_fetch.py",        # by DOI, with checksums
+    ],
+    [
+        "r44_axes_multilog.py",        # reads the r32 caches
+        "r46_tool_agreement.py",       # fieldvalue against r30
+    ],
+    [
+        "r47_signature_figure.py",     # reads r44_surface.csv
     ],
 ]
 FIGURES = ["r25_figures.py", "r39_figures.py"]
@@ -220,6 +245,35 @@ def stage_analysis(jobs):
     return True
 
 
+def stage_holdout():
+    """The prospective test, in the order PREDICTION.md registers.
+
+    `--fit` reads ONLY round-seventeen results and writes the thresholds;
+    the second call opens the held-out logs.  Running them in that order in
+    the reproduction is not a convenience -- it is the claim.
+    """
+    hdr("THE PROSPECTIVE TEST  (fit on the corpus, then open the held-out logs)")
+    for args in (["r43_holdout_test.py", "--fit"], ["r43_holdout_test.py"]):
+        rc = subprocess.run([sys.executable, "-u", str(SCRIPTS / args[0])]
+                            + args[1:], cwd=str(SCRIPTS))
+        if rc.returncode != 0:
+            sys.exit(f"{' '.join(args)} failed")
+
+
+def stage_package():
+    """fieldvalue's own tests, and the worked example on a public dataset."""
+    hdr("THE PACKAGE  (fieldvalue: unit tests, then the worked example)")
+    rc = subprocess.run([sys.executable, "-m", "pytest", "fieldvalue", "-q"],
+                        cwd=str(ROOT))
+    if rc.returncode != 0:
+        sys.exit("fieldvalue's test suite failed")
+    rc = subprocess.run([sys.executable, "-u",
+                         str(ROOT / "examples" / "worked_example.py")],
+                        cwd=str(ROOT))
+    if rc.returncode != 0:
+        print("  the worked example needs the network on first run; skipping")
+
+
 def stage_figures():
     hdr("FIGURES")
     for f in FIGURES:
@@ -264,6 +318,7 @@ def main():
     ap.add_argument("--skip-attack", action="store_true")
     ap.add_argument("--skip-pdf", action="store_true")
     ap.add_argument("--only", choices=["fetch", "analysis", "figures",
+                                       "holdout", "package",
                                        "verify", "attack", "pdf"])
     ap.add_argument("--jobs", type=int, default=4)
     a = ap.parse_args()
@@ -273,12 +328,15 @@ def main():
         preflight() if a.only == "analysis" else None
         {"fetch": stage_fetch,
          "analysis": lambda: stage_analysis(a.jobs), "figures": stage_figures,
+         "holdout": stage_holdout, "package": stage_package,
          "verify": stage_verify, "attack": stage_attack, "pdf": stage_pdf}[a.only]()
     else:
         if not a.skip_fetch:
             stage_fetch()
         preflight()
         stage_analysis(a.jobs)
+        stage_holdout()
+        stage_package()
         stage_figures()
         stage_verify()
         if not a.skip_attack:

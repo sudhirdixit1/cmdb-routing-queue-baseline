@@ -595,8 +595,8 @@ CORRUPTIONS = [
 
     # -- the corrections list itself
     ("restore the old count of corrections",
-         "Eleven errors of our own are reported",
-         "Eight errors of our own are reported"),
+         "Twelve errors of our own are reported",
+         "Eleven errors of our own are reported"),
     ("soften the withdrawal in the corrections list",
      "moves the naive arm from $-26$ to $+608$. We\nwithdraw the factor",
      "moves the naive arm from $-26$ to $+608$. We\nqualify the factor"),
@@ -672,6 +672,192 @@ CORRUPTIONS = [
     ("swap the item vocabulary counts",
      "across $2{,}929$ items, $2{,}554$\nseen in training",
      "across $2{,}554$ items, $2{,}929$\nseen in training"),
+
+    # ==================================================================
+    #  ROUND EIGHTEEN.  One per new claim, and the RELATION class first,
+    #  because that is the class corrections nine, ten and twelve belong
+    #  to and the class a value-checking verifier cannot see.
+    # ==================================================================
+
+    # -- relations: every literal stays correct, the word joining them moves
+    ("RELATION: give the operating range as the two named thresholds",
+     r"the reduction runs from $4.7\%$ at $\theta = 0.175$ to $134.1\%$ at "
+     r"$\theta = 0.575$",
+     r"the reduction runs from $6.3\%$ at $\theta = 0.325$ to $119.2\%$ at "
+     r"$\theta = 0.500$"),
+    ("RELATION: swap the metric and baseline axes in the audit",
+     r"$45.0\%$ report the increment at more than one level of the metric "
+     r"and $30.0\%$ at more than one baseline",
+     r"$30.0\%$ report the increment at more than one level of the metric "
+     r"and $45.0\%$ at more than one baseline"),
+    ("RELATION: reorder the three logs' baseline spreads",
+     r"the spread is $0.565$, $0.467$ and $0.654$ against reference values "
+     r"of $0.350$, $0.378$ and $0.471$",
+     r"the spread is $0.467$, $0.654$ and $0.565$ against reference values "
+     r"of $0.350$, $0.378$ and $0.471$"),
+    ("RELATION: swap the simulation's bias and standard deviation",
+     r"$1.0$ & $1.0000$ & $1.0027$ & $+0.0027$ & $0.0028$ & $0.850$",
+     r"$1.0$ & $1.0000$ & $1.0027$ & $0.0028$ & $+0.0027$ & $0.850$"),
+    ("RELATION: swap the two sample sizes the bias is quoted at",
+     r"the mean absolute bias is $0.0217$ at $n = 5{,}000$ and $0.0025$ at "
+     r"$n = 60{,}000$",
+     r"the mean absolute bias is $0.0025$ at $n = 5{,}000$ and $0.0217$ at "
+     r"$n = 60{,}000$"),
+    ("RELATION: swap the held-out log's two targets",
+     r"$-0.0117$ $[-0.0351,+0.0001]$ on duration and $+0.0006$ "
+     r"$[-0.0051,+0.0069]$ on handover",
+     r"$+0.0006$ $[-0.0051,+0.0069]$ on duration and $-0.0117$ "
+     r"$[-0.0351,+0.0001]$ on handover"),
+    ("RELATION: swap the coder's two error directions",
+     r"missed $39$ \texttt{yes} codes and asserted $9$ a read does not "
+     r"support",
+     r"missed $9$ \texttt{yes} codes and asserted $39$ a read does not "
+     r"support"),
+    ("RELATION: reorder the population axis's three spreads",
+     r"It moves $R$ by $0.179$ on BPI Challenge 2014, by $0.085$ on BPI "
+     r"Challenge 2019, and by $1.293$ on BPI Challenge 2013 incidents",
+     r"It moves $R$ by $1.293$ on BPI Challenge 2014, by $0.179$ on BPI "
+     r"Challenge 2019, and by $0.085$ on BPI Challenge 2013 incidents"),
+    ("RELATION: reorder the three metric spreads",
+     r"The metric axis moves it by $0.301$, $0.337$ and $0.205$",
+     r"The metric axis moves it by $0.205$, $0.301$ and $0.337$"),
+
+    # -- the audit
+    ("inflate the audit's frame",
+     r"A pre-registered audit of $600$ papers",
+     r"A pre-registered audit of $900$ papers"),
+    ("inflate the audit's included set",
+     r"The included set is $54$ papers across $15$ venues",
+     r"The included set is $84$ papers across $15$ venues"),
+    ("hide how much full text was lost",
+     r"Full text is retrieved for $369$ of the $600$ --- $61.5\%$",
+     r"Full text is retrieved for $569$ of the $600$ --- $94.8\%$"),
+    ("hide the screen's precision",
+     r"the screen's precision is $66.7\%$",
+     r"the screen's precision is $96.7\%$"),
+    ("make one paper report a range over the operating point",
+     r"\item over the \textbf{operating point}: $\mathbf{0}$ \textbf{of} "
+     r"$\mathbf{20}$, $0.0\%$ $[0.0,16.2]$;",
+     r"\item over the \textbf{operating point}: $\mathbf{2}$ \textbf{of} "
+     r"$\mathbf{20}$, $10.0\%$ $[2.8,30.1]$;"),
+    ("delete the withdrawal of the strong claim",
+     r"so the strong form of the complaint is \emph{false} and we withdraw "
+     r"it.",
+     r"so the complaint is broadly supported."),
+    ("reverse the audit's sharpest finding",
+     r"Not one paper in the subsample reports what a feature is worth across "
+     r"a range of operating points",
+     r"Most papers in the subsample report what a feature is worth across a "
+     r"range of operating points"),
+    ("upgrade the mechanical coding from a lower bound",
+     r"The mechanical proportions are therefore reported as a \emph{lower "
+     r"bound}, in those words",
+     r"The mechanical proportions are therefore reported as the estimate"),
+    ("flatter the inter-implementation agreement",
+     r"with Cohen's $\kappa$ between $0.256$ and $0.501$, which is "
+     r"\emph{poor}",
+     r"with Cohen's $\kappa$ between $0.656$ and $0.901$, which is "
+     r"\emph{good}"),
+    ("corrupt the worked example's baseline effect",
+     r"against those plus education and hours worked, $R = +0.200$",
+     r"against those plus education and hours worked, $R = +0.700$"),
+
+    # -- the propositions
+    ("make proposition 1's zero approximate",
+     r"$R$ under ROC AUC is zero to $4.4 \times 10^{-16}$",
+     r"$R$ under ROC AUC is zero to $4.4 \times 10^{-3}$"),
+    ("widen proposition 1's reach past what was built",
+     r"The declared family reaches $0.998$",
+     r"The declared family reaches $1.000$"),
+    ("make a rank-based instrument move",
+     r"moves $R$ by exactly $0.000000$ under ROC AUC",
+     r"moves $R$ by exactly $0.010000$ under ROC AUC"),
+    ("claim all twelve proposition-3 pairs",
+     r"\textbf{Ten of the twelve are constructible}",
+     r"\textbf{All twelve are constructible}"),
+    ("hide proposition 3's two failures",
+     r"the best pairs found reach $1.907$ and $2.913$",
+     r"the best pairs found reach $3.907$ and $4.913$"),
+
+    # -- three organisations
+    ("corrupt a log's reference reduction",
+     r"BPIC 2019 & $0.471$ & $[0.190,0.844]$",
+     r"BPIC 2019 & $0.871$ & $[0.190,0.844]$"),
+    ("delete the population axis's failure to replicate",
+     r"The population axis does \emph{not} replicate, moving $R$ by $0.085$ "
+     r"on one log and $1.293$ on another, and the paper says",
+     r"The population axis replicates across all three logs, and the paper "
+     r"says"),
+    ("delete the admission that the reference cell is a choice",
+     r"That agreement is worth exactly as much as the agreement of any three "
+     r"unstated choices",
+     r"That agreement is a replication"),
+
+    # -- the simulation
+    ("shrink the estimator's largest bias",
+     r"The largest absolute bias is $0.0044$",
+     r"The largest absolute bias is $0.0004$"),
+    ("hide the boundary's poor coverage",
+     r"and coverage falls to $0.850$",
+     r"and coverage falls to $0.940$"),
+    ("upgrade what the simulation establishes",
+     r"It validates the \emph{estimator}, not the \emph{estimand}",
+     r"It validates both the estimator and the estimand"),
+    ("corrupt the true reduction at full overlap",
+     r"to exactly $1.000$ at $\rho = 1$",
+     r"to exactly $0.900$ at $\rho = 1$"),
+
+    # -- the registered prediction
+    ("hide that the registered entropy rule failed in sample",
+     r"reaches an in-sample balanced accuracy of $0.600$",
+     r"reaches an in-sample balanced accuracy of $0.900$"),
+    ("delete the admission that the positive half was never tested",
+     r"both scored pairs are negatives, so the rules' positive half was "
+     r"never tested at all",
+     r"both rules are confirmed on the held-out data"),
+    ("corrupt the frozen threshold",
+     r"Fitted, $H^* = 0.331293$",
+     r"Fitted, $H^* = 0.531293$"),
+    ("corrupt the held-out log's excluded prevalence",
+     r"the generic handover target has prevalence $1.0000$",
+     r"the generic handover target has prevalence $0.5000$"),
+
+    # -- the tool
+    ("inflate the independence check",
+     r"$20$ of $20$ quantities agree, the largest disagreement being "
+     r"$2.2 \times 10^{-16}$",
+     r"$40$ of $40$ quantities agree, the largest disagreement being "
+     r"$2.2 \times 10^{-16}$"),
+    ("delete the bound on what the independence check sees",
+     r"What is \emph{not} independent, and the paper does not pretend it is: "
+     r"scikit-learn's",
+     r"The two paths share nothing, including"),
+    ("corrupt the package's test count",
+     r"$91$ tests, including the three propositions",
+     r"$191$ tests, including the three propositions"),
+
+    # -- the corrections taxonomy
+    ("undercount the corrections",
+     r"Twelve errors of our own are reported as results",
+     r"Ten errors of our own are reported as results"),
+    ("flatter the direction the corrections travelled",
+     r"Eight of the twelve flattered the result",
+     r"Two of the twelve flattered the result"),
+    ("shrink the class of relation defects",
+     r"a relation between correct numbers (three instances)",
+     r"a relation between correct numbers (one instance)"),
+
+    # -- threats
+    ("delete the target's disclaimer",
+     r"Reassignment is routine handling, not error; it fires on",
+     r"Reassignment is a routing error; it fires on"),
+    ("delete the refusal to print an unresolvable ratio",
+     r"Where the denominator is not resolvably positive no ratio is printed "
+     r"at all.",
+     r"Ratios are printed throughout."),
+    ("soften the falsification in the threats section",
+     r"\S8's falsification condition is met and reported as met",
+     r"\S8's falsification condition is largely met"),
 
 ]
 

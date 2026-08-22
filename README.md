@@ -24,6 +24,24 @@ python scripts/reproduce_all.py
 
 ---
 
+## Round eighteen, in one screen
+
+| | |
+|---|---|
+| a pre-registered literature audit | 600 papers, 54 included, 30 read: **0 of 20 report the increment over a range of operating points or register populations** |
+| three propositions | metric-unboundedness, the rank-invariance boundary, non-redundancy — constructed, executed, asserted |
+| the four axes on three organisations | on every one, the baseline choice moves *R* by more than *R* |
+| the estimator against a known answer | bias ≤ 0.0044, coverage 0.850–0.975 on a 960-cell world |
+| a registered prediction, tested | two correct predictions, **both negative**, so half the rule is untested |
+| a runnable standard | `fieldvalue/`: 91 tests, refuses to emit one number, agrees with our pipeline 20/20 |
+| corrections | **twelve**, reported as classes in the text and incidents in an appendix |
+| verification | 1,358 checks, 0 failed; 243 corruptions |
+
+Three things came back against the paper this round: the audit refuted the
+*strong* form of its own premise, the prospective test tested only half of
+the registered rule, and the independence check found the twelfth correction.
+All three are in the paper.
+
 ## What the paper claims
 
 Four things, in the order the paper makes them.

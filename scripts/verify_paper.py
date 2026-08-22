@@ -4296,6 +4296,37 @@ ck("sim boundary truth", _r45T.loc[1.0].R_true, "1", 1e-9,
 ck("sim boundary interval", _r45T.loc[1.0].R_true, "1", 1e-9,
    anchor="an interval near")
 
+# ---- ordered pairs and triples the suite attacks ----------------------
+ck_phrase("the three baseline spreads are pinned in order",
+          r"the spread is $0.565$, $0.467$ and $0.654$ against reference "
+          r"values of $0.350$, $0.378$ and $0.471$")
+ck_phrase("the three metric spreads are pinned in order",
+          r"The metric axis moves it by $0.301$, $0.337$ and $0.205$")
+ck_phrase("the population axis's three spreads are pinned in order",
+          r"It moves $R$ by $0.179$ on BPI Challenge 2014, by $0.085$ on "
+          r"BPI Challenge 2019, and by $1.293$ on BPI Challenge 2013 "
+          r"incidents")
+ck_phrase("the audit's two reported axes are pinned in order",
+          r"$45.0\%$ report the increment at more than one level of the "
+          r"metric and $30.0\%$ at more than one baseline")
+ck_phrase("the corrected range is pinned to its thresholds",
+          r"the reduction runs from $4.7\%$ at $\theta = 0.175$ to "
+          r"$134.1\%$ at $\theta = 0.575$")
+ck_phrase("the simulation's boundary row is pinned",
+          r"$1.0$ & $1.0000$ & $1.0027$ & $+0.0027$ & $0.0028$ & $0.850$")
+ck_phrase("the estimator's bias is pinned to its sample sizes",
+          r"the mean absolute bias is $0.0217$ at $n = 5{,}000$ and $0.0025$ "
+          r"at $n = 60{,}000$")
+ck_phrase("the prospective test's two legs are pinned in order",
+          r"$-0.0117$ $[-0.0351,+0.0001]$ on duration and $+0.0006$ "
+          r"$[-0.0051,+0.0069]$ on handover")
+ck_phrase("the screen's precision is pinned to its denominator",
+          r"of the thirty papers the amended screen admitted, a read "
+          r"confirms $20$")
+ck_phrase("the coder's two error directions are pinned",
+          r"it missed $39$ \texttt{yes} codes and asserted $9$ a read does "
+          r"not support")
+
 _lint_check_order()
 _run_guard_lint()
 _run_census()

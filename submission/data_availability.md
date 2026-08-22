@@ -80,3 +80,44 @@ README says so in the same words. Eleven corrections are reported in the
 manuscript and **all eleven are claims about what a number means**; the
 checker would have caught none of them, and two of the three found in this
 round are sentences in which every individual literal was correct.
+
+---
+
+## The literature audit's frame and coding sheet (Section 4)
+
+The audit does not analyse a dataset; it analyses **published papers**, and
+the frame that selects them is machine-enumerable so a reader can rebuild it.
+
+| what | where |
+|---|---|
+| the enumeration | the OpenAlex API, `https://api.openalex.org`; every query is executed verbatim by `scripts/r40_audit.py` and its raw counts are in `results/r40_frame.csv` |
+| the sample | `results/r40_sample.csv` — 600 works, drawn with seed 20260819 from a deduplicated frame of 604 |
+| the screening log | `results/r40_screening.csv` — every paper, its outcome, and the reason if it was excluded |
+| the coding sheet | `results/r40_coding.csv` — every included paper, every code, with a verbatim quote and the PDF page it was found on |
+| the adjudication | `results/r40_adjudication.csv` — the thirty papers read by hand, and `data/audit/adjudication/*.txt`, the deterministic extract each was coded from |
+
+**Full texts are not redistributed.** `r40_audit.py --fetch` retrieves them
+from each work's own open-access location and caches them under
+`data/audit/fulltext/`, which is git-ignored. Everything needed to re-fetch
+them is in `results/r40_sample.csv`.
+
+## The held-out logs (Section 12.5)
+
+| Log | Domain | Identifier |
+|---|---|---|
+| BPI Challenge 2011, a Dutch academic hospital | healthcare | `doi:10.4121/uuid:d9769f3d-0ab0-4fb8-803b-0d1120ffcf54` |
+| BPI Challenge 2018, EU agricultural subsidies | agriculture | `doi:10.4121/uuid:3301445f-95e8-4ff0-98a4-901f1f204972` |
+
+Both were named in `PROTOCOL.md` §2 in the previous round as considered and
+not included. Neither was downloaded, parsed or inspected until after
+`PREDICTION.md` was committed; `git log --stat` shows the order.
+
+## The worked example (Section 4.5)
+
+| Dataset | Identifier |
+|---|---|
+| UCI Adult (Census Income) | `doi:10.24432/C5XW20` |
+
+Chosen because it is **not** one of this paper's event logs: the point of the
+example is that the baseline choice moves the answer on data that has nothing
+to do with configuration management.
