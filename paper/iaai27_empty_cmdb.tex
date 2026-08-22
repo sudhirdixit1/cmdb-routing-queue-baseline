@@ -26,7 +26,7 @@
 %% Protrusion alone is what fixes the margins here.
 \usepackage[protrusion=true,expansion=false]{microtype}
 
-\journal{Information Systems}
+\journal{Empirical Software Engineering}
 
 \begin{document}
 
@@ -203,6 +203,23 @@ own pipeline on $20$ of $20$ quantities and found the twelfth correction
 \caption{The same data, the same feature, and every defensible answer at once. Each cell is the admissibility reduction $R$ for item identity on BPI Challenge 2014: rows are which already-recorded fields the baseline is allowed to contain, columns are the metric, and the curve inside a cell runs over the register's population (scalar metrics) or over the operating point (net benefit). The reference values printed in the cells run -0.53 to +0.60. WHAT THIS FIGURE DOES NOT SHOW: it carries no intervals --- every cell is a point estimate, and the bootstrap intervals are in Table~\ref{tab:instruments} and in \texttt{results/r44\_spread.csv}; it shows one log, and the same grid for two further organisations is in the same file; and it shows the reduction, not the increment, so a cell where the entity is worth almost nothing to begin with looks the same as one where it is worth a great deal. The in-cell curves are clipped to $[-1,2]$ and the unclipped values are in \texttt{results/r47\_cells.csv}.}
 \label{fig:signature}
 \end{figure}
+
+\paragraph{Is this one paper or three?}
+An editor is entitled to ask, because a literature audit, a set of
+propositions with a simulation, and an empirical study of a configuration
+database are three literatures. They are one paper here for one reason:
+\textbf{each of the three is the answer to an objection the other two
+provoke, and separately each is refutable in a way the three together are
+not.} The empirical study alone is a null on one estate, and the obvious reply
+is that the choices behind it were made badly. The propositions alone say what
+can happen and nothing about what does. The audit alone measures a reporting
+practice without showing that the practice costs anything. Together they say:
+here is what the field does, here is what can happen in principle, and here is
+what does happen on real data when you vary the choices the field does not
+vary --- and the third of those is the one axis on which the audit finds
+\emph{zero} papers. Split the paper and each piece loses its own defence. We
+say this here rather than in a cover letter because a reader is entitled to
+the reason at the point they first wonder.
 
 \paragraph{What kind of contribution this is.}
 We report no deployed system. This is a retrospective study on two public
@@ -500,10 +517,18 @@ $(\text{metric}, \text{threshold})$ and $(\text{population},
 \text{threshold})$, and the reason is stated rather than hidden: the
 threshold axis's spread across this family is an order of magnitude larger
 than the others, so the ``differ by a quarter of the axis's own range''
-criterion demands a gap of $3.396$ and the best pairs found reach $1.907$ and
-$2.913$. That is a property of the tolerance and of the threshold axis's
-scale, not evidence that those pairs are redundant, and we report the two
-failures rather than retuning until twelve appear.
+criterion demands a gap of
+$3.396$ and the best pairs found reach $1.907$ and $2.913$. That is a
+property of the tolerance and of the threshold axis's scale, not evidence
+that those pairs are redundant, and we report the two failures rather than
+retuning until twelve appear.
+
+\textbf{How much the count depends on that tolerance is itself measured},
+because a referee is entitled to ask and the answer is not flattering to a
+single reported figure: across a grid of $16$ tolerance pairs the number of
+constructible axis pairs runs from $8$ to $12$. The paper reports the cell at
+(agree within $5\%$ of the axis's range, differ by $25\%$ of it); the whole
+grid is in \texttt{results/r49\_prop3\_tol.csv}.
 
 \section{How the Field Reports Feature Value Today}
 \label{sec:audit}
@@ -641,7 +666,16 @@ one. A field that does that is not ignoring the critique.
 
 \paragraph{What survives is narrower and, we think, sharper.} Reporting the
 increment at more than one level of \emph{some} choice is common. It is almost
-never more than one choice, and it is almost always the same two:
+never more than one choice, and it is almost always the same two.
+
+\emph{What counts as a range here is stated before the numbers, because the
+rule is generous and the generosity works against this paper.} A paper is
+credited with reporting a range over the metric if it reports the
+with-and-without difference under two or more metrics --- ordinary practice,
+and a long way from the surface this paper argues for. Crediting it is
+deliberate: a stricter reading would make the field look worse against a
+standard nobody has adopted. On the two axes where the count is zero, no
+softer reading was available to give.
 
 \begin{itemize}
 \item over the \textbf{metric}: $9$ of $20$, $45.0\%$ $[25.8,65.8]$;
@@ -1182,13 +1216,26 @@ BPIC 2019           & $0.471$ & $[0.190,0.844]$ & $[0.471,0.676]$ & $[-7.502,1.5
 \end{tabular}
 \end{table}
 
-\paragraph{What replicates.} On every one of the three logs, \textbf{the
-baseline choice alone moves $R$ by more than $R$ itself}: the spread is
-$0.565$, $0.467$ and $0.654$ against reference values of $0.350$, $0.378$ and
-$0.471$. The metric axis moves it by $0.301$, $0.337$ and $0.205$ --- smaller
-than the baseline axis on all three, and still between four and nine tenths of
-the effect being reported. This is the paper's central claim and it is no
-longer an $n=1$ claim.
+\paragraph{What replicates, and the rung that has to come out first.}
+Across all six nested pairs the baseline choice moves $R$ by $0.565$, $0.467$
+and $0.654$ against reference values of $0.350$, $0.378$ and $0.471$ --- more
+than $R$ itself on every log. \textbf{That comparison is inflated by a rung no
+analyst would build.} The bottom of the ladder is the intercept-only model,
+and $V(f \mid \emptyset)$ is large for a reason that has nothing to do with
+this paper's argument. Dropping every pair that uses it leaves three real
+baselines and three pairs, and the spread falls to $0.346$, $0.347$ and
+$0.382$ against the same reference values.
+
+So the honest statement is weaker than the one we first wrote, and it is this:
+\textbf{restricted to baselines an analyst would actually build, the baseline
+choice moves $R$ by an amount comparable to $R$ --- larger on BPI Challenge
+2014 ($0.346$ against $0.350$ is within a hundredth), and smaller on the other
+two.} The metric axis moves it by $0.301$, $0.337$ and $0.205$. Both axes
+remain between six and ten tenths of the effect being reported, on three
+organisations rather than one, and that is what the corpus buys. The claim
+that either axis \emph{exceeds} the effect is true of BPI Challenge 2014 and
+is not established elsewhere; \texttt{results/r49\_baseline\_spread.csv}
+carries both versions and the pairs each is computed over.
 
 \paragraph{What does not.} The population axis does \emph{not} behave the same
 way. It moves $R$ by $0.179$ on BPI Challenge 2014, by $0.085$ on BPI
@@ -1430,7 +1477,16 @@ failed, and the registration says so.} A rule selected on the training data
 can only be tested on data it was not selected on, which is what follows.
 
 \paragraph{The test, and how little it establishes.} BPI Challenge 2011 is
-admitted by the registered rules and yields two scored pairs. On both,
+admitted by the registered rules and yields two scored pairs. \textbf{What the
+rules picked there is worth stating, because it is not what they were written
+for}: the high-cost entity is \texttt{case:Diagnosis}, $102$ distinct values
+reused across $11.2$ cases each. A diagnosis is a classification, not a
+maintained register that costs money to keep, and \texttt{PROTOCOL.md} \S3.3
+admits it because it satisfies a cardinality test and a reuse test, not
+because anyone judged it a register. What follows is therefore a prospective
+test of the registered \emph{rules} on a log they had never seen, which is
+what was registered, and not a test of this paper's question on a hospital.
+On both,
 $V(f \mid B_0)$ is not resolvably positive --- $-0.0117$
 $[-0.0351,+0.0001]$ on duration and $+0.0006$ $[-0.0051,+0.0069]$ on handover
 --- so both rules predict ``not resolvable'', and on both the observed
@@ -1439,7 +1495,14 @@ for each rule. BPI Challenge 2018 is \emph{excluded} on both targets by
 registered codes: \texttt{NO\_TEST\_VARIATION} on duration and
 \texttt{NO\_HEADROOM} on handover, where the generic handover target has
 prevalence $1.0000$ because a seven-valued resource stamp changes at least
-once in every one of $43{,}809$ cases. Excluded pairs are reported with their
+once in every one of $43{,}809$ cases --- a mean of $10.14$ distinct values
+per case. \textbf{That exclusion is the paper's own mechanism and not an
+accident}: $99.9\%$ of those cases open with the literal value
+\texttt{0;n/a}, so the opening field carries essentially nothing at intake and
+there is no free information for the entity's value to be absorbed by. It is
+the same condition as BPI Challenge 2012's and every BPI Challenge 2020
+sub-log's, in a form that passes the cardinality rule and fails the target
+instead. Excluded pairs are reported with their
 code and are not scored; counting an exclusion rule as a correct prediction
 would be the cheapest possible way to win this test.
 
@@ -1540,6 +1603,15 @@ accessors that will answer a properly posed question. A caller who wants one
 cell must name it --- \texttt{s.at(baseline=\ldots, metric=\ldots,
 threshold=\ldots, population=\ldots)} --- which forces them to say which cell
 they are standing in.
+
+\emph{This is not an instruction to put a surface in a business case.} A
+business case needs a number, and the standard says what the number is: the
+value at one named cell, quoted with its four coordinates, beside the range
+the other cells occupy. ``$+0.103$ AUC over an intake-plus-group baseline at
+full register population, and between $+0.001$ and $+0.183$ across the
+baselines we could defend'' is one sentence, it is what \texttt{s.report()}
+prints, and it is the difference between a number and a number whose
+provenance a reader can argue with.
 
 \paragraph{An independent code path, and what it found.} The package's metrics
 are implemented in numpy from their definitions rather than delegated, so that
@@ -1720,7 +1792,7 @@ Section~\ref{sec:limits} does not assume it is.
 A verification harness that can be wrong about the paper is a threat to every
 number in it. \emph{Measured:} eight holes have been found in this one and
 every one was found by its own corruption suite rather than by the harness or
-by reading; the suite carries $243$ mutations, each of which changes the
+by reading; the suite carries $253$ mutations, each of which changes the
 manuscript in one place and requires the checker to notice; the suite's size, the checker's coverage census and the purity
 guard that stops the checker modifying its subject are reported in
 Section~\ref{sec:corrections} and in \texttt{REPRODUCE.md}.

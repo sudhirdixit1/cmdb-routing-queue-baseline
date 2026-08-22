@@ -1,0 +1,10 @@
+oa_id,code,pdf_page,page_exists,quote_on_that_page,quote
+W2911862380,B_stated,12,True,True,It is also important to highlight that after the classiﬁcati
+W2911862380,B_justified,4,True,True,"In practice, if a feature that is statistically relevant is "
+W2911862380,Theta_stated,9,True,True,", Hoeﬀding Trees [18], and receive as input three parameters"
+W4200151996,Theta_stated,2,True,True,We provide an ini37 tial budget of 50 iterations for optimiz
+W4221051771,B_stated,16,True,True,"Hence, we decided to devise a baseline machine learning tech"
+W4221051771,Theta_stated,37,True,True,"As such, our choice made the findings more reliable—we did n"
+W4320883647,B_stated,23,True,True,Table 2 presents an overview of all variables in the data se
+W4320883647,M_justified,24,True,True,The AUC is a common evaluation metric for binary classificat
+W4391092733,Theta_stated,6,True,True,6 Event log (1) Apply different feature selection (FS) metho

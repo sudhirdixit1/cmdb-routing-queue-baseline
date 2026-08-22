@@ -365,3 +365,45 @@ decide anything on its own.
 decision is materially worse than the incumbent's, the ordering of the first
 two flips. That check is in `OWNER-ACTIONS.md` with the URL, because it is not
 in any API.
+
+---
+
+## 16. Forty-two pages of main text, against a target of thirty-six
+
+**Decision.** The main text runs to 42 pages and the whole document to 71.
+Nothing further is cut.
+
+**Why.** `PLAN-REVIEWER-PROOF.md` §7.1 sets a target of 36 main-text pages —
+and its own per-section table sums to **41**. What landed is 42, one page over
+the plan's own arithmetic and six over its headline number. Getting there
+moved, without removing a claim:
+
+| moved to an appendix | pages |
+|---|---|
+| "Which layer of configuration data pays?" (whole section) | ~3 |
+| "Where the difference goes" (whole section) | ~4 |
+| "Why the instruments disagree" | ~1.5 |
+| "Why the capacity framing was withdrawn" | ~2 |
+| "The second organisation", and its figure | ~2 |
+| "The corpus, and what the rules exclude" | ~1 |
+| "Two things the corpus does establish" | ~1 |
+| "Net benefit, which needs no capacity" | ~2 |
+| the three nulls behind §14's collapse | ~1.5 |
+
+Every one left a pointer in the main text carrying the numbers a reader needs
+to follow the argument without turning to the appendix, and every moved number
+is still checked: the checker's body now runs to `\end{document}`, which it
+did not before this round, and that was itself a hole.
+
+**What was added rather than cut**, and why the count went up before it came
+down: the audit (5 pages), the propositions (1.5), the three-log surface (1),
+the simulation (2), the registered prediction (1.5), the tool (1.5), the
+signature figure (0.5) and a threats-to-validity section the plan's table
+allocated and the previous version did not have (2).
+
+**What would go next, recorded so it is not re-decided under time pressure.**
+In order: §5's estimator and interval paragraph, §7's "seven instruments"
+detail, and §12's per-log narrative. That is about four pages and it would
+reach the target. It is not done because each of the three states a
+measurement the main text's argument leans on, and the venue has no hard page
+limit.

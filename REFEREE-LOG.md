@@ -352,3 +352,239 @@ field-admission judgement the authors themselves say is not proved.* That
 letter is writable, and every clause of it is a sentence the paper already
 contains. What we do not think is writable is a rejection that names a claim
 the paper makes and the data does not support.
+
+---
+---
+
+# Referee log, round eighteen
+
+**Six** independent passes this round, not four: the four briefs of
+`PLAN-STRONG-ACCEPT.md` §8 plus the two `PLAN-REVIEWER-PROOF.md` §10 adds —
+the literature-audit referee, and the editor. Same four dispositions, same
+rule: nothing is left as "noted".
+
+The measurements every objection below demanded are in
+`scripts/r49_referee_round18.py`, and each prints its result whatever the
+result is.
+
+**The headline of this round's passes: the strongest objection landed, and it
+weakened the paper's central claim.** M2 is worth reading before anything
+else.
+
+---
+
+## Pass 1 — the methodologist
+
+### M1. The audit's `Range_reported` counts two metrics as a range. **CONCEDED, and the rule is now stated before the number**
+
+Reporting the with-and-without difference under AUC and F1 is not reporting a
+surface, and crediting it inflates how compliant the field looks.
+
+**Disposition.** §4.4 now states the rule *before* the proportions, says the
+generosity is deliberate, and says why: a stricter reading would score the
+field against a standard nobody has adopted. It also notes that on the two
+axes where the count is zero no softer reading was available to give — the
+generosity cannot have manufactured those zeros.
+
+### M2. The three-log baseline spread is inflated by a rung no analyst would build. **MEASURED — and the paper's central claim is weakened**
+
+The ladder's bottom rung is the intercept-only model. V(f | ∅) is large for
+reasons that have nothing to do with this paper, so every ordered pair that
+uses it exaggerates the baseline axis.
+
+**Measured** (`r49_baseline_spread.csv`): dropping every pair that uses the
+empty rung leaves three real baselines and three pairs, and the spread falls.
+
+| log | all six pairs | real baselines only | reference *R* |
+|---|---|---|---|
+| BPIC 2014 | 0.565 | **0.346** | 0.350 |
+| BPIC 2013 incidents | 0.467 | **0.347** | 0.378 |
+| BPIC 2019 | 0.654 | **0.382** | 0.471 |
+
+**Disposition.** The sentence "on every one of the three logs the baseline
+choice alone moves *R* by more than *R* itself" **was true only of the
+unrestricted ladder and is gone.** §10 now states both versions, says the
+restricted one is the honest one, and scopes the "exceeds the effect" claim to
+BPI Challenge 2014, where 0.346 against 0.350 is within a hundredth. On the
+other two the axis moves the answer by *less* than the effect — still between
+six and nine tenths of it, on three organisations, which is what the corpus
+buys and is a smaller claim than the one we first wrote.
+
+This is the objection of the round. It did not ship; it was found here.
+
+### M3. The simulation validates the estimator on a correctly specified model. **CONCEDED — it was already**
+
+§11's last paragraph says so in those words and calls the reported bias a
+lower bound on the bias against a misspecified truth.
+
+### M4. Proposition 3's constructibility thresholds are arbitrary. **MEASURED**
+
+**Measured** (`r49_prop3_tol.csv`): across a grid of 16 tolerance pairs the
+number of constructible ordered axis pairs runs from **8 to 12**. The paper
+reports the cell at (agree within 5% of the axis's range, differ by 25%).
+
+**Disposition.** Appendix A now prints the range and names the cell it
+reports, so a reader can see how much of "ten of twelve" is the tolerance.
+
+---
+
+## Pass 2 — the process-mining referee
+
+### P1. "`NO_HEADROOM` at prevalence 1.0000" is a code, not an explanation. **MEASURED**
+
+**Measured** (`r49_holdout_roles.csv`): on BPI Challenge 2018 the opening
+field is `org:resource`, cardinality 7, with a mean of **10.14 distinct values
+per case** — and **99.9% of cases open with the literal value `0;n/a`**.
+
+**Disposition.** §12.5 now says that. The exclusion is this paper's own
+mechanism in a new form: the opening field carries essentially nothing at
+intake, exactly as in BPI Challenge 2012 and every BPI Challenge 2020 sub-log,
+except that here it passes the cardinality rule and fails the target instead.
+
+### P2. The registered rules picked a classification as the "high-cost entity" on the held-out log. **CONCEDED**
+
+**Measured**: BPI Challenge 2011's *f* is `case:Diagnosis`, 102 distinct
+values, reuse 11.2. A diagnosis is not a maintained register that costs money
+to keep.
+
+**Disposition.** §12.5 says so, and says what follows: the prospective test is
+a test of the registered *rules* on a log they had never seen — which is what
+was registered — and not a test of this paper's question on a hospital.
+
+### P3. "Three organisations, two domains" is thin for a generality claim. **CONCEDED**
+
+Two of the three are ITSM. §10 says three organisations, three information
+systems and two domains, and claims nothing about domains beyond that; §12
+reports the registered generality claim as falsified.
+
+### P4. The generic handover target is not the paper's published target. **DISMISSED — it is already reported, and prominently**
+
+§15 gives the agreement: prevalence 0.927 against 0.411, agreeing on 46.0% of
+incidents, and says the corpus measures a generic workflow outcome and not
+this paper's task on twelve further organisations.
+
+---
+
+## Pass 3 — the practitioner
+
+### Pr1. "No paper reports a range over operating points" is unsurprising in a field that reports rank metrics. **CONCEDED — and it is the point**
+
+**Disposition.** The finding is not that the field is careless but that it
+varies the two choices that are cheap to vary and not the two that decide the
+answer. §4.4 says exactly that, and its new paragraph makes the generosity of
+the counting rule explicit so the zero cannot be read as an artifact of a
+strict one.
+
+### Pr2. A business case needs a number, and the tool refuses to give one. **CONCEDED — and the paper now says what the number is**
+
+**Disposition.** §13.1 adds the sentence a practitioner should write: the
+value at one named cell, with its four coordinates, beside the range the other
+cells occupy. `s.report()` prints it. Refusing a *bare* number is not refusing
+a number.
+
+### Pr3. The population curve is measured on one estate and generalised. **MEASURED, and it does not generalise**
+
+**Disposition.** §10 reports that the population axis moves *R* by 0.085 on
+one log and 1.293 on another — a fifteen-fold difference across three logs —
+and says the honest reading is that how much register completeness matters is
+a property of the estate, not of the method.
+
+---
+
+## Pass 4 — the hostile generalist
+
+### H1. "Not one paper reports..." reads as a claim about the field; n = 20. **DISMISSED — the sentence already carries its n**
+
+Both the abstract and §4.4 name the twenty, and §4.4 prints the Wilson upper
+bound of 16.2%. A reader cannot take the sentence for a population claim
+without ignoring the number in it.
+
+### H2. The audit's effective n is 20, after 600 were enumerated. **CONCEDED**
+
+That is what the funnel says, and the funnel is printed rather than
+summarised: 600 sampled, 369 full texts, 54 mechanically included, 30 read, 20
+confirmed.
+
+### H3. "20 of 20 quantities agree to 2.2 × 10⁻¹⁶" oversells. **CONCEDED — the bound is in the same paragraph**
+
+§13.1 states what is *not* independent — scikit-learn's estimator and the
+shared cohort loader — and says an error in either would agree with itself.
+
+### H4. Which sentence would you quote in a rejection? **CONCEDED, and it is the paper's own**
+
+"Both scored pairs are negatives, so the rules' positive half was never tested
+at all." It stays. A rejection built on a sentence the paper wrote about
+itself is a rejection of a paper that told you where it was weak.
+
+---
+
+## Pass 5 — the literature-audit referee
+
+### A1. Check three coded rows against the actual papers. **MEASURED**
+
+**Measured** (`r49_audit_spotcheck.csv`): 9 quoted codes across 5 papers drawn
+with the registered seed. The stated PDF page exists in 9 of 9, and the quoted
+sentence is **on that page in 9 of 9**.
+
+### A2. Would you accept this audit if your own paper were in the sample? **CONCEDED — with the number that makes it fair to ask**
+
+The mechanical screen's precision is 66.7%: a third of the papers it admitted
+are, on a read, not reporting a with-and-without comparison at all.
+
+**Disposition.** The paper's primary proportions use only the 20 a read
+confirms; `results/r40_coding.csv` ships the mechanical sheet and
+`results/r40_adjudication.csv` ships the read, with a note per paper saying
+what it actually does. An author whose paper is in the sample can see, in one
+row, both what the machine said and what a person said.
+
+### A3. The frame excludes the conference literature this paper's own community publishes in. **CONCEDED, with the counts**
+
+**Disposition.** §4.1 gives the measurement that forced it: the BPM source
+record carries 69 works for 2019–2026 and *none* flagged open access; CAiSE
+carries one; ICPM has no source record. The venues are covered through the
+citation frame and the venue mix of the included set is reported.
+
+### A4. `unclear` on `Theta_stated` is larger than `yes`. **DISMISSED — that is what `unclear` is for**
+
+23 of 54 under the mechanical coder. The protocol registers `unclear` as a
+value the rule *assigns*, reported separately from `no` and never folded into
+it, and the adjudication resolves it on the subsample.
+
+---
+
+## Pass 6 — the editor
+
+*Brief: is this one paper or three? Would you send it out? What would you say
+in a desk-reject letter?*
+
+### E1. This is a literature audit, a theory note and an empirical study. **CONCEDED — and answered in §1**
+
+**Disposition.** §1 now carries a paragraph titled *Is this one paper or
+three?* whose answer is that each of the three is the reply to an objection
+the other two provoke: the empirical study alone is a null on one estate, the
+propositions alone say nothing about what happens, the audit alone shows a
+practice without a cost. Split it and each piece loses its own defence. It is
+in the introduction rather than the cover letter because a reader deserves the
+reason where they first wonder.
+
+### E2. Forty-two pages of main text and seventy-one in total. **CONCEDED, and recorded**
+
+`submission/DECISIONS.md` records the target (36), the plan's own per-section
+budget (41), what landed (42), and what moved to appendices to get there —
+five subsections, one figure and three nulls, none of which carries a claim
+the main text does not still state.
+
+### E3. What would the desk-reject letter say? **CONCEDED — it is quoted, and answered where it can be**
+
+It would say: *single unaffiliated author, no deployment, no organisational
+partner, a methodological argument illustrated on a public benchmark.* Three
+of those four are in §17 in exactly those words, and the fourth — the author
+profile — is now **counted rather than excused**: of 3,360 research articles
+published 2024–2026 across eight candidate venues, five are single-author and
+unaffiliated (`r48_venue.csv`). The cover letter says so rather than hoping
+nobody checks.
+
+### E4. Would you send it out? **The honest answer, recorded**
+
+On the technical work, yes. On fit, that is what `submission/DECISIONS.md` §15
+re-took against six criteria fixed in advance, and it changed the venue.

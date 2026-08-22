@@ -1,0 +1,3 @@
+log,n,g,card_g,f,card_f,reuse_f,handover_prevalence,mean_distinct_g_per_case,top_g_shares
+BPIC11,1143,org:group,9,case:Diagnosis,102,11.205882352941176,0.8066491688538933,5.592300962379703,Obstetrics & Gynaecology clinic=0.565; General Lab Clinical Chemistry=0.252; Pathology=0.082
+BPIC18,43809,org:resource,7,case:applicant,15938,2.7487137658426404,1.0,10.140929945901528,0;n/a=0.999; Inspection service=0.001; Document processing automaton=0.000

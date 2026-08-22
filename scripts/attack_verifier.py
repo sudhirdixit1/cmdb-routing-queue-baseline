@@ -859,6 +859,44 @@ CORRUPTIONS = [
      r"\S8's falsification condition is met and reported as met",
      r"\S8's falsification condition is largely met"),
 
+    # ==================================================================
+    #  ROUND EIGHTEEN, the six adversarial passes.  Each of these is a
+    #  concession a later round would be tempted to walk back.
+    # ==================================================================
+    ("restore the stronger three-log claim the referee killed",
+     r"So the honest statement is weaker than the one we first wrote",
+     r"So the statement stands as we first wrote it"),
+    ("re-inflate the restricted baseline spread",
+     r"the spread falls to $0.346$, $0.347$ and $0.382$",
+     r"the spread falls to $0.546$, $0.547$ and $0.582$"),
+    ("un-scope the claim that an axis exceeds the effect",
+     r"The claim that either axis \emph{exceeds} the effect is true of BPI "
+     r"Challenge 2014 and is not established elsewhere",
+     r"The claim that either axis exceeds the effect holds on all three"),
+    ("delete the admission that the audit's range rule is generous",
+     r"the rule is generous and the generosity works against this paper",
+     r"the rule is the natural one"),
+    ("hide that the held-out entity is a classification",
+     r"A diagnosis is a classification, not a maintained register that costs "
+     r"money to keep",
+     r"A diagnosis is a maintained register of exactly the kind this paper "
+     r"is about"),
+    ("delete the explanation of BPIC 2018's exclusion",
+     r"That exclusion is the paper's own mechanism and not an accident",
+     r"That exclusion is an accident of the log's encoding"),
+    ("corrupt BPIC 2018's dominant opening share",
+     r"$99.9\%$ of those cases open with the literal value",
+     r"$9.9\%$ of those cases open with the literal value"),
+    ("hide proposition 3's tolerance sensitivity",
+     r"the number of constructible axis pairs runs from $8$ to $12$",
+     r"the number of constructible axis pairs runs from $11$ to $12$"),
+    ("delete the answer to is-this-one-paper-or-three",
+     r"each of the three is the answer to an objection the other two provoke",
+     r"the three are presented together for convenience"),
+    ("delete the practitioner's instruction",
+     r"This is not an instruction to put a surface in a business case.",
+     r"A business case should contain the surface."),
+
 ]
 
 

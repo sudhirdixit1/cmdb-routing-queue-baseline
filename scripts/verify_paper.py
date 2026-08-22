@@ -2035,6 +2035,7 @@ STRUCT_CONTEXTS = (
     r"Appendix~\\ref\{[^}]*\}",
     r"\$\\theta\$",
     r"\$70/30\$",                  # the split, written as a shape
+    r"\\texttt\{0;n/a\}",         # a value IN the log, quoted verbatim
     r"\\begin\{verbatim\}.*?\\end\{verbatim\}",   # a code listing
     r"doi:10\.\d+/\S+",           # a DOI
     r"\\\$50k",                    # a currency amount naming a dataset's cut
@@ -3828,7 +3829,7 @@ ck("threelogs grid", 31, "31", 0, anchor="-point net benefit grid")
 for _k in ("BPIC14", "BPIC13_incidents", "BPIC19"):
     ck(f"threelogs {_k} baseline spread", _r44S.loc[_k].baseline_spread,
        f"{_r44S.loc[_k].baseline_spread:.3f}", 6e-4,
-       anchor="the spread is")
+       anchor="Across all six nested pairs the baseline choice moves $R$ by")
     ck(f"threelogs {_k} metric spread", _r44S.loc[_k].metric_spread,
        f"{_r44S.loc[_k].metric_spread:.3f}", 6e-4,
        anchor="The metric axis moves it by")
@@ -4298,8 +4299,27 @@ ck("sim boundary interval", _r45T.loc[1.0].R_true, "1", 1e-9,
 
 # ---- ordered pairs and triples the suite attacks ----------------------
 ck_phrase("the three baseline spreads are pinned in order",
-          r"the spread is $0.565$, $0.467$ and $0.654$ against reference "
-          r"values of $0.350$, $0.378$ and $0.471$")
+          r"the baseline choice moves $R$ by $0.565$, $0.467$ and $0.654$ "
+          r"against reference values of $0.350$, $0.378$ and $0.471$")
+ck_phrase("the restricted baseline spreads are pinned in order",
+          r"the spread falls to $0.346$, $0.347$ and $0.382$ against the same "
+          r"reference values")
+ck_phrase("the weakened claim is stated as weakened",
+          r"So the honest statement is weaker than the one we first wrote")
+ck_phrase("the claim that an axis exceeds the effect is scoped to one log",
+          r"The claim that either axis \emph{exceeds} the effect is true of "
+          r"BPI Challenge 2014 and is not established elsewhere")
+ck_phrase("the audit's range rule is declared generous",
+          r"the rule is generous and the generosity works against this paper")
+ck_phrase("the held-out entity is named as a classification",
+          r"A diagnosis is a classification, not a maintained register that "
+          r"costs money to keep")
+ck_phrase("BPIC 2018's exclusion is explained, not just coded",
+          r"That exclusion is the paper's own mechanism and not an accident")
+ck_phrase("the paper says what to put in a business case",
+          r"This is not an instruction to put a surface in a business case.")
+ck_phrase("the one-paper-or-three objection is answered in the text",
+          r"Is this one paper or three?")
 ck_phrase("the three metric spreads are pinned in order",
           r"The metric axis moves it by $0.301$, $0.337$ and $0.205$")
 ck_phrase("the population axis's three spreads are pinned in order",
@@ -4326,6 +4346,51 @@ ck_phrase("the screen's precision is pinned to its denominator",
 ck_phrase("the coder's two error directions are pinned",
           r"it missed $39$ \texttt{yes} codes and asserted $9$ a read does "
           r"not support")
+
+# ---- the six adversarial passes' measurements (r49) --------------------
+_r49F = pd.read_csv(R / "r49_facts.csv").iloc[0]
+_r49B = pd.read_csv(R / "r49_baseline_spread.csv").set_index("log")
+_r49T = pd.read_csv(R / "r49_prop3_tol.csv")
+_r49H = pd.read_csv(R / "r49_holdout_roles.csv").set_index("log")
+
+for _k in ("BPIC14", "BPIC13_incidents", "BPIC19"):
+    ck(f"threelogs {_k} restricted spread", _r49B.loc[_k].real_spread,
+       f"{_r49B.loc[_k].real_spread:.3f}", 6e-4,
+       anchor="the spread falls to")
+    ck(f"threelogs {_k} ref in the weakened claim", _r44S.loc[_k].R_reference,
+       f"{_r44S.loc[_k].R_reference:.3f}", 6e-4,
+       anchor="Across all six nested pairs the baseline choice moves $R$ by")
+ck("threelogs bpic14 restricted", _r49B.loc["BPIC14"].real_spread, "0.346",
+   6e-4, anchor="2014 ($0.346$ against $0.350$ is within a hundredth)")
+ck("threelogs bpic14 reference restated", _r44S.loc["BPIC14"].R_reference,
+   "0.350", 6e-4, anchor="2014 ($0.346$ against $0.350$ is within a hundredth)")
+
+ck("prop3 tolerance cells", len(_r49T), "16", 0,
+   anchor="across a grid of")
+ck("prop3 tolerance lo", int(_r49T.constructible.min()), "8", 0,
+   anchor="constructible axis pairs runs from")
+ck("prop3 tolerance hi", int(_r49T.constructible.max()), "12", 0,
+   anchor="constructible axis pairs runs from")
+ck("prop3 reported agree tol", 5, "5",  0,
+   anchor="The paper reports the cell at (agree within")
+ck("prop3 reported differ tol", 25, "25", 0,
+   anchor="The paper reports the cell at (agree within")
+
+ck("holdout bpic18 distinct per case", _r49H.loc["BPIC18"].mean_distinct_g_per_case,
+   "10.14", 6e-3, anchor="a mean of")
+ck("holdout bpic18 dominant share", 99.9, "99.9", 0.06,
+   anchor="of those cases open with the literal value")
+ck("holdout bpic11 card f", _r49H.loc["BPIC11"].card_f, "102", 0,
+   anchor="the high-cost entity is")
+ck("holdout bpic11 reuse f", _r49H.loc["BPIC11"].reuse_f, "11.2", 0.06,
+   anchor="distinct values reused across")
+
+ck("business case cell", _A1, "+0.103", 6e-4,
+   anchor="AUC over an intake-plus-group baseline at")
+ck("business case lo", _A2.gain, "+0.001", 6e-4,
+   anchor="and between $+0.001$ and $+0.183$ across the baselines")
+ck("business case hi", _A0, "+0.183", 6e-4,
+   anchor="and between $+0.001$ and $+0.183$ across the baselines")
 
 _lint_check_order()
 _run_guard_lint()

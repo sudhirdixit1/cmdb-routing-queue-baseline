@@ -1,6 +1,6 @@
 # Cover letter
 
-**To:** The Editors-in-Chief, *Information Systems*
+**To:** The Editors-in-Chief, *Empirical Software Engineering*
 **Re:** *Four Choices Behind One Number: Reporting the Incremental Value of a
 Recorded Field*
 **Article type:** Research article
@@ -9,12 +9,31 @@ Recorded Field*
 
 Dear Editors,
 
-I am submitting the manuscript above for consideration in *Information
-Systems*. It is a methodological paper with an empirical demonstration on
-public event logs, and I am sending it to this journal for a specific reason:
-of the venues I considered, this is the one whose reproducibility validation
-programme is designed to engage with what the work's strongest asset actually
-is.
+I am submitting the manuscript above for consideration in *Empirical
+Software Engineering*. It is a methodological paper with a pre-registered
+literature audit, three propositions, an empirical demonstration on public
+event logs, a prospective test on held-out data and a software artifact.
+
+**Why this journal, and the decision recorded rather than inherited.** An
+earlier version of this work was aimed at *Information Systems*, when it was
+a CMDB empirical study. Its centre of gravity has moved, so I re-took the
+decision against six criteria fixed before comparing venues rather than
+carrying the old one forward. Three of the criteria pointed here: EMSE
+publishes evaluation-methodology work with empirical demonstrations, treats
+systematic literature work as a standing category, and has an open-science
+policy that engages what this work's strongest asset actually is. Two counts
+decided it. EMSE has published six papers in 2019–2026 whose title or abstract
+describes them as registered reports, against zero at the incumbent — and this
+submission carries a pre-registered protocol, a pre-registered audit and a
+pre-registered prediction. Its topical share, the fraction of recent articles
+carrying this paper's vocabulary, is 17.3% against 13.5%. The full comparison,
+including the venues I rejected and why, is in `submission/DECISIONS.md` §15.
+
+**One question for the editor.** If your registered-reports handling is open
+to a submission whose results already exist, I would welcome that route: the
+design of this work was registered before its results, three times over, and
+a review of the design would be a fairer test of it than a review of the
+findings.
 
 **What the paper contributes.** Papers, business cases and tool evaluations
 report what a recorded field is worth as a single number. That number is a
@@ -31,10 +50,40 @@ records takes the item's value from +0.183 AUC to +0.103; admitting a second
 takes it to +0.001 [−0.002, +0.003]. Six defensible instruments on identical
 scores put the reduction between 43.7% and 60.3%, and ROC AUC — the figure
 the previous version of this work reported — is the smallest of them. Net
-benefit, read at one operating point, puts it between 6.3% and 119.2%
+benefit, read at one operating point, puts it between 4.7% and 134.1%
 depending on the point, and the item is resolvably harmful in a band above the
 base rate. At half population the register is worth +0.082 or +0.064
 depending on which half is missing.
+
+**What this version adds, and what came back against it.** A pre-registered
+audit of 600 published papers, to establish that the practice failure is real
+rather than asserted; three propositions, constructed and executed, about what
+can happen before the measurements show what does; the whole surface on all
+three logs whose reduction is resolvable; a simulation whose true answer is
+known by enumeration, which puts the estimator's bias at 0.0044 and its
+coverage at 0.850–0.975; and a package that computes the surface and refuses
+to emit a single number.
+
+Three of those came back against the paper and all three are in it. The audit
+**refuted the strong form of this paper's own premise** — two in five papers
+do state their baseline, half do argue their metric — and the claim is
+withdrawn and replaced by the narrower one the data support: not one of the
+twenty papers read reports what a feature is worth across a range of operating
+points, or across a range of register populations. The prospective test
+produced two correct predictions, **both negative**, so half the registered
+rule remains untested and the paper says so. And an independent
+re-implementation of the estimator found the twelfth error in this paper's own
+prose on its first run.
+
+**On the author profile, which I would rather you heard from me.** I am a
+single author with no institutional affiliation and no deployment to report.
+Rather than excuse that I counted it: of 3,360 research articles published
+2024–2026 across the eight venues I considered, five are single-author and
+unaffiliated. This submission is close to unprecedented on that axis at every
+one of them, including yours. What I can offer instead of an affiliation is an
+artifact: 1,386 checks that re-derive every number in the manuscript from a
+result file, a corruption suite of 253 mutations that has found every hole
+that checker has ever had, and a one-command reproduction from the raw logs.
 
 **The strongest evidence I can offer for the reporting standard is that
 following it removed my own headline.** The previous version of this work
