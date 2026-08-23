@@ -63,14 +63,22 @@ the eligible papers, not a property of the literature. The corrected estimate
 is \auditRangeThresholdPct\ with an interval that includes it.
 
 \paragraph{Class F --- internal inconsistency}
-Three corrections (C17, C18, C19) are places where an earlier manuscript
+Four corrections (C17, C18, C19, C22) are places where an earlier manuscript
 disagreed with itself: an instrument count that treated two thresholds of one
 instrument as two instruments; a reference reduction quoted as
 $43.7\%$ in the text and $35.0\%$ in a table without the change of
 specification being made clear; and a section that said a withdrawn
 instrument was retained in a table that did not contain it. The generated-macro
 discipline of \ref{app:verifier} makes this class structurally
-impossible rather than merely unlikely.
+impossible rather than merely unlikely --- and does not make it impossible
+when the same wrong quantity is computed twice from the same wrong expression,
+which is C22. Correcting the pilot's frame size in the facts and not in the
+PRISMA flow left Section~ef{sec:practice} reading 
+AuditFrame\ and
+Table~ef{tab:prisma} reading two orders of magnitude more, four pages apart,
+\emph{after} the error had been found and written up. The frame is computed
+once now, before both consumers, and the verifier checks every row of the flow
+that the prose also quotes.
 
 \paragraph{Class G --- an estimand that was not the one being estimated}
 One correction (C20), found in this round and the reason
@@ -115,3 +123,21 @@ frame from the sample by grouping, and refuses a manuscript in which a frame
 is smaller than the sample it contains, or differs from it while every design
 weight is one. A checker that recomputed the same aggregation would have
 agreed with the error.
+
+\paragraph{What found these, and what a reader should take from that}
+Of the corrections above, the ones this round found in its own work divide by
+\emph{method} rather than by class. The estimand error (C20) was found by
+constructing two experiments that could each have confirmed the comfortable
+reading and having both refuse. The aggregation error (C21) and the
+inconsistency it left behind (C22) were found by reading the compiled pages.
+So were five defects that produced no wrong number at all but printed badly:
+the word \emph{Appendix} doubled on every appendix reference, a macro eating
+the space before an em dash, a macro carrying words set as italic variables, a
+sentence's tail printed twice, and a minus sign set as a hyphen in the
+sentence about signs.
+
+Every checker in this repository ran clean on the build that carried all of
+them. That is the finding worth generalising: an apparatus that guarantees
+every number is derived from a result file guarantees nothing about whether
+the sentence around it says what the author meant, and the only instrument
+that has ever caught that is somebody reading the output.
