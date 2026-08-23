@@ -1,0 +1,2 @@
+n_pairs,n_draw_tasks,n_draw_rows,n_cells,n_bands,n_fieller,fieller_unbounded,fieller_total,n_confirmatory,n_confirmatory_reject,max_q_maxt,median_q_maxt,runtime_s
+19,5615,1791720,8280,8106,10584,5282,10584,5,5,8.194334648226464,4.034926186442716,9025.8

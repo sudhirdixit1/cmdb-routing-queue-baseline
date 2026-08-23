@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{rrr}
 \toprule
 half\_width & n\_required & achieved \\
@@ -11,8 +12,8 @@ half\_width & n\_required & achieved \\
 0.150 & 43 & 29.581 \\
 0.200 & 25 & 29.581 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{What the pilot's design can and cannot resolve.}
 \label{tab:power}
 \end{table}

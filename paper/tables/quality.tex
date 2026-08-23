@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lrrrr}
 \toprule
 quality & level & without\_f & with\_f & V \\
@@ -16,8 +17,8 @@ corrupt & 0.150 & 0.732 & 0.864 & 0.132 \\
 duplicate & 0.150 & 0.732 & 0.899 & 0.167 \\
 stale & 1.000 & 0.732 & 0.900 & 0.167 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{Register quality mechanisms on the primary log.}
 \label{tab:quality}
 \end{table}

@@ -8,15 +8,18 @@
 A \emph{design space} $\mathcal{S}$ for a feature-value claim is a finite set
 of specifications, each a complete assignment to the axes
 \[
-s \;=\; \bigl(\underbrace{A}_{\text{learner}},\;
+\begin{aligned}
+s \;=\; \bigl(\;
+&\underbrace{A}_{\text{learner}},\;
 \underbrace{E}_{\text{encoding}},\;
 \underbrace{Y}_{\text{target}},\;
 \underbrace{\Pi}_{\text{split}},\;
-\underbrace{\tau}_{\text{decision time}},\;
-\underbrace{q}_{\text{register quality}},\;
+\underbrace{\tau}_{\text{decision time}},\; \\[2pt]
+&\underbrace{q}_{\text{register quality}},\;
 \underbrace{B}_{\text{baseline}},\;
 \underbrace{m}_{\text{metric}},\;
-\underbrace{\theta}_{\text{operating point}}\bigr),
+\underbrace{\theta}_{\text{operating point}}\;\bigr),
+\end{aligned}
 \]
 together with the cohort and eligibility rule that fix $D$. A claim about a
 feature is \emph{well posed} only relative to a declared $\mathcal{S}$.
@@ -69,9 +72,9 @@ Comparisons between two baselines are often stated as a proportion. Write
 $B_0 \subset B_1$ and
 \begin{equation}
 D_s(f) \;=\; V_s(f \mid B_0) - V_s(f \mid B_1),
-\qquad
-R_s(f) \;=\; 1 - \frac{V_s(f \mid B_1)}{V_s(f \mid B_0)} \;=\;
-\frac{D_s(f)}{V_s(f \mid B_0)} .
+\quad
+R_s(f) \;=\; 1 - \frac{V_s(f \mid B_1)}{V_s(f \mid B_0)}
+\;=\; \frac{D_s(f)}{V_s(f \mid B_0)} .
 \label{eq:reduction}
 \end{equation}
 $D$ is an absolute difference in the metric's own units. $R$ is a ratio and

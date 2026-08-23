@@ -1,3 +1,19 @@
-\begin{table}[t]\centering\small
-\textbf{??} this table's source has not been generated yet.
-\caption{Confirmatory contrasts.}\label{tab:confirm}\end{table}
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lrrrrrrrr}
+\toprule
+contrast & estimate & se & lo & hi & p\_raw & n\_draws & p\_holm & reject\_holm\_05 \\
+\midrule
+C1 register adds to the intake baseline & 0.257 & 0.011 & 0.236 & 0.278 & 0.000 & 200 & 0.000 & True \\
+C2 register adds once the free field is admitted & 0.167 & 0.016 & 0.130 & 0.189 & 0.000 & 200 & 0.000 & True \\
+C3 register adds at the later decision time & 0.008 & 0.003 & 0.003 & 0.017 & 0.000 & 200 & 0.000 & True \\
+C4 absorption by the free field is positive & 0.090 & 0.017 & 0.063 & 0.126 & 0.000 & 200 & 0.000 & True \\
+C5 a half-empty register is worth less & 0.063 & 0.006 & 0.050 & 0.071 & 0.000 & 200 & 0.000 & True \\
+\bottomrule
+\end{tabular}%
+}
+\caption{The five pre-specified confirmatory contrasts, with Holm-corrected one-sided bootstrap $p$-values.}
+\label{tab:confirm}
+\end{table}

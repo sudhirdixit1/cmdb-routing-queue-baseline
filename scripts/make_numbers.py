@@ -230,6 +230,7 @@ def main(argv=None):
     put("nSignChanging", thousands(first(S3, "n_sign_changing")))
     put("nUnresolvedPairs", thousands(first(S3, "n_unresolved")))
     put("rhoMedian", num(first(S3, "rho_median"), 3))
+    put("nCondHarmful", thousands(first(S3, "n_conditionally_harmful")))
     if REG is not None and len(REG):
         put("nPairsBanded", thousands(len(REG)))
         put("nCondBeneficial",
@@ -445,7 +446,13 @@ def main(argv=None):
     for name, th in (("Cheap", 0.10), ("Base", 0.30), ("Dear", 0.60)):
         put("theta" + name, "%.2f" % th)
         put("ratio" + name, "%.1f" % ((1.0 - th) / th))
-    BN = load("s02_bands.csv")
+    #  Both of these are the RECENTRED constructions of s17; the raw s02
+    #  files are the fallback so a build before s17 has run still produces a
+    #  number, and it is then the percentile one, which the simulation
+    #  rejected.  A build that used the fallback says so in the log.
+    BN = load("s17_bands.csv")
+    if BN is None or not len(BN):
+        BN = load("s02_bands.csv")
     CE = load("s17_cells.csv")
     if CE is None or not len(CE):
         CE = load("s02_cells.csv")
@@ -662,6 +669,15 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
     #  a tabular with forty "Missing $ inserted" errors that name the row and
     #  not the cause.  This line used to do that.
     body = body.replace("\\begin{tabular}", "\\begin{tabular}")
+    #  Fifteen of this manuscript's tables ran into the right margin, some by
+    #  more than a column's width, and a referee reads that as carelessness
+    #  before reading the numbers.  \resizebox with the \ifdim guard shrinks a
+    #  table ONLY when it is wider than the text block, so narrow tables keep
+    #  the body font and wide ones fit.  The guard matters: an unconditional
+    #  \resizebox{\textwidth} also STRETCHES a narrow table, which looks worse
+    #  than the overfull box did.
+    body = ("\\resizebox{\\ifdim\\width>\\linewidth\\linewidth\\else\\width"
+            "\\fi}{!}{%%\n" + body.rstrip() + "%\n}")
     out = ["\\begin{table}[t]", "\\centering", "\\small", body,
            "\\caption{%s}" % caption, "\\label{%s}" % label]
     if note:
@@ -960,13 +976,13 @@ def write_tables(D):
             tex_table(DR.pivot_table(index="rule", columns="weighting",
                                      values="regret", aggfunc="mean")
                       .reset_index(),
-                      "Three decision rules under one loss: the mean regret "
+                      "Four decision rules under one loss: the mean regret "
                       "per log--target pair, in the metric's own units, under "
                       "a uniform draw over the admissible set and under a "
                       "draw concentrated near the conventional "
                       "specification.", "tab:rules"), encoding="utf-8")
     else:
-        blank("rules", "Three decision rules.", "tab:rules")
+        blank("rules", "Four decision rules.", "tab:rules")
 
     # ---- the extended quality table -------------------------------------
     S9M = D.get("S9M")
@@ -988,13 +1004,13 @@ def write_tables(D):
             tex_table(DR.pivot_table(index="rule", columns="weighting",
                                      values="regret", aggfunc="mean")
                       .reset_index(),
-                      "Three decision rules under one loss: the mean regret "
+                      "Four decision rules under one loss: the mean regret "
                       "per log--target pair, in the metric's own units, under "
                       "a uniform draw over the admissible set and under a "
                       "draw concentrated near the conventional "
                       "specification.", "tab:rules"), encoding="utf-8")
     else:
-        blank("rules", "Three decision rules.", "tab:rules")
+        blank("rules", "Four decision rules.", "tab:rules")
 
     # ---- corpus ----------------------------------------------------------
     EXC = load("r33_excluded.csv")

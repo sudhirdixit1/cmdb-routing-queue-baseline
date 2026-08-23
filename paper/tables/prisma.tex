@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lr}
 \toprule
 step & n \\
@@ -18,8 +19,8 @@ confirmed eligible, screened-in stratum & 26.000 \\
 confirmed eligible, screened-out stratum (unweighted) & 11.000 \\
 estimated eligible among all retrieved full texts & 54.900 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{The pilot's flow, in PRISMA-style steps.}
 \label{tab:prisma}
 \end{table}

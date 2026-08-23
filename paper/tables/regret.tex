@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{llrrrrr}
 \toprule
 log & target & learner & metric & quality & rung & split \\
@@ -25,8 +26,8 @@ Sepsis & duration & 0.113 & 0.066 & 0.058 & 0.063 & 0.089 \\
 UCI498 & duration & 0.300 & 0.197 & 0.199 & 0.383 & 0.384 \\
 UCI498 & handover & 0.333 & 0.206 & 0.230 & 0.489 & 0.289 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{Sign flips attributable to each axis: the share of pairs of cells that agree on every other axis and disagree on the sign of the increment.}
 \label{tab:regret}
 \end{table}

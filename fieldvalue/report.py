@@ -13,7 +13,7 @@ the answer is these four:
     regions(frame)     each cell labelled beneficial / harmful / unresolved
                        under an interval, and the surface labelled uniformly
                        beneficial / conditionally beneficial / sign-changing /
-                       unresolved
+                       conditionally harmful / uniformly harmful / unresolved
     robustness(frame)  rho in [-1, 1]: the only state in which a scalar is a
                        safe summary of a surface is rho = 1
     regret(frame)      what a one-number report costs: the share of admissible
@@ -109,7 +109,14 @@ def robustness(frame, value="V", lo="lo", hi="hi", exclude=()):
     nb = int((d.label == "beneficial").sum())
     nh = int((d.label == "harmful").sum())
     nu = int((d.label == "unresolved").sum())
-    if "beneficial" not in set(d.label) and "harmful" not in set(d.label):
+    #  "no intervals supplied" is a property of the INPUT, not of the labels.
+    #  Testing it by asking whether any cell resolved conflates it with the
+    #  genuine unresolved region -- a surface where bounds were given and
+    #  every one of them straddles zero -- and that conflation made the
+    #  package disagree with the pipeline on two pairs of this paper's corpus,
+    #  both of them honestly unresolved.  The fallback labels are unambiguous,
+    #  so read the answer off them.
+    if not len(set(d.label) & {"beneficial", "harmful", "unresolved"}):
         region = "unresolved (no intervals supplied)"
     elif nh and nb:
         region = "sign-changing"
@@ -117,8 +124,10 @@ def robustness(frame, value="V", lo="lo", hi="hi", exclude=()):
         region = "uniformly beneficial"
     elif nb and not nh:
         region = "conditionally beneficial"
+    elif nh and not nb and nu == 0:
+        region = "uniformly harmful"
     elif nh and not nb:
-        region = "harmful"
+        region = "conditionally harmful"
     else:
         region = "unresolved"
     return pd.DataFrame([dict(n_cells=n, n_beneficial=nb, n_harmful=nh,

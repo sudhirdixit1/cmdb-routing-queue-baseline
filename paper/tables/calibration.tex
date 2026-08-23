@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{llrrrrrrr}
 \toprule
 log & target & n\_train & n\_test & prev\_test & cal\_intercept & cal\_slope & brier & unseen \\
@@ -25,8 +26,8 @@ RoadFines & duration & 105259 & 45111 & 0.429 & -0.312 & 0.626 & 0.244 & 0.368 \
 UCI498 & handover & 17442 & 7476 & 0.420 & 0.017 & 1.230 & 0.071 & 0.192 \\
 BPIC19 & duration & 176213 & 75521 & 0.162 & -3.163 & 0.278 & 0.352 & 0.299 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{Calibration and unseen-category rates at the reference cell.}
 \label{tab:calibration}
 \end{table}

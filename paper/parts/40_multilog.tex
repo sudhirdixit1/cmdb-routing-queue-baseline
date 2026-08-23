@@ -7,9 +7,11 @@ Every number in this section comes from one master surface,
 \nPairs\ log--target pairs, \nLearners\ learners, \nSplits\ splits, \nQuality\
 register-quality conditions, the nested baseline ladder and \nMetrics\
 instruments including the \nGrid-point decision-curve grid. The surface has
-\nSurfaceRows\ cells. Uncertainty comes from
-\texttt{results/s02\_cells.csv} and \texttt{s02\_bands.csv}, which are
-\nDrawRows\ nested bootstrap draws.
+\nSurfaceRows\ cells. Uncertainty comes from \nDrawRows\ nested bootstrap
+draws, stored in \texttt{results/s02\_draws.csv.gz}; every interval and band
+quoted below is the basic construction of Section~\ref{sec:boot}, recomputed
+from those draws by \texttt{scripts/s17\_intervals.py} into
+\texttt{s17\_cells.csv} and \texttt{s17\_bands.csv}.
 
 \subsection{The master table}
 
@@ -97,11 +99,13 @@ positive number is a safe summary.}
 
 Of the \nPairsBanded\ pairs for which simultaneous bands were computed,
 \nUniformlyBeneficial\ are uniformly beneficial, \nCondBeneficial\ are
-conditionally beneficial, \nSignChanging\ are sign-changing and
-\nUnresolvedPairs\ are unresolved; the median robustness index is
-\rhoMedian. On a uniformly beneficial surface a single positive number is a
-defensible summary and this paper's apparatus is unnecessary. That state is
-reached on \nUniformlyBeneficial\ of \nPairsBanded\ pairs.
+conditionally beneficial, \nSignChanging\ are sign-changing,
+\nUnresolvedPairs\ are unresolved, and \nCondHarmful\ is conditionally
+harmful --- the register resolves on that pair, and it resolves to harm. The
+median robustness index is \rhoMedian. On a uniformly beneficial surface a
+single positive number is a defensible summary and this paper's apparatus is
+unnecessary. That state is reached on \nUniformlyBeneficial\ of
+\nPairsBanded\ pairs.
 
 \subsection{What one number costs}
 \label{sec:results-regret}
@@ -130,7 +134,7 @@ rung, \flipQualityPct\ under the register-quality condition and
 likely to hold fixed without comment --- which split, which learner --- are
 the two that flip the sign most often.
 
-\subsection{Three decision rules under one loss}
+\subsection{Four decision rules under one loss}
 \label{sec:rules}
 
 \input{tables/rules}

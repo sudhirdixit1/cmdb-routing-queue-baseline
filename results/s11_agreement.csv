@@ -227,3 +227,41 @@ misreport_mean[UCI498/duration],0.4998902606310014,0.4998902606310014,0.0,True,1
 regret_mean[UCI498/duration],0.007780469755730778,0.007780469755730829,5.117434254131581e-17,True,1e-12
 misreport_mean[UCI498/handover],0.49931412894375854,0.49931412894375865,1.1102230246251565e-16,True,1e-12
 regret_mean[UCI498/handover],0.005921534483493656,0.00592153448349371,5.4643789493269423e-17,True,1e-12
+rho[BPIC13_closed/handover],-0.0333333333333333,-0.03333333333333333,3.469446951953614e-17,True,1e-12
+region[BPIC13_closed/handover],conditionally harmful,conditionally harmful,,True,
+rho[BPIC13_incidents/duration],0.5333333333333333,0.5333333333333333,0.0,True,1e-12
+region[BPIC13_incidents/duration],conditionally beneficial,conditionally beneficial,,True,
+rho[BPIC13_incidents/handover],0.8666666666666667,0.8666666666666667,0.0,True,1e-12
+region[BPIC13_incidents/handover],conditionally beneficial,conditionally beneficial,,True,
+rho[BPIC14/duration],0.78125,0.78125,0.0,True,1e-12
+region[BPIC14/duration],conditionally beneficial,conditionally beneficial,,True,
+rho[BPIC14/handover],0.540625,0.540625,0.0,True,1e-12
+region[BPIC14/handover],sign-changing,sign-changing,,True,
+rho[BPIC15_1/duration],0.2,0.2,0.0,True,1e-12
+region[BPIC15_1/duration],conditionally beneficial,conditionally beneficial,,True,
+rho[BPIC15_1/handover],0.0333333333333333,0.03333333333333333,3.469446951953614e-17,True,1e-12
+region[BPIC15_1/handover],conditionally beneficial,conditionally beneficial,,True,
+rho[BPIC15_3/duration],0.5,0.5,0.0,True,1e-12
+region[BPIC15_3/duration],conditionally beneficial,conditionally beneficial,,True,
+rho[BPIC15_3/handover],0.0,0.0,0.0,True,1e-12
+region[BPIC15_3/handover],unresolved,unresolved,,True,
+rho[BPIC15_4/duration],0.0333333333333333,0.03333333333333333,3.469446951953614e-17,True,1e-12
+region[BPIC15_4/duration],conditionally beneficial,conditionally beneficial,,True,
+rho[BPIC15_4/handover],0.0,0.0,0.0,True,1e-12
+region[BPIC15_4/handover],unresolved,unresolved,,True,
+rho[BPIC15_5/duration],0.2666666666666666,0.26666666666666666,5.551115123125783e-17,True,1e-12
+region[BPIC15_5/duration],conditionally beneficial,conditionally beneficial,,True,
+rho[BPIC17/duration],0.2,0.2,0.0,True,1e-12
+region[BPIC17/duration],conditionally beneficial,conditionally beneficial,,True,
+rho[BPIC19/duration],-0.3666666666666666,-0.36666666666666664,5.551115123125783e-17,True,1e-12
+region[BPIC19/duration],sign-changing,sign-changing,,True,
+rho[Helpdesk/duration],0.0333333333333333,0.03333333333333333,3.469446951953614e-17,True,1e-12
+region[Helpdesk/duration],conditionally beneficial,conditionally beneficial,,True,
+rho[RoadFines/duration],0.4,0.4,0.0,True,1e-12
+region[RoadFines/duration],sign-changing,sign-changing,,True,
+rho[Sepsis/duration],1.0,1.0,0.0,True,1e-12
+region[Sepsis/duration],uniformly beneficial,uniformly beneficial,,True,
+rho[UCI498/duration],0.1333333333333333,0.13333333333333333,2.7755575615628914e-17,True,1e-12
+region[UCI498/duration],conditionally beneficial,conditionally beneficial,,True,
+rho[UCI498/handover],0.2333333333333333,0.23333333333333334,2.7755575615628914e-17,True,1e-12
+region[UCI498/handover],sign-changing,sign-changing,,True,

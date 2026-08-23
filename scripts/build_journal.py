@@ -110,8 +110,15 @@ def main():
     log = run(tex, out, "p3.log")
 
     errs = [l for l in log.splitlines() if l.startswith("!")]
-    undef = [l for l in log.splitlines()
-             if "Warning" in l and "undefined" in l.lower()]
+    #  A `Font shape ... undefined' warning is a substitution, not a broken
+    #  cross-reference, and treating it as one made the gate fire on a build
+    #  whose references were all resolved.  Font problems are still reported,
+    #  separately, because they are worth fixing -- they just are not this
+    #  gate's business.
+    warn = [l for l in log.splitlines() if "Warning" in l]
+    undef = [l for l in warn
+             if "undefined" in l.lower() and "Font" not in l]
+    fonts = [l for l in warn if "Font" in l and "undefined" in l.lower()]
     over = [l for l in log.splitlines() if l.startswith("Overfull \\hbox")]
     pdf = out / f"{STEM}.pdf"
     if errs or not pdf.exists():
@@ -123,6 +130,10 @@ def main():
     print(f"OK  {pdf}")
     print(f"    {pages.strip()}")
     print(f"    {len(over)} overfull hboxes")
+    if fonts:
+        print(f"    {len(fonts)} font-shape substitutions (not references):")
+        for u in fonts[:4]:
+            print(f"      {u.strip()}")
     shutil.copy2(pdf, PAPER / f"{STEM}.pdf")
     print(f"    copied to {PAPER / f'{STEM}.pdf'}")
     if undef:

@@ -200,8 +200,13 @@ Under the simultaneous band of Section~\ref{sec:simbands}, a cell is
 band is below zero, and \emph{unresolved} otherwise. A surface is
 \emph{uniformly beneficial} if every admissible cell is beneficial;
 \emph{conditionally beneficial} if some are and none is harmful;
-\emph{sign-changing} if there is at least one of each; and \emph{unresolved}
-if none is resolved. The \emph{robustness index} is
+\emph{uniformly harmful} and \emph{conditionally harmful} in mirror image;
+\emph{sign-changing} if there is at least one cell of each kind; and
+\emph{unresolved} if none is resolved. The two harmful labels are not
+decoration --- one pair in this corpus is conditionally harmful
+(Table~\ref{tab:regions}), and a taxonomy with no name for a register that
+resolves only to \emph{harm} would have reported it as unresolved, which reads
+as ``we could not tell''. The \emph{robustness index} is
 \[
 \rho \;=\; \frac{\#\{\text{beneficial}\} - \#\{\text{harmful}\}}
 {\#\{\text{admissible}\}} \;\in\; [-1, 1].
@@ -257,7 +262,7 @@ Let the reader's specification be drawn from the admissible set $\mathcal{S}$
 under a weighting $w$, and let a rule choose one action for all readers.
 Writing $A = \mathbb{E}_w[\max(0,-V_s)]$ for the harm mass and
 $B = \mathbb{E}_w[\max(0,V_s)]$ for the benefit mass, expected loss is $A$
-under \textsc{adopt} and $B$ under \textsc{decline}, and
+under \textnormal{\textsc{adopt}} and $B$ under \textnormal{\textsc{decline}}, and
 \[
 B - A \;=\; \mathbb{E}_w\!\left[\max(0,V_s) - \max(0,-V_s)\right]
 \;=\; \mathbb{E}_w[V_s].

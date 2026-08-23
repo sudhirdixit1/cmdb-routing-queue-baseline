@@ -1,3 +1,33 @@
-\begin{table}[t]\centering\small
-\textbf{??} this table's source has not been generated yet.
-\caption{The master table.}\label{tab:master}\end{table}
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{llrrrlrr}
+\toprule
+log & target & V & lo & hi & region & rho & one\_number\_misreport\_conventional \\
+\midrule
+BPIC13\_closed & handover & -0.009 & -0.041 & 0.018 & conditionally harmful & -0.033 & 0.428 \\
+BPIC13\_incidents & duration & 0.028 & 0.014 & 0.056 & conditionally beneficial & 0.533 & 0.393 \\
+BPIC13\_incidents & handover & 0.037 & 0.027 & 0.051 & conditionally beneficial & 0.867 & 0.111 \\
+BPIC14 & duration & 0.096 & 0.090 & 0.109 & conditionally beneficial & 0.781 & 0.205 \\
+BPIC14 & handover & 0.167 & 0.146 & 0.204 & sign-changing & 0.541 & 0.340 \\
+BPIC15\_1 & duration & 0.001 & -0.030 & 0.045 & conditionally beneficial & 0.200 & 0.500 \\
+BPIC15\_1 & handover & 0.007 & -0.008 & 0.021 & conditionally beneficial & 0.033 & 0.242 \\
+BPIC15\_3 & duration & 0.035 & -0.004 & 0.067 & conditionally beneficial & 0.500 & 0.191 \\
+BPIC15\_3 & handover & -0.003 & -0.048 & 0.061 & unresolved & 0.000 & 0.577 \\
+BPIC15\_4 & duration & 0.035 & 0.010 & 0.078 & conditionally beneficial & 0.033 & 0.500 \\
+BPIC15\_4 & handover & 0.001 & -0.028 & 0.056 & unresolved & 0.000 & 0.422 \\
+BPIC15\_5 & duration & 0.032 & -0.024 & 0.090 & conditionally beneficial & 0.267 & 0.385 \\
+BPIC17 & duration & 0.002 & -0.003 & 0.012 & conditionally beneficial & 0.200 & 0.353 \\
+BPIC19 & duration & 0.024 & 0.011 & 0.042 & sign-changing & -0.367 & 0.349 \\
+Helpdesk & duration & -0.020 & -0.043 & -0.002 & conditionally beneficial & 0.033 & 0.257 \\
+RoadFines & duration & 0.031 & 0.024 & 0.037 & sign-changing & 0.400 & 0.136 \\
+Sepsis & duration & 0.153 & 0.108 & 0.207 & uniformly beneficial & 1.000 & 0.056 \\
+UCI498 & duration & -0.007 & -0.010 & 0.007 & conditionally beneficial & 0.133 & 0.502 \\
+UCI498 & handover & -0.003 & -0.007 & -0.001 & sign-changing & 0.233 & 0.506 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{The master table. One row per admitted log--target pair: the increment at the reference specification with its 95\% interval from the nested bootstrap, the resolution region, the robustness index $\rho$, and the share of admissible specifications whose sign disagrees with a conventional one-number report.}
+\label{tab:master}
+\end{table}

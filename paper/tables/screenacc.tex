@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lrrrl}
 \toprule
 quantity & estimate & lo & hi & note \\
@@ -10,8 +11,8 @@ screen specificity & 0.911 & 0.874 & 0.938 & weighted \\
 screen precision (PPV) & 0.481 & 0.354 & 0.611 & census over the screened-in stratum \\
 eligibility prevalence among retrieved full texts & 0.149 & -- & -- & two-stratum estimate \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{The mechanical screen's measured accuracy against the adjudicated standard.}
 \label{tab:screenacc}
 \end{table}

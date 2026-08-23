@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{llrrrrr}
 \toprule
 log & target & learner & metric & quality\_level & rung & split \\
@@ -25,8 +26,8 @@ Sepsis & duration & 0.075 & 0.285 & 0.075 & 0.006 & 0.061 \\
 UCI498 & duration & 0.020 & 0.161 & 0.008 & 0.163 & 0.116 \\
 UCI498 & handover & 0.040 & 0.079 & 0.025 & 0.308 & 0.057 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{First-order sensitivity indices on the headroom scale: the share of the variance in the increment across specifications explained by each design axis alone.}
 \label{tab:sobol}
 \end{table}

@@ -101,7 +101,20 @@ def test_rho_is_minus_one_when_every_cell_is_harmful():
     f["lo"], f["hi"] = -0.3, -0.1
     r = robustness(f)
     assert r.rho.iloc[0] == pytest.approx(-1.0)
-    assert r.region.iloc[0] == "harmful"
+    assert r.region.iloc[0] == "uniformly harmful"
+
+
+def test_some_harmful_and_none_beneficial_is_conditionally_harmful():
+    #  The mirror of `conditionally beneficial`, and the state one pair of the
+    #  paper's corpus lands in.  Before the label existed this surface was
+    #  reported as unresolved, which reads as `we could not tell` when in fact
+    #  the only thing the bands resolved was harm.
+    f = grid([-0.2] * 6)
+    f["lo"] = [-0.3, -0.3, -0.3, -0.3, -0.1, -0.1]
+    f["hi"] = [-0.1, -0.1, -0.1, -0.1, +0.1, +0.1]
+    r = robustness(f)
+    assert r.region.iloc[0] == "conditionally harmful"
+    assert r.n_harmful.iloc[0] == 4 and r.n_unresolved.iloc[0] == 2
 
 
 def test_a_surface_with_both_signs_resolved_is_sign_changing():

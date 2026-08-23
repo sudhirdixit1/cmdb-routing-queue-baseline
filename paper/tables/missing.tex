@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lrr}
 \toprule
 characteristic & retrieved & not\_retrieved \\
@@ -9,8 +10,8 @@ n & 369.000 & 231.000 \\
 median year & 2023.000 & 2024.000 \\
 share from the four round-eighteen venues & 0.650 & 0.654 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{Retrieved against unretrieved records, and the bounds on the eligibility rate under the extreme assumptions about the unretrieved.}
 \label{tab:missing}
 \begin{tabular}{lr}

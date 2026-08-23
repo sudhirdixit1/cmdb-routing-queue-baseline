@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{llrrrrr}
 \toprule
 log & target & rolling1 & rolling2 & rolling3 & rolling4 & rolling5 \\
@@ -25,8 +26,8 @@ Sepsis & duration & 0.130 & 0.159 & 0.154 & 0.129 & 0.186 \\
 UCI498 & duration & -0.007 & -0.011 & -0.008 & -0.006 & -0.010 \\
 UCI498 & handover & 0.003 & -0.003 & 0.001 & -0.003 & -0.005 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{The increment at the reference cell under each rolling-origin fold.}
 \label{tab:rolling}
 \end{table}

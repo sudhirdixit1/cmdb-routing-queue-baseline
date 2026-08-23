@@ -14,6 +14,11 @@
 %% macro against the result file it came from.
 \documentclass[preprint,12pt]{elsarticle}
 
+%%  Latin Modern carries the bold and small-caps typewriter shapes that
+%%  Computer Modern lacks -- which is what thirty font-substitution warnings
+%%  in an earlier build of this round were -- and is scalable, so the PDF
+%%  embeds outlines rather than bitmaps.
+\usepackage{lmodern}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -22,6 +27,20 @@
 \usepackage[hyphens]{url}
 \urlstyle{rm}
 \usepackage[protrusion=true,expansion=false]{microtype}
+
+%%  This manuscript quotes a lot of file paths in \texttt, and a typewriter
+%%  path is one unbreakable word to TeX, so a paragraph that ends on one runs
+%%  into the margin.  Two settings fix it without touching the prose: allow a
+%%  break after the punctuation inside a path, and give TeX a last-resort
+%%  stretch so it loosens a paragraph rather than overflowing it.
+%%  This is what the `hyphenat' package's htt option does, written out, so
+%%  that the twenty font-shape probes it performs at load time stay out of the
+%%  build log -- a clean log is the point of having one.
+\makeatletter
+\DeclareRobustCommand\texttt[1]{%
+  {\ttfamily\hyphenchar\font=`\-\relax #1}}
+\makeatother
+\setlength{\emergencystretch}{3em}
 
 \input{numbers}
 

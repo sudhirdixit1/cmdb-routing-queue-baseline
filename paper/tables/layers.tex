@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lllrrrrrrr}
 \toprule
 log & target & level & levels\_from\_coarse & cardinality & n & n\_test & base\_auc & auc & gain\_over\_b0 \\
@@ -26,8 +27,8 @@ BPIC19 & duration & case:Item marginal over case:Item Category & -1 & 490 & 2484
 BPIC14 & handover & CI Type (aff) & 0 & 13 & 46606 & 13982 & 0.641 & 0.775 & 0.134 \\
 BPIC14 & handover & CI Subtype (aff) & 1 & 65 & 46606 & 13982 & 0.641 & 0.804 & 0.163 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{The increment of each layer of the register over the same baseline.}
 \label{tab:layers}
 \end{table}

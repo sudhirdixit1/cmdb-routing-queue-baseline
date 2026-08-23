@@ -1,3 +1,33 @@
-\begin{table}[t]\centering\small
-\textbf{??} this table's source has not been generated yet.
-\caption{Resolution regions.}\label{tab:regions}\end{table}
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{llrrrrrrlrrrr}
+\toprule
+log & target & n\_cells & n\_beneficial & n\_harmful & n\_unresolved & rho & share\_positive & region & dc\_cells & dc\_beneficial & dc\_harmful & dc\_rho \\
+\midrule
+BPIC13\_closed & handover & 30 & 0 & 1 & 29 & -0.033 & 0.033 & conditionally harmful & 186 & 0 & 1 & -0.005 \\
+BPIC13\_incidents & duration & 30 & 16 & 0 & 14 & 0.533 & 1.000 & conditionally beneficial & 186 & 23 & 3 & 0.108 \\
+BPIC13\_incidents & handover & 30 & 26 & 0 & 4 & 0.867 & 1.000 & conditionally beneficial & 176 & 37 & 0 & 0.210 \\
+BPIC14 & duration & 320 & 250 & 0 & 70 & 0.781 & 0.916 & conditionally beneficial & 1973 & 601 & 75 & 0.267 \\
+BPIC14 & handover & 320 & 204 & 31 & 85 & 0.541 & 0.791 & sign-changing & 1944 & 490 & 3 & 0.251 \\
+BPIC15\_1 & duration & 30 & 6 & 0 & 24 & 0.200 & 0.667 & conditionally beneficial & 181 & 0 & 0 & 0.000 \\
+BPIC15\_1 & handover & 30 & 1 & 0 & 29 & 0.033 & 0.967 & conditionally beneficial & 183 & 0 & 0 & 0.000 \\
+BPIC15\_3 & duration & 30 & 15 & 0 & 15 & 0.500 & 1.000 & conditionally beneficial & 186 & 27 & 1 & 0.140 \\
+BPIC15\_3 & handover & 30 & 0 & 0 & 30 & 0.000 & 0.533 & unresolved & 158 & 0 & 0 & 0.000 \\
+BPIC15\_4 & duration & 30 & 1 & 0 & 29 & 0.033 & 1.000 & conditionally beneficial & 174 & 1 & 0 & 0.006 \\
+BPIC15\_4 & handover & 30 & 0 & 0 & 30 & 0.000 & 0.033 & unresolved & 178 & 0 & 0 & 0.000 \\
+BPIC15\_5 & duration & 30 & 8 & 0 & 22 & 0.267 & 0.767 & conditionally beneficial & 186 & 5 & 1 & 0.022 \\
+BPIC17 & duration & 30 & 6 & 0 & 24 & 0.200 & 0.700 & conditionally beneficial & 162 & 0 & 0 & 0.000 \\
+BPIC19 & duration & 30 & 7 & 18 & 5 & -0.367 & 0.333 & sign-changing & 186 & 82 & 33 & 0.263 \\
+Helpdesk & duration & 30 & 1 & 0 & 29 & 0.033 & 0.167 & conditionally beneficial & 186 & 0 & 0 & 0.000 \\
+RoadFines & duration & 30 & 21 & 9 & 0 & 0.400 & 0.700 & sign-changing & 153 & 12 & 2 & 0.065 \\
+Sepsis & duration & 30 & 30 & 0 & 0 & 1.000 & 1.000 & uniformly beneficial & 186 & 81 & 0 & 0.435 \\
+UCI498 & duration & 30 & 4 & 0 & 26 & 0.133 & 0.467 & conditionally beneficial & 186 & 11 & 3 & 0.043 \\
+UCI498 & handover & 30 & 8 & 1 & 21 & 0.233 & 0.267 & sign-changing & 186 & 3 & 4 & -0.005 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Resolution regions under the simultaneous max-$t$ bands.}
+\label{tab:regions}
+\end{table}

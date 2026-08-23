@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{rrrr}
 \toprule
 lambda\_posthoc & V\_auc & sd & n\_seeds \\
@@ -17,8 +18,8 @@ lambda\_posthoc & V\_auc & sd & n\_seeds \\
 0.900 & 0.091 & 0.002 & 5 \\
 1.000 & 0.104 & 0.000 & 5 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{The register's increment against the share of knowledge references assumed post-hoc.}
 \label{tab:tipping}
 \end{table}

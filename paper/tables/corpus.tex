@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{llll}
 \toprule
 log & domain & code & detail \\
@@ -23,8 +24,8 @@ Sepsis & healthcare & NO\_HEADROOM & handover/primary prev=1.0000 \\
 HospitalBilling & healthcare & NO\_F & n=100000 \\
 RoadFines & enforcement & NO\_HEADROOM & handover/primary prev=0.0037 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{Every log the registered rules exclude, with its registered exclusion code.}
 \label{tab:corpus}
 \end{table}

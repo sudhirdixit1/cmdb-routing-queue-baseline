@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lrl}
 \toprule
 evidence & value & establishes \\
@@ -13,8 +14,8 @@ interactions whose recorded handling time had elapsed before the incident was op
 knowledge reference populated on the joined cohort & 0.911 & coverage, not timing \\
 base AUC from the knowledge reference alone & 0.648 & the field is highly predictive, which is a reason for suspicion and not for confidence \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{What the interaction file establishes, and what it does not.}
 \label{tab:availability}
 \end{table}

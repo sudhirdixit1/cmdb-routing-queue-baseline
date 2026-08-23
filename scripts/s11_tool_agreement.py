@@ -98,12 +98,25 @@ def main():
             float(pipe.regret.mean()), float(pkg.regret.mean()))
 
     #  ---- the regions -----------------------------------------------------
-    bands = RESULTS / "s02_bands.csv"
+    #  The comparison must be fed EXACTLY what s03 was fed, or it measures a
+    #  difference in inputs and reports it as a difference in implementations.
+    #  Two things matter: s03 reads s17's recentred bands, not s02's raw ones,
+    #  and s03 labels a region over the SCALAR family alone, because folding
+    #  the decision-curve cells in would let one extreme threshold decide the
+    #  label of a whole surface (Section "Resolution regions").  Getting
+    #  either wrong made every region disagree, which is what the first run of
+    #  this file after s17 landed did.
+    bands = next((p for p in (RESULTS / "s17_bands.csv",
+                              RESULTS / "s02_bands.csv") if p.exists()), None)
     regions = RESULTS / "s03_regions.csv"
-    if bands.exists() and regions.exists():
+    if bands is not None and regions.exists():
         BN = pd.read_csv(bands)
         RE = pd.read_csv(regions)
         if len(BN) and len(RE):
+            if "family" in BN.columns:
+                BN = BN[BN.family == "scalars"]
+            print("  regions compared from %s over %d scalar-family bands"
+                  % (bands.name, len(BN)))
             BN = BN.rename(columns={"sim_lo": "lo", "sim_hi": "hi"})
             for (log, target), sub in BN.groupby(["log", "target"]):
                 pkg = FV.robustness(sub, value="V", lo="lo", hi="hi",

@@ -90,6 +90,12 @@ def main():
     for kind in ("pct", "basic", "bc"):
         C[kind + "_resolved"] = ((C[kind + "_lo"] > 0)
                                  | (C[kind + "_hi"] < 0))
+    #  `lo`, `hi` and `resolved` are aliases for the BASIC construction, which
+    #  is the one the paper reports, so a consumer that asks a cell file for
+    #  its interval without naming a construction gets the paper's answer
+    #  rather than the percentile interval the simulation rejected.  Every
+    #  construction stays in the file under its own name.
+    C["lo"], C["hi"], C["resolved"] = C.basic_lo, C.basic_hi, C.basic_resolved
     C.to_csv(RESULTS / "s17_cells.csv", index=False)
 
     #  ---- max-t bands, built on the basic construction -------------------

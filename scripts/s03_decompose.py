@@ -36,10 +36,12 @@ Using s02's simultaneous bands, every admissible cell is labelled
 
 and the surface as a whole is then
 
-    UNIFORMLY BENEFICIAL   every admissible cell is beneficial
+    UNIFORMLY BENEFICIAL      every admissible cell is beneficial
     CONDITIONALLY BENEFICIAL  some beneficial, none harmful
-    SIGN-CHANGING          at least one beneficial and at least one harmful
-    UNRESOLVED             no cell resolved
+    UNIFORMLY HARMFUL         every admissible cell is harmful
+    CONDITIONALLY HARMFUL     some harmful, none beneficial
+    SIGN-CHANGING             at least one beneficial and at least one harmful
+    UNRESOLVED                no cell resolved
 
 with a scalar ROBUSTNESS INDEX
 
@@ -222,8 +224,10 @@ def main():
                 region = "uniformly beneficial"
             elif nb_ and not nh:
                 region = "conditionally beneficial"
+            elif nh and not nb_ and nu == 0:
+                region = "uniformly harmful"
             elif nh and not nb_:
-                region = "harmful"
+                region = "conditionally harmful"
             else:
                 region = "unresolved"
             #  the same labels over the decision curve, reported beside
@@ -271,6 +275,17 @@ def main():
             (hs.S_total - hs.S).clip(lower=0).median()),
         n_regions=len(REG),
         n_uniformly_beneficial=int((REG.region == "uniformly beneficial").sum())
+        if len(REG) else 0,
+        n_conditionally_beneficial=int(
+            (REG.region == "conditionally beneficial").sum())
+        if len(REG) else 0,
+        #  The mirror of `conditionally beneficial`: cells resolve, and the
+        #  ones that resolve resolve to HARM.  One pair in this corpus lands
+        #  here, and before it was named it was being counted as unresolved.
+        n_conditionally_harmful=int(
+            (REG.region == "conditionally harmful").sum())
+        if len(REG) else 0,
+        n_uniformly_harmful=int((REG.region == "uniformly harmful").sum())
         if len(REG) else 0,
         n_sign_changing=int((REG.region == "sign-changing").sum())
         if len(REG) else 0,

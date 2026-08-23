@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lllrrrrrrr}
 \toprule
 world & estimand & interval & coverage & n & mean\_width & bias & rmse & truth & mean\_estimate \\
@@ -18,8 +19,8 @@ nonlinear & V\_limit & nested & 0.950 & 200 & 0.044 & -0.002 & 0.012 & 0.169 & 0
 sparse & V\_limit & naive & 0.635 & 200 & 0.030 & -0.012 & 0.014 & 0.091 & 0.079 \\
 sparse & V\_limit & nested & 0.420 & 200 & 0.034 & -0.012 & 0.014 & 0.091 & 0.079 \\
 \bottomrule
-\end{tabular}
-
+\end{tabular}%
+}
 \caption{Simulation: coverage of the estimator's own limit at the nominal 95\%, by world, for the fixed-model and the nested bootstrap under the percentile and the basic construction. The nested percentile interval is the one that fails, and the basic construction is the repair.}
 \label{tab:sim}
 \end{table}

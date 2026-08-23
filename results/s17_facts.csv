@@ -1,0 +1,2 @@
+n_cells,n_bands,median_shift,max_abs_shift,share_shift_negative,n_resolved_pct,n_resolved_basic,n_resolved_bc,n_band_resolved_raw,n_band_resolved_recentred,runtime_s
+8280,8106,-0.00012360156818796845,0.28242074927953903,0.5591787439613527,3104,3623,3934,2046,2163,18.8

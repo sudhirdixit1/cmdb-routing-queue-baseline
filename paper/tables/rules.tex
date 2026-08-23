@@ -1,6 +1,7 @@
 \begin{table}[t]
 \centering
 \small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lrr}
 \toprule
 rule & reference-adjacent & uniform \\
@@ -10,8 +11,8 @@ mean (optimal) & 0.016 & 0.024 \\
 one-number & 0.024 & 0.038 \\
 uniform-beneficial & 0.045 & 0.049 \\
 \bottomrule
-\end{tabular}
-
-\caption{Three decision rules under one loss: the mean regret per log--target pair, in the metric's own units, under a uniform draw over the admissible set and under a draw concentrated near the conventional specification.}
+\end{tabular}%
+}
+\caption{Four decision rules under one loss: the mean regret per log--target pair, in the metric's own units, under a uniform draw over the admissible set and under a draw concentrated near the conventional specification.}
 \label{tab:rules}
 \end{table}
