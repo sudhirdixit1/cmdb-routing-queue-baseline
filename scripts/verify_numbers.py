@@ -64,6 +64,7 @@ CONDITIONS = (
     "the case study's split partitions its cohort",
     "the pilot's frame is at least its sample, and equals it when every "
     "design weight is one",
+    "every count in the PRISMA flow equals the macro the prose quotes it by",
 )
 
 FAILS = []
@@ -343,6 +344,24 @@ def main(argv=None):
         if int(per_h.sum()) < len(SAMP):
             FAILS.append("the pilot's frame (%d) is smaller than its sample "
                          "(%d)" % (per_h.sum(), len(SAMP)))
+        #  The PRISMA flow is a SECOND printing of numbers the prose also
+        #  quotes, so the two can disagree -- and did: the table said 54,910
+        #  records enumerated while Section 9.4 said 600, in one document.
+        #  Every row of the flow that names a quantity with a macro is
+        #  checked against that macro here.
+        PR = load("s06_prisma.csv")
+        if PR is not None and len(PR):
+            flow = dict(zip(PR.step.astype(str), PR.n.astype(float)))
+            for step, macro in (
+                    ("records enumerated in the frame", "nAuditFrame"),
+                    ("records sampled", "nAuditSampled"),
+                    ("full text retrieved", "nAuditFullText"),
+                    ("full text not retrieved", "nAuditNoFullText"),
+                    ("screened in by the mechanical rule",
+                     "nAuditScreenedIn")):
+                if step in flow:
+                    eq(macro, fmt_thousands(flow[step]), M,
+                       note="PRISMA row %r" % step)
     A_in = ROOT / "data" / "audit2" / "adjudication_in.csv"
     A_out = ROOT / "data" / "audit2" / "adjudication_out.csv"
     if S6 is not None and len(S6) and A_in.exists() and A_out.exists():

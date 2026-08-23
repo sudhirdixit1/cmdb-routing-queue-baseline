@@ -679,9 +679,20 @@ def stage_report(sample, coding):
     ppv = tp / float(tp + fp) if (tp + fp) else np.nan
     n_elig_hat = tp + fn_hat
 
+    if "N_h" in sample.columns:
+        per_h = sample.groupby("stratum").N_h.first()
+        n_frame_total, n_strata = int(per_h.sum()), int(len(per_h))
+        w_max = float(sample.weight.max()) if "weight" in sample.columns else 1.0
+    else:
+        n_frame_total, n_strata, w_max = n_frame, 0, 1.0
+
     prisma = pd.DataFrame([
-        dict(step="records enumerated in the frame", n=int(sample.N_h.sum())
-             if "N_h" in sample.columns else n_frame),
+        #  n_frame_total, computed once above by grouping on the stratum.
+        #  Summing N_h over ROWS gives sum_h N_h * n_h and put 54,910 in this
+        #  table while Section 9.4 said 600 -- the two disagreed inside one
+        #  document, which is the defect the whole generated-macro
+        #  architecture exists to make impossible.
+        dict(step="records enumerated in the frame", n=n_frame_total),
         dict(step="records sampled", n=n_frame),
         dict(step="full text retrieved", n=n_ft),
         dict(step="full text not retrieved", n=n_frame - n_ft),
@@ -887,12 +898,6 @@ def stage_report(sample, coding):
     #  enumerated record was taken, and the pilot is a census of what the
     #  enumeration returned rather than a probability subsample of a
     #  literature.
-    if "N_h" in sample.columns:
-        per_h = sample.groupby("stratum").N_h.first()
-        n_frame_total, n_strata = int(per_h.sum()), int(len(per_h))
-        w_max = float(sample.weight.max()) if "weight" in sample.columns else 1.0
-    else:
-        n_frame_total, n_strata, w_max = n_frame, 0, 1.0
     facts = dict(
         n_frame_total=n_frame_total, n_strata=n_strata,
         max_design_weight=w_max, target_n=TARGET_N,

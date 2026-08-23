@@ -20,9 +20,9 @@
     "sha": "65e0b6435a2891cb"
   },
   "s06_audit2.py": {
-    "at": "2026-08-23T22:13:15Z",
-    "note": "The pilot's report stage was re-run against the same sample, coding and adjudications after n_frame_total was corrected from a row-sum to a stratum-sum. No record was re-fetched, re-screened or re-adjudicated.",
-    "sha": "a89a5481b1c4481c"
+    "at": "2026-08-23T23:14:40Z",
+    "note": "s06's report stage re-run after the PRISMA flow was pointed at the corrected frame total; no record was re-fetched, re-screened or re-adjudicated. s13 verified after.",
+    "sha": "667b7e4491c2b23e"
   },
   "s07_props.py": {
     "at": "2026-08-23T21:56:14Z",
@@ -50,13 +50,13 @@
     "sha": "398d4902149b409e"
   },
   "s12_figures.py": {
-    "at": "2026-08-23T21:56:24Z",
-    "note": "The surface was computed at 14:15; the only later edit to s01_surface.py gzips its outputs and writes no new number. s12_figures.py redraws from result files it does not produce, so its own hash is not a claim about any number.",
-    "sha": "63b6026719d6665f"
+    "at": "2026-08-23T23:14:53Z",
+    "note": "s12 redraws from result files it does not produce; its edit derives the coverage figure's y-axis floor from the data instead of a literal 0.6, which clipped the sparse world's percentile bar out of the figure.",
+    "sha": "b83ad94a97cb7e97"
   },
   "s13_attack_numbers.py": {
-    "at": "2026-08-23T22:38:51Z",
-    "note": "The corruption suite regenerates the macros from the corrupted copy before verifying, which is what makes a result-file corruption a real test; 10 of 10 caught.",
+    "at": "2026-08-23T23:14:40Z",
+    "note": "s06's report stage re-run after the PRISMA flow was pointed at the corrected frame total; no record was re-fetched, re-screened or re-adjudicated. s13 verified after.",
     "sha": "d6f5b99e093271c2"
   },
   "s15_calibration_curves.py": {

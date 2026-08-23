@@ -1099,8 +1099,18 @@ def write_tables(D):
     PR = load("s06_prisma.csv")
     if PR is not None and len(PR):
         (TABLES / "prisma.tex").write_text(
-            tex_table(PR, "The pilot's flow, in PRISMA-style steps.",
-                      "tab:prisma"), encoding="utf-8")
+            #  Every row but the last is a COUNT.  `600.000' beside `54.900'
+            #  reads as a thousands separator to half the world, and the last
+            #  row is genuinely fractional -- it is a weighted estimate -- so
+            #  the column is formatted per row rather than per column.
+            tex_table(PR.assign(n=PR.n.map(
+                lambda v: ("%d" % round(v)) if float(v) == int(v)
+                else fmt_fixed(v, 1))),
+                "The pilot's flow, in PRISMA-style steps. Every row is a "
+                "count of records except the last, which is the two-stratum "
+                "estimate of how many of the retrieved full texts are "
+                "eligible and is therefore fractional.",
+                "tab:prisma"), encoding="utf-8")
     else:
         blank("prisma", "The pilot's flow.", "tab:prisma")
     SA = load("s06_screen_accuracy.csv")
