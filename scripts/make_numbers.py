@@ -807,6 +807,13 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
     d = df.copy()
     if colnames:
         d = d.rename(columns=colnames)
+    #  A column called `one_number_misreport_conventional` is a variable name,
+    #  not a heading, and pandas escapes the underscore into a visible one.
+    #  Any name a call site has not overridden gets the same treatment: the
+    #  underscores become spaces, so the header reads as English.  Names that
+    #  would still be cryptic are overridden at the call site.
+    d = d.rename(columns=lambda c: str(c).replace("_", " ")
+                 if isinstance(c, str) else c)
     body = d.to_latex(index=False, escape=True, float_format=floatfmt,
                       na_rep="--")
     #  `to_latex(escape=True)` has ALREADY escaped every underscore.  Escaping
@@ -864,8 +871,20 @@ def write_tables(D):
                       "with its 95\\% interval from the nested bootstrap, the "
                       "resolution region, the robustness index $\\rho$, and "
                       "the share of admissible specifications whose sign "
-                      "disagrees with a conventional one-number report.",
-                      "tab:master"), encoding="utf-8")
+                      "disagrees with a conventional one-number report. The "
+                      "reference cell's sign and the region need not agree, "
+                      "and on several pairs they do not: a surface can be "
+                      "conditionally beneficial while the one cell an analyst "
+                      "would have stood on is negative, which is this paper's "
+                      "argument in a line.",
+                      "tab:master",
+                      #  pandas escapes the header row too, so a column name
+                      #  cannot carry math; these are plain words on purpose.
+                      colnames={"V": "V at reference",
+                                "rho": "rho",
+                                "one_number_misreport_conventional":
+                                    "misreport rate"}),
+            encoding="utf-8")
     else:
         blank("master", "The master table.", "tab:master")
 
@@ -923,10 +942,15 @@ def write_tables(D):
         #  interval constructions.  The oracle rows and the bias-corrected
         #  construction are in results/s10_coverage.csv; putting all
         #  seventy-two rows in the paper would be a table nobody reads.
+        #  The bias-corrected column is in the table because the prose makes
+        #  a claim about it -- that it does NOT repair the sparse world --
+        #  and a claim about a construction the reader cannot see is a claim
+        #  they have to take on trust.
         WANT = {"naive_pct": "fixed-model, percentile",
                 "naive_basic": "fixed-model, basic",
                 "nested_pct": "nested, percentile",
-                "nested_basic": "nested, basic"}
+                "nested_basic": "nested, basic",
+                "nested_bc": "nested, bias-corrected"}
         d = S10C[(S10C.estimand == "V_limit") & (S10C.interval.isin(WANT))]
         if len(d):
             piv = (d.assign(interval=d.interval.map(WANT))
@@ -939,9 +963,13 @@ def write_tables(D):
             tex_table(body, "Simulation: coverage of the estimator's own "
                       "limit at the nominal 95\\%, by world, for the "
                       "fixed-model and the nested bootstrap under the "
-                      "percentile and the basic construction. The nested "
-                      "percentile interval is the one that fails, and the "
-                      "basic construction is the repair.", "tab:sim"),
+                      "percentile, basic and bias-corrected "
+                      "constructions. The nested percentile interval "
+                      "is the one that fails, on the sparse world, and "
+                      "the basic construction is the repair; the "
+                      "bias-corrected percentile is not. The oracle "
+                      "rows are in results/s10\_coverage.csv.",
+                      "tab:sim"),
             encoding="utf-8")
     else:
         blank("sim", "Simulation.", "tab:sim")

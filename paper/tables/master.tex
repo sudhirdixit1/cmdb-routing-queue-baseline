@@ -4,7 +4,7 @@
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{llrrrlrr}
 \toprule
-log & target & V & lo & hi & region & rho & one\_number\_misreport\_conventional \\
+log & target & V at reference & lo & hi & region & rho & misreport rate \\
 \midrule
 BPIC13\_closed & handover & -0.009 & -0.041 & 0.018 & conditionally harmful & -0.033 & 0.428 \\
 BPIC13\_incidents & duration & 0.028 & 0.014 & 0.056 & conditionally beneficial & 0.533 & 0.393 \\
@@ -28,6 +28,6 @@ UCI498 & handover & -0.003 & -0.007 & -0.001 & sign-changing & 0.233 & 0.506 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{The master table. One row per admitted log--target pair: the increment at the reference specification with its 95\% interval from the nested bootstrap, the resolution region, the robustness index $\rho$, and the share of admissible specifications whose sign disagrees with a conventional one-number report.}
+\caption{The master table. One row per admitted log--target pair: the increment at the reference specification with its 95\% interval from the nested bootstrap, the resolution region, the robustness index $\rho$, and the share of admissible specifications whose sign disagrees with a conventional one-number report. The reference cell's sign and the region need not agree, and on several pairs they do not: a surface can be conditionally beneficial while the one cell an analyst would have stood on is negative, which is this paper's argument in a line.}
 \label{tab:master}
 \end{table}
