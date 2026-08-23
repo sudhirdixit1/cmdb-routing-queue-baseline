@@ -1,0 +1,81 @@
+
+Section~\ref{sec:practice} states what the pilot is and what it is not. This
+appendix gives the flow, the design and the numbers.
+
+\subsection*{Flow}
+
+\input{tables/prisma}
+
+Table~\ref{tab:prisma} is the PRISMA-style flow. Records were enumerated from
+a public index across \nAuditVenues\ venue strata, two citation strata and a
+topic stratum; the enumeration is cached per stratum in the archive so it can
+be re-run without re-querying. A stratified probability sample was drawn with
+an allocation declared before the enumeration finished --- proportional to
+stratum size with a floor of \minPerStratum\ per stratum --- and every
+estimate below carries the design weight $N_h / n_h$.
+
+\subsection*{The two-stratum adjudication, and why it is the point}
+
+\input{tables/screenacc}
+
+The design's one non-obvious feature is that the papers the mechanical screen
+\emph{rejected} were sampled and adjudicated too. Without that, a screen's
+misses are invisible and its proportions can only be described as bounds ---
+which an earlier version of this work did, incorrectly, because a screen with
+false positives does not yield a bound in either direction.
+
+With it, Table~\ref{tab:screenacc} reports what the screen actually does:
+sensitivity \auditSens\ [\auditSensLo, \auditSensHi], specificity
+\auditSpec, precision \auditPrec. Agreement between the mechanical codes and
+the adjudicated ones has median $\kappa = \auditKappa$, which is poor. The
+prevalence estimates in Table~\ref{tab:pilot} are nonetheless unbiased for the
+adjudicated standard, because the two strata are combined with their sampling
+weights rather than the screened-in stratum being used alone.
+
+\subsection*{Applicability-specific denominators}
+
+\input{tables/applicability}
+
+Not every code applies to every eligible paper. The register-population code
+is meaningful only where the incremental feature is a lookup into an external
+register or reference source whose per-case coverage can be incomplete, and
+Table~\ref{tab:applicability} reports that denominator separately. Of
+\nAuditEligible\ estimated eligible papers, \nAuditApplicable\ have such a
+feature. A proportion of zero over a denominator of \nAuditApplicable\ is a
+much weaker statement than a proportion of zero over \nAuditEligible, and the
+earlier version reported the latter.
+
+\subsection*{What is missing, and what it could do}
+
+\input{tables/missing}
+
+Full text was unavailable for \nAuditNoFullText\ of the sampled records.
+Table~\ref{tab:missing} compares the retrieved and the unretrieved on every
+characteristic the metadata carries, and gives the eligibility rate under the
+extreme assumptions that none and that all of the unretrieved are eligible:
+\auditBoundLo\ to \auditBoundHi. The retrieved and unretrieved sets do not
+differ materially on year or venue mix, which is reassuring and is not
+evidence of exchangeability.
+
+\subsection*{What this design can and cannot resolve}
+
+\input{tables/power}
+
+An effective sample of \nAuditEffective\ resolves a proportion near one half
+to about $\pm\auditHalfWidthPct$. A design that resolved it to $\pm 7$
+percentage points would need \nAuditRequired\ adjudicated eligible papers.
+Table~\ref{tab:power} gives the requirement at five half-widths. This is the
+single most important limitation of the pilot and it is why no claim in the
+paper depends on it.
+
+\subsection*{Adjudication materials}
+
+Every adjudication was made from an evidence dossier extracted from the paper's
+full text: the sentences the screen fired on, the sentences carrying a
+performance metric beside a number, and the neighbourhood of every mention of
+each coded concept. The dossiers are committed to
+\texttt{data/audit2/dossiers/} and the judgements to
+\texttt{data/audit2/adjudication\_in.csv} and
+\texttt{adjudication\_out.csv}, with a free-text reason for every one. There
+is one adjudicator, machine-assisted; that is transparency, not independence,
+and Section~\ref{sec:practice} says so.

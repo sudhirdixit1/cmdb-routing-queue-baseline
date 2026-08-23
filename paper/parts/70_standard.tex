@@ -1,0 +1,125 @@
+
+\section{A reporting standard, and software}
+\label{sec:standard}
+
+\subsection{The minimum reportable form}
+
+The apparatus of Sections~\ref{sec:surface} and~\ref{sec:inference} implies a
+reporting standard, and it is short enough to state in full. A feature-value
+claim is reportable when it carries:
+
+\begin{enumerate}
+\item \textbf{the design space}, as an enumerable declaration: which learners,
+encodings, targets, splits, decision times, quality mechanisms, baselines,
+metrics and operating points are admissible, and why anything defensible was
+left out;
+\item \textbf{the absolute increments} at every rung of the baseline ladder,
+in the metric's own units, with intervals from a resampling scheme that
+refits the model;
+\item \textbf{the sensitivity decomposition}, so a reader can see which of the
+analyst's choices their own disagreement would run through;
+\item \textbf{the resolution region and $\rho$}, so a reader knows whether the
+sign is robust, conditional, or unresolved;
+\item \textbf{the ratio $R$ last if at all}, with a Fieller set and the set's
+kind, and never where the denominator is not resolvably positive.
+\end{enumerate}
+
+Nothing in that list is expensive once the surface exists. The cost is the
+surface, and the surface is a factorial over declarations the analyst has
+already made implicitly.
+
+\subsection{\texttt{fieldvalue}}
+\label{sec:tool}
+
+The standard ships as \texttt{fieldvalue}, a package that computes the surface
+from a data frame, a feature name and a dictionary of baselines. Its notable
+property is a refusal: \texttt{Surface} raises rather than returning a scalar,
+because \texttt{float(surface)} would be an argument against the paper it
+accompanies. \texttt{Surface.report()} emits the minimum reportable form
+above; \texttt{Surface.at(...)} returns one cell and requires the caller to
+name every axis, so standing somewhere on the surface is a deliberate act.
+
+Version \fvVersion\ adds the four objects of
+Sections~\ref{sec:sobol}--\ref{sec:regretdef}
+as functions of a surface --- \texttt{decompose}, \texttt{regions},
+\texttt{robustness}, \texttt{regret} --- so the standard the paper states is
+the standard the package implements, and each takes a tidy frame rather than
+this package's own object, so a reader can apply them to a surface computed by
+some other pipeline.
+
+The package carries \nTests\ tests. It is also an \emph{independent
+implementation}: the analysis scripts and the package compute the same four
+objects from the same definitions in different code, neither written against
+the other, and \texttt{scripts/s11\_tool\_agreement.py} runs both on the same
+input. On this paper's corpus they agree on \nAgreeQuantities\ of
+\nAgreeQuantities\ quantities, with a largest difference of \agreeTolerance.
+That check matters because twice in this project's history the two disagreed,
+and both times the paper was wrong and the package was right.
+
+\subsection{How the surface is reported today: a measured pilot}
+\label{sec:practice}
+
+\input{tables/pilot}
+
+We wanted to know whether the axes this paper varies are varied in published
+work. That question deserves a systematic review, and what follows is not one.
+It is a \textbf{machine-assisted prevalence pilot} with a measured error rate,
+reported here with everything that limits it, and \emph{no claim in this paper
+depends on it}.
+
+The design is two-stratum, and the flow follows the PRISMA 2020 reporting
+items \citep{page2021prisma} where they apply to a pilot of this kind. A stratified probability sample of \nAuditSampled\
+open-access articles was drawn from a frame of \nAuditFrame\ enumerated
+records across \nAuditVenues\ venues, two citation seeds and a topic frame;
+full text was retrieved for \nAuditFullText. A mechanical screen, whose rules
+were fixed before the first paper was read, selected \nAuditScreenedIn\ as
+reporting the incremental value of a named feature. Every one of those was
+then adjudicated against its full text, and a random \nAuditOutSampled-paper
+subsample of the \nAuditScreenedOut\ the screen rejected was adjudicated too,
+so that the screen's \emph{misses} could be counted rather than assumed away.
+
+The screen's measured accuracy is the pilot's most useful output and its most
+damaging. Sensitivity is \auditSens\ [\auditSensLo, \auditSensHi]: the
+mechanical rule finds fewer than half of the eligible papers. Specificity is
+\auditSpec\ and precision \auditPrec, so about half of what it selects is not
+in scope. Agreement between the mechanical codes and the adjudicated ones has
+median $\kappa = \auditKappa$. \textbf{A coder with that error rate cannot
+support a claim about a field's practice}, and an earlier version of this work
+made one. A classifier-error correction of the Rogan--Gladen kind
+\citep{rogan1978estimating} would repair the point estimate but not its
+interval; the two-stratum design used here does better, and lets the
+prevalence itself be estimated without bias, because the eligible papers the screen missed are counted and
+weighted rather than ignored, and Table~\ref{tab:pilot} reports the result on
+that basis.
+
+What it says, over an estimated \nAuditEligible\ eligible papers with an
+effective sample size of \nAuditEffective: \auditBStatedPct\ state the
+composition of their baseline; \auditBJustifiedPct\ argue for what the
+baseline excludes; \auditMJustifiedPct\ argue for the metric;
+\auditThetaStatedPct\ state or integrate over an operating point;
+\auditRangeBaselinePct\ report the increment at more than one baseline,
+\auditRangeMetricPct\ under more than one metric, \auditRangeThresholdPct\
+across a range of operating points and \auditRangePopulationPct\ across a
+range of register populations. Of the eligible papers only \nAuditApplicable\
+have an incremental feature that is a lookup into an external register at all,
+so the population axis has a denominator of \nAuditApplicable\ and not of
+\nAuditEligible: an applicability-specific denominator, which the earlier
+version did not use.
+
+Three limits, stated rather than buried. An effective sample of
+\nAuditEffective\ resolves a proportion to about $\pm\auditHalfWidthPct$; a
+design that resolved it to $\pm 7$ points would need \nAuditRequired\
+adjudicated papers. Full text was unavailable for \nAuditNoFullText\ of the
+sampled records, and under the extreme assumptions that none or all of them
+are eligible the eligibility rate moves between \auditBoundLo\ and
+\auditBoundHi. And there is one adjudicator, machine-assisted, not two
+independent human raters; every adjudication was made from an evidence dossier
+that is committed to the repository, so the judgements can be re-examined
+against exactly what they were made from, but that is transparency and not
+independence.
+
+The correct reading of the pilot is therefore narrow: \emph{in a sample of
+this size, with a coder of this accuracy, we did not find papers reporting an
+increment across register populations, and found few reporting one across
+operating points}. That is a hypothesis about practice, sized and bounded. It
+is not a finding about the field.

@@ -1,0 +1,5 @@
+quantity,estimate,lo,hi,note
+screen sensitivity,0.47380410022779046,0.34693098358598473,0.6020845564765094,weighted; the screened-out stratum is a 38.1% sample
+screen specificity,0.9108635097493036,0.8741406477691612,0.937584798482593,weighted
+screen precision (PPV),0.48148148148148145,0.35393972743844304,0.6114829980474826,census over the screened-in stratum
+eligibility prevalence among retrieved full texts,0.14871273712737126,,,two-stratum estimate

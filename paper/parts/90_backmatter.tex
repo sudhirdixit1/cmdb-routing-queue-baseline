@@ -1,0 +1,104 @@
+
+\section*{CRediT authorship contribution statement}
+
+\textbf{Sudhir Dixit:} Conceptualization, Methodology, Software, Validation,
+Formal analysis, Investigation, Data curation, Writing --- original draft,
+Writing --- review \& editing, Visualization, Project administration.
+
+\section*{Declaration of competing interest}
+
+The author declares that he has no known competing financial interests or
+personal relationships that could have appeared to influence the work reported
+in this paper. The author has no affiliation with, and received no support
+from, any vendor of configuration management, IT service management or process
+mining software.
+
+\section*{Funding}
+
+This research received no specific grant from any funding agency in the
+public, commercial or not-for-profit sectors.
+
+\section*{Declaration of generative AI and AI-assisted technologies}
+
+During the preparation of this work the author used a large-language-model
+coding assistant (Anthropic Claude) for three purposes, each of which is
+recorded here because ``machine-assisted'' is not a sufficient disclosure.
+
+\begin{enumerate}
+\item \textbf{Software.} The analysis scripts, the \texttt{fieldvalue}
+package and the verification harness were written with the assistant's help.
+Every result in this paper is produced by that code, the code is public, and
+\texttt{REPRODUCE.md} regenerates every table and figure from the raw data by
+one command.
+\item \textbf{Literature pilot coding.} The adjudication of
+Section~\ref{sec:practice} was performed by the author with the assistant's
+help, working from evidence dossiers extracted from full text; the dossiers
+are committed to the repository. This is the sense in which the pilot has one
+machine-assisted adjudicator rather than two independent human raters, and it
+is why Section~\ref{sec:practice} reports the coder's measured error rate
+instead of assuming it away.
+\item \textbf{Drafting.} Portions of the manuscript were drafted and edited
+with the assistant. The author reviewed and edited every sentence and takes
+full responsibility for the content of the publication.
+\end{enumerate}
+
+No generative model was used to produce, impute, augment or select any datum,
+any result or any citation. The reference list was checked against the
+published records.
+
+\section*{Data availability}
+
+All data are public. The three event-log collections are obtained by DOI:
+BPI Challenge 2014 (\doiBPICfourteen), BPI Challenge 2013 incidents
+(\doiBPICthirteen), and the remaining \nCorpusLogs\ logs of the corpus, whose
+DOIs and SHA-256 checksums are listed in
+\texttt{data/corpus/CHECKSUMS.txt}. The literature pilot's frame, sample,
+codes, adjudications and evidence dossiers are in the archive; the retrieved
+full texts are other publishers' copyrighted PDFs and are not redistributed,
+but \texttt{scripts/s06\_audit2.py -{}-fetch} re-retrieves them from the DOIs
+in \texttt{results/s06\_sample.csv}. All derived results
+(\texttt{results/*.csv}), all figures and all code are in the archive below.
+
+\section*{Code availability}
+
+Code, derived results, the pre-registered protocols, the amendment log and the
+verification harness are archived at \zenodoDOI\ (release \releaseTag) and
+developed at \url{https://github.com/sudhirdixit1/cmdb-routing-queue-baseline}.
+The archive contains a \texttt{Dockerfile} and a \texttt{requirements.lock}
+pinning every transitive dependency; \texttt{REPRODUCE.md} gives the exact
+commands and the expected runtime.
+
+\appendix
+
+\section{Protocol, and the amendments to it}
+\label{app:protocol}
+\input{parts/app_protocol}
+
+\section{Proof details and constructions}
+\label{app:props}
+\input{parts/app_props}
+
+\section{Corrections}
+\label{app:corrections}
+\input{parts/app_corrections}
+
+\section{Which layer of the register pays}
+\label{app:layers}
+\input{parts/app_layers}
+
+\section{Rolling-origin results, per fold}
+\label{app:rolling}
+\input{parts/app_rolling}
+
+\section{The literature pilot in full}
+\label{app:pilot}
+\input{parts/app_pilot}
+
+\section{The verification harness}
+\label{app:verifier}
+\input{parts/app_verifier}
+
+\bibliographystyle{elsarticle-harv}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,85 @@
+
+\section{Limitations}
+\label{sec:lim}
+
+\paragraph{This is predictive performance, not value.}
+Nothing here measures what a register costs to acquire or maintain, whether
+acting on a prediction changes an outcome, what a false review costs the
+organisation whose data these are, or what a data programme is worth. The
+quantity is an increment in predictive performance, read at a declared
+exchange rate in Section~\ref{sec:dca}. A reader who converts
+Table~\ref{tab:master} into a procurement decision is doing something this
+evidence does not support.
+
+\paragraph{The design space is declared, not complete.}
+$\mathcal{S}$ has \nAxes\ axes here. It could have more: hyperparameter
+tuning protocol, missing-data treatment for the baseline fields, the cohort
+and eligibility rule, the horizon of the target, the label-noise model. Two of
+these are varied in appendices and the rest are fixed. A surface is only ever
+a surface over what its author declared, and the honest form of the claim is
+``the increment moves this much over \emph{this} space'', not ``over all
+defensible choices''.
+
+\paragraph{One estate for the case study.}
+The configuration management database analysis is one bank's estate, on one
+public log, and the availability question at its centre is settled by
+probability rather than by a timestamped field-value history. The strongest
+version of this study would have an organisational partner supplying
+timestamped field histories, a known prediction time, historical register
+population and accuracy, operational review costs, and practitioner
+confirmation of which fields are admissible. We do not have one, and
+Section~\ref{sec:cmdb} is framed as a benchmark case in consequence.
+
+\paragraph{The corpus is heterogeneous.}
+The \nPairs\ pairs are not replications of one another. The registers, the
+free fields and the targets mean different things across domains, and the two
+targets agree with each other on only \targetAgreement\ of cases where both
+are defined. Section~\ref{sec:multilog} therefore reports a benchmark of
+specification sensitivity across heterogeneous problems, and does not average
+across them.
+
+\paragraph{The quality mechanisms are synthetic.}
+Population loss, identity error, reconciliation failure and staleness are
+constructed from the training half, not observed. A real register degrades in
+ways correlated with the outcome --- the items nobody maintains are the items
+nobody escalates --- and a mechanism built to be outcome-free by construction
+cannot capture that. Validating the mechanisms against a genuinely incomplete
+or historically evolving register is the obvious next study and we do not have
+the data for it.
+
+\paragraph{Inference still rests on assumptions.}
+The nested bootstrap refits the pipeline and the blocks carry temporal
+dependence, but the split point is fixed within a draw, the block length is a
+rule of thumb, and the max-$t$ band's family-wise coverage is asymptotic. The
+simulation of Section~\ref{sec:sim} measures what this costs in six worlds;
+it does not certify the intervals on a seventh.
+
+\paragraph{The practice pilot is a pilot.}
+Section~\ref{sec:practice} states its own sampling error, coder error and
+resolution, and none of the paper's claims rests on it.
+
+\section{Conclusion}
+\label{sec:conc}
+
+The incremental predictive performance of a recorded field is a functional of
+design choices, not a number. This paper made that operational: a declared
+design space, a surface over it, an exact decomposition of the surface's
+variance into the contributions of each choice, simultaneous confidence bands
+from a bootstrap that refits the model, region labels that say when a sign is
+robust, and a regret benchmark that measures what one number gets wrong.
+
+On \nPairs\ log--target pairs the answer is that the choices dominate. The
+baseline rung alone accounts for a median \sobolRungPct\ of the variance in
+the increment; a conventional one-number report misstates the sign for a
+median \misreportMedianPct\ of the other admissible specifications; and only
+\nUniformlyBeneficial\ of \nPairsBanded\ surfaces are uniformly beneficial,
+which is the only state in which one number is safe. On the case study, the
+answer additionally depends on which of two decision times the analyst
+occupies, and we report both rather than choosing, because choosing was what
+produced the earlier version's headline and then removed it.
+
+The practical recommendation is narrow and, we think, cheap: report the
+surface, the decomposition, the region and the robustness index; make the
+absolute increments primary; use a ratio last, with a Fieller set, and only
+where its denominator is resolvably positive. \texttt{fieldvalue} does this
+from a data frame and refuses, by design, to give back a single number.

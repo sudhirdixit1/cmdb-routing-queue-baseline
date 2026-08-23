@@ -1,0 +1,202 @@
+
+\section{Estimation and inference}
+\label{sec:inference}
+
+\subsection{The estimator}
+
+The pipeline is frozen and identical on every log. Attributes are assigned to
+roles by the pre-registered rules of Section~\ref{sec:design}; cases are
+ordered by their first timestamp; the split is temporal; and the learner is
+one of four, spanning encodings as well as model families --- one-hot logistic
+regression, frequency-encoded logistic regression, cross-fitted
+target-encoded \citep{micci2001preprocessing} histogram gradient boosting, and the same boosting with
+isotonic calibration. The registers here run to \cardF\ levels on the primary
+log, above the cardinality cap of the boosting implementation's native
+categorical support, which is why the tree learner is target-encoded; the
+encoder is cross-fitted \citep{pedregosa2011scikit} inside the training half, so no training row sees its
+own outcome in its own encoding.
+
+\subsection{Uncertainty that includes the model}
+\label{sec:boot}
+
+The interval that accompanied an earlier version of this work resampled test
+rows with the fitted models held fixed. Such an interval excludes
+training-sample variability, model-selection variability, encoder variability,
+split uncertainty and the temporal dependence between cases, and a design
+sweep is not a substitute for it: specification sensitivity and sampling
+uncertainty answer different questions.
+
+Every interval in this paper is instead a \emph{nested moving-block
+bootstrap}. One draw resamples the training half by moving blocks
+\citep{kunsch1989jackknife} of length $\lceil n^{1/3} \rceil$, refits every arm of every rung under every learner
+and every quality mechanism on that resample, and evaluates on a moving-block
+resample of the test half. Encoders, frequency tables, target encodings,
+register frequency rankings and calibrators are rebuilt inside the draw. On
+the simulation of Section~\ref{sec:sim}, where the truth is known by
+enumeration, the fixed-model interval covers its own estimand
+\coverageNaiveMedian\ of the time and the nested interval
+\coverageNestedMedian.
+
+Every log is also reported under rolling-origin validation --- \nFolds\
+expanding-window folds --- beside the single temporal holdout, and the split
+is an axis of the decomposition rather than a robustness paragraph.
+
+\subsection{Simultaneous bands}
+\label{sec:simbands}
+
+A decision curve read across \nGrid\ thresholds, or a ladder read across
+rungs, is a family of statements, and a pointwise interval does not control
+the probability that \emph{some} member of the family is wrong. For a declared
+family $\mathcal{F}$ of cells with bootstrap draws $V^{(b)}_c$ and per-cell
+standard errors $\hat\sigma_c$, let
+\[
+T^{(b)} \;=\; \max_{c \in \mathcal{F}}
+\frac{\bigl|V^{(b)}_c - \bar{V}_c\bigr|}{\hat\sigma_c},
+\qquad
+q_{1-\alpha} = \text{the } (1-\alpha)\text{ quantile of } \{T^{(b)}\},
+\]
+and report $\hat{V}_c \pm q_{1-\alpha}\hat\sigma_c$. This is the max-$t$
+(Romano--Wolf) construction \citep{romano2005stepdown} and has family-wise coverage over $\mathcal{F}$
+asymptotically. Two families are declared: the scalar instruments at a cell,
+and the whole decision curve at a cell. Across this paper's surfaces the
+median $q_{0.95}$ is \maxTMedian\ against the pointwise $1.96$, so a
+simultaneous statement costs a factor of about \maxTMedianRatio\ in width, and
+the bands in Section~\ref{sec:dca} are wider than the pointwise intervals an
+earlier version printed.
+
+\subsection{Confirmatory and exploratory}
+
+Five contrasts on the primary log are \emph{confirmatory} and were fixed in
+\texttt{scripts/s02\_boot.py} before the bootstrap ran: that the register adds
+to the intake baseline; that it still adds once the free field is admitted;
+that it adds at the later decision time; that the absorption $D$ is positive;
+and that a half-empty register is worth less than a full one. They carry
+one-sided bootstrap $p$-values with a Holm step-down correction
+\citep{holm1979simple} at $\alpha = 0.05$, and \nConfirmReject\ of the five
+survive
+(Table~\ref{tab:confirm}). Every other comparison in this paper is
+\emph{exploratory}, is labelled as such where it appears, and carries no
+multiplicity correction, because none would be meaningful over a surface that
+is deliberately enumerated in full: the surface is not a search for a
+significant cell but a description of all of them.
+
+\input{tables/confirm}
+
+\subsection{Fieller intervals for the reduction}
+\label{sec:fieller}
+
+For $\vartheta = V_1 / V_0$ with estimates $(\hat v_0, \hat v_1)$ and
+bootstrap covariance $(\hat s_{00}, \hat s_{11}, \hat s_{01})$, Fieller's
+theorem \citep{fieller1954} gives the confidence set
+\[
+\Bigl\{\vartheta : (\hat v_1 - \vartheta \hat v_0)^2 \leq
+z^2\bigl(\hat s_{11} - 2\vartheta \hat s_{01} +
+\vartheta^2 \hat s_{00}\bigr)\Bigr\},
+\]
+whose boundary solves a quadratic in $\vartheta$. When the coefficient of
+$\vartheta^2$ is positive the set is a bounded interval; when it is not, the
+set is unbounded or is the \emph{complement} of an interval, and no bounded
+interval is a correct summary. Of the \nFieller\ reductions this paper
+computes, \nFiellerUnbounded\ have a non-bounded Fieller set. A percentile
+interval reports a bounded interval for every one of them.
+
+\subsection{The sensitivity decomposition}
+\label{sec:sobol}
+
+Because the surface is a factorial over its axes, the variance of $V_s$ across
+specifications admits an exact functional-ANOVA decomposition
+\citep{sobol2001global,saltelli2010variance}. For axis $i$,
+\[
+S_i \;=\; \frac{\operatorname{Var}_{X_i}\!\bigl(\mathbb{E}[V \mid X_i]\bigr)}
+{\operatorname{Var}(V)},
+\qquad
+S_{T_i} \;=\; 1 - \frac{\operatorname{Var}_{X_{\sim i}}\!
+\bigl(\mathbb{E}[V \mid X_{\sim i}]\bigr)}{\operatorname{Var}(V)} ,
+\]
+the first-order and total sensitivity indices. $S_i$ is the share of the
+disagreement between analysts explained by their choice on axis $i$ alone;
+$S_{T_i} - S_i$ is the part that lives in interactions with the other axes.
+Indices are computed twice: within each metric, in that metric's own units, so
+no scale is mixed; and on the \emph{headroom} scale $V_s / (1 - m(B))$, the
+share of the remaining distance to a perfect score that the field captures,
+which is comparable across the scalar instruments and lets the metric itself
+enter as an axis.
+
+\subsection{Resolution regions and the robustness index}
+\label{sec:regions}
+
+\begin{definition}[Cell labels and surface regions]
+Under the simultaneous band of Section~\ref{sec:simbands}, a cell is
+\emph{beneficial} if its lower band is above zero, \emph{harmful} if its upper
+band is below zero, and \emph{unresolved} otherwise. A surface is
+\emph{uniformly beneficial} if every admissible cell is beneficial;
+\emph{conditionally beneficial} if some are and none is harmful;
+\emph{sign-changing} if there is at least one of each; and \emph{unresolved}
+if none is resolved. The \emph{robustness index} is
+\[
+\rho \;=\; \frac{\#\{\text{beneficial}\} - \#\{\text{harmful}\}}
+{\#\{\text{admissible}\}} \;\in\; [-1, 1].
+\]
+\end{definition}
+
+$\rho = 1$ is the only state in which one positive number is a safe summary of
+a surface, and the empirical question this paper answers is how often it
+obtains.
+
+The intercept-only rung is excluded from every admissible set. It is a
+legitimate point of the surface and an illegitimate comparator: no analyst
+builds a model with no features, and a reduction measured against one is
+inflated by construction. An earlier version of this work reported a headline
+that included it; Section~\ref{sec:multilog} reports what the headline becomes
+without it.
+
+\subsection{Specification regret}
+\label{sec:regretdef}
+
+A reader of a one-number claim decides whether to adopt the field, and the
+decision rule the number supports is \emph{adopt iff $V_s > 0$}. If the
+specification the reader will actually run is drawn from the same admissible
+set, the \emph{misreport rate} of a report at $s$ is
+\[
+M(s) \;=\; \Pr_{s'}\bigl[\operatorname{sign} V_{s'} \neq
+\operatorname{sign} V_{s}\bigr] ,
+\]
+and the \emph{regret}
+\[
+G(s) \;=\;
+\mathbb{E}_{s'}\bigl[\max(0, -V_{s'})\bigr]\,\mathbf{1}\{V_s > 0\}
+\;+\;
+\mathbb{E}_{s'}\bigl[\max(0, V_{s'})\bigr]\,\mathbf{1}\{V_s \leq 0\}
+\]
+is the performance destroyed by adopting when the reader's cell is harmful
+plus the performance forgone by declining when it is beneficial. Against this,
+the surface report asserts a sign only where the region is uniform, so its
+misreport rate is zero by construction there and it declines to speak
+elsewhere. Section~\ref{sec:results-regret} reports both, and names the logs
+on which one number is in fact safe.
+
+\subsection{Simulation against a known answer}
+\label{sec:sim}
+
+An earlier version's simulation fitted a logistic data-generating process with
+logistic regression --- an unusually favourable arrangement --- on forty
+replicates, which cannot resolve a coverage estimate, and dismissed an $85\%$
+coverage as boundary behaviour. This version replaces it with \nWorlds\ worlds
+and \nSimReps\ replicates each. The covariate space is finite, so the joint
+distribution of cell and outcome is enumerated and the population AUC of any
+scoring rule is computed in closed form rather than simulated. The worlds are:
+a logistic surface, on which the estimator is correctly specified; a nonlinear
+surface with an interaction and a threshold the logistic model cannot see; a
+drifting surface whose coefficients move between the training and test eras; a
+sparse register with \nSimSparse\ levels on the same sample size; an
+imbalanced outcome at prevalence \simPrevalence; and a noisy register in which
+a share of values are wrong.
+
+Two estimands are separated, because under misspecification they are not the
+same. $V_{\mathrm{oracle}}$ is the increment between the two Bayes-optimal
+scoring rules --- what the register is worth in the world.
+$V_{\mathrm{limit}}$ is the increment between the two fitted pipelines'
+limits --- what the estimator estimates. A resampling interval can only cover
+the second, and reporting its coverage of the first as though it were the
+estimator's coverage is precisely the error the earlier simulation made. Both
+are reported in Table~\ref{tab:sim}.

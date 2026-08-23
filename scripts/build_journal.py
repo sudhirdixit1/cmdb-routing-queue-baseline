@@ -45,7 +45,7 @@ if _SUITE_LOCK.exists():
         f"    cp {_SUITE_LOCK} {_SUITE_LOCK.with_name('iaai27_empty_cmdb.tex')}\n"
         f"    rm {_SUITE_LOCK}")
 PAPER = ROOT / "paper"
-STEM = "iaai27_empty_cmdb"
+STEM = "specification_surfaces"
 
 
 def find(prog):
@@ -67,9 +67,15 @@ def run(cmd, cwd, log):
 
 
 def main():
+    global STEM
     ap = argparse.ArgumentParser()
     ap.add_argument("--outdir", default=str(ROOT / "build" / "journal"))
+    ap.add_argument("--paper", default=None,
+                    help="stem of the .tex to build; default is the "
+                         "round-nineteen manuscript")
     a = ap.parse_args()
+    if a.paper:
+        STEM = a.paper
     out = Path(a.outdir)
     out.mkdir(parents=True, exist_ok=True)
 
@@ -78,6 +84,17 @@ def main():
     for f in [f"{STEM}.tex", "references.bib"] + \
              [p.name for p in sorted(PAPER.glob("*.png"))]:
         shutil.copy2(PAPER / f, out / f)
+    #  ROUND NINETEEN.  The manuscript \input's a GENERATED macro file and a
+    #  directory of GENERATED tables, and the appendices \input the section
+    #  parts.  A build that copies only the .tex and the images fails on the
+    #  first \input, which is what happened the first time this ran.
+    if (PAPER / "numbers.tex").exists():
+        shutil.copy2(PAPER / "numbers.tex", out / "numbers.tex")
+    for sub in ("tables", "parts"):
+        if (PAPER / sub).exists():
+            (out / sub).mkdir(exist_ok=True)
+            for f in (PAPER / sub).glob("*.tex"):
+                shutil.copy2(f, out / sub / f.name)
     for f in out.glob(f"{STEM}.*"):
         if f.suffix in (".aux", ".bbl", ".blg", ".pdf", ".log"):
             f.unlink()

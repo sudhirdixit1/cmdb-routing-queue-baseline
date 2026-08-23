@@ -1,7 +1,7 @@
 {
   "upload_type": "software",
-  "title": "Four Choices Behind One Number: analysis code, three pre-registrations, a literature audit, derived results, a verification harness and the fieldvalue package",
-  "description": "<p>Analysis code, three pre-registrations, derived result files, figures, a verification harness and a Python package for the study <em>Four Choices Behind One Number: Reporting the Incremental Value of a Recorded Field</em>.</p><p>The study argues, and then measures, that what a recorded field is worth is a function of four choices which are almost never stated: the baseline of already-recorded fields the comparison may contain, the metric, the operating point, and the population of the register the field reads from. The demonstration is a configuration management database on a public log of 45,455 incidents; admitting one further already-recorded field takes the item's value from +0.183 AUC to +0.103, and admitting a second takes it to +0.001.</p><p><strong>Three pre-registrations.</strong> <code>PROTOCOL.md</code> fixes the corpus, the targets, the role-assignment rules, the exclusion codes, the estimator, the seed, the instruments and the outcome that would falsify the claim; the registered generality claim is falsified by its own criterion and the paper reports the negative. <code>AUDIT-PROTOCOL.md</code> fixes the frame, the inclusion rule and five codes for a literature audit, and states in advance the outcome that would refute the paper's premise. <code>PREDICTION.md</code> freezes two rules and their thresholds before either held-out log was downloaded. Each was committed alone, before any result it governs; <code>git log --stat</code> is the evidence.</p><p><strong>The literature audit.</strong> 600 works enumerated from OpenAlex, 369 full texts retrieved, 54 included, 30 read and 20 confirmed in scope. <code>results/r40_coding.csv</code> carries every code with a verbatim quote and a PDF page, so any row can be checked in a minute. Not one of the twenty reports what a feature is worth across a range of operating points, or across a range of register populations.</p><p><strong>The package.</strong> <code>fieldvalue/</code> computes the surface over all four choices and <em>refuses by design to emit a single number</em>. 91 tests, including the paper's three propositions as test cases. Its metrics are implemented in numpy rather than delegated, so that <code>scripts/r46_tool_agreement.py</code> — which re-derives the paper's headline through it and agrees with the analysis pipeline on 20 of 20 quantities to 2.2e-16 — is a real check. It found an error in the paper's own prose on its first run.</p><p><strong>What is included.</strong> Every analysis script, every derived <code>results/*.csv</code>, the figure generators, the LaTeX source, an environment locked by artefact hash, a container that pins BLAS thread counts, a referee log recording six adversarial passes with every objection and its disposition, and <code>scripts/verify_paper.py</code>, which recomputes each of the 607 numeric literals in the manuscript from a result file or from the raw data and fails if any literal in the body is unaccounted for. <code>scripts/attack_verifier.py</code> is that checker's own regression suite: 253 corruptions drawn from defects found in earlier versions of this work, nineteen of which mutate a relation between two correct numbers rather than a value. <code>scripts/reproduce_all.py</code> fetches every public file by DOI, checksums it, and runs the whole thing in dependency order in one command.</p><p><strong>What is not included.</strong> No row of any dataset, and no full text of any audited paper. Every dataset is public and is cited by persistent identifier below and in <code>REPRODUCE.md</code>; the audit's full texts are re-fetched from each work's own open-access location by <code>scripts/r40_audit.py</code>.</p><p><strong>What the harness does not do.</strong> It guards numbers thoroughly and prose only where a guard was written by hand. The paper reports twelve of the author's own errors as results rather than editing them away, and all twelve are claims about what a number means — the checker would have caught none of them. Three are sentences in which every individual literal was correct and the relation the prose asserted between them was not; the third of those was found by an independent implementation of the estimator, not by checking harder. Ten holes have now been found in this harness and every one was found by its own corruption suite or by reading its output, never by the harness itself. This is stated in the repository and in the paper in the same words.</p>",
+  "title": "Specification Surfaces for Incremental Predictive Performance: analysis code, pre-registrations, derived results, a verification harness and the fieldvalue package",
+  "description": "<p>Analysis code, three pre-registrations, derived result files, figures, a verification harness and a Python package for the study <em>Specification Surfaces for Incremental Predictive Performance: Estimation, Uncertainty, and Multi-Log Evaluation</em>.</p><p><strong>The problem.</strong> What a recorded field is worth to a prediction is reported as one number. That number is a functional of design choices &mdash; the baseline it is measured against, the learner, the encoding, the target, the temporal split, the field's availability at the decision time, the register's quality, the metric and the operating point &mdash; which are rarely stated. The study defines the quantity as a <em>specification surface</em> over a declared, enumerable design space and supplies four objects for estimating and reporting one.</p><p><strong>The four objects.</strong> (1) An exact functional-ANOVA (Sobol) decomposition of the surface's variance across design axes. (2) Simultaneous max-t confidence bands from a moving-block bootstrap that refits the entire pipeline &mdash; encoders, frequency tables, target encodings, register rankings, calibrators &mdash; inside every draw. (3) Resolution regions (uniformly beneficial, conditionally beneficial, sign-changing, unresolved) with a scalar robustness index. (4) Specification regret, which measures what conventional one-number reporting gets wrong.</p><p><strong>What the evidence says.</strong> Over 19 log-target pairs from 13 public event logs across 6 domains, varying the baseline alone moves the increment by 0.091 AUC at the median pair and 0.298 at the widest. No single axis dominates the disagreement between analysts: the largest median first-order sensitivity index is 10.1%, and interactions between axes carry a median 30.0%. A conventional one-number report misstates the <em>sign</em> of the increment for a median 35.3% of the other admissible specifications, and the rate exceeds 10% on 18 of the 19 pairs.</p><p><strong>The case study.</strong> A configuration management database on a public log of 45,455 bank incidents, evaluated on a named decision. Its answer turns on which of two decision times the analyst occupies, because a knowledge-article reference is written in between; the archive reports both surfaces and a curve of the increment against the share of references assumed to be written after the fact, rather than choosing.</p><p><strong>Pre-registrations.</strong> <code>PROTOCOL.md</code> fixes the corpus, the targets, the role-assignment rules, the exclusion codes, the estimator and the seed. <code>AUDIT-PROTOCOL-2.md</code> fixes the frame, the sampling design, the two-stratum adjudication and the estimators for a machine-assisted prevalence pilot of reporting practice. <code>PREDICTION.md</code> freezes a rule and its threshold before either held-out log was downloaded. Each was committed alone, before any result it governs; <code>git log --stat</code> is the evidence.</p><p><strong>One source of truth for every number.</strong> The manuscript contains no numeric literal. Every number is a macro in <code>paper/numbers.tex</code>, generated by <code>scripts/make_numbers.py</code> from <code>results/*.csv</code>, and every data table is generated too. A number therefore cannot disagree between the abstract, a table and the conclusion: there is one of it. <code>scripts/verify_numbers.py</code> re-derives each macro from its source with independent code; <code>scripts/texlint.py</code> fails the build if a numeric literal appears in the prose, if the abstract exceeds 250 words, if there are more than seven keywords, if a highlight exceeds 85 characters or misstates its own length, or if a required statement is missing.</p><p><strong>The package.</strong> <code>fieldvalue/</code> computes a surface and refuses by design to emit a single number, and now also implements the four reporting objects as functions of a surface: <code>decompose</code>, <code>regions</code>, <code>robustness</code> and <code>regret</code>. 107 tests.</p><p><strong>What is included.</strong> Every analysis script, every derived <code>results/*.csv</code>, the figure generators, the manuscript source and its generated parts, an environment locked by artefact hash, a container that pins BLAS thread counts, the pilot's adjudications with a free-text reason for every judgement, a referee log, and a point-by-point response to the referee report that this version answers.</p><p><strong>What is not included.</strong> No row of any dataset, and no full text of any audited paper. Every dataset is public and is cited by persistent identifier; the pilot's full texts and the evidence dossiers built from them are regenerated from each work's own open-access location by <code>scripts/s06_audit2.py</code>.</p><p><strong>What the harness does not do.</strong> It guards numbers thoroughly and prose only where a guard was written by hand. The correction register in the manuscript's Appendix C groups the author's own errors by class rather than listing them as incidents, and the largest class is sentences in which every printed number was correct and the relation asserted between them was not. The generated-macro discipline makes one sub-class of that structurally impossible; it does not make the rest impossible.</p>",
   "creators": [
     {
       "name": "Dixit, Sudhir",
@@ -9,23 +9,26 @@
     }
   ],
   "keywords": [
-    "incremental value",
-    "baseline specification",
-    "evaluation metrics",
-    "pre-registration",
+    "specification surface",
+    "incremental predictive performance",
+    "sensitivity decomposition",
+    "Sobol indices",
+    "simultaneous confidence bands",
+    "moving-block bootstrap",
+    "Fieller interval",
+    "decision curve analysis",
     "predictive process monitoring",
     "configuration management database",
     "CMDB",
-    "variable importance",
-    "decision curve analysis",
-    "reproducibility",
     "event log",
     "IT service management",
-    "audit",
-    "literature audit",
-    "registered report",
-    "reproducible research",
-    "software artifact"
+    "data quality",
+    "register completeness",
+    "pre-registration",
+    "reproducibility",
+    "specification curve",
+    "multiverse analysis",
+    "variable importance"
   ],
   "license": "MIT",
   "access_right": "open",
@@ -44,95 +47,17 @@
       "scheme": "doi"
     },
     {
-      "identifier": "10.4121/uuid:3537c19d-6c64-4b1d-815d-915ab0e479da",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:c2c3b154-ab26-4b31-a0e8-8f2350ddac11",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:0c60edf1-6f83-4e75-9367-4c63b3e9d5bb",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
       "identifier": "10.24432/C57S4H",
       "relation": "isDerivedFrom",
       "resource_type": "dataset",
       "scheme": "doi"
     },
     {
-      "identifier": "10.4121/uuid:3926db30-f712-4394-aebc-75976070e91f",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:5f3067df-f10b-45da-b98b-86ae4c7a310b",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:d06aff4b-79f0-45e6-8ec8-e19730c248f1",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:31a308ef-c844-48da-948c-305d167a0ec1",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:52fb97d4-4588-43c9-9d04-3604d4613b51",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:915d2bfb-7e84-49ad-a286-dc35f063a460",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:76c46b83-c930-4798-a1c9-4be94dfeb741",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:270fd440-1057-4fb9-89a9-b699b47990f5",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:d9769f3d-0ab0-4fb8-803b-0d1120ffcf54",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.4121/uuid:3301445f-95e8-4ff0-98a4-901f1f204972",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.24432/C5XW20",
-      "relation": "isDerivedFrom",
-      "resource_type": "dataset",
-      "scheme": "doi"
+      "identifier": "https://github.com/sudhirdixit1/cmdb-routing-queue-baseline",
+      "relation": "isSupplementTo",
+      "resource_type": "software",
+      "scheme": "url"
     }
   ],
-  "notes": "Analysis code for a manuscript submitted to Information Systems (Elsevier). Once the article has a DOI, add it here with relation 'isSupplementTo' and re-release."
+  "notes": "Round nineteen. This release accompanies a manuscript that replaces an earlier one, 'Four Choices Behind One Number: Reporting the Incremental Value of a Recorded Field', which a referee for Information Systems recommended rejecting as submitted. The earlier manuscript is retained in the archive; submission/response_to_referee.md answers the ten major comments one by one, and every claim of the earlier version that this one withdraws is recorded as a correction in the new manuscript's Appendix C."
 }

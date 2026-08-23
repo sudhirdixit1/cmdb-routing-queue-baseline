@@ -149,8 +149,29 @@ WAVES = [
     [
         "r47_signature_figure.py",     # reads r44_surface.csv
     ],
+    # ---- round nineteen ---------------------------------------------------
+    #  The round-nineteen chain is: the master surface, then everything that
+    #  reads it.  s07 and s10 read nothing, so they run beside s01; s06 needs
+    #  the network for its frame and caches it.
+    [
+        "s01_surface.py",              # THE master surface, every admitted pair
+        "s07_props.py",                # pure construction; no data at all
+        "s10_simulation2.py",          # six worlds with an enumerated truth
+    ],
+    [
+        "s02_boot.py",                 # nested bootstrap; reads s01's pair list
+        "s08_decision_time.py",        # two decision times on the primary log
+    ],
+    [
+        "s03_decompose.py",            # reads s01_surface and s02_bands
+        "s04_regret.py",               # reads s01_surface and s03_regions
+    ],
+    [
+        "s06_audit2.py",               # the practice pilot; network + cache
+    ],
 ]
-FIGURES = ["r25_figures.py", "r39_figures.py"]
+FIGURES = ["r25_figures.py", "r39_figures.py", "s12_figures.py"]
+NUMBERS = ["make_numbers.py", "assemble_paper.py"]
 
 
 def hdr(msg):
@@ -274,6 +295,17 @@ def stage_package():
         print("  the worked example needs the network on first run; skipping")
 
 
+def stage_numbers():
+    """ROUND NINETEEN.  Every number in the manuscript is generated from
+    results/*.csv, and the manuscript is assembled from paper/parts/.  Both
+    have to happen after the analysis and before the build."""
+    hdr("NUMBERS AND ASSEMBLY")
+    for s in NUMBERS:
+        if not run(s):
+            return False
+    return True
+
+
 def stage_figures():
     hdr("FIGURES")
     for f in FIGURES:
@@ -318,7 +350,7 @@ def main():
     ap.add_argument("--skip-attack", action="store_true")
     ap.add_argument("--skip-pdf", action="store_true")
     ap.add_argument("--only", choices=["fetch", "analysis", "figures",
-                                       "holdout", "package",
+                                       "holdout", "package", "numbers",
                                        "verify", "attack", "pdf"])
     ap.add_argument("--jobs", type=int, default=4)
     a = ap.parse_args()
@@ -329,6 +361,7 @@ def main():
         {"fetch": stage_fetch,
          "analysis": lambda: stage_analysis(a.jobs), "figures": stage_figures,
          "holdout": stage_holdout, "package": stage_package,
+         "numbers": stage_numbers,
          "verify": stage_verify, "attack": stage_attack, "pdf": stage_pdf}[a.only]()
     else:
         if not a.skip_fetch:
@@ -338,6 +371,7 @@ def main():
         stage_holdout()
         stage_package()
         stage_figures()
+        stage_numbers()
         stage_verify()
         if not a.skip_attack:
             stage_attack()

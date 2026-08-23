@@ -1,0 +1,58 @@
+
+The corpus protocol is \texttt{PROTOCOL.md} and the practice pilot's is
+\texttt{AUDIT-PROTOCOL-2.md}; both are in the archive and both were committed
+before the first result they govern existed. This appendix lists what changed
+afterwards.
+
+\paragraph{Why amendments are reported rather than folded in.}
+A pre-registration that is quietly edited is worse than none, because it
+claims a discipline it does not have. Each amendment below names its date, the
+defect that forced it, and the result it moved.
+
+\begin{description}
+\item[Amendment 1 --- a register's values must recur across time.]
+Registered rule 3.3 admits any attribute reused across two cases on average.
+On BPI Challenge 2019 that admits the purchasing-document number, which is a
+document identifier and not a maintained entity: almost none of its values
+recur across the temporal split. The amendment adds a second, outcome-free
+condition --- at least \minTrainCoverage\ of test cases must carry a value
+seen in training --- and \emph{both} selections are reported for every log.
+
+\item[Amendment 2 --- ``any timestamp'' had to be implemented.]
+Rule 3.1 excludes timestamps. Matching a fixed list of names did not implement
+that: it missed five differently-spelled date columns, two of which the
+registered rules then made the high-cost entity. A column is now a timestamp
+if its name looks like one or if more than $90\%$ of its non-missing values
+parse as a date. Both tests read feature values only.
+
+\item[Amendment 3 --- a relabelling of the activity is the activity.]
+Some logs carry a second column that is a one-to-one recoding of
+\texttt{concept:name}. Admitting it as a feature admits the activity sequence,
+which is not available at case creation.
+
+\item[Amendment 4 --- coarsenings of the register get their own role.]
+Type, subtype and service are deterministic functions of the item. Sweeping
+them into the intake block makes the intake block partly a register, and the
+increment then measures the residual rather than the field. They are a
+separate role and Appendix~\ref{app:layers} uses it.
+
+\item[Amendment 5 --- the caused-by family is an outcome.]
+A caused-by attribution is the output of diagnosis, not an intake observation.
+Without this the registered rules made the caused-by configuration item the
+high-cost entity on the flagship log.
+
+\item[Amendment 6 --- the topical pre-filter of the pilot frame was nulled.]
+The frame's keyword filter was applied to titles and abstracts, which is a
+filter on how a paper describes itself rather than on what it does. Its effect
+on the estimates is reported in \texttt{results/s06\_frame.csv}.
+\end{description}
+
+\paragraph{What was fixed for round nineteen, before any of its results.}
+The design space of Section~\ref{sec:surface}; the reference specification;
+the exclusion of the intercept-only rung from every admissible set; the six
+register-quality mechanisms and their levels; the five confirmatory contrasts
+and the Holm procedure; the two families over which simultaneous bands are
+taken; and the two-stratum design of the practice pilot, including the
+decision to adjudicate a sample of the papers the screen \emph{rejected}. The
+commit that fixed them adds \texttt{scripts/spec.py} and
+\texttt{PLAN-ROUND19.md} and no result file.

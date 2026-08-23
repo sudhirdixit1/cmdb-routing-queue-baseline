@@ -1,18 +1,17 @@
-%% References for the IAAI-27 submission.
-%% Every entry below was verified against the source (arXiv abstract page,
-%% UCI repository, or 4TU.ResearchData record).  Do not add entries without
-%% checking author lists and DOIs -- fabricated citations are the single
-%% fastest way to lose a reviewer's trust.
+%% References for "Specification Surfaces for Incremental Predictive
+%% Performance".  Round nineteen: the list carries no commentary.  A
+%% referee for this journal objected to annotations such as "same Rabobank
+%% log" and "supplies valid inference for our estimand" appearing in the
+%% bibliography, and the objection is granted: a reference list states what a
+%% work is, and the text says what it is used for.
 
-% ---------------------------------------------------------------- datasets
-@misc{amaral2018incident,
-  author       = {Amaral, Claudio and Fantinato, Marcelo and Peres, Sarajane M.},
-  title        = {Incident Management Process Enriched Event Log},
-  year         = {2018},
-  howpublished = {UCI Machine Learning Repository},
-  doi          = {10.24432/C57S4H},
-  note         = {Extracted from the audit system of a ServiceNow instance;
-                  141,712 events over 24,918 incidents. CC BY 4.0}
+% ---------------------------------------------------------------- data
+@misc{vandongen2014bpic,
+  author       = {van Dongen, Boudewijn F.},
+  title        = {{BPI} Challenge 2014},
+  year         = {2014},
+  howpublished = {4TU.ResearchData},
+  doi          = {10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35}
 }
 
 @misc{steeman2013bpic,
@@ -20,223 +19,56 @@
   title        = {{BPI} Challenge 2013, Incidents},
   year         = {2013},
   howpublished = {4TU.ResearchData},
-  doi          = {10.4121/uuid:500573e6-accc-4b0c-9576-aa5468b10cee},
-  note         = {Volvo IT incident and problem management, VINST system}
+  doi          = {10.4121/uuid:500573e6-accc-4b0c-9576-aa5468b10cee}
 }
 
-@misc{vandongen2014bpic,
-  author       = {van Dongen, Boudewijn F.},
-  title        = {{BPI} Challenge 2014},
-  year         = {2014},
-  howpublished = {4TU.ResearchData},
-  doi          = {10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35},
-  note         = {Rabobank Group ICT, HP Service Manager; incident, change
-                  and interaction details}
+@misc{amaral2018incident,
+  author       = {Amaral, Claudio and Fantinato, Marcelo and Peres, Sarajane M.},
+  title        = {Incident Management Process Enriched Event Log},
+  year         = {2018},
+  howpublished = {UCI Machine Learning Repository},
+  doi          = {10.24432/C57S4H}
 }
 
-% ------------------------------------------------------------------ AIOps
-@article{zhang2024aiops,
-  author  = {Zhang, Lingzhe and Jia, Tong and Jia, Mengxi and Wu, Yifan and
-             Liu, Aiwei and Yang, Yong and Wu, Zhonghai and Hu, Xuming and
-             Yu, Philip S. and Li, Ying},
-  title   = {A Survey of {AIOps} for Failure Management in the Era of Large
-             Language Models},
-  journal = {arXiv preprint arXiv:2406.11213},
-  year    = {2024}
+% ------------------------------------------------- variable importance
+@article{strobl2008conditional,
+  author  = {Strobl, Carolin and Boulesteix, Anne-Laure and Kneib, Thomas and
+             Augustin, Thomas and Zeileis, Achim},
+  title   = {Conditional Variable Importance for Random Forests},
+  journal = {BMC Bioinformatics},
+  volume  = {9},
+  pages   = {307},
+  year    = {2008},
+  doi     = {10.1186/1471-2105-9-307}
 }
 
-@article{remil2024aiops,
-  author  = {Remil, Youcef and Bendimerad, Anes and Mathonat, Romain and
-             Kaytoue, Mehdi},
-  title   = {{AIOps} Solutions for Incident Management: Technical Guidelines
-             and A Comprehensive Literature Review},
-  journal = {arXiv preprint arXiv:2404.01363},
-  year    = {2024}
-}
-
-% ------------------------------------------------- evaluation methodology
-@article{rendle2019baselines,
-  author  = {Rendle, Steffen and Zhang, Li and Koren, Yehuda},
-  title   = {On the Difficulty of Evaluating Baselines: A Study on
-             Recommender Systems},
-  journal = {arXiv preprint arXiv:1905.01395},
+@article{fisher2019models,
+  author  = {Fisher, Aaron and Rudin, Cynthia and Dominici, Francesca},
+  title   = {All Models are Wrong, but Many are Useful: Learning a Variable's
+             Importance by Studying an Entire Class of Prediction Models
+             Simultaneously},
+  journal = {Journal of Machine Learning Research},
+  volume  = {20},
+  number  = {177},
+  pages   = {1--81},
   year    = {2019}
 }
 
-% ------------------------------------- prior work on these very event logs
-@article{teinemaa2019outcome,
-  author  = {Teinemaa, Irene and Dumas, Marlon and La Rosa, Marcello and
-             Maggi, Fabrizio Maria},
-  title   = {Outcome-Oriented Predictive Process Monitoring: Review and
-             Benchmark},
-  journal = {ACM Transactions on Knowledge Discovery from Data},
-  volume  = {13},
-  number  = {2},
-  pages   = {17:1--17:57},
-  year    = {2019},
-  doi     = {10.1145/3301300}
+@inproceedings{lundberg2017unified,
+  author    = {Lundberg, Scott M. and Lee, Su-In},
+  title     = {A Unified Approach to Interpreting Model Predictions},
+  booktitle = {Advances in Neural Information Processing Systems 30},
+  pages     = {4765--4774},
+  year      = {2017}
 }
 
-%% ------------------------------------------------------- ITSM and the CMDB
-%% Note on the CMDB gap: a search for empirical work measuring the analytic
-%% value of a CMDB returned essentially nothing peer-reviewed -- the
-%% literature is vendor documentation and practitioner guidance.  That
-%% absence is now stated in the Background rather than papered over with a
-%% vendor whitepaper citation.
-
-@article{marrone2011itil,
-  author  = {Marrone, Mauricio and Kolbe, Lutz M.},
-  title   = {Impact of {IT} Service Management Frameworks on the {IT}
-             Organization: An Empirical Study on Benefits, Challenges and
-             Processes},
-  journal = {Business \& Information Systems Engineering},
-  volume  = {3},
-  number  = {1},
-  pages   = {5--18},
-  year    = {2011}
+@inproceedings{covert2020sage,
+  author    = {Covert, Ian and Lundberg, Scott and Lee, Su-In},
+  title     = {Understanding Global Feature Contributions With Additive
+               Importance Measures},
+  booktitle = {Advances in Neural Information Processing Systems 33},
+  year      = {2020}
 }
-
-%% ------------------------------------------- AIOps and incident management
-
-@article{notaro2021aiops,
-  author  = {Notaro, Paolo and Cardoso, Jorge and Gerndt, Michael},
-  title   = {A Survey of {AIOps} Methods for Failure Management},
-  journal = {ACM Transactions on Intelligent Systems and Technology},
-  volume  = {12},
-  number  = {6},
-  year    = {2021},
-  doi     = {10.1145/3483424}
-}
-
-@inproceedings{chen2019triage,
-  author    = {Chen, Junjie and He, Xiaoting and Lin, Qingwei and Zhang,
-               Hongyu and Hao, Dan and Gao, Feng and Xu, Zhangwei and Dang,
-               Yingnong and Zhang, Dongmei},
-  title     = {Continuous Incident Triage for Large-Scale Online Service
-               Systems},
-  booktitle = {Proceedings of the 34th IEEE/ACM International Conference on
-               Automated Software Engineering (ASE)},
-  year      = {2019},
-  doi       = {10.1109/ASE.2019.00042}
-}
-
-@inproceedings{lin2018node,
-  author    = {Lin, Qingwei and Hsieh, Ken and Dang, Yingnong and Zhang,
-               Hongyu and Sui, Kaixin and Xu, Yong and Lou, Jian-Guang and
-               Li, Chenggang and Wu, Youjiang and Yao, Randolph and
-               Chintalapati, Murali and Zhang, Dongmei},
-  title     = {Predicting Node Failure in Cloud Service Systems},
-  booktitle = {Proceedings of the 26th ACM Joint European Software
-               Engineering Conference and Symposium on the Foundations of
-               Software Engineering (ESEC/FSE)},
-  year      = {2018},
-  doi       = {10.1145/3236024.3236060}
-}
-
-%% ------------------------------------- process mining and predictive monitoring
-
-@book{vanderaalst2016process,
-  author    = {van der Aalst, Wil M. P.},
-  title     = {Process Mining: Data Science in Action},
-  publisher = {Springer},
-  edition   = {2nd},
-  year      = {2016},
-  doi       = {10.1007/978-3-662-49851-4}
-}
-
-@article{verenich2019survey,
-  author  = {Verenich, Ilya and Dumas, Marlon and La Rosa, Marcello and
-             Maggi, Fabrizio Maria and Teinemaa, Irene},
-  title   = {Survey and Cross-Benchmark Comparison of Remaining Time
-             Prediction Methods in Business Process Monitoring},
-  journal = {ACM Transactions on Intelligent Systems and Technology},
-  year    = {2019},
-  doi     = {10.1145/3331449}
-}
-
-@article{suriadi2017imperfection,
-  author  = {Suriadi, Suriadi and Andrews, Robert and ter Hofstede, Arthur
-             H. M. and Wynn, Moe Thandar},
-  title   = {Event Log Imperfection Patterns for Process Mining: Towards a
-             Systematic Approach to Cleaning Event Logs},
-  journal = {Information Systems},
-  volume  = {64},
-  pages   = {132--150},
-  year    = {2017}
-}
-
-@inproceedings{weytjens2022leakage,
-  author    = {Weytjens, Hans and De Weerdt, Jochen},
-  title     = {Creating Unbiased Public Benchmark Datasets with Data Leakage
-               Prevention for Predictive Process Monitoring},
-  booktitle = {Business Process Management Workshops},
-  series    = {Lecture Notes in Business Information Processing},
-  volume    = {436},
-  pages     = {18--29},
-  publisher = {Springer},
-  year      = {2022}
-}
-
-%% ------------------------------- baselines, leakage and evaluation rigour
-
-@inproceedings{dacrema2019progress,
-  author    = {Ferrari Dacrema, Maurizio and Cremonesi, Paolo and Jannach,
-               Dietmar},
-  title     = {Are We Really Making Much Progress? A Worrying Analysis of
-               Recent Neural Recommendation Approaches},
-  booktitle = {Proceedings of the 13th ACM Conference on Recommender Systems
-               (RecSys)},
-  year      = {2019},
-  doi       = {10.1145/3298689.3347058}
-}
-
-@article{kaufman2012leakage,
-  author  = {Kaufman, Shachar and Rosset, Saharon and Perlich, Claudia and
-             Stitelman, Ori},
-  title   = {Leakage in Data Mining: Formulation, Detection, and Avoidance},
-  journal = {ACM Transactions on Knowledge Discovery from Data},
-  volume  = {6},
-  number  = {4},
-  year    = {2012},
-  doi     = {10.1145/2382577.2382579}
-}
-
-@article{kapoor2023leakage,
-  author  = {Kapoor, Sayash and Narayanan, Arvind},
-  title   = {Leakage and the Reproducibility Crisis in Machine-Learning-Based
-             Science},
-  journal = {Patterns},
-  volume  = {4},
-  number  = {9},
-  year    = {2023},
-  doi     = {10.1016/j.patter.2023.100804}
-}
-
-@inproceedings{gundersen2018reproducibility,
-  author    = {Gundersen, Odd Erik and Kjensmo, Sigbj{\o}rn},
-  title     = {State of the Art: Reproducibility in Artificial Intelligence},
-  booktitle = {Proceedings of the 32nd AAAI Conference on Artificial
-               Intelligence},
-  year      = {2018}
-}
-
-@inproceedings{bouthillier2021variance,
-  author    = {Bouthillier, Xavier and Delaunay, Pierre and Bronzi, Mirko and
-               Trofimov, Assya and Nichyporuk, Brennan and Szeto, Justin and
-               Mohammadi Sepahvand, Nazanin and Raff, Edward and Madan,
-               Kanika and Voleti, Vikram and Ebrahimi Kahou, Samira and
-               Michalski, Vincent and Arbel, Tal and Pal, Chris and
-               Varoquaux, Ga{\"e}l and Vincent, Pascal},
-  title     = {Accounting for Variance in Machine Learning Benchmarks},
-  booktitle = {Proceedings of Machine Learning and Systems (MLSys)},
-  year      = {2021}
-}
-
-%% --------------------------------- variable importance as a defined quantity
-%% Both verified 2026-08-20 against the publisher record.  These are cited to
-%% place the paper's quantity: the value of a feature GIVEN a baseline is the
-%% object these frameworks formalise, and the overlap this paper measures is
-%% the phenomenon they are built to handle.
 
 @article{williamson2021vimp,
   author  = {Williamson, Brian D. and Gilbert, Peter B. and Carone, Marco and
@@ -251,105 +83,24 @@
   doi     = {10.1111/biom.13392}
 }
 
-@inproceedings{covert2020sage,
-  author    = {Covert, Ian and Lundberg, Scott and Lee, Su-In},
-  title     = {Understanding Global Feature Contributions With Additive
-               Importance Measures},
-  booktitle = {Advances in Neural Information Processing Systems 33
-               (NeurIPS)},
-  year      = {2020}
+% ------------------------------------------- incremental value, clinical
+@article{pencina2008evaluating,
+  author  = {Pencina, Michael J. and D'Agostino Sr., Ralph B. and
+             D'Agostino Jr., Ralph B. and Vasan, Ramachandran S.},
+  title   = {Evaluating the Added Predictive Ability of a New Marker: From
+             Area Under the {ROC} Curve to Reclassification and Beyond},
+  journal = {Statistics in Medicine},
+  volume  = {27},
+  number  = {2},
+  pages   = {157--172},
+  year    = {2008},
+  doi     = {10.1002/sim.2929}
 }
-
-%% ------------------------------- process-mining native related work
-%% Both verified 2026-08-20 against the publisher record.  NOTE: a reviewer
-%% cited the second as "van der Aalst & Song"; it is van der Aalst, Reijers
-%% and Song.  Checked rather than copied -- that is the whole point of the
-%% note at the top of this file.
-
-@inproceedings{senderovich2017intercase,
-  author    = {Senderovich, Arik and Di Francescomarino, Chiara and Ghidini,
-               Chiara and Jorbina, Kerwin and Maggi, Fabrizio Maria},
-  title     = {Intra and Inter-case Features in Predictive Process
-               Monitoring: A Tale of Two Dimensions},
-  booktitle = {Business Process Management (BPM)},
-  series    = {Lecture Notes in Computer Science},
-  pages     = {306--323},
-  publisher = {Springer},
-  year      = {2017},
-  doi       = {10.1007/978-3-319-65000-5_18}
-}
-
-@article{vanderaalst2005social,
-  author  = {van der Aalst, Wil M. P. and Reijers, Hajo A. and Song, Minseok},
-  title   = {Discovering Social Networks from Event Logs},
-  journal = {Computer Supported Cooperative Work (CSCW)},
-  volume  = {14},
-  number  = {6},
-  pages   = {549--593},
-  year    = {2005},
-  doi     = {10.1007/s10606-005-9005-9}
-}
-
-%% ------------------------------------------------------ round fifteen
-%% The three works below are the closest prior art and were missing.  All
-%% metadata verified against the publisher record in August 2026; the
-%% characterisations are deliberately narrow, because each of these papers
-%% uses the configuration item WITHOUT isolating its value, which is the
-%% distinction our contribution rests on.
-
-@article{schad2022reassign,
-  author  = {Schad, J{\"o}rg and Sambasivan, Rajiv and Woodward, Christopher},
-  title   = {Predicting help desk ticket reassignments with graph
-             convolutional networks},
-  journal = {Machine Learning with Applications},
-  volume  = {7},
-  pages   = {100237},
-  year    = {2022},
-  doi     = {10.1016/j.mlwa.2021.100237},
-  note    = {Relational GCN on the UCI ServiceNow log; predicts ticket
-             reassignment, our own target, with the configuration item
-             among the incident-node features}
-}
-
-@article{sarnovsky2018predictive,
-  author  = {Sarnovsk{\'y}, Martin and Surma, Juraj},
-  title   = {Predictive Models for Support of Incident Management Process
-             in {IT} Service Management},
-  journal = {Acta Electrotechnica et Informatica},
-  volume  = {18},
-  number  = {1},
-  pages   = {57--62},
-  year    = {2018},
-  doi     = {10.15546/aeei-2018-0009},
-  note    = {Same Rabobank Group log as this paper; reports ROC AUC and
-             ranks CI type, CI subtype and service component among the most
-             significant attributes. Also reports that Priority is computed
-             from Impact and Urgency}
-}
-
-@inproceedings{kapel2026change,
-  author    = {Kapel, Eileen and Lennartz, Jan and Cruz, Lu{\'\i}s and
-               Spinellis, Diomidis and van Deursen, Arie},
-  title     = {Learning from Change: Predictive Models for Incident
-               Prevention in a Regulated {IT} Environment},
-  booktitle = {Proceedings of the IEEE/ACM 48th International Conference on
-               Software Engineering: Software Engineering in Practice
-               (ICSE-SEIP)},
-  year      = {2026},
-  doi       = {10.1145/3786583.3786876},
-  note      = {SHAP ranks CI Name third among features for change-induced
-               incident risk at a large bank, behind two free-text fields}
-}
-
-%% ------------------------------- the incremental-value literature
-%% This paper's estimand -- the change in a fixed metric when one variable
-%% joins an existing model -- has been argued over in biostatistics since
-%% 2004.  Cook (2007) is our thesis, published nineteen years earlier.
 
 @article{cook2007roc,
   author  = {Cook, Nancy R.},
-  title   = {Use and Misuse of the Receiver Operating Characteristic Curve
-             in Risk Prediction},
+  title   = {Use and Misuse of the Receiver Operating Characteristic Curve in
+             Risk Prediction},
   journal = {Circulation},
   volume  = {115},
   number  = {7},
@@ -358,10 +109,24 @@
   doi     = {10.1161/CIRCULATIONAHA.106.672402}
 }
 
+@article{kerr2011evaluating,
+  author  = {Kerr, Kathleen F. and McClelland, Robyn L. and Brown, Elizabeth R.
+             and Lumley, Thomas},
+  title   = {Evaluating the Incremental Value of New Biomarkers With
+             Integrated Discrimination Improvement},
+  journal = {American Journal of Epidemiology},
+  volume  = {174},
+  number  = {3},
+  pages   = {364--374},
+  year    = {2011},
+  doi     = {10.1093/aje/kwr086}
+}
+
+% ------------------------------------------------ decision-analytic
 @article{vickers2006dca,
   author  = {Vickers, Andrew J. and Elkin, Elena B.},
-  title   = {Decision Curve Analysis: A Novel Method for Evaluating
-             Prediction Models},
+  title   = {Decision Curve Analysis: A Novel Method for Evaluating Prediction
+             Models},
   journal = {Medical Decision Making},
   volume  = {26},
   number  = {6},
@@ -370,17 +135,392 @@
   doi     = {10.1177/0272989X06295361}
 }
 
-@article{williamson2023vimp,
-  author  = {Williamson, Brian D. and Gilbert, Peter B. and
-             Simon, Noah R. and Carone, Marco},
-  title   = {A General Framework for Inference on Algorithm-Agnostic
-             Variable Importance},
-  journal = {Journal of the American Statistical Association},
-  volume  = {118},
-  number  = {543},
-  pages   = {1645--1658},
+@article{vickers2008decision,
+  author  = {Vickers, Andrew J.},
+  title   = {Decision Analysis for the Evaluation of Diagnostic Tests,
+             Prediction Models, and Molecular Markers},
+  journal = {The American Statistician},
+  volume  = {62},
+  number  = {4},
+  pages   = {314--320},
+  year    = {2008},
+  doi     = {10.1198/000313008X370302}
+}
+
+@article{vickers2016net,
+  author  = {Vickers, Andrew J. and Van Calster, Ben and Steyerberg, Ewout W.},
+  title   = {Net Benefit Approaches to the Evaluation of Prediction Models,
+             Molecular Markers, and Diagnostic Tests},
+  journal = {BMJ},
+  volume  = {352},
+  pages   = {i6},
+  year    = {2016},
+  doi     = {10.1136/bmj.i6}
+}
+
+@article{vickers2019simple,
+  author  = {Vickers, Andrew J. and van Calster, Ben and Steyerberg, Ewout W.},
+  title   = {A Simple, Step-by-Step Guide to Interpreting Decision Curve
+             Analysis},
+  journal = {Diagnostic and Prognostic Research},
+  volume  = {3},
+  pages   = {18},
+  year    = {2019},
+  doi     = {10.1186/s41512-019-0064-7}
+}
+
+@article{vancalster2019calibration,
+  author  = {Van Calster, Ben and McLernon, David J. and van Smeden, Maarten
+             and Wynants, Laure and Steyerberg, Ewout W.},
+  title   = {Calibration: The {A}chilles Heel of Predictive Analytics},
+  journal = {BMC Medicine},
+  volume  = {17},
+  pages   = {230},
+  year    = {2019},
+  doi     = {10.1186/s12916-019-1466-7}
+}
+
+% ------------------------------------------- specification sensitivity
+@article{steegen2016increasing,
+  author  = {Steegen, Sara and Tuerlinckx, Francis and Gelman, Andrew and
+             Vanpaemel, Wolf},
+  title   = {Increasing Transparency Through a Multiverse Analysis},
+  journal = {Perspectives on Psychological Science},
+  volume  = {11},
+  number  = {5},
+  pages   = {702--712},
+  year    = {2016},
+  doi     = {10.1177/1745691616658637}
+}
+
+@article{simonsohn2020specification,
+  author  = {Simonsohn, Uri and Simmons, Joseph P. and Nelson, Leif D.},
+  title   = {Specification Curve Analysis},
+  journal = {Nature Human Behaviour},
+  volume  = {4},
+  pages   = {1208--1214},
+  year    = {2020},
+  doi     = {10.1038/s41562-020-0912-z}
+}
+
+@article{patel2015assessment,
+  author  = {Patel, Chirag J. and Burford, Belinda and Ioannidis, John P. A.},
+  title   = {Assessment of Vibration of Effects Due to Model Specification Can
+             Demonstrate the Instability of Observational Associations},
+  journal = {Journal of Clinical Epidemiology},
+  volume  = {68},
+  number  = {9},
+  pages   = {1046--1058},
+  year    = {2015},
+  doi     = {10.1016/j.jclinepi.2015.05.029}
+}
+
+@article{damour2022underspecification,
+  author  = {D'Amour, Alexander and Heller, Katherine and Moldovan, Dan and
+             others},
+  title   = {Underspecification Presents Challenges for Credibility in Modern
+             Machine Learning},
+  journal = {Journal of Machine Learning Research},
+  volume  = {23},
+  number  = {226},
+  pages   = {1--61},
+  year    = {2022}
+}
+
+@inproceedings{bouthillier2021variance,
+  author    = {Bouthillier, Xavier and Delaunay, Pierre and Bronzi, Mirko and
+               others},
+  title     = {Accounting for Variance in Machine Learning Benchmarks},
+  booktitle = {Proceedings of Machine Learning and Systems (MLSys)},
+  year      = {2021}
+}
+
+% --------------------------------------------------- data valuation
+@inproceedings{ghorbani2019data,
+  author    = {Ghorbani, Amirata and Zou, James},
+  title     = {Data {S}hapley: Equitable Valuation of Data for Machine
+               Learning},
+  booktitle = {Proceedings of the 36th International Conference on Machine
+               Learning},
+  pages     = {2242--2251},
+  year      = {2019}
+}
+
+@inproceedings{jia2019towards,
+  author    = {Jia, Ruoxi and Dao, David and Wang, Boxin and Hubis,
+               Frances Ann and Hynes, Nick and G{\"u}rel, Nezihe Merve and
+               Li, Bo and Zhang, Ce and Song, Dawn and Spanos, Costas J.},
+  title     = {Towards Efficient Data Valuation Based on the {S}hapley Value},
+  booktitle = {Proceedings of the 22nd International Conference on Artificial
+               Intelligence and Statistics},
+  pages     = {1167--1176},
+  year      = {2019}
+}
+
+% ------------------------------------------- process mining, ITSM
+@article{teinemaa2019outcome,
+  author  = {Teinemaa, Irene and Dumas, Marlon and La Rosa, Marcello and
+             Maggi, Fabrizio Maria},
+  title   = {Outcome-Oriented Predictive Process Monitoring: Review and
+             Benchmark},
+  journal = {ACM Transactions on Knowledge Discovery from Data},
+  volume  = {13},
+  number  = {2},
+  pages   = {17:1--17:57},
+  year    = {2019},
+  doi     = {10.1145/3301300}
+}
+
+@article{verenich2019survey,
+  author  = {Verenich, Ilya and Dumas, Marlon and La Rosa, Marcello and
+             Maggi, Fabrizio Maria and Teinemaa, Irene},
+  title   = {Survey and Cross-Benchmark Comparison of Remaining Time
+             Prediction Methods in Business Process Monitoring},
+  journal = {ACM Transactions on Intelligent Systems and Technology},
+  volume  = {10},
+  number  = {4},
+  pages   = {34:1--34:34},
+  year    = {2019},
+  doi     = {10.1145/3331449}
+}
+
+@book{vanderaalst2016process,
+  author    = {van der Aalst, Wil M. P.},
+  title     = {Process Mining: Data Science in Action},
+  publisher = {Springer},
+  edition   = {2nd},
+  year      = {2016},
+  doi       = {10.1007/978-3-662-49851-4}
+}
+
+@article{marrone2011itil,
+  author  = {Marrone, Mauricio and Kolbe, Lutz M.},
+  title   = {Impact of {IT} Service Management Frameworks on the {IT}
+             Organization},
+  journal = {Business \& Information Systems Engineering},
+  volume  = {3},
+  number  = {1},
+  pages   = {5--18},
+  year    = {2011},
+  doi     = {10.1007/s12599-010-0141-5}
+}
+
+@article{senderovich2017intercase,
+  author  = {Senderovich, Arik and Di Francescomarino, Chiara and Ghidini,
+             Chiara and Jorbina, Kerwin and Maggi, Fabrizio Maria},
+  title   = {Intra and Inter-Case Features in Predictive Process Monitoring},
+  journal = {Information Systems},
+  volume  = {74},
+  pages   = {102--113},
+  year    = {2018},
+  doi     = {10.1016/j.is.2017.10.005}
+}
+
+% ---------------------------------------------------- data quality
+@article{mohammed2025dataquality,
+  author  = {Mohammed, Sedir and Budach, Lukas and Feuerpfeil, Moritz and
+             Ihde, Nina and Nathansen, Andrea and Noack, Nele and Patzlaff,
+             Hendrik and Naumann, Felix and Harmouch, Hazar},
+  title   = {The Effects of Data Quality on Machine Learning Performance on
+             Tabular Data},
+  journal = {Information Systems},
+  volume  = {132},
+  pages   = {102549},
+  year    = {2025},
+  doi     = {10.1016/j.is.2025.102549}
+}
+
+@inproceedings{comuzzi2025labels,
+  author    = {Comuzzi, Marco and Kim, Sungkyu and Ko, Jonghyeon and Salamov,
+               Musa and Cappiello, Cinzia and Pernici, Barbara},
+  title     = {On the Impact of Low-Quality Activity Labels in Predictive
+               Process Monitoring},
+  booktitle = {Business Process Management Workshops},
+  series    = {Lecture Notes in Business Information Processing},
+  year      = {2025},
+  doi       = {10.1007/978-3-031-82225-4_15}
+}
+
+@article{liu2025encoding,
+  author  = {Liu, Cong and Liu, Wenjuan and Guo, Na and Song, Rongjia and
+             Gu, Yan and Cheng, Long},
+  title   = {Comparative Evaluation of Encoding Techniques for Workflow
+             Process Remaining Time Prediction for Cloud Applications},
+  journal = {Journal of Cloud Computing},
+  volume  = {14},
+  year    = {2025},
+  doi     = {10.1186/s13677-025-00763-8}
+}
+
+@article{carka2022effortaware,
+  author  = {{\c{C}}arka, Jonida and Esposito, Matteo and Falessi, Davide},
+  title   = {On Effort-Aware Metrics for Defect Prediction},
+  journal = {Empirical Software Engineering},
+  volume  = {27},
+  number  = {6},
+  pages   = {152},
+  year    = {2022},
+  doi     = {10.1007/s10664-022-10186-7}
+}
+
+@inproceedings{weytjens2022leakage,
+  author    = {Weytjens, Hans and De Weerdt, Jochen},
+  title     = {Creating Unbiased Public Benchmark Datasets with Data Leakage
+               Prevention for Predictive Process Monitoring},
+  booktitle = {Business Process Management Workshops},
+  series    = {Lecture Notes in Business Information Processing},
+  volume    = {436},
+  pages     = {18--29},
+  year      = {2022},
+  doi       = {10.1007/978-3-030-94343-1_2}
+}
+
+@article{suriadi2017imperfection,
+  author  = {Suriadi, Suriadi and Andrews, Robert and ter Hofstede, Arthur
+             H. M. and Wynn, Moe Thandar},
+  title   = {Event Log Imperfection Patterns for Process Mining},
+  journal = {Information Systems},
+  volume  = {64},
+  pages   = {132--150},
+  year    = {2017},
+  doi     = {10.1016/j.is.2016.07.011}
+}
+
+@article{kaufman2012leakage,
+  author  = {Kaufman, Shachar and Rosset, Saharon and Perlich, Claudia and
+             Stitelman, Ori},
+  title   = {Leakage in Data Mining: Formulation, Detection, and Avoidance},
+  journal = {ACM Transactions on Knowledge Discovery from Data},
+  volume  = {6},
+  number  = {4},
+  pages   = {15:1--15:21},
+  year    = {2012},
+  doi     = {10.1145/2382577.2382579}
+}
+
+@article{kapoor2023leakage,
+  author  = {Kapoor, Sayash and Narayanan, Arvind},
+  title   = {Leakage and the Reproducibility Crisis in Machine-Learning-Based
+             Science},
+  journal = {Patterns},
+  volume  = {4},
+  number  = {9},
+  pages   = {100804},
   year    = {2023},
-  doi     = {10.1080/01621459.2021.2003200},
-  note    = {The AUC-capable companion to the R-squared framework of
-             williamson2021vimp; supplies valid inference for our estimand}
+  doi     = {10.1016/j.patter.2023.100804}
+}
+
+% ------------------------------------------------------ statistics
+@article{fieller1954,
+  author  = {Fieller, E. C.},
+  title   = {Some Problems in Interval Estimation},
+  journal = {Journal of the Royal Statistical Society: Series B},
+  volume  = {16},
+  number  = {2},
+  pages   = {175--185},
+  year    = {1954},
+  doi     = {10.1111/j.2517-6161.1954.tb00159.x}
+}
+
+@article{romano2005stepdown,
+  author  = {Romano, Joseph P. and Wolf, Michael},
+  title   = {Exact and Approximate Stepdown Methods for Multiple Hypothesis
+             Testing},
+  journal = {Journal of the American Statistical Association},
+  volume  = {100},
+  number  = {469},
+  pages   = {94--108},
+  year    = {2005},
+  doi     = {10.1198/016214504000000539}
+}
+
+@article{holm1979simple,
+  author  = {Holm, Sture},
+  title   = {A Simple Sequentially Rejective Multiple Test Procedure},
+  journal = {Scandinavian Journal of Statistics},
+  volume  = {6},
+  number  = {2},
+  pages   = {65--70},
+  year    = {1979}
+}
+
+@article{kunsch1989jackknife,
+  author  = {K{\"u}nsch, Hans R.},
+  title   = {The Jackknife and the Bootstrap for General Stationary
+             Observations},
+  journal = {The Annals of Statistics},
+  volume  = {17},
+  number  = {3},
+  pages   = {1217--1241},
+  year    = {1989},
+  doi     = {10.1214/aos/1176347265}
+}
+
+@article{sobol2001global,
+  author  = {Sobol', I. M.},
+  title   = {Global Sensitivity Indices for Nonlinear Mathematical Models and
+             Their {M}onte {C}arlo Estimates},
+  journal = {Mathematics and Computers in Simulation},
+  volume  = {55},
+  number  = {1--3},
+  pages   = {271--280},
+  year    = {2001},
+  doi     = {10.1016/S0378-4754(00)00270-6}
+}
+
+@article{saltelli2010variance,
+  author  = {Saltelli, Andrea and Annoni, Paola and Azzini, Ivano and
+             Campolongo, Francesca and Ratto, Marco and Tarantola, Stefano},
+  title   = {Variance Based Sensitivity Analysis of Model Output},
+  journal = {Computer Physics Communications},
+  volume  = {181},
+  number  = {2},
+  pages   = {259--270},
+  year    = {2010},
+  doi     = {10.1016/j.cpc.2009.09.018}
+}
+
+@article{rogan1978estimating,
+  author  = {Rogan, Walter J. and Gladen, Beth},
+  title   = {Estimating Prevalence From the Results of a Screening Test},
+  journal = {American Journal of Epidemiology},
+  volume  = {107},
+  number  = {1},
+  pages   = {71--76},
+  year    = {1978},
+  doi     = {10.1093/oxfordjournals.aje.a112510}
+}
+
+@article{page2021prisma,
+  author  = {Page, Matthew J. and McKenzie, Joanne E. and Bossuyt, Patrick M.
+             and others},
+  title   = {The {PRISMA} 2020 Statement: An Updated Guideline for Reporting
+             Systematic Reviews},
+  journal = {BMJ},
+  volume  = {372},
+  pages   = {n71},
+  year    = {2021},
+  doi     = {10.1136/bmj.n71}
+}
+
+@article{micci2001preprocessing,
+  author  = {Micci-Barreca, Daniele},
+  title   = {A Preprocessing Scheme for High-Cardinality Categorical
+             Attributes in Classification and Prediction Problems},
+  journal = {ACM SIGKDD Explorations Newsletter},
+  volume  = {3},
+  number  = {1},
+  pages   = {27--32},
+  year    = {2001},
+  doi     = {10.1145/507533.507538}
+}
+
+@article{pedregosa2011scikit,
+  author  = {Pedregosa, Fabian and Varoquaux, Ga{\"e}l and Gramfort,
+             Alexandre and others},
+  title   = {Scikit-learn: Machine Learning in {P}ython},
+  journal = {Journal of Machine Learning Research},
+  volume  = {12},
+  pages   = {2825--2830},
+  year    = {2011}
 }

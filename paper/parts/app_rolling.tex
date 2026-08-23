@@ -1,0 +1,12 @@
+The single temporal holdout is one split. Table~\ref{tab:rolling} reports the
+increment at the reference cell under each of the \nFolds\ expanding-origin
+folds, per log--target pair, so that a reader can see how much of the
+holdout's answer is the holdout's.
+
+\input{tables/rolling}
+
+The split axis carries a median \sobolSplitPct\ of the variance in the
+increment (Table~\ref{tab:sobol}), which is smaller than the baseline axis and
+larger than zero. Reporting a single holdout was a limitation of an earlier
+version of this work, and where a fold disagrees with the holdout in sign the
+pair's region label in Table~\ref{tab:master} reflects it.

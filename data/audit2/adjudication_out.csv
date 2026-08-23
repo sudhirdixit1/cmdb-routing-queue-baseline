@@ -1,0 +1,121 @@
+oa_id,eligible,B_stated,B_justified,M_justified,Theta_stated,Range_reported,range_axis,applic_register,note
+W2806583692,no,,,,,,,,performance modelling; no feature increment against a stated comparison
+W2810738116,no,,,,,,,,regression on determinants; no predictive increment
+W2931993367,no,,,,,,,,pipeline description; no quantitative feature increment
+W2941068928,no,,,,,,,,training-population comparison (open vs closed source) not a feature increment
+W2941394980,no,,,,,,,,single feature vector; the increment discussed is other people's
+W2951484092,yes,unclear,no,no,no,no,,no,two named external variables added to a tourism forecast; best-model share reported
+W2954440353,no,,,,,,,,pipeline optimisation
+W2960048287,yes,yes,no,no,yes,no,,no,two feature sets compared for remaining useful life; a maintenance threshold is stated
+W2969930394,no,,,,,,,,pattern-level accuracy; no feature increment
+W2989213133,no,,,,,,,,survey
+W2995454814,no,,,,,,,,feature-selection robustness check; no incremental claim against a stated baseline
+W2996338620,no,,,,,,,,permutation importance; not an increment against a baseline model
+W3016717485,no,,,,,,,,eligibility restriction on rare controls; not a feature increment
+W3025918553,no,,,,,,,,uplift modelling; no feature increment
+W3043882153,yes,unclear,no,no,no,no,,no,hierarchical regression; incremental explained variance of variable blocks
+W3044618224,no,,,,,,,,theory paper
+W3048310814,no,,,,,,,,relevance scoring; no increment
+W3097004242,no,,,,,,,,window-size sensitivity; not a feature increment
+W3120925457,no,,,,,,,,adding training configurations not features
+W3123086775,no,,,,,,,,offline vs online testing
+W3149836688,no,,,,,,,,no quantitative predictive metric
+W3153009645,no,,,,,,,,model comparison against a benchmark system
+W3166557239,yes,yes,no,no,no,no,decision-time,no,contribution type added as a feature; F1 reported at three earliness points
+W3169486253,no,,,,,,,,no quantitative metric retrieved
+W3171707163,no,,,,,,,,predictor reliability by correlation
+W3176226112,no,,,,,,,,aggregation schemes
+W3184174269,no,,,,,,,,explainability inspection
+W3186922658,no,,,,,,,,qualitative study
+W3198188779,no,,,,,,,,prescriptive monitoring
+W3203269068,no,,,,,,,,miner comparison
+W3204750696,yes,yes,no,no,yes,no,,no,design decisions' incremental contribution to explained variance; top-1 and top-3 accuracy
+W3217325574,yes,yes,no,no,no,yes,baseline+metric,no,five feature configurations under four instruments in one table
+W4206162339,no,,,,,,,,growth-theory performance model
+W4207018882,no,,,,,,,,sampling algorithms
+W4214741785,no,,,,,,,,method-component ablation
+W4221005884,no,,,,,,,,labelling-source comparison
+W4221145890,no,,,,,,,,effort estimation; no metric retrieved
+W4224992801,no,,,,,,,,helpfulness predictors; no incremental comparison retrieved
+W4225709018,no,,,,,,,,instance sampling
+W4225832919,no,,,,,,,,benchmark construction and leakage prevention
+W4225985120,no,,,,,,,,single model accuracy
+W4226047899,no,,,,,,,,explainability quantification
+W4226064336,no,,,,,,,,evaluation protocol
+W4226203778,no,,,,,,,,training-set-size curves
+W4229035469,no,,,,,,,,no incremental comparison retrieved
+W4281700903,no,,,,,,,,interrupted time series on bot adoption
+W4281783878,no,,,,,,,,commit classification
+W4289977462,no,,,,,,,,formatting repair
+W4289978713,no,,,,,,,,effort-aware metric comparison; a metric-axis study but no feature increment
+W4293100964,no,,,,,,,,anomaly-detector comparison
+W4296483261,no,,,,,,,,training-label noise; a data-quality axis but no feature increment
+W4297421532,no,,,,,,,,story point changes
+W4313573029,no,,,,,,,,position paper
+W4317838279,no,,,,,,,,differential testing
+W4318035544,no,,,,,,,,forecasting process models
+W4323306227,no,,,,,,,,event log sampling
+W4323661611,no,,,,,,,,survey study with moderators
+W4324142999,no,,,,,,,,log format extension
+W4360971517,no,,,,,,,,textual feature added but no quantitative metric retrieved from the full text
+W4360981376,no,,,,,,,,dataset paper
+W4362606928,no,,,,,,,,faultload benchmark
+W4367603665,yes,yes,no,no,no,yes,baseline,no,instance graphs enriched with data attributes; accuracy and F1 improvements reported
+W4367693670,no,,,,,,,,model vs system level testing
+W4376125404,no,,,,,,,,architecture comparison
+W4378083145,yes,yes,no,no,yes,yes,threshold,no,structural information added to a language model; Top-1/3/5/10 accuracy reported
+W4379793019,no,,,,,,,,prescriptive monitoring with causal inference
+W4380624617,no,,,,,,,,log reduction
+W4386114095,no,,,,,,,,dataset paper
+W4386194126,no,,,,,,,,no predictive metric
+W4386715814,no,,,,,,,,online vs offline learners
+W4387101695,no,,,,,,,,detection pipeline
+W4387583615,no,,,,,,,,case study without an increment
+W4387917776,no,,,,,,,,decision mining
+W4388209009,no,,,,,,,,pipeline prototypes
+W4388341803,no,,,,,,,,expert voice
+W4388971801,no,,,,,,,,fairness engineering survey
+W4390431291,no,,,,,,,,resource-constrained classification
+W4391143283,no,,,,,,,,ensemble and active-learning comparison
+W4392224127,no,,,,,,,,interview study
+W4392828285,no,,,,,,,,architecture search
+W4393283822,no,,,,,,,,deployment strategies
+W4394773220,no,,,,,,,,no quantitative metric retrieved
+W4395697722,no,,,,,,,,Shapley decomposition
+W4396581619,no,,,,,,,,issue analysis
+W4398167886,no,,,,,,,,interpretable architecture
+W4399138282,no,,,,,,,,tooling study
+W4399290453,no,,,,,,,,tokenisation comparison
+W4399560843,no,,,,,,,,tool selection
+W4399687308,no,,,,,,,,solution comparison
+W4401141387,no,,,,,,,,deployment case study
+W4401520495,no,,,,,,,,static analysis tooling
+W4402735319,no,,,,,,,,method variants compared; the feature claim is not measured as an increment
+W4402781835,no,,,,,,,,toolkit paper
+W4403271309,no,,,,,,,,queue feature described but no quantitative increment retrieved
+W4404022055,no,,,,,,,,Stack Overflow study
+W4405469720,no,,,,,,,,misconfiguration study
+W4405668734,no,,,,,,,,provenance capture
+W4407176632,no,,,,,,,,process mining application
+W4408444355,no,,,,,,,,data-quality axis study; performance against corruption not a feature increment
+W4408963678,no,,,,,,,,ensemble method
+W4408985702,yes,yes,no,no,no,yes,baseline+metric,no,semantic information added over a control-flow-only baseline; accuracy and macro-F1
+W4408985718,no,,,,,,,,label-quality axis study; not a feature increment
+W4408985732,no,,,,,,,,case-length distortion
+W4410427754,yes,yes,no,no,no,unclear,,no,inter-case features added to structure-aware next-activity prediction
+W4410540577,no,,,,,,,,trace generation
+W4411460585,no,,,,,,,,conformance checking
+W4411980586,no,,,,,,,,encoding-technique comparison; an encoding-axis study
+W4412573775,no,,,,,,,,detection and prevalence study
+W4413219439,no,,,,,,,,adversarial robustness
+W4414493140,no,,,,,,,,uncertainty detection
+W4415647391,no,,,,,,,,zero-shot detection
+W4415830362,no,,,,,,,,issue analysis
+W4417026118,no,,,,,,,,trace-link case study
+W7117963492,no,,,,,,,,dimensionality estimation
+W7122568718,no,,,,,,,,query intent discovery
+W7128295225,no,,,,,,,,model and feature set confounded in the comparison
+W7155009923,yes,yes,yes,no,no,yes,baseline,no,grouping features added to a bucketing baseline; accuracy reported with and without
+W7167577814,no,,,,,,,,hierarchical models without a predictive metric
+W7167734464,no,,,,,,,,integration-strategy comparison
+W7202386882,no,,,,,,,,model comparison

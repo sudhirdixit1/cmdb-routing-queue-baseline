@@ -1,0 +1,73 @@
+
+This project keeps a correction register. Earlier versions of this work
+carried it in the main text; a referee for this journal observed that
+scientific transparency should be visible in the design and the supplement
+rather than repeatedly asserted, and that is right, so it is here.
+
+\texttt{REFEREE-LOG.md} in the archive carries the objection each correction
+answers and the commit that made it. What follows is the register grouped by
+\emph{class}, because the classes are more useful than the incidents: they
+say what kind of mistake this apparatus is prone to.
+
+\paragraph{Class A --- a control that could not fail.}
+Four corrections (C1, C2, C8, C16) are nulls or searches drawn at the wrong
+level, swept over the wrong range, or given fresh noise inside a comparison
+that assumed determinism. A null that cannot fail is worse than no null,
+because it is reported as evidence. The most recent, C16, is in
+Appendix~\ref{app:props}: the axis non-redundancy search drew fresh noise
+inside each cell evaluation, so two evaluations of the same cell disagreed and
+the search found almost nothing.
+
+\paragraph{Class B --- a quantity whose sign was set by a tie-break.}
+Two corrections (C4, C7) concern an operational factor computed at a fixed
+review capacity, where $93.1\%$ of what the naive baseline nominated came from
+a single tied block and reordering rows inside that block moved the arm from
+$-26$ to $+608$. A quantity whose sign is set by a tie-break is not a
+measurement. Section~\ref{sec:dca} is built on net benefit, which admits or
+excludes a whole tied block at a threshold and never breaks one.
+
+\paragraph{Class C --- every literal correct, the relation between them
+false.}
+Five corrections (C9, C10, C12, C13, C14) are sentences in which each printed
+number was right and the claim asserted about them was not: an extremum that
+was the worst of the points the table happened to name; a count reported as a
+contiguous run; a range ``across the operating range'' that was a range across
+five named points; a universal ``if and only if'' whose necessity direction is
+only existential (Remark~\ref{rem:cancel}); and --- the one that mattered most
+--- a headline spread that was inflated by an intercept-only baseline no
+analyst would build, while a later section of the same manuscript said so and
+the abstract did not. This class is the reason
+Section~\ref{sec:regions} excludes the intercept-only rung by definition and
+the reason every number in this document is a generated macro rather than a
+typed literal.
+
+\paragraph{Class D --- evidence one download away.}
+One correction (C11): an earlier version reported that it could not establish
+whether the knowledge-article reference was available at incident creation,
+named the file that would settle where the field comes from, and did not
+obtain it. Obtaining it changed the headline. Section~\ref{sec:cmdb} now
+reports two decision times rather than choosing one, because obtaining the
+file settled where the field is written and not when.
+
+\paragraph{Class E --- a claim about the world that our own coder could not
+support.}
+One correction (C15), and it is the largest. An earlier version reported that
+\emph{not one} of twenty audited papers reports the increment across a range
+of operating points. The rebuilt pilot of Section~\ref{sec:practice}
+adjudicates the papers the mechanical screen \emph{rejected} as well as the
+ones it accepted, measures the screen's sensitivity at \auditSens, and finds
+eligible papers that do report the increment across a range of operating
+points --- one of them at four values of $k$ in a top-$k$ evaluation. The
+earlier ``not one'' was a property of a coder that finds fewer than half of
+the eligible papers, not a property of the literature. The corrected estimate
+is \auditRangeThresholdPct\ with an interval that includes it.
+
+\paragraph{Class F --- internal inconsistency.}
+Three corrections (C17, C18, C19) are places where an earlier manuscript
+disagreed with itself: an instrument count that treated two thresholds of one
+instrument as two instruments; a reference reduction quoted as
+$43.7\%$ in the text and $35.0\%$ in a table without the change of
+specification being made clear; and a section that said a withdrawn
+instrument was retained in a table that did not contain it. The generated-macro
+discipline of Appendix~\ref{app:verifier} makes this class structurally
+impossible rather than merely unlikely.

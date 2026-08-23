@@ -1,0 +1,13 @@
+step,n
+records enumerated in the frame,54910.0
+records sampled,600.0
+full text retrieved,369.0
+full text not retrieved,231.0
+screened in by the mechanical rule,54.0
+screened out: no quantitative metric,192.0
+screened out: no incremental comparison,123.0
+"adjudicated, screened-in stratum (census)",54.0
+"adjudicated, screened-out stratum (sample)",120.0
+"confirmed eligible, screened-in stratum",26.0
+"confirmed eligible, screened-out stratum (unweighted)",11.0
+estimated eligible among all retrieved full texts,54.9

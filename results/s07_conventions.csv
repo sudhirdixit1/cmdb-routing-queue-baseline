@@ -1,0 +1,6 @@
+quantity,convention,implementation
+ROC AUC,"Mann-Whitney, mid-rank ties",sklearn.metrics.roc_auc_score
+average precision,"step-wise sum, equal scores collapsed to one operating point, no interpolation",sklearn.metrics.average_precision_score
+net benefit,"Vickers-Elkin, per case, selection rule p >= theta",spec.net_benefit
+Brier skill,1 - MSE / MSE(training prevalence),spec.brier_skill
+log-loss skill,1 - deviance / deviance(training prevalence),spec.logloss_skill

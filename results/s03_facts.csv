@@ -1,0 +1,2 @@
+n_surface_rows,n_pairs,n_axes,sobol_rows,S_rung_median,S_learner_median,S_quality_median,S_split_median,S_metric_median,S_rung_max,interaction_share_median,n_regions,n_uniformly_beneficial,n_sign_changing,n_unresolved,rho_median,runtime_s
+201312,19,5,2926,0.018919543575710875,0.025704097911875414,0.027439258899489356,0.0944130856876403,0.1011295150546941,0.3079637416225677,0.2997036610485817,0,0,0,0,,36.3

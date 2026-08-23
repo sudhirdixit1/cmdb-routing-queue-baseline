@@ -1,0 +1,58 @@
+\subsection*{Proposition~\ref{prop:nonid}: the two-point algebra in full}
+
+Let a scoring rule take one of two values, with $a$ of the $P$ positives and
+$b$ of the $N$ negatives in the high block; write $\alpha = a/P$,
+$\beta = b/N$, $\rho = N/P$ and $\pi = P/(P+N) = 1/(1+\rho)$. Two exact
+identities follow directly from the definitions in
+Section~\ref{sec:props}:
+\[
+\mathrm{AUC} = \tfrac12 + \tfrac{\alpha - \beta}{2},
+\qquad
+\mathrm{AP} = \alpha\,\frac{\alpha}{\alpha + \beta\rho} + (1-\alpha)\pi .
+\]
+The first is the Mann--Whitney statistic with ties at $1/2$; the second is the
+step-wise sum over the two operating points the rule admits. Hence
+\[
+\mathrm{AP} - \pi \;=\; \alpha\left(\frac{\alpha}{\alpha + \beta\rho} -
+\pi\right).
+\]
+
+Fix $d = \alpha - \beta > 0$. Every rule on the line $\beta = \alpha - d$ has
+the same AUC increment $d/2$ over the fully tied baseline, so any two of them
+give $R_{\mathrm{AUC}} = 0$ exactly. Along that line the AP increment runs
+from $d(1-\pi)$ at $\alpha = d$, $\beta = 0$ down to
+$\dfrac{d\rho}{\bigl(1 + (1-d)\rho\bigr)(1+\rho)}$ at $\alpha = 1$, a ratio of
+about $1 + \rho$. The construction therefore needs an imbalanced problem to
+drive $R_{\mathrm{AP}}$ close to one, and the file uses $\rho = 500$. This is
+a property of the construction and not a hidden assumption: with $\rho = 9$
+the same argument gives a gap of about $0.9$, which is still enough to refute
+the existence of $\varphi$.
+
+\subsection*{Proposition~\ref{prop:rank}: the cancelling configuration}
+
+Remark~\ref{rem:cancel} claims a configuration on which a non-rank-based
+metric's increment moves under $\psi$ while the ratio does not. The
+construction is immediate once stated: take $\sigma_{B_1} = \sigma_{B_0}$ and
+$\sigma_{B_1 \cup f} = \sigma_{B_0 \cup f}$. Then $V(B_1) = V(B_0)$ for every
+metric and every $\psi$, so $R = 0$ identically, while $V$ itself moves under
+$\psi$ whenever $m$ is not rank-based. The configuration is degenerate --- the
+two baselines induce the same scores --- and that is the point: the
+existential quantifier in part~(ii) cannot be strengthened to a universal one
+without excluding cases like it, and the earlier version of this work did not
+exclude them.
+
+\subsection*{Result~\ref{res:nonredundancy}: what the search does}
+
+For each ordered pair of axes $(i,j)$ the search looks for two estates whose
+increments agree, to a declared tolerance, at \emph{every} level of axis $i$
+and disagree at some level of axis $j$. A reader who knew only the axis-$i$
+readings could not tell those two estates apart, yet their axis-$j$ readings
+differ; so the axis-$i$ readings do not determine the axis-$j$ readings.
+
+The family is \nResultEstates\ synthetic estates, each with its own seed,
+prevalence, signal strength and noise; every cell is a pure function of the
+estate and the level assignment. An earlier implementation drew fresh noise
+inside each cell evaluation, so two evaluations of the same cell disagreed and
+the search found almost nothing; that is a defect of the search, not a
+property of the axes, and it is recorded here because the count it produced
+appeared in a previous draft.

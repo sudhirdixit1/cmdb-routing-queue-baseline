@@ -1,0 +1,2 @@
+n_cells,n_pairs,misreport_median,misreport_max,misreport_min,n_pairs_misreport_over_25pct,n_pairs_misreport_over_10pct,flip_rate_rung,flip_rate_learner,flip_rate_metric,flip_rate_split,flip_rate_quality,runtime_s
+27960,19,0.3527777777777778,0.5771604938271605,0.056481481481481466,13,18,0.2222222222222222,0.31296296296296294,0.19722222222222222,0.3348148148148148,0.2037037037037037,5.4

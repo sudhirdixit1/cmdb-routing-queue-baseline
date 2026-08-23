@@ -22,10 +22,12 @@ from .core import (DEFAULT_METRICS, DEFAULT_POPULATION, DEFAULT_THRESHOLDS,
 from .metrics import (METRICS, RANK_BASED, auc, average_precision, brier,
                       brier_skill, expected_cost_saving, nagelkerke,
                       net_benefit)
+from .report import decompose, regions, regret, robustness, summary
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __all__ = ["surface", "Surface", "SingleNumberRefused", "METRICS",
            "RANK_BASED", "DEFAULT_METRICS", "DEFAULT_THRESHOLDS",
            "DEFAULT_POPULATION", "auc", "average_precision", "brier",
            "brier_skill", "nagelkerke", "net_benefit",
-           "expected_cost_saving", "__version__"]
+           "expected_cost_saving", "decompose", "regions", "regret",
+           "robustness", "summary", "__version__"]

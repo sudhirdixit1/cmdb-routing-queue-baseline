@@ -1,0 +1,341 @@
+"""s10 -- THE SIMULATION, AGAINST AN ANSWER THAT IS KNOWN, IN SIX WORLDS.
+
+Round nineteen.  The referee's eighth major comment ends with six demands on
+the simulation, and the round-eighteen version met none of them: it used a
+logistic data-generating process fitted by logistic regression, which is
+unusually favourable; forty replicates, which cannot resolve a coverage
+estimate; and it dismissed an 85% coverage as boundary behaviour rather than
+treating it as undercoverage.
+
+This file replaces it.
+
+SIX WORLDS, each with an exactly computable truth.  The covariate space is
+finite -- an intake block, a free field and a register with K levels -- so the
+joint distribution of (cell, outcome) can be ENUMERATED and the population AUC
+of any scoring rule computed in closed form rather than simulated.
+
+  linear        a logistic surface; the estimator is correctly specified
+  nonlinear     an interaction and a threshold the logistic model cannot see
+  drift         the coefficients move between the training and test eras
+  sparse        K = 200 register levels on the same sample size
+  imbalanced    prevalence 0.02
+  noisy         a share of register values are wrong
+
+TWO ESTIMANDS, because under misspecification they are not the same:
+
+  V_oracle   the increment between the two BAYES-OPTIMAL scoring rules -- what
+             the register is worth in the world.
+  V_limit    the increment between the two FITTED pipelines' limits -- what
+             the estimator is estimating.  Approximated by fitting on a very
+             large sample and scoring the enumerated population.
+
+A confidence interval built by resampling can only cover V_limit.  Reporting
+its coverage of V_oracle as though it were the estimator's coverage is the
+error the round-eighteen simulation made, and both are reported here.
+
+TWO INTERVALS, so the referee's central objection is measured and not
+asserted:
+
+  naive     the round-eighteen interval: resample the TEST rows, models held
+            fixed.  Excludes training-sample and model-selection variability.
+  nested    the round-nineteen interval: moving-block resample of the TRAINING
+            half, REFIT, evaluate on a moving-block resample of the test half.
+
+    python s10_simulation2.py                 # all six worlds
+    python s10_simulation2.py --reps 50       # a short run
+
+Outputs: results/s10_coverage.csv, s10_replicates.csv, s10_facts.csv
+"""
+from __future__ import annotations
+
+import os
+
+#  see s01_surface.py: the pool parallelises over tasks, so each task must be
+#  single-threaded or OpenMP oversubscribes the machine.
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
+           "NUMEXPR_NUM_THREADS", "VECLIB_MAXIMUM_THREADS"):
+    os.environ.setdefault(_v, "1")
+
+import argparse
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import spec as S  # noqa: E402
+from common import RESULTS  # noqa: E402
+
+SEED = 20260823
+N_TRAIN, N_TEST = 4000, 2000
+N_BOOT = 100
+ALPHA = 0.05
+N_BIG = 120000            # the sample the limit estimand is fitted on
+
+WORLDS = ("linear", "nonlinear", "drift", "sparse", "imbalanced", "noisy")
+
+#  A FIXED offset per world.  Python's built-in hash() for strings is salted
+#  per process, so using it to seed a world would give every worker a
+#  DIFFERENT world with the same name -- the truth computed in the parent
+#  would not be the truth simulated in the child.  The offsets are literals.
+WORLD_SEED = {"linear": 11, "nonlinear": 23, "drift": 37, "sparse": 53,
+              "imbalanced": 71, "noisy": 97}
+
+
+# --------------------------------------------------------------------------
+def world_spec(world, rng):
+    """Return (K, cell probabilities, P(y=1 | cell), and the era-2 version)."""
+    K = 200 if world == "sparse" else 20
+    nb, ng = 4, 3                       # intake cells, free-field levels
+    uf = rng.normal(0, 1.0, K)
+    ub = rng.normal(0, 0.8, nb)
+    ug = rng.normal(0, 0.9, ng)
+    #  a register whose levels are used with a long tail, as an estate is
+    p_f = 1.0 / (np.arange(1, K + 1) ** 0.9)
+    p_f = p_f / p_f.sum()
+    p_b = np.full(nb, 1.0 / nb)
+    p_g = np.full(ng, 1.0 / ng)
+    idx = np.array(list(np.ndindex(nb, ng, K)))
+    pc = p_b[idx[:, 0]] * p_g[idx[:, 1]] * p_f[idx[:, 2]]
+
+    def logits(a_b, a_g, a_f, extra=0.0):
+        z = (a_b * ub[idx[:, 0]] + a_g * ug[idx[:, 1]] + a_f * uf[idx[:, 2]])
+        if world == "nonlinear":
+            z = z + 1.2 * (ub[idx[:, 0]] > 0) * uf[idx[:, 2]]
+            z = z + 0.9 * np.sign(uf[idx[:, 2]]) * (np.abs(uf[idx[:, 2]]) > 1.0)
+        return z + extra
+
+    if world == "imbalanced":
+        intercept = -3.9
+    else:
+        intercept = 0.0
+    z1 = logits(1.0, 1.0, 1.0, intercept)
+    #  drift: the register's coefficient halves and the free field's grows
+    z2 = logits(1.0, 1.6, 0.5, intercept) if world == "drift" else z1
+    p1 = 1.0 / (1.0 + np.exp(-z1))
+    p2 = 1.0 / (1.0 + np.exp(-z2))
+    return dict(K=K, nb=nb, ng=ng, idx=idx, pc=pc, p1=p1, p2=p2, world=world)
+
+
+def population_auc(score, p_y, pc):
+    """Exact population AUC of a scoring rule over an enumerated space.
+
+    score  one score per cell;  p_y  P(y=1|cell);  pc  P(cell).
+    Ties contribute 1/2, which is the Mann-Whitney convention spec.py uses.
+    """
+    w_pos = pc * p_y
+    w_neg = pc * (1.0 - p_y)
+    P, N = w_pos.sum(), w_neg.sum()
+    if P <= 0 or N <= 0:
+        return np.nan
+    o = np.argsort(score, kind="stable")
+    s, wp, wn = score[o], w_pos[o], w_neg[o]
+    #  sum over pairs: for each cell, the negative mass strictly below plus
+    #  half the negative mass at the same score
+    cum_neg = np.concatenate([[0.0], np.cumsum(wn)])[:-1]
+    conc = 0.0
+    i = 0
+    while i < len(s):
+        j = i
+        while j + 1 < len(s) and s[j + 1] == s[i]:
+            j += 1
+        blk_wp = wp[i:j + 1].sum()
+        blk_wn = wn[i:j + 1].sum()
+        conc += blk_wp * cum_neg[i] + 0.5 * blk_wp * blk_wn
+        i = j + 1
+    return float(conc / (P * N))
+
+
+def truth(W):
+    """The two oracle scores and the exact population increment."""
+    idx, pc, p_y = W["idx"], W["pc"], W["p2"]
+    #  oracle WITH the register: the cell probability itself
+    s_full = p_y
+    #  oracle WITHOUT it: E[p | intake, free field], marginalising the register
+    key = idx[:, 0] * 100 + idx[:, 1]
+    df = pd.DataFrame(dict(key=key, pc=pc, p=p_y))
+    num = df.assign(w=df.pc * df.p).groupby("key").w.sum()
+    den = df.groupby("key").pc.sum()
+    s_base = df.key.map(num / den).values
+    #  and one more rung: intake only
+    key0 = idx[:, 0]
+    df0 = pd.DataFrame(dict(key=key0, pc=pc, p=p_y))
+    num0 = df0.assign(w=df0.pc * df0.p).groupby("key").w.sum()
+    den0 = df0.groupby("key").pc.sum()
+    s_intake = df0.key.map(num0 / den0).values
+    return dict(
+        auc_full=population_auc(s_full, p_y, pc),
+        auc_base=population_auc(s_base, p_y, pc),
+        auc_intake=population_auc(s_intake, p_y, pc),
+        V_oracle=population_auc(s_full, p_y, pc) - population_auc(s_base, p_y, pc))
+
+
+def draw(W, n, era, rng):
+    idx, pc = W["idx"], W["pc"]
+    p = W["p1"] if era == 1 else W["p2"]
+    c = rng.choice(len(pc), size=n, p=pc)
+    y = (rng.random(n) < p[c]).astype(int)
+    d = pd.DataFrame(dict(b=idx[c, 0].astype(str), g=idx[c, 1].astype(str),
+                          f=idx[c, 2].astype(str)))
+    if W["world"] == "noisy":
+        hit = rng.random(n) < 0.20
+        d.loc[hit, "f"] = rng.choice(np.arange(W["K"]),
+                                     size=int(hit.sum())).astype(str)
+    d["_y"] = y
+    return d
+
+
+def fit_scores(tr, te, cols):
+    return S._onehot_logit(tr, te, cols, tr["_y"].values, SEED)
+
+
+def limit_estimand(W, rng):
+    """V_limit: fit the pipeline on a very large sample and score the
+    ENUMERATED population, so no test-sampling noise enters."""
+    big = draw(W, N_BIG, 1, rng)
+    idx = W["idx"]
+    pop = pd.DataFrame(dict(b=idx[:, 0].astype(str), g=idx[:, 1].astype(str),
+                            f=idx[:, 2].astype(str)))
+    pop["_y"] = 0
+    s0 = fit_scores(big, pop, ["b", "g"])
+    s1 = fit_scores(big, pop, ["b", "g", "f"])
+    p_y, pc = W["p2"], W["pc"]
+    return (population_auc(s1, p_y, pc) - population_auc(s0, p_y, pc))
+
+
+def one_rep(args):
+    world, rep = args
+    rng = np.random.default_rng(SEED + 1013 * rep + WORLD_SEED[world])
+    W = world_spec(world, np.random.default_rng(SEED + WORLD_SEED[world]))
+    T = truth(W)
+    tr = draw(W, N_TRAIN, 1, rng)
+    te = draw(W, N_TEST, 2, rng)
+    from sklearn.metrics import roc_auc_score
+    yte = te["_y"].values
+    if len(np.unique(yte)) < 2:
+        return None
+    p0 = fit_scores(tr, te, ["b", "g"])
+    p1 = fit_scores(tr, te, ["b", "g", "f"])
+    V_hat = roc_auc_score(yte, p1) - roc_auc_score(yte, p0)
+
+    #  the naive interval: resample the TEST rows only, models fixed
+    nb = []
+    for b in range(N_BOOT):
+        r = np.random.default_rng(SEED + 7919 * b + rep)
+        i = r.integers(0, len(yte), len(yte))
+        if len(np.unique(yte[i])) < 2:
+            continue
+        nb.append(roc_auc_score(yte[i], p1[i]) - roc_auc_score(yte[i], p0[i]))
+    nb = np.array(nb, float)
+
+    #  the nested interval: block-resample the training half, REFIT, and
+    #  block-resample the test half
+    nn = []
+    for b in range(N_BOOT):
+        r = np.random.default_rng(SEED + 104729 * b + rep)
+        itr = S.block_indices(len(tr), r)
+        ite = S.block_indices(len(te), r)
+        tb, eb = tr.iloc[itr], te.iloc[ite]
+        yb = eb["_y"].values
+        if len(np.unique(yb)) < 2:
+            continue
+        q0 = fit_scores(tb, eb, ["b", "g"])
+        q1 = fit_scores(tb, eb, ["b", "g", "f"])
+        nn.append(roc_auc_score(yb, q1) - roc_auc_score(yb, q0))
+    nn = np.array(nn, float)
+
+    def ci(a):
+        if len(a) < 10:
+            return (np.nan, np.nan)
+        return (float(np.percentile(a, 100 * ALPHA / 2)),
+                float(np.percentile(a, 100 * (1 - ALPHA / 2))))
+    n_lo, n_hi = ci(nb)
+    x_lo, x_hi = ci(nn)
+    return dict(world=world, rep=rep, V_hat=V_hat, V_oracle=T["V_oracle"],
+                auc_full=T["auc_full"], auc_base=T["auc_base"],
+                naive_lo=n_lo, naive_hi=n_hi, naive_width=n_hi - n_lo,
+                nested_lo=x_lo, nested_hi=x_hi, nested_width=x_hi - x_lo)
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--reps", type=int, default=200)
+    ap.add_argument("--serial", action="store_true")
+    a = ap.parse_args(argv)
+    t0 = time.time()
+    print("=" * 92)
+    print("s10  SIX WORLDS, EXACT TRUTH, TWO INTERVALS")
+    print("=" * 92)
+
+    #  the limit estimand, once per world
+    LIM = {}
+    for w in WORLDS:
+        W = world_spec(w, np.random.default_rng(SEED + WORLD_SEED[w]))
+        LIM[w] = limit_estimand(W, np.random.default_rng(SEED + 7))
+        T = truth(W)
+        print("  %-12s  V_oracle %+.4f   V_limit %+.4f   base AUC %.4f"
+              % (w, T["V_oracle"], LIM[w], T["auc_base"]), flush=True)
+
+    tasks = [(w, r) for w in WORLDS for r in range(a.reps)]
+    out = []
+    if a.serial:
+        for t in tasks:
+            r = one_rep(t)
+            if r:
+                out.append(r)
+    else:
+        import multiprocessing as mp
+        with mp.Pool(processes=min(12, max(1, (os.cpu_count() or 4) - 2))) as pool:
+            for i, r in enumerate(pool.imap_unordered(one_rep, tasks,
+                                                      chunksize=4)):
+                if r:
+                    out.append(r)
+                if (i + 1) % 100 == 0:
+                    print("    %d/%d  %.0fs" % (i + 1, len(tasks),
+                                                time.time() - t0), flush=True)
+    R = pd.DataFrame(out)
+    R["V_limit"] = R.world.map(LIM)
+    R.to_csv(RESULTS / "s10_replicates.csv", index=False)
+
+    rows = []
+    for w, sub in R.groupby("world"):
+        for target, col in (("V_oracle", "V_oracle"), ("V_limit", "V_limit")):
+            for kind in ("naive", "nested"):
+                lo, hi = sub[kind + "_lo"], sub[kind + "_hi"]
+                cov = float(((lo <= sub[col]) & (sub[col] <= hi)).mean())
+                rows.append(dict(world=w, estimand=target, interval=kind,
+                                 coverage=cov, n=len(sub),
+                                 mean_width=float(sub[kind + "_width"].mean()),
+                                 bias=float((sub.V_hat - sub[col]).mean()),
+                                 rmse=float(np.sqrt(
+                                     ((sub.V_hat - sub[col]) ** 2).mean())),
+                                 truth=float(sub[col].iloc[0]),
+                                 mean_estimate=float(sub.V_hat.mean())))
+    C = pd.DataFrame(rows)
+    C.to_csv(RESULTS / "s10_coverage.csv", index=False)
+    print()
+    print(C.to_string(index=False, float_format=lambda x: "%.4f" % x))
+
+    lim = C[C.estimand == "V_limit"]
+    facts = dict(
+        n_worlds=len(WORLDS), n_reps=a.reps, n_rows=len(R), n_boot=N_BOOT,
+        n_train=N_TRAIN, n_test=N_TEST,
+        coverage_naive_min=float(lim[lim.interval == "naive"].coverage.min()),
+        coverage_naive_median=float(lim[lim.interval == "naive"].coverage.median()),
+        coverage_nested_min=float(lim[lim.interval == "nested"].coverage.min()),
+        coverage_nested_median=float(lim[lim.interval == "nested"].coverage.median()),
+        width_ratio_median=float(
+            (lim[lim.interval == "nested"].mean_width.values
+             / lim[lim.interval == "naive"].mean_width.values).mean()),
+        bias_vs_limit_max=float(lim.bias.abs().max()),
+        bias_vs_oracle_max=float(C[C.estimand == "V_oracle"].bias.abs().max()),
+        runtime_s=round(time.time() - t0, 1))
+    pd.DataFrame([facts]).to_csv(RESULTS / "s10_facts.csv", index=False)
+    print("\n" + pd.Series(facts).to_string())
+
+
+if __name__ == "__main__":
+    main()

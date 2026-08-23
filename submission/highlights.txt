@@ -1,8 +1,7 @@
 HIGHLIGHTS
 
 Elsevier allows three to five bullets, each at most 85 characters including
-spaces; Springer's guidance for Empirical Software Engineering is the same
-shape. These are the five, with their lengths, so a future edit can check the
+spaces. These are the five, with their lengths, so a future edit can check the
 limit without re-counting by hand.
 
 **Do not count these by hand.**  `python scripts/check_highlights.py` derives
@@ -13,60 +12,17 @@ eighteen's rewrite got four of nine wrong on the first attempt, in a file whose
 own preamble warned against exactly that.  A count a human writes is a claim
 like any other and belongs in a script.
 
-[76] What a recorded field is worth depends on four choices, all usually implicit
-[76] Of 20 audited papers, none reports that worth across operating points at all
-[78] Admitting one more already-recorded field takes the item from +0.103 to +0.001
-[76] A pre-registered protocol over 22 public logs falsifies our generality claim
-[74] Twelve of the authors' own errors are reported as results, not edited away
+[72] A field's incremental predictive value is a surface, not a single number
+[72] A variance decomposition says which analyst choice moves the answer most
+[74] Simultaneous bands label a surface beneficial, sign-changing or unresolved
+[74] One-number reporting misstates the sign for many admissible specifications
+[71] A register's worth depends on which decision time the analyst stands at
 
 
 -- paste-ready, without the length prefixes --
 
-What a recorded field is worth depends on four choices, all usually implicit
-Of 20 audited papers, none reports that worth across operating points at all
-Admitting one more already-recorded field takes the item from +0.103 to +0.001
-A pre-registered protocol over 22 public logs falsifies our generality claim
-Twelve of the authors' own errors are reported as results, not edited away
-
-
--- alternatives, if the editor prefers a different emphasis --
-
-[73] Six defensible instruments put the same reduction between 43.7% and 60.3%
-[76] Net benefit puts the same reduction between 4.7% and 134.1% across the range
-[72] At half population the register is worth +0.082 or +0.064, by which half
-[80] Three corrections are sentences where every number was right and the claim wrong
-[75] A package computing the surface refuses, by design, to emit a single number
-
-The fourth of these names the round's most transferable finding -- a defect
-class no checker that compares numbers to data can see -- and the fifth names
-the artifact. Either belongs in the list if the editor prefers highlights that
-name a methodological point over ones that name a magnitude.
-
--- what changed in round eighteen, and why --
-
-The second bullet is new and it replaces the instrument-range bullet. The
-reason is that the instrument range is a magnitude and the audit result is a
-*finding about the field*, which is what a reader who stops at the highlights
-most needs. It is also the sharpest single sentence the paper can offer: 20
-papers read, and not one of them reports what a feature is worth across a
-range of operating points.
-
-The fifth bullet's count moved from eleven to twelve. The twelfth was found
-by an independent re-implementation of our own estimator, on its first run.
-
--- a note on the fourth bullet --
-
-"Falsifies our generality claim" is deliberate and is not hedged. A referee
-who reads only the highlights should learn from them that the corpus result
-is negative, because that is what a reader who stops there most needs to
-know. Section 12 states the verdict precisely: the claim registered in
-PROTOCOL.md section 8 is falsified by its own criterion, and on 10 of the 19
-log-target pairs the entity is worth nothing to the intake baseline, so the
-corpus is uninformative about a narrower claim rather than refuting one.
-
--- a note on the second bullet, because it is the one a referee will test --
-
-"Of 20 audited papers" is the honest denominator and it is not the 600 the
-audit enumerated. The funnel is 600 sampled, 369 full texts retrieved, 54
-included by a mechanical screen, 30 read, 20 confirmed in scope by that read.
-The bullet says 20 because 20 is the number the claim rests on.
+A field's incremental predictive value is a surface, not a single number
+A variance decomposition says which analyst choice moves the answer most
+Simultaneous bands label a surface beneficial, sign-changing or unresolved
+One-number reporting misstates the sign for many admissible specifications
+A register's worth depends on which decision time the analyst stands at

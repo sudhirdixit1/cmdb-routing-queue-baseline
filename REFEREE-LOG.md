@@ -1,4 +1,143 @@
-# Referee log, round seventeen
+# Referee log
+
+Every objection this project has received, with its disposition. An objection
+is dispositioned in exactly one of four ways:
+
+| code | meaning |
+|---|---|
+| **MEASURED** | a new measurement was run and the paper reports it |
+| **CONCEDED** | the paper now states the limitation in the referee's terms |
+| **NEGATIVE** | we looked, found nothing, and the search is recorded |
+| **DISMISSED** | the objection does not hold, with the reason |
+
+Nothing here is left as "noted".
+
+---
+
+# Round nineteen — the *Information Systems* referee
+
+An external referee for *Information Systems* recommended **rejecting the
+round-eighteen manuscript as submitted**, on the ground that several
+weaknesses affected the central evidence rather than the presentation. The
+full report is the input to this round. Ten major comments; every one is
+conceded, and eight of them changed the study rather than the prose.
+`submission/response_to_referee.md` is the point-by-point reply.
+
+### IS1. The main conclusion contradicts the paper's own later analysis. **CONCEDED — and structurally prevented**
+
+The abstract said the baseline choice moves the reduction by more than the
+reduction itself; §10 of the same manuscript said the comparison was inflated
+by an intercept-only baseline "no analyst would build"; the abstract was never
+corrected. Six further internal inconsistencies were listed and all six hold.
+
+**Disposition.** The intercept-only rung is excluded from every admissible set
+by definition. Every number in the manuscript is now a macro generated from a
+result file, and `scripts/texlint.py` fails the build if a numeric literal
+appears anywhere in the prose. The abstract and a table cannot disagree
+because there is one of each number. Corrections C14 and C17–C19.
+
+### IS2. The contribution is not sufficiently novel. **CONCEDED — four new objects**
+
+The previous version's contribution reduced to "these familiar dependencies
+are large here, so report a grid".
+
+**Disposition.** The specification surface, an exact functional-ANOVA
+decomposition of its variance, resolution regions with a robustness index, and
+specification regret — the last being the benchmark against one-number
+reporting that the referee asked for and the previous version did not attempt.
+`fieldvalue` 0.2 implements all four.
+
+### IS3. The estimand is incomplete and "value" is overstated. **CONCEDED**
+
+**Disposition.** Renamed *incremental predictive performance* throughout. The
+estimand carries learner, encoding, target, split, availability, quality
+mechanism, baseline, metric and operating point. Register population is no
+longer hidden inside $f$: it is one level of the quality axis.
+
+### IS4. The literature audit cannot support a field-wide claim. **CONCEDED — and the claim is withdrawn**
+
+Eighteen specific defects, all of which hold.
+
+**Disposition.** Demoted to a machine-assisted prevalence pilot. A random
+sample of the papers the mechanical screen *rejected* is now adjudicated, so
+its misses are counted; its measured sensitivity is under one half. The
+round-eighteen claim that not one of twenty papers reports the increment
+across operating points is **withdrawn** (C15): it was a property of the
+coder. Applicability-specific denominators, missing-data bounds, a PRISMA-style
+flow and a sample-size calculation are added, and **no claim in the paper
+depends on the pilot**.
+
+### IS5. The ratio $R$ is unstable and is read as a proportion. **CONCEDED**
+
+**Disposition.** Absolute increments and the absolute absorption $D$ are
+primary. $R$ is secondary, reported only where its denominator is resolvably
+positive under the simultaneous band, with a Fieller set whose *kind* is
+printed beside it.
+
+### IS6. The formal propositions are not established as written. **CONCEDED on all three**
+
+**Disposition.** Proposition 1 restated as metric non-identifiability, with
+the average-precision convention and the tie rule stated and the construction
+done in integers. Proposition 2's quantifiers pinned down, its necessity
+direction stated as existential, and a cancelling configuration exhibited
+(C13). Proposition 3 relabelled a computational result, with its tolerance
+sweep printed and a defect in the search itself recorded (C16).
+
+### IS7. The knowledge reference may be post-decision information. **CONCEDED — and it improved the paper**
+
+Only five interactions were formally closed before their incident was opened;
+agreement with a closed record cannot establish creation-time availability;
+and a base AUC near 0.8 from one field is itself a reason for suspicion.
+
+**Disposition.** Two decision times, two surfaces, and a leakage tipping-point
+curve so a reader can place their own belief about how many references are
+post-hoc. Neither surface is used to retire a claim the other supports. What
+the interaction file establishes and what it does not is tabulated item by
+item.
+
+### IS8. Statistical inference is inadequate. **CONCEDED**
+
+**Disposition.** A nested moving-block bootstrap that refits the whole
+pipeline inside every draw; rolling-origin validation as an axis; simultaneous
+max-$t$ bands; five pre-specified confirmatory contrasts with Holm and
+everything else labelled exploratory; and a rebuilt simulation over six
+worlds — misspecified, drifting, sparse, imbalanced, noisy — with an exactly
+enumerated truth, separating the estimator's own limit from the oracle
+quantity. The 85% coverage the previous version dismissed as boundary
+behaviour is now decomposed rather than explained away.
+
+### IS9. External validation is selected and heterogeneous. **CONCEDED**
+
+The previous version ran the full surface only on the logs whose reduction was
+resolvable, which conditions the analysis on the outcome.
+
+**Disposition.** Every log--target pair the pre-registered rules admit is
+analysed and reported, and the pair list is read from the registered ladder's
+own admission output rather than chosen. The multi-log analysis is reframed as
+a benchmark of specification sensitivity across heterogeneous problems, and
+results are not averaged across pairs.
+
+### IS10. The population axis does not model register quality. **CONCEDED**
+
+**Disposition.** Six mechanisms besides the clean field — coverage loss three
+ways, identity error, reconciliation failure, staleness — each parameterised
+from the training half alone, stochastic ones averaged over seeds, and the
+train-only property verified by execution rather than asserted.
+
+### What the referee asked for and we could not do
+
+- **An organisational partner** with timestamped field histories, historical
+  register population and accuracy, and operational review costs. We do not
+  have one. The case study is framed as a benchmark case in consequence.
+- **A systematic review with two independent human raters and 150–200
+  manually confirmed in-scope papers.** One author cannot supply a second
+  independent human rater. We took the referee's stated alternative and spent
+  the effort on measuring the coder's error rate instead, which is what makes
+  the pilot's numbers interpretable at all.
+
+---
+
+# Referee log, rounds fourteen to eighteen
 
 Four independent passes, each with a different brief, each instructed to
 reject. Every objection is recorded with its disposition, **including the ones

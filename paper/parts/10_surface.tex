@@ -1,0 +1,210 @@
+
+\section{The specification surface}
+\label{sec:surface}
+
+\subsection{The design space}
+
+\begin{definition}[Design space]
+A \emph{design space} $\mathcal{S}$ for a feature-value claim is a finite set
+of specifications, each a complete assignment to the axes
+\[
+s \;=\; \bigl(\underbrace{A}_{\text{learner}},\;
+\underbrace{E}_{\text{encoding}},\;
+\underbrace{Y}_{\text{target}},\;
+\underbrace{\Pi}_{\text{split}},\;
+\underbrace{\tau}_{\text{decision time}},\;
+\underbrace{q}_{\text{register quality}},\;
+\underbrace{B}_{\text{baseline}},\;
+\underbrace{m}_{\text{metric}},\;
+\underbrace{\theta}_{\text{operating point}}\bigr),
+\]
+together with the cohort and eligibility rule that fix $D$. A claim about a
+feature is \emph{well posed} only relative to a declared $\mathcal{S}$.
+\end{definition}
+
+Two of these axes deserve comment because they are usually not treated as
+design choices at all.
+
+The \textbf{decision time} $\tau$ fixes which fields exist when the prediction
+is made. It is not the same as the split rule and it is not a data-cleaning
+detail: moving $\tau$ later in a process admits fields written in between, and
+Section~\ref{sec:cmdb} is a case in which that single move takes a field's
+increment from resolvably positive to indistinguishable from zero. Feature
+availability is an argument of the estimand.
+
+The \textbf{register quality} $q$ acts on $f$ rather than on the comparison. A
+field that is a lookup into a maintained register --- a configuration item, a
+customer master record, a product catalogue --- inherits that register's
+completeness and accuracy. We implement six mechanisms besides the clean
+field, each parameterised by the training half alone: population loss with the
+long tail absent, with the core absent, and at random; identity error, in
+which a share of rows carry a wrong value drawn from the training alphabet;
+reconciliation failure, in which a share of identities exist twice; and
+staleness, in which an identity is present only if the register had already
+seen it by the split point. The first three model coverage, the next two model
+accuracy, the last models discovery; the taxonomy follows the event-log
+imperfection patterns of \citet{suriadi2017imperfection} where they apply. Each is verified by execution rather than
+by assertion to be a function of the training half alone: perturbing the test
+half and re-degrading must leave the training half's degraded values
+identical, and \texttt{results/s01\_trainonly.csv} records the \nTrainOnly\
+checks that enforce it.
+
+\subsection{The surface, and why it is not a scalar}
+
+Given $\mathcal{S}$ and data $D$, the surface is the map $s \mapsto V_s(f)$
+of~\eqref{eq:estimand}. A conventional report is one cell of it. The paper's
+claim is that a single cell is not a summary of the surface in any useful
+sense: Section~\ref{sec:multilog} shows that the sign of $V_s$ disagrees
+across cells on most log--target pairs we study, and
+Section~\ref{sec:results-regret} measures how often.
+
+There is one state in which a scalar is defensible, and we name it rather than
+denying that it exists: when the whole admissible surface lies on the same
+side of zero with simultaneous confidence, a positive number is a lower bound
+on a robust conclusion. Section~\ref{sec:regions} makes that a definition.
+
+\subsection{The relative reduction, and its pathologies}
+
+Comparisons between two baselines are often stated as a proportion. Write
+$B_0 \subset B_1$ and
+\begin{equation}
+D_s(f) \;=\; V_s(f \mid B_0) - V_s(f \mid B_1),
+\qquad
+R_s(f) \;=\; 1 - \frac{V_s(f \mid B_1)}{V_s(f \mid B_0)} \;=\;
+\frac{D_s(f)}{V_s(f \mid B_0)} .
+\label{eq:reduction}
+\end{equation}
+$D$ is an absolute difference in the metric's own units. $R$ is a ratio and
+inherits every pathology of one: the denominator can be small, zero or
+negative; $R$ is not comparable across metrics, because
+Proposition~\ref{prop:nonid} says the two are not functions of each other; and
+$R$ can exceed $1$ or fall below $0$, so reading it as ``the share absorbed''
+is a category error whenever it leaves $[0,1]$.
+
+We therefore make $D$ and the two increments primary throughout and treat $R$
+as a secondary descriptive statistic subject to three rules, declared before
+any $R$ in this paper was computed:
+\begin{enumerate}
+\item $R$ is reported only where $V_s(f \mid B_0)$ is resolvably positive
+under the \emph{simultaneous} band, not merely positive as a point estimate;
+\item its interval is a Fieller set and its \emph{kind} --- bounded,
+unbounded, or the complement of an interval --- is printed beside it, because
+a percentile interval reports a bounded interval in all three cases
+(Section~\ref{sec:fieller});
+\item the magnitude of $R$ is never compared with the spread of $R$ across
+metrics as though both lived on an unproblematic common scale.
+\end{enumerate}
+
+\subsection{Two propositions and one computational result}
+\label{sec:props}
+
+Throughout, a \emph{configuration} is a quadruple of score vectors on a fixed
+labelled test set,
+$\mathcal{C} = (\sigma_{B_0}, \sigma_{B_0 \cup f}, \sigma_{B_1},
+\sigma_{B_1 \cup f})$ with $B_0 \subset B_1$, and $V_m(B)$,
+$R_m(\mathcal{C})$ are as in~\eqref{eq:estimand} and~\eqref{eq:reduction}.
+Conventions matter here and are fixed: ROC AUC is the Mann--Whitney statistic
+with the mid-rank tie rule; average precision is the step-wise sum
+$\sum_k (\mathrm{Rec}_k - \mathrm{Rec}_{k-1})\,\mathrm{Prec}_k$ with equal
+scores collapsed into one operating point and no interpolation; net benefit is
+the Vickers--Elkin per-case quantity with selection rule $p \geq \theta$. The
+constructions below depend on these conventions and would need re-tuning under
+others; \texttt{results/s07\_conventions.csv} carries the list.
+
+\begin{proposition}[Metric non-identifiability of the reduction]
+\label{prop:nonid}
+There is no function $\varphi : \mathbb{R} \to \mathbb{R}$ with
+$R_{\mathrm{AP}}(\mathcal{C}) =
+\varphi\bigl(R_{\mathrm{AUC}}(\mathcal{C})\bigr)$ for every configuration
+$\mathcal{C}$ whose denominators are positive under both metrics.
+Consequently the reduction is not identified by the data, the feature and the
+two baselines: the metric is an argument of the estimand.
+\end{proposition}
+
+\begin{proof}[Proof (construction)]
+Take $P$ positives and $N$ negatives and let every score take one of two
+values, so a scoring rule is described by the pair $(a,b)$ counting positives
+and negatives in the high block; write $\alpha = a/P$, $\beta = b/N$,
+$\rho = N/P$. Both baselines are the fully tied rule $\alpha = \beta = 1$,
+which has $\mathrm{AUC} = 1/2$ and $\mathrm{AP} = \pi$, the prevalence. Then
+exactly
+\[
+\mathrm{AUC} - \tfrac12 = \tfrac{\alpha - \beta}{2},
+\qquad
+\mathrm{AP} - \pi = \alpha\left(\frac{\alpha}{\alpha + \beta\rho} - \pi\right).
+\]
+Fixing $\alpha - \beta$ equal on the two legs makes the AUC increments equal,
+hence $R_{\mathrm{AUC}} = 0$ exactly --- in integers, not to rounding ---
+while sliding $\alpha$ along the admissible range moves the AP increments and
+sweeps $R_{\mathrm{AP}}$. With $P = \nPropP$ and $N = \nPropN$ the two
+configurations in \texttt{results/s07\_prop1.csv} have identical
+$R_{\mathrm{AUC}}$ to \propOneAucGap\ and $R_{\mathrm{AP}}$ differing by
+\propOneApGap. A single $\varphi$ cannot take one input to two outputs.
+\end{proof}
+
+\begin{remark}
+An earlier version of this work called this ``metric-unboundedness''. That is
+the wrong word: $R$ is constructed over a bounded interval in any fixed
+configuration. What the construction establishes is non-identifiability, and a
+\emph{range}: over the sweep in \texttt{s07\_prop1.csv}, $R_{\mathrm{AUC}}$
+stays at zero to \propOneSweepAuc\ while $R_{\mathrm{AP}}$ reaches
+\propOneSweepAp.
+\end{remark}
+
+\begin{proposition}[Rank invariance]
+\label{prop:rank}
+Let $\psi$ be strictly increasing and continuous, applied
+\emph{simultaneously} to all four score vectors of a configuration --- one
+recalibration of the scoring system, not a different one per arm --- and call
+$m$ \emph{rank-based} if $m(\psi(\sigma), y) = m(\sigma, y)$ for every such
+$\psi$ and every $(\sigma, y)$.
+\begin{enumerate}
+\item[(i)] If $m$ is rank-based then $V_m$ and $R_m$ are invariant under
+$\psi$, for every configuration and every $\psi$, wherever $R_m$'s denominator
+is nonzero.
+\item[(ii)] If $m$ is not rank-based then there \emph{exist} a configuration
+and a $\psi$ with $R_m(\psi\mathcal{C}) \neq R_m(\mathcal{C})$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) is immediate: $V_m$ is a difference of two invariants and $R_m$ a ratio of
+two such differences, so both are unchanged wherever they are defined. (ii) is
+existential and is witnessed by construction. On the configuration of
+\texttt{results/s07\_prop2.csv}, with $\psi(p) = p^2$, the rank-based
+instruments move $R$ by \propTwoRankShift\ and the non-rank-based ones by up
+to \propTwoNonRankShift.
+\end{proof}
+
+\begin{remark}[What the necessity direction cannot say]
+\label{rem:cancel}
+The quantifier in (ii) is existential, and the paper now says so. The
+universal reading --- that a non-rank-based metric \emph{always} moves $R$ ---
+is false, because the change in the two legs can cancel in the ratio. The same
+file exhibits such a configuration: a non-rank-based instrument whose $V$
+moves under $\psi$ and whose $R$ does not, to \propTwoCancelShift. An earlier
+version of this work asserted the universal reading; that is
+correction~C13 in Appendix~\ref{app:corrections}.
+\end{remark}
+
+\begin{result}[Axis non-redundancy on a finite family]
+\label{res:nonredundancy}
+For an ordered pair of axes $(i,j)$, call a \emph{witness} a pair of design
+points that agree on every axis except $i$, give the same increment at the
+reference level of axis $j$, and give different increments at another level of
+$j$. A witness shows that knowing the answer along axis $i$ does not determine
+the answer along axis $j$. Over a family of \nResultEstates\ synthetic estates
+and the \nResultPairs\ ordered pairs of the four reporting axes, a witness is
+found for between \resultWitnessMin\ and \resultWitnessMax\ pairs as the
+equality tolerance is swept (\texttt{results/s07\_result1.csv}).
+\end{result}
+
+\begin{remark}
+This is not a proposition and is not labelled as one. It is a finite search;
+its answer moves with an arbitrary tolerance, which is why the whole sweep is
+printed; failing to find a witness is not evidence that one axis determines
+another; and finding witnesses in a family of \nResultEstates\ estates is not
+a general non-redundancy theorem. An earlier version of this work presented it
+as a proposition, which was the third of the referee's objections to the
+theory section, and it is granted.
+\end{remark}

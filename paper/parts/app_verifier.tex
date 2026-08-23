@@ -1,0 +1,29 @@
+Every number in the manuscript is a macro defined in \texttt{paper/numbers.tex},
+which \texttt{scripts/make\_numbers.py} generates from \texttt{results/*.csv}.
+The manuscript contains no numeric literal outside that file and the generated
+tables, and \texttt{scripts/texlint.py} enforces it. A number therefore cannot
+disagree between the abstract, a table and the conclusion: there is one of it.
+
+Three further controls run in \texttt{scripts/reproduce\_all.py}.
+
+\begin{description}
+\item[The verifier.] \texttt{scripts/verify\_paper.py} re-derives each macro
+from the result file it came from and compares it against the value in
+\texttt{numbers.tex}. It tokenises the built document once into a set of
+numeric literals and every membership test is exact set membership; no
+substring test appears anywhere, because three earlier versions of the
+verifier each shipped with a hole that a substring test opened.
+\item[The corruption suite.] \texttt{scripts/attack\_verifier.py} injects
+single-value corruptions into the result files and the manuscript and requires
+the verifier to catch every one. A corruption that passes is a hole in the
+verifier and is reported as such.
+\item[The purity check.] \texttt{scripts/test\_checker\_purity.py} asserts
+that running the verifier does not modify anything it checks. In an earlier
+round a check that read the corruption suite's size by importing it
+\emph{ran} the suite, so every invocation of the verifier became a corruption
+run in which every corruption ``passed'' because the nested verifier refused
+to start.
+\end{description}
+
+The counts these controls reached for this version are in
+\texttt{results/verify\_summary.csv} and are quoted in \texttt{README.md}.

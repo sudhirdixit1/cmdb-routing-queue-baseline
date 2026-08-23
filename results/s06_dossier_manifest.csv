@@ -1,0 +1,175 @@
+oa_id,pool,title,venue,year,stratum,weight,machine_status
+W2807851731,in,Binary classification in unstructured space with hypergraph case-based reasoning,Information Systems,2019,v1:Information Systems,1.0,INCLUDED
+W2911862380,in,Boosting decision stumps for dynamic feature selection on data streams,Information Systems,2019,v1:Information Systems,1.0,INCLUDED
+W2956440216,in,Detecting coherent explorations in SQL workloads,Information Systems,2019,v1:Information Systems,1.0,INCLUDED
+W2957490530,in,Understanding and improving ontology reasoning efficiency through learning and ranking,Information Systems,2019,v1:Information Systems,1.0,INCLUDED
+W3047535465,in,Wait for it: identifying “On-Hold” self-admitted technical debt,Empirical Software Engineering,2020,v1:Empirical Software Engineering,1.0,INCLUDED
+W3079499560,in,On the assessment of software defect prediction models via ROC curves,Empirical Software Engineering,2020,v1:Empirical Software Engineering,1.0,INCLUDED
+W3086800606,in,On the feasibility of automated prediction of bug and non-bug issues,Empirical Software Engineering,2020,v1:Empirical Software Engineering,1.0,INCLUDED
+W3094439486,in,Topic recommendation for software repositories using multi-label classification algorithms,Empirical Software Engineering,2021,v1:Empirical Software Engineering,1.0,INCLUDED
+W3097594944,in,Predicting donation behavior: Acquisition modeling in the nonprofit sector using Facebook data,Decision Support Systems,2020,v1:Decision Support Systems,1.0,INCLUDED
+W3110739847,in,Evaluating Explainable Methods for Predictive Process Analytics: A Functionally-Grounded Approach,arXiv (Cornell University),2020,v1:arXiv (Cornell University),1.0,INCLUDED
+W3118316820,in,Data engineering for fraud detection,Decision Support Systems,2021,v1:Decision Support Systems,1.0,INCLUDED
+W3133466007,in,Box office sales and social media: A cross-platform comparison of predictive ability and mechanisms,Decision Support Systems,2021,v1:Decision Support Systems,1.0,INCLUDED
+W3142154623,in,Embedding API dependency graph for neural code generation,Empirical Software Engineering,2021,v1:Empirical Software Engineering,1.0,INCLUDED
+W3165327389,in,Lessons Learnt on Reproducibility in Machine Learning Based Android Malware Detection,Empirical Software Engineering,2021,v1:Empirical Software Engineering,1.0,INCLUDED
+W3193772290,in,AI for in-line vehicle sequence controlling: development and evaluation of an adaptive machine learning artifact to predict sequence deviations in a mixed-model production line,Flexible Services and Manufacturing Journal,2021,v1:Flexible Services and Manufacturing Journal,1.0,INCLUDED
+W3195958055,in,Predicting unstable software benchmarks using static source code features,Empirical Software Engineering,2021,v1:Empirical Software Engineering,1.0,INCLUDED
+W3198564768,in,How do I update my model? On the resilience of Predictive Process Monitoring models to change,Knowledge and Information Systems,2022,v1:Knowledge and Information Systems,1.0,INCLUDED
+W4200151996,in,Data pre-processing pipeline generation for AutoETL,Information Systems,2021,v1:Information Systems,1.0,INCLUDED
+W4206583545,in,Fraudulent review detection model focusing on emotional expressions and explicit aspects: investigating the potential of feature engineering,Decision Support Systems,2022,v1:Decision Support Systems,1.0,INCLUDED
+W4221051771,in,On the adequacy of static analysis warnings with respect to code smell prediction,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,INCLUDED
+W4223983178,in,What happens in my code reviews? An investigation on automatically classifying review changes,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,INCLUDED
+W4294192778,in,CATCHM: A novel network-based credit card fraud detection method using node representation learning,Decision Support Systems,2022,v1:Decision Support Systems,1.0,INCLUDED
+W4296311716,in,A meta-learning configuration framework for graph-based similarity search indexes,Information Systems,2022,v1:Information Systems,1.0,INCLUDED
+W4309389067,in,Workflow analysis of data science code in public GitHub repositories,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,INCLUDED
+W4318822511,in,Will they take this offer? A machine learning price elasticity model for predicting upselling acceptance of premium airline seating,Information & Management,2023,v1:Information & Management,1.0,INCLUDED
+W4320883647,in,A decision support framework to incorporate textual data for early student dropout prediction in higher education,Decision Support Systems,2023,v1:Decision Support Systems,1.0,INCLUDED
+W4367316222,in,Empirically evaluating flaky test detection techniques combining test case rerunning and machine learning models,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,INCLUDED
+W4385212557,in,MTLFormer: Multi-Task Learning Guided Transformer Network for Business Process Prediction,IEEE Access,2023,v1:IEEE Access,1.0,INCLUDED
+W4386315295,in,Interactive Multi-interest Process Pattern Discovery,Lecture notes in computer science,2023,v1:Lecture notes in computer science,1.0,INCLUDED
+W4389337815,in,Assessing the utility of text-to-SQL approaches for satisfying software developer information needs,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,INCLUDED
+W4389625424,in,On the adoption and effects of source code reuse on defect proneness and maintenance effort,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,INCLUDED
+W4390141881,in,Is text preprocessing still worth the time? A comparative survey on the influence of popular preprocessing methods on Transformers and traditional classifiers,Information Systems,2023,v1:Information Systems,1.0,INCLUDED
+W4391092733,in,Why Should I Trust Your Explanation? An Evaluation Approach for XAI Methods Applied to Predictive Process Monitoring Results,IEEE Transactions on Artificial Intelligence,2024,v1:IEEE Transactions on Artificial Intelligence,1.0,INCLUDED
+W4392021591,in,Analyzing source code vulnerabilities in the D2A dataset with ML ensembles and C-BERT,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,INCLUDED
+W4392471232,in,Machine learning-based test smell detection,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,INCLUDED
+W4396746070,in,Just-in-Time crash prediction for mobile apps,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,INCLUDED
+W4400843015,in,LS-ICE: A Load State Intercase Encoding framework for improved predictive monitoring of business processes,Information Systems,2024,v1:Information Systems,1.0,INCLUDED
+W4400888954,in,Towards Exploring the Limitations of Test Selection Techniques on Graph Neural Networks: An Empirical Study,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,INCLUDED
+W4401669391,in,The best ends by the best means: ethical concerns in app reviews,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,INCLUDED
+W4407809720,in,Hold on! is my feedback useful? evaluating the usefulness of code review comments,Empirical Software Engineering,2025,v1:Empirical Software Engineering,1.0,INCLUDED
+W4408464377,in,Predictive Process Monitoring for Airport Operational Support,K&uuml;nstliche Intell.,2025,v1:K&uuml;nstliche Intell.,1.0,INCLUDED
+W4410172493,in,A comparative study on reward models for user interface adaptation with reinforcement learning,Empirical Software Engineering,2025,v1:Empirical Software Engineering,1.0,INCLUDED
+W4412431056,in,Outcome-oriented local explanation using context-aware process patterns,Engineering Applications of Artificial Intelligence,2025,v1:Engineering Applications of Artificial Intelligence,1.0,INCLUDED
+W4414915885,in,Ecosystem-wide influences on pull request decisions: insights from NPM,Empirical Software Engineering,2025,v1:Empirical Software Engineering,1.0,INCLUDED
+W4417322414,in,Anticipating bugs: Ticket-level bug prediction and temporal proximity effects,Empirical Software Engineering,2025,v1:Empirical Software Engineering,1.0,INCLUDED
+W4417461554,in,From Source to Target: Leveraging Transfer Learning for Predictive Process Monitoring in Organizations,Business & Information Systems Engineering,2025,v1:Business & Information Systems Engineering,1.0,INCLUDED
+W4417517238,in,PatchTrack: A comprehensive analysis of ChatGPT’s influence on pull request outcomes,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,INCLUDED
+W7118796102,in,Interruptibility of software developers and its prediction using psycho-physiological sensors: a replication,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,INCLUDED
+W7128027633,in,A process mining and machine learning based approach for remaining time prediction of production orders,Journal of Intelligent Manufacturing,2026,v1:Journal of Intelligent Manufacturing,1.0,INCLUDED
+W7135236593,in,The Effect of Comments on Program Comprehension: An Eye-tracking Study,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,INCLUDED
+W7154486995,in,Automated machine learning for test case prioritisation,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,INCLUDED
+W7160708779,in,Leveraging large language models for sentiment analysis in GitHub pull request discussions,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,INCLUDED
+W7161625273,in,DA-CIL: Drift-Adaptive Class Incremental Learning for dynamic processes,Process Science,2026,v1:Process Science,1.0,INCLUDED
+W7167600363,in,Reducing labeling effort in architecture technical debt detection through active learning and explainable AI,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,INCLUDED
+W2806583692,out,Predictive performance modeling for distributed batch processing using black box monitoring and machine learning,Information Systems,2019,v1:Information Systems,1.0,NO_METRIC
+W2810738116,out,Whom are you going to call? determinants of @-mentions in Github discussions,Empirical Software Engineering,2019,v1:Empirical Software Engineering,1.0,NO_METRIC
+W2931993367,out,Processing tweets for cybersecurity threat awareness,Information Systems,2020,v1:Information Systems,1.0,NO_METRIC
+W2941068928,out,Classifying code comments in Java software systems,Empirical Software Engineering,2019,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W2941394980,out,Towards understanding and detecting fake reviews in app stores,Empirical Software Engineering,2019,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W2951484092,out,Using social network and semantic analysis to analyze online travel forums and forecast tourism demand,Decision Support Systems,2019,v1:Decision Support Systems,1.0,NO_METRIC
+W2954440353,out,Two-stage optimization for machine learning workflow,Information Systems,2019,v1:Information Systems,1.0,NO_ABLATION
+W2960048287,out,Forecasting remaining useful life: Interpretable deep learning approach via variational Bayesian inferences,Decision Support Systems,2019,v1:Decision Support Systems,1.0,NO_METRIC
+W2969930394,out,Predicting Critical Behaviors in Business Process Executions: When Evidence Counts,Lecture notes in business information processing,2019,v1:Lecture notes in business information processing,1.0,NO_ABLATION
+W2989213133,out,Business process variant analysis: Survey and classification,Knowledge-Based Systems,2020,v1:Knowledge-Based Systems,1.0,NO_METRIC
+W2995454814,out,Selecting fault revealing mutants,Empirical Software Engineering,2019,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W2996338620,out,Interpreting Predictive Process Monitoring Benchmarks.,arXiv (Cornell University),2019,v1:arXiv (Cornell University),1.0,NO_METRIC
+W3016717485,out,Using machine learning to assist with the selection of security controls during security assessment,Empirical Software Engineering,2020,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W3025918553,out,Uplift Modeling for preventing student dropout in higher education,Decision Support Systems,2020,v1:Decision Support Systems,1.0,NO_METRIC
+W3043882153,out,Predictors of well-being and productivity among software professionals during the COVID-19 pandemic – a longitudinal study,Empirical Software Engineering,2021,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W3044618224,out,Fragments of bag relational algebra: Expressiveness and certain answers,Information Systems,2020,v1:Information Systems,1.0,NO_METRIC
+W3048310814,out,A technique for determining relevance scores of process activities using graph-based neural networks,Decision Support Systems,2021,v1:Decision Support Systems,1.0,NO_METRIC
+W3097004242,out,Predictive Process Model Monitoring using Recurrent Neural Networks,arXiv (Cornell University),2020,v1:arXiv (Cornell University),1.0,NO_ABLATION
+W3120925457,out,Empirical assessment of generating adversarial configurations for software product lines,Empirical Software Engineering,2021,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W3123086775,out,Can Offline Testing of Deep Neural Networks Replace Their Online Testing?,Empirical Software Engineering,2021,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W3149836688,out,Does the first response matter for future contributions? A study of first contributions,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_METRIC
+W3153009645,out,Visual analytics of set data for knowledge discovery and member selection support,Decision Support Systems,2021,v1:Decision Support Systems,1.0,NO_ABLATION
+W3166557239,out,Detecting Crowdsourcing Impasses,IEEE Access,2021,v1:IEEE Access,1.0,NO_ABLATION
+W3169486253,out,Sensor Data Stream Selection and Aggregation for the Ex Post Discovery of Impact Factors on Process Outcomes,Lecture notes in business information processing,2021,v1:Lecture notes in business information processing,1.0,NO_METRIC
+W3171707163,out,Reliability of self-rated experience and confidence as predictors for students’ performance in software engineering,Empirical Software Engineering,2021,v1:Empirical Software Engineering,1.0,NO_METRIC
+W3176226112,out,Weighted software metrics aggregation and its application to defect prediction,Empirical Software Engineering,2021,v1:Empirical Software Engineering,1.0,NO_METRIC
+W3184174269,out,Explainable AI Enabled Inspection of Business Process Prediction Models,arXiv (Cornell University),2021,v1:arXiv (Cornell University),1.0,NO_METRIC
+W3186922658,out,Finding the sweet spot for organizational control and team autonomy in large-scale agile software development,Empirical Software Engineering,2021,v1:Empirical Software Engineering,1.0,NO_METRIC
+W3198188779,out,Prescriptive Process Monitoring Under Resource Constraints: A Causal Inference Approach,Lecture notes in business information processing,2022,v1:Lecture notes in business information processing,1.0,NO_METRIC
+W3203269068,out,Process Discovery on Deviant Traces and Other Stranger Things,IEEE Transactions on Knowledge and Data Engineering,2022,v1:IEEE Transactions on Knowledge and Data Engineering,1.0,NO_ABLATION
+W3204750696,out,Which design decisions in AI-enabled mobile applications contribute to greener AI?,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_METRIC
+W3217325574,out,Exploring Business Process Deviance with Sequential and Declarative Patterns,arXiv (Cornell University),2021,v1:arXiv (Cornell University),1.0,NO_METRIC
+W4206162339,out,Modeling Performance of Microservices Systems with Growth Theory,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4207018882,out,Uniform and scalable sampling of highly configurable systems,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4214741785,out,TraceSim: An Alignment Method for Computing Stack Trace Similarity,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4221005884,out,Crowdsmelling: A preliminary study on using collective knowledge in code smells detection,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4221145890,out,Development effort estimation in free/open source software from activity in version control systems,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4224992801,out,A critical assessment of consumer reviews: A hybrid NLP-based methodology,Decision Support Systems,2022,v1:Decision Support Systems,1.0,NO_METRIC
+W4225709018,out,Event Log Sampling for Predictive Monitoring,Lecture notes in business information processing,2022,v1:Lecture notes in business information processing,1.0,NO_ABLATION
+W4225832919,out,Creating Unbiased Public Benchmark Datasets with Data Leakage Prevention for Predictive Process Monitoring,Lecture notes in business information processing,2022,v1:Lecture notes in business information processing,1.0,NO_METRIC
+W4225985120,out,Patient Discharge Classification Based on the Hospital Treatment Process,Lecture notes in business information processing,2022,v1:Lecture notes in business information processing,1.0,NO_ABLATION
+W4226047899,out,Quantifying Explainability in Outcome-Oriented Predictive Process Monitoring,Lecture notes in business information processing,2022,v1:Lecture notes in business information processing,1.0,NO_METRIC
+W4226064336,out,Continuous Performance Evaluation for Business Process Outcome Monitoring,Lecture notes in business information processing,2022,v1:Lecture notes in business information processing,1.0,NO_METRIC
+W4226203778,out,Identifying self-admitted technical debt in issue tracking systems using machine learning,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4229035469,out,Data misrepresentation detection for insurance underwriting fraud prevention,Decision Support Systems,2022,v1:Decision Support Systems,1.0,NO_METRIC
+W4281700903,out,Quality gatekeepers: investigating the effects of code review bots on pull request activities,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4281783878,out,How do Android developers improve non-functional properties of software?,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4289977462,out,Styler: learning formatting conventions to repair Checkstyle violations,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4289978713,out,On effort-aware metrics for defect prediction,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4293100964,out,A comparison of proximity-based methods for detecting temporal anomalies in business processes,Machine Learning,2022,v1:Machine Learning,1.0,NO_ABLATION
+W4296483261,out,Learning from what we know: How to perform vulnerability prediction using noisy historical data,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4297421532,out,Story points changes in agile iterative development,Empirical Software Engineering,2022,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4313573029,out,The biggest business process management problems to solve before we die,Computers in Industry,2023,v1:Computers in Industry,1.0,NO_METRIC
+W4317838279,out,Differential testing for machine learning: an analysis for classification algorithms beyond deep learning,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4318035544,out,Process model forecasting and change exploration using time series analysis of event sequence data,Data & Knowledge Engineering,2023,v1:Data & Knowledge Engineering,1.0,NO_METRIC
+W4323306227,out,Performance-preserving event log sampling for predictive monitoring,Journal of Intelligent Information Systems,2023,v1:Journal of Intelligent Information Systems,1.0,NO_METRIC
+W4323661611,out,Satisfaction and performance of software developers during enforced work from home in the COVID-19 pandemic,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4324142999,out,DataStream XES Extension: Embedding IoT Sensor Data into Extensible Event Stream Logs,Future Internet,2023,v1:Future Internet,1.0,NO_METRIC
+W4360971517,out,On the Potential of Textual Data for Explainable Predictive Process Monitoring,Lecture notes in business information processing,2023,v1:Lecture notes in business information processing,1.0,NO_METRIC
+W4360981376,out,JEMMA: An extensible Java dataset for ML4Code applications,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4362606928,out,Bugs in machine learning-based systems: a faultload benchmark,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4367603665,out,Multi-perspective enriched instance graphs for next activity prediction through graph neural network,Journal of Intelligent Information Systems,2023,v1:Journal of Intelligent Information Systems,1.0,NO_ABLATION
+W4367693670,out,Model vs system level testing of autonomous driving systems: a replication and extension study,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4376125404,out,Remaining cycle time prediction with Graph Neural Networks for Predictive Process Monitoring,,2023,v1:nan,1.0,NO_ABLATION
+W4378083145,out,Completing Function Documentation Comments Using Structural Information,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4379793019,out,Learning When to Treat Business Processes: Prescriptive Process Monitoring with Causal Inference and Reinforcement Learning,Lecture notes in computer science,2023,v1:Lecture notes in computer science,1.0,NO_METRIC
+W4380624617,out,Research for Remaining time Prediction Log Reduction Method,Research Square,2023,v1:Research Square,1.0,NO_ABLATION
+W4386114095,out,The software heritage license dataset (2022 edition),Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4386194126,out,Do attention and memory explain the performance of software developers?,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4386715814,out,An investigation of online and offline learning models for online Just-in-Time Software Defect Prediction,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4387101695,out,"Automated detection, categorisation and developers’ experience with the violations of honesty in mobile apps",Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4387583615,out,Predictive Process Monitoring for Prediction of Remaining Cycle Time in Automated Manufacturing: A Case Study,,2023,v1:nan,1.0,NO_METRIC
+W4387917776,out,Discovering Explicit Scale-Up Criteria in Crisis Response with Decision Mining,Lecture notes in computer science,2023,v1:Lecture notes in computer science,1.0,NO_METRIC
+W4388209009,out,Reproducible experiments for generating pre-processing pipelines for AutoETL,Information Systems,2023,v1:Information Systems,1.0,NO_ABLATION
+W4388341803,out,From process mining to augmented process execution,Software & Systems Modeling,2023,v1:Software & Systems Modeling,1.0,NO_METRIC
+W4388971801,out,Fairness-aware machine learning engineering: how far are we?,Empirical Software Engineering,2023,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4390431291,out,A new perspective on classification: Optimally allocating limited resources to uncertain tasks,Decision Support Systems,2023,v1:Decision Support Systems,1.0,NO_METRIC
+W4391143283,out,Data- & compute-efficient deviance mining via active learning and fast ensembles,Journal of Intelligent Information Systems,2024,v1:Journal of Intelligent Information Systems,1.0,NO_ABLATION
+W4392224127,out,An empirical study of challenges in machine learning asset management,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4392828285,out,VaryMinions: leveraging RNNs to identify variants in variability-intensive systems’ logs,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4393283822,out,On the impact of black-box deployment strategies for edge AI on latency and model performance,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4394773220,out,Uncovering the Hidden Significance of Activities Location in Predictive Process Monitoring,Lecture notes in business information processing,2024,v1:Lecture notes in business information processing,1.0,NO_METRIC
+W4395697722,out,Explaining the model and feature dependencies by decomposition of the Shapley value,Decision Support Systems,2024,v1:Decision Support Systems,1.0,NO_METRIC
+W4396581619,out,Comparative analysis of real issues in open-source machine learning projects,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4398167886,out,A machine learning framework for interpretable predictions in patient pathways: The case of predicting ICU admission for patients with symptoms of sepsis,Health Care Management Science,2024,v1:Health Care Management Science,1.0,NO_METRIC
+W4399138282,out,Machine learning experiment management tools: a mixed-methods empirical study,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4399290453,out,Transformers and meta-tokenization in sentiment analysis for software engineering,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4399560843,out,Selecting textual analysis tools to classify sustainability information in corporate reporting,Decision Support Systems,2024,v1:Decision Support Systems,1.0,NO_ABLATION
+W4399687308,out,A Multi-solution Study on GDPR AI-enabled Completeness Checking of DPAs,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4401141387,out,Adopting automated bug assignment in practice — a longitudinal case study at Ericsson,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4401520495,out,Static analysis driven enhancements for comprehension in machine learning notebooks,Empirical Software Engineering,2024,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4402735319,out,Proactive conformance checking: An approach for predicting deviations in business processes,Information Systems,2024,v1:Information Systems,1.0,NO_METRIC
+W4402781835,out,Nirdizati: an advanced predictive process monitoring toolkit,Journal of Intelligent Information Systems,2024,v1:Journal of Intelligent Information Systems,1.0,NO_METRIC
+W4403271309,out,Runtime integration of machine learning and simulation for business processes: Time and decision mining predictions,Information Systems,2024,v1:Information Systems,1.0,NO_METRIC
+W4404022055,out,"An empirical study on logging evolution on stack overflow: trends, topics, and challenges",Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4405469720,out,Rethinking software misconfigurations in the real world: an empirical study and literature analysis,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4405668734,out,Capturing end-to-end provenance for machine learning pipelines,Information Systems,2024,v1:Information Systems,1.0,NO_METRIC
+W4407176632,out,Healthcare trajectories of aging individuals during their last year of life: application of process mining methods to administrative health databases,BMC Medical Informatics and Decision Making,2025,v1:BMC Medical Informatics and Decision Making,1.0,NO_METRIC
+W4408444355,out,The effects of data quality on machine learning performance on tabular data,Information Systems,2025,v1:Information Systems,1.0,NO_ABLATION
+W4408963678,out,Temporal ensemble of multiple patterns’ instances for continuous prediction of events,Machine Learning,2025,v1:Machine Learning,1.0,NO_METRIC
+W4408985702,out,Enhancing Predictive Process Monitoring Using Semantic Information,Lecture notes in business information processing,2025,v1:Lecture notes in business information processing,1.0,NO_METRIC
+W4408985718,out,On the Impact of Low-Quality Activity Labels in Predictive Process Monitoring,Lecture notes in business information processing,2025,v1:Lecture notes in business information processing,1.0,NO_ABLATION
+W4408985732,out,CaLenDiR: Mitigating Case-Length Distortion in Deep-Learning-Based Predictive Process Monitoring,Lecture notes in business information processing,2025,v1:Lecture notes in business information processing,1.0,NO_METRIC
+W4410427754,out,Impact of Inter-Case Features on Structure-Aware Next Activity Prediction,,2024,v1:nan,1.0,NO_METRIC
+W4410540577,out,Generating multiperspective process traces using conditional variational autoencoders,Process Science,2025,v1:Process Science,1.0,NO_METRIC
+W4411460585,out,LTL-based conformance checking of fuzzy event logs,Process Science,2025,v1:Process Science,1.0,NO_METRIC
+W4411980586,out,Comparative evaluation of encoding techniques for workflow process remaining time prediction for cloud applications,Journal of Cloud Computing Advances Systems and Applications,2025,v1:Journal of Cloud Computing Advances Systems and Applications,1.0,NO_METRIC
+W4412573775,out,"Detection, classification and prevalence of self-admitted aging debt",Empirical Software Engineering,2025,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4413219439,out,Adversarial attack classification and robustness testing for large language models for code,Empirical Software Engineering,2025,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4414493140,out,When uncertainty leads to unsafety: Empirical insights into the role of uncertainty in unmanned aerial vehicle safety,Empirical Software Engineering,2025,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4415647391,out,A zero-shot framework for cross-project vulnerability detection in source code,Empirical Software Engineering,2025,v1:Empirical Software Engineering,1.0,NO_METRIC
+W4415830362,out,"The whos, whats, and whys of issues related to personal data and data protection in open-source projects on GitHub",Empirical Software Engineering,2025,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W4417026118,out,Empirical evaluation of taxonomic trace links: a case study,Empirical Software Engineering,2025,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W7117963492,out,A Bayesian framework for robust local intrinsic dimensionality estimation,Information Systems,2026,v1:Information Systems,1.0,NO_METRIC
+W7122568718,out,Example-driven semantic-similarity-aware query intent discovery: Empowering users to cross the SQL barrier through query by example,Information Systems,2026,v1:Information Systems,1.0,NO_ABLATION
+W7128295225,out,Automated detection of algorithm debt in deep learning frameworks: an empirical study,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W7155009923,out,A framework for steady-state detection in process mining,Information Systems,2026,v1:Information Systems,1.0,NO_METRIC
+W7167577814,out,From values to adoption: on the role of individual cultural values on fairness toolkit adoption in software development,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,NO_METRIC
+W7167734464,out,Evaluating foundation model integration strategies for detecting PII in java software engineering pipelines,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,NO_ABLATION
+W7202386882,out,Learning to detect hardcoded secrets,Empirical Software Engineering,2026,v1:Empirical Software Engineering,1.0,NO_ABLATION

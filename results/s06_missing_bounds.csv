@@ -1,0 +1,4 @@
+assumption,p_eligible
+none of the unretrieved papers is eligible,0.09145833333333334
+the unretrieved papers are eligible at the retrieved rate,0.14871273712737126
+all of the unretrieved papers are eligible,0.4764583333333333

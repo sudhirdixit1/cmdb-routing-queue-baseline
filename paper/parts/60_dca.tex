@@ -1,0 +1,71 @@
+
+\section{Decision-analytic evaluation}
+\label{sec:dca}
+
+An increment in AUC is not a quantity a service desk can act on. This section
+reads the same surface in net benefit, which is: the number of correctly
+nominated cases per thousand arrivals, net of the false nominations, at a
+declared exchange rate between the two.
+
+\subsection{The operating point is a cost ratio, not a knob}
+
+At threshold $\theta$ the net benefit of a rule that nominates when
+$\hat p \geq \theta$ is
+\[
+\mathrm{NB}(\theta) \;=\; \frac{\mathrm{TP}(\theta)}{n}
+\;-\; \frac{\mathrm{FP}(\theta)}{n}\cdot\frac{\theta}{1-\theta},
+\]
+so $\theta/(1-\theta)$ is the number of false nominations the desk is willing
+to accept for one true one. Choosing $\theta$ is therefore choosing an
+operational cost ratio, and it belongs to the analyst's declaration rather
+than to a grid search. We report the whole grid --- \nGrid\ points from
+\gridLo\ to \gridHi\ --- and name three points a desk might actually occupy:
+\thetaCheap, where a review is cheap relative to a missed reassignment;
+\thetaBase, the estate's own base rate; and \thetaDear, where review capacity
+is scarce.
+
+\subsection{Simultaneous bands change what can be said}
+
+\input{tables/dca}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\linewidth]{figS4_dca.png}
+\caption{The register's net-benefit increment across the operating range at
+the reference cell, with the pointwise interval and the simultaneous max-$t$
+band. The simultaneous band is what a claim about a \emph{range} of thresholds
+has to be read against.}
+\label{fig:dca}
+\end{figure}
+
+Figure~\ref{fig:dca} draws the register's net-benefit increment across the
+grid at the reference cell, with the pointwise interval and the simultaneous
+max-$t$ band. The simultaneous band is a factor of \maxTMedianRatio\ wider at
+the median, and the difference is not cosmetic: a claim that the increment is
+resolvably negative \emph{somewhere} in a band of thresholds is a family
+statement, and under pointwise intervals such a claim would be made at
+\nHarmfulPointwise\ grid points on this estate where the simultaneous band
+resolves \nHarmfulSimultaneous.
+
+\subsection{What the operational statement does not say}
+
+Net benefit converts a discrimination increment into units the desk
+recognises. It does not convert it into money, and three gaps remain, each of
+which would need data this study does not have.
+
+First, nominating a case for review is not the same as preventing a
+reassignment. Net benefit counts correct nominations; whether acting on one
+changes the outcome is an interventional question and this is observational
+evidence.
+
+Second, the exchange rate is declared, not measured. A desk's true ratio of
+review cost to reassignment cost is an organisational quantity; we report the
+whole curve so that a reader who knows theirs can read off their own point,
+and we do not pretend to know it.
+
+Third, the cost of the register itself --- discovery tooling, reconciliation
+effort, the staff who keep it current --- is nowhere in this evidence. A
+register that is worth \VTtwoGroup\ AUC on one task may still be worth buying
+for a dozen other reasons, and may not be worth buying for this one. Nothing
+here settles that, and Section~\ref{sec:lim} says so again because it is the
+inference a reader is most likely to draw and least entitled to.

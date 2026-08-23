@@ -1,0 +1,176 @@
+
+\section{Multi-log results}
+\label{sec:multilog}
+
+Every number in this section comes from one master surface,
+\texttt{results/s01\_surface.csv}, computed by one pass of one pipeline over
+\nPairs\ log--target pairs, \nLearners\ learners, \nSplits\ splits, \nQuality\
+register-quality conditions, the nested baseline ladder and \nMetrics\
+instruments including the \nGrid-point decision-curve grid. The surface has
+\nSurfaceRows\ cells. Uncertainty comes from
+\texttt{results/s02\_cells.csv} and \texttt{s02\_bands.csv}, which are
+\nDrawRows\ nested bootstrap draws.
+
+\subsection{The master table}
+
+\input{tables/master}
+
+Table~\ref{tab:master} is the single frozen table the referee asked for: one
+row per log--target pair, the increment at the reference specification with
+its simultaneous band, the region label, the robustness index, and the
+misreport rate of a conventional one-number report. Every claim in the
+abstract, the introduction and the conclusion is read off it. The reference
+specification is declared and is the same everywhere: one-hot logistic
+regression, the single temporal holdout, the clean register, the intake block
+plus the free field as the baseline, ROC AUC.
+
+\subsection{What the choices are worth}
+
+\input{tables/sobol}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figS2_sobol.png}
+\caption{First-order sensitivity indices on the headroom scale, per
+log--target pair. The bars do not sum to one: the remainder is interaction,
+and Table~\ref{tab:sobol} gives the total indices from which it is read.}
+\label{fig:sobol}
+\end{figure}
+
+Table~\ref{tab:sobol} gives the first-order sensitivity indices on the
+headroom scale, so the five scalar instruments share an axis. The result is
+not the one the previous version of this work implied.
+
+\textbf{No single axis dominates.} Across the corpus the median first-order
+index is \sobolMetricPct\ for the metric, \sobolSplitPct\ for the split,
+\sobolQualityPct\ for the register-quality condition, \sobolLearnerPct\ for
+the learner and \sobolRungPct\ for the baseline rung. The largest of those
+five --- \sobolMaxAxis, at \sobolMaxPct\ --- explains about a tenth of the
+disagreement between analysts. What explains more than any of them is the part
+that belongs to no single choice: the median interaction share
+$S_{T_i} - S_i$ is \sobolInteractionPct.
+
+\textbf{Which axis dominates is a property of the pair, not of the problem.}
+The largest single index anywhere on the corpus is \sobolTopPct, carried by
+\sobolTopAxis\ on \sobolTopPair. On the case-study pairs it is the baseline
+rung and the learner that carry the variance; on the small permitting logs it
+is the split; on the logs with the weakest signal it is the metric. An analyst
+who wants to know which of their own choices their answer turns on cannot read
+it off somebody else's paper, and that is the argument for computing the
+decomposition rather than quoting one.
+
+\textbf{The baseline axis still moves the answer by more than the answer.}
+Holding the learner, the split, the register and the metric at the reference
+and varying only the baseline rung, the increment moves by \spreadMedian\ AUC
+at the median pair and \spreadMax\ at the widest --- larger, on most pairs,
+than the increment itself at the reference cell (Table~\ref{tab:master}). The
+index and the spread answer different questions. The index says what share of
+the \emph{variance} an axis explains while every other axis is also varying;
+the spread says how far that one axis moves the answer on its own. Reporting
+only the first understates the baseline; reporting only the second, as the
+previous version did, overstates it, and we now report both.
+
+\subsection{Resolution regions}
+
+\input{tables/regions}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\linewidth]{figS3_regions.png}
+\caption{The robustness index $\rho$ per log--target pair, with the region
+label. $\rho = 1$, the dotted line, is the only state in which a single
+positive number is a safe summary.}
+\label{fig:regions}
+\end{figure}
+
+Of the \nPairsBanded\ pairs for which simultaneous bands were computed,
+\nUniformlyBeneficial\ are uniformly beneficial, \nCondBeneficial\ are
+conditionally beneficial, \nSignChanging\ are sign-changing and
+\nUnresolvedPairs\ are unresolved; the median robustness index is
+\rhoMedian. On a uniformly beneficial surface a single positive number is a
+defensible summary and this paper's apparatus is unnecessary. That state is
+reached on \nUniformlyBeneficial\ of \nPairsBanded\ pairs.
+
+\subsection{What one number costs}
+\label{sec:results-regret}
+
+\input{tables/regret}
+
+This is the benchmark the referee of the previous version asked for, and it is
+the result we would most want a reader to take away.
+
+A conventional report --- one learner, the clean register, the single holdout,
+ROC AUC --- misstates the \emph{sign} of the increment for a median
+\misreportMedianPct\ of the other admissible specifications. The rate is above
+$10\%$ on \nMisreportOverTen\ of the \nPairs\ pairs and above $25\%$ on
+\nMisreportOverQuarter; it reaches \misreportMaxPct\ on the worst pair and
+falls to \misreportMinPct\ on the best. On \nSignVaries\ of \nPairs\ pairs
+between a tenth and nine tenths of the admissible cells are positive, so on
+almost every pair in this corpus the sign of the increment is a property of
+the specification and not of the data.
+
+Table~\ref{tab:regret} attributes the sign disagreement to axes. Holding
+everything else fixed and changing one axis, the sign of the increment flips
+for a median \flipSplitPct\ of same-everything-else pairs of cells under the
+split, \flipLearnerPct\ under the learner, \flipRungPct\ under the baseline
+rung, \flipQualityPct\ under the register-quality condition and
+\flipMetricPct\ under the metric. The two axes an evaluation paper is most
+likely to hold fixed without comment --- which split, which learner --- are
+the two that flip the sign most often.
+
+The comparison is not that the surface report is more accurate than the
+one-number report on the same question. It is that the two answer different
+questions: the one-number report asserts a sign everywhere, and the surface
+report asserts one only where the region is uniform. On the
+\nUniformlyBeneficial\ uniformly beneficial pairs both are right; on the
+\nSignChanging\ sign-changing pairs the one-number report is wrong for a
+substantial share of readers and the surface report declines to speak.
+Declining to speak is the contribution.
+
+\subsection{Calibration, unseen categories, and rolling origin}
+
+\input{tables/calibration}
+
+Table~\ref{tab:calibration} reports, for each pair at the reference cell, the
+calibration intercept and slope, the Brier score, and the share of test cases
+carrying at least one level unseen in training. The unseen-category rate is
+the mechanism behind much of the register's behaviour: a register whose
+identities do not recur across the split cannot help a model that has never
+seen them, and the rate ranges from \unseenMin\ to \unseenMax\ across the
+corpus. Calibration is reported because discrimination alone is not a sufficient
+description of a model \citep{vancalster2019calibration}. Calibration
+slopes below one indicate the overfitting that
+high-cardinality one-hot encodings produce, and are the reason a calibrated
+learner is one of the four.
+
+Rolling-origin results are in \texttt{results/s01\_surface.csv} under
+\texttt{split = rolling$k$} and enter the decomposition as the split axis;
+Appendix~\ref{app:rolling} prints them per fold. The single holdout is not the
+best estimate of the increment, and reporting it alone was a limitation of the
+earlier version of this work.
+
+\subsection{The estimator against a known answer}
+
+\input{tables/sim}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\linewidth]{figS6_coverage.png}
+\caption{Coverage of the estimator's own limit in six simulated worlds, for
+the fixed-model interval an earlier version of this work used and for the
+nested interval that refits the pipeline in every draw. The dashed line is
+nominal.}
+\label{fig:coverage}
+\end{figure}
+
+Table~\ref{tab:sim} is the simulation of Section~\ref{sec:sim}. Reading the
+$V_{\mathrm{limit}}$ rows --- the estimand a resampling interval can cover ---
+the fixed-model interval attains between \coverageNaiveMin\ and nominal
+coverage, with median \coverageNaiveMedian, and the nested interval between
+\coverageNestedMin\ and nominal, with median \coverageNestedMedian. Against
+$V_{\mathrm{oracle}}$ both intervals undercover in the misspecified worlds by
+construction, because the estimator is not consistent for the oracle quantity
+there; the largest such gap is \biasOracleMax\ in AUC units. We report it
+rather than describing it as boundary behaviour: under misspecification an
+interval around the estimator's own limit is not an interval around the
+quantity a reader cares about, and no amount of resampling repairs that.

@@ -1,0 +1,289 @@
+%% Information Systems (Elsevier) -- research article.
+%% Compile: python scripts/build_journal.py --paper specification_surfaces
+%%
+%% ROUND NINETEEN.  This file replaces paper/iaai27_empty_cmdb.tex, which a
+%% referee for Information Systems recommended rejecting as submitted.  The
+%% ten major comments in that report are answered in
+%% PLAN-ROUND19.md and REFEREE-LOG.md; the structural ones are answered by
+%% this document existing rather than by an edit to the old one.
+%%
+%% EVERY NUMBER IN THIS DOCUMENT IS A MACRO defined in paper/numbers.tex,
+%% which scripts/make_numbers.py generates from results/*.csv.  A number
+%% therefore cannot disagree between the abstract, a table and the
+%% conclusion: there is one of it.  scripts/verify_paper.py checks each
+%% macro against the result file it came from.
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[hyphens]{url}
+\urlstyle{rm}
+\usepackage[protrusion=true,expansion=false]{microtype}
+
+\input{numbers}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{result}{Computational Result}
+
+\journal{Information Systems}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Specification Surfaces for Incremental Predictive Performance:
+Estimation, Uncertainty, and Multi-Log Evaluation}
+
+\author[ind]{Sudhir Dixit}
+\ead{sudhir.dixit1@gmail.com}
+\address[ind]{Independent Researcher}
+
+\begin{abstract}
+What a recorded field is worth to a prediction is reported as one number, but
+that number is a functional of design choices --- the baseline, the learner,
+the encoding, the target, the split, the field's availability at the decision
+time, the register's quality, the metric and the operating point --- that are
+rarely stated. We define the incremental predictive performance of a field as
+a \emph{specification surface} $V_s(f)$ over a declared, enumerable design
+space, and give four objects for estimating and reporting one: an exact
+functional-ANOVA decomposition of the surface's variance across axes;
+simultaneous max-$t$ bands from a moving-block bootstrap that refits the whole
+pipeline inside every draw; \emph{resolution regions} --- uniformly
+beneficial, conditionally beneficial, sign-changing, unresolved --- with a
+scalar robustness index; and \emph{specification regret}, which measures what
+one-number reporting gets wrong. We prove that the relative reduction is not
+identified by the data and the baselines alone, and that the metrics invariant
+to a monotone recalibration are exactly the rank-based
+ones. On \nPairs\ log--target pairs from \nLogs\
+public event logs, varying the baseline alone moves the increment by
+\spreadMedian\ AUC at the median pair; no axis dominates the disagreement,
+whose largest median first-order index is \sobolMaxPct\ while interactions
+carry \sobolInteractionPct; and a one-number report misstates the increment's
+\emph{sign} for a median \misreportMedianPct\ of the other admissible
+specifications. The case study is a configuration management database on
+\nCohort\ bank incidents; its answer turns on which of two decision times the
+analyst occupies, and we report both surfaces.
+\end{abstract}
+
+\begin{keyword}
+specification surface \sep incremental predictive performance \sep
+predictive process monitoring \sep simultaneous inference \sep
+sensitivity decomposition \sep decision curve analysis \sep
+configuration management database
+\end{keyword}
+
+\end{frontmatter}
+
+\section{Introduction}
+\label{sec:intro}
+
+A claim that a recorded field is worth something is a comparison. Its second
+arm --- performance \emph{without} the field --- is a choice the analyst
+makes, and so are the learner that makes the comparison, the encoding it uses,
+the outcome it predicts, the way the data are split in time, whether the field
+is available at the moment the decision is taken, how completely the register
+behind the field is populated, the metric the difference is read in, and the
+operating point at which that metric is evaluated. Each of these is routinely
+left implicit. The result is reported as one number.
+
+This paper's position is not that such a number depends on those choices ---
+that is known, and Section~\ref{sec:related} says by whom. It is that the
+dependence is large enough, on real decisions, to change the sign of the
+answer; that the right object to report is therefore a surface over a
+\emph{declared} design space rather than a point; and that a surface admits
+estimation and inference of its own, which is what a methodological
+contribution to this journal has to supply.
+
+\paragraph{The estimand.}
+Write a specification $s$ for a complete assignment to every design axis, and
+\begin{equation}
+V_s(f) \;=\; m_\theta\!\left(A_s(D_{\mathrm{train}}, B \cup \{f_q\}),\,
+D_{\mathrm{test}}\right)
+\;-\;
+m_\theta\!\left(A_s(D_{\mathrm{train}}, B),\, D_{\mathrm{test}}\right),
+\label{eq:estimand}
+\end{equation}
+where $A_s$ is the fitting procedure (learner, encoding, hyperparameters,
+calibration), $B$ the baseline feature set, $f_q$ the field under a register
+quality mechanism $q$, $m$ the metric and $\theta$ the operating point, and
+where $D_{\mathrm{train}}, D_{\mathrm{test}}$ are fixed by the split rule and
+the cohort. The \emph{specification surface} is the map
+$s \mapsto V_s(f)$ over a design space $\mathcal{S}$ that the analyst declares
+and the reader can enumerate.
+
+We say \emph{incremental predictive performance} and not \emph{value}. The
+quantity in~\eqref{eq:estimand} measures how much better a model predicts. It
+does not measure what the field costs to acquire or maintain, whether acting
+on the prediction changes the outcome, or what an organisation would pay for
+either. Section~\ref{sec:dca} converts the increment into units a service desk
+operates in --- net benefit at a declared exchange rate --- which is as close
+to economic value as this evidence can honestly get, and Section~\ref{sec:lim}
+says what still separates the two.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+\item \textbf{A specification surface, formally.} Section~\ref{sec:surface}
+defines $\mathcal{S}$, $V_s$, and the relative reduction $R$; states the
+conditions under which $R$ is a quantity at all; and proves two results. $R$
+is \emph{not identified} by the data, the feature and the baselines: there is
+no function carrying the reduction under one metric to the reduction under
+another (Proposition~\ref{prop:nonid}). And $R$ is invariant to a strictly
+monotone recalibration of the scoring system, for every configuration, exactly
+when the metric is rank-based (Proposition~\ref{prop:rank}). A third claim,
+that no design axis determines another, is a finite computational search and
+is reported as one (Result~\ref{res:nonredundancy}), not as a theorem.
+
+\item \textbf{Estimation and inference for a surface.}
+Section~\ref{sec:inference} supplies four instruments. (i) An exact
+functional-ANOVA decomposition of $\operatorname{Var}_s[V_s(f)]$ into
+first-order and total sensitivity indices per axis, so ``which choice matters''
+becomes a measurement. (ii) A moving-block bootstrap that resamples the
+training half, \emph{refits the entire pipeline}, and evaluates on a resampled
+test half, so the interval contains training-sample, model-selection, encoder
+and calibrator variability, and the blocks carry the temporal dependence
+between cases. (iii) Simultaneous max-$t$ bands over declared families of
+cells, so a statement about a whole decision curve has family-wise coverage.
+(iv) Fieller intervals for $R$, which report an unbounded or exclusive
+confidence set when the denominator is weak instead of a bounded interval that
+is not one.
+
+\item \textbf{Resolution regions and a benchmark against one number.} A cell
+is \emph{beneficial}, \emph{harmful} or \emph{unresolved} under the
+simultaneous band; a surface is uniformly beneficial, conditionally
+beneficial, sign-changing or unresolved; and the robustness index
+$\rho \in [-1,1]$ summarises it. $\rho = 1$ is the only state in which one
+positive number is a safe summary. Against that, \emph{specification regret}
+measures what one-number reporting costs: the share of admissible
+specifications whose sign disagrees with the reported cell, and the
+performance forgone or destroyed by acting on it.
+
+\item \textbf{A registered multi-log benchmark, and a case study with two
+decision times.} The surface is computed through one frozen pipeline on
+\emph{every} log--target pair a pre-registered protocol admits --- \nPairs\ of
+them, not only the ones where the answer resolves --- with calibration,
+unseen-category rates and rolling-origin validation reported for each. The
+configuration management database that motivates the study is one case among
+them, and its own answer turns on a question the data cannot settle: whether a
+knowledge-article reference was written before the incident existed.
+Section~\ref{sec:cmdb} defines two decision times, estimates a surface for
+each, and traces the increment as a function of the share of references
+assumed to be post-hoc, so a reader can place their own belief on the curve.
+\end{enumerate}
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figS1_speccurve.png}
+\caption{The specification curve for one register on one log. Each point is
+one admissible specification --- a complete assignment to the learner, the
+encoding, the baseline rung, the register-quality condition, the split and the
+metric --- and the panel below says which level of which axis that
+specification occupies. The intercept-only rung is excluded. WHAT THIS FIGURE
+DOES NOT SHOW: it carries no intervals; every point is a point estimate, and
+the simultaneous bands that decide the region labels are in
+Table~\ref{tab:regions} and \texttt{results/s02\_bands.csv}. It shows one
+log--target pair; the same display for every other pair is in the archive. And
+it shows the increment, not the reduction, so a cell where the register is
+worth almost nothing looks the same as one where the free field absorbs almost
+everything.}
+\label{fig:speccurve}
+\end{figure}
+\paragraph{What this paper is not.}
+It is not an enterprise procurement conclusion about configuration management
+databases. It is not a systematic review of reporting practice; a pilot
+measurement of practice is reported in Section~\ref{sec:practice} with its
+sampling error, its coder error and its resolution stated, and no claim in the
+paper rests on it. And it reports no deployed system: this is a retrospective
+study on public benchmarks, offered as an evaluation methodology.
+
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Variable importance and incremental value.}
+That a feature's apparent importance depends on what else is in the model is
+the standard motivation for conditional and permutation-based importance
+\citep{strobl2008conditional,fisher2019models} and for Shapley-value
+attributions \citep{lundberg2017unified,covert2020sage}, and it motivates
+nonparametric formulations of importance as a population quantity
+\citep{williamson2021vimp}, which
+average over subsets precisely because a single conditioning set is arbitrary.
+The clinical-prediction literature has made the same point about the
+\emph{incremental} value of a marker for two decades: the increase in the area
+under the ROC curve from adding a predictor depends on how good the existing
+model is \citep{pencina2008evaluating,cook2007roc}, is a poor guide to
+clinical usefulness \citep{cook2007roc,vickers2008decision}, and is routinely
+misread \citep{kerr2011evaluating}. What that literature establishes, and what
+we take as given, is that the baseline and the metric are choices. What it
+does not supply is an object that reports the whole dependence, an estimator
+for it, or inference over it; the recommendation is usually to add a second or
+third instrument, not to characterise the set.
+
+\paragraph{Decision-analytic evaluation.}
+Decision curve analysis \citep{vickers2006dca,vickers2016net} makes the
+operating point explicit by reading net benefit across an exchange rate, and
+is the reason the operating point is an axis here rather than a footnote.
+Recent work supplies inference for decision curves
+\citep{vickers2019simple}; we use simultaneous bands rather than
+pointwise ones because a statement about a \emph{band} of thresholds is a
+family of statements.
+
+\paragraph{Specification sensitivity.}
+That analytic conclusions move with defensible analytic choices is the subject
+of multiverse analysis \citep{steegen2016increasing}, specification-curve
+analysis \citep{simonsohn2020specification}, vibration of effects
+\citep{patel2015assessment} and, in machine learning evaluation, of work on
+underspecification \citep{damour2022underspecification} and on the fragility
+of benchmark rankings \citep{bouthillier2021variance}. Our design space and
+our figures are recognisably in that tradition, and we say so. What this paper
+adds to it is specific: a decomposition of the surface's variance into axis
+contributions, simultaneous inference over the surface rather than a
+distribution of point estimates, region labels with an explicit decision rule,
+and a regret benchmark against the conventional report. Specification-curve
+analysis, as usually practised, displays the curve and applies a
+permutation test to its median; it does not tell a reader which sub-region of
+the design space supports a sign, which is the question a buyer of a data
+programme actually asks.
+
+\paragraph{Data valuation.}
+Shapley-based data valuation \citep{ghorbani2019data,jia2019towards} values
+\emph{instances} against a fixed learner and metric; the axes we vary are
+exactly the ones held fixed there. The two are complementary: a data value is
+itself a point on a specification surface.
+
+\paragraph{Which axis a study varies.}
+Some studies do vary one axis deliberately: the metric axis in effort-aware
+defect prediction \citep{carka2022effortaware}, the encoding axis in remaining-time
+prediction \citep{liu2025encoding}, the inter-case feature block in predictive
+process monitoring \citep{senderovich2017intercase}. What is missing is not the
+idea of varying an axis but an object that holds several axes at once and says
+what their joint variation implies for a sign.
+
+\paragraph{Prediction on incident event logs.}
+The empirical setting is predictive process monitoring, surveyed and
+benchmarked across real logs
+\citep{teinemaa2019outcome,verenich2019survey} on data of the kind process
+mining formalises \citep{vanderaalst2016process}. We predict at case creation
+from creation-time attributes with no prefix, which is tabular classification
+on a process log rather than prefix-based monitoring; the benchmark protocols
+in that literature fix a learner, an encoding and a metric per experiment, and
+the sensitivity of their conclusions to those fixings is what
+Section~\ref{sec:multilog} measures. Configuration management databases and
+their data quality are treated in the IT service management literature as an
+operational problem \citep{marrone2011itil}; we are not aware of an evaluation
+of one against a named prediction task with the design space held open.
+
+\paragraph{Data quality as an axis.}
+The effect of data quality on model performance has been studied directly
+\citep{mohammed2025dataquality,liu2025encoding}, and in process mining the effect of
+low-quality labels and of encoding choices likewise
+\citep{comuzzi2025labels}. Those studies vary quality with the feature set
+fixed; we vary quality \emph{as one axis of the same surface} on which the
+feature set is another, which is what makes the interaction between them
+visible.
+

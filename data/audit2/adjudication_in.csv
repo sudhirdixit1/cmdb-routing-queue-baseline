@@ -1,0 +1,55 @@
+oa_id,eligible,B_stated,B_justified,M_justified,Theta_stated,Range_reported,range_axis,applic_register,note
+W2807851731,no,,,,,,,,algorithm paper: hypergraph CBR compared with classifiers; no feature increment
+W2911862380,yes,yes,no,no,unclear,no,,no,dynamic feature selection on streams; feature-subset comparison against full set
+W2956440216,yes,yes,no,no,unclear,no,,no,SQL workload features vs naive clustering baseline; new query features added
+W2957490530,no,,,,,,,,meta-reasoner vs AutoFolio; algorithm comparison not feature increment
+W3047535465,yes,yes,unclear,no,no,no,,no,n-gram TF-IDF features vs naive grep-like baseline; AUC reported
+W3079499560,no,,,,,,,,ROC methodology paper; no feature increment
+W3086800606,yes,yes,yes,unclear,no,no,,no,structural + NPE knowledge features over literature baselines
+W3094439486,yes,yes,no,no,yes,unclear,,no,data ablation over README/wiki/filename sources; metrics at k=5
+W3097594944,yes,yes,no,yes,yes,no,learner,yes,added value of Facebook variable types; AUC range is over algorithms not the four axes
+W3110739847,no,,,,,,,,explanation-fidelity ablation; not incremental predictive value
+W3118316820,yes,unclear,no,no,yes,yes,metric,no,RFM and time features added; increment under six instruments
+W3133466007,yes,yes,yes,no,no,yes,baseline,no,movie-only baseline augmented with Facebook and Twitter data
+W3142154623,no,,,,,,,,ablation over model components in code generation
+W3165327389,no,,,,,,,,reproducibility study; feature sets reused not compared
+W3193772290,no,,,,,,,,logistic-regression baseline; model comparison
+W3195958055,yes,yes,no,no,no,yes,baseline,no,co-linear feature removal and rebalancing as pipeline configurations
+W3198564768,no,,,,,,,,model-update strategies; not a feature increment
+W4200151996,no,,,,,,,,pre-processing pipeline search; not a recorded-feature increment
+W4206583545,yes,yes,no,no,yes,yes,baseline,no,novel review-centric feature sets against baseline algorithms
+W4221051771,yes,yes,yes,no,no,no,,no,static-analysis warnings against a code-metrics baseline
+W4223983178,no,,,,,,,,baseline is a random classifier; feature selection only
+W4294192778,yes,yes,no,no,yes,no,,no,network representation features over a baseline of original transaction features
+W4296311716,yes,yes,no,no,no,no,,no,added meta-features and meta-instances against a grid-search baseline
+W4309389067,yes,yes,no,no,no,yes,baseline,no,feature ablation over markdown/comments/code metrics
+W4318822511,no,,,,,,,,architectural component ablation
+W4320883647,yes,yes,unclear,unclear,yes,yes,metric,yes,textual feedback added to a structured baseline; AUC and top-decile lift
+W4367316222,yes,yes,no,yes,no,unclear,,no,FLAKE16 feature set against the FlakeFlagger set
+W4385212557,no,,,,,,,,architecture ablation in a transformer
+W4386315295,no,,,,,,,,pattern discovery against branching-probability baseline
+W4389337815,no,,,,,,,,text-to-SQL benchmarking; no feature increment
+W4389625424,no,,,,,,,,variable-importance claim rather than a measured increment
+W4390141881,no,,,,,,,,preprocessing comparison; an encoding axis not a recorded-feature increment
+W4391092733,no,,,,,,,,XAI consistency; not incremental predictive value
+W4392021591,yes,unclear,no,yes,yes,yes,metric,no,source-code features added to bug-report features; AUC and F1
+W4392471232,yes,unclear,no,no,no,yes,baseline,no,feature-selection step ablated with balancing and tuning
+W4396746070,yes,yes,yes,no,no,unclear,,no,new change metrics over a Kamei-style logistic baseline
+W4400843015,yes,yes,no,no,no,no,,no,intercase features encoded by LS-ICE against a within-case baseline
+W4400888954,no,,,,,,,,test-selection methods against random selection
+W4401669391,no,,,,,,,,qualitative study of app reviews
+W4407809720,yes,yes,no,unclear,no,yes,baseline,no,new software and non-software features added to existing textual features
+W4408464377,yes,yes,no,no,no,no,,no,inter-case encoded features in LSTM against transition-system and RF baselines
+W4410172493,no,,,,,,,,user-experience experiment; no predictive increment
+W4412431056,yes,yes,no,no,no,unclear,,no,feature expansion including case and event attributes against PABLO
+W4414915885,yes,yes,yes,no,no,yes,baseline,no,inverse ablation over variable groups with F1
+W4417322414,yes,yes,yes,no,no,yes,baseline,no,seven feature families across temporal proximity points; availability-driven exclusions
+W4417461554,no,,,,,,,,transfer-learning baselines and timestamp encodings
+W4417517238,no,,,,,,,,descriptive analysis; the paper itself notes the absence of a baseline
+W7118796102,yes,yes,yes,no,no,no,,yes,sensor feature sets against a majority-class baseline; EDA set dropped with a reason
+W7128027633,no,,,,,,,,hybrid model against a simplified baseline model
+W7135236593,no,,,,,,,,eye-tracking human study
+W7154486995,no,,,,,,,,AutoML pipeline comparison
+W7160708779,no,,,,,,,,LLM against transformer baselines; the ablation is named as future work
+W7161625273,no,,,,,,,,component ablation against a class-incremental baseline
+W7167600363,no,,,,,,,,active-learning query strategies against random sampling
