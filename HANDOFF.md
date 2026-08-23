@@ -1973,5 +1973,5 @@ aggregation would have agreed with the error.
   tables shrink to the text block only when they exceed it.
 - `\section*` headings take no number. A script that counts headings to check
   the response letter's cross-references must skip them, and must handle
-  `ppendix` restarting the counter in letters. `scripts/check_response_refs
+  `\appendix` restarting the counter in letters. `scripts/check_response_refs
   .py` does both, and found eight stale references.

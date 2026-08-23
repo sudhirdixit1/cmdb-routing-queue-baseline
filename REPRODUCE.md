@@ -76,13 +76,24 @@ deterministically.
 | the propositions | `s07_props.py` | ~5 min |
 | the simulation | `s10_simulation2.py` | ~25 min on 12 cores |
 | decision times | `s08_decision_time.py` | ~30 min |
+| the intervals, recentred | `s17_intervals.py` | ~20 s, reads s02's draws |
 | decomposition, regret | `s03_decompose.py`, `s04_regret.py` | ~2 min |
 | the pilot | `s06_audit2.py` | ~20 min, network-bound, cached |
+| the noisy-world arms | `s18_bias_scaling.py` | ~1 min on 10 cores |
 | numbers and tables | `make_numbers.py`, `assemble_paper.py` | seconds |
 | figures | `s12_figures.py` | ~1 min |
 | verification | `verify_numbers.py`, `verify_paper.py` | ~2 min |
-| corruption suite | `attack_verifier.py` | ~20 min |
+| corruption suite | `s13_attack_numbers.py` | ~1 min |
 | PDF | `build_journal.py` | ~1 min |
+
+`s17_intervals.py` must run **after** `s02_boot.py` and **before**
+`s03_decompose.py`: it recomputes every interval and band from s02's stored
+draws using the basic (pivotal) construction, and s03 labels the resolution
+regions from those bands. `reproduce_all.py` already orders them this way.
+
+`s18_bias_scaling.py --legacy-target` regenerates Appendix G's
+pre-correction figures. It is not needed for the manuscript's numbers; it is
+needed if you want to check the correction rather than take it on trust.
 
 To run one stage:
 
@@ -100,8 +111,25 @@ python scripts/verify_numbers.py          # re-derives each macro independently
 python scripts/texlint.py                 # abstract, keywords, highlights,
                                           # statements, no numeric literals
 python scripts/check_highlights.py        # the highlight character counts
+python scripts/check_response_refs.py     # every section the cover letter
+                                          # cites exists, and what it lands on
+python scripts/provenance.py              # which script version produced
+                                          # each result file
+python scripts/s13_attack_numbers.py      # the verifier's own regression suite
 python scripts/assemble_paper.py --check  # the shipped .tex is current
 python -m pytest fieldvalue -q            # the package
+```
+
+**`--strict` is not a freshness guarantee.** It certifies that every macro
+resolved, not that the file it resolved from is current — this round left a
+two-replicate smoke test behind and every macro reading it resolved cleanly to
+a wrong number. `results/provenance.json` records each analysis script's
+SHA-256 at the moment its outputs were accepted, with a note saying why, and
+`make_numbers.py --strict` refuses a manuscript whose numbers come from a
+script that has changed since. After re-running a stage:
+
+```bash
+python scripts/provenance.py --accept s10_simulation2.py --note "why"
 ```
 
 **Every number in the manuscript is a macro** defined in `paper/numbers.tex`,
