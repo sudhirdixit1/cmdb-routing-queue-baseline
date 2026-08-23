@@ -94,10 +94,19 @@ reported here with everything that limits it, and \emph{no claim in this paper
 depends on it}.
 
 The design is two-stratum, and the flow follows the PRISMA 2020 reporting
-items \citep{page2021prisma} where they apply to a pilot of this kind. A stratified probability sample of \nAuditSampled\
-open-access articles was drawn from a frame of \nAuditFrame\ enumerated
-records across \nAuditVenues\ venues, two citation seeds and a topic frame;
-full text was retrieved for \nAuditFullText. A mechanical screen, whose rules
+items \citep{page2021prisma} where they apply to a pilot of this kind. The
+enumeration --- venue queries, two citation seeds and a topic frame ---
+returned \nAuditFrame\ deduplicated open-access records across \nAuditStrata\
+strata, well short of the \nAuditTarget\ the protocol budgeted, because the
+provider's daily request budget was exhausted before the venue queries were
+exhausted. \textbf{Every enumerated record was therefore taken}: the design
+weight is \auditMaxWeight\ in every stratum, \nAuditSampled\ records were
+coded, and the pilot is a \emph{census of what the enumeration returned}
+rather than a probability subsample of a literature. That is a smaller object
+than a stratified sample of the field, and it is what we have; an earlier
+version of this section quoted a frame two orders of magnitude larger,
+which was a sum taken over rows of a table whose stratum size is repeated on
+every row. Full text was retrieved for \nAuditFullText. A mechanical screen, whose rules
 were fixed before the first paper was read, selected \nAuditScreenedIn\ as
 reporting the incremental value of a named feature. Every one of those was
 then adjudicated against its full text, and a random \nAuditOutSampled-paper
@@ -132,7 +141,11 @@ so the population axis has a denominator of \nAuditApplicable\ and not of
 \nAuditEligible: an applicability-specific denominator, which the earlier
 version did not use.
 
-Three limits, stated rather than buried. An effective sample of
+Four limits, stated rather than buried. The frame is what one provider's
+index returned before its daily quota stopped the enumeration, so it is a
+convenience frame and its coverage of the field is unmeasured; nothing below
+corrects for that, and nothing can without a second index. An effective sample
+of
 \nAuditEffective\ resolves a proportion to about $\pm\auditHalfWidthPct$; a
 design that resolved it to $\pm 7$ points would need \nAuditRequired\
 adjudicated papers. Full text was unavailable for \nAuditNoFullText\ of the

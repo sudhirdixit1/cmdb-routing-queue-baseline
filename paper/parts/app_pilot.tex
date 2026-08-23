@@ -7,12 +7,22 @@ appendix gives the flow, the design and the numbers.
 \input{tables/prisma}
 
 Table~\ref{tab:prisma} is the PRISMA-style flow. Records were enumerated from
-a public index across \nAuditVenues\ venue strata, two citation strata and a
-topic stratum; the enumeration is cached per stratum in the archive so it can
-be re-run without re-querying. A stratified probability sample was drawn with
-an allocation declared before the enumeration finished --- proportional to
-stratum size with a floor of \minPerStratum\ per stratum --- and every
-estimate below carries the design weight $N_h / n_h$.
+a public index across \nAuditStrata\ strata --- venues, two citation seeds and
+a topic frame --- and the enumeration is cached per stratum in the archive so
+it can be re-run without re-querying.
+
+The allocation was declared before the enumeration finished: proportional to
+stratum size with a floor of \minPerStratum\ per stratum, up to a budget of
+\nAuditTarget\ records, with every estimate carrying the design weight
+$N_h / n_h$. The enumeration returned \nAuditFrame\ deduplicated records ---
+short of that budget, because the provider's daily request quota was exhausted
+first --- so the allocation bound at $n_h = N_h$ in every stratum and the
+design weight is \auditMaxWeight\ throughout. \textbf{The machinery of
+weighting is therefore inert here.} It is retained because it is what makes
+the design re-runnable at scale, and because a reader is entitled to see that
+the weights are one rather than to assume it; but the pilot's reach is that of
+a census of \nAuditFrame\ enumerated records, not that of a probability sample
+of a literature, and Section~\ref{sec:practice} says so.
 
 \subsection*{The two-stratum adjudication, and why it is the point}
 

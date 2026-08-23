@@ -169,7 +169,7 @@ metric --- and the panel below says which level of which axis that
 specification occupies. The intercept-only rung is excluded. WHAT THIS FIGURE
 DOES NOT SHOW: it carries no intervals; every point is a point estimate, and
 the simultaneous bands that decide the region labels are in
-Table~\ref{tab:regions} and \texttt{results/s02\_bands.csv}. It shows one
+Table~\ref{tab:regions} and \texttt{results/s17\_bands.csv}. It shows one
 log--target pair; the same display for every other pair is in the archive. And
 it shows the increment, not the reduction, so a cell where the register is
 worth almost nothing looks the same as one where the free field absorbs almost
@@ -208,8 +208,9 @@ is not one.
 
 \item \textbf{Resolution regions and a benchmark against one number.} A cell
 is \emph{beneficial}, \emph{harmful} or \emph{unresolved} under the
-simultaneous band; a surface is uniformly beneficial, conditionally
-beneficial, sign-changing or unresolved; and the robustness index
+simultaneous band; a surface is uniformly or conditionally beneficial,
+uniformly or conditionally harmful, sign-changing or unresolved; and the
+robustness index
 $\rho \in [-1,1]$ summarises it. $\rho = 1$ is the only state in which one
 positive number is a safe summary. Against that, \emph{specification regret}
 measures what one-number reporting costs: the share of admissible
@@ -1634,10 +1635,19 @@ reported here with everything that limits it, and \emph{no claim in this paper
 depends on it}.
 
 The design is two-stratum, and the flow follows the PRISMA 2020 reporting
-items \citep{page2021prisma} where they apply to a pilot of this kind. A stratified probability sample of \nAuditSampled\
-open-access articles was drawn from a frame of \nAuditFrame\ enumerated
-records across \nAuditVenues\ venues, two citation seeds and a topic frame;
-full text was retrieved for \nAuditFullText. A mechanical screen, whose rules
+items \citep{page2021prisma} where they apply to a pilot of this kind. The
+enumeration --- venue queries, two citation seeds and a topic frame ---
+returned \nAuditFrame\ deduplicated open-access records across \nAuditStrata\
+strata, well short of the \nAuditTarget\ the protocol budgeted, because the
+provider's daily request budget was exhausted before the venue queries were
+exhausted. \textbf{Every enumerated record was therefore taken}: the design
+weight is \auditMaxWeight\ in every stratum, \nAuditSampled\ records were
+coded, and the pilot is a \emph{census of what the enumeration returned}
+rather than a probability subsample of a literature. That is a smaller object
+than a stratified sample of the field, and it is what we have; an earlier
+version of this section quoted a frame two orders of magnitude larger,
+which was a sum taken over rows of a table whose stratum size is repeated on
+every row. Full text was retrieved for \nAuditFullText. A mechanical screen, whose rules
 were fixed before the first paper was read, selected \nAuditScreenedIn\ as
 reporting the incremental value of a named feature. Every one of those was
 then adjudicated against its full text, and a random \nAuditOutSampled-paper
@@ -1672,7 +1682,11 @@ so the population axis has a denominator of \nAuditApplicable\ and not of
 \nAuditEligible: an applicability-specific denominator, which the earlier
 version did not use.
 
-Three limits, stated rather than buried. An effective sample of
+Four limits, stated rather than buried. The frame is what one provider's
+index returned before its daily quota stopped the enumeration, so it is a
+convenience frame and its coverage of the field is unmeasured; nothing below
+corrects for that, and nothing can without a second index. An effective sample
+of
 \nAuditEffective\ resolves a proportion to about $\pm\auditHalfWidthPct$; a
 design that resolved it to $\pm 7$ points would need \nAuditRequired\
 adjudicated papers. Full text was unavailable for \nAuditNoFullText\ of the

@@ -879,8 +879,24 @@ def stage_report(sample, coding):
     print()
     print(K.to_string(index=False, float_format=lambda x: "%.4f" % x))
 
+    #  N_h is carried on every ROW, so summing it over rows computes
+    #  sum_h N_h * n_h and not sum_h N_h.  That put the frame at 54,910 when
+    #  it is 600, and the manuscript said so for a whole round.  The frame is
+    #  the sum over DISTINCT strata, and it is reported beside the sample so a
+    #  reader can see for themselves that the two are equal -- every
+    #  enumerated record was taken, and the pilot is a census of what the
+    #  enumeration returned rather than a probability subsample of a
+    #  literature.
+    if "N_h" in sample.columns:
+        per_h = sample.groupby("stratum").N_h.first()
+        n_frame_total, n_strata = int(per_h.sum()), int(len(per_h))
+        w_max = float(sample.weight.max()) if "weight" in sample.columns else 1.0
+    else:
+        n_frame_total, n_strata, w_max = n_frame, 0, 1.0
     facts = dict(
-        n_frame_total=int(sample.N_h.sum()) if "N_h" in sample.columns else n_frame,
+        n_frame_total=n_frame_total, n_strata=n_strata,
+        max_design_weight=w_max, target_n=TARGET_N,
+        enumeration_short_of_budget=bool(n_frame_total < TARGET_N),
         n_sampled=n_frame, n_fulltext=n_ft, n_screened_in=n_in,
         n_screened_out=n_out, n_adjudicated=len(A_in) + len(A_out),
         n_eligible_confirmed_in=tp, n_eligible_confirmed_out=fn_s,

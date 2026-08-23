@@ -61,6 +61,8 @@ CONDITIONS = (
     "the non-identification sweep still holds the AUC reduction at zero",
     "the adjudicated set of the practice pilot is exactly the screened-in set",
     "the case study's split partitions its cohort",
+    "the pilot's frame is at least its sample, and equals it when every "
+    "design weight is one",
 )
 
 FAILS = []
@@ -319,6 +321,25 @@ def main(argv=None):
 
     # ---- the practice pilot ----------------------------------------------
     S6 = load("s06_facts.csv")
+    #  The frame is sum_h N_h over DISTINCT strata.  Summing the column over
+    #  ROWS computes sum_h N_h * n_h, which put the reported frame at 54,910
+    #  when it is 600, and the manuscript said so.  Re-derived here from the
+    #  sample rather than read from the facts, and cross-checked against the
+    #  weights: with every design weight equal to one, the frame and the
+    #  sample are the same set and must be the same number.
+    SAMP = load("s06_sample.csv")
+    if S6 is not None and len(S6) and SAMP is not None and len(SAMP):
+        per_h = SAMP.groupby("stratum").N_h.first()
+        eq("nAuditFrame", fmt_thousands(per_h.sum()), M)
+        eq("nAuditStrata", fmt_thousands(SAMP.stratum.nunique()), M)
+        eq("nAuditSampled", fmt_thousands(len(SAMP)), M)
+        if float(SAMP.weight.max()) == 1.0 and int(per_h.sum()) != len(SAMP):
+            FAILS.append("every design weight is one, so the frame and the "
+                         "sample must be the same number: %d vs %d"
+                         % (per_h.sum(), len(SAMP)))
+        if int(per_h.sum()) < len(SAMP):
+            FAILS.append("the pilot's frame (%d) is smaller than its sample "
+                         "(%d)" % (per_h.sum(), len(SAMP)))
     A_in = ROOT / "data" / "audit2" / "adjudication_in.csv"
     A_out = ROOT / "data" / "audit2" / "adjudication_out.csv"
     if S6 is not None and len(S6) and A_in.exists() and A_out.exists():

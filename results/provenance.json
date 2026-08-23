@@ -19,6 +19,11 @@
     "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
     "sha": "65e0b6435a2891cb"
   },
+  "s06_audit2.py": {
+    "at": "2026-08-23T22:13:15Z",
+    "note": "The pilot's report stage was re-run against the same sample, coding and adjudications after n_frame_total was corrected from a row-sum to a stratum-sum. No record was re-fetched, re-screened or re-adjudicated.",
+    "sha": "a89a5481b1c4481c"
+  },
   "s07_props.py": {
     "at": "2026-08-23T21:56:14Z",
     "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",

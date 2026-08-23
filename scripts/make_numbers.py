@@ -433,7 +433,12 @@ def main(argv=None):
     # ---- practice pilot --------------------------------------------------
     put("nAuditFrame", thousands(first(S6, "n_frame_total")))
     put("nAuditSampled", thousands(first(S6, "n_sampled")))
-    put("nAuditVenues", "nineteen")
+    #  The strata are venue, citation-seed and topic strata, and there
+    #  are more of them than the hand-written "nineteen venues" this
+    #  line used to claim.  Counted from the sample.
+    put("nAuditStrata", thousands(first(S6, "n_strata")))
+    put("nAuditTarget", thousands(first(S6, "target_n")))
+    put("auditMaxWeight", num(first(S6, "max_design_weight"), 2))
     put("nAuditFullText", thousands(first(S6, "n_fulltext")))
     put("nAuditNoFullText",
         thousands((first(S6, "n_sampled") or np.nan)
