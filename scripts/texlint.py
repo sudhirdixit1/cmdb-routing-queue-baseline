@@ -25,6 +25,7 @@ Checks
  11  no `Appendix' before a \\ref      that already supplies the word
  12  no macro swallowing its space    a control word eats the space after it
  13  no wordy macro inside math       $...$ sets its words as italic variables
+ 14  no phrase repeated immediately    a scripted edit leaving its own tail
 
 Checks 10 to 13 exist because each caught a defect that had already reached a
 compiled PDF: `forty lines' for a file of 121 statements, `Appendix Appendix
@@ -228,6 +229,31 @@ def main(argv=None):
                      "inside math mode: "
                      "%s" % (len(inmath), ", ".join(inmath[:6])))
 
+    #  A scripted edit that replaces a sentence can leave its tail behind:
+    #  `That is the pilot's central finding about itself. / central finding
+    #  about itself.' shipped in a compiled PDF for a round.  Any run of five
+    #  or more words that repeats immediately, ignoring line breaks, is
+    #  almost always that rather than deliberate anaphora.
+    for f in sorted((PAPER / "parts").glob("*.tex")):
+        src = strip_comments(f.read_text(encoding="utf-8"))
+        #  Math first: `V_s(f \mid B_0) - V_s(f \mid B_1)' is a legitimate
+        #  repetition of five tokens once the symbols are read as words, and
+        #  a check that flags it is a check nobody will keep running.
+        src = re.sub(r"\$[^$]*\$", " ", src)
+        src = re.sub(r"\\\[.*?\\\]", " ", src, flags=re.S)
+        src = re.sub(r"\\begin\{(equation|aligned|align)\*?\}.*?"
+                     r"\\end\{\1\*?\}", " ", src, flags=re.S)
+        words = re.findall(r"[A-Za-z']+", src)
+        for i in range(len(words) - 10):
+            #  not `a' -- that is the argparse namespace, and shadowing it
+            #  here made --report raise instead of report
+            head = [w.lower() for w in words[i:i + 5]]
+            tail = [w.lower() for w in words[i + 5:i + 10]]
+            if head == tail:
+                FAILS.append("%s repeats a phrase immediately: %r"
+                             % (f.name, " ".join(words[i:i + 5])))
+                break
+
     # 6 numeric literals in the prose
     body = body_of(raw)
     #  A four-digit year inside a proper name -- "BPI Challenge 2014", "the
@@ -254,8 +280,16 @@ def main(argv=None):
     #  invisible in most editors and fatal in LaTeX, so it is checked rather
     #  than watched for.
     import glob
-    CTRL = {8: "backspace", 11: "vertical tab", 12: "form feed", 7: "bell",
-            0: "NUL", 27: "escape"}
+    #  EVERY C0 control character except tab, newline and carriage return.
+    #  The named list was six characters long and a here-document turning a
+    #  regex backreference `\1' into 0x01 walked straight through it -- the
+    #  check knew about \b, \f, \v, \a, NUL and ESC because those are the ones
+    #  it had already been bitten by, which is not a reason to stop there.
+    CTRL = {c: "control character 0x%02x" % c
+            for c in range(32) if c not in (9, 10, 13)}
+    CTRL[127] = "delete"
+    CTRL.update({8: "backspace", 11: "vertical tab", 12: "form feed",
+                 7: "bell", 0: "NUL", 27: "escape"})
     for pat in ("paper/parts/*.tex", "paper/*.tex", "scripts/*.py",
                 "fieldvalue/*.py", "fieldvalue/tests/*.py", "examples/*.py",
                 "submission/*.md", "*.md"):

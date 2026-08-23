@@ -827,6 +827,13 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
     #  would still be cryptic are overridden at the call site.
     d = d.rename(columns=lambda c: str(c).replace("_", " ")
                  if isinstance(c, str) else c)
+    #  A column whose every value is a whole number prints as one.  The
+    #  float_format below applies to the frame, not to the column, so a count
+    #  beside a proportion came out as `369.000' and a year as `2023.000',
+    #  which reads as a thousands separator wherever a full stop is one.
+    for c in d.columns:
+        if d[c].dtype.kind in "if" and np.isfinite(d[c]).all()                 and (d[c] == d[c].round()).all():
+            d[c] = d[c].map(lambda v: "%d" % int(round(v)))
     body = d.to_latex(index=False, escape=True, float_format=floatfmt,
                       na_rep="--")
     #  `to_latex(escape=True)` has ALREADY escaped every underscore.  Escaping
@@ -1131,6 +1138,14 @@ def write_tables(D):
     MI = load("s06_missing.csv")
     MB2 = load("s06_missing_bounds.csv")
     if MI is not None and len(MI):
+        #  This table transposes characteristics into ROWS, so one column
+        #  holds a count, a year and a share.  Format it per row: three
+        #  significant figures is right for a share and wrong for a year.
+        MI = MI.copy()
+        for c in MI.columns:
+            if MI[c].dtype.kind in "if":
+                MI[c] = MI[c].map(lambda v: ("%d" % int(round(v)))
+                                  if float(v) == int(v) else fmt_fixed(v, 3))
         body = tex_table(MI, "Retrieved against unretrieved records, and the "
                          "bounds on the eligibility rate under the extreme "
                          "assumptions about the unretrieved.", "tab:missing")
@@ -1145,7 +1160,12 @@ def write_tables(D):
     PW = load("s06_power.csv")
     if PW is not None and len(PW):
         (TABLES / "power.tex").write_text(
-            tex_table(PW, "What the pilot's design can and cannot resolve.",
+            tex_table(PW.assign(achieved=PW.achieved.map(
+                lambda v: fmt_fixed(v, 1)))
+                if "achieved" in PW.columns else PW,
+                "What the pilot's design can and cannot resolve: the "
+                "adjudicated sample each half-width would need, against the "
+                "effective sample the pilot achieved.",
                       "tab:power"), encoding="utf-8")
     else:
         blank("power", "Resolution of the pilot.", "tab:power")
