@@ -190,6 +190,39 @@ def main(argv=None):
         if not p.exists():
             FAILS.append("\\input target does not exist: %s" % tgt)
 
+    # 10 a spelled-out count must match the list it introduces
+    #
+    #  The no-numeric-literals rule reads digits and says nothing about words,
+    #  which is how "produces all of it in forty lines" survived for a file of
+    #  121 statements and "eighteen other public logs" survived for a corpus
+    #  of thirteen.  A general check on spelled-out numbers is too noisy to be
+    #  useful --- "four objects", "five contrasts" and "nine tenths" are all
+    #  fine --- but the sub-case where the number introduces an explicit list
+    #  is exact, and it is the form the correction register uses throughout.
+    WORD = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
+            "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11,
+            "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15,
+            "sixteen": 16, "seventeen": 17, "eighteen": 18, "nineteen": 19,
+            "twenty": 20}
+    pat = re.compile(r"\b(%s)\b[^.(]{0,40}?\(((?:[A-Z]\d+[,;]\s*)+[A-Z]\d+)\)"
+                     % "|".join(WORD), re.I)
+    #  over the PARTS, not over `t`: `t` has had every \input replaced by a
+    #  space, so the appendices -- where the correction register lives, and
+    #  where this form is used most -- are invisible in it.
+    n_enum = 0
+    for f in sorted((PAPER / "parts").glob("*.tex")):
+        src = strip_comments(f.read_text(encoding="utf-8"))
+        for m in pat.finditer(src):
+            said = WORD[m.group(1).lower()]
+            items = [x for x in re.split(r"[,;]\s*", m.group(2)) if x.strip()]
+            n_enum += 1
+            if said != len(items):
+                FAILS.append("%s: \"%s\" introduces %d items: %s"
+                             % (f.name, m.group(0)[:46].replace(chr(10), " "),
+                                len(items), ", ".join(items)))
+    NOTES.append("%d spelled-out counts checked against the list each "
+                 "introduces" % n_enum)
+
     #  the body word count, reported rather than enforced
     words = len(re.sub(r"[{}$\\]", " ", body).split())
     NOTES.append("abstract %d words; %d keywords; %d highlights; "
