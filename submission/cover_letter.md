@@ -32,9 +32,10 @@ than a grid to look at:
    refits the entire pipeline inside every draw, so a statement about a whole
    decision curve has family-wise coverage and the interval contains the
    model, not only the test rows;
-3. *resolution regions* --- uniformly beneficial, conditionally beneficial,
-   sign-changing, unresolved --- with a scalar robustness index, which name
-   the one state in which a single number is a safe summary;
+3. *resolution regions* --- uniformly or conditionally beneficial, uniformly
+   or conditionally harmful, sign-changing, unresolved --- with a scalar
+   robustness index, which name the one state in which a single number is a
+   safe summary;
 4. *specification regret*, which measures what conventional one-number
    reporting gets wrong, on every eligible log rather than on the ones where
    the answer resolved.
@@ -66,6 +67,23 @@ figures, verification, PDF --- runs from one command against a lockfile and a
 container. The archive carries the pre-registrations, the amendment log, the
 practice pilot's adjudications with a free-text reason for every judgement, and
 a correction register grouping the author's own errors by class.
+
+**What the apparatus found in itself.** After every one of the referee's ten
+comments had been answered, four defects were found in this round's own work
+by this round's own controls, and the manuscript reports all four rather than
+quietly fixing them. The most serious is in Appendix G: the simulation
+reported that every interval construction fails in one of its six worlds, and
+the failure was in the *estimand*, not the estimator --- the simulation scored
+the estimator against a population it does not sample from. It was found by
+testing the two finite-sample explanations that an apparent bias implies, with
+a control world that a genuine finite-sample gap does close, and having both
+arms refuse. The others: a pilot frame size aggregated over the wrong index
+set, which turned out to change what the pilot *is*; a strict mode that
+certified a manuscript built from a superseded run; and a corruption in the
+verifier's own regression suite that had been passing because nothing
+regenerated between the corruption and the check. The correction register
+groups the project's errors by class, and Appendix G's class is the one no
+checker in the repository could have caught.
 
 **Length and structure.** The manuscript follows the structure the referee
 recommended and is within the length they asked for. The literature component

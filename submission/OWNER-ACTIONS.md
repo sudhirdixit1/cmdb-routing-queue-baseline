@@ -11,8 +11,11 @@ it is not mistaken for done.
 ### 1.1 Mint the archive DOI  *(required by the referee's Phase 7)*
 
 The manuscript's data-availability and code-availability statements cite a
-Zenodo DOI, and `paper/numbers.tex` currently renders it as `??` because there
-is nothing to cite yet.
+Zenodo DOI. There is nothing to cite yet, so the macro currently renders as
+*"the archived release cited in the data-availability statement (DOI reserved,
+inserted at proof)"* rather than as the `??` marker — a number that does not
+exist yet is a different thing from a number that is missing, and the
+manuscript says which. `.zenodo.json` already carries `"version": "v19.0"`.
 
 1. Log in at <https://zenodo.org> with the GitHub account that owns
    `sudhirdixit1/cmdb-routing-queue-baseline`.
@@ -82,20 +85,33 @@ disagrees with ours by a word, cut one.
 
 ## 2. Optional, and worth considering
 
-### 2.1 Finish the expanded pilot frame
+### 2.1 Decide whether to expand the pilot frame
 
-`scripts/s06_audit2.py --frame` enumerates a frame roughly four times the size
-of the one the pilot currently uses. The public index meters requests against
-a daily budget, so the enumeration waits it out and caches per stratum; a run
-left going overnight completes. If it does, then
+The pilot's frame is **600 deduplicated records across 77 strata**, against a
+declared budget of 2,400: the public index's daily request quota stopped the
+enumeration first. Every enumerated record was therefore taken, every design
+weight is 1, and §9.4 reports the pilot as a census of what one index returned
+rather than a probability sample of a literature.
+
+`scripts/s06_audit2.py --frame` retries the enumeration, caching per stratum
+and waiting the quota out over about six hours. **It was stopped deliberately
+in the last session rather than left running**, because succeeding would
+overwrite `s06_sample.csv` and leave a new sample beside the existing coding
+and adjudications — which is worse than not expanding. Expanding means
+re-running
 
 ```bash
-python scripts/s06_audit2.py --fetch --screen --dossiers
+python scripts/s06_audit2.py --frame --fetch --screen --dossiers
 ```
 
-produces a much larger screened-in set, and **the adjudication of that set is
-the part that needs a person**. The pilot's binding limitation is its
-effective sample size, and only more adjudicated papers fix it.
+and then **re-adjudicating from scratch**, which is the part that needs a
+person: this session adjudicated 54 screened-in and 120 screened-out papers by
+hand against their dossiers. The pilot's binding limitation is its effective
+sample size, and only more adjudicated papers fix it.
+
+Worth weighing against: no claim in the paper depends on the pilot, and the
+current version is complete, internally consistent, and honest about its own
+reach.
 
 ### 2.2 Find a second, independent coder
 
@@ -126,3 +142,14 @@ in `scripts/` would run on it unchanged.
 - `requirements.lock` pins every transitive dependency by hash and the
   `Dockerfile` pins the thread counts.
 - `python scripts/reproduce_all.py` runs the whole study end to end.
+- `results/provenance.json` records which version of each analysis script
+  produced the results in the tree; all sixteen are accepted and
+  `make_numbers.py --strict` passes. **If you re-run any stage, accept it
+  again** — `python scripts/provenance.py --accept <script> --note "why"` —
+  or `--strict` will refuse the build, which is the point of it.
+- The corruption suite catches 10 of 10; `verify_numbers.py` re-derives 56
+  macros independently and enforces 9 consistency conditions, with 0 failures;
+  `check_response_refs.py` confirms all 50 section references in the cover
+  material resolve to headings that exist.
+- The branch `round-nineteen-specification-surfaces` is pushed to
+  `origin`.
