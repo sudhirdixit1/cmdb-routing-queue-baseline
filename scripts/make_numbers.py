@@ -834,7 +834,16 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
     for c in d.columns:
         if d[c].dtype.kind in "if" and np.isfinite(d[c]).all()                 and (d[c] == d[c].round()).all():
             d[c] = d[c].map(lambda v: "%d" % int(round(v)))
-    body = d.to_latex(index=False, escape=True, float_format=floatfmt,
+    #  A value that rounds to zero from below prints as `-0.000', which
+    #  asserts a sign the number does not have -- in a paper whose subject is
+    #  the sign of an increment.  The formatter adds zero to kill the negative
+    #  zero and re-checks after rounding, since -0.0004 rounds to -0.000 as a
+    #  string even though the float is not negative zero.
+    def _ff(v):
+        out = floatfmt % (v + 0.0)
+        return out.replace("-", "", 1) if float(out) == 0 else out
+
+    body = d.to_latex(index=False, escape=True, float_format=_ff,
                       na_rep="--")
     #  `to_latex(escape=True)` has ALREADY escaped every underscore.  Escaping
     #  again turns `NO\_HEADROOM` into `NO\\_HEADROOM`, which LaTeX reads as a
