@@ -20,6 +20,17 @@ Checks
   7  no rhetorical openers            the sentence shapes the referee asked to
                                       have deleted
   8  every \\input target exists
+  9  no stray control character       a here-document turning \\b into 0x08
+ 10  a spelled-out count matches      the list of identifiers it introduces
+ 11  no `Appendix' before a \\ref      that already supplies the word
+ 12  no macro swallowing its space    a control word eats the space after it
+ 13  no wordy macro inside math       $...$ sets its words as italic variables
+
+Checks 10 to 13 exist because each caught a defect that had already reached a
+compiled PDF: `forty lines' for a file of 121 statements, `Appendix Appendix
+G' on fourteen references, `42.0%--- and', and `18percentagepoints'. Every one
+of them was found by reading the rendered pages, which is the check this file
+cannot replace.
 """
 from __future__ import annotations
 
@@ -180,6 +191,32 @@ def main(argv=None):
         FAILS.append("%d macros swallow the space after them (write "
                      "`%smacro%s ' or follow it with punctuation): %s"
                      % (len(eaten), chr(92), chr(92), ", ".join(eaten[:6])))
+
+    #  A macro whose VALUE contains a word must not be quoted inside math
+    #  mode: `$\\pm\\auditHalfWidthPct$' set `percentage points' as a
+    #  product of six italic variables and printed `18percentagepoints'.
+    #  The macro definitions are the source of truth for which ones carry
+    #  words, so this needs no list to maintain.
+    wordy = set()
+    if (PAPER / "numbers.tex").exists():
+        for nm, val in re.findall(r"\\newcommand\{\\(\w+)\}\{(.*)\}",
+                                  (PAPER / "numbers.tex").read_text(
+                                      encoding="utf-8")):
+            #  strip the macros inside the value first: `\times' and `\%' are
+            #  markup, not words, and `$10^{-16}$' is not prose either
+            v = re.sub(r"\\[a-zA-Z]+", " ", val)
+            if re.search(r"[A-Za-z]{3,}", v):
+                wordy.add(nm)
+    inmath = []
+    for f in sorted((PAPER / "parts").glob("*.tex")):
+        src = strip_comments(f.read_text(encoding="utf-8"))
+        for seg in re.findall(r"\$[^$]*\$", src):
+            for nm in re.findall(r"\\(\w+)", seg):
+                if nm in wordy:
+                    inmath.append("%s: %s%s" % (f.name, chr(92), nm))
+    if inmath:
+        FAILS.append("%d macros carrying words are used inside math mode: "
+                     "%s" % (len(inmath), ", ".join(inmath[:6])))
 
     # 6 numeric literals in the prose
     body = body_of(raw)

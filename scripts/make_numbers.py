@@ -535,8 +535,12 @@ def main(argv=None):
     put("nAuditApplicable", thousands(first(S6, "n_applicable_register")))
     put("nAuditRequired", thousands(first(S6, "n_required_for_pm7")))
     ne = first(S6, "n_effective")
+    #  A macro that carries WORDS must not be quoted inside math mode, and
+    #  the manuscript quoted this one as `$\pm\auditHalfWidthPct$', which
+    #  set `percentage points' as a product of italic variables.  The macro
+    #  is the number alone; the words belong to the prose.
     put("auditHalfWidthPct",
-        "%.0f percentage points" % (100 * 1.96 * np.sqrt(0.25 / ne))
+        "%.0f" % (100 * 1.96 * np.sqrt(0.25 / ne))
         if ne is not None and np.isfinite(ne) and ne > 0 else None)
     MB = load("s06_missing_bounds.csv")
     if MB is not None and len(MB) == 3:
@@ -1067,10 +1071,17 @@ def write_tables(D):
     S6P = D["S6P"]
     if S6P is not None and len(S6P):
         (TABLES / "pilot.tex").write_text(
-            tex_table(S6P[["code", "n_eff", "p_yes", "lo", "hi"]],
+            #  n_eff to one decimal, not three: `29.581' in a column beside
+            #  proportions reads as a count of twenty-nine thousand to anyone
+            #  who uses a full stop as a thousands separator, and the prose
+            #  quotes it as 29.6.
+            tex_table(S6P[["code", "n_eff", "p_yes", "lo", "hi"]]
+                      .assign(n_eff=lambda d: d.n_eff.map(lambda v: fmt_fixed(v, 1))),
                       "The practice pilot: weighted prevalence over the "
                       "estimated eligible population, with Wilson intervals "
-                      "on the effective sample size.", "tab:pilot"),
+                      "on the effective sample size.", "tab:pilot",
+                      colnames={"n_eff": "effective n",
+                                "p_yes": "share"}),
             encoding="utf-8")
     else:
         blank("pilot", "Practice pilot.", "tab:pilot")
