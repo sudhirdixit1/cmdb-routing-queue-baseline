@@ -1,58 +1,57 @@
-# Submission package — *Information Systems* (Elsevier)
+# Submission package — *Information Systems* (Elsevier), round nineteen
 
-Everything the submission system will ask for, plus the files that record what
-was decided and what is still yours to do.
+The manuscript is **Specification Surfaces for Incremental Predictive
+Performance: Estimation, Uncertainty, and Multi-Log Evaluation**. It replaces
+*Four Choices Behind One Number*, which a referee for this journal
+recommended rejecting as submitted; that report is the input to this round and
+`response_to_referee.md` answers its ten major comments one by one.
 
-## Read these three first
+## Read these two first
 
 | file | what it is |
 |---|---|
-| **`OWNER-ACTIONS.md`** | The things only you can do — push round seventeen, rename the repository, mint the Zenodo DOI, post the arXiv preprint, confirm the acknowledgement — each with the exact commands. **Nothing else in this package is ready to send until §0–§3 of that file are done**, because the manuscript cites a repository that does not exist yet and a branch that is not pushed. It also flags one commit in the branch that contains a corrupted manuscript, and what to do about it. |
-| **`DECISIONS.md`** | Every decision the two plans left open, how each was settled and why, with the rejected alternatives. Round seventeen added six, including the title change and the decision to report the pre-registered generality claim as falsified rather than soften it. |
-| **`../REFEREE-LOG.md`** | Four adversarial passes, twenty-two objections, every disposition — including the six dismissed and the reason for each. Three produced new measurements. |
+| **`OWNER-ACTIONS.md`** | The things only a person can do: mint the Zenodo DOI, decide what to do with the branch, confirm the three statements are true of you, and upload the separate files the editorial system asks for. It also records what is already done, so you do not redo it. |
+| **`response_to_referee.md`** | The point-by-point reply. Every section reference in it is checked against the built manuscript by `scripts/check_response_refs.py`, which currently resolves 54 of 54. |
 
 ## What the submission system will ask for
 
 | file | where it goes |
 |---|---|
-| `highlights.txt` | Highlights. Five bullets, each under Elsevier's 85-character limit; the lengths are printed beside them and are re-derived rather than copied, because the previous version's five counts were all wrong. |
-| `cover_letter.md` | Cover letter. **Has a "delete before sending" section at the bottom** listing the five placeholders to fill (repository URL, Zenodo DOI, arXiv identifier, refreshed counts, protocol as supplementary material). |
-| `data_availability.md` | Data availability statement. A paste-ready paragraph, all fourteen dataset DOIs, and the pre-registration. |
-| `credit_statement.md` | CRediT roles, plus the generative-AI disclosure Elsevier's policy requires. |
-| `declaration_of_interests.md` | Competing-interests declaration. None to declare. |
-| `suggested_reviewers.md` | Six names with, for each, what they are best placed to *break*, and a round-seventeen addendum on what has moved. Affiliations need re-checking and email addresses need supplying — the file says so at the top. |
-| `../PROTOCOL.md` | **Supplementary material.** The corpus pre-registration. A referee should not have to go looking in a repository for it. |
-| `../AUDIT-PROTOCOL.md` | **Supplementary material.** The audit pre-registration, with its three amendments and the defects that forced each. |
-| `../PREDICTION.md` | **Supplementary material.** The registered prediction, with both frozen thresholds and the in-sample failure of the form the plan named. |
-| `../results/r40_coding.csv` | **Supplementary material.** The audit's coding sheet: one row per included paper, every code with its verbatim quote and PDF page, and the second implementation's code beside it. This is what makes the audit auditable rather than trusted. |
-| `../results/r40_adjudication.csv` | **Supplementary material.** The thirty papers read by hand, with the adjudicated codes, the axis each reported range was over, and a note per paper. |
-| `reviewer_map.md` | **Supplementary material, or a cover-letter attachment.** One row per objection a referee is likely to raise, and the section that answers it. |
+| `../build/journal/specification_surfaces.pdf` | The manuscript. |
+| `highlights.txt` | Highlights. Five bullets, each within Elsevier's 85-character limit, with lengths **derived** by `scripts/check_highlights.py` rather than counted — the counts have shipped wrong twice. |
+| `cover_letter.md` | Cover letter. |
+| `response_to_referee.md` | Response to the previous report. |
+| `declaration_of_interests.md` | Declaration of interests. |
+| `credit_statement.md` | CRediT roles. |
+| `data_availability.md` | Data availability statement, with every dataset DOI. |
+| `suggested_reviewers.md` | Suggested reviewers, with the reason for each. |
 
-## The manuscript itself
+## What the package records rather than sends
 
-Not in this directory. `paper/iaai27_empty_cmdb.tex` builds to
-`paper/iaai27_empty_cmdb.pdf` via `python scripts/build_journal.py`: 72
-pages (42 of main text), 0 errors, 0 undefined references. The file name is a fossil of the
-IAAI-27 draft this was retargeted from; Elsevier's system renames uploads
-anyway.
+| file | what it is |
+|---|---|
+| `DECISIONS.md` | Decisions the plans left open, how each was settled, and the rejected alternatives. Round sixteen and seventeen; kept for the reasoning, not for the section numbers. |
+| `reviewer_map.md` | **Superseded.** Maps objections to sections of the round-eighteen manuscript, which is not the one being submitted. Marked as such at the top of the file. |
+| `../REFEREE-LOG.md` | Every objection this project has received, with its disposition, including the four defects this round found in its own work after the referee's ten were answered. |
 
-Upload for the submission: the PDF, plus — if the journal asks for source —
-the `.tex`, `references.bib`, and the ten `figJ*.png` and `figK*.png` files.
-Nothing else in `paper/` is used by the build.
-
-## A note on the numbers quoted in these files
-
-`1,388 checks`, `608 literals`, `255 corruptions`, `24 files`, `13 admitted
-logs`, `47 pages` appear across the cover letter, the data-availability
-statement and `REPRODUCE.md`. They move whenever the manuscript does, and the
-round-sixteen versions of these files all quoted counts that had. Before
-sending, run
+## Before sending
 
 ```bash
-python scripts/reproduce_all.py
+python scripts/make_numbers.py --strict     # every macro resolved, from an accepted script
+python scripts/verify_numbers.py            # 61 macros re-derived, 10 consistency conditions
+python scripts/texlint.py                   # 14 compliance checks
+python scripts/check_response_refs.py       # every section this package cites exists
+python scripts/check_highlights.py          # the highlight lengths
+python scripts/provenance.py                # which script version produced each result
+python scripts/s13_attack_numbers.py        # the verifier's own regression suite
+python scripts/build_journal.py             # 0 errors, 0 undefined references
 ```
 
-and reconcile. If any of them has drifted, the cover letter is making a claim
-about an artifact that no longer exists — which is, precisely, the class of
-error this paper is about. `scripts/patch_counts_r17.py` is the script that
-did the last reconciliation and shows which files carry which count.
+`--strict` refuses a build whose numbers come from a script that has changed
+since its outputs were accepted. If you re-run an analysis stage, accept it
+again — `python scripts/provenance.py --accept <script> --note "why"` — or the
+build will refuse, which is the point of it.
+
+**And read the compiled PDF end to end afterwards.** On this round that pass
+found seven defects that produced no wrong number and that every checker above
+passed on; Appendix C and section 24 of `../HANDOFF.md` list them.

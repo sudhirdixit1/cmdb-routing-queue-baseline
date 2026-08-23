@@ -1,3 +1,17 @@
+> **SUPERSEDED — round eighteen.** This file maps objections to sections of
+> *Four Choices Behind One Number*, the manuscript a referee for *Information
+> Systems* recommended rejecting. Round nineteen replaced that manuscript with
+> *Specification Surfaces for Incremental Predictive Performance*, so **every
+> section number below points into a document that is no longer submitted**,
+> and several of its claims were withdrawn — the three-log corpus became
+> nineteen log--target pairs across thirteen logs, and the headline it defends
+> was retracted as inflated by an intercept-only baseline.
+>
+> The current map is `submission/response_to_referee.md`, whose cross
+> references `scripts/check_response_refs.py` checks against the built
+> manuscript. This file is kept because the referee log cites it, not because
+> it is current.
+
 # The reviewer's map
 
 One row per objection, and the section that answers it. Nothing here is an
