@@ -237,13 +237,32 @@ Neither surface is used to retire a claim the other supports.
   band of §8.2 is a family statement with family-wise coverage (§4.3);
 * **five pre-specified confirmatory contrasts** with Holm correction, and
   everything else labelled exploratory (§4.4);
-* a **rebuilt simulation** (§4.9, §6.6): six worlds including misspecified,
-  drifting, sparse, imbalanced and noisy, with an exactly enumerated truth,
-  and many more replicates. The 85% coverage the previous version dismissed is
-  now decomposed: the manuscript separates the estimator's own limit from the
+* a **rebuilt simulation**: six worlds including misspecified, drifting,
+  sparse, imbalanced and noisy, with an exactly enumerated truth, and many
+  more replicates. The 85% coverage the previous version dismissed is now
+  decomposed: the manuscript separates the estimator's own limit from the
   oracle quantity, reports coverage of each, and states that under
   misspecification no amount of resampling makes an interval around the first
   an interval around the second.
+
+**And the simulation caught the new method failing.** We think this is the
+single best evidence that the rebuilt inference layer is worth trusting, so we
+report it prominently rather than quietly.
+
+On the sparse and noisy worlds the nested interval covered *worse* than the
+fixed-model interval it replaces — the opposite of what refitting is for. The
+cause is specific and, in hindsight, obvious: a bootstrap resample contains
+about 63% of the distinct levels of a high-cardinality categorical, so every
+refit inside every draw sees a sparser register than the real training half
+and the increment it produces is systematically smaller. The whole bootstrap
+distribution shifts below the estimate, and a percentile interval taken from
+it is a correct interval for the wrong quantity.
+
+The repair is standard — the basic (pivotal) interval, which pivots the shift
+out — and it restores coverage. Every interval and every simultaneous band in
+the manuscript now uses it, the bias-corrected percentile is reported beside
+it, and the shift itself is measured on the real data as well as in the
+simulation. The failure, the diagnosis and the repair are all in the paper.
 
 ## Major comment 9 — external validation is selected and heterogeneous
 

@@ -323,6 +323,16 @@ def main(argv=None):
     put("nSimSparse", "200")
     put("simPrevalence", "0.02")
     put("coverageNaiveMedian", pct(first(S10, "coverage_naive_median")))
+    put("coverageNestedBasicMedian",
+        pct(first(S10, "coverage_nested_basic_median")))
+    put("coverageNestedBasicMin", pct(first(S10, "coverage_nested_basic_min")))
+    put("coverageNestedBcMedian", pct(first(S10, "coverage_nested_bc_median")))
+    S17 = load("s17_facts.csv")
+    put("shiftMedian", num(first(S17, "median_shift"), 4))
+    put("shiftNegativePct", pct(first(S17, "share_shift_negative"), 0))
+    put("nBandResolvedRaw", thousands(first(S17, "n_band_resolved_raw")))
+    put("nBandResolvedRecentred",
+        thousands(first(S17, "n_band_resolved_recentred")))
     put("coverageNaiveMin", pct(first(S10, "coverage_naive_min")))
     put("coverageNestedMedian", pct(first(S10, "coverage_nested_median")))
     put("coverageNestedMin", pct(first(S10, "coverage_nested_min")))

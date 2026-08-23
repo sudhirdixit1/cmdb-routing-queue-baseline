@@ -247,17 +247,53 @@ def one_rep(args):
         nn.append(roc_auc_score(yb, q1) - roc_auc_score(yb, q0))
     nn = np.array(nn, float)
 
-    def ci(a):
+    #  THREE interval constructions from the same draws, because the
+    #  percentile interval assumes the bootstrap distribution is centred on
+    #  the estimate and with a high-cardinality register it is not: a
+    #  bootstrap training resample contains about 63% of the distinct levels,
+    #  so every refit sees a sparser register than the real training half and
+    #  the increment shrinks.  The percentile interval then sits below the
+    #  estimand and misses no matter how wide it is.
+    #
+    #    percentile  [q_a, q_b]                          the naive choice
+    #    basic       [2*V - q_b, 2*V - q_a]              pivots out a shift
+    #    bc          percentile with the endpoints moved by the median bias
+    from scipy.stats import norm
+
+    def three(a, v):
         if len(a) < 10:
-            return (np.nan, np.nan)
-        return (float(np.percentile(a, 100 * ALPHA / 2)),
-                float(np.percentile(a, 100 * (1 - ALPHA / 2))))
-    n_lo, n_hi = ci(nb)
-    x_lo, x_hi = ci(nn)
-    return dict(world=world, rep=rep, V_hat=V_hat, V_oracle=T["V_oracle"],
-                auc_full=T["auc_full"], auc_base=T["auc_base"],
-                naive_lo=n_lo, naive_hi=n_hi, naive_width=n_hi - n_lo,
-                nested_lo=x_lo, nested_hi=x_hi, nested_width=x_hi - x_lo)
+            return dict(pct=(np.nan, np.nan), basic=(np.nan, np.nan),
+                        bc=(np.nan, np.nan), shift=np.nan)
+        qa = float(np.percentile(a, 100 * ALPHA / 2))
+        qb = float(np.percentile(a, 100 * (1 - ALPHA / 2)))
+        share = float(np.mean(a < v))
+        share = min(max(share, 1.0 / (2 * len(a))), 1 - 1.0 / (2 * len(a)))
+        z0 = float(norm.ppf(share))
+        za, zb = norm.ppf(ALPHA / 2), norm.ppf(1 - ALPHA / 2)
+        pa = float(norm.cdf(2 * z0 + za)) * 100
+        pb = float(norm.cdf(2 * z0 + zb)) * 100
+        return dict(pct=(qa, qb), basic=(2 * v - qb, 2 * v - qa),
+                    bc=(float(np.percentile(a, pa)),
+                        float(np.percentile(a, pb))),
+                    shift=float(np.median(a)) - v)
+
+    N = three(nb, V_hat)
+    X = three(nn, V_hat)
+    out = dict(world=world, rep=rep, V_hat=V_hat, V_oracle=T["V_oracle"],
+               auc_full=T["auc_full"], auc_base=T["auc_base"],
+               naive_shift=N["shift"], nested_shift=X["shift"])
+    for tag, D in (("naive", N), ("nested", X)):
+        for kind in ("pct", "basic", "bc"):
+            lo, hi = D[kind]
+            out["%s_%s_lo" % (tag, kind)] = lo
+            out["%s_%s_hi" % (tag, kind)] = hi
+            out["%s_%s_width" % (tag, kind)] = hi - lo
+    #  the names the rest of the file already uses
+    out["naive_lo"], out["naive_hi"] = N["pct"]
+    out["nested_lo"], out["nested_hi"] = X["pct"]
+    out["naive_width"] = N["pct"][1] - N["pct"][0]
+    out["nested_width"] = X["pct"][1] - X["pct"][0]
+    return out
 
 
 def main(argv=None):
@@ -307,7 +343,11 @@ def main(argv=None):
     rows = []
     for w, sub in R.groupby("world"):
         for target, col in (("V_oracle", "V_oracle"), ("V_limit", "V_limit")):
-            for kind in ("naive", "nested"):
+            for kind in ("naive", "nested", "naive_pct", "naive_basic",
+                         "naive_bc", "nested_pct", "nested_basic",
+                         "nested_bc"):
+                if kind + "_lo" not in sub.columns:
+                    continue
                 lo, hi = sub[kind + "_lo"], sub[kind + "_hi"]
                 cov = float(((lo <= sub[col]) & (sub[col] <= hi)).mean())
                 rows.append(dict(world=w, estimand=target, interval=kind,
@@ -317,7 +357,11 @@ def main(argv=None):
                                  rmse=float(np.sqrt(
                                      ((sub.V_hat - sub[col]) ** 2).mean())),
                                  truth=float(sub[col].iloc[0]),
-                                 mean_estimate=float(sub.V_hat.mean())))
+                                 mean_estimate=float(sub.V_hat.mean()),
+                                 median_shift=float(
+                                     sub[kind.split("_")[0] + "_shift"].mean())
+                                 if (kind.split("_")[0] + "_shift")
+                                 in sub.columns else np.nan))
     C = pd.DataFrame(rows)
     C.to_csv(RESULTS / "s10_coverage.csv", index=False)
     print()
@@ -328,6 +372,20 @@ def main(argv=None):
         n_worlds=len(WORLDS), n_reps=a.reps, n_rows=len(R), n_boot=N_BOOT,
         n_train=N_TRAIN, n_test=N_TEST,
         coverage_naive_min=float(lim[lim.interval == "naive"].coverage.min()),
+        coverage_nested_basic_min=float(
+            lim[lim.interval == "nested_basic"].coverage.min())
+        if (lim.interval == "nested_basic").any() else np.nan,
+        coverage_nested_basic_median=float(
+            lim[lim.interval == "nested_basic"].coverage.median())
+        if (lim.interval == "nested_basic").any() else np.nan,
+        coverage_nested_bc_min=float(
+            lim[lim.interval == "nested_bc"].coverage.min())
+        if (lim.interval == "nested_bc").any() else np.nan,
+        coverage_nested_bc_median=float(
+            lim[lim.interval == "nested_bc"].coverage.median())
+        if (lim.interval == "nested_bc").any() else np.nan,
+        max_bootstrap_shift=float(R.nested_shift.abs().max())
+        if "nested_shift" in R.columns else np.nan,
         coverage_naive_median=float(lim[lim.interval == "naive"].coverage.median()),
         coverage_nested_min=float(lim[lim.interval == "nested"].coverage.min()),
         coverage_nested_median=float(lim[lim.interval == "nested"].coverage.median()),
