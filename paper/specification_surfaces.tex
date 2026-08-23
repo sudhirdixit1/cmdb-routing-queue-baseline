@@ -567,6 +567,36 @@ Every log is also reported under rolling-origin validation --- \nFolds\
 expanding-window folds --- beside the single temporal holdout, and the split
 is an axis of the decomposition rather than a robustness paragraph.
 
+\paragraph{Refitting inside the draw breaks the percentile interval, and here
+is the fix.}
+This is the one place where the simulation of Section~\ref{sec:sim} caught the
+method rather than confirming it, so it is stated before the results rather
+than after.
+
+A bootstrap resample of $n$ rows contains about $1 - e^{-1} \approx 63\%$ of
+the distinct levels of a high-cardinality categorical. The register on the
+case study's log has \cardF\ levels, so \emph{every} refit inside \emph{every}
+draw sees a sparser register than the real training half does, and the
+increment it produces is systematically smaller. The bootstrap distribution
+therefore sits \emph{below} the estimate --- in \shiftNegativePct\ of this
+paper's cells, by a median \shiftMedian\ AUC --- and a percentile interval
+taken from it sits below the estimand and misses no matter how wide it is.
+That is not a small effect: in the sparse and noisy worlds of
+Section~\ref{sec:sim} the percentile interval covers far below nominal, and
+the nested one covers \emph{worse} than the fixed-model one, which is the
+opposite of what refitting is for.
+
+The fix is standard and we should have used it from the start. Every interval
+in this paper is the \emph{basic} (pivotal) interval
+\[
+\bigl[\,2\hat{V} - q_{1-\alpha/2},\;\; 2\hat{V} - q_{\alpha/2}\,\bigr],
+\]
+which pivots the shift out, with the bias-corrected percentile reported beside
+it in \texttt{results/s17\_cells.csv}. Simultaneous bands are recentred by the
+same shift, which is a property of the draws and so corrects every cell of a
+family at once. Table~\ref{tab:sim} reports the coverage of all three
+constructions.
+
 \subsection{Simultaneous bands}
 \label{sec:simbands}
 
@@ -1124,15 +1154,34 @@ nominal.}
 \label{fig:coverage}
 \end{figure}
 
-Table~\ref{tab:sim} is the simulation of Section~\ref{sec:sim}. Reading the
-$V_{\mathrm{limit}}$ rows --- the estimand a resampling interval can cover ---
-the fixed-model interval attains between \coverageNaiveMin\ and nominal
-coverage, with median \coverageNaiveMedian, and the nested interval between
-\coverageNestedMin\ and nominal, with median \coverageNestedMedian. Against
-$V_{\mathrm{oracle}}$ both intervals undercover in the misspecified worlds by
-construction, because the estimator is not consistent for the oracle quantity
-there; the largest such gap is \biasOracleMax\ in AUC units. We report it
-rather than describing it as boundary behaviour: under misspecification an
+Table~\ref{tab:sim} is the simulation of Section~\ref{sec:sim}, and it is the
+one place where the method failed and had to be repaired.
+
+\textbf{Where the refit helps.} On the four worlds in which the estimator is
+close to unbiased for its own limit --- linear, nonlinear, drifting,
+imbalanced --- the fixed-model interval undercovers and the nested one does
+not: median \coverageNaiveMedian\ against \coverageNestedMedian. That is what
+refitting is for, and it works.
+
+\textbf{Where the percentile interval fails, and why.} On the sparse and noisy
+worlds both intervals collapse, and the \emph{nested} one is worse than the
+fixed-model one --- \coverageNestedMin\ at its lowest. The cause is
+Section~\ref{sec:boot}: a bootstrap training resample holds about
+$63\%$ of the distinct register levels, every refit therefore sees a sparser
+register, and the whole bootstrap distribution shifts below the estimate. A
+percentile interval taken from a shifted distribution is a correct interval
+for the wrong quantity.
+
+\textbf{The repair.} The basic interval pivots that shift out and restores
+coverage: median \coverageNestedBasicMedian\ with a minimum of
+\coverageNestedBasicMin, against the percentile interval's
+\coverageNestedMin. Every interval and every band in this paper uses it.
+
+\textbf{What no interval repairs.} Against $V_{\mathrm{oracle}}$ rather than
+$V_{\mathrm{limit}}$, all three constructions undercover in the misspecified
+worlds, and they should: the estimator is not consistent for the oracle
+quantity there, and the largest gap is \biasOracleMax\ in AUC units. We report
+it rather than describing it as boundary behaviour. Under misspecification an
 interval around the estimator's own limit is not an interval around the
 quantity a reader cares about, and no amount of resampling repairs that.
 % ---- paper/parts/50_cmdb.tex ----

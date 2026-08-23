@@ -1,29 +1,59 @@
-Every number in the manuscript is a macro defined in \texttt{paper/numbers.tex},
-which \texttt{scripts/make\_numbers.py} generates from \texttt{results/*.csv}.
-The manuscript contains no numeric literal outside that file and the generated
-tables, and \texttt{scripts/texlint.py} enforces it. A number therefore cannot
-disagree between the abstract, a table and the conclusion: there is one of it.
 
-Three further controls run in \texttt{scripts/reproduce\_all.py}.
+Every number in the manuscript is a macro defined in
+\texttt{paper/numbers.tex}, which \texttt{scripts/make\_numbers.py} generates
+from \texttt{results/*.csv}. The manuscript contains no numeric literal
+outside that file and the generated tables. A number therefore cannot disagree
+between the abstract, a table and the conclusion: there is one of it.
+
+That removes one class of defect and creates another --- a wrong generator
+makes the whole manuscript wrong \emph{consistently}, and nothing looks odd
+--- so the architecture comes with four controls.
 
 \begin{description}
-\item[The verifier.] \texttt{scripts/verify\_paper.py} re-derives each macro
-from the result file it came from and compares it against the value in
-\texttt{numbers.tex}. It tokenises the built document once into a set of
-numeric literals and every membership test is exact set membership; no
-substring test appears anywhere, because three earlier versions of the
-verifier each shipped with a hole that a substring test opened.
-\item[The corruption suite.] \texttt{scripts/attack\_verifier.py} injects
-single-value corruptions into the result files and the manuscript and requires
-the verifier to catch every one. A corruption that passes is a hole in the
-verifier and is reported as such.
-\item[The purity check.] \texttt{scripts/test\_checker\_purity.py} asserts
-that running the verifier does not modify anything it checks. In an earlier
-round a check that read the corruption suite's size by importing it
-\emph{ran} the suite, so every invocation of the verifier became a corruption
-run in which every corruption ``passed'' because the nested verifier refused
-to start.
+\item[The generator.] \texttt{make\_numbers.py} emits a visible
+\textbf{??} for any macro whose source file is absent, and
+\texttt{-{}-strict} exits non-zero if one remains. A partial build is
+therefore visibly partial and cannot silently drop a claim.
+
+\item[The verifier.] \texttt{scripts/verify\_numbers.py} re-derives each
+checked macro from the result file with code written against the
+\emph{definition} rather than against the generator, and compares. It also
+enforces four consistency conditions that no single macro expresses: that
+every register-quality mechanism passed its executed train-only check, that no
+surface is labelled uniformly beneficial while carrying an unresolved cell,
+that Proposition~\ref{prop:nonid}'s sweep still holds the AUC reduction at
+zero, and that the adjudicated set of the practice pilot is exactly the
+screened-in set.
+
+\item[The corruption suite.] \texttt{scripts/s13\_attack\_numbers.py} is the
+verifier's own regression suite. It corrupts one thing at a time --- a value
+in a result file, a value in \texttt{numbers.tex}, a deleted macro, a
+train-only check flipped, a region label made inconsistent with its counts, an
+adjudication file made inconsistent with the coding file --- and requires the
+verifier to notice. Every corruption is applied to a copy in a temporary
+directory; the suite refuses to start if a previous run left its lock behind,
+because in an earlier round a corruption suite was killed mid-flight and a
+corrupted manuscript reached a commit.
+
+\item[The compliance linter.] \texttt{scripts/texlint.py} checks the abstract
+length, the keyword count, the highlight lengths against their own stated
+counts, the presence of all five required statements, the absence of
+\texttt{Appendix Appendix}, the absence of any numeric literal in the prose,
+the absence of the rhetorical sentence-openers a referee asked to have
+deleted, that every \texttt{\textbackslash input} target exists, and that no
+source file carries a stray control character. The last of those is there
+because this round wrote a literal backspace into a regular expression four
+times, by way of a shell here-document, and the damage is invisible in an
+editor and fatal in \LaTeX.
 \end{description}
 
-The counts these controls reached for this version are in
-\texttt{results/verify\_summary.csv} and are quoted in \texttt{README.md}.
+\paragraph{What the harness does not do.}
+It guards numbers thoroughly and prose only where a guard was written by hand.
+The correction register of Appendix~\ref{app:corrections} groups this
+project's own errors by class, and its largest class is sentences in which
+every printed number was correct and the relation asserted between them was
+not. The generated-macro discipline makes one sub-class of that structurally
+impossible --- the same quantity printed differently in two places --- and
+does nothing about the rest. Ten holes have been found in this project's
+checkers over nineteen rounds, and every one was found by a corruption suite
+or by reading the output, never by the checker itself.
