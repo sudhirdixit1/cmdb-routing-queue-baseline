@@ -64,6 +64,26 @@ BANNED_OPENERS = [
     r"(?m)^This is correction number",
 ]
 
+#  The checks this file performs, as a list rather than as a number in a
+#  sentence.  The manuscript quotes the count (Appendix H), so the list is
+#  where that number comes from and adding a check updates the paper.
+CHECKS = (
+    "the abstract's word count",
+    "the keyword count",
+    "the highlight count and each highlight's length against its own claim",
+    "the presence of all five required statements",
+    "the absence of `Appendix Appendix'",
+    "the absence of any numeric literal in the prose",
+    "the absence of the rhetorical openers a referee asked to have deleted",
+    "that every input target exists",
+    "that no source file carries a stray control character",
+    "that a spelled-out count matches the list of identifiers it introduces",
+    "that no reference writes `Appendix' before a ref that supplies it",
+    "that no macro swallows the space after it",
+    "that no macro carrying words or math is used inside math mode",
+    "that no phrase is repeated immediately",
+)
+
 FAILS, NOTES = [], []
 
 

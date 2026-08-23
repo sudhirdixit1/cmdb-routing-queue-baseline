@@ -34,6 +34,7 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import provenance  # noqa: E402
+import texlint  # noqa: E402
 import verify_numbers  # noqa: E402
 from common import RESULTS as _RESULTS  # noqa: E402
 from common import fmt_fixed  # noqa: E402
@@ -563,6 +564,7 @@ def main(argv=None):
     #  Counted from verify_numbers.CONDITIONS, so the manuscript's
     #  claim about the harness tracks the harness.
     put("nConditions", thousands(len(verify_numbers.CONDITIONS)))
+    put("nLintChecks", thousands(len(texlint.CHECKS)))
     put("nTests", thousands(count_tests()))
     put("fvVersion", read_fv_version())
     S11 = load("s11_facts.csv")

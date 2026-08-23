@@ -61,16 +61,23 @@ cannot answer the question --- changing a script's output format does not make
 its numbers wrong --- so acceptance is a deliberate act with a recorded
 reason.
 
-\item[The compliance linter.] \texttt{scripts/texlint.py} checks the abstract
-length, the keyword count, the highlight lengths against their own stated
-counts, the presence of all five required statements, the absence of
-\texttt{Appendix Appendix}, the absence of any numeric literal in the prose,
-the absence of the rhetorical sentence-openers a referee asked to have
-deleted, that every \texttt{\textbackslash input} target exists, and that no
-source file carries a stray control character. The last of those is there
-because this round wrote a literal backspace into a regular expression four
-times, by way of a shell here-document, and the damage is invisible in an
-editor and fatal in \LaTeX.
+\item[The compliance linter.] \texttt{scripts/texlint.py} carries
+\nLintChecks\ checks: the abstract length, the keyword count, the highlight
+lengths against their own stated counts, the presence of all five required
+statements, the absence of any numeric literal in the prose, the absence of
+the rhetorical sentence-openers a referee asked to have deleted, that every
+\texttt{\textbackslash input} target exists, and that no source file carries a
+stray control character.
+
+Five of them exist because each caught a defect that had already reached a
+compiled PDF of \emph{this} manuscript: a spelled-out count that did not match
+the list it introduced; the word \emph{Appendix} written before a reference
+that already supplies it, on all fourteen appendix references at once; a macro
+swallowing the space after it and printing \texttt{42.0\%-{}-{}- and}; a macro
+carrying words quoted inside math mode and printing
+\texttt{18percentagepoints}; and a sentence's tail left behind by a scripted
+edit and printed twice. Every one of the five was found by \emph{reading the
+rendered pages}, which is the check no file in this repository replaces.
 \end{description}
 
 \paragraph{What the harness does not do}
