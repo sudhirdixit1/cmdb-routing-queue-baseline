@@ -1882,10 +1882,96 @@ The world seeds are literals now.
   account linked to GitHub and a release created. `submission/OWNER-ACTIONS.md`
   has the steps.
 - **The expanded pilot frame.** The public index meters requests against a
-  daily budget which the first enumeration exhausted. `s06_audit2.py` now
-  caches per stratum and waits the budget out, so it completes by itself; the
-  pilot as reported uses the round-eighteen frame with the new two-stratum
-  adjudication on top.
+  daily budget which every enumeration attempt exhausted, including one that
+  backed off patiently for six hours. The attempt was **stopped deliberately**,
+  not abandoned: succeeding would have written a new `s06_sample.csv` beside
+  the existing coding and adjudications, which is worse than not expanding,
+  and re-running the frame requires re-screening and re-adjudicating from
+  scratch. The pilot as reported is complete and internally consistent — 600
+  enumerated records across 77 strata, all of them coded, 54 screened in and
+  adjudicated, 120 of the screened-out adjudicated too — and §9.4 now states
+  plainly that it is a census of what one index returned rather than a
+  probability sample of a literature. Anyone resuming this should decide first
+  whether a larger frame is worth re-adjudicating for, given that no claim in
+  the paper depends on the pilot.
 - **An organisational partner** with timestamped field histories. Not
   obtainable here, and the case study is framed as a benchmark case in
   consequence.
+
+
+## 23. Round nineteen, second session — what the apparatus caught in itself
+
+Every one of the referee's ten comments was already answered when this session
+began. What it added is four defects found in this round's own work, and the
+guards that would have caught each of them.
+
+**23.1 A wrong estimand in our own simulation.** `s10` said every interval
+construction fails on the noisy world. It does not; the target did. The
+simulation enumerated the generator's *true* register values while the
+estimator only ever sees a value replaced by a uniform draw 20% of the time,
+so coverage was measured against a population the estimator does not sample
+from. `observed_population()` marginalises the noise exactly and coverage goes
+from 0.035 to 0.920.
+
+The method matters more than the fix. The finding came from `s18`, which tests
+the two finite-sample explanations that an apparent bias implies — sample size
+and regularisation strength — with the *sparse* world as a control that a real
+finite-sample gap does close. Both arms refuted, and it was the refutation that
+sent us to look at the target rather than the estimator. `s18 --legacy-target`
+regenerates the pre-correction figures so the evidence is reproducible.
+
+Generalise it: **when a method appears to fail, test the explanations that
+failure implies before writing it up, and include a control that the test can
+pass.** No checker in this repository could have caught this, and the appendix
+says so.
+
+**23.2 `--strict` is not a freshness guarantee.** It certifies that every macro
+*resolved*, not that the file it resolved from is current. A two-replicate
+smoke test, run under the wrong seed against an estimand corrected an hour
+later, left result files behind; every macro reading them resolved cleanly, to
+a wrong number. `results/provenance.json` now records each analysis script's
+SHA-256 at the moment its outputs were accepted, with a note. Modification
+time cannot answer this — the first version of the check flagged `s01` for an
+edit that changed only its output format — so acceptance is a deliberate act
+with a recorded reason: `python scripts/provenance.py --accept <script>
+--note "..."`.
+
+**23.3 A corruption suite that does not regenerate tests nothing.** `s13`
+corrupted a result file and then asked the verifier about a `numbers.tex`
+built from the *clean* results. Any quantity the verifier re-derives from a
+different file than the generator reads was untouched, and one of the ten
+corruptions had been passing silently for a round. The suite now regenerates
+from the corrupted copy first; `make_numbers.py` honours the same three
+redirection variables the verifier does, and reads code-derived quantities
+from the real tree because the code is not what is being corrupted.
+
+**23.4 An aggregation over the wrong index set.** The pilot's frame summed a
+stratum-size column over sample *rows* rather than distinct strata:
+`sum_h N_h n_h` where `sum_h N_h` was meant. 54,910 reported for a frame of
+600. Every input correct, the arithmetic correct, the group-by wrong. The
+guard is a *re-derivation* — the verifier computes the frame from the sample
+by grouping, and enforces that a frame is at least its sample and equals it
+when every design weight is one. A checker that recomputed the same
+aggregation would have agreed with the error.
+
+**23.5 Smaller things worth keeping.**
+
+- `texlint` forbids numeric *literals* by reading digits, which says nothing
+  about spelled-out numbers. Two were wrong ("forty lines" for 121 statements;
+  "eighteen other public logs" for a corpus of 13). A general check on
+  spelled-out numbers is too noisy to keep, but the sub-case where the number
+  introduces an explicit list is exact and is now enforced.
+- The generator and the verifier must share one **rounding convention**. Two
+  independent derivations of the same coverage differed by 1e-16 — one a
+  stored decimal, the other a median of two floats — and rounded to different
+  last digits. `common.fmt_fixed` rounds half away from zero with nine guard
+  digits. What must be independent is how a quantity is *derived*, not which
+  way a tie in the last printed digit goes.
+- Twenty-five tables in a 65-page manuscript overflow LaTeX's float queue: two
+  landed thirty pages from the text that reads them. `placeins` with a
+  section-level barrier plus looser page fractions fixes it, and generated
+  tables shrink to the text block only when they exceed it.
+- `\section*` headings take no number. A script that counts headings to check
+  the response letter's cross-references must skip them, and must handle
+  `ppendix` restarting the counter in letters. `scripts/check_response_refs
+  .py` does both, and found eight stale references.

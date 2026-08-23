@@ -124,6 +124,56 @@ ways, identity error, reconciliation failure, staleness — each parameterised
 from the training half alone, stochastic ones averaged over seeds, and the
 train-only property verified by execution rather than asserted.
 
+### What we found in our own work while answering them
+
+Four defects were found in this round's own apparatus, by this round's own
+apparatus, after every one of the referee's ten comments had been answered.
+They are recorded here because a referee is entitled to know what the process
+catches when nobody is looking at it.
+
+**The simulation's truth was wrong in one world.** `s10` reported that every
+interval construction fails on the noisy world — coverage 0.035, an apparent
+bias of −0.035 against an interval half-width of 0.037. The comfortable
+reading was that the estimator is biased there. `s18` tested the two
+finite-sample explanations that reading implies: growing *n* from 4,000 to
+64,000 (the sparse world's gap closes from +0.0118 to +0.0006, the noisy
+world's from +0.0361 to +0.0329) and weakening the L2 penalty by five decades
+(the noisy world's gap moves by 0.0000). Both refuted. What was wrong was the
+target: the simulation enumerated the generator's *true* register values while
+the estimator only ever sees a value replaced by a uniform draw 20% of the
+time. With the noise marginalised exactly, V_limit moves from +0.1135 to
++0.0804, the estimator's mean was +0.0781 throughout, and coverage is 0.920.
+Appendix G. This is the round's most serious finding and no checker in the
+repository could have caught it.
+
+**The pilot's frame was 600 and the manuscript said 54,910.** `n_frame_total`
+summed a stratum-size column over the *rows* of the sample instead of over its
+distinct strata. Correcting it showed that every design weight is 1 and that
+the enumeration had stopped short of its declared 2,400-record budget, so the
+pilot is a census of what one index returned rather than a probability sample
+of a literature. §9.4 and Appendix F now say so, with a fourth stated limit.
+Correction C21, Class H.
+
+**`--strict` certified a manuscript built from a superseded run.** A
+two-replicate smoke test of `s18`, run under the wrong seed and against the
+estimand that was corrected an hour later, left result files behind; every
+macro reading them resolved cleanly, to a wrong number. `results/provenance
+.json` now records the SHA-256 of each analysis script at the moment its
+outputs were accepted, with a note saying why, and `--strict` refuses a
+manuscript whose numbers come from a script that has changed since.
+
+**One of the ten corruptions was passing because nothing regenerated.** The
+suite corrupted a result file and then asked the verifier about a
+`numbers.tex` built from the clean results, so a quantity the verifier
+re-derives from a different file than the generator reads was untouched. The
+suite now regenerates from the corrupted copy first: 10 caught, 0 missed.
+
+Two prose claims were also counted for the first time and were wrong — the
+worked example runs in 121 statements and not "forty lines", and the corpus is
+13 logs and not "the two ITSM ones and eighteen others". `texlint` forbids
+numeric *literals* and said nothing about spelled-out ones; it now checks that
+a spelled-out count matches the list it introduces.
+
 ### What the referee asked for and we could not do
 
 - **An organisational partner** with timestamped field histories, historical

@@ -41,6 +41,14 @@ directory; the suite refuses to start if a previous run left its lock behind,
 because in an earlier round a corruption suite was killed mid-flight and a
 corrupted manuscript reached a commit.
 
+A corruption of a \emph{result} file is checked by regenerating the macros
+from the corrupted copy and then verifying, which is the only version of that
+test that means anything: without the regeneration the suite asks the verifier
+about a \texttt{numbers.tex} built from clean results, so any quantity the
+verifier re-derives from a different file than the generator reads is
+untouched and the corruption passes. One of the ten did exactly that, silently,
+for a round.
+
 \item[The provenance record.] \texttt{results/provenance.json} holds the
 SHA-256 of every analysis script at the moment its outputs were last accepted,
 with a note saying why, and \texttt{make\_numbers.py -{}-strict} refuses to
@@ -72,9 +80,12 @@ project's own errors by class, and its largest class is sentences in which
 every printed number was correct and the relation asserted between them was
 not. The generated-macro discipline makes one sub-class of that structurally
 impossible --- the same quantity printed differently in two places --- and
-does nothing about the rest. Ten holes have been found in this project's
-checkers over nineteen rounds, and every one was found by a corruption suite
-or by reading the output, never by the checker itself.
+does nothing about the rest. Holes have been found in this project's checkers
+in every round including this one --- a corruption that passed because nothing
+regenerated between it and the check, a strict mode that certified a
+manuscript built from a superseded run, a compliance rule that reads digits
+and not words --- and every one of them was found by a corruption suite, by a
+provenance record, or by reading the output, never by the checker itself.
 
 The clearest limit is Class~G of the register: a quantity computed correctly,
 printed correctly, and consistent everywhere it appears, while the
