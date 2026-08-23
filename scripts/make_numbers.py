@@ -372,6 +372,16 @@ def main(argv=None):
         put("auditSensLo", None)
         put("auditSensHi", None)
     put("auditSpec", num(first(S6, "screen_specificity"), 3))
+    #  the second mechanical screen, measured against the same standard
+    TS = load("s06_two_screens.csv")
+    if TS is not None and len(TS) == 2:
+        r = TS[TS.rule == "registered"]
+        put("auditSensReg", num(float(r.sensitivity.iloc[0]), 3))
+        put("auditSpecReg", num(float(r.specificity.iloc[0]), 3))
+        put("auditPrecReg", num(float(r.precision.iloc[0]), 3))
+    else:
+        for _k in ("auditSensReg", "auditSpecReg", "auditPrecReg"):
+            put(_k, None)
     put("auditPrec", num(first(S6, "screen_precision"), 3))
     put("auditKappa", num(first(S6, "mean_kappa"), 2))
     put("auditBStatedPct", pct(first(S6, "p_B_stated"), 0))
@@ -837,6 +847,16 @@ def write_tables(D):
                       "tab:power"), encoding="utf-8")
     else:
         blank("power", "Resolution of the pilot.", "tab:power")
+    TS2 = load("s06_two_screens.csv")
+    if TS2 is not None and len(TS2):
+        (TABLES / "twoscreens.tex").write_text(
+            tex_table(TS2, "Two mechanical screens against the same "
+                      "adjudicated standard. They fail differently and "
+                      "neither is good enough to support a claim about a "
+                      "field's practice, which is why the pilot does not make "
+                      "one.", "tab:twoscreens"), encoding="utf-8")
+    else:
+        blank("twoscreens", "Two mechanical screens.", "tab:twoscreens")
 
     # ---- layers and rolling ---------------------------------------------
     LY = load("r34_layers.csv")

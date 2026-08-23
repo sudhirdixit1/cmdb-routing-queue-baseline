@@ -701,6 +701,42 @@ def stage_report(sample, coding):
     prisma.to_csv(RESULTS / "s06_prisma.csv", index=False)
     print(prisma.to_string(index=False))
 
+    #  A SECOND mechanical screen, measured against the same standard.  The
+    #  registered rule of AUDIT-PROTOCOL.md section 4 and the amended rule of
+    #  its amendment 1 are two different procedures written against the same
+    #  prose, and both ran on every paper.  Reporting the accuracy of BOTH
+    #  against the adjudication is the closest thing to a second coder that
+    #  one author can produce, and it is reported as that and not as
+    #  independence.
+    reg_rows = []
+    if "status_registered" in C.columns:
+        adj = pd.concat([A_in[["oa_id", "eligible"]],
+                         A_out[["oa_id", "eligible"]]])
+        M2 = C.merge(adj, on="oa_id", how="inner")
+        M2 = M2[M2.eligible.isin(["yes", "no"])]
+        for rule, col in (("amended (primary)", "status"),
+                          ("registered", "status_registered")):
+            inn = M2[col] == "INCLUDED"
+            elig = M2.eligible == "yes"
+            #  weight the screened-out stratum up, as above: a paper the
+            #  PRIMARY screen rejected is in the adjudication only with
+            #  probability frac_out.
+            wt = np.where(M2.status == "INCLUDED", 1.0, w)
+            tp2 = float(wt[(inn & elig).values].sum())
+            fp2 = float(wt[(inn & ~elig).values].sum())
+            fn2 = float(wt[(~inn & elig).values].sum())
+            tn2 = float(wt[(~inn & ~elig).values].sum())
+            reg_rows.append(dict(
+                rule=rule, sensitivity=tp2 / (tp2 + fn2) if tp2 + fn2 else np.nan,
+                specificity=tn2 / (tn2 + fp2) if tn2 + fp2 else np.nan,
+                precision=tp2 / (tp2 + fp2) if tp2 + fp2 else np.nan,
+                n_flagged=int(inn.sum())))
+        RR = pd.DataFrame(reg_rows)
+        RR.to_csv(RESULTS / "s06_two_screens.csv", index=False)
+        print()
+        print("TWO MECHANICAL SCREENS AGAINST THE SAME ADJUDICATION")
+        print(RR.to_string(index=False, float_format=lambda x: "%.3f" % x))
+
     acc = pd.DataFrame([dict(
         quantity="screen sensitivity", estimate=sens,
         lo=wilson(tp, int(round(tp + fn_hat)))[0],
