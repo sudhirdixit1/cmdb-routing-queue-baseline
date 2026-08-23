@@ -144,7 +144,9 @@ is reported as one (Result~\ref{res:nonredundancy}), not as a theorem.
 Section~\ref{sec:inference} supplies four instruments. (i) An exact
 functional-ANOVA decomposition of $\operatorname{Var}_s[V_s(f)]$ into
 first-order and total sensitivity indices per axis, so ``which choice matters''
-becomes a measurement. (ii) A moving-block bootstrap that resamples the
+becomes a measurement --- and Proposition~\ref{prop:scale} shows that it is a
+measurement \emph{relative to the scale the increment is expressed on}, which
+is why we report two. (ii) A moving-block bootstrap that resamples the
 training half, \emph{refits the entire pipeline}, and evaluates on a resampled
 test half, so the interval contains training-sample, model-selection, encoder
 and calibrator variability, and the blocks carry the temporal dependence
@@ -164,10 +166,16 @@ measures what one-number reporting costs: the share of admissible
 specifications whose sign disagrees with the reported cell, and the
 performance forgone or destroyed by acting on it. Because ``the surface report
 declines to speak where the region is not uniform'' is a definitional win and
-not a measured one, Section~\ref{sec:rules} also compares three explicit
-decision rules under one loss --- and finds that the conservative rule is
-\emph{worse} than one number, while a simple majority over the surface is
-better by about a fifth.
+not a measured one, Proposition~\ref{prop:optimal} identifies the
+decision-optimal collapse of a surface --- the weighted mean increment, not
+the sign at any cell and not the count of positive cells --- and
+Section~\ref{sec:rules} measures four rules against it. The conservative rule
+is \emph{worse} than one number; the optimal rule attains its bound on every
+pair; and the conventional one-number report costs
+\regretOneNumberExcessPct\ more expected regret. \textbf{Collapse for a
+decision; report the surface}, because the collapse depends on which
+specifications the reader's own practice makes likely and the analyst does not
+know that.
 
 \item \textbf{A registered multi-log benchmark, and a case study with two
 decision times.} The surface is computed through one frozen pipeline on
@@ -513,15 +521,22 @@ theory section, and it is granted.
 
 The pipeline is frozen and identical on every log. Attributes are assigned to
 roles by the pre-registered rules of Section~\ref{sec:design}; cases are
-ordered by their first timestamp; the split is temporal; and the learner is
-one of four, spanning encodings as well as model families --- one-hot logistic
+ordered by their first timestamp; and the split is temporal.
+
+The learner axis spans encodings as well as model families: one-hot logistic
 regression, frequency-encoded logistic regression, cross-fitted
-target-encoded \citep{micci2001preprocessing} histogram gradient boosting, and the same boosting with
-isotonic calibration. The registers here run to \cardF\ levels on the primary
-log, above the cardinality cap of the boosting implementation's native
-categorical support, which is why the tree learner is target-encoded; the
-encoder is cross-fitted \citep{pedregosa2011scikit} inside the training half, so no training row sees its
-own outcome in its own encoding.
+target-encoded \citep{micci2001preprocessing} histogram gradient boosting, and
+the same boosting wrapped in isotonic calibration. All four run on the case
+study's log; the other pairs carry the first and the third, which are the two
+that differ most in family, because the full grid on twenty-two pairs is a
+compute budget this study does not have and a partial grid stated is better
+than a full grid claimed.
+
+The registers here run to \cardF\ levels on the case study's log, above the
+cardinality cap of the boosting implementation's native categorical support,
+which is why the tree learner is target-encoded rather than one-hot; the
+encoder is cross-fitted \citep{pedregosa2011scikit} inside the training half,
+so no training row sees its own outcome in its own encoding.
 
 \subsection{Uncertainty that includes the model}
 \label{sec:boot}
@@ -629,6 +644,38 @@ share of the remaining distance to a perfect score that the field captures,
 which is comparable across the scalar instruments and lets the metric itself
 enter as an axis.
 
+Twice, rather than once, because of the following.
+
+\begin{proposition}[The decomposition inherits the metric's scale]
+\label{prop:scale}
+Let $\phi$ be strictly increasing with $\phi(0) = 0$. The first-order
+sensitivity indices of $V$ and of $\phi(V)$ over the same design need not
+agree, and there exist designs and $\phi$ under which one axis has the larger
+index on one scale and a different axis on the other.
+\end{proposition}
+
+\begin{proof}[Proof (construction)]
+Two levels per axis will not do, and the reason is worth stating: with two
+levels the two main effects are $|P+Q|$ and $|P-Q|$, where $P$ and $Q$ are the
+two within-axis differences, so their ordering is decided by
+$\operatorname{sign}(PQ)$, and a strictly increasing $\phi$ preserves the sign
+of each difference. At two levels the ordering is therefore \emph{invariant}
+and the proposition is false. From three levels a conditional mean averages
+more than two cells and a convex $\phi$ reweights them unequally. The
+$3 \times 3$ design in \texttt{results/s07\_prop3.csv} has
+$S_A = \pThreeRawA$ against $S_B = \pThreeRawB$ in its own units and
+$S_A = \pThreeSqrtA$ against $S_B = \pThreeSqrtB$ under $\phi = \sqrt{\cdot}$,
+so the leader changes.
+\end{proof}
+
+\begin{remark}
+This is the same phenomenon as Proposition~\ref{prop:nonid}, one level up:
+just as the reduction is not identified without the metric, ``which choice
+matters most'' is not identified without the \emph{scale on which the
+increment is expressed}. The manuscript therefore never says an axis dominates
+without naming the scale, and Section~\ref{sec:multilog} reports both.
+\end{remark}
+
 \subsection{Resolution regions and the robustness index}
 \label{sec:regions}
 
@@ -680,14 +727,47 @@ plus the performance forgone by declining when it is beneficial.
 
 Saying that a surface report asserts a sign only where the region is uniform,
 and therefore misreports nothing, is a definitional win and not a measured
-one. So the paper also compares three \emph{decision rules} under the single
-loss above: adopt iff the conventional cell is positive; adopt iff every
-admissible cell is; adopt iff more than half are. The comparison assumes the
-reader's own specification is drawn from the declared admissible set, and is
-reported under two weightings --- uniform, and concentrated near the
-conventional specification --- so that the assumption is visible.
-Section~\ref{sec:rules} reports the result, which is not the one the surface's
-advocate would have chosen.
+one. So the paper compares explicit \emph{decision rules} under the single
+loss above, and one of them is optimal.
+
+\begin{proposition}[The decision-optimal collapse]
+\label{prop:optimal}
+Let the reader's specification be drawn from the admissible set $\mathcal{S}$
+under a weighting $w$, and let a rule choose one action for all readers.
+Writing $A = \mathbb{E}_w[\max(0,-V_s)]$ for the harm mass and
+$B = \mathbb{E}_w[\max(0,V_s)]$ for the benefit mass, expected loss is $A$
+under \textsc{adopt} and $B$ under \textsc{decline}, and
+\[
+B - A \;=\; \mathbb{E}_w\!\left[\max(0,V_s) - \max(0,-V_s)\right]
+\;=\; \mathbb{E}_w[V_s].
+\]
+Hence expected loss is minimised by adopting exactly when
+$\mathbb{E}_w[V_s] > 0$: the decision-optimal summary of a specification
+surface is the \emph{weighted mean increment}, not the sign at any one cell
+and not the count of positive cells.
+\end{proposition}
+
+Three things follow, and they matter more than the proposition's difficulty.
+
+First, the conservative rule --- adopt only where the whole surface is
+positive --- is not merely cautious, it is \emph{wrong} whenever the harm mass
+is smaller than the benefit mass it forgoes, which is most of this corpus.
+Section~\ref{sec:rules} measures the cost.
+
+Second, a one-number report is optimal exactly when the sign of its cell
+agrees with the sign of the mean, which is a coincidence and not a property of
+the cell.
+
+Third, and this is the resolution of an apparent tension in the paper: there
+\emph{is} a defensible collapse of a surface to one number, and it is
+$\mathbb{E}_w[V_s]$. But it depends on $w$ --- on which specifications the
+reader's own practice makes likely --- and the analyst does not know the
+reader's $w$. So the analyst reports the surface and the reader collapses it.
+\textbf{Collapse for a decision; report the surface.}
+
+The comparison in Section~\ref{sec:rules} is run under two weightings ---
+uniform, and concentrated near the conventional specification --- so that the
+dependence on $w$ is visible rather than assumed away.
 
 \subsection{Simulation against a known answer}
 \label{sec:sim}
@@ -924,42 +1004,48 @@ measured version is Table~\ref{tab:rules}. A reader must decide whether to
 adopt the field; their own specification is drawn from the admissible set; and
 their loss is the performance the field destroys if they adopt and it is
 harmful for them, or the performance it would have added if they decline and
-it is beneficial for them. Three rules are compared under that loss:
+it is beneficial for them. Four rules are compared under that loss:
 \emph{one-number} (adopt iff the conventional cell is positive),
-\emph{uniform} (adopt iff every admissible cell is positive) and
-\emph{majority} (adopt iff more than half of them are).
+\emph{uniform} (adopt iff every admissible cell is positive), \emph{majority}
+(adopt iff more than half are), and \emph{mean} (adopt iff the weighted mean
+increment is positive), which Proposition~\ref{prop:optimal} shows is optimal.
 
-The result is not the one the surface's advocate would have chosen.
+Two of the four results are not the ones the surface's advocate would have
+chosen.
 
-\textbf{The conservative surface rule is worse than one number.} Adopting only
+\textbf{The conservative surface rule is the worst of the four.} Adopting only
 where the surface is uniformly beneficial costs a mean regret of
-\regretUniformRule\ against the one-number rule's \regretOneNumber: it
+\regretUniformRule\ against the one-number rule's \regretOneNumber. It
 declines so often that the performance it forgoes exceeds the performance the
 one-number rule destroys. Refusing to speak has a price, and this is it.
 
-\textbf{The majority rule beats one number, by about a fifth.} Adopting where
-more than half of the admissible cells are positive costs \regretMajority, a
-\regretMajorityGainPct\ reduction against the one-number rule. Under a draw
-concentrated near the conventional specification --- a reader who mostly
-follows the usual recipe --- the numbers are \regretOneNumberAdj\ and
-\regretMajorityAdj, a \regretMajorityGainAdjPct\ reduction. The gain is
-smaller under that weighting, which is what one should expect and is why both
-are reported.
+\textbf{The optimal rule attains its bound on every pair, and one number does
+not.} The mean rule costs \regretMeanRule, which equals the oracle bound
+\regretOracle\ exactly --- as Proposition~\ref{prop:optimal} requires --- and
+it is optimal on \nMeanOptimal\ of \nPairs\ pairs by construction. The
+one-number report attains the same bound on only \nOneNumberOptimal\ of
+\nPairs, and costs \regretOneNumberExcessPct\ more regret overall. The
+majority rule sits between them at \regretMajority.
 
-So the case for the surface is not that it is safer to say nothing. It is that
-a decision rule which \emph{uses} the surface --- even the crudest one, a vote
---- is measurably better than a decision rule which uses one cell of it, and
-that the region label tells a reader which of the two situations they are in.
-On the \nUniformlyBeneficial\ uniformly beneficial pairs every rule agrees; on
-the \nSignChanging\ sign-changing pairs they do not, and that is where the
-difference above comes from.
+Under a draw concentrated near the conventional specification --- a reader who
+mostly follows the usual recipe --- the one-number and majority rules cost
+\regretOneNumberAdj\ and \regretMajorityAdj. The gap narrows, which is what
+one should expect and is why both weightings are reported.
+
+So the case for the surface is not that it is safer to say nothing. It is
+that the decision-optimal summary is a functional \emph{of the whole surface},
+that a reader cannot compute it from one cell, and that on this corpus the
+difference is a \regretOneNumberExcessPct\ excess in expected regret. On the
+\nUniformlyBeneficial\ uniformly beneficial pairs every rule agrees; on the
+\nSignChanging\ sign-changing pairs they do not, and that is where the
+difference comes from.
 
 \paragraph{What the comparison assumes.} That the reader's own specification
 is drawn from the declared admissible set, which is why two weightings are
 reported rather than one, and that every cell in that set is equally
 defensible, which is why the intercept-only rung is excluded. Neither
-assumption is innocuous and both are the analyst's to revisit; the code takes
-a weighting as an argument.
+assumption is innocuous, both are the analyst's to revisit, and the code takes
+the weighting as an argument.
 
 \subsection{Calibration, unseen categories, and rolling origin}
 
@@ -1110,12 +1196,19 @@ without the field at all). Figure~\ref{fig:tipping} draws it and
 Table~\ref{tab:tipping} tabulates it.
 
 The curve lets a reader place their own belief rather than accepting ours. At
-$\lambda = 0$ the register is worth \VTtwoKnow; the increment reaches half of
-its knowledge-free value at $\lambda = \lambdaHalf$. A reader who believes
-that more than \lambdaHalfPct\ of knowledge references are written after the
-incident is created should read this estate's register as worth roughly what
-$\tau_2$ without the field says it is worth; a reader who believes almost none
-are should read it as worth almost nothing.
+$\lambda = 0$ --- every knowledge reference admissible --- the register is
+worth \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi], which is not resolvably
+different from zero. At $\lambda = 1$ it is worth what $\tau_2$ without the
+field says. It reaches half of that knowledge-free value at
+$\lambda = \lambdaHalf$: a reader who believes that more than
+\lambdaHalfPct\ of knowledge references are written \emph{after} the incident
+exists should read this estate's register as worth at least half of
+\VTtwoGroup\ AUC, and a reader who believes almost none are should read it as
+worth almost nothing.
+
+We have no way to measure $\lambda$ and we do not claim one. What the curve
+does is make the assumption explicit and continuous, where the previous
+version of this work made it binary and made it for the reader.
 
 \subsection{Register quality}
 \label{sec:quality}

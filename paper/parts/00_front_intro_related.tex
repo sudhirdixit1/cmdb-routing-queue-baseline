@@ -143,7 +143,9 @@ is reported as one (Result~\ref{res:nonredundancy}), not as a theorem.
 Section~\ref{sec:inference} supplies four instruments. (i) An exact
 functional-ANOVA decomposition of $\operatorname{Var}_s[V_s(f)]$ into
 first-order and total sensitivity indices per axis, so ``which choice matters''
-becomes a measurement. (ii) A moving-block bootstrap that resamples the
+becomes a measurement --- and Proposition~\ref{prop:scale} shows that it is a
+measurement \emph{relative to the scale the increment is expressed on}, which
+is why we report two. (ii) A moving-block bootstrap that resamples the
 training half, \emph{refits the entire pipeline}, and evaluates on a resampled
 test half, so the interval contains training-sample, model-selection, encoder
 and calibrator variability, and the blocks carry the temporal dependence
@@ -163,10 +165,16 @@ measures what one-number reporting costs: the share of admissible
 specifications whose sign disagrees with the reported cell, and the
 performance forgone or destroyed by acting on it. Because ``the surface report
 declines to speak where the region is not uniform'' is a definitional win and
-not a measured one, Section~\ref{sec:rules} also compares three explicit
-decision rules under one loss --- and finds that the conservative rule is
-\emph{worse} than one number, while a simple majority over the surface is
-better by about a fifth.
+not a measured one, Proposition~\ref{prop:optimal} identifies the
+decision-optimal collapse of a surface --- the weighted mean increment, not
+the sign at any cell and not the count of positive cells --- and
+Section~\ref{sec:rules} measures four rules against it. The conservative rule
+is \emph{worse} than one number; the optimal rule attains its bound on every
+pair; and the conventional one-number report costs
+\regretOneNumberExcessPct\ more expected regret. \textbf{Collapse for a
+decision; report the surface}, because the collapse depends on which
+specifications the reader's own practice makes likely and the analyst does not
+know that.
 
 \item \textbf{A registered multi-log benchmark, and a case study with two
 decision times.} The surface is computed through one frozen pipeline on

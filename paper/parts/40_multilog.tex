@@ -129,42 +129,48 @@ measured version is Table~\ref{tab:rules}. A reader must decide whether to
 adopt the field; their own specification is drawn from the admissible set; and
 their loss is the performance the field destroys if they adopt and it is
 harmful for them, or the performance it would have added if they decline and
-it is beneficial for them. Three rules are compared under that loss:
+it is beneficial for them. Four rules are compared under that loss:
 \emph{one-number} (adopt iff the conventional cell is positive),
-\emph{uniform} (adopt iff every admissible cell is positive) and
-\emph{majority} (adopt iff more than half of them are).
+\emph{uniform} (adopt iff every admissible cell is positive), \emph{majority}
+(adopt iff more than half are), and \emph{mean} (adopt iff the weighted mean
+increment is positive), which Proposition~\ref{prop:optimal} shows is optimal.
 
-The result is not the one the surface's advocate would have chosen.
+Two of the four results are not the ones the surface's advocate would have
+chosen.
 
-\textbf{The conservative surface rule is worse than one number.} Adopting only
+\textbf{The conservative surface rule is the worst of the four.} Adopting only
 where the surface is uniformly beneficial costs a mean regret of
-\regretUniformRule\ against the one-number rule's \regretOneNumber: it
+\regretUniformRule\ against the one-number rule's \regretOneNumber. It
 declines so often that the performance it forgoes exceeds the performance the
 one-number rule destroys. Refusing to speak has a price, and this is it.
 
-\textbf{The majority rule beats one number, by about a fifth.} Adopting where
-more than half of the admissible cells are positive costs \regretMajority, a
-\regretMajorityGainPct\ reduction against the one-number rule. Under a draw
-concentrated near the conventional specification --- a reader who mostly
-follows the usual recipe --- the numbers are \regretOneNumberAdj\ and
-\regretMajorityAdj, a \regretMajorityGainAdjPct\ reduction. The gain is
-smaller under that weighting, which is what one should expect and is why both
-are reported.
+\textbf{The optimal rule attains its bound on every pair, and one number does
+not.} The mean rule costs \regretMeanRule, which equals the oracle bound
+\regretOracle\ exactly --- as Proposition~\ref{prop:optimal} requires --- and
+it is optimal on \nMeanOptimal\ of \nPairs\ pairs by construction. The
+one-number report attains the same bound on only \nOneNumberOptimal\ of
+\nPairs, and costs \regretOneNumberExcessPct\ more regret overall. The
+majority rule sits between them at \regretMajority.
 
-So the case for the surface is not that it is safer to say nothing. It is that
-a decision rule which \emph{uses} the surface --- even the crudest one, a vote
---- is measurably better than a decision rule which uses one cell of it, and
-that the region label tells a reader which of the two situations they are in.
-On the \nUniformlyBeneficial\ uniformly beneficial pairs every rule agrees; on
-the \nSignChanging\ sign-changing pairs they do not, and that is where the
-difference above comes from.
+Under a draw concentrated near the conventional specification --- a reader who
+mostly follows the usual recipe --- the one-number and majority rules cost
+\regretOneNumberAdj\ and \regretMajorityAdj. The gap narrows, which is what
+one should expect and is why both weightings are reported.
+
+So the case for the surface is not that it is safer to say nothing. It is
+that the decision-optimal summary is a functional \emph{of the whole surface},
+that a reader cannot compute it from one cell, and that on this corpus the
+difference is a \regretOneNumberExcessPct\ excess in expected regret. On the
+\nUniformlyBeneficial\ uniformly beneficial pairs every rule agrees; on the
+\nSignChanging\ sign-changing pairs they do not, and that is where the
+difference comes from.
 
 \paragraph{What the comparison assumes.} That the reader's own specification
 is drawn from the declared admissible set, which is why two weightings are
 reported rather than one, and that every cell in that set is equally
 defensible, which is why the intercept-only rung is excluded. Neither
-assumption is innocuous and both are the analyst's to revisit; the code takes
-a weighting as an argument.
+assumption is innocuous, both are the analyst's to revisit, and the code takes
+the weighting as an argument.
 
 \subsection{Calibration, unseen categories, and rolling origin}
 

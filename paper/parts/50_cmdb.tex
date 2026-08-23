@@ -99,12 +99,19 @@ without the field at all). Figure~\ref{fig:tipping} draws it and
 Table~\ref{tab:tipping} tabulates it.
 
 The curve lets a reader place their own belief rather than accepting ours. At
-$\lambda = 0$ the register is worth \VTtwoKnow; the increment reaches half of
-its knowledge-free value at $\lambda = \lambdaHalf$. A reader who believes
-that more than \lambdaHalfPct\ of knowledge references are written after the
-incident is created should read this estate's register as worth roughly what
-$\tau_2$ without the field says it is worth; a reader who believes almost none
-are should read it as worth almost nothing.
+$\lambda = 0$ --- every knowledge reference admissible --- the register is
+worth \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi], which is not resolvably
+different from zero. At $\lambda = 1$ it is worth what $\tau_2$ without the
+field says. It reaches half of that knowledge-free value at
+$\lambda = \lambdaHalf$: a reader who believes that more than
+\lambdaHalfPct\ of knowledge references are written \emph{after} the incident
+exists should read this estate's register as worth at least half of
+\VTtwoGroup\ AUC, and a reader who believes almost none are should read it as
+worth almost nothing.
+
+We have no way to measure $\lambda$ and we do not claim one. What the curve
+does is make the assumption explicit and continuous, where the previous
+version of this work made it binary and made it for the reader.
 
 \subsection{Register quality}
 \label{sec:quality}

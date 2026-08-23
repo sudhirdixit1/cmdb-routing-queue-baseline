@@ -1,0 +1,8 @@
+evidence,value,establishes
+interactions in the file,147004.0,the population the knowledge reference is written in
+interactions that never became incidents,94250.0,"the field is written by the service-desk process, not by the incident process"
+knowledge reference populated on those,1.0,"the same, quantitatively"
+interactions CLOSED before the incident was opened,5.0,"airtight pre-incident availability, on five cases, which is not enough to rest a headline on"
+interactions whose recorded handling time had elapsed before the incident was opened,41413.0,"that the desk had worked the interaction, which is not a timestamped field-value history"
+knowledge reference populated on the joined cohort,0.9110768892311076,"coverage, not timing"
+base AUC from the knowledge reference alone,0.6479440799543849,"the field is highly predictive, which is a reason for suspicion and not for confidence"

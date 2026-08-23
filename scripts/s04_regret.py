@@ -124,17 +124,32 @@ def decision_rules(SUR):
             loss_adopt = float((w * np.maximum(0.0, -v)).sum())
             loss_decline = float((w * np.maximum(0.0, v)).sum())
             share_pos = float((w * (v > 0)).sum())
+            #  PROPOSITION 4.  Among all rules that must choose ONE action
+            #  for every reader, expected loss is minimised by adopting iff
+            #  the WEIGHTED MEAN increment is positive, because
+            #      L(decline) - L(adopt) = E_w[max(0,V)] - E_w[max(0,-V)]
+            #                            = E_w[V].
+            #  So `mean` below is the oracle among single-action rules, and
+            #  its regret is the bound the other three are measured against.
+            #  This is why the conservative rule does badly: it declines
+            #  whenever ANY cell is negative, which on most pairs is a set
+            #  whose harm mass is far smaller than the benefit mass it gives
+            #  up.
+            mean_v = float((w * v).sum())
             rules = {
                 "one-number": v_conv > 0,
                 "uniform-beneficial": bool((v > 0).all()),
                 "majority": share_pos > 0.5,
+                "mean (optimal)": mean_v > 0,
             }
             for name, adopt in rules.items():
                 rows.append(dict(
                     log=log, target=target, weighting=wkind, rule=name,
                     adopts=bool(adopt),
                     regret=loss_adopt if adopt else loss_decline,
-                    share_positive=share_pos, n_cells=len(A)))
+                    oracle_regret=min(loss_adopt, loss_decline),
+                    share_positive=share_pos, mean_increment=mean_v,
+                    n_cells=len(A)))
     return pd.DataFrame(rows)
 
 
@@ -285,6 +300,21 @@ def main():
         regret_majority_adj=float(DR[(DR.rule == "majority")
                                      & (DR.weighting == "reference-adjacent")]
                                   .regret.mean()),
+        regret_mean_rule=float(DR[(DR.rule == "mean (optimal)")
+                                  & (DR.weighting == "uniform")].regret.mean()),
+        regret_oracle=float(DR[DR.weighting == "uniform"]
+                            .groupby(["log", "target"]).oracle_regret.first()
+                            .mean()),
+        n_mean_rule_optimal=int(
+            (DR[DR.weighting == "uniform"].regret
+             <= DR[DR.weighting == "uniform"].oracle_regret + 1e-12).groupby(
+                DR[DR.weighting == "uniform"].rule).sum().get(
+                "mean (optimal)", 0)),
+        n_one_number_optimal=int(
+            (DR[DR.weighting == "uniform"].regret
+             <= DR[DR.weighting == "uniform"].oracle_regret + 1e-12).groupby(
+                DR[DR.weighting == "uniform"].rule).sum().get(
+                "one-number", 0)),
         runtime_s=round(time.time() - t0, 1))
     pd.DataFrame([facts]).to_csv(RESULTS / "s04_facts.csv", index=False)
     print("\n" + pd.Series(facts).to_string())

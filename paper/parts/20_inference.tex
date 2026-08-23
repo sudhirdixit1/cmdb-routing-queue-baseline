@@ -6,15 +6,22 @@
 
 The pipeline is frozen and identical on every log. Attributes are assigned to
 roles by the pre-registered rules of Section~\ref{sec:design}; cases are
-ordered by their first timestamp; the split is temporal; and the learner is
-one of four, spanning encodings as well as model families --- one-hot logistic
+ordered by their first timestamp; and the split is temporal.
+
+The learner axis spans encodings as well as model families: one-hot logistic
 regression, frequency-encoded logistic regression, cross-fitted
-target-encoded \citep{micci2001preprocessing} histogram gradient boosting, and the same boosting with
-isotonic calibration. The registers here run to \cardF\ levels on the primary
-log, above the cardinality cap of the boosting implementation's native
-categorical support, which is why the tree learner is target-encoded; the
-encoder is cross-fitted \citep{pedregosa2011scikit} inside the training half, so no training row sees its
-own outcome in its own encoding.
+target-encoded \citep{micci2001preprocessing} histogram gradient boosting, and
+the same boosting wrapped in isotonic calibration. All four run on the case
+study's log; the other pairs carry the first and the third, which are the two
+that differ most in family, because the full grid on twenty-two pairs is a
+compute budget this study does not have and a partial grid stated is better
+than a full grid claimed.
+
+The registers here run to \cardF\ levels on the case study's log, above the
+cardinality cap of the boosting implementation's native categorical support,
+which is why the tree learner is target-encoded rather than one-hot; the
+encoder is cross-fitted \citep{pedregosa2011scikit} inside the training half,
+so no training row sees its own outcome in its own encoding.
 
 \subsection{Uncertainty that includes the model}
 \label{sec:boot}
@@ -122,6 +129,38 @@ share of the remaining distance to a perfect score that the field captures,
 which is comparable across the scalar instruments and lets the metric itself
 enter as an axis.
 
+Twice, rather than once, because of the following.
+
+\begin{proposition}[The decomposition inherits the metric's scale]
+\label{prop:scale}
+Let $\phi$ be strictly increasing with $\phi(0) = 0$. The first-order
+sensitivity indices of $V$ and of $\phi(V)$ over the same design need not
+agree, and there exist designs and $\phi$ under which one axis has the larger
+index on one scale and a different axis on the other.
+\end{proposition}
+
+\begin{proof}[Proof (construction)]
+Two levels per axis will not do, and the reason is worth stating: with two
+levels the two main effects are $|P+Q|$ and $|P-Q|$, where $P$ and $Q$ are the
+two within-axis differences, so their ordering is decided by
+$\operatorname{sign}(PQ)$, and a strictly increasing $\phi$ preserves the sign
+of each difference. At two levels the ordering is therefore \emph{invariant}
+and the proposition is false. From three levels a conditional mean averages
+more than two cells and a convex $\phi$ reweights them unequally. The
+$3 \times 3$ design in \texttt{results/s07\_prop3.csv} has
+$S_A = \pThreeRawA$ against $S_B = \pThreeRawB$ in its own units and
+$S_A = \pThreeSqrtA$ against $S_B = \pThreeSqrtB$ under $\phi = \sqrt{\cdot}$,
+so the leader changes.
+\end{proof}
+
+\begin{remark}
+This is the same phenomenon as Proposition~\ref{prop:nonid}, one level up:
+just as the reduction is not identified without the metric, ``which choice
+matters most'' is not identified without the \emph{scale on which the
+increment is expressed}. The manuscript therefore never says an axis dominates
+without naming the scale, and Section~\ref{sec:multilog} reports both.
+\end{remark}
+
 \subsection{Resolution regions and the robustness index}
 \label{sec:regions}
 
@@ -173,14 +212,47 @@ plus the performance forgone by declining when it is beneficial.
 
 Saying that a surface report asserts a sign only where the region is uniform,
 and therefore misreports nothing, is a definitional win and not a measured
-one. So the paper also compares three \emph{decision rules} under the single
-loss above: adopt iff the conventional cell is positive; adopt iff every
-admissible cell is; adopt iff more than half are. The comparison assumes the
-reader's own specification is drawn from the declared admissible set, and is
-reported under two weightings --- uniform, and concentrated near the
-conventional specification --- so that the assumption is visible.
-Section~\ref{sec:rules} reports the result, which is not the one the surface's
-advocate would have chosen.
+one. So the paper compares explicit \emph{decision rules} under the single
+loss above, and one of them is optimal.
+
+\begin{proposition}[The decision-optimal collapse]
+\label{prop:optimal}
+Let the reader's specification be drawn from the admissible set $\mathcal{S}$
+under a weighting $w$, and let a rule choose one action for all readers.
+Writing $A = \mathbb{E}_w[\max(0,-V_s)]$ for the harm mass and
+$B = \mathbb{E}_w[\max(0,V_s)]$ for the benefit mass, expected loss is $A$
+under \textsc{adopt} and $B$ under \textsc{decline}, and
+\[
+B - A \;=\; \mathbb{E}_w\!\left[\max(0,V_s) - \max(0,-V_s)\right]
+\;=\; \mathbb{E}_w[V_s].
+\]
+Hence expected loss is minimised by adopting exactly when
+$\mathbb{E}_w[V_s] > 0$: the decision-optimal summary of a specification
+surface is the \emph{weighted mean increment}, not the sign at any one cell
+and not the count of positive cells.
+\end{proposition}
+
+Three things follow, and they matter more than the proposition's difficulty.
+
+First, the conservative rule --- adopt only where the whole surface is
+positive --- is not merely cautious, it is \emph{wrong} whenever the harm mass
+is smaller than the benefit mass it forgoes, which is most of this corpus.
+Section~\ref{sec:rules} measures the cost.
+
+Second, a one-number report is optimal exactly when the sign of its cell
+agrees with the sign of the mean, which is a coincidence and not a property of
+the cell.
+
+Third, and this is the resolution of an apparent tension in the paper: there
+\emph{is} a defensible collapse of a surface to one number, and it is
+$\mathbb{E}_w[V_s]$. But it depends on $w$ --- on which specifications the
+reader's own practice makes likely --- and the analyst does not know the
+reader's $w$. So the analyst reports the surface and the reader collapses it.
+\textbf{Collapse for a decision; report the surface.}
+
+The comparison in Section~\ref{sec:rules} is run under two weightings ---
+uniform, and concentrated near the conventional specification --- so that the
+dependence on $w$ is visible rather than assumed away.
 
 \subsection{Simulation against a known answer}
 \label{sec:sim}

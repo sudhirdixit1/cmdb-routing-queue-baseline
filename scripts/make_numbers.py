@@ -243,6 +243,14 @@ def main(argv=None):
     put("regretMajorityGainPct",
         pct(1.0 - r3 / r1) if r1 and r3 and np.isfinite(r1) and r1 > 0
         else None)
+    put("regretMeanRule", num(first(S4, "regret_mean_rule"), 4))
+    put("regretOracle", num(first(S4, "regret_oracle"), 4))
+    put("nMeanOptimal", thousands(first(S4, "n_mean_rule_optimal")))
+    put("nOneNumberOptimal", thousands(first(S4, "n_one_number_optimal")))
+    ro = first(S4, "regret_oracle")
+    put("regretOneNumberExcessPct",
+        pct(r1 / ro - 1.0) if r1 and ro and np.isfinite(ro) and ro > 0
+        else None)
     r1a, r3a = (first(S4, "regret_one_number_adj"),
                 first(S4, "regret_majority_adj"))
     put("regretMajorityGainAdjPct",
@@ -283,6 +291,15 @@ def main(argv=None):
     put("propTwoRankShift", sci(first(S7, "p2_rank_max_dR")))
     put("propTwoNonRankShift", num(first(S7, "p2_nonrank_max_dR"), 3))
     put("propTwoCancelShift", "machine precision")
+    P3 = load("s07_prop3.csv")
+    if P3 is not None and len(P3) == 2:
+        put("pThreeRawA", num(float(P3.S_axisA.iloc[0]), 3))
+        put("pThreeRawB", num(float(P3.S_axisB.iloc[0]), 3))
+        put("pThreeSqrtA", num(float(P3.S_axisA.iloc[1]), 3))
+        put("pThreeSqrtB", num(float(P3.S_axisB.iloc[1]), 3))
+    else:
+        for k in ("pThreeRawA", "pThreeRawB", "pThreeSqrtA", "pThreeSqrtB"):
+            put(k, None)
     put("nResultEstates", thousands(first(S7, "r1_estates")))
     put("nResultPairs", thousands(first(S7, "r1_pairs")))
     put("resultWitnessMin", thousands(first(S7, "r1_witness_min")))

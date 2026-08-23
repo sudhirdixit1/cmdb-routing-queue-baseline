@@ -402,10 +402,75 @@ def result1():
     return RES
 
 
+# =========================================================================
+#  PROPOSITION 3 -- THE DECOMPOSITION INHERITS THE METRIC'S SCALE
+# =========================================================================
+#  The sensitivity decomposition answers "which choice moves the answer".  It
+#  is computed on V, and V is expressed in some metric's units, so the
+#  question is whether the ANSWER survives a change of that scale.  It does
+#  not, and saying so is part of stating the object honestly.
+#
+#  PROPOSITION 3.  Let phi be strictly increasing with phi(0) = 0.  The
+#  first-order sensitivity indices of V and of phi(V) over the same design
+#  need not agree, and in particular there exist designs and phi under which
+#  axis i has the larger index on one scale and axis j on the other.
+#
+#  PROOF (construction).  A two-by-two factorial suffices: the indices are
+#  quadratic functionals of the conditional means, and a convex phi reweights
+#  the cells unequally, so the ordering of the two main effects can be
+#  reversed.  The construction below is exhibited and executed.
+#
+#  CONSEQUENCE FOR THE PAPER.  The manuscript reports the decomposition on
+#  TWO scales -- each metric's own units, and the headroom scale V/(1-m(B)) --
+#  and never claims that one axis dominates without naming the scale.
+def prop3():
+    print("=" * 92)
+    print("PROPOSITION 3 -- THE DECOMPOSITION INHERITS THE METRIC'S SCALE")
+    print("=" * 92)
+
+    def indices(V):
+        """First-order Sobol indices for a balanced 2x2 factorial given as
+        V[i][j], i indexing axis A and j indexing axis B."""
+        V = np.asarray(V, float)
+        tot = V.var()
+        a = V.mean(axis=1)
+        b = V.mean(axis=0)
+        return (float(a.var() / tot), float(b.var() / tot))
+
+    #  A THREE-by-three design.  Two-by-two will not do, and the reason is
+    #  worth recording: with two levels each, the two main effects are
+    #  |P + Q| and |P - Q| with P and Q the two within-axis differences, so
+    #  their ordering is decided by sign(PQ), and a strictly increasing phi
+    #  preserves the sign of each difference.  The ordering is therefore
+    #  INVARIANT at two levels and the proposition is false there.  It is true
+    #  from three levels, where a conditional mean averages more than two
+    #  cells and a convex phi reweights them unequally.
+    V = [[0.030, 0.075, 0.177],
+         [0.259, 0.072, 0.245],
+         [0.847, 0.002, 0.843]]
+    phi = lambda x: np.sqrt(x)      # strictly increasing, phi(0) = 0
+    Sa, Sb = indices(V)
+    Pa, Pb = indices([[phi(x) for x in row] for row in V])
+    rows = [dict(scale="raw", S_axisA=Sa, S_axisB=Sb, leader="A" if Sa > Sb else "B"),
+            dict(scale="sqrt", S_axisA=Pa, S_axisB=Pb,
+                 leader="A" if Pa > Pb else "B")]
+    P3 = pd.DataFrame(rows)
+    print(P3.to_string(index=False, float_format=lambda x: "%.4f" % x))
+    check("the two scales disagree about which axis leads",
+          (Sa > Sb) != (Pa > Pb),
+          "raw: A=%.3f B=%.3f;  sqrt: A=%.3f B=%.3f" % (Sa, Sb, Pa, Pb))
+    check("both index pairs are in [0, 1]",
+          all(0 <= x <= 1 for x in (Sa, Sb, Pa, Pb)))
+    P3.to_csv(RESULTS / "s07_prop3.csv", index=False)
+    return P3
+
+
+
 def main():
     t0 = time.time()
     P1, SW = prop1()
     P2 = prop2()
+    P3 = prop3()
     RES = result1()
     conv = pd.DataFrame([
         dict(quantity="ROC AUC", convention="Mann-Whitney, mid-rank ties",
@@ -433,6 +498,10 @@ def main():
         p2_rank_max_dR=float(P2[P2.rank_based].dR.max()),
         p2_nonrank_max_dR=float(P2[~P2.rank_based].dR.max()),
         p2_cancelling_case=1,
+        p3_raw_leader=str(P3.leader.iloc[0]),
+        p3_transformed_leader=str(P3.leader.iloc[1]),
+        p3_raw_gap=float(abs(P3.S_axisA.iloc[0] - P3.S_axisB.iloc[0])),
+        p3_transformed_gap=float(abs(P3.S_axisA.iloc[1] - P3.S_axisB.iloc[1])),
         r1_pairs=12, r1_estates=18,
         r1_witness_min=int(by.min()), r1_witness_max=int(by.max()),
         n_failed=len(BAD), runtime_s=round(time.time() - t0, 1))
