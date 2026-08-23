@@ -21,14 +21,16 @@ manuscript says which. `.zenodo.json` already carries `"version": "v19.0"`.
    `sudhirdixit1/cmdb-routing-queue-baseline`.
 2. **Settings → GitHub**, and switch the repository **on**. Zenodo will then
    archive every future release.
-3. Back in the repository:
+3. **The tag already exists and is pushed.** `v19.0` points at the commit
+   this manuscript was built from, and its message records the gate results at
+   that commit. Nothing to do here — verify with:
 
    ```bash
-   git tag -a v19.0 -m "Round nineteen: specification surfaces"
-   git push origin round-nineteen-specification-surfaces --tags
+   git ls-remote --tags origin
    ```
 
-4. On GitHub, **Releases → Draft a new release**, choose tag `v19.0`, title it
+4. On GitHub, **Releases → Draft a new release**, choose the existing tag
+   `v19.0`, title it
    *Specification Surfaces for Incremental Predictive Performance*, and
    publish. Zenodo mints the DOI within a minute or two.
 5. Put the DOI into `.zenodo.json` as `"doi": "10.5281/zenodo.XXXXXXX"`, then:
