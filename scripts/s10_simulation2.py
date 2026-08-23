@@ -264,6 +264,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--reps", type=int, default=200)
     ap.add_argument("--serial", action="store_true")
+    ap.add_argument("--procs", type=int, default=0,
+                    help="worker processes; 0 means min(12, cpus-2).  Set it "
+                         "low to share the machine with a longer run.")
     a = ap.parse_args(argv)
     t0 = time.time()
     print("=" * 92)
@@ -288,7 +291,8 @@ def main(argv=None):
                 out.append(r)
     else:
         import multiprocessing as mp
-        with mp.Pool(processes=min(12, max(1, (os.cpu_count() or 4) - 2))) as pool:
+        nproc = a.procs or min(12, max(1, (os.cpu_count() or 4) - 2))
+        with mp.Pool(processes=nproc) as pool:
             for i, r in enumerate(pool.imap_unordered(one_rep, tasks,
                                                       chunksize=4)):
                 if r:
