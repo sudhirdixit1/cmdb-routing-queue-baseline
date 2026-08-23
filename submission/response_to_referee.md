@@ -177,6 +177,51 @@ The audit is now a **pilot** (§9.4, Appendix F), and:
 **No claim in the manuscript depends on the pilot.** The paper's argument is
 carried by the surface, the decomposition and the regret benchmark.
 
+## What we found in our own work while answering the ten
+
+Every one of the referee's comments was answered before this. What follows is
+what the apparatus found in **our** work afterwards, reported because a
+referee is entitled to know what the process catches when nobody is looking at
+it.
+
+1. **The simulation's own truth was wrong in one world (§4.9, Appendix G).**
+   It reported that every interval construction fails on the noisy world —
+   coverage 0.035, an apparent bias of −0.035 against an interval half-width of
+   0.037. The natural write-up was that the estimator is biased there. We
+   tested the two finite-sample explanations that reading implies: growing *n*
+   from 4,000 to 64,000, and weakening the L2 penalty by five decades. The
+   *sparse* world's gap closes with *n* from +0.0118 to +0.0006, which is what
+   a real finite-sample gap does and is the control that makes the test mean
+   something. The noisy world's closes neither way. What was wrong was the
+   **target**: the simulation enumerated the generator's true register values
+   while the estimator only ever sees a value replaced by a uniform draw 20% of
+   the time. With the noise marginalised, coverage is 0.920 and the estimator's
+   mean was where it always was. `s18_bias_scaling.py --legacy-target`
+   regenerates the pre-correction evidence.
+
+2. **The pilot's frame was 600 and the manuscript said 54,910 (§9.4, C21).**
+   A stratum-size column summed over rows rather than strata. See major comment
+   4 above; correcting it changed what the pilot *is*.
+
+3. **`--strict` certified a manuscript built from a superseded run.** A
+   two-replicate smoke test left result files behind; every macro reading them
+   resolved cleanly, to a wrong number. `results/provenance.json` now records
+   each analysis script's SHA-256 at the moment its outputs were accepted.
+
+4. **One of ten corruptions was passing because nothing regenerated between it
+   and the check.** Fixed; 10 of 10 caught.
+
+5. **Seven defects that produced no wrong number and printed badly** — the word
+   *Appendix* doubled on all fourteen appendix references, a macro eating the
+   space before an em dash, a macro carrying words set as italic variables, a
+   sentence's tail printed twice, a minus sign set as a hyphen in the sentence
+   about signs, a figure axis clipping the single most important bar out of the
+   frame, and a comparison sentence whose two numbers were both zero. **Every
+   checker in the repository ran clean on the build that carried all of them.**
+   Five became new lint checks; the general point is in Appendix C and
+   Appendix H, and it is that no apparatus we have replaces reading the
+   compiled pages.
+
 ## Major comment 5 — the ratio $R$ is unstable and read as a proportion
 
 **Granted.** Three changes:
