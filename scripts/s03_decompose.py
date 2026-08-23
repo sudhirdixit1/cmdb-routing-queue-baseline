@@ -169,7 +169,15 @@ def main():
         BND = pd.DataFrame()
     reg_rows, cell_rows = [], []
     if len(BND):
-        B = BND[~BND.rung.isin(S.IMPLAUSIBLE_RUNGS)].copy()
+        #  The region is defined over the SCALAR family.  Mixing the
+        #  decision-curve cells into it would let a single extreme threshold,
+        #  where net benefit is near zero for every model, decide the label of
+        #  a whole surface; the decision curve gets its own region, reported
+        #  beside the first, and Section 8 reads that one.
+        B = BND[(~BND.rung.isin(S.IMPLAUSIBLE_RUNGS))
+                & (BND.family == "scalars")].copy()
+        BD = BND[(~BND.rung.isin(S.IMPLAUSIBLE_RUNGS))
+                 & (BND.family == "decision-curve")].copy()
         B["label"] = np.where(B.sim_lo > 0, "beneficial",
                               np.where(B.sim_hi < 0, "harmful", "unresolved"))
         cell_rows = B
@@ -188,12 +196,20 @@ def main():
                 region = "harmful"
             else:
                 region = "unresolved"
+            #  the same labels over the decision curve, reported beside
+            dc = BD[(BD.log == log) & (BD.target == target)]
+            dcb = int((dc.sim_lo > 0).sum()) if len(dc) else 0
+            dch = int((dc.sim_hi < 0).sum()) if len(dc) else 0
             reg_rows.append(dict(log=log, target=target, n_cells=n,
                                  n_beneficial=nb_, n_harmful=nh,
                                  n_unresolved=nu,
                                  rho=(nb_ - nh) / float(n) if n else np.nan,
                                  share_positive=float((sub.V > 0).mean()),
-                                 region=region))
+                                 region=region,
+                                 dc_cells=len(dc), dc_beneficial=dcb,
+                                 dc_harmful=dch,
+                                 dc_rho=(dcb - dch) / float(len(dc))
+                                 if len(dc) else np.nan))
     REG = pd.DataFrame(reg_rows)
     REG.to_csv(RESULTS / "s03_regions.csv", index=False)
     if len(cell_rows):
