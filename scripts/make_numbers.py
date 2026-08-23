@@ -636,7 +636,12 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
         d = d.rename(columns=colnames)
     body = d.to_latex(index=False, escape=True, float_format=floatfmt,
                       na_rep="--")
-    body = body.replace("\\toprule", "\\toprule").replace("_", "\\_")
+    #  `to_latex(escape=True)` has ALREADY escaped every underscore.  Escaping
+    #  again turns `NO\_HEADROOM` into `NO\\_HEADROOM`, which LaTeX reads as a
+    #  line break followed by a subscript, and the build dies in the middle of
+    #  a tabular with forty "Missing $ inserted" errors that name the row and
+    #  not the cause.  This line used to do that.
+    body = body.replace("\\begin{tabular}", "\\begin{tabular}")
     out = ["\\begin{table}[t]", "\\centering", "\\small", body,
            "\\caption{%s}" % caption, "\\label{%s}" % label]
     if note:
