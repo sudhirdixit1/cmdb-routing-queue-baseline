@@ -122,7 +122,24 @@ def main(argv=None):
         p14 = SUR[SUR.log == "BPIC14"]
         if len(p14):
             eq("cardF", fmt_thousands(p14.card_f.iloc[0]), M)
-            eq("nCohort", fmt_thousands(p14.n.iloc[0]), M)
+            #  BPIC14 carries TWO cohorts on purpose and the manuscript says
+            #  so: \nCohortCorpus is the corpus cohort, admitted by the
+            #  registered generic rules and measured here; \nCohort is the
+            #  case study's, which uses this project's earlier eligibility
+            #  rule and its own target and is verified against s08 below.
+            #  Checking \nCohort against the corpus row is the mistake a
+            #  reader would make, and the verifier used to make it too.
+            eq("nCohortCorpus", fmt_thousands(p14.n.iloc[0]), M)
+
+    #  the case study's own cohort, and the split that partitions it
+    S8 = load("s08_facts.csv")
+    if S8 is not None and len(S8):
+        n_c = int(S8.n_cohort.iloc[0])
+        eq("nCohort", fmt_thousands(n_c), M)
+        n_tr, n_te = int(S8.n_train.iloc[0]), int(S8.n_test.iloc[0])
+        if n_tr + n_te != n_c:
+            FAILS.append("the case study's split does not partition its "
+                         "cohort: %d + %d != %d" % (n_tr, n_te, n_c))
 
     # ---- the train-only checks -------------------------------------------
     CK = load("s01_trainonly.csv")
@@ -135,7 +152,12 @@ def main(argv=None):
                          % (len(CK) - int(CK.train_only.sum()), len(CK)))
 
     # ---- bootstrap and bands ---------------------------------------------
-    BN = load("s02_bands.csv")
+    #  s17's bands carry the same q_maxt as s02's -- the recentring shifts
+    #  the band, not the quantile -- so either file verifies this, and the
+    #  one the manuscript quotes is preferred.
+    BN = load("s17_bands.csv")
+    if BN is None or not len(BN):
+        BN = load("s02_bands.csv")
     if BN is not None and len(BN):
         eq("maxTMedian", fmt_num(BN.q_maxt.median(), 2), M)
         eq("maxTMedianRatio",
@@ -178,12 +200,35 @@ def main(argv=None):
         eq("nUnresolvedPairs",
            fmt_thousands(int((REG.region == "unresolved").sum())), M)
         eq("rhoMedian", fmt_num(REG.rho.median(), 3), M)
+        eq("nCondHarmful",
+           fmt_thousands(int((REG.region == "conditionally harmful").sum())),
+           M)
         #  the region labels must be consistent with the counts they summarise
         bad = REG[(REG.region == "uniformly beneficial")
                   & (REG.n_beneficial != REG.n_cells)]
         if len(bad):
             FAILS.append("a surface is labelled uniformly beneficial with "
                          "unresolved cells in it")
+        bad = REG[(REG.region == "conditionally harmful")
+                  & (REG.n_beneficial > 0)]
+        if len(bad):
+            FAILS.append("a surface is labelled conditionally harmful with a "
+                         "beneficial cell in it")
+        #  and the taxonomy must PARTITION: every pair carries exactly one of
+        #  the six labels.  A seventh label appearing in the results and
+        #  nowhere in the manuscript is the defect this condition exists to
+        #  catch, because that is what happened this round.
+        TAXONOMY = {"uniformly beneficial", "conditionally beneficial",
+                    "conditionally harmful", "uniformly harmful",
+                    "sign-changing", "unresolved"}
+        stray = sorted(set(REG.region.astype(str)) - TAXONOMY)
+        if stray:
+            FAILS.append("region labels not in the manuscript's taxonomy: %s"
+                         % ", ".join(stray))
+        counted = int(sum((REG.region == r).sum() for r in TAXONOMY))
+        if counted != len(REG):
+            FAILS.append("the region taxonomy does not partition the pairs: "
+                         "%d labelled of %d" % (counted, len(REG)))
 
     # ---- regret -----------------------------------------------------------
     RU = load("s04_rules.csv")

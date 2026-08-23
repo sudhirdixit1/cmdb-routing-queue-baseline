@@ -31,17 +31,31 @@
 
 %%  This manuscript quotes a lot of file paths in \texttt, and a typewriter
 %%  path is one unbreakable word to TeX, so a paragraph that ends on one runs
-%%  into the margin.  Two settings fix it without touching the prose: allow a
-%%  break after the punctuation inside a path, and give TeX a last-resort
-%%  stretch so it loosens a paragraph rather than overflowing it.
-%%  This is what the `hyphenat' package's htt option does, written out, so
-%%  that the twenty font-shape probes it performs at load time stay out of the
-%%  build log -- a clean log is the point of having one.
+%%  into the margin.  Two settings fix it without touching the prose: let a
+%%  typewriter word hyphenate, and give TeX a last-resort stretch so it
+%%  loosens a paragraph rather than overflowing it.  The first is what the
+%%  `hyphenat' package's htt option does, written out here so that the twenty
+%%  font-shape probes it performs at load time stay out of the build log --
+%%  a clean log is the point of having one.
 \makeatletter
 \DeclareRobustCommand\texttt[1]{%
   {\ttfamily\hyphenchar\font=`\-\relax #1}}
 \makeatother
 \setlength{\emergencystretch}{3em}
+
+%%  Twenty-five tables in sixty-five pages overflowed LaTeX's float queue: two
+%%  of them --- the decision-curve table and the pilot's --- were deferred
+%%  THIRTY pages past the text that reads them, which for a referee is the
+%%  same as not having them.  The barrier keeps a table inside the section
+%%  that discusses it; the fractions let a page carry more float and less
+%%  compulsory text, so the barrier has somewhere to put them.
+\usepackage[section]{placeins}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.7}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{5}
 
 \input{numbers}
 
@@ -145,6 +159,24 @@ operates in --- net benefit at a declared exchange rate --- which is as close
 to economic value as this evidence can honestly get, and Section~\ref{sec:lim}
 says what still separates the two.
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figS1_speccurve.png}
+\caption{The specification curve for one register on one log. Each point is
+one admissible specification --- a complete assignment to the learner, the
+encoding, the baseline rung, the register-quality condition, the split and the
+metric --- and the panel below says which level of which axis that
+specification occupies. The intercept-only rung is excluded. WHAT THIS FIGURE
+DOES NOT SHOW: it carries no intervals; every point is a point estimate, and
+the simultaneous bands that decide the region labels are in
+Table~\ref{tab:regions} and \texttt{results/s02\_bands.csv}. It shows one
+log--target pair; the same display for every other pair is in the archive. And
+it shows the increment, not the reduction, so a cell where the register is
+worth almost nothing looks the same as one where the free field absorbs almost
+everything.}
+\label{fig:speccurve}
+\end{figure}
+
 \paragraph{Contributions.}
 \begin{enumerate}
 \item \textbf{A specification surface, formally.} Section~\ref{sec:surface}
@@ -209,23 +241,6 @@ assumed to be post-hoc, so a reader can place their own belief on the curve.
 \end{enumerate}
 
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figS1_speccurve.png}
-\caption{The specification curve for one register on one log. Each point is
-one admissible specification --- a complete assignment to the learner, the
-encoding, the baseline rung, the register-quality condition, the split and the
-metric --- and the panel below says which level of which axis that
-specification occupies. The intercept-only rung is excluded. WHAT THIS FIGURE
-DOES NOT SHOW: it carries no intervals; every point is a point estimate, and
-the simultaneous bands that decide the region labels are in
-Table~\ref{tab:regions} and \texttt{results/s02\_bands.csv}. It shows one
-log--target pair; the same display for every other pair is in the archive. And
-it shows the increment, not the reduction, so a cell where the register is
-worth almost nothing looks the same as one where the free field absorbs almost
-everything.}
-\label{fig:speccurve}
-\end{figure}
 \paragraph{What this paper is not.}
 It is not an enterprise procurement conclusion about configuration management
 databases. It is not a systematic review of reporting practice; a pilot
