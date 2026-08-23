@@ -92,3 +92,26 @@ constructing two experiments that could each have confirmed the comfortable
 reading --- that the method simply fails in that world --- and having both
 refuse to. That is the only mechanism in this project that has ever caught an
 error of this class, and it is not automatable.
+
+\paragraph{Class H --- a statistic aggregated over the wrong index set.}
+One correction (C21). The practice pilot's frame size summed a stratum-size
+column over the \emph{rows} of the sample rather than over its distinct
+strata, and a stratum's size is carried on every row of that stratum. The
+quantity computed was $\sum_h N_h n_h$ and the quantity intended was
+$\sum_h N_h$, so a frame of \nAuditFrame\ records was reported as one two
+orders of magnitude larger. Every input was correct; the arithmetic was
+correct; the group-by was wrong.
+
+The correction changed what the pilot \emph{is} and not only how large it
+sounds. With the true frame in view it is immediate that the design weight is
+\auditMaxWeight\ in every stratum, that the enumeration stopped short of its
+declared budget of \nAuditTarget, and that the pilot is therefore a census of
+what one index returned rather than a probability sample of a literature ---
+which Section~\ref{sec:practice} now says, with the additional limit that the
+frame's coverage of the field is unmeasured.
+
+The guard is a re-derivation rather than a recount: the verifier computes the
+frame from the sample by grouping, and refuses a manuscript in which a frame
+is smaller than the sample it contains, or differs from it while every design
+weight is one. A checker that recomputed the same aggregation would have
+agreed with the error.
