@@ -320,3 +320,25 @@ limits --- what the estimator estimates. A resampling interval can only cover
 the second, and reporting its coverage of the first as though it were the
 estimator's coverage is precisely the error the earlier simulation made. Both
 are reported in Table~\ref{tab:sim}.
+
+\paragraph{The truth has to be the truth the estimator sees.}
+Both estimands are computed by enumerating cells, and in the noisy world the
+cells the generator writes down are not the cells the estimator observes: a
+register value is replaced by a uniform draw with probability
+\simNoiseRate, so the observed cell $(b, g, j)$ is a mixture over the true
+ones, with mass and outcome rate
+\[
+w(b,g,j) = \!\!\sum_{f} \Pr(b,g,f)\,\Pr(j \mid f),
+\qquad
+\Pr(y{=}1 \mid b,g,j) = \frac{\sum_{f} \Pr(b,g,f)\,\Pr(j \mid f)\,
+p(b,g,f)}{w(b,g,j)},
+\]
+where $\Pr(j \mid f) = (1 - r)\mathbf{1}\{j = f\} + r/K$. Enumerating the
+\emph{true} cells instead scores the estimator against a population it never
+samples from, and the first version of this simulation did exactly that: it
+reported a coverage of \coverageNoisyBefore\ on the noisy world and a bias of
+\biasNoisyBefore\ that did not exist. Appendix~\ref{app:noisy} gives the two
+experiments that refuted every finite-sample explanation for that apparent
+bias and thereby sent us to look at the target. The marginalisation is checked
+against a Monte Carlo sample, on standardised residuals, at the start of every
+simulation run.

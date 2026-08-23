@@ -179,6 +179,9 @@ WAVES = [
     ],
     [
         "s11_tool_agreement.py",       # fieldvalue against the pipeline
+        #  s18 reads s10's world generator and its SEED; it is the evidence
+        #  in Appendix G that the noisy world's apparent bias was not one.
+        "s18_bias_scaling.py",
     ],
 ]
 FIGURES = ["r25_figures.py", "r39_figures.py", "s12_figures.py"]

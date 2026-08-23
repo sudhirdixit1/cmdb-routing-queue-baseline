@@ -71,3 +71,24 @@ specification being made clear; and a section that said a withdrawn
 instrument was retained in a table that did not contain it. The generated-macro
 discipline of Appendix~\ref{app:verifier} makes this class structurally
 impossible rather than merely unlikely.
+
+\paragraph{Class G --- an estimand that was not the one being estimated.}
+One correction (C20), found in this round and the reason
+Appendix~\ref{app:noisy} exists. The simulation of Section~\ref{sec:sim}
+computed both estimands by enumerating the data generator's cells, which in
+the noisy world carry the register's \emph{true} value while the estimator
+only ever observes a value replaced by a uniform draw with probability
+\simNoiseRate. Coverage was therefore measured against a population the
+estimator does not sample from, and came out at \coverageNoisyBefore\ with an
+apparent bias of \biasNoisyBefore. Both were artefacts. The correction is
+exact marginalisation of the noise; the estimator's mean was
+\meanNoisyEstimate\ before and after.
+
+This class is worth separating from Class F because nothing in the
+generated-macro discipline could have caught it: every number was internally
+consistent, correctly computed, and correctly printed. What was wrong was the
+\emph{definition} of the quantity two of them referred to. It was found by
+constructing two experiments that could each have confirmed the comfortable
+reading --- that the method simply fails in that world --- and having both
+refuse to. That is the only mechanism in this project that has ever caught an
+error of this class, and it is not automatable.

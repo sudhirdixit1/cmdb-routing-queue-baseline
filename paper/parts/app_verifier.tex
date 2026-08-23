@@ -57,3 +57,12 @@ impossible --- the same quantity printed differently in two places --- and
 does nothing about the rest. Ten holes have been found in this project's
 checkers over nineteen rounds, and every one was found by a corruption suite
 or by reading the output, never by the checker itself.
+
+The clearest limit is Class~G of the register: a quantity computed correctly,
+printed correctly, and consistent everywhere it appears, while the
+\emph{definition} it refers to is not the one the estimator addresses
+(Appendix~\ref{app:noisy}). Every guard described above passes such a
+manuscript, and would have passed it silently. What caught it was constructing
+two experiments that could each have confirmed the comfortable reading and
+having both refuse to. No checker in this repository would have done that on
+its own.

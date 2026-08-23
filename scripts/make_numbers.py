@@ -323,6 +323,54 @@ def main(argv=None):
     put("nSimReps", thousands(first(S10, "n_reps")))
     put("nSimSparse", "200")
     put("simPrevalence", "0.02")
+    put("simNoiseRate", "20\\%")
+
+    #  ---- the noisy world, before and after the estimand was corrected ----
+    #  The BEFORE numbers are frozen: they come from s10_coverage_wrongtruth
+    #  .csv, the output of the run that scored the estimator against the
+    #  generator's true cells rather than the observed ones.  That file is
+    #  kept in the repository precisely so that the correction can be checked
+    #  rather than taken on trust, and so that these macros are generated
+    #  from a result file like every other number in the manuscript.
+    WRONG = load("s10_coverage_wrongtruth.csv")
+    if WRONG is not None and len(WRONG):
+        w = WRONG[(WRONG.world == "noisy") & (WRONG.estimand == "V_limit")]
+        wb = w[w.interval == "nested_basic"]
+        put("coverageNoisyBefore", pct(float(wb.coverage.iloc[0]))
+            if len(wb) else None)
+        put("biasNoisyBefore", sig(float(wb.bias.iloc[0])) if len(wb) else None)
+        put("widthNoisyBefore", num(float(wb.mean_width.iloc[0]), 4)
+            if len(wb) else None)
+        put("limitNoisyBefore", sig(float(wb.truth.iloc[0]))
+            if len(wb) else None)
+        put("meanNoisyEstimate", sig(float(wb.mean_estimate.iloc[0]))
+            if len(wb) else None)
+    else:
+        for k in ("coverageNoisyBefore", "biasNoisyBefore", "widthNoisyBefore",
+                  "limitNoisyBefore", "meanNoisyEstimate"):
+            put(k, None)
+    if S10C is not None and len(S10C):
+        w = S10C[(S10C.world == "noisy") & (S10C.estimand == "V_limit")
+                 & (S10C.interval == "nested_basic")]
+        put("limitNoisyAfter", sig(float(w.truth.iloc[0])) if len(w) else None)
+        put("coverageNoisyAfter", pct(float(w.coverage.iloc[0]))
+            if len(w) else None)
+    else:
+        put("limitNoisyAfter", None)
+        put("coverageNoisyAfter", None)
+
+    S18 = load("s18_facts.csv")
+    put("nScaleReps", thousands(first(S18, "n_reps")))
+    put("nSizeGrid", "six")
+    put("sizeLo", thousands(first(S18, "size_lo")))
+    put("sizeHi", thousands(first(S18, "size_hi")))
+    put("nPenaltyDecades", "five")
+    put("noisyGapSmall", sig(first(S18, "noisy_gap_small_n")))
+    put("noisyGapLarge", sig(first(S18, "noisy_gap_large_n")))
+    put("sparseGapSmall", sig(first(S18, "sparse_gap_small_n")))
+    put("sparseGapLarge", sig(first(S18, "sparse_gap_large_n")))
+    put("noisyGapTight", sig(first(S18, "noisy_gap_tight_penalty")))
+    put("noisyGapLoose", sig(first(S18, "noisy_gap_loose_penalty")))
     put("coverageNaiveMedian", pct(first(S10, "coverage_naive_median")))
     put("coverageNestedBasicMedian",
         pct(first(S10, "coverage_nested_basic_median")))
