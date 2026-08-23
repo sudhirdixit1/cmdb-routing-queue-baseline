@@ -1,0 +1,2 @@
+clean_ignores,clean_keeps,stale_ignores_delta,stale_keeps_delta,stale_lag_quarter_delta,stale_lag_half_delta,duplicate_15_delta,duplicate_100_delta,corrupt_30_delta,mask_rare_half,mask_common_half,mask_random_half,mask_rare_half_keeps,runtime_s
+0.16727153256753435,0.16729336305704312,0.0,0.0,0.0013444025439532936,-0.0031464057333782103,-0.00029372380341260995,-0.0038322881039836165,-0.0699416780198383,0.10388245871765522,0.1055082375030818,0.09507416900578876,0.10392681116014135,86.5

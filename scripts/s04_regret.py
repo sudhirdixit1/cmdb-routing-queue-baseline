@@ -57,6 +57,87 @@ from common import RESULTS  # noqa: E402
 CONVENTIONAL = dict(quality="clean", split="holdout70", metric="auc")
 
 
+# --------------------------------------------------------------------------
+#  THREE DECISION RULES UNDER ONE LOSS
+#
+#  Comparing "the surface report never asserts a sign where the region is not
+#  uniform" against "one number always does" is a definitional win, not a
+#  measured one, and a referee is right to discount it.  This is the measured
+#  version.
+#
+#  A reader must decide whether to adopt the field.  Their own specification
+#  s' is drawn from the admissible set under a declared weighting.  Their loss
+#  is what the decision costs them in the metric's own units:
+#
+#      adopt   -> max(0, -V_{s'})     the performance the field destroys
+#      decline -> max(0,  V_{s'})     the performance the field would have
+#                                     added
+#
+#  Three rules are compared under that loss:
+#
+#      ONE-NUMBER   adopt iff V_s > 0 at the conventional cell
+#      UNIFORM      adopt iff every admissible cell is positive
+#      MAJORITY     adopt iff more than half of the admissible cells are
+#                   positive
+#
+#  and the ORACLE loss -- the smallest achievable by a rule that knew the
+#  reader's cell -- is zero by construction, so the numbers below are regrets
+#  rather than losses.  The comparison is reported under two weightings, to
+#  make the uniform-draw assumption visible rather than silent:
+#
+#      uniform            every admissible cell equally likely
+#      reference-adjacent a cell's weight falls with the number of axes on
+#                         which it differs from the reference specification,
+#                         which is what a reader who mostly follows the
+#                         conventional recipe looks like.
+# --------------------------------------------------------------------------
+REFERENCE = dict(learner="logit", split="holdout70", quality="clean",
+                 metric="auc", rung="B_intake_g")
+
+
+def _weights(A, kind):
+    if kind == "uniform":
+        return np.ones(len(A)) / len(A)
+    d = np.zeros(len(A))
+    for col, val in REFERENCE.items():
+        if col in A.columns:
+            d = d + (A[col].astype(str).values != val).astype(float)
+    w = 0.5 ** d
+    return w / w.sum()
+
+
+def decision_rules(SUR):
+    rows = []
+    for (log, target), sub in SUR.groupby(["log", "target"]):
+        A = sub[sub.metric.isin(S.SCALARS)].copy()
+        if len(A) < 8:
+            continue
+        v = A.V.values
+        conv = A[(A.quality == CONVENTIONAL["quality"])
+                 & (A.split == CONVENTIONAL["split"])
+                 & (A.metric == CONVENTIONAL["metric"])
+                 & (A.learner == REFERENCE["learner"])
+                 & (A.rung == REFERENCE["rung"])]
+        v_conv = float(conv.V.iloc[0]) if len(conv) else float(np.median(v))
+        for wkind in ("uniform", "reference-adjacent"):
+            w = _weights(A, wkind)
+            loss_adopt = float((w * np.maximum(0.0, -v)).sum())
+            loss_decline = float((w * np.maximum(0.0, v)).sum())
+            share_pos = float((w * (v > 0)).sum())
+            rules = {
+                "one-number": v_conv > 0,
+                "uniform-beneficial": bool((v > 0).all()),
+                "majority": share_pos > 0.5,
+            }
+            for name, adopt in rules.items():
+                rows.append(dict(
+                    log=log, target=target, weighting=wkind, rule=name,
+                    adopts=bool(adopt),
+                    regret=loss_adopt if adopt else loss_decline,
+                    share_positive=share_pos, n_cells=len(A)))
+    return pd.DataFrame(rows)
+
+
 def main():
     t0 = time.time()
     SUR = S.read_results("s01_surface.csv")
@@ -158,6 +239,18 @@ def main():
         rules.append(row)
     RU = pd.DataFrame(rules)
     RU.to_csv(RESULTS / "s04_rules.csv", index=False)
+
+    #  --- the three decision rules under one loss -------------------------
+    DR = decision_rules(SUR)
+    DR.to_csv(RESULTS / "s04_decision_rules.csv", index=False)
+    print(chr(10) + "THREE DECISION RULES UNDER ONE LOSS  (mean regret "
+          "per pair, in the metric own units)")
+
+    piv = DR.pivot_table(index="weighting", columns="rule", values="regret",
+                         aggfunc="mean")
+    print(piv.to_string(float_format=lambda x: "%.4f" % x))
+    print(chr(10)+"  rule adopts on N of %d pairs:" % DR.log.nunique())
+    print(DR[DR.weighting == "uniform"].groupby("rule").adopts.sum().to_string())
     print(RU.to_string(index=False, float_format=lambda x: "%.3f" % x))
 
     print("\nSIGN FLIPS ATTRIBUTABLE TO EACH AXIS (share of same-everything-"
@@ -180,6 +273,18 @@ def main():
         flip_rate_metric=float(AX[AX.axis == "metric"].flip_rate.median()),
         flip_rate_split=float(AX[AX.axis == "split"].flip_rate.median()),
         flip_rate_quality=float(AX[AX.axis == "quality"].flip_rate.median()),
+        regret_one_number=float(DR[(DR.rule == "one-number")
+                                   & (DR.weighting == "uniform")].regret.mean()),
+        regret_uniform_rule=float(DR[(DR.rule == "uniform-beneficial")
+                                     & (DR.weighting == "uniform")].regret.mean()),
+        regret_majority=float(DR[(DR.rule == "majority")
+                                 & (DR.weighting == "uniform")].regret.mean()),
+        regret_one_number_adj=float(DR[(DR.rule == "one-number")
+                                       & (DR.weighting == "reference-adjacent")]
+                                    .regret.mean()),
+        regret_majority_adj=float(DR[(DR.rule == "majority")
+                                     & (DR.weighting == "reference-adjacent")]
+                                  .regret.mean()),
         runtime_s=round(time.time() - t0, 1))
     pd.DataFrame([facts]).to_csv(RESULTS / "s04_facts.csv", index=False)
     print("\n" + pd.Series(facts).to_string())

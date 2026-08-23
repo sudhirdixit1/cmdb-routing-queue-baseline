@@ -234,6 +234,20 @@ def main(argv=None):
     put("flipMetricPct", pct(first(S4, "flip_rate_metric")))
     put("flipSplitPct", pct(first(S4, "flip_rate_split")))
     put("flipQualityPct", pct(first(S4, "flip_rate_quality")))
+    put("regretOneNumber", num(first(S4, "regret_one_number"), 4))
+    put("regretUniformRule", num(first(S4, "regret_uniform_rule"), 4))
+    put("regretMajority", num(first(S4, "regret_majority"), 4))
+    put("regretOneNumberAdj", num(first(S4, "regret_one_number_adj"), 4))
+    put("regretMajorityAdj", num(first(S4, "regret_majority_adj"), 4))
+    r1, r3 = first(S4, "regret_one_number"), first(S4, "regret_majority")
+    put("regretMajorityGainPct",
+        pct(1.0 - r3 / r1) if r1 and r3 and np.isfinite(r1) and r1 > 0
+        else None)
+    r1a, r3a = (first(S4, "regret_one_number_adj"),
+                first(S4, "regret_majority_adj"))
+    put("regretMajorityGainAdjPct",
+        pct(1.0 - r3a / r1a) if r1a and r3a and np.isfinite(r1a) and r1a > 0
+        else None)
 
     # ---- the headline spread --------------------------------------------
     if SUR is not None and len(SUR):
@@ -399,6 +413,36 @@ def main(argv=None):
 
     # ---- quality mechanisms on the primary log ---------------------------
     put("corruptLevel", "15\\%")
+    S9 = load("s09_facts.csv")
+    put("qClean", sig(first(S9, "clean_ignores")))
+    put("qRareHalf", sig(first(S9, "mask_rare_half")))
+    put("qCommonHalf", sig(first(S9, "mask_common_half")))
+    put("qRandomHalf", sig(first(S9, "mask_random_half")))
+    put("qCorruptThirty", sig(first(S9, "corrupt_30_delta")))
+    put("qDuplicateAll", sig(first(S9, "duplicate_100_delta")))
+    put("qStaleDelta", sig(first(S9, "stale_ignores_delta")))
+    put("qStaleKeepsDelta", sig(first(S9, "stale_keeps_delta")))
+    put("qLagHalfDelta", sig(first(S9, "stale_lag_half_delta")))
+    S9M = load("s09_mechanisms.csv")
+    if S9M is not None and len(S9M):
+        r = S9M[(S9M.mechanism == "stale_lag") & (np.isclose(S9M.level, 0.50))
+                & (S9M.encoder == "ignores-missing")]
+        put("qLagHalfPopulated", pct(float(r.populated.iloc[0]), 1)
+            if len(r) else None)
+    else:
+        put("qLagHalfPopulated", None)
+
+    # ---- the worked example ---------------------------------------------
+    S14 = load("s14_facts.csv")
+    put("exRows", thousands(first(S14, "n_rows")))
+    put("exCells", thousands(first(S14, "n_cells")))
+    put("exMisreportPct", pct(first(S14, "misreport_mean")))
+    put("exRmin", num(first(S14, "R_min"), 3))
+    put("exRmax", num(first(S14, "R_max"), 3))
+    put("exSbaselinePct", pct(first(S14, "S_baseline")))
+    put("exSmetricPct", pct(first(S14, "S_metric")))
+    put("exSpopulationPct", pct(first(S14, "S_population")))
+
     if SUR is not None and len(SUR):
         def cell(qk, lv):
             s = SUR[(SUR.log == "BPIC14") & (SUR.target == "handover")
@@ -452,7 +496,7 @@ def main(argv=None):
                                        encoding="utf-8")
     write_tables(dict(SUR=SUR, FIT=FIT, REG=REG, SOB=SOB, RU=RU, AX=AX,
                       CF=CF, FIE=FIE, S6P=S6P, S8L=S8L, S8T=S8T, S10C=S10C,
-                      CE=CE, BN=BN))
+                      CE=CE, BN=BN, S9M=S9M, DR=load("s04_decision_rules.csv")))
 
     print("wrote paper/numbers.tex with %d macros" % len(_MACROS))
     if _UNRESOLVED:
@@ -788,6 +832,49 @@ def write_tables(D):
             blank("rolling", "Rolling origin.", "tab:rolling")
     else:
         blank("rolling", "Rolling origin.", "tab:rolling")
+
+    # ---- the three decision rules ---------------------------------------
+    DR = load("s04_decision_rules.csv")
+    if DR is not None and len(DR):
+        (TABLES / "rules.tex").write_text(
+            tex_table(DR.pivot_table(index="rule", columns="weighting",
+                                     values="regret", aggfunc="mean")
+                      .reset_index(),
+                      "Three decision rules under one loss: the mean regret "
+                      "per log--target pair, in the metric's own units, under "
+                      "a uniform draw over the admissible set and under a "
+                      "draw concentrated near the conventional "
+                      "specification.", "tab:rules"), encoding="utf-8")
+    else:
+        blank("rules", "Three decision rules.", "tab:rules")
+
+    # ---- the extended quality table -------------------------------------
+    S9M = D.get("S9M")
+    if S9M is not None and len(S9M):
+        (TABLES / "quality2.tex").write_text(
+            tex_table(S9M[S9M.encoder == "ignores-missing"]
+                      [["mechanism", "level", "populated", "V"]],
+                      "Register-quality mechanisms on the primary log at the "
+                      "reference cell, including a discovery lag and a sweep "
+                      "of the two accuracy mechanisms.", "tab:quality2"),
+            encoding="utf-8")
+    else:
+        blank("quality2", "Register quality, extended.", "tab:quality2")
+
+    # ---- the three decision rules ---------------------------------------
+    DR = D.get("DR")
+    if DR is not None and len(DR):
+        (TABLES / "rules.tex").write_text(
+            tex_table(DR.pivot_table(index="rule", columns="weighting",
+                                     values="regret", aggfunc="mean")
+                      .reset_index(),
+                      "Three decision rules under one loss: the mean regret "
+                      "per log--target pair, in the metric's own units, under "
+                      "a uniform draw over the admissible set and under a "
+                      "draw concentrated near the conventional "
+                      "specification.", "tab:rules"), encoding="utf-8")
+    else:
+        blank("rules", "Three decision rules.", "tab:rules")
 
     # ---- corpus ----------------------------------------------------------
     EXC = load("r33_excluded.csv")

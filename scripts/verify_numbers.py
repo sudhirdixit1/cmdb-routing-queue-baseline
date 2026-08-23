@@ -31,10 +31,16 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from common import RESULTS  # noqa: E402
+from common import RESULTS as _RESULTS  # noqa: E402
 
-ROOT = HERE.parent
-PAPER = ROOT / "paper"
+#  The corruption suite (s13) runs this file against COPIES of the results,
+#  the manuscript and the data, so that a corruption is never written to the
+#  real tree.  The three environment variables are the only way it can do
+#  that, and they default to the real tree.
+import os  # noqa: E402
+ROOT = Path(os.environ.get("FIELDVALUE_ROOT", HERE.parent))
+RESULTS = Path(os.environ.get("FIELDVALUE_RESULTS", _RESULTS))
+PAPER = Path(os.environ.get("FIELDVALUE_PAPER", ROOT / "paper"))
 NUMBERS = PAPER / "numbers.tex"
 MANUSCRIPT = PAPER / "specification_surfaces.tex"
 
@@ -51,7 +57,10 @@ def load(n):
     """Read a result file, compressed or not.  See spec.result_path."""
     for p in (RESULTS / n, RESULTS / (n + ".gz")):
         if p.exists():
-            return pd.read_csv(p)
+            try:
+                return pd.read_csv(p)
+            except Exception:  # noqa: BLE001  -- an empty placeholder file
+                return None
     return None
 
 

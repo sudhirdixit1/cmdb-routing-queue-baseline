@@ -118,14 +118,53 @@ rung, \flipQualityPct\ under the register-quality condition and
 likely to hold fixed without comment --- which split, which learner --- are
 the two that flip the sign most often.
 
-The comparison is not that the surface report is more accurate than the
-one-number report on the same question. It is that the two answer different
-questions: the one-number report asserts a sign everywhere, and the surface
-report asserts one only where the region is uniform. On the
-\nUniformlyBeneficial\ uniformly beneficial pairs both are right; on the
-\nSignChanging\ sign-changing pairs the one-number report is wrong for a
-substantial share of readers and the surface report declines to speak.
-Declining to speak is the contribution.
+\subsection{Three decision rules under one loss}
+\label{sec:rules}
+
+\input{tables/rules}
+
+Saying that the surface report never asserts a sign where the region is not
+uniform is a definitional win, and a reader is right to discount it. The
+measured version is Table~\ref{tab:rules}. A reader must decide whether to
+adopt the field; their own specification is drawn from the admissible set; and
+their loss is the performance the field destroys if they adopt and it is
+harmful for them, or the performance it would have added if they decline and
+it is beneficial for them. Three rules are compared under that loss:
+\emph{one-number} (adopt iff the conventional cell is positive),
+\emph{uniform} (adopt iff every admissible cell is positive) and
+\emph{majority} (adopt iff more than half of them are).
+
+The result is not the one the surface's advocate would have chosen.
+
+\textbf{The conservative surface rule is worse than one number.} Adopting only
+where the surface is uniformly beneficial costs a mean regret of
+\regretUniformRule\ against the one-number rule's \regretOneNumber: it
+declines so often that the performance it forgoes exceeds the performance the
+one-number rule destroys. Refusing to speak has a price, and this is it.
+
+\textbf{The majority rule beats one number, by about a fifth.} Adopting where
+more than half of the admissible cells are positive costs \regretMajority, a
+\regretMajorityGainPct\ reduction against the one-number rule. Under a draw
+concentrated near the conventional specification --- a reader who mostly
+follows the usual recipe --- the numbers are \regretOneNumberAdj\ and
+\regretMajorityAdj, a \regretMajorityGainAdjPct\ reduction. The gain is
+smaller under that weighting, which is what one should expect and is why both
+are reported.
+
+So the case for the surface is not that it is safer to say nothing. It is that
+a decision rule which \emph{uses} the surface --- even the crudest one, a vote
+--- is measurably better than a decision rule which uses one cell of it, and
+that the region label tells a reader which of the two situations they are in.
+On the \nUniformlyBeneficial\ uniformly beneficial pairs every rule agrees; on
+the \nSignChanging\ sign-changing pairs they do not, and that is where the
+difference above comes from.
+
+\paragraph{What the comparison assumes.} That the reader's own specification
+is drawn from the declared admissible set, which is why two weightings are
+reported rather than one, and that every cell in that set is equally
+defensible, which is why the intercept-only rung is excluded. Neither
+assumption is innocuous and both are the analyst's to revisit; the code takes
+a weighting as an argument.
 
 \subsection{Calibration, unseen categories, and rolling origin}
 

@@ -169,11 +169,18 @@ G(s) \;=\;
 \mathbb{E}_{s'}\bigl[\max(0, V_{s'})\bigr]\,\mathbf{1}\{V_s \leq 0\}
 \]
 is the performance destroyed by adopting when the reader's cell is harmful
-plus the performance forgone by declining when it is beneficial. Against this,
-the surface report asserts a sign only where the region is uniform, so its
-misreport rate is zero by construction there and it declines to speak
-elsewhere. Section~\ref{sec:results-regret} reports both, and names the logs
-on which one number is in fact safe.
+plus the performance forgone by declining when it is beneficial.
+
+Saying that a surface report asserts a sign only where the region is uniform,
+and therefore misreports nothing, is a definitional win and not a measured
+one. So the paper also compares three \emph{decision rules} under the single
+loss above: adopt iff the conventional cell is positive; adopt iff every
+admissible cell is; adopt iff more than half are. The comparison assumes the
+reader's own specification is drawn from the declared admissible set, and is
+reported under two weightings --- uniform, and concentrated near the
+conventional specification --- so that the assumption is visible.
+Section~\ref{sec:rules} reports the result, which is not the one the surface's
+advocate would have chosen.
 
 \subsection{Simulation against a known answer}
 \label{sec:sim}

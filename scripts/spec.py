@@ -232,6 +232,10 @@ LEARNER_LABEL = {"logit": "logistic (one-hot)",
 QUALITY_KINDS = ("clean", "mask_rare", "mask_random", "mask_common",
                  "corrupt", "duplicate", "stale")
 
+#: the mechanisms that draw randomness and must therefore be averaged over
+#: seeds.  Named here rather than in each caller so a caller cannot forget one.
+STOCHASTIC_KINDS = frozenset({"mask_random", "corrupt", "duplicate"})
+
 QUALITY_LABEL = {
     "clean": "as recorded",
     "mask_rare": "population: the long tail is absent",

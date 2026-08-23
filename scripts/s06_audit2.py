@@ -164,19 +164,36 @@ def _page_all_cached(stratum, filt, select=SELECT, cap=20000):
 
 
 
+#  The index meters requests against a DAILY budget that refills slowly.  A
+#  three-second backoff is useless against that: the enumeration of nineteen
+#  venue strata exhausts the budget and then dies on the first stratum of the
+#  next attempt, which is what happened twice.  The retry below is patient
+#  rather than quick -- up to about forty minutes on one request -- because
+#  the per-stratum cache means a stratum that completes is never re-fetched,
+#  so a slow grind makes monotonic progress and a fast failure makes none.
+#  Six quick attempts for a transient failure, then twenty-four fifteen-minute
+#  ones, which spans six hours.  The budget resets at midnight UTC; a run
+#  started in the afternoon therefore waits it out and continues by itself
+#  rather than dying and needing a person.
+_BACKOFF = (5, 15, 45, 90, 180, 300) + (900,) * 24
+
+
 def _oa(path, **params):
     params.setdefault("mailto", MAILTO)
     url = "%s/%s?%s" % (OA, path, urllib.parse.urlencode(params))
     last = None
-    for k in range(6):
+    for k, wait in enumerate(_BACKOFF):
         try:
             r = requests.get(url, headers=UA, timeout=120)
         except Exception as e:  # noqa: BLE001
             last = e
-            time.sleep(2 * (k + 1))
+            time.sleep(wait)
             continue
         if r.status_code == 429:
-            time.sleep(3 * (k + 1))
+            last = "429 %s" % r.text[:120]
+            print("    rate limited; waiting %ds (attempt %d/%d)"
+                  % (wait, k + 1, len(_BACKOFF)), flush=True)
+            time.sleep(wait)
             continue
         r.raise_for_status()
         return r.json()

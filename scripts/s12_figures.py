@@ -41,8 +41,15 @@ DARK = "0.15"
 
 
 def load(n):
-    p = RESULTS / n
-    return pd.read_csv(p) if p.exists() else None
+    """Read a result file, compressed or not; None if it is missing or is an
+    empty placeholder."""
+    for p in (RESULTS / n, RESULTS / (n + ".gz")):
+        if p.exists():
+            try:
+                return pd.read_csv(p)
+            except Exception:  # noqa: BLE001
+                return None
+    return None
 
 
 # --------------------------------------------------------------------------

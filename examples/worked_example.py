@@ -29,7 +29,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-from fieldvalue import SingleNumberRefused, surface        # noqa: E402
+from fieldvalue import (SingleNumberRefused, decompose, regret,  # noqa: E402
+                        robustness, surface)
 
 CACHE = ROOT / "data" / "example"
 CACHE.mkdir(parents=True, exist_ok=True)
@@ -113,6 +114,50 @@ def main():
           "'what is occupation worth?':")
     for _, r in cell.iterrows():
         print(f"    against {r.baseline_pair:34s}  R = {r.R:+.3f}")
+
+    # ---- the four reporting objects, on the same surface ------------------
+    #  The point of restoring this example is that the standard is not about
+    #  event logs and not about configuration databases.  `occupation` on a
+    #  census file is the same problem: worth compared with what, measured
+    #  how, at which operating point, with the register how complete.
+    print()
+    print("=" * 78)
+    print("THE MINIMUM REPORTABLE FORM, AS THE FOUR OBJECTS")
+    print("=" * 78)
+    G = F.rename(columns={"V_hi": "V"})
+    G = G[G.V.notna()]
+    dec = decompose(G, value="V",
+                    axes=("baseline_pair", "metric", "population"))
+    rob = robustness(G, value="V")
+    reg = regret(G, value="V")
+    print()
+    print("  sensitivity decomposition")
+    print(dec.to_string(index=False, float_format=lambda x: "%.3f" % x))
+    print()
+    print("  robustness")
+    print(rob.to_string(index=False, float_format=lambda x: "%.3f" % x))
+    print()
+    print("  specification regret: a one-number report misstates the sign for "
+          "a mean %.1f%% of the other admissible cells"
+          % (100 * reg.misreport.mean()))
+
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from common import RESULTS
+    dec.to_csv(RESULTS / "s14_example_decomposition.csv", index=False)
+
+    def _S(ax):
+        r = dec[dec.axis == ax]
+        return float(r.S.iloc[0]) if len(r) else float("nan")
+
+    facts = dict(n_rows=len(d), prevalence=float(y.mean()), n_cells=len(G),
+                 share_positive=float((G.V > 0).mean()),
+                 misreport_mean=float(reg.misreport.mean()),
+                 S_baseline=_S("baseline_pair"), S_metric=_S("metric"),
+                 S_population=_S("population"),
+                 R_min=float(cell.R.min()), R_max=float(cell.R.max()))
+    pd.DataFrame([facts]).to_csv(RESULTS / "s14_facts.csv", index=False)
+    print()
+    print("  facts -> results/s14_facts.csv")
 
 
 if __name__ == "__main__":

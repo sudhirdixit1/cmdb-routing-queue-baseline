@@ -671,11 +671,18 @@ G(s) \;=\;
 \mathbb{E}_{s'}\bigl[\max(0, V_{s'})\bigr]\,\mathbf{1}\{V_s \leq 0\}
 \]
 is the performance destroyed by adopting when the reader's cell is harmful
-plus the performance forgone by declining when it is beneficial. Against this,
-the surface report asserts a sign only where the region is uniform, so its
-misreport rate is zero by construction there and it declines to speak
-elsewhere. Section~\ref{sec:results-regret} reports both, and names the logs
-on which one number is in fact safe.
+plus the performance forgone by declining when it is beneficial.
+
+Saying that a surface report asserts a sign only where the region is uniform,
+and therefore misreports nothing, is a definitional win and not a measured
+one. So the paper also compares three \emph{decision rules} under the single
+loss above: adopt iff the conventional cell is positive; adopt iff every
+admissible cell is; adopt iff more than half are. The comparison assumes the
+reader's own specification is drawn from the declared admissible set, and is
+reported under two weightings --- uniform, and concentrated near the
+conventional specification --- so that the assumption is visible.
+Section~\ref{sec:rules} reports the result, which is not the one the surface's
+advocate would have chosen.
 
 \subsection{Simulation against a known answer}
 \label{sec:sim}
@@ -901,14 +908,53 @@ rung, \flipQualityPct\ under the register-quality condition and
 likely to hold fixed without comment --- which split, which learner --- are
 the two that flip the sign most often.
 
-The comparison is not that the surface report is more accurate than the
-one-number report on the same question. It is that the two answer different
-questions: the one-number report asserts a sign everywhere, and the surface
-report asserts one only where the region is uniform. On the
-\nUniformlyBeneficial\ uniformly beneficial pairs both are right; on the
-\nSignChanging\ sign-changing pairs the one-number report is wrong for a
-substantial share of readers and the surface report declines to speak.
-Declining to speak is the contribution.
+\subsection{Three decision rules under one loss}
+\label{sec:rules}
+
+\input{tables/rules}
+
+Saying that the surface report never asserts a sign where the region is not
+uniform is a definitional win, and a reader is right to discount it. The
+measured version is Table~\ref{tab:rules}. A reader must decide whether to
+adopt the field; their own specification is drawn from the admissible set; and
+their loss is the performance the field destroys if they adopt and it is
+harmful for them, or the performance it would have added if they decline and
+it is beneficial for them. Three rules are compared under that loss:
+\emph{one-number} (adopt iff the conventional cell is positive),
+\emph{uniform} (adopt iff every admissible cell is positive) and
+\emph{majority} (adopt iff more than half of them are).
+
+The result is not the one the surface's advocate would have chosen.
+
+\textbf{The conservative surface rule is worse than one number.} Adopting only
+where the surface is uniformly beneficial costs a mean regret of
+\regretUniformRule\ against the one-number rule's \regretOneNumber: it
+declines so often that the performance it forgoes exceeds the performance the
+one-number rule destroys. Refusing to speak has a price, and this is it.
+
+\textbf{The majority rule beats one number, by about a fifth.} Adopting where
+more than half of the admissible cells are positive costs \regretMajority, a
+\regretMajorityGainPct\ reduction against the one-number rule. Under a draw
+concentrated near the conventional specification --- a reader who mostly
+follows the usual recipe --- the numbers are \regretOneNumberAdj\ and
+\regretMajorityAdj, a \regretMajorityGainAdjPct\ reduction. The gain is
+smaller under that weighting, which is what one should expect and is why both
+are reported.
+
+So the case for the surface is not that it is safer to say nothing. It is that
+a decision rule which \emph{uses} the surface --- even the crudest one, a vote
+--- is measurably better than a decision rule which uses one cell of it, and
+that the region label tells a reader which of the two situations they are in.
+On the \nUniformlyBeneficial\ uniformly beneficial pairs every rule agrees; on
+the \nSignChanging\ sign-changing pairs they do not, and that is where the
+difference above comes from.
+
+\paragraph{What the comparison assumes.} That the reader's own specification
+is drawn from the declared admissible set, which is why two weightings are
+reported rather than one, and that every cell in that set is equally
+defensible, which is why the intercept-only rung is excluded. Neither
+assumption is innocuous and both are the analyst's to revisit; the code takes
+a weighting as an argument.
 
 \subsection{Calibration, unseen categories, and rolling origin}
 
@@ -1069,25 +1115,55 @@ are should read it as worth almost nothing.
 \subsection{Register quality}
 \label{sec:quality}
 
-\input{tables/quality}
+\input{tables/quality2}
 
 Masking a complete field is a sensitivity experiment, not a model of a real
-register, and Table~\ref{tab:quality} reports the six mechanisms of
-Section~\ref{sec:surface} rather than the one an earlier version used.
-Population loss is not symmetric: at half population the register is worth
-\VPopRare\ if its long tail is missing and \VPopCommon\ if its core is,
-because the tail is where the identifying information lives. Accuracy is
-worth about as much as coverage: corrupting \corruptLevel\ of identities
-costs \VCorruptDelta\ against the clean field. Reconciliation failure ---
-splitting a share of identities in two --- costs \VDuplicateDelta. Staleness,
-in which an identity exists only if the register had seen it before the split,
-costs \VStaleDelta, which is the largest single quality effect on this estate
-and is the one a maturity assessment would be least likely to measure.
+register, so Table~\ref{tab:quality2} reports the six mechanisms of
+Section~\ref{sec:surface} plus a discovery lag, and sweeps the two accuracy
+mechanisms rather than reporting one level of each. Four things follow, and
+two of them are nulls we did not expect.
 
-The stochastic mechanisms are averaged over \nSeeds\ seeds and the frequency
+\textbf{Coverage dominates, and its direction does not matter here.} At half
+population the register is worth \qRareHalf\ if its long tail is absent and
+\qCommonHalf\ if its core is, against \qClean\ complete. An earlier version of
+this work made much of the asymmetry between those two; on this cohort there
+is essentially none, and the honest statement is that \emph{how much} of the
+register is populated matters and \emph{which part} does not. Loss at random
+is slightly worse than either (\qRandomHalf), because it fragments every
+identity rather than removing some cleanly.
+
+\textbf{Accuracy costs about what coverage costs.} Corrupting three tenths of
+the identities --- the register is complete, and wrong --- costs
+\qCorruptThirty\ against the clean field, close to what losing three tenths of
+its coverage costs. A maturity assessment that counts populated rows and does
+not sample them for correctness is measuring one of two equally large things.
+
+\textbf{Reconciliation failure is nearly free.} Splitting \emph{every}
+identity into two records costs \qDuplicateAll. With thousands of cases per
+identity, halving the evidence behind each still leaves enough, and a register
+whose main defect is duplication is in better shape than one whose main defect
+is either of the two above.
+
+\textbf{Staleness is exactly zero, and the reason is the encoder.} Removing
+identities the register had not seen by the split point moves the increment by
+\qStaleDelta. That is not a bug in the mechanism: a one-hot encoder fitted on
+the training half already ignores levels it has never seen, so a test row
+carrying an undiscovered identity contributes an all-zero encoding either way.
+Under an encoder that keeps missingness as an explicit indicator the effect is
+\qStaleKeepsDelta, because the training half then contains no missing values
+for the indicator to learn from. A \emph{discovery lag} --- identities first
+used in the last half of the training window absent everywhere, leaving
+\qLagHalfPopulated\ of rows populated --- costs \qLagHalfDelta.
+
+The last of these is the paper's own thesis appearing inside its own
+apparatus: whether a data-quality defect is visible at all is an interaction
+between the quality axis and the encoding axis, and an analyst who varies one
+without the other will conclude that the defect does not matter.
+
+The stochastic mechanisms are averaged over \nSeeds\ seeds, and the frequency
 rankings that decide which identities vanish first are computed on the
-training half alone; \texttt{results/s01\_trainonly.csv} records the executed
-check that this is so.
+training half alone; \texttt{results/s01\_trainonly.csv} records the
+\nTrainOnly\ executed checks, all of which pass, that this is so.
 
 \subsection{The absorption, and why the ratio is secondary}
 
@@ -1232,6 +1308,31 @@ input. On this paper's corpus they agree on \nAgreeQuantities\ of
 \nAgreeQuantities\ quantities, with a largest difference of \agreeTolerance.
 That check matters because twice in this project's history the two disagreed,
 and both times the paper was wrong and the package was right.
+
+
+\subsection{A worked example that is not a process log}
+\label{sec:worked}
+
+The standard is not about event logs and not about configuration databases,
+and the quickest way to show that is to run it on something else. UCI Adult
+(Census Income) predicts whether a person's income exceeds a threshold from
+\exRows\ records. Suppose an analyst wants to report what \texttt{occupation}
+is worth. It is the expensive field: a survey has to ask about it and code it,
+where age, sex, race and country come with the sampling frame and education
+comes with an enrolment record.
+
+Worth compared with what? Against the frame alone, against the frame plus
+education, or against the frame plus education plus hours worked. Measured
+how, at which operating point, and with the register how complete. Over the
+resulting \exCells\ cells the reduction runs \exRmin\ to \exRmax, the baseline
+axis carries \exSbaselinePct\ of the variance in the increment against
+\exSmetricPct\ for the metric and \exSpopulationPct\ for the population, and a
+one-number report misstates the sign for a mean \exMisreportPct\ of the other
+cells.
+
+\texttt{examples/worked\_example.py} produces all of it in forty lines against
+the package's public interface, and ends by calling \texttt{float()} on the
+surface so a reader can see what the refusal looks like.
 
 \subsection{How the surface is reported today: a measured pilot}
 \label{sec:practice}
