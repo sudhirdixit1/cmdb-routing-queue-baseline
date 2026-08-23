@@ -886,10 +886,11 @@ register value is replaced by a uniform draw with probability
 \simNoiseRate, so the observed cell $(b, g, j)$ is a mixture over the true
 ones, with mass and outcome rate
 \[
-w(b,g,j) = \!\!\sum_{f} \Pr(b,g,f)\,\Pr(j \mid f),
-\qquad
-\Pr(y{=}1 \mid b,g,j) = \frac{\sum_{f} \Pr(b,g,f)\,\Pr(j \mid f)\,
-p(b,g,f)}{w(b,g,j)},
+\begin{aligned}
+w(b,g,j) \;&=\; \sum_{f} \Pr(b,g,f)\,\Pr(j \mid f), \\[2pt]
+\Pr(y{=}1 \mid b,g,j) \;&=\; \frac{1}{w(b,g,j)}
+\sum_{f} \Pr(b,g,f)\,\Pr(j \mid f)\,p(b,g,f),
+\end{aligned}
 \]
 where $\Pr(j \mid f) = (1 - r)\mathbf{1}\{j = f\} + r/K$. Enumerating the
 \emph{true} cells instead scores the estimator against a population it never
