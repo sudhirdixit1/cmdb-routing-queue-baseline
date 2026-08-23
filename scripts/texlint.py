@@ -64,6 +64,15 @@ BANNED_OPENERS = [
     r"(?m)^This is correction number",
 ]
 
+#  The referee named FIVE sentence-openers to delete and this file banned
+#  four; `An earlier version...' opened six sentences, five of them in the
+#  main text.  The objection was that transparency should be visible in the
+#  design and the supplement rather than repeatedly asserted, so the opener is
+#  banned in the MAIN TEXT and allowed in the correction register, which is
+#  the supplement whose whole job is to say what an earlier version claimed.
+MAIN_TEXT_BANNED = [r"(?m)(^|\.\s+)An earlier version"]
+CORRECTION_APPENDIX = "app_corrections.tex"
+
 #  The checks this file performs, as a list rather than as a number in a
 #  sentence.  The manuscript quotes the count (Appendix H), so the list is
 #  where that number comes from and adding a check updates the paper.
@@ -292,6 +301,16 @@ def main(argv=None):
     for pat in BANNED_OPENERS:
         if re.search(pat, t):
             FAILS.append("a banned rhetorical opener survives: %s" % pat)
+    for f in sorted((PAPER / "parts").glob("*.tex")):
+        if f.name == CORRECTION_APPENDIX:
+            continue
+        src = strip_comments(f.read_text(encoding="utf-8"))
+        for pat in MAIN_TEXT_BANNED:
+            n = len(re.findall(pat, src))
+            if n:
+                FAILS.append("%s opens %d sentence(s) with a correction "
+                             "narrative that belongs in %s: %s"
+                             % (f.name, n, CORRECTION_APPENDIX, pat))
 
     # 8 stray control characters
     #  Several rounds of scripted editing have written a literal backspace or

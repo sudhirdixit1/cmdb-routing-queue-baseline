@@ -146,10 +146,10 @@ $R_{\mathrm{AUC}}$ to \propOneAucGap\ and $R_{\mathrm{AP}}$ differing by
 \end{proof}
 
 \begin{remark}
-An earlier version of this work called this ``metric-unboundedness''. That is
-the wrong word: $R$ is constructed over a bounded interval in any fixed
-configuration. What the construction establishes is non-identifiability, and a
-\emph{range}: over the sweep in \texttt{s07\_prop1.csv}, $R_{\mathrm{AUC}}$
+The construction establishes non-identifiability and not unboundedness: $R$ is
+built over a bounded interval in any fixed configuration, so the right reading
+is that no function carries one metric's reduction to another's, together with
+a \emph{range}: over the sweep in \texttt{s07\_prop1.csv}, $R_{\mathrm{AUC}}$
 stays at zero to \propOneSweepAuc\ while $R_{\mathrm{AP}}$ reaches
 \propOneSweepAp.
 \end{remark}
@@ -207,7 +207,7 @@ This is not a proposition and is not labelled as one. It is a finite search;
 its answer moves with an arbitrary tolerance, which is why the whole sweep is
 printed; failing to find a witness is not evidence that one axis determines
 another; and finding witnesses in a family of \nResultEstates\ estates is not
-a general non-redundancy theorem. An earlier version of this work presented it
-as a proposition, which was the third of the referee's objections to the
-theory section, and it is granted.
+a general non-redundancy theorem. It is labelled a computational result for
+those reasons and not a proposition, and the relabelling is recorded in
+\ref{app:corrections}.
 \end{remark}

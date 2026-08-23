@@ -65,6 +65,8 @@ CONDITIONS = (
     "the pilot's frame is at least its sample, and equals it when every "
     "design weight is one",
     "every count in the PRISMA flow equals the macro the prose quotes it by",
+    "every correction the main text cites exists in the register, and no "
+    "correction is listed in two classes",
 )
 
 FAILS = []
@@ -322,6 +324,48 @@ def main(argv=None):
         k = L8[L8.baseline.astype(str).str.contains("knowledge")]
         if len(k):
             eq("VTtwoKnow", fmt_sig(k.V_auc.iloc[0]), M)
+
+    #  Every correction the main text cites by identifier must exist in the
+    #  register, and the register's own class lists must not name one twice
+    #  or leave one out.  Writing correction~C13 for the intercept-only
+    #  headline when C13 is the `if and only if' correction is a citation to a
+    #  real number that says the wrong thing, which no check for a missing
+    #  macro would notice.
+    PARTS = ROOT / "paper" / "parts"
+    reg = PARTS / "app_corrections.tex"
+    if reg.exists():
+        text = reg.read_text(encoding="utf-8")
+        #  the identifiers the register DEFINES are the ones inside its
+        #  class-list parentheses
+        #  A class DEFINES its members in the first parenthesised list after
+        #  its own \paragraph heading.  A C-identifier in parentheses
+        #  anywhere else -- the register's closing paragraph cites three --
+        #  is a citation, not a second definition.
+        blocks = re.split(r"\\paragraph\{Class ", text)[1:]
+        defined = set()
+        for b in blocks:
+            m = re.search(r"\(((?:C\d+[,;]\s*)*C\d+)\)", b)
+            if m:
+                defined |= set(re.findall(r"C\d+", m.group(1)))
+        cited = set()
+        for f in sorted(PARTS.glob("*.tex")):
+            if f.name == reg.name:
+                continue
+            cited |= set(re.findall(r"correction~?(C\d+)",
+                                    f.read_text(encoding="utf-8")))
+        missing = sorted(cited - defined)
+        if missing:
+            FAILS.append("the main text cites corrections the register does "
+                         "not define: %s" % ", ".join(missing))
+        #  and no identifier may appear in two different class lists
+        seen, twice = set(), set()
+        for b in blocks:
+            m = re.search(r"\(((?:C\d+[,;]\s*)*C\d+)\)", b)
+            for c in (re.findall(r"C\d+", m.group(1)) if m else []):
+                (twice if c in seen else seen).add(c)
+        if twice:
+            FAILS.append("corrections listed in more than one class: %s"
+                         % ", ".join(sorted(twice)))
 
     # ---- the practice pilot ----------------------------------------------
     S6 = load("s06_facts.csv")

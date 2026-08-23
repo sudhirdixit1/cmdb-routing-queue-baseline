@@ -227,9 +227,10 @@ beside the first, and Section~\ref{sec:dca} reads that one.
 The intercept-only rung is excluded from every admissible set. It is a
 legitimate point of the surface and an illegitimate comparator: no analyst
 builds a model with no features, and a reduction measured against one is
-inflated by construction. An earlier version of this work reported a headline
-that included it; Section~\ref{sec:multilog} reports what the headline becomes
-without it.
+inflated by construction. Section~\ref{sec:multilog} reports the headline on
+the admissible set alone; the withdrawal of the version that included the
+intercept-only rung is correction~C14 in
+\ref{app:corrections}.
 
 \subsection{Specification regret}
 \label{sec:regretdef}
@@ -299,11 +300,11 @@ dependence on $w$ is visible rather than assumed away.
 \subsection{Simulation against a known answer}
 \label{sec:sim}
 
-An earlier version's simulation fitted a logistic data-generating process with
-logistic regression --- an unusually favourable arrangement --- on forty
-replicates, which cannot resolve a coverage estimate, and dismissed an $85\%$
-coverage as boundary behaviour. This version replaces it with \nWorlds\ worlds
-and \nSimReps\ replicates each. The covariate space is finite, so the joint
+A simulation that fits a logistic data-generating process with logistic
+regression tests an unusually favourable arrangement, and forty replicates
+cannot resolve a coverage estimate to better than about eleven points. This
+one therefore uses \nWorlds\ worlds --- four of them misspecified for the
+estimator --- and \nSimReps\ replicates each. The covariate space is finite, so the joint
 distribution of cell and outcome is enumerated and the population AUC of any
 scoring rule is computed in closed form rather than simulated. The worlds are:
 a logistic surface, on which the estimator is correctly specified; a nonlinear

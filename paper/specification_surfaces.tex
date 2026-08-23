@@ -489,10 +489,10 @@ $R_{\mathrm{AUC}}$ to \propOneAucGap\ and $R_{\mathrm{AP}}$ differing by
 \end{proof}
 
 \begin{remark}
-An earlier version of this work called this ``metric-unboundedness''. That is
-the wrong word: $R$ is constructed over a bounded interval in any fixed
-configuration. What the construction establishes is non-identifiability, and a
-\emph{range}: over the sweep in \texttt{s07\_prop1.csv}, $R_{\mathrm{AUC}}$
+The construction establishes non-identifiability and not unboundedness: $R$ is
+built over a bounded interval in any fixed configuration, so the right reading
+is that no function carries one metric's reduction to another's, together with
+a \emph{range}: over the sweep in \texttt{s07\_prop1.csv}, $R_{\mathrm{AUC}}$
 stays at zero to \propOneSweepAuc\ while $R_{\mathrm{AP}}$ reaches
 \propOneSweepAp.
 \end{remark}
@@ -550,9 +550,9 @@ This is not a proposition and is not labelled as one. It is a finite search;
 its answer moves with an arbitrary tolerance, which is why the whole sweep is
 printed; failing to find a witness is not evidence that one axis determines
 another; and finding witnesses in a family of \nResultEstates\ estates is not
-a general non-redundancy theorem. An earlier version of this work presented it
-as a proposition, which was the third of the referee's objections to the
-theory section, and it is granted.
+a general non-redundancy theorem. It is labelled a computational result for
+those reasons and not a proposition, and the relabelling is recorded in
+\ref{app:corrections}.
 \end{remark}
 % ---- paper/parts/20_inference.tex ----
 
@@ -784,9 +784,10 @@ beside the first, and Section~\ref{sec:dca} reads that one.
 The intercept-only rung is excluded from every admissible set. It is a
 legitimate point of the surface and an illegitimate comparator: no analyst
 builds a model with no features, and a reduction measured against one is
-inflated by construction. An earlier version of this work reported a headline
-that included it; Section~\ref{sec:multilog} reports what the headline becomes
-without it.
+inflated by construction. Section~\ref{sec:multilog} reports the headline on
+the admissible set alone; the withdrawal of the version that included the
+intercept-only rung is correction~C14 in
+\ref{app:corrections}.
 
 \subsection{Specification regret}
 \label{sec:regretdef}
@@ -856,11 +857,11 @@ dependence on $w$ is visible rather than assumed away.
 \subsection{Simulation against a known answer}
 \label{sec:sim}
 
-An earlier version's simulation fitted a logistic data-generating process with
-logistic regression --- an unusually favourable arrangement --- on forty
-replicates, which cannot resolve a coverage estimate, and dismissed an $85\%$
-coverage as boundary behaviour. This version replaces it with \nWorlds\ worlds
-and \nSimReps\ replicates each. The covariate space is finite, so the joint
+A simulation that fits a logistic data-generating process with logistic
+regression tests an unusually favourable arrangement, and forty replicates
+cannot resolve a coverage estimate to better than about eleven points. This
+one therefore uses \nWorlds\ worlds --- four of them misspecified for the
+estimator --- and \nSimReps\ replicates each. The covariate space is finite, so the joint
 distribution of cell and outcome is enumerated and the population AUC of any
 scoring rule is computed in closed form rather than simulated. The worlds are:
 a logistic surface, on which the estimator is correctly specified; a nonlinear
@@ -1422,10 +1423,9 @@ two of them are nulls we did not expect.
 
 \textbf{Coverage dominates, and its direction does not matter here.} At half
 population the register is worth \qRareHalf\ if its long tail is absent and
-\qCommonHalf\ if its core is, against \qClean\ complete. An earlier version of
-this work made much of the asymmetry between those two; on this cohort there
-is essentially none, and the honest statement is that \emph{how much} of the
-register is populated matters and \emph{which part} does not. Loss at random
+\qCommonHalf\ if its core is, against \qClean\ complete. There is essentially
+no asymmetry between those two on this cohort: \emph{how much} of the register
+is populated matters and \emph{which part} does not. Loss at random
 is slightly worse than either (\qRandomHalf), because it fragments every
 identity rather than removing some cleanly.
 
