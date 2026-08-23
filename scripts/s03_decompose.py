@@ -184,10 +184,19 @@ def main():
     print(piv.to_string(float_format=lambda x: "%.3f" % x))
 
     # ---- resolution regions ---------------------------------------------
-    try:
-        BND = pd.read_csv(RESULTS / "s02_bands.csv")
-    except FileNotFoundError:
-        BND = pd.DataFrame()
+    #  s17's bands are s02's, RECENTRED by the bootstrap shift; see s17 for
+    #  why that matters with a high-cardinality register.  The raw bands are
+    #  the fallback so this file still runs before s17 has, and the region
+    #  labels then carry the defect s17 exists to remove.
+    BND = pd.DataFrame()
+    for name in ("s17_bands.csv", "s02_bands.csv"):
+        try:
+            BND = pd.read_csv(RESULTS / name)
+            if len(BND):
+                print("  regions from %s" % name)
+                break
+        except Exception:  # noqa: BLE001
+            continue
     reg_rows, cell_rows = [], []
     if len(BND):
         #  The region is defined over the SCALAR family.  Mixing the

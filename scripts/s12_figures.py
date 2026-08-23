@@ -248,16 +248,21 @@ def fig_coverage():
         return None
     d = C[C.estimand == "V_limit"]
     worlds = list(dict.fromkeys(d.world))
-    fig, ax = plt.subplots(figsize=(6.0, 3.0))
-    w = 0.36
+    KINDS = [("naive_pct", "fixed-model, percentile", "0.78"),
+             ("nested_pct", "nested, percentile", "0.55"),
+             ("nested_basic", "nested, basic (used)", DARK)]
+    KINDS = [k for k in KINDS if (d.interval == k[0]).any()]
+    if not KINDS:
+        KINDS = [("naive", "fixed-model", "0.7"), ("nested", "nested", DARK)]
+    fig, ax = plt.subplots(figsize=(6.6, 3.2))
+    w = 0.8 / len(KINDS)
     x = np.arange(len(worlds))
-    for k, kind in enumerate(("naive", "nested")):
+    for k, (kind, lab, col) in enumerate(KINDS):
         v = [float(d[(d.world == wd) & (d.interval == kind)].coverage.iloc[0])
+             if len(d[(d.world == wd) & (d.interval == kind)]) else np.nan
              for wd in worlds]
-        ax.bar(x + (k - 0.5) * w, v, width=w,
-               color=DARK if kind == "nested" else "0.7",
-               label="nested (refit)" if kind == "nested"
-               else "fixed-model")
+        ax.bar(x + (k - (len(KINDS) - 1) / 2.0) * w, v, width=w,
+               color=col, label=lab)
     ax.axhline(0.95, color="0.2", lw=0.8, ls="--")
     ax.set_xticks(x)
     ax.set_xticklabels(worlds, rotation=20, ha="right")

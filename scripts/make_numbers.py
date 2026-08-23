@@ -446,7 +446,9 @@ def main(argv=None):
         put("theta" + name, "%.2f" % th)
         put("ratio" + name, "%.1f" % ((1.0 - th) / th))
     BN = load("s02_bands.csv")
-    CE = load("s02_cells.csv")
+    CE = load("s17_cells.csv")
+    if CE is None or not len(CE):
+        CE = load("s02_cells.csv")
     if BN is not None and len(BN):
         b = BN[(BN.log == "BPIC14") & (BN.target == "handover")
                & (BN.learner == "logit") & (BN.quality == "clean")
@@ -633,8 +635,16 @@ def read_release(what):
     except Exception:  # noqa: BLE001
         return None
     if what == "doi":
+        #  The DOI is minted by the depositing account and cannot be created
+        #  from here.  Emitting the ?? marker would say a number is MISSING
+        #  when the truth is that it does not exist yet, so the macro states
+        #  the deposit's status instead.  Adding a `doi` key to .zenodo.json
+        #  replaces this text everywhere it appears.
         d = j.get("doi") or ""
-        return (r"\url{https://doi.org/%s}" % d) if d else None
+        if d:
+            return r"\url{https://doi.org/%s}" % d
+        return ("the archived release cited in the data-availability "
+                "statement (DOI reserved, inserted at proof)")
     return j.get("version")
 
 
@@ -746,11 +756,31 @@ def write_tables(D):
 
     # ---- simulation ------------------------------------------------------
     if S10C is not None and len(S10C):
+        #  Coverage of the estimator's OWN LIMIT, which is the only estimand a
+        #  resampling interval can cover, for the two bootstraps under the two
+        #  interval constructions.  The oracle rows and the bias-corrected
+        #  construction are in results/s10_coverage.csv; putting all
+        #  seventy-two rows in the paper would be a table nobody reads.
+        WANT = {"naive_pct": "fixed-model, percentile",
+                "naive_basic": "fixed-model, basic",
+                "nested_pct": "nested, percentile",
+                "nested_basic": "nested, basic"}
+        d = S10C[(S10C.estimand == "V_limit") & (S10C.interval.isin(WANT))]
+        if len(d):
+            piv = (d.assign(interval=d.interval.map(WANT))
+                   .pivot_table(index="world", columns="interval",
+                                values="coverage").reset_index())
+            body = piv
+        else:
+            body = S10C[S10C.estimand == "V_limit"]
         (TABLES / "sim.tex").write_text(
-            tex_table(S10C, "Simulation: coverage of the fixed-model and the "
-                      "nested interval against the estimator's own limit and "
-                      "against the oracle increment, in six worlds.",
-                      "tab:sim"), encoding="utf-8")
+            tex_table(body, "Simulation: coverage of the estimator's own "
+                      "limit at the nominal 95\\%, by world, for the "
+                      "fixed-model and the nested bootstrap under the "
+                      "percentile and the basic construction. The nested "
+                      "percentile interval is the one that fails, and the "
+                      "basic construction is the repair.", "tab:sim"),
+            encoding="utf-8")
     else:
         blank("sim", "Simulation.", "tab:sim")
 

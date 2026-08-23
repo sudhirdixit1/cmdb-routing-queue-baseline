@@ -161,9 +161,17 @@ WAVES = [
     [
         "s02_boot.py",                 # nested bootstrap; reads s01's pair list
         "s08_decision_time.py",        # two decision times on the primary log
+        "s09_quality_extra.py",        # the quality nulls, explained
+        "s15_calibration_curves.py",   # the calibration figure's source
+        "s16_target_agreement.py",     # how different the targets are
     ],
     [
-        "s03_decompose.py",            # reads s01_surface and s02_bands
+        #  s17 RECENTRES every interval and band from s02's stored draws.  It
+        #  must run before s03, which labels regions from the bands.
+        "s17_intervals.py",
+    ],
+    [
+        "s03_decompose.py",            # reads s01_surface and s17_bands
         "s04_regret.py",               # reads s01_surface and s03_regions
     ],
     [
