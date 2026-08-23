@@ -1,0 +1,62 @@
+{
+  "s01_surface.py": {
+    "at": "2026-08-23T21:56:24Z",
+    "note": "The surface was computed at 14:15; the only later edit to s01_surface.py gzips its outputs and writes no new number. s12_figures.py redraws from result files it does not produce, so its own hash is not a claim about any number.",
+    "sha": "a37994dbda26f5bd"
+  },
+  "s02_boot.py": {
+    "at": "2026-08-23T21:56:14Z",
+    "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
+    "sha": "119001152879ce52"
+  },
+  "s03_decompose.py": {
+    "at": "2026-08-23T21:56:14Z",
+    "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
+    "sha": "ac47ce33d129044d"
+  },
+  "s04_regret.py": {
+    "at": "2026-08-23T21:56:14Z",
+    "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
+    "sha": "65e0b6435a2891cb"
+  },
+  "s07_props.py": {
+    "at": "2026-08-23T21:56:14Z",
+    "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
+    "sha": "2fd0a41e2bd6f9e4"
+  },
+  "s08_decision_time.py": {
+    "at": "2026-08-23T21:56:14Z",
+    "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
+    "sha": "5987abd9c7768c05"
+  },
+  "s09_quality_extra.py": {
+    "at": "2026-08-23T21:56:14Z",
+    "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
+    "sha": "4f14dd5d1764343b"
+  },
+  "s11_tool_agreement.py": {
+    "at": "2026-08-23T21:56:14Z",
+    "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
+    "sha": "398d4902149b409e"
+  },
+  "s12_figures.py": {
+    "at": "2026-08-23T21:56:24Z",
+    "note": "The surface was computed at 14:15; the only later edit to s01_surface.py gzips its outputs and writes no new number. s12_figures.py redraws from result files it does not produce, so its own hash is not a claim about any number.",
+    "sha": "63b6026719d6665f"
+  },
+  "s15_calibration_curves.py": {
+    "at": "2026-08-23T21:56:14Z",
+    "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
+    "sha": "0aaa148d35cb4842"
+  },
+  "s16_target_agreement.py": {
+    "at": "2026-08-23T21:56:14Z",
+    "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
+    "sha": "ddcb1a1453547586"
+  },
+  "s17_intervals.py": {
+    "at": "2026-08-23T21:56:14Z",
+    "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
+    "sha": "f62e02803b06b2ef"
+  }
+}

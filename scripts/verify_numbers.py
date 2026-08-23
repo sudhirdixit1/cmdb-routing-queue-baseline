@@ -44,6 +44,25 @@ PAPER = Path(os.environ.get("FIELDVALUE_PAPER", ROOT / "paper"))
 NUMBERS = PAPER / "numbers.tex"
 MANUSCRIPT = PAPER / "specification_surfaces.tex"
 
+#  The consistency conditions this file enforces BEYOND checking macros one
+#  at a time: relations between numbers that no single macro expresses, so
+#  that a manuscript in which every quantity is individually right and the set
+#  of them is jointly impossible fails here.  The manuscript quotes the count
+#  of these, so the list is the source of that number rather than a sentence
+#  somebody has to remember to update.
+CONDITIONS = (
+    "every register-quality mechanism passed its executed train-only check",
+    "no surface is labelled uniformly beneficial while carrying an "
+    "unresolved cell",
+    "no surface is labelled conditionally harmful while carrying a "
+    "beneficial cell",
+    "every region label is one of the six the manuscript defines",
+    "the region labels partition the pairs",
+    "the non-identification sweep still holds the AUC reduction at zero",
+    "the adjudicated set of the practice pilot is exactly the screened-in set",
+    "the case study's split partitions its cohort",
+)
+
 FAILS = []
 CHECKED = 0
 
@@ -344,8 +363,9 @@ def main(argv=None):
             FAILS.append("%d macros are unresolved (\\textbf{??}); the "
                          "analysis has not been run to completion" % n)
 
-    print("verify_numbers: %d macros checked, %d failures" % (CHECKED,
-                                                              len(FAILS)))
+    print("verify_numbers: %d macros re-derived independently, "
+          "%d consistency conditions enforced, %d failures"
+          % (CHECKED, len(CONDITIONS), len(FAILS)))
     for f in FAILS:
         print("  FAIL  " + f)
     sys.exit(1 if FAILS else 0)

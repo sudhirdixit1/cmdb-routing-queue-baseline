@@ -7,7 +7,7 @@ between the abstract, a table and the conclusion: there is one of it.
 
 That removes one class of defect and creates another --- a wrong generator
 makes the whole manuscript wrong \emph{consistently}, and nothing looks odd
---- so the architecture comes with four controls.
+--- so the architecture comes with five controls.
 
 \begin{description}
 \item[The generator.] \texttt{make\_numbers.py} emits a visible
@@ -18,12 +18,18 @@ therefore visibly partial and cannot silently drop a claim.
 \item[The verifier.] \texttt{scripts/verify\_numbers.py} re-derives each
 checked macro from the result file with code written against the
 \emph{definition} rather than against the generator, and compares. It also
-enforces four consistency conditions that no single macro expresses: that
-every register-quality mechanism passed its executed train-only check, that no
-surface is labelled uniformly beneficial while carrying an unresolved cell,
+enforces \nConditions\ consistency conditions that no single macro expresses
+--- relations that must hold between numbers even when each of them is
+individually correct. Among them: that every register-quality mechanism passed
+its executed train-only check; that no surface is labelled uniformly
+beneficial while carrying an unresolved cell, nor conditionally harmful while
+carrying a beneficial one; that every region label is one of the six the
+manuscript defines and that the labels partition the pairs;
 that Proposition~\ref{prop:nonid}'s sweep still holds the AUC reduction at
-zero, and that the adjudicated set of the practice pilot is exactly the
-screened-in set.
+zero; that the case study's split partitions its cohort; and that the
+adjudicated set of the practice pilot is exactly the screened-in set. The
+partition condition is the one that would have caught this round's fifth
+region label, which the analysis emitted and the manuscript did not define.
 
 \item[The corruption suite.] \texttt{scripts/s13\_attack\_numbers.py} is the
 verifier's own regression suite. It corrupts one thing at a time --- a value
@@ -34,6 +40,18 @@ verifier to notice. Every corruption is applied to a copy in a temporary
 directory; the suite refuses to start if a previous run left its lock behind,
 because in an earlier round a corruption suite was killed mid-flight and a
 corrupted manuscript reached a commit.
+
+\item[The provenance record.] \texttt{results/provenance.json} holds the
+SHA-256 of every analysis script at the moment its outputs were last accepted,
+with a note saying why, and \texttt{make\_numbers.py -{}-strict} refuses to
+certify a manuscript whose numbers come from a script that has changed since.
+This exists because \texttt{-{}-strict} used to pass on a build reading a
+two-replicate smoke test that had been run under the wrong seed and against an
+estimand corrected an hour later: every macro resolved cleanly, to a wrong
+number. A missing file is loud, and a stale one is silent. Modification time
+cannot answer the question --- changing a script's output format does not make
+its numbers wrong --- so acceptance is a deliberate act with a recorded
+reason.
 
 \item[The compliance linter.] \texttt{scripts/texlint.py} checks the abstract
 length, the keyword count, the highlight lengths against their own stated

@@ -33,6 +33,8 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+import provenance  # noqa: E402
+import verify_numbers  # noqa: E402
 from common import RESULTS  # noqa: E402
 
 ROOT = HERE.parent
@@ -100,6 +102,26 @@ def thousands(x):
     if x is None or not np.isfinite(x):
         return None
     return "{:,}".format(int(round(x))).replace(",", "{,}")
+
+
+def _code_lines(path):
+    """Statements in a Python file: no blanks, no comments, no docstring."""
+    import ast
+    try:
+        src = Path(path).read_text(encoding="utf-8")
+    except Exception:  # noqa: BLE001
+        return None
+    lines = src.splitlines()
+    skip = set()
+    try:
+        t = ast.parse(src)
+        if (t.body and isinstance(t.body[0], ast.Expr)
+                and isinstance(t.body[0].value, ast.Constant)):
+            skip = set(range(t.body[0].lineno, t.body[0].end_lineno + 1))
+    except SyntaxError:
+        pass
+    return sum(1 for i, l in enumerate(lines, 1)
+               if i not in skip and l.strip() and not l.strip().startswith("#"))
 
 
 def first(df, col, default=None):
@@ -468,6 +490,9 @@ def main(argv=None):
         put("auditBoundHi", None)
 
     # ---- tool ------------------------------------------------------------
+    #  Counted from verify_numbers.CONDITIONS, so the manuscript's
+    #  claim about the harness tracks the harness.
+    put("nConditions", thousands(len(verify_numbers.CONDITIONS)))
     put("nTests", thousands(count_tests()))
     put("fvVersion", read_fv_version())
     S11 = load("s11_facts.csv")
@@ -547,6 +572,12 @@ def main(argv=None):
     S14 = load("s14_facts.csv")
     put("exRows", thousands(first(S14, "n_rows")))
     put("exCells", thousands(first(S14, "n_cells")))
+    #  The manuscript used to say the worked example runs in "forty lines".
+    #  It does not, and nobody had counted.  Counted here, from the file, so
+    #  the claim tracks the code: statements only, no blanks, no comments, no
+    #  module docstring.
+    put("exampleLines", thousands(_code_lines(
+        ROOT / "examples" / "worked_example.py")))
     put("exMisreportPct", pct(first(S14, "misreport_mean")))
     put("exRmin", num(first(S14, "R_min"), 3))
     put("exRmax", num(first(S14, "R_max"), 3))
@@ -614,11 +645,20 @@ def main(argv=None):
                       CE=CE, BN=BN, S9M=S9M, DR=load("s04_decision_rules.csv")))
 
     print("wrote paper/numbers.tex with %d macros" % len(_MACROS))
+    stale = provenance.mismatches()
+    if stale:
+        print("PROVENANCE (%d): results not accepted under the current "
+              "source --" % len(stale))
+        for name, was, now, note in stale:
+            print("    %-26s %s -> %s   %s" % (name, was or "(none)", now,
+                                               note))
+        print("    accept with:  python scripts/provenance.py --accept "
+              "<script> --note \"...\"")
     if _UNRESOLVED:
         print("UNRESOLVED (%d): %s" % (len(_UNRESOLVED),
                                        ", ".join(sorted(_UNRESOLVED))))
-        if a.strict:
-            sys.exit(1)
+    if a.strict and (_UNRESOLVED or stale):
+        sys.exit(1)
 
 
 def count_tests():

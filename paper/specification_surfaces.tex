@@ -876,6 +876,28 @@ limits --- what the estimator estimates. A resampling interval can only cover
 the second, and reporting its coverage of the first as though it were the
 estimator's coverage is precisely the error the earlier simulation made. Both
 are reported in Table~\ref{tab:sim}.
+
+\paragraph{The truth has to be the truth the estimator sees.}
+Both estimands are computed by enumerating cells, and in the noisy world the
+cells the generator writes down are not the cells the estimator observes: a
+register value is replaced by a uniform draw with probability
+\simNoiseRate, so the observed cell $(b, g, j)$ is a mixture over the true
+ones, with mass and outcome rate
+\[
+w(b,g,j) = \!\!\sum_{f} \Pr(b,g,f)\,\Pr(j \mid f),
+\qquad
+\Pr(y{=}1 \mid b,g,j) = \frac{\sum_{f} \Pr(b,g,f)\,\Pr(j \mid f)\,
+p(b,g,f)}{w(b,g,j)},
+\]
+where $\Pr(j \mid f) = (1 - r)\mathbf{1}\{j = f\} + r/K$. Enumerating the
+\emph{true} cells instead scores the estimator against a population it never
+samples from, and the first version of this simulation did exactly that: it
+reported a coverage of \coverageNoisyBefore\ on the noisy world and a bias of
+\biasNoisyBefore\ that did not exist. Appendix~\ref{app:noisy} gives the two
+experiments that refuted every finite-sample explanation for that apparent
+bias and thereby sent us to look at the target. The marginalisation is checked
+against a Monte Carlo sample, on standardised residuals, at the start of every
+simulation run.
 % ---- paper/parts/30_design.tex ----
 
 \section{The registered benchmark design}
@@ -942,9 +964,10 @@ as the rest.
 
 \subsection{What the three logs do and do not have in common}
 
-The corpus includes the two further ITSM logs the literature uses
-\citep{steeman2013bpic,amaral2018incident} and eighteen other public logs.
-The corpus is heterogeneous and the paper does not claim otherwise. The
+The corpus is \nLogs\ public logs spanning \nDomains\ domains, and it includes
+the further ITSM logs the literature uses
+\citep{steeman2013bpic,amaral2018incident}. It is heterogeneous and the paper
+does not claim otherwise. The
 registers are a configuration item, a caller, a product, a vendor, a diagnosis
 and a legal article; the free fields are an assignment group, an assignee, a
 resource and a role; the targets mean different things in a bank's incident
@@ -1594,9 +1617,10 @@ axis carries \exSbaselinePct\ of the variance in the increment against
 one-number report misstates the sign for a mean \exMisreportPct\ of the other
 cells.
 
-\texttt{examples/worked\_example.py} produces all of it in forty lines against
-the package's public interface, and ends by calling \texttt{float()} on the
-surface so a reader can see what the refusal looks like.
+\texttt{examples/worked\_example.py} produces all of it in \exampleLines\
+statements against the package's public interface, and ends by calling
+\texttt{float()} on the surface so a reader can see what the refusal looks
+like.
 
 \subsection{How the surface is reported today: a measured pilot}
 \label{sec:practice}
@@ -1743,7 +1767,7 @@ the data for it.
 The nested bootstrap refits the pipeline and the blocks carry temporal
 dependence, but the split point is fixed within a draw, the block length is a
 rule of thumb, and the max-$t$ band's family-wise coverage is asymptotic. The
-simulation of Section~\ref{sec:sim} measures what this costs in six worlds;
+simulation of Section~\ref{sec:sim} measures what this costs in \nWorlds\ worlds;
 it does not certify the intervals on a seventh.
 
 \paragraph{The practice pilot is a pilot.}
@@ -1892,6 +1916,10 @@ commands and the expected runtime.
 \section{The literature pilot in full}
 \label{app:pilot}
 \input{parts/app_pilot}
+
+\section{The noisy world, and two explanations that were wrong}
+\label{app:noisy}
+\input{parts/app_noisy}
 
 \section{The verification harness}
 \label{app:verifier}
