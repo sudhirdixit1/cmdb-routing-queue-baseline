@@ -35,10 +35,27 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import provenance  # noqa: E402
 import verify_numbers  # noqa: E402
-from common import RESULTS, fmt_fixed  # noqa: E402
+from common import RESULTS as _RESULTS  # noqa: E402
+from common import fmt_fixed  # noqa: E402
 
-ROOT = HERE.parent
-PAPER = ROOT / "paper"
+#  The corruption suite (s13) runs this generator against COPIES of the
+#  results and the manuscript, so that it can corrupt a result file,
+#  REGENERATE the macros from it, and then ask the verifier whether the two
+#  disagree.  Without that the suite only ever ran the verifier against an
+#  uncorrupted numbers.tex, and a corruption of any result file the verifier
+#  re-derives around -- s01_facts.csv, for one -- went unnoticed.
+import os  # noqa: E402
+ROOT = Path(os.environ.get("FIELDVALUE_ROOT", HERE.parent))
+RESULTS = Path(os.environ.get("FIELDVALUE_RESULTS", _RESULTS))
+PAPER = Path(os.environ.get("FIELDVALUE_PAPER", ROOT / "paper"))
+#  SRC_ROOT is ALWAYS the real tree.  The redirection above exists to
+#  keep a corruption out of the real results and manuscript; the code
+#  is not what is being corrupted, and quantities read off the code --
+#  the package version, the test count, the worked example's length,
+#  the deposit metadata -- must come from the code that is actually
+#  installed.  Reading them from the copy made the corruption suite
+#  fail on its own clean run.
+SRC_ROOT = HERE.parent
 TABLES = PAPER / "tables"
 TABLES.mkdir(parents=True, exist_ok=True)
 
@@ -617,7 +634,7 @@ def main(argv=None):
     #  the claim tracks the code: statements only, no blanks, no comments, no
     #  module docstring.
     put("exampleLines", thousands(_code_lines(
-        ROOT / "examples" / "worked_example.py")))
+        SRC_ROOT / "examples" / "worked_example.py")))
     put("exMisreportPct", pct(first(S14, "misreport_mean")))
     put("exRmin", num(first(S14, "R_min"), 3))
     put("exRmax", num(first(S14, "R_max"), 3))
@@ -712,9 +729,9 @@ def count_tests():
     #  that no longer matches the suite, so the cache key is the mtimes.
     import json
     import subprocess
-    tests = sorted((ROOT / "fieldvalue" / "tests").glob("test_*.py"))
+    tests = sorted((SRC_ROOT / "fieldvalue" / "tests").glob("test_*.py"))
     key = str([(t.name, int(t.stat().st_mtime)) for t in tests])
-    cache = ROOT / "results" / ".test_count.json"
+    cache = SRC_ROOT / "results" / ".test_count.json"
     if cache.exists():
         try:
             j = json.loads(cache.read_text(encoding="utf-8"))
@@ -724,7 +741,8 @@ def count_tests():
             pass
     try:
         out = subprocess.run([sys.executable, "-m", "pytest",
-                              str(ROOT / "fieldvalue"), "--collect-only", "-q"],
+                              str(SRC_ROOT / "fieldvalue"),
+                              "--collect-only", "-q"],
                              capture_output=True, text=True, timeout=300,
                              cwd=str(ROOT))
         m = re.search(r"(\d+) tests? collected", out.stdout)
@@ -735,13 +753,13 @@ def count_tests():
     except Exception:  # noqa: BLE001
         pass
     n = 0
-    for p in (ROOT / "fieldvalue" / "tests").glob("test_*.py"):
+    for p in (SRC_ROOT / "fieldvalue" / "tests").glob("test_*.py"):
         n += len(re.findall(r"^def test_", p.read_text(encoding="utf-8"), re.M))
     return n or np.nan
 
 
 def read_fv_version():
-    t = (ROOT / "fieldvalue" / "__init__.py").read_text(encoding="utf-8")
+    t = (SRC_ROOT / "fieldvalue" / "__init__.py").read_text(encoding="utf-8")
     m = re.search(r'__version__\s*=\s*"([^"]+)"', t)
     return m.group(1) if m else None
 
@@ -763,7 +781,7 @@ def target_agreement(R16):
 
 
 def read_release(what):
-    p = ROOT / ".zenodo.json"
+    p = SRC_ROOT / ".zenodo.json"
     import json
     try:
         j = json.loads(p.read_text(encoding="utf-8"))

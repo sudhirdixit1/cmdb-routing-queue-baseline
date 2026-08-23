@@ -54,6 +54,11 @@
     "note": "The surface was computed at 14:15; the only later edit to s01_surface.py gzips its outputs and writes no new number. s12_figures.py redraws from result files it does not produce, so its own hash is not a claim about any number.",
     "sha": "63b6026719d6665f"
   },
+  "s13_attack_numbers.py": {
+    "at": "2026-08-23T22:38:51Z",
+    "note": "The corruption suite regenerates the macros from the corrupted copy before verifying, which is what makes a result-file corruption a real test; 10 of 10 caught.",
+    "sha": "d6f5b99e093271c2"
+  },
   "s15_calibration_curves.py": {
     "at": "2026-08-23T21:56:14Z",
     "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",

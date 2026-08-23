@@ -48,16 +48,42 @@ PAPER = ROOT / "paper"
 LOCK = ROOT / "results" / ".s13.lock"
 
 
-def run_verifier(results_dir, paper_dir):
-    """Run verify_numbers with RESULTS and PAPER redirected at the copies."""
+def run_script(script, results_dir, paper_dir):
+    """Run one checker with RESULTS, PAPER and ROOT redirected at the
+    copies, so a corruption is never applied to the real tree."""
     env = dict(**dict(__import__("os").environ))
     env["FIELDVALUE_RESULTS"] = str(results_dir)
     env["FIELDVALUE_PAPER"] = str(paper_dir)
     env["FIELDVALUE_ROOT"] = str(Path(results_dir).parent)
-    r = subprocess.run([sys.executable, str(HERE / "verify_numbers.py")],
-                       capture_output=True, text=True, env=env, cwd=str(HERE),
-                       timeout=600)
+    r = subprocess.run([sys.executable, str(HERE / script)],
+                       capture_output=True, text=True, env=env,
+                       cwd=str(HERE), timeout=900)
     return r.returncode, r.stdout + r.stderr
+
+
+def run_verifier(results_dir, paper_dir, regenerate=False):
+    """Verify the copies, optionally REGENERATING the macros first.
+
+    Regeneration is what makes a corruption of a result file a real
+    test.  Without it the suite corrupts a result and then asks the
+    verifier about a numbers.tex that was generated from the CLEAN
+    results -- so any quantity the verifier re-derives from a
+    different file than the generator reads is untouched, and the
+    corruption passes.  s01_facts.csv was exactly that: the generator
+    reads n_pairs from it, the verifier counts pairs in the surface,
+    and with no regeneration the two never met.
+
+    Manuscript corruptions must NOT regenerate, because regenerating
+    would overwrite the corruption.
+    """
+    if regenerate:
+        rc, out = run_script("make_numbers.py", results_dir, paper_dir)
+        if rc != 0:
+            #  the generator refusing to run IS the corruption being
+            #  caught: a result file it cannot read is a result file
+            #  that cannot silently produce a wrong number
+            return rc, out
+    return run_script("verify_numbers.py", results_dir, paper_dir)
 
 
 CORRUPTIONS = []
@@ -193,7 +219,9 @@ def main(argv=None):
                             Path(td) / "data" / "audit2",
                             ignore=shutil.ignore_patterns(
                                 "fulltext", "meta", "frame_cache", "dossiers"))
-            rc, out = run_verifier(R, P)
+            #  regenerate on the clean run too, so the baseline exercises
+            #  exactly the path every result-file corruption takes
+            rc, out = run_verifier(R, P, regenerate=True)
             if rc != 0:
                 print(out[-2500:])
                 sys.exit("the CLEAN run already fails; fix that before "
@@ -217,7 +245,8 @@ def main(argv=None):
                     skipped.append(name)
                     print("  SKIP    %-50s (source not generated)" % name)
                     continue
-                rc, out = run_verifier(R, P)
+                rc, out = run_verifier(R, P,
+                                       regenerate=(kind != "manuscript"))
                 if rc != 0:
                     caught.append(name)
                     print("  caught  %-50s %s" % (name, kind))
