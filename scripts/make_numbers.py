@@ -35,7 +35,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import provenance  # noqa: E402
 import verify_numbers  # noqa: E402
-from common import RESULTS  # noqa: E402
+from common import RESULTS, fmt_fixed  # noqa: E402
 
 ROOT = HERE.parent
 PAPER = ROOT / "paper"
@@ -87,15 +87,22 @@ def sci(x, d=1):
 
 
 def pct(x, d=1):
-    return None if x is None or not np.isfinite(x) else "%.*f\\%%" % (d, 100 * x)
+    #  fmt_fixed, not %-formatting: see common.fmt_fixed for why the rounding
+    #  convention is shared with the verifier.
+    if x is None or not np.isfinite(x):
+        return None
+    return fmt_fixed(100 * float(x), d) + "\\%"
 
 
 def sig(x, d=4):
-    return None if x is None or not np.isfinite(x) else "%+.*f" % (d, x)
+    if x is None or not np.isfinite(x):
+        return None
+    t = fmt_fixed(float(x), d)
+    return t if t.startswith("-") else "+" + t
 
 
 def num(x, d=4):
-    return None if x is None or not np.isfinite(x) else "%.*f" % (d, x)
+    return None if x is None or not np.isfinite(x) else fmt_fixed(x, d)
 
 
 def thousands(x):
@@ -381,18 +388,46 @@ def main(argv=None):
         put("limitNoisyAfter", None)
         put("coverageNoisyAfter", None)
 
+    #  the three coverages the sparse-world paragraph names, and the drift
+    #  world's best oracle coverage, read off the coverage table rather than
+    #  typed -- each is one cell of it
+    def cov(world, estimand, interval):
+        if S10C is None or not len(S10C):
+            return None
+        r = S10C[(S10C.world == world) & (S10C.estimand == estimand)
+                 & (S10C.interval == interval)]
+        return float(r.coverage.iloc[0]) if len(r) else None
+
+    put("coverageSparsePct", pct(cov("sparse", "V_limit", "nested_pct")))
+    put("coverageSparseBasic", pct(cov("sparse", "V_limit", "nested_basic")))
+    put("coverageSparseBc", pct(cov("sparse", "V_limit", "nested_bc")))
+    d = [cov("drift", "V_oracle", k)
+         for k in ("nested_pct", "nested_basic", "nested_bc")]
+    d = [x for x in d if x is not None]
+    put("coverageDriftOracle", pct(max(d)) if d else None)
+
+    #  Appendix G reports the SAME two experiments twice.  s18_legacy_* runs
+    #  them against the pre-correction estimand -- that is the evidence that
+    #  refuted both finite-sample explanations, and it has to be regenerable
+    #  rather than quoted from a log, so s18 takes --legacy-target.  s18_*
+    #  runs them against the corrected estimand, where there is no gap left
+    #  to explain.  The sparse world is the control and is identical in both,
+    #  because the correction touches only the noisy world.
     S18 = load("s18_facts.csv")
+    S18L = load("s18_legacy_facts.csv")
     put("nScaleReps", thousands(first(S18, "n_reps")))
     put("nSizeGrid", "six")
     put("sizeLo", thousands(first(S18, "size_lo")))
     put("sizeHi", thousands(first(S18, "size_hi")))
     put("nPenaltyDecades", "five")
-    put("noisyGapSmall", sig(first(S18, "noisy_gap_small_n")))
-    put("noisyGapLarge", sig(first(S18, "noisy_gap_large_n")))
+    put("noisyGapSmall", sig(first(S18L, "noisy_gap_small_n")))
+    put("noisyGapLarge", sig(first(S18L, "noisy_gap_large_n")))
+    put("noisyGapTight", sig(first(S18L, "noisy_gap_tight_penalty")))
+    put("noisyGapLoose", sig(first(S18L, "noisy_gap_loose_penalty")))
+    put("noisyGapFixed", sig(first(S18, "noisy_gap_small_n")))
+    put("noisyGapFixedLarge", sig(first(S18, "noisy_gap_large_n")))
     put("sparseGapSmall", sig(first(S18, "sparse_gap_small_n")))
     put("sparseGapLarge", sig(first(S18, "sparse_gap_large_n")))
-    put("noisyGapTight", sig(first(S18, "noisy_gap_tight_penalty")))
-    put("noisyGapLoose", sig(first(S18, "noisy_gap_loose_penalty")))
     put("coverageNaiveMedian", pct(first(S10, "coverage_naive_median")))
     put("coverageNestedBasicMedian",
         pct(first(S10, "coverage_nested_basic_median")))

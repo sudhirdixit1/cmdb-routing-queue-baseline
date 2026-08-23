@@ -174,3 +174,33 @@ LOADERS = {
     "VolvoIT": (load_bpic13, BPIC13_CLASS),
     "Rabobank": (load_bpic14, BPIC14_CLASS),
 }
+
+
+def fmt_fixed(x, d):
+    """Format to `d` decimals, rounding half AWAY FROM ZERO.
+
+    Python's %-formatting rounds the binary double, so 0.9125 * 100 formats as
+    91.2 and 0.9125000000000001 * 100 formats as 91.3.  Two independent
+    derivations of the same quantity land either side of that knife edge all
+    the time -- one took a median of a list, the other read a stored mean --
+    and `verify_numbers.py` then reports a disagreement that is not one.
+
+    The ROUNDING CONVENTION is shared deliberately.  What must be independent
+    between the generator and the verifier is how a quantity is DERIVED, not
+    which way a tie in the last printed digit goes; making them differ on that
+    buys no assurance and costs a false alarm every time a value lands on a
+    half.
+    """
+    from decimal import Decimal, ROUND_HALF_UP
+    v = Decimal(repr(float(x)))
+    #  Snap off floating-point dust FIRST.  A median of an even-length
+    #  list is (x + y) / 2 and lands 1e-16 below a value the other
+    #  derivation reads from a CSV as an exact decimal; without this
+    #  the two round to different last digits and the verifier reports
+    #  a disagreement of one part in 10^16.  Nine guard digits is far
+    #  more precision than any quantity here is reported to and far
+    #  less than the noise being removed.
+    v = v.quantize(Decimal(1).scaleb(-(int(d) + 9)),
+                   rounding=ROUND_HALF_UP)
+    q = Decimal(1).scaleb(-int(d))
+    return str(v.quantize(q, rounding=ROUND_HALF_UP))

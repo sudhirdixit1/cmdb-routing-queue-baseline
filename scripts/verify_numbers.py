@@ -32,6 +32,7 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from common import RESULTS as _RESULTS  # noqa: E402
+from common import fmt_fixed  # noqa: E402
 
 #  The corruption suite (s13) runs this file against COPIES of the results,
 #  the manuscript and the data, so that a corruption is never written to the
@@ -105,15 +106,16 @@ def fmt_thousands(x):
 
 
 def fmt_pct(x, d=1):
-    return ("%." + str(d) + "f\\%%") % (100 * float(x))
+    return fmt_fixed(100 * float(x), d) + "\\%"
 
 
 def fmt_sig(x, d=4):
-    return ("%+." + str(d) + "f") % float(x)
+    v = fmt_fixed(float(x), d)
+    return v if v.startswith("-") else "+" + v
 
 
 def fmt_num(x, d=4):
-    return ("%." + str(d) + "f") % float(x)
+    return fmt_fixed(float(x), d)
 
 
 def main(argv=None):

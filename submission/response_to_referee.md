@@ -143,8 +143,18 @@ author honestly can.
 
 The audit is now a **pilot** (§9.4, Appendix F), and:
 
-* the frame is larger and stratified, with declared allocation and design
-  weights, and the enumeration is cached and reproducible;
+* the frame is stratified, with an allocation and design weights declared
+  before enumeration, and the enumeration is cached and reproducible. It is
+  also, we now report, **smaller than the earlier version claimed**: the
+  frame is 600 deduplicated records across 77 strata, not the 54,910 the
+  submitted manuscript stated. That figure summed a stratum-size column
+  over rows rather than over strata. Correcting it makes plain what the
+  pilot is: the enumeration stopped short of its declared 2,400-record
+  budget when the index's daily quota ran out, so every design weight is 1
+  and the pilot is a **census of what one index returned**, not a
+  probability sample of a literature. §9.4 and Appendix F say so, and a
+  fourth limit is now stated: the frame's coverage of the field is
+  unmeasured. The correction is C21 in Appendix C;
 * **a random sample of the papers the screen rejected was adjudicated**, so
   the screen's misses are counted rather than assumed away. This is the single
   most important change: it converts "we found none" into a measurable

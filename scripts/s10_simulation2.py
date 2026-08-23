@@ -250,9 +250,17 @@ def fit_scores(tr, te, cols):
     return S._onehot_logit(tr, te, cols, tr["_y"].values, SEED)
 
 
-def limit_estimand(W, rng):
+def limit_estimand(W, rng, observed=True):
     """V_limit: fit the pipeline on a very large sample and score the
-    ENUMERATED population, so no test-sampling noise enters."""
+    ENUMERATED population, so no test-sampling noise enters.
+
+    `observed=False` reproduces the PRE-CORRECTION definition, which weighted
+    the enumerated cells by the generator's own table rather than by the
+    distribution the estimator samples from.  It exists so that
+    Appendix~G's evidence --- two finite-sample explanations tested against
+    that definition and both refuted --- can be regenerated rather than
+    quoted from a log, and it is used by nothing else.
+    """
     big = draw(W, N_BIG, 1, rng)
     idx = W["idx"]
     pop = pd.DataFrame(dict(b=idx[:, 0].astype(str), g=idx[:, 1].astype(str),
@@ -264,7 +272,7 @@ def limit_estimand(W, rng):
     #  register values the model is shown, and in the noisy world they occur
     #  at frequencies, and carry outcome probabilities, that the generator's
     #  own table does not give.
-    pc, p_y = observed_population(W)
+    pc, p_y = (observed_population(W) if observed else (W["pc"], W["p2"]))
     return (population_auc(s1, p_y, pc) - population_auc(s0, p_y, pc))
 
 

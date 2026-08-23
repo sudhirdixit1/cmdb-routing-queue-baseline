@@ -71,6 +71,7 @@ N_TEST = 20000            # big enough that test noise is not the story
 SIZES = (2000, 4000, 8000, 16000, 32000, 64000)
 PENALTIES = (0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0)
 N_AT_PENALTY = 4000
+TAG = "s18_"
 
 
 def _fit(tr, te, cols, C_):
@@ -110,8 +111,12 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--reps", type=int, default=30)
     ap.add_argument("--procs", type=int, default=6)
+    ap.add_argument("--legacy-target", action="store_true",
+                    help="measure the gap against the PRE-CORRECTION V_limit, which weighted the enumerated cells by the generator's table rather than by what the estimator samples. This regenerates Appendix G's evidence.")
     a = ap.parse_args(argv)
     t0 = time.time()
+    global TAG
+    TAG = "s18_legacy_" if a.legacy_target else "s18_"
 
     print("=" * 92)
     print("s18  IS THE NOISY WORLD'S GAP A BIAS, AND IS THE PENALTY ITS CAUSE")
@@ -122,7 +127,8 @@ def main(argv=None):
     for w in WORLDS:
         rng = np.random.default_rng(SEED + 5000 + WORLD_SEED[w])
         W = world_spec(w, np.random.default_rng(SEED + WORLD_SEED[w]))
-        lim[w] = dict(V_limit=float(limit_estimand(W, rng)),
+        lim[w] = dict(V_limit=float(limit_estimand(
+            W, rng, observed=not a.legacy_target)),
                       V_oracle=float(truth(W)["V_oracle"]))
         print("  %-11s V_limit %+.4f   V_oracle %+.4f"
               % (w, lim[w]["V_limit"], lim[w]["V_oracle"]), flush=True)
@@ -138,7 +144,7 @@ def main(argv=None):
           .agg(V_mean=("V", "mean"), V_sd=("V", "std"),
                gap=("gap", "mean"), n_reps=("V", "size"),
                V_limit=("V_limit", "first")).reset_index())
-    SC.to_csv(RESULTS / "s18_scaling.csv", index=False)
+    SC.to_csv(RESULTS / (TAG + "scaling.csv"), index=False)
     print()
     print(SC.pivot_table(index="world", columns="n", values="gap")
           .round(4).to_string())
@@ -154,7 +160,7 @@ def main(argv=None):
     PN = (B.groupby(["world", "C"])
           .agg(V_mean=("V", "mean"), gap=("gap", "mean"),
                n_reps=("V", "size")).reset_index())
-    PN.to_csv(RESULTS / "s18_penalty.csv", index=False)
+    PN.to_csv(RESULTS / (TAG + "penalty.csv"), index=False)
     print()
     print(PN.pivot_table(index="world", columns="C", values="gap")
           .round(4).to_string())
@@ -184,7 +190,8 @@ def main(argv=None):
     facts["noisy_size_share"] = (
         1.0 - facts["noisy_gap_large_n"] / facts["noisy_gap_small_n"]
         if facts["noisy_gap_small_n"] else np.nan)
-    pd.DataFrame([facts]).to_csv(RESULTS / "s18_facts.csv", index=False)
+    pd.DataFrame([facts]).to_csv(RESULTS / (TAG + "facts.csv"),
+                                 index=False)
     print()
     print(pd.Series(facts).to_string())
     print()

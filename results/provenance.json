@@ -39,6 +39,11 @@
     "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
     "sha": "4f14dd5d1764343b"
   },
+  "s10_simulation2.py": {
+    "at": "2026-08-23T22:34:03Z",
+    "note": "s10 was re-run at 200 replicates after observed_population corrected the noisy world's estimand; s18 was run at 30 replicates against both the corrected target and, with --legacy-target, the pre-correction one, which is Appendix G's evidence.",
+    "sha": "fb4102f22eca973e"
+  },
   "s11_tool_agreement.py": {
     "at": "2026-08-23T21:56:14Z",
     "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
@@ -63,5 +68,10 @@
     "at": "2026-08-23T21:56:14Z",
     "note": "Round-19 run: results written by this exact source. s07, s08, s09, s15, s16 ran after their last edit; s02 finished under this source; s03, s04, s11, s17 were rerun after the s17 recentring and the region taxonomy landed.",
     "sha": "f62e02803b06b2ef"
+  },
+  "s18_bias_scaling.py": {
+    "at": "2026-08-23T22:34:03Z",
+    "note": "s10 was re-run at 200 replicates after observed_population corrected the noisy world's estimand; s18 was run at 30 replicates against both the corrected target and, with --legacy-target, the pre-correction one, which is Appendix G's evidence.",
+    "sha": "a0f27560f8d09bd2"
   }
 }

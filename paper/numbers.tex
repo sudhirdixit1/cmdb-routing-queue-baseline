@@ -42,19 +42,23 @@
 \newcommand{\auditSpecReg}{0.769}
 \newcommand{\auditThetaStatedPct}{27\%}
 \newcommand{\biasNoisyBefore}{-0.0353}
-\newcommand{\biasOracleMax}{0.0405}
+\newcommand{\biasOracleMax}{0.0157}
 \newcommand{\cardF}{3{,}019}
 \newcommand{\casePrevalence}{0.372}
 \newcommand{\corruptLevel}{15\%}
-\newcommand{\coverageNaiveMedian}{90.5\%}
-\newcommand{\coverageNaiveMin}{5.5\%}
-\newcommand{\coverageNestedBasicMedian}{92.0\%}
-\newcommand{\coverageNestedBasicMin}{7.0\%}
-\newcommand{\coverageNestedBcMedian}{91.5\%}
-\newcommand{\coverageNestedMedian}{94.2\%}
-\newcommand{\coverageNestedMin}{3.5\%}
-\newcommand{\coverageNoisyAfter}{7.0\%}
+\newcommand{\coverageDriftOracle}{70.0\%}
+\newcommand{\coverageNaiveMedian}{91.3\%}
+\newcommand{\coverageNaiveMin}{63.5\%}
+\newcommand{\coverageNestedBasicMedian}{92.3\%}
+\newcommand{\coverageNestedBasicMin}{91.0\%}
+\newcommand{\coverageNestedBcMedian}{92.0\%}
+\newcommand{\coverageNestedMedian}{94.3\%}
+\newcommand{\coverageNestedMin}{42.0\%}
+\newcommand{\coverageNoisyAfter}{92.0\%}
 \newcommand{\coverageNoisyBefore}{7.0\%}
+\newcommand{\coverageSparseBasic}{92.5\%}
+\newcommand{\coverageSparseBc}{67.5\%}
+\newcommand{\coverageSparsePct}{42.0\%}
 \newcommand{\crossTargetAgreement}{45\%}
 \newcommand{\doiBPICfourteen}{\url{https://doi.org/10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35}}
 \newcommand{\doiBPICthirteen}{\url{https://doi.org/10.4121/uuid:500573e6-accc-4b0c-9576-aa5468b10cee}}
@@ -79,7 +83,7 @@
 \newcommand{\kmOrphanPopulated}{100\%}
 \newcommand{\lambdaHalf}{0.64}
 \newcommand{\lambdaHalfPct}{64\%}
-\newcommand{\limitNoisyAfter}{+0.1135}
+\newcommand{\limitNoisyAfter}{+0.0804}
 \newcommand{\limitNoisyBefore}{+0.1135}
 \newcommand{\maxCardBZero}{200}
 \newcommand{\maxTMedian}{4.03}
@@ -118,7 +122,7 @@
 \newcommand{\nCohortCorpus}{46{,}606}
 \newcommand{\nCondBeneficial}{11}
 \newcommand{\nCondHarmful}{1}
-\newcommand{\nConditions}{8}
+\newcommand{\nConditions}{9}
 \newcommand{\nConfirmReject}{5}
 \newcommand{\nCorpusLogs}{21}
 \newcommand{\nDomains}{6}
@@ -146,7 +150,7 @@
 \newcommand{\nQuality}{10}
 \newcommand{\nResultEstates}{18}
 \newcommand{\nResultPairs}{12}
-\newcommand{\nScaleReps}{\textbf{??}}
+\newcommand{\nScaleReps}{30}
 \newcommand{\nSeeds}{three}
 \newcommand{\nSignChanging}{4}
 \newcommand{\nSignVaries}{18}
@@ -162,10 +166,12 @@
 \newcommand{\nUnresolvedPairs}{2}
 \newcommand{\nWorkedBefore}{41{,}413}
 \newcommand{\nWorlds}{six}
-\newcommand{\noisyGapLarge}{\textbf{??}}
-\newcommand{\noisyGapLoose}{\textbf{??}}
-\newcommand{\noisyGapSmall}{\textbf{??}}
-\newcommand{\noisyGapTight}{\textbf{??}}
+\newcommand{\noisyGapFixed}{+0.0025}
+\newcommand{\noisyGapFixedLarge}{-0.0007}
+\newcommand{\noisyGapLarge}{+0.0329}
+\newcommand{\noisyGapLoose}{+0.0362}
+\newcommand{\noisyGapSmall}{+0.0361}
+\newcommand{\noisyGapTight}{+0.0361}
 \newcommand{\pThreeRawA}{0.421}
 \newcommand{\pThreeRawB}{0.284}
 \newcommand{\pThreeSqrtA}{0.232}
@@ -210,8 +216,8 @@
 \newcommand{\shiftNegativePct}{56\%}
 \newcommand{\simNoiseRate}{20\%}
 \newcommand{\simPrevalence}{0.02}
-\newcommand{\sizeHi}{\textbf{??}}
-\newcommand{\sizeLo}{\textbf{??}}
+\newcommand{\sizeHi}{64{,}000}
+\newcommand{\sizeLo}{2{,}000}
 \newcommand{\sobolInteractionPct}{30.0\%}
 \newcommand{\sobolLearnerPct}{2.6\%}
 \newcommand{\sobolMaxAxis}{the metric}
@@ -224,8 +230,8 @@
 \newcommand{\sobolTopAxis}{the split}
 \newcommand{\sobolTopPair}{BPIC19/duration}
 \newcommand{\sobolTopPct}{50.7\%}
-\newcommand{\sparseGapLarge}{\textbf{??}}
-\newcommand{\sparseGapSmall}{\textbf{??}}
+\newcommand{\sparseGapLarge}{+0.0006}
+\newcommand{\sparseGapSmall}{+0.0118}
 \newcommand{\spreadHeadline}{0.091 AUC at the median pair and 0.298 at the widest}
 \newcommand{\spreadMax}{0.298}
 \newcommand{\spreadMedian}{0.091}

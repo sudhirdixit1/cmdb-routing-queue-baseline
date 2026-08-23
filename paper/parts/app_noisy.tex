@@ -42,6 +42,16 @@ population the estimator does not sample from. Marginalising the noise exactly
 There was no bias; there was a wrong estimand in our own simulation, and it
 took two arms of evidence against everything else to find it.
 
+\paragraph{The same two experiments, after the correction.}
+Both arms were re-run against the corrected target, and there is nothing left
+for them to explain: the noisy world's gap is \noisyGapFixed\ at $n = 4{,}000$
+and \noisyGapFixedLarge\ at \sizeHi. The sparse world's gap is unchanged in
+both runs, because the correction touches only the noisy world, which is what
+makes it a control rather than a coincidence. Coverage on the noisy world is
+\coverageNoisyAfter. \texttt{scripts/s18\_bias\_scaling.py -{}-legacy-target}
+regenerates the pre-correction figures above, so the evidence for this
+appendix is reproducible rather than quoted from a log we happen to have kept.
+
 The general lesson is the one this paper makes elsewhere about the design
 space: a quantity is defined relative to a declared population, and a
 simulation's population is a declaration like any other. A quality mechanism

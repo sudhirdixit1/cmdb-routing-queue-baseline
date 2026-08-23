@@ -1,0 +1,2 @@
+n_reps,n_test,size_lo,size_hi,penalty_lo,penalty_hi,noisy_gap_small_n,noisy_gap_large_n,noisy_gap_tight_penalty,noisy_gap_loose_penalty,linear_gap_small_n,linear_gap_large_n,sparse_gap_small_n,sparse_gap_large_n,runtime_s,noisy_penalty_share,noisy_size_share
+30,20000,2000,64000,0.1,10000.0,0.036132355206783075,0.03288223064205075,0.036132355206783075,0.036154436106986126,0.00022003958962739286,-0.000211983299448885,0.011843215270043799,0.0006188069422159474,51.9,-0.0006111115668128164,0.08995053176390178

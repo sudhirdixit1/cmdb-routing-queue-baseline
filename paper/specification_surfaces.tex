@@ -1227,33 +1227,50 @@ nominal.}
 Table~\ref{tab:sim} is the simulation of Section~\ref{sec:sim}, and it is the
 one place where the method failed and had to be repaired.
 
-\textbf{Where the refit helps.} On the four worlds in which the estimator is
-close to unbiased for its own limit --- linear, nonlinear, drifting,
-imbalanced --- the fixed-model interval undercovers and the nested one does
-not: median \coverageNaiveMedian\ against \coverageNestedMedian. That is what
-refitting is for, and it works.
+\textbf{Where the refit helps.} On the worlds in which the estimator is close
+to unbiased for its own limit --- every one but the sparse register --- the
+fixed-model interval undercovers and the nested one does not: median
+\coverageNaiveMedian\ against \coverageNestedMedian. That is what refitting is
+for, and it works.
 
-\textbf{Where the percentile interval fails, and why.} On the sparse and noisy
-worlds both intervals collapse, and the \emph{nested} one is worse than the
-fixed-model one --- \coverageNestedMin\ at its lowest. The cause is
-Section~\ref{sec:boot}: a bootstrap training resample holds about
-$63\%$ of the distinct register levels, every refit therefore sees a sparser
-register, and the whole bootstrap distribution shifts below the estimate. A
-percentile interval taken from a shifted distribution is a correct interval
-for the wrong quantity.
+\textbf{Where the percentile interval fails, and why.} On the sparse world it
+collapses to \coverageNestedMin, and the \emph{nested} percentile interval is
+worse there than the fixed-model one, which is the opposite of what refitting
+is for. The cause is Section~\ref{sec:boot}: a bootstrap training resample
+holds about $63\%$ of the distinct register levels, every refit therefore sees
+a sparser register, and the whole bootstrap distribution shifts below the
+estimate. A percentile interval taken from a shifted distribution is a correct
+interval for the wrong quantity. The sparse world is the one that makes this
+visible because it is the one with \nSimSparse\ register levels; the case
+study's log has \cardF.
 
 \textbf{The repair.} The basic interval pivots that shift out and restores
-coverage: median \coverageNestedBasicMedian\ with a minimum of
-\coverageNestedBasicMin, against the percentile interval's
-\coverageNestedMin. Every interval and every band in this paper uses it.
+coverage --- \coverageSparseBasic\ on the sparse world against the percentile
+interval's \coverageSparsePct --- and costs nothing where there was nothing to
+repair: across all \nWorlds\ worlds its median is
+\coverageNestedBasicMedian\ and its minimum \coverageNestedBasicMin. The
+bias-corrected percentile does \emph{not} repair the sparse world
+(\coverageSparseBc), which is why the basic interval and not the
+bias-corrected one is what this paper reports. Every interval and every band
+in it uses the basic construction.
 
 \textbf{What no interval repairs.} Against $V_{\mathrm{oracle}}$ rather than
-$V_{\mathrm{limit}}$, all three constructions undercover in the misspecified
-worlds, and they should: the estimator is not consistent for the oracle
-quantity there, and the largest gap is \biasOracleMax\ in AUC units. We report
+$V_{\mathrm{limit}}$, every construction undercovers on the drifting world ---
+\coverageDriftOracle\ at best --- and it should: when the coefficients move
+between the training and test eras the estimator is not consistent for the
+oracle quantity, and the largest gap is \biasOracleMax\ in AUC units. We report
 it rather than describing it as boundary behaviour. Under misspecification an
 interval around the estimator's own limit is not an interval around the
 quantity a reader cares about, and no amount of resampling repairs that.
+
+\textbf{And one apparent failure that was ours.} An earlier version of this
+round reported that every construction fails on the noisy world too. It does
+not; the estimand did. The simulation enumerated the data generator's true
+register values while the estimator only ever sees corrupted ones, so coverage
+was measured against a population the estimator does not sample from.
+Appendix~\ref{app:noisy} gives the two experiments that refuted every
+finite-sample explanation for the apparent bias and thereby found it. With the
+noise marginalised the noisy world covers \coverageNoisyAfter.
 % ---- paper/parts/50_cmdb.tex ----
 
 \section{Case study: a configuration management database}
