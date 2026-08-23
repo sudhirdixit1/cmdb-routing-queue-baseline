@@ -6,9 +6,23 @@ A configuration management database is the register an IT estate keeps of the
 items it contains, and it is bought partly on the argument that operational
 analytics need it. This section evaluates one against a named decision on a
 public log: at intake, will this incident be reassigned to another group
-before it is resolved? The estate is a bank's, the log is BPI Challenge 2014 \citep{vandongen2014bpic},
-the cohort is \nCohort\ incidents, and the register field is the affected
-configuration item, with \cardF\ distinct values.
+before it is resolved? The estate is a bank's, the log is BPI Challenge 2014
+\citep{vandongen2014bpic}, the cohort is \nCohort\ incidents at prevalence
+\casePrevalence, and the register field is the affected configuration item,
+with \cardF\ distinct values.
+
+\paragraph{Two cohorts, and why.}
+BPI Challenge 2014 appears twice in this paper under two different cohorts,
+and the numbers differ. Section~\ref{sec:multilog} applies the registered
+generic rules of Section~\ref{sec:design}, which admit \nCohortCorpus\ cases
+and define the target by the registered handover and duration rules. This
+section uses the cohort and the reassignment target this project defined for
+the estate in an earlier round: \nCohort\ cases, \nCaseTrain\ in training and
+\nCaseTest\ in test. The cohort and eligibility rule is part of what a
+specification fixes (Section~\ref{sec:surface}), so two cohorts is two answers
+rather than a discrepancy --- but it is exactly the kind of thing a reader is
+entitled to have pointed out rather than to discover, and an earlier version
+of this work did not point it out.
 
 This is one case among the \nPairs\ in Section~\ref{sec:multilog}, and it is
 reported at greater length for two reasons: it is the case that motivated the

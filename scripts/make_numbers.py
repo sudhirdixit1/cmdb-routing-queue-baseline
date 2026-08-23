@@ -162,13 +162,23 @@ def main(argv=None):
     put("minTrainCoverage", "50\%")
     put("minPerStratum", "25")
 
+    #  BPIC14 appears TWICE with two different cohort sizes, and the
+    #  manuscript now says so rather than letting a reader find it.  The
+    #  corpus applies the registered generic rules and admits 46,606 cases;
+    #  the case study uses the cohort and the reassignment target this
+    #  project defined for it in an earlier round, 45,455.  The cohort is an
+    #  axis of the estimand, so two cohorts is two answers, not an error.
     if SUR is not None and len(SUR):
         p = SUR[SUR.log == "BPIC14"]
         put("cardF", thousands(float(p.card_f.iloc[0])) if len(p) else None)
-        put("nCohort", thousands(float(p.n.iloc[0])) if len(p) else None)
+        put("nCohortCorpus", thousands(float(p.n.iloc[0])) if len(p) else None)
     else:
         put("cardF", None)
-        put("nCohort", None)
+        put("nCohortCorpus", None)
+    put("nCohort", thousands(first(S8, "n_cohort")))
+    put("casePrevalence", num(first(S8, "prevalence"), 3))
+    put("nCaseTrain", thousands(first(S8, "n_train")))
+    put("nCaseTest", thousands(first(S8, "n_test")))
 
     # ---- bootstrap / bands ----------------------------------------------
     put("nDrawRows", thousands(first(S2, "n_draw_rows")))
@@ -405,9 +415,14 @@ def main(argv=None):
         put("unseenMax", None)
 
     # ---- decision curve --------------------------------------------------
-    put("thetaCheap", "0.10")
-    put("thetaBase", "0.30")
-    put("thetaDear", "0.60")
+    #  An operating point IS a cost ratio: at theta the rule accepts
+    #  (1-theta)/theta false nominations for one true one.  The manuscript
+    #  names three points and states the ratio at each rather than leaving the
+    #  reader to compute it, which is the referee's "determine thresholds from
+    #  explicit operational cost ratios".
+    for name, th in (("Cheap", 0.10), ("Base", 0.30), ("Dear", 0.60)):
+        put("theta" + name, "%.2f" % th)
+        put("ratio" + name, "%.1f" % ((1.0 - th) / th))
     BN = load("s02_bands.csv")
     CE = load("s02_cells.csv")
     if BN is not None and len(BN):

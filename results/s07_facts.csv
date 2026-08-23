@@ -1,2 +1,2 @@
-p1_configs,p1_dR_auc,p1_dR_ap,p1_sweep_points,p1_max_R_ap,p1_max_abs_R_auc,p2_rank_max_dR,p2_nonrank_max_dR,p2_cancelling_case,r1_pairs,r1_estates,r1_witness_min,r1_witness_max,n_failed,runtime_s
-2,0.0,0.9879211113701124,20,0.9978991596638656,4.440892098500626e-15,0.0,11.695856369850587,1,12,18,0,5,0,535.1
+p1_configs,p1_dR_auc,p1_dR_ap,p1_sweep_points,p1_max_R_ap,p1_max_abs_R_auc,p2_rank_max_dR,p2_nonrank_max_dR,p2_cancelling_case,p3_raw_leader,p3_transformed_leader,p3_raw_gap,p3_transformed_gap,r1_pairs,r1_estates,r1_witness_min,r1_witness_max,n_failed,runtime_s
+2,0.0,0.9879211113701124,20,0.9978991596638656,4.440892098500626e-15,0.0,11.695856369850587,1,A,B,0.1375050530657549,0.15845335780075473,12,18,0,5,0,1351.4

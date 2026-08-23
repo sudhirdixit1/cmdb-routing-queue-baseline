@@ -188,6 +188,25 @@ slopes below one indicate the overfitting that
 high-cardinality one-hot encodings produce, and are the reason a calibrated
 learner is one of the four.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.72\linewidth]{figS7_calibration.png}
+\caption{Calibration at the reference cell on the case study's log, by decile
+of predicted risk. The two proper scoring rules on the metric axis --- Brier
+skill and the log-loss skill --- read this picture; the two rank-based ones
+cannot see it at all (Proposition~\ref{prop:rank}). A learner whose
+discrimination is adequate and whose calibration is not therefore moves the
+increment on some instruments and not others, which is one concrete mechanism
+behind the metric axis's contribution to Table~\ref{tab:sobol}.}
+\label{fig:calibration}
+\end{figure}
+
+Figure~\ref{fig:calibration} draws the same information as a curve. The
+frequency-encoded learner is the one that is visibly miscalibrated, with a
+slope well below one, and it is also the learner whose increment differs most
+from the others on the two proper scoring rules. That is the interaction
+between the learner axis and the metric axis, drawn.
+
 Rolling-origin results are in \texttt{results/s01\_surface.csv} under
 \texttt{split = rolling$k$} and enter the decomposition as the split axis;
 Appendix~\ref{app:rolling} prints them per fold. The single holdout is not the

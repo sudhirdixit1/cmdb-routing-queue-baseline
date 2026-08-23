@@ -15,14 +15,30 @@ $\hat p \geq \theta$ is
 \mathrm{NB}(\theta) \;=\; \frac{\mathrm{TP}(\theta)}{n}
 \;-\; \frac{\mathrm{FP}(\theta)}{n}\cdot\frac{\theta}{1-\theta},
 \]
-so $\theta/(1-\theta)$ is the number of false nominations the desk is willing
-to accept for one true one. Choosing $\theta$ is therefore choosing an
-operational cost ratio, and it belongs to the analyst's declaration rather
-than to a grid search. We report the whole grid --- \nGrid\ points from
-\gridLo\ to \gridHi\ --- and name three points a desk might actually occupy:
-\thetaCheap, where a review is cheap relative to a missed reassignment;
-\thetaBase, the estate's own base rate; and \thetaDear, where review capacity
-is scarce.
+so $(1-\theta)/\theta$ is the number of false nominations the desk is willing
+to accept for one true one. Choosing $\theta$ is choosing an operational cost
+ratio, and it belongs to the analyst's declaration rather than to a grid
+search. We report the whole grid --- \nGrid\ points from \gridLo\ to
+\gridHi\ --- and name three points a desk might occupy, each with the ratio it
+encodes.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+$\theta$ & false accepted per true & the desk this describes \\
+\midrule
+\thetaCheap & \ratioCheap & a review is cheap; nominate liberally \\
+\thetaBase  & \ratioBase  & a review and a miss cost about the same \\
+\thetaDear  & \ratioDear  & review capacity is scarce \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent A reader whose desk sits at a ratio not in that list reads their own
+point off Figure~\ref{fig:dca}. Reporting the grid is what makes that
+possible, and it is the same argument as the rest of the paper one level
+down: the operating point is the reader's to choose, so the analyst reports
+the curve rather than a point on it.
 
 \subsection{Simultaneous bands change what can be said}
 

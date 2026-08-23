@@ -240,10 +240,10 @@ third instrument, not to characterise the set.
 Decision curve analysis \citep{vickers2006dca,vickers2016net} makes the
 operating point explicit by reading net benefit across an exchange rate, and
 is the reason the operating point is an axis here rather than a footnote.
-Recent work supplies inference for decision curves
-\citep{vickers2019simple}; we use simultaneous bands rather than
-pointwise ones because a statement about a \emph{band} of thresholds is a
-family of statements.
+Guidance on reading such a curve is well developed \citep{vickers2019simple};
+what is less settled is what a claim about a \emph{band} of thresholds
+requires, and we treat it as the family of statements it is, so the bands in
+Section~\ref{sec:dca} are simultaneous rather than pointwise.
 
 \paragraph{Specification sensitivity.}
 That analytic conclusions move with defensible analytic choices is the subject
@@ -291,11 +291,16 @@ operational problem \citep{marrone2011itil}; we are not aware of an evaluation
 of one against a named prediction task with the design space held open.
 
 \paragraph{Data quality as an axis.}
-The effect of data quality on model performance has been studied directly
-\citep{mohammed2025dataquality,liu2025encoding}, and in process mining the effect of
-low-quality labels and of encoding choices likewise
-\citep{comuzzi2025labels}. Those studies vary quality with the feature set
-fixed; we vary quality \emph{as one axis of the same surface} on which the
-feature set is another, which is what makes the interaction between them
-visible.
+The effect of data quality on model performance has been studied directly on
+tabular data \citep{mohammed2025dataquality} and, in process mining, for
+low-quality activity labels \citep{comuzzi2025labels}. Those studies vary
+quality with the feature set fixed; we vary quality \emph{as one axis of the
+same surface} on which the feature set and the encoding are others, which is
+what makes the interaction between them visible ---
+Section~\ref{sec:quality} reports a quality defect that is exactly invisible
+under one encoder and not under another. Leakage, which is availability
+misspecified, is the subject of its own literature
+\citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}, and the
+decision time of Section~\ref{sec:twodecision} is the axis that makes it a
+declared choice rather than a mistake.
 
