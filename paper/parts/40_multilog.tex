@@ -35,7 +35,8 @@ plus the free field as the baseline, ROC AUC.
 \includegraphics[width=\linewidth]{figS2_sobol.png}
 \caption{First-order sensitivity indices on the headroom scale, per
 log--target pair. The bars do not sum to one: the remainder is interaction,
-and Table~\ref{tab:sobol} gives the total indices from which it is read.}
+and Table~\ref{tab:sobol}'s last column gives the largest per-axis
+interaction share on each pair.}
 \label{fig:sobol}
 \end{figure}
 
@@ -181,7 +182,7 @@ difference is a \regretOneNumberExcessPct\ excess in expected regret. On the
 \nSignChanging\ sign-changing pairs they do not, and that is where the
 difference comes from.
 
-\paragraph{What the comparison assumes.} That the reader's own specification
+\paragraph{What the comparison assumes} That the reader's own specification
 is drawn from the declared admissible set, which is why two weightings are
 reported rather than one, and that every cell in that set is equally
 defensible, which is why the intercept-only rung is excluded. Neither

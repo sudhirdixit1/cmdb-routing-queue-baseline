@@ -133,7 +133,7 @@ answer; that the right object to report is therefore a surface over a
 estimation and inference of its own, which is what a methodological
 contribution to this journal has to supply.
 
-\paragraph{The estimand.}
+\paragraph{The estimand}
 Write a specification $s$ for a complete assignment to every design axis, and
 \begin{equation}
 V_s(f) \;=\; m_\theta\!\left(A_s(D_{\mathrm{train}}, B \cup \{f_q\}),\,
@@ -177,7 +177,7 @@ everything.}
 \label{fig:speccurve}
 \end{figure}
 
-\paragraph{Contributions.}
+\paragraph{Contributions}
 \begin{enumerate}
 \item \textbf{A specification surface, formally.} Section~\ref{sec:surface}
 defines $\mathcal{S}$, $V_s$, and the relative reduction $R$; states the
@@ -242,7 +242,7 @@ assumed to be post-hoc, so a reader can place their own belief on the curve.
 \end{enumerate}
 
 
-\paragraph{What this paper is not.}
+\paragraph{What this paper is not}
 It is not an enterprise procurement conclusion about configuration management
 databases. It is not a systematic review of reporting practice; a pilot
 measurement of practice is reported in Section~\ref{sec:practice} with its
@@ -253,7 +253,7 @@ study on public benchmarks, offered as an evaluation methodology.
 \section{Related work}
 \label{sec:related}
 
-\paragraph{Variable importance and incremental value.}
+\paragraph{Variable importance and incremental value}
 That a feature's apparent importance depends on what else is in the model is
 the standard motivation for conditional and permutation-based importance
 \citep{strobl2008conditional,fisher2019models} and for Shapley-value
@@ -272,7 +272,7 @@ does not supply is an object that reports the whole dependence, an estimator
 for it, or inference over it; the recommendation is usually to add a second or
 third instrument, not to characterise the set.
 
-\paragraph{Decision-analytic evaluation.}
+\paragraph{Decision-analytic evaluation}
 Decision curve analysis \citep{vickers2006dca,vickers2016net} makes the
 operating point explicit by reading net benefit across an exchange rate, and
 is the reason the operating point is an axis here rather than a footnote.
@@ -281,7 +281,7 @@ what is less settled is what a claim about a \emph{band} of thresholds
 requires, and we treat it as the family of statements it is, so the bands in
 Section~\ref{sec:dca} are simultaneous rather than pointwise.
 
-\paragraph{Specification sensitivity.}
+\paragraph{Specification sensitivity}
 That analytic conclusions move with defensible analytic choices is the subject
 of multiverse analysis \citep{steegen2016increasing}, specification-curve
 analysis \citep{simonsohn2020specification}, vibration of effects
@@ -298,13 +298,13 @@ permutation test to its median; it does not tell a reader which sub-region of
 the design space supports a sign, which is the question a buyer of a data
 programme actually asks.
 
-\paragraph{Data valuation.}
+\paragraph{Data valuation}
 Shapley-based data valuation \citep{ghorbani2019data,jia2019towards} values
 \emph{instances} against a fixed learner and metric; the axes we vary are
 exactly the ones held fixed there. The two are complementary: a data value is
 itself a point on a specification surface.
 
-\paragraph{Which axis a study varies.}
+\paragraph{Which axis a study varies}
 Some studies do vary one axis deliberately: the metric axis in effort-aware
 defect prediction \citep{carka2022effortaware}, the encoding axis in remaining-time
 prediction \citep{liu2025encoding}, the inter-case feature block in predictive
@@ -312,7 +312,7 @@ process monitoring \citep{senderovich2017intercase}. What is missing is not the
 idea of varying an axis but an object that holds several axes at once and says
 what their joint variation implies for a sign.
 
-\paragraph{Prediction on incident event logs.}
+\paragraph{Prediction on incident event logs}
 The empirical setting is predictive process monitoring, surveyed and
 benchmarked across real logs
 \citep{teinemaa2019outcome,verenich2019survey} on data of the kind process
@@ -326,7 +326,7 @@ their data quality are treated in the IT service management literature as an
 operational problem \citep{marrone2011itil}; we are not aware of an evaluation
 of one against a named prediction task with the design space held open.
 
-\paragraph{Data quality as an axis.}
+\paragraph{Data quality as an axis}
 The effect of data quality on model performance has been studied directly on
 tabular data \citep{mohammed2025dataquality} and, in process mining, for
 low-quality activity labels \citep{comuzzi2025labels}. Those studies vary
@@ -606,7 +606,7 @@ expanding-window folds --- beside the single temporal holdout, and the split
 is an axis of the decomposition rather than a robustness paragraph.
 
 \paragraph{Refitting inside the draw breaks the percentile interval, and here
-is the fix.}
+is the fix}
 This is the one place where the simulation of Section~\ref{sec:sim} caught the
 method rather than confirming it, so it is stated before the results rather
 than after.
@@ -619,10 +619,11 @@ increment it produces is systematically smaller. The bootstrap distribution
 therefore sits \emph{below} the estimate --- in \shiftNegativePct\ of this
 paper's cells, by a median \shiftMedian\ AUC --- and a percentile interval
 taken from it sits below the estimand and misses no matter how wide it is.
-That is not a small effect: in the sparse and noisy worlds of
-Section~\ref{sec:sim} the percentile interval covers far below nominal, and
-the nested one covers \emph{worse} than the fixed-model one, which is the
-opposite of what refitting is for.
+That is not a small effect: in the sparse world of Section~\ref{sec:sim} ---
+the one with a register large enough for the retention rate to bite --- the
+nested percentile interval covers \coverageSparsePct\ against a nominal
+$95\%$, which is \emph{worse} than the fixed-model interval it was meant to
+improve on. That is the opposite of what refitting is for.
 
 The fix is standard and we should have used it from the start. Every interval
 in this paper is the \emph{basic} (pivotal) interval
@@ -878,7 +879,7 @@ the second, and reporting its coverage of the first as though it were the
 estimator's coverage is precisely the error the earlier simulation made. Both
 are reported in Table~\ref{tab:sim}.
 
-\paragraph{The truth has to be the truth the estimator sees.}
+\paragraph{The truth has to be the truth the estimator sees}
 Both estimands are computed by enumerating cells, and in the noisy world the
 cells the generator writes down are not the cells the estimator observes: a
 register value is replaced by a uniform draw with probability
@@ -1016,7 +1017,8 @@ plus the free field as the baseline, ROC AUC.
 \includegraphics[width=\linewidth]{figS2_sobol.png}
 \caption{First-order sensitivity indices on the headroom scale, per
 log--target pair. The bars do not sum to one: the remainder is interaction,
-and Table~\ref{tab:sobol} gives the total indices from which it is read.}
+and Table~\ref{tab:sobol}'s last column gives the largest per-axis
+interaction share on each pair.}
 \label{fig:sobol}
 \end{figure}
 
@@ -1162,7 +1164,7 @@ difference is a \regretOneNumberExcessPct\ excess in expected regret. On the
 \nSignChanging\ sign-changing pairs they do not, and that is where the
 difference comes from.
 
-\paragraph{What the comparison assumes.} That the reader's own specification
+\paragraph{What the comparison assumes} That the reader's own specification
 is drawn from the declared admissible set, which is why two weightings are
 reported rather than one, and that every cell in that set is equally
 defensible, which is why the intercept-only rung is excluded. Neither
@@ -1285,7 +1287,7 @@ before it is resolved? The estate is a bank's, the log is BPI Challenge 2014
 \casePrevalence, and the register field is the affected configuration item,
 with \cardF\ distinct values.
 
-\paragraph{Two cohorts, and why.}
+\paragraph{Two cohorts, and why}
 BPI Challenge 2014 appears twice in this paper under two different cohorts,
 and the numbers differ. Section~\ref{sec:multilog} applies the registered
 generic rules of Section~\ref{sec:design}, which admit \nCohortCorpus\ cases
@@ -1725,7 +1727,7 @@ is not a finding about the field.
 \section{Limitations}
 \label{sec:lim}
 
-\paragraph{This is predictive performance, not value.}
+\paragraph{This is predictive performance, not value}
 Nothing here measures what a register costs to acquire or maintain, whether
 acting on a prediction changes an outcome, what a false review costs the
 organisation whose data these are, or what a data programme is worth. The
@@ -1734,7 +1736,7 @@ exchange rate in Section~\ref{sec:dca}. A reader who converts
 Table~\ref{tab:master} into a procurement decision is doing something this
 evidence does not support.
 
-\paragraph{The design space is declared, not complete.}
+\paragraph{The design space is declared, not complete}
 $\mathcal{S}$ has \nAxes\ axes here. It could have more: hyperparameter
 tuning protocol, missing-data treatment for the baseline fields, the horizon
 of the target, the label-noise model. The cohort and eligibility rule is
@@ -1744,7 +1746,7 @@ author declared, and the honest form of the claim is ``the increment moves
 this much over \emph{this} space'', not ``over all defensible choices''.
 
 \paragraph{The grid is not uniform across the corpus, and the bootstrap's is
-smaller than the surface's.} The learner axis carries four levels on the case
+smaller than the surface's} The learner axis carries four levels on the case
 study's log and two elsewhere, and the nested bootstrap covers four
 register-quality conditions where the surface covers \nQuality. Both are
 compute budgets, both were declared before the runs rather than chosen after
@@ -1753,7 +1755,7 @@ strictly comparable with one computed on another. The alternative --- a
 uniform grid at the size the smallest budget allows --- would have cost more
 information than it bought.
 
-\paragraph{Two of the new objects have stated scope conditions.} The
+\paragraph{Two of the new objects have stated scope conditions} The
 decomposition inherits the metric's scale (Proposition~\ref{prop:scale}), so
 ``which choice matters most'' is a statement about a scale as well as about a
 surface. And the regret benchmark assumes the reader's own specification is
@@ -1761,7 +1763,7 @@ drawn from the declared admissible set under a stated weighting
 (Proposition~\ref{prop:optimal}); two weightings are reported, and a reader
 whose practice matches neither will get a different number.
 
-\paragraph{One estate for the case study.}
+\paragraph{One estate for the case study}
 The configuration management database analysis is one bank's estate, on one
 public log, and the availability question at its centre is settled by
 probability rather than by a timestamped field-value history. The strongest
@@ -1771,7 +1773,7 @@ population and accuracy, operational review costs, and practitioner
 confirmation of which fields are admissible. We do not have one, and
 Section~\ref{sec:cmdb} is framed as a benchmark case in consequence.
 
-\paragraph{The corpus is heterogeneous, and here is how much.}
+\paragraph{The corpus is heterogeneous, and here is how much}
 The \nPairs\ pairs are not replications of one another. The registers, the
 free fields and the targets mean different things across domains, and the
 claim deserves a number rather than a hedge: across the \nLogs\ logs the two
@@ -1785,7 +1787,7 @@ cohorts share. Section~\ref{sec:multilog} therefore reports a benchmark of
 specification sensitivity across heterogeneous problems, and does not average
 across them.
 
-\paragraph{The quality mechanisms are synthetic.}
+\paragraph{The quality mechanisms are synthetic}
 Population loss, identity error, reconciliation failure and staleness are
 constructed from the training half, not observed. A real register degrades in
 ways correlated with the outcome --- the items nobody maintains are the items
@@ -1794,14 +1796,14 @@ cannot capture that. Validating the mechanisms against a genuinely incomplete
 or historically evolving register is the obvious next study and we do not have
 the data for it.
 
-\paragraph{Inference still rests on assumptions.}
+\paragraph{Inference still rests on assumptions}
 The nested bootstrap refits the pipeline and the blocks carry temporal
 dependence, but the split point is fixed within a draw, the block length is a
 rule of thumb, and the max-$t$ band's family-wise coverage is asymptotic. The
 simulation of Section~\ref{sec:sim} measures what this costs in \nWorlds\ worlds;
 it does not certify the intervals on a seventh.
 
-\paragraph{The practice pilot is a pilot.}
+\paragraph{The practice pilot is a pilot}
 Section~\ref{sec:practice} states its own sampling error, coder error and
 resolution, and none of the paper's claims rests on it.
 

@@ -11,7 +11,7 @@ That write-up would have been wrong, and the two experiments below are what
 stopped it. Both were designed so that either could refute the bias reading,
 and both did.
 
-\paragraph{The gap against sample size.}
+\paragraph{The gap against sample size}
 A finite-sample bias closes as $n$ grows. The increment was estimated at
 \nSizeGrid\ sample sizes from \sizeLo\ to \sizeHi\ in every world, at
 \nScaleReps\ replicates each, with the penalty held fixed. The sparse world
@@ -22,7 +22,7 @@ control that makes the noisy result mean something --- without it, ``the gap
 did not close'' could be a statement about the experiment rather than about
 the world.
 
-\paragraph{The gap against the penalty.}
+\paragraph{The gap against the penalty}
 A fixed $L_2$ penalty is not scale-free, so it can masquerade as bias: it
 shrinks coefficients materially at $n = 4{,}000$ and barely at $n = 120{,}000$,
 which would make a large-sample fit a different specification rather than the
@@ -30,7 +30,7 @@ same one at its limit. Holding $n$ at $4{,}000$ and weakening the penalty by
 \nPenaltyDecades\ orders of magnitude moves the noisy world's gap from
 \noisyGapTight\ to \noisyGapLoose\ --- that is, not at all.
 
-\paragraph{What was actually wrong.}
+\paragraph{What was actually wrong}
 Neither explanation surviving is what sent us to examine the target rather
 than the estimator, and the target was wrong. The simulation enumerated the
 generator's cells, carrying the \emph{true} register value, while in the noisy
@@ -42,7 +42,7 @@ population the estimator does not sample from. Marginalising the noise exactly
 There was no bias; there was a wrong estimand in our own simulation, and it
 took two arms of evidence against everything else to find it.
 
-\paragraph{The same two experiments, after the correction.}
+\paragraph{The same two experiments, after the correction}
 Both arms were re-run against the corrected target, and there is nothing left
 for them to explain: the noisy world's gap is \noisyGapFixed\ at $n = 4{,}000$
 and \noisyGapFixedLarge\ at \sizeHi. The sparse world's gap is unchanged in

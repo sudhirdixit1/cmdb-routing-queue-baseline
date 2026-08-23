@@ -49,7 +49,7 @@ expanding-window folds --- beside the single temporal holdout, and the split
 is an axis of the decomposition rather than a robustness paragraph.
 
 \paragraph{Refitting inside the draw breaks the percentile interval, and here
-is the fix.}
+is the fix}
 This is the one place where the simulation of Section~\ref{sec:sim} caught the
 method rather than confirming it, so it is stated before the results rather
 than after.
@@ -62,10 +62,11 @@ increment it produces is systematically smaller. The bootstrap distribution
 therefore sits \emph{below} the estimate --- in \shiftNegativePct\ of this
 paper's cells, by a median \shiftMedian\ AUC --- and a percentile interval
 taken from it sits below the estimand and misses no matter how wide it is.
-That is not a small effect: in the sparse and noisy worlds of
-Section~\ref{sec:sim} the percentile interval covers far below nominal, and
-the nested one covers \emph{worse} than the fixed-model one, which is the
-opposite of what refitting is for.
+That is not a small effect: in the sparse world of Section~\ref{sec:sim} ---
+the one with a register large enough for the retention rate to bite --- the
+nested percentile interval covers \coverageSparsePct\ against a nominal
+$95\%$, which is \emph{worse} than the fixed-model interval it was meant to
+improve on. That is the opposite of what refitting is for.
 
 The fix is standard and we should have used it from the start. Every interval
 in this paper is the \emph{basic} (pivotal) interval
@@ -321,7 +322,7 @@ the second, and reporting its coverage of the first as though it were the
 estimator's coverage is precisely the error the earlier simulation made. Both
 are reported in Table~\ref{tab:sim}.
 
-\paragraph{The truth has to be the truth the estimator sees.}
+\paragraph{The truth has to be the truth the estimator sees}
 Both estimands are computed by enumerating cells, and in the noisy world the
 cells the generator writes down are not the cells the estimator observes: a
 register value is replaced by a uniform draw with probability

@@ -893,11 +893,25 @@ def write_tables(D):
         h = SOB[SOB.scale == "headroom"]
         piv = h.pivot_table(index=["log", "target"], columns="axis",
                             values="S").reset_index()
+        #  The interaction share belongs in the table, not only in the prose:
+        #  the first-order indices do not sum to one and a reader looking at
+        #  Figure 2 has to be able to see where the rest went.  It is the
+        #  LARGEST per-axis S_Ti - S_i on the pair, which is the share that
+        #  the single most entangled axis carries in interactions.
+        inter = (h.assign(d=(h.S_total - h.S).clip(lower=0))
+                 .groupby(["log", "target"]).d.max().reset_index()
+                 .rename(columns={"d": "interaction"}))
+        piv = piv.merge(inter, on=["log", "target"], how="left")
         (TABLES / "sobol.tex").write_text(
             tex_table(piv, "First-order sensitivity indices on the headroom "
                       "scale: the share of the variance in the increment "
                       "across specifications explained by each design axis "
-                      "alone.", "tab:sobol"), encoding="utf-8")
+                      "alone. The five do not sum to one, and the last column "
+                      "is the largest per-axis interaction share "
+                      "$S_{T_i} - S_i$ on that pair, which is where the "
+                      "remainder lives. Total indices per axis are in "
+                      "results/s03\_sobol.csv.",
+                      "tab:sobol"), encoding="utf-8")
     else:
         blank("sobol", "Sensitivity indices.", "tab:sobol")
 
