@@ -1975,3 +1975,34 @@ aggregation would have agreed with the error.
   the response letter's cross-references must skip them, and must handle
   `\appendix` restarting the counter in letters. `scripts/check_response_refs
   .py` does both, and found eight stale references.
+
+
+## 24. What reading the pages found, and why it is in the handoff
+
+Seven defects in the round-nineteen build produced **no wrong number** and
+every checker in the repository passed on them:
+
+- the word *Appendix* printed twice on all fourteen appendix references,
+  because elsarticle's ef already supplies it;
+- a macro ate the space before an em dash and printed `42.0%--- and`, because
+  a control word swallows the whitespace after it;
+- a macro carrying words was quoted inside math and printed
+  `18percentagepoints`;
+- a sentence tail left by a scripted edit printed twice;
+- a minus sign set as a text hyphen, in the conclusion sentence about the
+  *sign* of an increment;
+- the coverage figure's y-axis floor was a literal 0.6, clipping the single
+  bar the figure exists to show (0.420) out of frame;
+- a comparison sentence in §8.2 whose two numbers were both zero, so it made
+  no claim while appearing to make one.
+
+Five became lint checks (texlint 10-14).  Two could not: an axis limit and a
+vacuous comparison are judgements, not patterns.
+
+**The generalisable point.** An architecture in which every number is derived
+from a result file guarantees that no two printings of a quantity disagree.
+It guarantees nothing about whether the sentence around the number says what
+you meant, whether the figure shows the number, or whether the comparison you
+built the section around still has two different numbers in it.  Budget time
+for reading the compiled PDF end to end, at the end, after every checker
+passes.  On this round that pass found more than every checker combined.
