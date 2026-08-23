@@ -520,7 +520,11 @@ def main(argv=None):
 
     # ---- target agreement, DOIs, release --------------------------------
     R16 = load("r16_field_semantics.csv")
-    put("targetAgreement", target_agreement(R16))
+    S16 = load("s16_facts.csv")
+    put("targetAgreement", pct(first(S16, "agreement_median"), 0))
+    put("targetAgreementLo", pct(first(S16, "agreement_min"), 0))
+    put("targetAgreementHi", pct(first(S16, "agreement_max"), 0))
+    put("crossTargetAgreement", pct(first(S16, "cross_target_agreement"), 0))
     put("doiBPICfourteen", r"\url{https://doi.org/10.4121/uuid:c3e5d162-0cfd-"
                            r"4bb0-bd82-af5268819c35}")
     put("doiBPICthirteen", r"\url{https://doi.org/10.4121/uuid:500573e6-"
@@ -553,7 +557,22 @@ def count_tests():
     lines.  Parameterised tests expand, and a count that ignores that
     understates the suite by a factor of two and a half, which is the kind of
     number this paper exists to complain about."""
+    #  pytest --collect-only takes tens of seconds under load and this file is
+    #  run after every edit, so the answer is cached against the test files'
+    #  modification times.  A stale count would be a number in the manuscript
+    #  that no longer matches the suite, so the cache key is the mtimes.
+    import json
     import subprocess
+    tests = sorted((ROOT / "fieldvalue" / "tests").glob("test_*.py"))
+    key = str([(t.name, int(t.stat().st_mtime)) for t in tests])
+    cache = ROOT / "results" / ".test_count.json"
+    if cache.exists():
+        try:
+            j = json.loads(cache.read_text(encoding="utf-8"))
+            if j.get("key") == key:
+                return int(j["n"])
+        except Exception:  # noqa: BLE001
+            pass
     try:
         out = subprocess.run([sys.executable, "-m", "pytest",
                               str(ROOT / "fieldvalue"), "--collect-only", "-q"],
@@ -561,6 +580,8 @@ def count_tests():
                              cwd=str(ROOT))
         m = re.search(r"(\d+) tests? collected", out.stdout)
         if m:
+            cache.write_text(json.dumps(dict(key=key, n=int(m.group(1)))),
+                             encoding="utf-8")
             return int(m.group(1))
     except Exception:  # noqa: BLE001
         pass

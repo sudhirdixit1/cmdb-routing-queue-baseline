@@ -69,3 +69,4 @@ data/audit2/*
 
 # The worked example's cached download.  Fetched by DOI on first run.
 data/example/
+.test_count.json

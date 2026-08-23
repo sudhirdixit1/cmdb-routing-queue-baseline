@@ -13,12 +13,30 @@ evidence does not support.
 
 \paragraph{The design space is declared, not complete.}
 $\mathcal{S}$ has \nAxes\ axes here. It could have more: hyperparameter
-tuning protocol, missing-data treatment for the baseline fields, the cohort
-and eligibility rule, the horizon of the target, the label-noise model. Two of
-these are varied in appendices and the rest are fixed. A surface is only ever
-a surface over what its author declared, and the honest form of the claim is
-``the increment moves this much over \emph{this} space'', not ``over all
-defensible choices''.
+tuning protocol, missing-data treatment for the baseline fields, the horizon
+of the target, the label-noise model. The cohort and eligibility rule is
+varied only on the case study's log, where the two cohorts are reported side
+by side; the rest are fixed. A surface is only ever a surface over what its
+author declared, and the honest form of the claim is ``the increment moves
+this much over \emph{this} space'', not ``over all defensible choices''.
+
+\paragraph{The grid is not uniform across the corpus, and the bootstrap's is
+smaller than the surface's.} The learner axis carries four levels on the case
+study's log and two elsewhere, and the nested bootstrap covers four
+register-quality conditions where the surface covers \nQuality. Both are
+compute budgets, both were declared before the runs rather than chosen after
+them, and both mean that a sensitivity index computed on one pair is not
+strictly comparable with one computed on another. The alternative --- a
+uniform grid at the size the smallest budget allows --- would have cost more
+information than it bought.
+
+\paragraph{Two of the new objects have stated scope conditions.} The
+decomposition inherits the metric's scale (Proposition~\ref{prop:scale}), so
+``which choice matters most'' is a statement about a scale as well as about a
+surface. And the regret benchmark assumes the reader's own specification is
+drawn from the declared admissible set under a stated weighting
+(Proposition~\ref{prop:optimal}); two weightings are reported, and a reader
+whose practice matches neither will get a different number.
 
 \paragraph{One estate for the case study.}
 The configuration management database analysis is one bank's estate, on one
@@ -30,11 +48,17 @@ population and accuracy, operational review costs, and practitioner
 confirmation of which fields are admissible. We do not have one, and
 Section~\ref{sec:cmdb} is framed as a benchmark case in consequence.
 
-\paragraph{The corpus is heterogeneous.}
+\paragraph{The corpus is heterogeneous, and here is how much.}
 The \nPairs\ pairs are not replications of one another. The registers, the
-free fields and the targets mean different things across domains, and the two
-targets agree with each other on only \targetAgreement\ of cases where both
-are defined. Section~\ref{sec:multilog} therefore reports a benchmark of
+free fields and the targets mean different things across domains, and the
+claim deserves a number rather than a hedge: across the \nLogs\ logs the two
+registered targets label the same case identically on a median
+\targetAgreement\ of cases, ranging from \targetAgreementLo\ to
+\targetAgreementHi. They are two questions, not one question asked twice ---
+which is what makes the target a real axis, and what makes averaging across
+pairs meaningless. The corpus's handover target and the case study's
+reassignment target agree on \crossTargetAgreement\ of the incidents the two
+cohorts share. Section~\ref{sec:multilog} therefore reports a benchmark of
 specification sensitivity across heterogeneous problems, and does not average
 across them.
 
