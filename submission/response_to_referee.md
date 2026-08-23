@@ -31,9 +31,9 @@ follows.
 |---|---|
 | 1. The abstract and the later section make the same claim | Every number in the manuscript is a macro generated from a result file (Appendix G). There is one of each number; disagreement is structurally impossible. |
 | 2. A complete admissible baseline does not depend on unresolved timestamp assumptions | §7.1 defines **two decision times** and estimates a surface for each; §7.3 gives a leakage tipping-point curve so a reader can place their own belief. Neither surface is "the" headline. |
-| 3. The audit is rebuilt or no longer supports field-wide claims | §9.3 reports it as a **machine-assisted prevalence pilot** with measured screen sensitivity, an adjudicated sample of the papers the screen *rejected*, applicability-specific denominators, missing-data bounds, and an explicit statement of what its resolution is. **No claim in the paper depends on it.** |
-| 4. Uncertainty includes model refitting and temporal validation | §4.2: a nested moving-block bootstrap that refits the entire pipeline inside every draw, plus rolling-origin validation as an axis of the design. §4.3: simultaneous max-$t$ bands. §4.8 measures both against a known truth in six worlds. |
-| 5. Methodological novelty can be stated without "people usually report one number" | §3–§4 introduce the specification surface, an exact functional-ANOVA decomposition of its variance, resolution regions with a robustness index, simultaneous bands over the surface, Fieller sets for the ratio, and specification regret. The pilot is now a small subsection of §9. |
+| 3. The audit is rebuilt or no longer supports field-wide claims | §9.4 reports it as a **machine-assisted prevalence pilot** with measured screen sensitivity, an adjudicated sample of the papers the screen *rejected*, applicability-specific denominators, missing-data bounds, and an explicit statement of what its resolution is. **No claim in the paper depends on it.** |
+| 4. Uncertainty includes model refitting and temporal validation | §4.2: a nested moving-block bootstrap that refits the entire pipeline inside every draw, plus rolling-origin validation as an axis of the design. §4.3: simultaneous max-$t$ bands. §4.9 measures both against a known truth in six worlds. |
+| 5. Methodological novelty can be stated without "people usually report one number" | §3–§4 introduce the specification surface, an exact functional-ANOVA decomposition of its variance, resolution regions with a robustness index, simultaneous bands over the surface, Fieller sets for the ratio, and specification regret. The pilot is now a small subsection of §9 (§9.4). |
 | 6. The central contribution is identifiable within the first four pages | The abstract, the contribution list in §1 and Figure 1 are all on pages 1–3. |
 
 ---
@@ -88,7 +88,7 @@ an estimator and a use:
    state in which a scalar is a safe summary — which concedes the referee's
    point that a grid is not always necessary, and makes the concession
    measurable.
-4. **Specification regret** (§4.9, §6.5): a decision-theoretic benchmark of
+4. **Specification regret** (§4.8, §6.5): a decision-theoretic benchmark of
    one-number reporting against the surface, over every eligible log--target
    pair. This is the benchmark the referee asked for and the previous version
    did not attempt.
@@ -125,7 +125,7 @@ standard (§9.2) and not as a contribution in itself.
 ## Major comment 3 — the estimand is incomplete and "value" is overstated
 
 **Granted.** The quantity is renamed **incremental predictive performance**
-throughout, and the manuscript says in §1 and again in §11 that it does not
+throughout, and the manuscript says in §1 and again in §10 that it does not
 measure acquisition cost, maintenance cost, intervention effectiveness,
 downstream routing improvement, or organisational review costs.
 
@@ -141,7 +141,7 @@ reconciliation and discovery mechanisms.
 dispositions and we take the second while doing as much of the first as one
 author honestly can.
 
-The audit is now a **pilot** (§9.3, Appendix F), and:
+The audit is now a **pilot** (§9.4, Appendix F), and:
 
 * the frame is larger and stratified, with declared allocation and design
   weights, and the enumeration is cached and reproducible;
@@ -294,7 +294,7 @@ by execution**: perturbing the test half and re-degrading must leave the
 training half's degraded values identical.
 
 We agree that this is still synthetic and that a register degrades in ways
-correlated with the outcome. §11 says so and names validation against a
+correlated with the outcome. §10 says so and names validation against a
 genuinely incomplete register as the next study.
 
 ---
@@ -333,7 +333,7 @@ genuinely incomplete register as the next study.
   histories, historical register population and accuracy, and operational
   review costs. That study would be better and we cannot run it. The
   manuscript is framed as a benchmark case in consequence, and says so in §1,
-  §7 and §11.
+  §7 and §10.
 * **We did not rebuild the audit as a systematic review** with two independent
   human raters and 150–200 manually confirmed in-scope papers. One author
   cannot supply a second independent human rater. We took the referee's

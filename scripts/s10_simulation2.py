@@ -120,6 +120,57 @@ def world_spec(world, rng):
     return dict(K=K, nb=nb, ng=ng, idx=idx, pc=pc, p1=p1, p2=p2, world=world)
 
 
+NOISE_RATE = 0.20
+
+
+def observed_population(W):
+    """The population the ESTIMATOR sees, which in the noisy world is not the
+    one the generator writes down.
+
+    A register value is replaced by a uniform draw with probability
+    NOISE_RATE, so the OBSERVED cell (b, g, j) is a mixture over the true
+    cells:
+
+        P(j | f)      = (1 - r) 1{j = f} + r / K
+        w(b, g, j)    = sum_f  pc(b, g, f) P(j | f)
+        P(y=1 | b,g,j)= sum_f  pc(b, g, f) P(j | f) p(b, g, f) / w(b, g, j)
+
+    Enumerating the TRUE cells instead --- which is what this file did until
+    an n-scaling and penalty-scaling experiment (s18) refuted every
+    finite-sample explanation for the noisy world's coverage failure ---
+    scores the large-sample fit on register values it never sees at that
+    frequency, and both estimands come out too high.  The estimator was then
+    measured against a target it is not estimating, and reported as biased.
+
+    Returns (pc_obs, p_y_obs) on the same cell ordering as W['idx'].  Every
+    other world returns its own population unchanged.
+    """
+    pc, p_y = W["pc"], W["p2"]
+    if W["world"] != "noisy":
+        return pc, p_y
+    idx, K, r = W["idx"], W["K"], NOISE_RATE
+    key = idx[:, 0] * 1000 + idx[:, 1]          # the (b, g) block
+    w_obs = np.zeros_like(pc)
+    m_obs = np.zeros_like(pc)                   # sum of weight * p
+    for k in np.unique(key):
+        sel = key == k
+        f = idx[sel, 2]
+        w, p = pc[sel], p_y[sel]
+        order = np.argsort(f)                   # rows in f order within block
+        w, p = w[order], p[order]
+        #  (1-r) mass stays on its own level, r mass spreads uniformly
+        tot_w, tot_wp = w.sum(), float((w * p).sum())
+        w_j = (1.0 - r) * w + r * tot_w / K
+        wp_j = (1.0 - r) * (w * p) + r * tot_wp / K
+        back = np.empty_like(order)
+        back[order] = np.arange(len(order))
+        w_obs[sel] = w_j[back]
+        m_obs[sel] = wp_j[back]
+    with np.errstate(invalid="ignore", divide="ignore"):
+        p_obs = np.where(w_obs > 0, m_obs / w_obs, 0.0)
+    return w_obs, p_obs
+
+
 def population_auc(score, p_y, pc):
     """Exact population AUC of a scoring rule over an enumerated space.
 
@@ -150,8 +201,15 @@ def population_auc(score, p_y, pc):
 
 
 def truth(W):
-    """The two oracle scores and the exact population increment."""
-    idx, pc, p_y = W["idx"], W["pc"], W["p2"]
+    """The two oracle scores and the exact population increment.
+
+    Computed on the OBSERVED population (see observed_population): the oracle
+    is the best rule available to somebody who reads the register the analyst
+    actually has, not the one the generator wrote down.  In every world but
+    `noisy` the two are the same object.
+    """
+    idx = W["idx"]
+    pc, p_y = observed_population(W)
     #  oracle WITH the register: the cell probability itself
     s_full = p_y
     #  oracle WITHOUT it: E[p | intake, free field], marginalising the register
@@ -181,7 +239,7 @@ def draw(W, n, era, rng):
     d = pd.DataFrame(dict(b=idx[c, 0].astype(str), g=idx[c, 1].astype(str),
                           f=idx[c, 2].astype(str)))
     if W["world"] == "noisy":
-        hit = rng.random(n) < 0.20
+        hit = rng.random(n) < NOISE_RATE
         d.loc[hit, "f"] = rng.choice(np.arange(W["K"]),
                                      size=int(hit.sum())).astype(str)
     d["_y"] = y
@@ -202,7 +260,11 @@ def limit_estimand(W, rng):
     pop["_y"] = 0
     s0 = fit_scores(big, pop, ["b", "g"])
     s1 = fit_scores(big, pop, ["b", "g", "f"])
-    p_y, pc = W["p2"], W["pc"]
+    #  weighted by the OBSERVED population: the enumerated rows are the
+    #  register values the model is shown, and in the noisy world they occur
+    #  at frequencies, and carry outcome probabilities, that the generator's
+    #  own table does not give.
+    pc, p_y = observed_population(W)
     return (population_auc(s1, p_y, pc) - population_auc(s0, p_y, pc))
 
 
@@ -296,6 +358,51 @@ def one_rep(args):
     return out
 
 
+def check_observed_population(n=400000, z_max=6.0):
+    """The exact marginalisation, checked against a Monte Carlo sample.
+
+    This runs at the top of EVERY simulation, not on request.  The defect it
+    guards against --- scoring the estimator against a population it never
+    samples from --- produced a coverage of 0.04 in one world, survived being
+    written up as a property of the estimator, and was found only because two
+    finite-sample explanations for it were tested (s18) and both failed.  A
+    truth that is wrong is worse than no truth, so it is checked every time.
+    """
+    for w in ("linear", "noisy"):
+        W = world_spec(w, np.random.default_rng(SEED + WORLD_SEED[w]))
+        pc, p_y = observed_population(W)
+        if abs(float(pc.sum()) - 1.0) > 1e-9:
+            raise AssertionError("%s: observed cell mass is %.6f, not 1"
+                                 % (w, pc.sum()))
+        rng = np.random.default_rng(SEED + 424242)
+        d = draw(W, n, 2, rng)
+        idx = W["idx"]
+        key = (d.b.astype(int) * 1000000 + d.g.astype(int) * 1000
+               + d.f.astype(int))
+        want = (idx[:, 0] * 1000000 + idx[:, 1] * 1000 + idx[:, 2])
+        emp_w = key.value_counts(normalize=True).reindex(want).fillna(0.0)
+        emp_p = d.groupby(key.values)["_y"].mean().reindex(want).fillna(0.0)
+        #  Standardised residuals, not raw distances.  A raw total-variation
+        #  bound over 240 cells is dominated by Monte Carlo noise -- the first
+        #  version of this check failed a CORRECT marginalisation for exactly
+        #  that reason -- so each cell is compared with its own sampling
+        #  standard error and the check is on the largest z.
+        sd_w = np.sqrt(np.maximum(pc * (1.0 - pc), 1e-15) / n)
+        zw = float(np.max(np.abs(emp_w.values - pc) / sd_w))
+        heavy = pc * n >= 100                       # p is meaningless below
+        sd_p = np.sqrt(np.maximum(p_y * (1.0 - p_y), 1e-15) / (pc * n))
+        zp = float(np.max(np.abs(emp_p.values - p_y)[heavy] / sd_p[heavy]))
+        print("  %-9s marginalisation check over %d cells: max z on the cell "
+              "masses %.2f, on the outcome rates %.2f"
+              % (w, len(pc), zw, zp))
+        if zw > z_max or zp > z_max:
+            raise AssertionError(
+                "%s: the enumerated population does not match the sampler "
+                "(max z = %.2f on masses, %.2f on rates).  Whatever this file "
+                "calls the truth is not what the estimator sees."
+                % (w, zw, zp))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--reps", type=int, default=200)
@@ -308,6 +415,7 @@ def main(argv=None):
     print("=" * 92)
     print("s10  SIX WORLDS, EXACT TRUTH, TWO INTERVALS")
     print("=" * 92)
+    check_observed_population()
 
     #  the limit estimand, once per world
     LIM = {}
