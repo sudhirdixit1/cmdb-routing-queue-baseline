@@ -112,10 +112,19 @@ def pct(x, d=1):
 
 
 def sig(x, d=4):
+    """A signed number, in math mode.
+
+    Math mode is not decoration here.  In text mode LaTeX sets a leading `-'
+    as a HYPHEN, so the conclusion printed the register as worth `-0.0032'
+    with a hyphen where a minus sign belongs, beside a `+0.1835' whose plus
+    was a text plus.  Both are wrong at the same size and in the same
+    sentence, and a reader who is being asked to attend to the SIGN of an
+    increment is the one reader who will notice.
+    """
     if x is None or not np.isfinite(x):
         return None
     t = fmt_fixed(float(x), d)
-    return t if t.startswith("-") else "+" + t
+    return "$" + (t if t.startswith("-") else "+" + t) + "$"
 
 
 def num(x, d=4):

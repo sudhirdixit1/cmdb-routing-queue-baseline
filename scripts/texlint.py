@@ -202,8 +202,17 @@ def main(argv=None):
         for nm, val in re.findall(r"\\newcommand\{\\(\w+)\}\{(.*)\}",
                                   (PAPER / "numbers.tex").read_text(
                                       encoding="utf-8")):
+            #  Two kinds of macro must stay out of math mode.  A macro
+            #  carrying WORDS sets them as a product of italic variables.  A
+            #  macro carrying its own `$' closes the enclosing math and opens
+            #  display math -- `$D = \Dabs$' where \Dabs is `$+0.0899$' failed
+            #  the build with "Display math should end with $$", which is at
+            #  least loud; the words case is silent and ships.
+            if "$" in val:
+                wordy.add(nm)
+                continue
             #  strip the macros inside the value first: `\times' and `\%' are
-            #  markup, not words, and `$10^{-16}$' is not prose either
+            #  markup, not words
             v = re.sub(r"\\[a-zA-Z]+", " ", val)
             if re.search(r"[A-Za-z]{3,}", v):
                 wordy.add(nm)
@@ -215,7 +224,8 @@ def main(argv=None):
                 if nm in wordy:
                     inmath.append("%s: %s%s" % (f.name, chr(92), nm))
     if inmath:
-        FAILS.append("%d macros carrying words are used inside math mode: "
+        FAILS.append("%d macros that carry words or their own math are used "
+                     "inside math mode: "
                      "%s" % (len(inmath), ", ".join(inmath[:6])))
 
     # 6 numeric literals in the prose

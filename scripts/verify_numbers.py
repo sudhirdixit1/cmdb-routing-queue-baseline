@@ -110,8 +110,9 @@ def fmt_pct(x, d=1):
 
 
 def fmt_sig(x, d=4):
+    #  math mode: see make_numbers.sig -- a text-mode minus is a hyphen
     v = fmt_fixed(float(x), d)
-    return v if v.startswith("-") else "+" + v
+    return "$" + (v if v.startswith("-") else "+" + v) + "$"
 
 
 def fmt_num(x, d=4):
