@@ -381,7 +381,7 @@ availability is an argument of the estimand.
 The \textbf{register quality} $q$ acts on $f$ rather than on the comparison. A
 field that is a lookup into a maintained register --- a configuration item, a
 customer master record, a product catalogue --- inherits that register's
-completeness and accuracy. We implement six mechanisms besides the clean
+completeness and accuracy. We implement \nQualityKinds\ mechanisms besides the clean
 field, each parameterised by the training half alone: population loss with the
 long tail absent, with the core absent, and at random; identity error, in
 which a share of rows carry a wrong value drawn from the training alphabet;
@@ -570,7 +570,7 @@ regression, frequency-encoded logistic regression, cross-fitted
 target-encoded \citep{micci2001preprocessing} histogram gradient boosting, and
 the same boosting wrapped in isotonic calibration. All four run on the case
 study's log; the other pairs carry the first and the third, which are the two
-that differ most in family, because the full grid on twenty-two pairs is a
+that differ most in family, because the full grid on all \nPairs\ pairs is a
 compute budget this study does not have and a partial grid stated is better
 than a full grid claimed.
 
@@ -1414,7 +1414,7 @@ version of this work made it binary and made it for the reader.
 \input{tables/quality2}
 
 Masking a complete field is a sensitivity experiment, not a model of a real
-register, so Table~\ref{tab:quality2} reports the six mechanisms of
+register, so Table~\ref{tab:quality2} reports the \nQualityKinds\ mechanisms of
 Section~\ref{sec:surface} plus a discovery lag, and sweeps the two accuracy
 mechanisms rather than reporting one level of each. Four things follow, and
 two of them are nulls we did not expect.

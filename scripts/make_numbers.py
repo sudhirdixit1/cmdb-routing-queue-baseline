@@ -203,6 +203,17 @@ def main(argv=None):
     put("nSurfaceRows", thousands(first(S1, "n_rows")))
     put("nTrainOnly", thousands(first(S1, "trainonly_checked")))
     put("nTrainOnlyPassed", thousands(first(S1, "trainonly_passed")))
+    #  the register-quality MECHANISMS, which is not \nQuality -- that
+    #  counts (mechanism, level) pairs.  Read off spec.QUALITY_KINDS so the
+    #  claim tracks the code; `clean' is not a degradation.
+    WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five",
+             6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
+    try:
+        import spec as _spec
+        _nk = len([k for k in _spec.QUALITY_KINDS if k != "clean"])
+        put("nQualityKinds", WORDS.get(_nk, str(_nk)))
+    except Exception:  # noqa: BLE001
+        put("nQualityKinds", None)
     put("nAxes", "nine")
     put("nFolds", "five")
     put("nGrid", "31")
