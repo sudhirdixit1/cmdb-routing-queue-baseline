@@ -154,6 +154,27 @@ def main():
                              scale="raw", axis=r.axis, S=r.S,
                              S_total=r.S_total, levels=r.levels,
                              var_total=tot, n_cells=len(sub)))
+    #  ---- with the TARGET as an axis, per log ---------------------------
+    #  The manuscript lists the target among the axes of the estimand, and
+    #  every decomposition above is computed WITHIN a (log, target) pair, so
+    #  the target axis is nowhere measured.  It is measured here, over the
+    #  logs that carry both registered targets.  The caveat is real and is
+    #  stated in the manuscript: two targets are two questions -- they agree
+    #  on about half of cases (s16) -- so this index answers "how much of the
+    #  disagreement about this REGISTER, on this log, is disagreement about
+    #  what to predict", which is a different question from the others and is
+    #  labelled as one.
+    for log, sub in SC.groupby("log"):
+        if sub.target.nunique() < 2 or len(sub) < 32:
+            continue
+        tab, tot = _sobol(sub, "headroom",
+                          tuple(list(AXES) + ["metric", "target"]))
+        for _, r in tab.iterrows():
+            rows.append(dict(log=log, target="BOTH", metric="ALL_SCALAR",
+                             scale="headroom+target", axis=r.axis, S=r.S,
+                             S_total=r.S_total, levels=r.levels,
+                             var_total=tot, n_cells=len(sub)))
+
     SOB = pd.DataFrame(rows)
     SOB.to_csv(RESULTS / "s03_sobol.csv", index=False)
 
@@ -229,6 +250,13 @@ def main():
         S_quality_median=float(hs[hs.axis == "quality_level"].S.median()),
         S_split_median=float(hs[hs.axis == "split"].S.median()),
         S_metric_median=float(hs[hs.axis == "metric"].S.median()),
+        S_target_median=float(
+            SOB[(SOB.scale == "headroom+target")
+                & (SOB.axis == "target")].S.median())
+        if (SOB.scale == "headroom+target").any() else np.nan,
+        n_logs_both_targets=int(
+            SOB[SOB.scale == "headroom+target"].log.nunique())
+        if (SOB.scale == "headroom+target").any() else 0,
         S_rung_max=float(hs[hs.axis == "rung"].S.max()),
         interaction_share_median=float(
             (hs.S_total - hs.S).clip(lower=0).median()),

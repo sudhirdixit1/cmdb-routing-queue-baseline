@@ -197,6 +197,8 @@ def main(argv=None):
     put("sobolMetricPct", pct(first(S3, "S_metric_median")))
     put("sobolSplitPct", pct(first(S3, "S_split_median")))
     put("sobolInteractionPct", pct(first(S3, "interaction_share_median")))
+    put("sobolTargetPct", pct(first(S3, "S_target_median")))
+    put("nLogsBothTargets", thousands(first(S3, "n_logs_both_targets")))
     #  the largest of the five median first-order indices, and which axis it is
     if SOB is not None and len(SOB):
         h = SOB[SOB.scale == "headroom"]
