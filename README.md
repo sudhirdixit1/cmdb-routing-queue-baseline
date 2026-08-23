@@ -40,8 +40,9 @@ python scripts/reproduce_all.py
 2. **Four objects make a surface reportable.** An exact functional-ANOVA
    decomposition of its variance across axes; simultaneous max-$t$ bands from
    a moving-block bootstrap that refits the entire pipeline inside every draw;
-   *resolution regions* — uniformly beneficial, conditionally beneficial,
-   sign-changing, unresolved — with a scalar robustness index $\rho$; and
+   *resolution regions* — uniformly or conditionally beneficial, uniformly
+   or conditionally harmful, sign-changing, unresolved — with a scalar
+   robustness index $\rho$; and
    *specification regret*, which measures what one-number reporting gets
    wrong.
 
@@ -91,6 +92,37 @@ Recorded here as prominently as the claims.
   printed in full, and the search itself had a defect: it drew fresh noise
   inside each cell evaluation, so two evaluations of the same cell disagreed.
 
+## What this round found in its own work
+
+After every one of the referee's ten comments was answered, the apparatus
+found four defects in this round's own work and reading the compiled pages
+found seven more. All eleven are in the manuscript, most of them in
+Appendix C.
+
+- **The simulation's own truth was wrong in one world.** It reported that
+  every interval construction fails on the noisy world. The estimator was
+  being scored against a population it never samples from. Found by testing
+  the two finite-sample explanations an apparent bias implies — sample size
+  and regularisation strength, with the sparse world as a control that a real
+  finite-sample gap does close — and having both refuse. Appendix G;
+  `scripts/s18_bias_scaling.py --legacy-target` regenerates the evidence.
+- **The pilot's frame was 600 and the manuscript said 54,910**, from a
+  stratum-size column summed over rows rather than strata. Correcting it
+  showed the pilot is a census of what one index returned rather than a
+  probability sample of a literature.
+- **`--strict` certified a build reading a superseded run.**
+  `results/provenance.json` now records each analysis script's SHA-256 at the
+  moment its outputs were accepted.
+- **One of ten corruptions was passing** because nothing regenerated between
+  the corruption and the check.
+- **Seven defects produced no wrong number and printed badly** — a doubled
+  *Appendix*, a macro eating a space, a macro carrying words set as italic
+  variables, a sentence's tail printed twice, a minus sign set as a hyphen, a
+  figure axis clipping its most important bar, and a comparison whose two
+  numbers were both zero. **Every checker here passed on the build that
+  carried all seven.** Five became lint checks; the other two are judgements a
+  checker cannot make.
+
 The withdrawals from earlier rounds — an operational factor whose sign was set
 by a tie-break, an asymmetry that was an algebraic identity, a margin that was
 a granularity knob — stand.
@@ -122,8 +154,10 @@ is one of it.
 |---|---|
 | `scripts/make_numbers.py` | generates `paper/numbers.tex` and `paper/tables/*.tex` from `results/*.csv` |
 | `scripts/verify_numbers.py` | re-derives each macro from its source with independent code and compares |
-| `scripts/texlint.py` | abstract length, keyword count, highlight lengths, required statements, and **no numeric literal anywhere in the prose** |
-| `scripts/attack_verifier.py` | injects corruptions and requires the verifier to catch every one |
+| `scripts/texlint.py` | fourteen compliance checks: abstract length, keyword count, highlight lengths, required statements, **no numeric literal anywhere in the prose**, and five typographic checks each of which caught a defect already in a compiled PDF |
+| `scripts/provenance.py` | records which version of each analysis script produced the results in the tree; `make_numbers.py --strict` refuses a build whose numbers come from a script changed since |
+| `scripts/check_response_refs.py` | every section the cover material cites exists, and prints the heading each lands on |
+| `scripts/attack_verifier.py`, `scripts/s13_attack_numbers.py` | inject corruptions and require the verifier to catch every one; 265 across the two |
 | `scripts/test_checker_purity.py` | asserts the verifier does not modify what it checks |
 | `scripts/check_highlights.py` | derives the highlight character counts rather than trusting them |
 
