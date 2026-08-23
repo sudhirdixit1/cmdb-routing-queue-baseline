@@ -25,13 +25,13 @@ Checks
  11  no `Appendix' before a \\ref      that already supplies the word
  12  no macro swallowing its space    a control word eats the space after it
  13  no wordy macro inside math       $...$ sets its words as italic variables
- 14  no phrase repeated immediately    a scripted edit leaving its own tail
+ 14  no phrase repeated immediately   a scripted edit leaving its own tail
 
-Checks 10 to 13 exist because each caught a defect that had already reached a
+Checks 10 to 14 exist because each caught a defect that had already reached a
 compiled PDF: `forty lines' for a file of 121 statements, `Appendix Appendix
-G' on fourteen references, `42.0%--- and', and `18percentagepoints'. Every one
-of them was found by reading the rendered pages, which is the check this file
-cannot replace.
+G' on fourteen references, `42.0%--- and', `18percentagepoints', and a
+sentence's tail printed twice.  Every one of them was found by READING the
+rendered pages, which is the check this file cannot replace.
 """
 from __future__ import annotations
 
