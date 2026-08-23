@@ -140,6 +140,46 @@ def main(argv=None):
     # 5 the duplicated-appendix defect
     if "Appendix Appendix" in t:
         FAILS.append("the manuscript contains 'Appendix Appendix'")
+    #  ...and the form that PRODUCES it, which the literal check cannot see.
+    #  elsarticle's \ref for an appendix section already expands to
+    #  `Appendix A', so `Appendix~\ref{app:x}' prints `Appendix Appendix A'.
+    #  All fourteen of this manuscript's appendix references were written that
+    #  way and the literal check above passed every build, because the source
+    #  never contains the doubled word -- only the PDF does.
+    dup = re.findall(r"(?i)appendix~?\\ref\{app:[^}]*\}", t)
+    for f in sorted((PAPER / "parts").glob("*.tex")):
+        dup += re.findall(r"(?i)appendix~?\\ref\{app:[^}]*\}",
+                          strip_comments(f.read_text(encoding="utf-8")))
+    if dup:
+        FAILS.append("%d appendix references write the word Appendix before "
+                     "a ref that already supplies it, e.g. %s"
+                     % (len(dup), dup[0]))
+
+    #  A control word swallows the whitespace after it, so `\foo bar' prints
+    #  `FOObar'.  Every one of the 245 generated macros is a control word, and
+    #  the manuscript quotes them mid-sentence constantly.  One had eaten the
+    #  space before an em dash and printed `42.0%--- and'.  A space that ends
+    #  up before `&' or `\\' inside a tabular is harmless, because LaTeX
+    #  discards it there anyway, so those are exempt.
+    names = set(re.findall(r"\\newcommand\{\\(\w+)\}",
+                           (PAPER / "numbers.tex").read_text(encoding="utf-8"))
+                ) if (PAPER / "numbers.tex").exists() else set()
+    eaten = []
+    for f in sorted((PAPER / "parts").glob("*.tex")):
+        src = strip_comments(f.read_text(encoding="utf-8"))
+        for m in re.finditer(r"\\(\w+)", src):
+            if m.group(1) not in names:
+                continue
+            if src[m.end():m.end() + 1] not in (" ", chr(10), chr(9)):
+                continue
+            after = src[m.end():m.end() + 6].lstrip()
+            if after.startswith("&") or after.startswith(chr(92) * 2):
+                continue                      # a tabular cell or row break
+            eaten.append("%s: %s%s" % (f.name, chr(92), m.group(1)))
+    if eaten:
+        FAILS.append("%d macros swallow the space after them (write "
+                     "`%smacro%s ' or follow it with punctuation): %s"
+                     % (len(eaten), chr(92), chr(92), ", ".join(eaten[:6])))
 
     # 6 numeric literals in the prose
     body = body_of(raw)

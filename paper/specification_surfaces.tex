@@ -530,7 +530,7 @@ is false, because the change in the two legs can cancel in the ratio. The same
 file exhibits such a configuration: a non-rank-based instrument whose $V$
 moves under $\psi$ and whose $R$ does not, to \propTwoCancelShift. An earlier
 version of this work asserted the universal reading; that is
-correction~C13 in Appendix~\ref{app:corrections}.
+correction~C13 in \ref{app:corrections}.
 \end{remark}
 
 \begin{result}[Axis non-redundancy on a finite family]
@@ -895,7 +895,7 @@ where $\Pr(j \mid f) = (1 - r)\mathbf{1}\{j = f\} + r/K$. Enumerating the
 \emph{true} cells instead scores the estimator against a population it never
 samples from, and the first version of this simulation did exactly that: it
 reported a coverage of \coverageNoisyBefore\ on the noisy world and a bias of
-\biasNoisyBefore\ that did not exist. Appendix~\ref{app:noisy} gives the two
+\biasNoisyBefore\ that did not exist. \ref{app:noisy} gives the two
 experiments that refuted every finite-sample explanation for that apparent
 bias and thereby sent us to look at the target. The marginalisation is checked
 against a Monte Carlo sample, on standardised residuals, at the start of every
@@ -914,7 +914,7 @@ version history shows the registering commit adding one file and no result
 file; \texttt{git log -{}-stat} is the check, and \texttt{REPRODUCE.md}
 names the commit. Six amendments were declared afterwards, each with its date,
 its cause and the result it changed, and all six are in
-Appendix~\ref{app:protocol} rather than folded silently into the rules.
+\ref{app:protocol} rather than folded silently into the rules.
 
 \subsection{Roles}
 
@@ -938,7 +938,7 @@ relabelling of the activity, nor a deterministic coarsening of $f$.
 Coarsenings of $f$ --- its type, its subtype, the service it belongs to ---
 are given their own role rather than being swept into $B_0$, because which
 \emph{layer} of a register pays is a separate question and is
-Appendix~\ref{app:layers}.
+\ref{app:layers}.
 
 \subsection{Targets, splits and exclusions}
 
@@ -1208,7 +1208,7 @@ between the learner axis and the metric axis, drawn.
 
 Rolling-origin results are in \texttt{results/s01\_surface.csv} under
 \texttt{split = rolling$k$} and enter the decomposition as the split axis;
-Appendix~\ref{app:rolling} prints them per fold. The single holdout is not the
+\ref{app:rolling} prints them per fold. The single holdout is not the
 best estimate of the increment, and reporting it alone was a limitation of the
 earlier version of this work.
 
@@ -1219,10 +1219,12 @@ earlier version of this work.
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.9\linewidth]{figS6_coverage.png}
-\caption{Coverage of the estimator's own limit in six simulated worlds, for
-the fixed-model interval an earlier version of this work used and for the
-nested interval that refits the pipeline in every draw. The dashed line is
-nominal.}
+\caption{Coverage of the estimator's own limit in \nWorlds\ simulated worlds
+under three constructions: the fixed-model percentile interval an earlier
+version of this work used, the nested percentile interval, and the nested
+basic interval this paper reports. The dashed line is nominal. The sparse
+world is the only one where they disagree, and the nested percentile bar
+there is the failure the basic construction repairs.}
 \label{fig:coverage}
 \end{figure}
 
@@ -1248,7 +1250,7 @@ study's log has \cardF.
 
 \textbf{The repair.} The basic interval pivots that shift out and restores
 coverage --- \coverageSparseBasic\ on the sparse world against the percentile
-interval's \coverageSparsePct --- and costs nothing where there was nothing to
+interval's \coverageSparsePct\ --- and costs nothing where there was nothing to
 repair: across all \nWorlds\ worlds its median is
 \coverageNestedBasicMedian\ and its minimum \coverageNestedBasicMin. The
 bias-corrected percentile does \emph{not} repair the sparse world
@@ -1270,7 +1272,7 @@ round reported that every construction fails on the noisy world too. It does
 not; the estimand did. The simulation enumerated the data generator's true
 register values while the estimator only ever sees corrupted ones, so coverage
 was measured against a population the estimator does not sample from.
-Appendix~\ref{app:noisy} gives the two experiments that refuted every
+\ref{app:noisy} gives the two experiments that refuted every
 finite-sample explanation for the apparent bias and thereby found it. With the
 noise marginalised the noisy world covers \coverageNoisyAfter.
 % ---- paper/parts/50_cmdb.tex ----

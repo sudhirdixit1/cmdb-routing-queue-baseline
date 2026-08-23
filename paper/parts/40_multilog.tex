@@ -226,7 +226,7 @@ between the learner axis and the metric axis, drawn.
 
 Rolling-origin results are in \texttt{results/s01\_surface.csv} under
 \texttt{split = rolling$k$} and enter the decomposition as the split axis;
-Appendix~\ref{app:rolling} prints them per fold. The single holdout is not the
+\ref{app:rolling} prints them per fold. The single holdout is not the
 best estimate of the increment, and reporting it alone was a limitation of the
 earlier version of this work.
 
@@ -237,10 +237,12 @@ earlier version of this work.
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.9\linewidth]{figS6_coverage.png}
-\caption{Coverage of the estimator's own limit in six simulated worlds, for
-the fixed-model interval an earlier version of this work used and for the
-nested interval that refits the pipeline in every draw. The dashed line is
-nominal.}
+\caption{Coverage of the estimator's own limit in \nWorlds\ simulated worlds
+under three constructions: the fixed-model percentile interval an earlier
+version of this work used, the nested percentile interval, and the nested
+basic interval this paper reports. The dashed line is nominal. The sparse
+world is the only one where they disagree, and the nested percentile bar
+there is the failure the basic construction repairs.}
 \label{fig:coverage}
 \end{figure}
 
@@ -266,7 +268,7 @@ study's log has \cardF.
 
 \textbf{The repair.} The basic interval pivots that shift out and restores
 coverage --- \coverageSparseBasic\ on the sparse world against the percentile
-interval's \coverageSparsePct --- and costs nothing where there was nothing to
+interval's \coverageSparsePct\ --- and costs nothing where there was nothing to
 repair: across all \nWorlds\ worlds its median is
 \coverageNestedBasicMedian\ and its minimum \coverageNestedBasicMin. The
 bias-corrected percentile does \emph{not} repair the sparse world
@@ -288,6 +290,6 @@ round reported that every construction fails on the noisy world too. It does
 not; the estimand did. The simulation enumerated the data generator's true
 register values while the estimator only ever sees corrupted ones, so coverage
 was measured against a population the estimator does not sample from.
-Appendix~\ref{app:noisy} gives the two experiments that refuted every
+\ref{app:noisy} gives the two experiments that refuted every
 finite-sample explanation for the apparent bias and thereby found it. With the
 noise marginalised the noisy world covers \coverageNoisyAfter.

@@ -267,7 +267,17 @@ def fig_coverage():
     ax.set_xticks(x)
     ax.set_xticklabels(worlds, rotation=20, ha="right")
     ax.set_ylabel("coverage of $V_{\\mathrm{limit}}$")
-    ax.set_ylim(0.6, 1.02)
+    #  The floor is derived, not chosen.  A fixed 0.6 clipped the sparse
+    #  world's nested percentile bar -- 0.420, the single most important
+    #  number in this figure -- to nothing, so the one construction the
+    #  figure exists to indict was the one a reader could not see.
+    lo = float(np.nanmin([b for b in
+                          [float(d[(d.world == wd) & (d.interval == kind)]
+                                 .coverage.iloc[0])
+                           for wd in worlds for kind, _l, _c in KINDS
+                           if len(d[(d.world == wd) & (d.interval == kind)])]
+                          ]))
+    ax.set_ylim(max(0.0, lo - 0.06), 1.02)
     ax.legend(frameon=False, fontsize=7)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
