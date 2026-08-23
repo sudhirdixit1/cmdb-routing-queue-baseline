@@ -160,7 +160,31 @@ def main(argv=None):
         if re.search(pat, t):
             FAILS.append("a banned rhetorical opener survives: %s" % pat)
 
-    # 8 \input targets
+    # 8 stray control characters
+    #  Several rounds of scripted editing have written a literal backspace or
+    #  form feed into a source file, because a shell here-document turned
+    #  "\b" into 0x08 and "\f" into 0x0c on the way to Python.  The damage is
+    #  invisible in most editors and fatal in LaTeX, so it is checked rather
+    #  than watched for.
+    import glob
+    CTRL = {8: "backspace", 11: "vertical tab", 12: "form feed", 7: "bell",
+            0: "NUL", 27: "escape"}
+    for pat in ("paper/parts/*.tex", "paper/*.tex", "scripts/*.py",
+                "fieldvalue/*.py", "fieldvalue/tests/*.py", "examples/*.py",
+                "submission/*.md", "*.md"):
+        for f in glob.glob(str(ROOT / pat)):
+            try:
+                txt = open(f, encoding="utf-8").read()
+            except Exception:  # noqa: BLE001
+                continue
+            for i, ch in enumerate(txt):
+                if ord(ch) in CTRL:
+                    FAILS.append("%s carries a stray %s at line %d"
+                                 % (Path(f).name, CTRL[ord(ch)],
+                                    txt[:i].count(chr(10)) + 1))
+                    break
+
+    # 9 \input targets
     for tgt in re.findall(r"\\input\{([^}]*)\}", t):
         p = PAPER / (tgt if tgt.endswith(".tex") else tgt + ".tex")
         if not p.exists():

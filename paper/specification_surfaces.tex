@@ -49,27 +49,26 @@ Estimation, Uncertainty, and Multi-Log Evaluation}
 What a recorded field is worth to a prediction is reported as one number, but
 that number is a functional of design choices --- the baseline, the learner,
 the encoding, the target, the split, the field's availability at the decision
-time, the register's quality, the metric and the operating point --- that are
+time, the register's quality, the metric, the operating point --- that are
 rarely stated. We define the incremental predictive performance of a field as
-a \emph{specification surface} $V_s(f)$ over a declared, enumerable design
-space, and give four objects for estimating and reporting one: an exact
-functional-ANOVA decomposition of the surface's variance across axes;
-simultaneous max-$t$ bands from a moving-block bootstrap that refits the whole
-pipeline inside every draw; \emph{resolution regions} --- uniformly
-beneficial, conditionally beneficial, sign-changing, unresolved --- with a
-scalar robustness index; and \emph{specification regret}, which measures what
-one-number reporting gets wrong. We prove that the relative reduction is not
-identified by the data and the baselines alone, and that the metrics invariant
-to a monotone recalibration are exactly the rank-based
-ones. On \nPairs\ log--target pairs from \nLogs\
-public event logs, varying the baseline alone moves the increment by
-\spreadMedian\ AUC at the median pair; no axis dominates the disagreement,
-whose largest median first-order index is \sobolMaxPct\ while interactions
-carry \sobolInteractionPct; and a one-number report misstates the increment's
-\emph{sign} for a median \misreportMedianPct\ of the other admissible
-specifications. The case study is a configuration management database on
-\nCohort\ bank incidents; its answer turns on which of two decision times the
-analyst occupies, and we report both surfaces.
+a \emph{specification surface} $V_s(f)$ over a declared design space, and give
+four objects for estimating and reporting one: a functional-ANOVA
+decomposition of its variance across axes; simultaneous max-$t$ bands from a
+moving-block bootstrap that refits the whole pipeline inside every draw;
+\emph{resolution regions} with a robustness index; and \emph{specification
+regret}. We prove that the relative reduction is not identified by the data
+and the baselines alone; that the metrics invariant to a monotone
+recalibration are exactly the rank-based ones; that the decomposition inherits
+the metric's scale; and that the decision-optimal collapse of a surface is its
+weighted mean increment. On \nPairs\ log--target pairs from \nLogs\ public
+event logs, varying the baseline alone moves the increment by \spreadMedian\
+AUC at the median pair; no axis dominates the disagreement, whose largest
+median first-order index is \sobolMaxPct\ while interactions carry
+\sobolInteractionPct; and a one-number report misstates the increment's
+\emph{sign} for a median \misreportMedianPct\ of admissible specifications,
+costing \regretOneNumberExcessPct\ more expected regret than the optimum. The
+case study is a configuration management database on \nCohort\ bank incidents,
+whose answer turns on the decision time.
 \end{abstract}
 
 \begin{keyword}
@@ -1565,26 +1564,47 @@ resolution, and none of the paper's claims rests on it.
 
 The incremental predictive performance of a recorded field is a functional of
 design choices, not a number. This paper made that operational: a declared
-design space, a surface over it, an exact decomposition of the surface's
-variance into the contributions of each choice, simultaneous confidence bands
-from a bootstrap that refits the model, region labels that say when a sign is
-robust, and a regret benchmark that measures what one number gets wrong.
+design space, a surface over it, a decomposition of the surface's variance
+into the contribution of each choice, simultaneous confidence bands from a
+bootstrap that refits the model, region labels that say when a sign is robust,
+and a decision-theoretic benchmark that measures what one number gets wrong.
 
-On \nPairs\ log--target pairs the answer is that the choices dominate. The
-baseline rung alone accounts for a median \sobolRungPct\ of the variance in
-the increment; a conventional one-number report misstates the sign for a
-median \misreportMedianPct\ of the other admissible specifications; and only
-\nUniformlyBeneficial\ of \nPairsBanded\ surfaces are uniformly beneficial,
-which is the only state in which one number is safe. On the case study, the
-answer additionally depends on which of two decision times the analyst
-occupies, and we report both rather than choosing, because choosing was what
-produced the earlier version's headline and then removed it.
+Four results are worth carrying away.
 
-The practical recommendation is narrow and, we think, cheap: report the
-surface, the decomposition, the region and the robustness index; make the
+\textbf{The choices move the answer, and no one of them is the culprit.}
+Varying the baseline alone moves the increment by \spreadMedian\ AUC at the
+median log--target pair. But no single axis dominates the disagreement: the
+largest median first-order index is \sobolMaxPct, the interactions carry
+\sobolInteractionPct, and which axis leads is a property of the pair. An
+analyst cannot learn from somebody else's paper which of their own choices
+their answer turns on. They have to compute it.
+
+\textbf{The sign is a property of the specification, not of the data.} On
+\nSignVaries\ of \nPairs\ pairs, between a tenth and nine tenths of the
+admissible cells are positive, and a conventional one-number report misstates
+the sign for a median \misreportMedianPct\ of the rest.
+
+\textbf{There is a defensible collapse, and it is not the one anybody uses.}
+Proposition~\ref{prop:optimal} identifies it --- the weighted mean increment
+over the admissible set --- and on this corpus the conventional report costs
+\regretOneNumberExcessPct\ more expected regret than it does, while the
+cautious rule of adopting only where the whole surface agrees costs more than
+either. The collapse depends on which specifications the reader's own practice
+makes likely, which the analyst does not know. So: collapse for a decision,
+report the surface.
+
+\textbf{Availability is an argument of the estimand, not a preliminary.} On
+the case study the register is worth \VTone\ at one decision time and
+\VTtwoKnow\ at another, and no evidence we have settles which one a reader
+should stand at. We report both, and a curve between them, rather than
+choosing --- because choosing is what produced the earlier version's headline
+and then removed it.
+
+The practical recommendation is narrow and cheap once the surface exists:
+report the surface, the decomposition, the region and $\rho$; make the
 absolute increments primary; use a ratio last, with a Fieller set, and only
-where its denominator is resolvably positive. \texttt{fieldvalue} does this
-from a data frame and refuses, by design, to give back a single number.
+where its denominator is resolvably positive. \texttt{fieldvalue} does all of
+it from a data frame, and refuses, by design, to give back a single number.
 % ---- paper/parts/90_backmatter.tex ----
 
 \section*{CRediT authorship contribution statement}

@@ -88,10 +88,36 @@ an estimator and a use:
    state in which a scalar is a safe summary — which concedes the referee's
    point that a grid is not always necessary, and makes the concession
    measurable.
-4. **Specification regret** (§4.8, §6.4): a decision-theoretic benchmark of
+4. **Specification regret** (§4.9, §6.5): a decision-theoretic benchmark of
    one-number reporting against the surface, over every eligible log--target
    pair. This is the benchmark the referee asked for and the previous version
    did not attempt.
+
+Two of the four turned out to have properties worth proving, and one of the
+proofs changed the paper's advice.
+
+* **Proposition 3** shows the sensitivity decomposition inherits the metric's
+  scale: the indices of $V$ and of $\phi(V)$ need not agree, and there is a
+  three-by-three design on which the leading axis changes under a square root.
+  So the manuscript reports the decomposition on two scales and never names a
+  dominant axis without naming the scale. (Two levels per axis will not do,
+  and the first attempt at this proposition used a two-by-two design and was
+  false; the reason is in Appendix B.)
+* **Proposition 4** identifies the decision-optimal collapse of a surface. The
+  difference between the expected loss of declining and of adopting is exactly
+  the weighted mean increment, so the optimal single-action rule is *adopt iff
+  the weighted mean is positive* — not the sign at any one cell, and not the
+  count of positive cells. Measured over the corpus, that rule attains its
+  bound on 19 of 19 pairs; the conventional one-number report attains it on 9
+  and costs 57.2% more expected regret; and the cautious rule of adopting only
+  where the whole surface agrees is the worst of the four, because it declines
+  when the harm it avoids is smaller than the benefit it forgoes.
+
+  This also resolves a tension a referee would be right to press on. There
+  **is** a defensible collapse of a surface to one number. It depends on which
+  specifications the reader's own practice makes likely, and the analyst does
+  not know that. So the analyst reports the surface and the reader collapses
+  it: *collapse for a decision, report the surface*.
 
 The `fieldvalue` package is now presented as the software realisation of the
 standard (§9.2) and not as a contribution in itself.

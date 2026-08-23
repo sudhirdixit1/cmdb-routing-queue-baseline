@@ -48,27 +48,26 @@ Estimation, Uncertainty, and Multi-Log Evaluation}
 What a recorded field is worth to a prediction is reported as one number, but
 that number is a functional of design choices --- the baseline, the learner,
 the encoding, the target, the split, the field's availability at the decision
-time, the register's quality, the metric and the operating point --- that are
+time, the register's quality, the metric, the operating point --- that are
 rarely stated. We define the incremental predictive performance of a field as
-a \emph{specification surface} $V_s(f)$ over a declared, enumerable design
-space, and give four objects for estimating and reporting one: an exact
-functional-ANOVA decomposition of the surface's variance across axes;
-simultaneous max-$t$ bands from a moving-block bootstrap that refits the whole
-pipeline inside every draw; \emph{resolution regions} --- uniformly
-beneficial, conditionally beneficial, sign-changing, unresolved --- with a
-scalar robustness index; and \emph{specification regret}, which measures what
-one-number reporting gets wrong. We prove that the relative reduction is not
-identified by the data and the baselines alone, and that the metrics invariant
-to a monotone recalibration are exactly the rank-based
-ones. On \nPairs\ log--target pairs from \nLogs\
-public event logs, varying the baseline alone moves the increment by
-\spreadMedian\ AUC at the median pair; no axis dominates the disagreement,
-whose largest median first-order index is \sobolMaxPct\ while interactions
-carry \sobolInteractionPct; and a one-number report misstates the increment's
-\emph{sign} for a median \misreportMedianPct\ of the other admissible
-specifications. The case study is a configuration management database on
-\nCohort\ bank incidents; its answer turns on which of two decision times the
-analyst occupies, and we report both surfaces.
+a \emph{specification surface} $V_s(f)$ over a declared design space, and give
+four objects for estimating and reporting one: a functional-ANOVA
+decomposition of its variance across axes; simultaneous max-$t$ bands from a
+moving-block bootstrap that refits the whole pipeline inside every draw;
+\emph{resolution regions} with a robustness index; and \emph{specification
+regret}. We prove that the relative reduction is not identified by the data
+and the baselines alone; that the metrics invariant to a monotone
+recalibration are exactly the rank-based ones; that the decomposition inherits
+the metric's scale; and that the decision-optimal collapse of a surface is its
+weighted mean increment. On \nPairs\ log--target pairs from \nLogs\ public
+event logs, varying the baseline alone moves the increment by \spreadMedian\
+AUC at the median pair; no axis dominates the disagreement, whose largest
+median first-order index is \sobolMaxPct\ while interactions carry
+\sobolInteractionPct; and a one-number report misstates the increment's
+\emph{sign} for a median \misreportMedianPct\ of admissible specifications,
+costing \regretOneNumberExcessPct\ more expected regret than the optimum. The
+case study is a configuration management database on \nCohort\ bank incidents,
+whose answer turns on the decision time.
 \end{abstract}
 
 \begin{keyword}
