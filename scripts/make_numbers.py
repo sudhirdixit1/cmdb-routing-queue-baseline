@@ -607,8 +607,16 @@ def main(argv=None):
                & (BN.rung == "B_intake_g") & (BN.family == "decision-curve")]
         put("nHarmfulSimultaneous",
             thousands(int((b.sim_hi < 0).sum())) if len(b) else None)
+        put("nBeneficialSimultaneous",
+            thousands(int((b.sim_lo > 0).sum())) if len(b) else None)
+        put("nDcGrid", thousands(len(b)) if len(b) else None)
+        put("dcBandWidth",
+            num(float((b.sim_hi - b.sim_lo).median()), 4) if len(b) else None)
     else:
         put("nHarmfulSimultaneous", None)
+        put("nBeneficialSimultaneous", None)
+        put("nDcGrid", None)
+        put("dcBandWidth", None)
     if CE is not None and len(CE):
         c = CE[(CE.log == "BPIC14") & (CE.target == "handover")
                & (CE.learner == "logit") & (CE.quality == "clean")
@@ -616,8 +624,14 @@ def main(argv=None):
                & (CE.metric.astype(str).str.startswith("nb_"))]
         put("nHarmfulPointwise",
             thousands(int((c.hi < 0).sum())) if len(c) else None)
+        put("nBeneficialPointwise",
+            thousands(int((c.lo > 0).sum())) if len(c) else None)
+        put("dcPointWidth",
+            num(float((c.hi - c.lo).median()), 4) if len(c) else None)
     else:
         put("nHarmfulPointwise", None)
+        put("nBeneficialPointwise", None)
+        put("dcPointWidth", None)
 
     # ---- quality mechanisms on the primary log ---------------------------
     put("corruptLevel", "15\\%")

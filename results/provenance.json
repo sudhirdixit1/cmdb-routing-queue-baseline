@@ -50,9 +50,9 @@
     "sha": "398d4902149b409e"
   },
   "s12_figures.py": {
-    "at": "2026-08-23T23:14:53Z",
-    "note": "s12 redraws from result files it does not produce; its edit derives the coverage figure's y-axis floor from the data instead of a literal 0.6, which clipped the sparse world's percentile bar out of the figure.",
-    "sha": "b83ad94a97cb7e97"
+    "at": "2026-08-23T23:28:43Z",
+    "note": "s12 redraws only; the legend carried a LaTeX percent escape into a matplotlib label.",
+    "sha": "262639313f8c7ef7"
   },
   "s13_attack_numbers.py": {
     "at": "2026-08-23T23:14:40Z",

@@ -200,7 +200,7 @@ def fig_dca():
     ax.fill_between(m.theta, 1000 * m.sim_lo, 1000 * m.sim_hi, color="0.85",
                     label="simultaneous max-$t$ band")
     ax.fill_between(m.theta, 1000 * m.lo, 1000 * m.hi, color="0.65",
-                    label="pointwise 95\\% interval")
+                    label="pointwise 95% interval")   # matplotlib, not LaTeX
     ax.plot(m.theta, 1000 * m.V, color=DARK, lw=1.2, label="increment")
     ax.set_xlabel("operating point $\\theta$ "
                   "(exchange rate $\\theta/(1-\\theta)$)")

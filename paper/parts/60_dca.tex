@@ -56,12 +56,21 @@ has to be read against.}
 
 Figure~\ref{fig:dca} draws the register's net-benefit increment across the
 grid at the reference cell, with the pointwise interval and the simultaneous
-max-$t$ band. The simultaneous band is a factor of \maxTMedianRatio\ wider at
-the median, and the difference is not cosmetic: a claim that the increment is
-resolvably negative \emph{somewhere} in a band of thresholds is a family
-statement, and under pointwise intervals such a claim would be made at
-\nHarmfulPointwise\ grid points on this estate where the simultaneous band
-resolves \nHarmfulSimultaneous.
+max-$t$ band. The difference is not cosmetic. The band's median width is
+\dcBandWidth\ against the pointwise interval's \dcPointWidth, and across the
+\nDcGrid\ operating points of this estate's decision curve the pointwise
+interval declares the increment resolvably positive at
+\nBeneficialPointwise\ of them while the simultaneous band declares it at
+\nBeneficialSimultaneous. Those three points are the price of a statement
+about a \emph{range} of thresholds rather than about each threshold
+separately, and a paper that reads a decision curve across its range and
+prices it pointwise has claimed the first while paying for the second.
+
+Neither construction resolves any point of this curve as harmful ---
+\nHarmfulPointwise\ pointwise and \nHarmfulSimultaneous\ simultaneously ---
+which is worth saying because the curve dips visibly below zero near
+$\theta = 0.55$ and a reader looking at Figure~\ref{fig:dca} would be entitled
+to wonder.
 
 \subsection{What the operational statement does not say}
 
