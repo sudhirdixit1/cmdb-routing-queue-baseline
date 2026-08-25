@@ -941,3 +941,63 @@ def emit_round25(mn):
                   "simGridSameRatioGapSE", "simGridFixedK", "simGridFixedNa",
                   "simGridFixedNb", "simGridFixedCovA", "simGridFixedCovB"):
             put(k, None)
+
+    # ================================================================
+    # s41 -- the band's family-wise coverage, against a known answer
+    # ================================================================
+    #  ROUND TWENTY-FIVE.  The gap section 4.3 named in its own last sentence.
+    #
+    #  WHAT EACH MACRO RANGES OVER (rule 7), because this is the file that
+    #  makes the point about macros ranging over selected subsets:
+    #    every `cov*' macro below is over the SIX GRID CELLS of s41 --
+    #    (K, B) matched to the corpus's own families -- and NOT over the
+    #    draw-count sensitivity rows, which share (family, K) with a grid cell
+    #    and would otherwise be pooled into the same median.  s41 selects them
+    #    on K_nom and B together; selecting on the realised K silently dropped
+    #    every degenerate-regime row and reported a minimum of 0.835 where the
+    #    experiment had measured 0.392.
+    #    the `B*' macros are ONE cell -- the modal surface family, K = 180,
+    #    under the heavy regime -- at five draw counts.
+    F41 = load("s41_facts.csv")
+    P41 = load("s41_profile.csv")
+    put("nBandCoverageReps", thousands(first(F41, "n_reps")))
+    put("nBandCoverageCells", thousands(first(F41, "n_cells")))
+    put("bandCoverageSEMax", pct(first(F41, "coverage_se_max")))
+    for tag, key in (("Gauss", "gaussian"), ("Heavy", "heavy"),
+                     ("Degen", "degenerate")):
+        for mac, cand in (("Mult", "q_mult"), ("MultHi", "q_mult_hi"),
+                          ("Emp", "q_emp"), ("EmpHi", "q_emp_hi"),
+                          ("Rad", "q_rad")):
+            put("cov%s%sMedian" % (mac, tag),
+                pct(first(F41, "cov_%s_%s_median" % (cand, key))))
+            put("cov%s%sMin" % (mac, tag),
+                pct(first(F41, "cov_%s_%s_min" % (cand, key))))
+    #  a LaTeX control word is letters only, so the draw count is spelled
+    #  into the macro name; `\covMultBoot1000' does not compile and the
+    #  failure is a runaway argument several files later.
+    for b, word in ((33, "ThirtyThree"), (80, "Eighty"), (150, "OneFifty"),
+                    (400, "FourHundred"), (1000, "OneThousand")):
+        put("covMultBoot" + word, pct(first(F41, "cov_mult_B%d" % b)))
+        put("covPercellBoot" + word, pct(first(F41, "cov_percell_B%d" % b)))
+        put("nBoot" + word, thousands(b))
+    put("widthEmpHiOverMult", num(first(F41, "width_q_emp_hi_over_mult_heavy"),
+                                  2))
+    put("nDegenerateCellsDca", thousands(first(F41, "n_degenerate_dca")))
+    put("nDegenerateCellsWhole", thousands(first(F41, "n_degenerate_whole")))
+    put("shareDegenerateDcaMaxPct",
+        pct(first(F41, "share_degenerate_dca_max")))
+    put("ratioDcaAll", num(first(F41, "ratio_dca_all"), 2))
+    put("ratioDcaAdmissible", num(first(F41, "ratio_dca_adm"), 2))
+    put("nQbelowEmpDcaAdmissible", thousands(first(F41, "n_below_dca_adm")))
+    put("nQbelowEmpWholeAdmissible",
+        thousands(first(F41, "n_below_whole_adm")))
+    put("corpusKurtMedWhole", num(first(F41, "corpus_kurt_med_whole"), 2))
+    put("corpusKurtNinetyWhole", num(first(F41, "corpus_kurt_p90_whole"), 1))
+    put("corpusKurtMedDca", num(first(F41, "corpus_kurt_med_dca_adm"), 2))
+    put("corpusKurtNinetyDca", num(first(F41, "corpus_kurt_p90_dca_adm"), 1))
+    if P41 is not None and len(P41):
+        dc41 = P41[P41.family == "decision-curve"]
+        put("nDcaFamiliesWithDegenerate",
+            thousands(int((dc41.n_degenerate > 0).sum())))
+    else:
+        put("nDcaFamiliesWithDegenerate", None)

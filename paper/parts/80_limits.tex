@@ -121,14 +121,44 @@ Gaussian process the multiplier simulates. Section~\ref{sec:simbands} reports
 what each estimator resolves --- \nResolvedWholeMult\ surface cells against
 \nResolvedWholeEmp, and \nResolvedDcaMult\ decision-curve cells against
 \nResolvedDcaEmp\ --- and a reader who prefers the empirical value should read
-the second of each pair. \textbf{Nothing here measures the band's family-wise
-coverage against a known answer.} The simulation of Section~\ref{sec:sim}
-validates the \emph{pointwise} interval, and extending it to measure
-family-wise coverage over synthetic families whose size, draw count and tail
-behaviour match this corpus is the first thing we would do with more compute.
-Until that is done the region labels, $\rho$, the resolved-cell counts and the
-decision-curve conclusions all inherit this gap, and the decision-curve family
-inherits it undiluted because the coverage calibration does not touch it.
+the second of each pair.
+
+\textbf{The band does not attain its nominal level, and we now know by how
+much.} Section~\ref{sec:simband} measures family-wise coverage against a
+known answer over families matched to this corpus, and the multiplier band
+covers a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\ against
+a nominal $95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even under
+Gaussian draws, which is the case the construction is derived for. The
+bootstrap in that experiment is \emph{ideal}, so those are upper bounds on
+what the procedure attains here. Three consequences are load-bearing and none
+is repaired in this version. The resolved-cell counts, the region labels and
+$\rho$ are all anti-conservative: a band that covers \covMultHeavyMedian\ of
+the time where it claims $95\%$ resolves cells at a rate the data do not
+support, and every count of resolved cells in this paper should be read as an
+upper bound on what is resolved. The safeguard we described as conservative
+--- resolving only at the upper end of the critical value's Monte Carlo
+interval --- moves coverage by less than a point, because it controls the
+Monte Carlo error in $q$ and not the error in what $q$ estimates. And no
+estimator among the five tested reaches nominal at this corpus's draw counts;
+the best, the empirical quantile at the upper end of its order-statistic
+interval, reaches \covEmpHiHeavyMedian\ at \widthEmpHiOverMult\ times the
+width. \textbf{The repair is more draws, not a better critical value}: at the
+modal surface family coverage runs \covMultBootThirtyThree\ at
+\nBootThirtyThree\ draws and \covMultBootFourHundred\ at
+\nBootFourHundred, and a draw refits the whole design space, which is why
+this version does not have them. We report the bands as computed and say
+what they are worth rather than substituting a wider estimator that is also
+wrong and merely less visibly so.
+
+\textbf{Some of what the decision-curve comparison counts is arithmetic.}
+\nDegenerateCellsDca\ cells of the corpus's curve families take the value
+zero in at least nine draws of ten, because at those thresholds both arms
+treat every case alike and the difference is zero by construction rather than
+by estimation. They pass the band's admission rule, which is stated in
+absolute units, and they inflate $q_{\mathrm{emp}}$: excluding them moves the
+median ratio $q_{\mathrm{emp}}/q$ on those families from \ratioDcaAll\ to
+\ratioDcaAdmissible. The decision-curve family inherits every problem above
+undiluted, because the coverage calibration does not touch it.
 
 \paragraph{Inference still rests on further assumptions}
 \textbf{The split point is fixed within a draw}, so split-position uncertainty
@@ -136,8 +166,8 @@ is outside every interval in this paper. \textbf{The moving-block construction
 needs stationarity and mixing} that an event log is not guaranteed to have;
 neither is tested here. \textbf{The max-$t$ band's family-wise coverage is
 asymptotic}, as is the multiplier bootstrap that estimates its critical value,
-and that asymptotics is asked to hold at \nDrawsSurfaceMin\ to
-\nDrawsSurfaceMax\ draws over families of several hundred cells.
+and Section~\ref{sec:simband} shows what that asymptotics is worth at the
+\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ draws this corpus runs at.
 The block length is a convention, $\lceil n^{1/3}\rceil$;
 Section~\ref{sec:simsensitivity} varies it and the coverage of the reported
 interval does move with it, by up to \coverageBlockSpreadMax\ within a world,

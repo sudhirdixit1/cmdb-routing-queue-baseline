@@ -176,10 +176,52 @@ decision-curve families, \nResolvedDcaMult\ against \nResolvedDcaEmp, which is
 the larger exposure and belongs to the one family the coverage calibration of
 Section~\ref{sec:regions} does not touch. Section~\ref{sec:regions} carries
 the surface counts under both and Section~\ref{sec:dcabands} the
-decision-curve ones. What neither estimator settles is stated in
-Section~\ref{sec:lim}: nothing in this paper measures the band's
-\emph{family-wise} coverage against a known answer, because the simulation of
-Section~\ref{sec:sim} validates the pointwise interval only.
+decision-curve ones.
+
+\paragraph{Which of them is right, measured against a known answer}
+A disagreement between two estimators of one quantity says that one of them is
+wrong and cannot say which, so
+Section~\ref{sec:simband} measures the family-wise coverage each one attains
+over synthetic families whose size, draw count, cross-cell correlation and
+tail behaviour are matched to this corpus, and whose truth is known by
+construction. Three results govern how the bands in this paper should be
+read, and none of them is comfortable.
+
+\textbf{The multiplier band does not attain its nominal level anywhere in
+this corpus's configuration, and the shortfall is not a tail effect.} Under
+\emph{Gaussian} draws --- the case the multiplier is derived for --- its
+family-wise coverage has a median \covMultGaussMedian\ over the matched cells
+and a minimum \covMultGaussMin\ against a nominal $95\%$; under draws
+matched to this corpus's tails,
+\covMultHeavyMedian\ and \covMultHeavyMin. The construction is asymptotic and
+these draw counts are not asymptotic.
+
+\textbf{The safeguard the resolved flag uses buys almost nothing.} Resolving
+a cell only at the upper end of the critical value's Monte Carlo interval
+moves coverage from \covMultHeavyMedian\ to \covMultHiHeavyMedian, because
+that interval is narrow by design --- it is the precision the multiplier was
+adopted for. It controls the Monte Carlo error in $q$ and not the error in
+what $q$ estimates.
+
+\textbf{The best of the five candidates is the empirical quantile taken at
+the upper end of its own order-statistic interval, and it is still short.} It
+reaches a median \covEmpHiHeavyMedian\ and a minimum \covEmpHiHeavyMin\ on
+the matched cells, at \widthEmpHiOverMult\ times the width. A Rademacher wild
+multiplier, which reuses the observed draws with random signs instead of
+replacing them by Gaussians and which we expected to repair exactly this,
+does worse than the Gaussian one: \covRadHeavyMedian.
+Section~\ref{sec:simband} reports all five.
+
+The binding constraint is the number of draws, not the choice among
+estimators. At the modal surface family the multiplier band covers
+\covMultBootThirtyThree\ at \nBootThirtyThree\ draws,
+\covMultBootEighty\ at \nBootEighty, \covMultBootOneFifty\ at
+\nBootOneFifty\ and \covMultBootFourHundred\ at \nBootFourHundred; the
+per-cell interval it is built from moves \covPercellBootThirtyThree\ to
+\covPercellBootFourHundred\ over the same range. This corpus runs at
+\nDrawsSurfaceMin\ to \nDrawsSurfaceMax. Every band, region label and $\rho$
+in this paper should be read as the anti-conservative statement that makes
+it, and Section~\ref{sec:lim} states what follows.
 
 \subsection{Planned contrasts, and a $p$-value the design can produce}
 \label{sec:planned}

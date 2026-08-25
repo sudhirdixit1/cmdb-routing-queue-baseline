@@ -719,6 +719,9 @@ def main(argv=None):
     ap.add_argument("--procs", type=int, default=0)
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--resummarise", action="store_true",
+                    help="re-derive the coverage table and the facts from the "
+                         "replicates already on disk, without simulating")
     a = ap.parse_args(argv)
     if a.selftest:
         return selftest()
@@ -786,16 +789,25 @@ def main(argv=None):
                   for r in range(reps)]
     print("  %d replicates over %d cells"
           % (len(tasks), len(GRID) * len(REGIMES) + len(BSENS)))
-    R = pd.DataFrame([r for r in _run(tasks, a.procs, "coverage") if r])
-    R.to_csv(RESULTS / (prefix + "replicates.csv.gz"), index=False,
-             compression="gzip")
+    if a.resummarise:
+        R = pd.read_csv(RESULTS / (prefix + "replicates.csv.gz"))
+        print("  re-derived from %d replicates already on disk" % len(R))
+    else:
+        R = pd.DataFrame([r for r in _run(tasks, a.procs, "coverage") if r])
+        R.to_csv(RESULTS / (prefix + "replicates.csv.gz"), index=False,
+                 compression="gzip")
     C = summarise(R)
     C.to_csv(RESULTS / (prefix + "coverage.csv"), index=False)
 
     #  the sensitivity rows share (family, K) with a grid cell, so every
-    #  selector below names B as well
+    #  selector below names B as well -- and it names K_nom and not K, which
+    #  is the family the grid ASKED for.  Selecting on the realised K silently
+    #  dropped every degenerate-regime row, because a cell whose draws all
+    #  landed on one lattice point is not there to be counted: the minimum
+    #  coverage of the multiplier came out 0.835 when the experiment had
+    #  measured 0.392.
     grid_B = {(K, Bd) for (K, Bd, _f, _w) in GRID}
-    G = C[[(k, b) in grid_B for k, b in zip(C.K, C.B)]]
+    G = C[[(k, b) in grid_B for k, b in zip(C.K_nom, C.B)]]
 
     def cv(regime, cand, how="median"):
         s = G[(G.regime == regime) & (G.candidate == cand)].coverage

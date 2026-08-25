@@ -515,3 +515,78 @@ def write(mn):
     else:
         blank("desk", "The decision rules in net benefit per thousand cases.",
               "tab:desk")
+
+
+def write_round25(mn):
+    """ROUND TWENTY-FIVE.  The band's family-wise coverage, from s41.
+
+    Separated from `write` for the reason `emit_round25` is separated from
+    `emit`: a reader tracing a round-25 table should land on a round-25 block.
+    `make_numbers.write_tables` calls this once.
+    """
+    load, tex_table = mn.load, mn.tex_table
+    TABLES = mn.TABLES
+    import numpy as np
+    import pandas as pd
+
+    C = load("s41_coverage.csv")
+    if C is None or not len(C):
+        (TABLES / "bandcov.tex").write_text(
+            "\\begin{table}[t]\\centering\\small\n"
+            "\\textbf{??} result file absent\n"
+            "\\caption{The band's family-wise coverage.}"
+            "\\label{tab:bandcov}\\end{table}\n", encoding="utf-8")
+        return
+
+    #  the draw-count sensitivity rows share (family, K) with a grid cell and
+    #  are reported in the prose, not here; the table is the matched cells.
+    import s41_bandcoverage as S41
+    grid = {(K, B) for (K, B, _f, _w) in S41.GRID}
+    d = C[[(k, b) in grid for k, b in zip(C.K_nom, C.B)]].copy()
+    #  ROUND TWENTY-FIVE.  As one row per (cell, candidate) this is ninety
+    #  rows: it ran off the bottom of its page and the page number printed
+    #  through it, which no hbox check sees because a float overflowing
+    #  VERTICALLY is not an overfull hbox.  The candidates are columns.
+    lab = {"q_mult": "multiplier", "q_mult_hi": "mult., MC upper",
+           "q_emp": "empirical", "q_emp_hi": "emp., OS upper",
+           "q_rad": "Rademacher"}
+    d["cand"] = d.candidate.map(lab)
+    piv = d.pivot_table(index=["family", "regime", "K_nom", "B"],
+                        columns="cand", values="coverage").reset_index()
+    ctl = (d[d.candidate == "q_mult"]
+           .set_index(["family", "regime", "K_nom", "B"])
+           [["coverage_percell_basic"]].reset_index())
+    piv = piv.merge(ctl, on=["family", "regime", "K_nom", "B"], how="left")
+    piv = piv.rename(columns={"K_nom": "K", "B": "draws",
+                              "regime": "draws are",
+                              "coverage_percell_basic": "per-cell"})
+    order = ["family", "draws are", "K", "draws",
+             "multiplier", "mult., MC upper", "empirical", "emp., OS upper",
+             "Rademacher", "per-cell"]
+    d = piv[[c for c in order if c in piv.columns]].sort_values(
+        ["family", "draws are", "K"])
+    (TABLES / "bandcov.tex").write_text(
+        tex_table(d, "Family-wise coverage of the max-$t$ band against a "
+                     "known answer, over synthetic families matched to this "
+                     "corpus in size, draw count, cross-cell correlation and "
+                     "per-cell excess kurtosis. Nominal is $0.95$; the five "
+                     "middle columns are the five candidate critical values "
+                     "and the last is the control. "
+                     "\\emph{The bootstrap here is ideal} --- the draws come "
+                     "from the sampling distribution itself --- so every "
+                     "coverage in this table is an upper bound on what the "
+                     "real procedure attains, and the control says why: "
+                     "\\emph{per-cell} is the basic interval the band is "
+                     "built from, on the same draws, and it is short of "
+                     "nominal before any multiplicity correction is applied. "
+                     "\\emph{Regimes.} \\textsf{gaussian} is the case the "
+                     "multiplier bootstrap is derived for; \\textsf{heavy} "
+                     "carries this corpus's measured tails; "
+                     "\\textsf{degenerate} adds the cells whose net-benefit "
+                     "difference is zero by arithmetic, which the corpus's "
+                     "decision-curve families contain and its surface "
+                     "families do not. Every cell is "
+                     "\\nBandCoverageReps\\ replicates, so no coverage here "
+                     "is determined worse than \\bandCoverageSEMax.",
+                  "tab:bandcov", floatfmt="%.3f"),
+        encoding="utf-8")

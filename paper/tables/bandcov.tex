@@ -1,0 +1,32 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{llllrrrrrr}
+\toprule
+family & draws are & K & draws & multiplier & mult., MC upper & empirical & emp., OS upper & Rademacher & per-cell \\
+\midrule
+decision-curve & degenerate & 534 & 40 & 0.392 & 0.394 & 0.877 & 0.889 & 0.281 & 0.902 \\
+decision-curve & degenerate & 1100 & 80 & 0.579 & 0.687 & 0.892 & 0.908 & 0.244 & 0.922 \\
+decision-curve & degenerate & 2966 & 150 & 0.853 & 0.854 & 0.902 & 0.920 & 0.821 & 0.932 \\
+decision-curve & gaussian & 534 & 40 & 0.748 & 0.756 & 0.549 & 0.726 & 0.601 & 0.905 \\
+decision-curve & gaussian & 1100 & 80 & 0.859 & 0.866 & 0.786 & 0.923 & 0.805 & 0.928 \\
+decision-curve & gaussian & 2966 & 150 & 0.887 & 0.891 & 0.846 & 0.919 & 0.853 & 0.937 \\
+decision-curve & heavy & 534 & 40 & 0.760 & 0.766 & 0.840 & 0.894 & 0.631 & 0.905 \\
+decision-curve & heavy & 1100 & 80 & 0.838 & 0.842 & 0.899 & 0.920 & 0.790 & 0.929 \\
+decision-curve & heavy & 2966 & 150 & 0.854 & 0.855 & 0.907 & 0.923 & 0.823 & 0.939 \\
+whole-surface & degenerate & 120 & 33 & 0.835 & 0.842 & 0.759 & 0.888 & 0.771 & 0.902 \\
+whole-surface & degenerate & 180 & 80 & 0.927 & 0.931 & 0.887 & 0.974 & 0.900 & 0.927 \\
+whole-surface & degenerate & 480 & 150 & 0.936 & 0.942 & 0.913 & 0.969 & 0.926 & 0.937 \\
+whole-surface & gaussian & 120 & 33 & 0.824 & 0.827 & 0.710 & 0.821 & 0.744 & 0.898 \\
+whole-surface & gaussian & 180 & 80 & 0.900 & 0.903 & 0.858 & 0.955 & 0.876 & 0.927 \\
+whole-surface & gaussian & 480 & 150 & 0.909 & 0.914 & 0.887 & 0.948 & 0.895 & 0.937 \\
+whole-surface & heavy & 120 & 33 & 0.822 & 0.827 & 0.740 & 0.865 & 0.749 & 0.900 \\
+whole-surface & heavy & 180 & 80 & 0.909 & 0.910 & 0.878 & 0.966 & 0.888 & 0.924 \\
+whole-surface & heavy & 480 & 150 & 0.928 & 0.929 & 0.902 & 0.967 & 0.917 & 0.935 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Family-wise coverage of the max-$t$ band against a known answer, over synthetic families matched to this corpus in size, draw count, cross-cell correlation and per-cell excess kurtosis. Nominal is $0.95$; the five middle columns are the five candidate critical values and the last is the control. \emph{The bootstrap here is ideal} --- the draws come from the sampling distribution itself --- so every coverage in this table is an upper bound on what the real procedure attains, and the control says why: \emph{per-cell} is the basic interval the band is built from, on the same draws, and it is short of nominal before any multiplicity correction is applied. \emph{Regimes.} \textsf{gaussian} is the case the multiplier bootstrap is derived for; \textsf{heavy} carries this corpus's measured tails; \textsf{degenerate} adds the cells whose net-benefit difference is zero by arithmetic, which the corpus's decision-curve families contain and its surface families do not. Every cell is \nBandCoverageReps\ replicates, so no coverage here is determined worse than \bandCoverageSEMax.}
+\label{tab:bandcov}
+\end{table}

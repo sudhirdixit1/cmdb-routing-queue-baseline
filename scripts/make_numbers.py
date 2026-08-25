@@ -837,6 +837,7 @@ def main(argv=None):
                       CE=CE, BN=BN, S9M=S9M, DR=load("s04_decision_rules.csv")))
     round20_tables.write(sys.modules[__name__])
     round21_tables.write(sys.modules[__name__])
+    round21_tables.write_round25(sys.modules[__name__])
 
     print("wrote paper/numbers.tex with %d macros" % len(_MACROS))
     stale = provenance.mismatches()

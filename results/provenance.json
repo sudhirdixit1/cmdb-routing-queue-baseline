@@ -203,5 +203,10 @@
     "at": "2026-08-25T11:41:42Z",
     "note": "round twenty-two: the multiplier critical value against the empirical quantile of the same observed maxima",
     "sha": "00f5c5098e94ea02"
+  },
+  "s41_bandcoverage.py": {
+    "at": "2026-08-25T22:30:15Z",
+    "note": "Round twenty-five: the full run of 25 August 2026 -- 2,000 replicates in each of 18 cells, the corpus profile over all 38 families, and the tail calibration by grid search at 60 replicates a combination. The facts were re-derived with --resummarise after the grid selector was corrected to name the nominal family size rather than the realised one.",
+    "sha": "9bd17ba270e7317e"
   }
 }

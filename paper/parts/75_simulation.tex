@@ -117,10 +117,83 @@ standard errors; but the comparison the paper rests on is unchanged at every
 length, the basic interval beating the percentile interval on the sparse
 register by at least \blockSparseGapMin\ at all \nSimBlockLengths.
 
+\subsection{The band's family-wise coverage}
+\label{sec:simband}
+
+Everything above validates a \emph{pointwise} interval. Two of this paper's
+four reporting objects are functions of a \emph{simultaneous} band, and until
+this section nothing measured what that band covers.
+
+\textbf{The design, and why its answer is an upper bound.} The truth is zero
+at every cell of a synthetic family. One draw from the sampling distribution
+gives the point estimate, and as many further draws \emph{from that same
+distribution} as the corpus family it is matched to carries give the
+bootstrap --- so the bootstrap is not an approximation of the sampling
+distribution but is it. Every way a
+resampling scheme can be wrong --- dependence it fails to reproduce, a refit
+that comes apart, a block length misjudged --- is switched off, and what is
+left is the object under test: a standard error and a critical value both
+estimated from the same handful of draws. A coverage measured here is
+therefore the most the real procedure can attain, and a shortfall here is one
+that no improvement to the resampling repairs. The families are matched to
+this corpus in size, draw count, cross-cell correlation, effective rank and
+per-cell excess kurtosis; the matching is fitted by grid search against the
+corpus's own draw files and reported beside its target rather than asserted.
+Coverage is over \nBandCoverageReps\ replicates in each of
+\nBandCoverageCells\ cells, so no coverage here is determined worse than
+\bandCoverageSEMax.
+
+\textbf{Three regimes, because ``the draws are heavy-tailed'' turned out to
+name two different things.} Under \emph{Gaussian} draws the multiplier's
+family-wise coverage is a median \covMultGaussMedian\ and a minimum
+\covMultGaussMin. Under draws carrying this corpus's tails, whose median
+cell has an excess kurtosis of \corpusKurtMedWhole\ on the surface families
+and whose ninetieth percentile is \corpusKurtNinetyWhole, the median is
+\covMultHeavyMedian\ and the minimum \covMultHeavyMin. Under the third
+regime, which adds the degenerate cells described below, they are
+\covMultDegenMedian\ and \covMultDegenMin.
+
+\textbf{What is wrong with the decision-curve families is not a tail.} At a
+threshold where both arms treat every case alike the net-benefit difference
+is zero by arithmetic rather than by estimation, and \nDegenerateCellsDca\
+cells of the corpus's curve families are exactly zero in at least nine draws
+of ten --- up to \shareDegenerateDcaMaxPct\ of a single family, against
+\nDegenerateCellsWhole\ such cells anywhere in the surface families. The
+admission rule keeps any cell whose spread exceeds a floor in absolute units,
+so such a cell survives and standardising it by that spread sends its
+studentised value to the largest value a deviate standardised over $B$ points
+can take. They are what makes $q_{\mathrm{emp}}$ large on those families:
+excluding them moves the median ratio $q_{\mathrm{emp}}/q$ from
+\ratioDcaAll\ to \ratioDcaAdmissible. It does \emph{not} dissolve the
+disagreement --- $q$ still lies below the empirical interval on
+\nQbelowEmpDcaAdmissible\ of the \nFamiliesDca\ curve families and
+\nQbelowEmpWholeAdmissible\ of the \nFamiliesWhole\ surface ones once they
+are gone --- and Table~\ref{tab:bandcov} reports the regime with and without
+them because Section~\ref{sec:simbands}'s count of what
+$q_{\mathrm{emp}}$ resolves is, on those families, partly a count of
+arithmetic.
+
+\textbf{The draw count is the binding constraint.} At the modal surface
+family the multiplier band covers \covMultBootThirtyThree\ at
+\nBootThirtyThree\ draws and \covMultBootOneThousand\ at
+\nBootOneThousand, and the per-cell interval underneath it moves
+\covPercellBootThirtyThree\ to \covPercellBootOneThousand\ over the same
+range: part of what the band loses it loses before any critical value is
+chosen, and Section~\ref{sec:simcoverage} validated that construction at a
+refit count this corpus does not reach on most pairs. No estimator recovers
+the difference. The best of the five, the empirical quantile at the upper end
+of its own order-statistic interval, reaches \covEmpHiHeavyMedian\ at
+\widthEmpHiOverMult\ times the width and still falls to
+\covEmpHiHeavyMin\ at the smallest family; a Rademacher wild multiplier,
+which preserves the observed draws' magnitudes instead of replacing them by
+Gaussians and is the natural repair for a tail problem, is worse than the
+Gaussian multiplier at \covRadHeavyMedian.
+
 \paragraph{What the simulation does not establish}
-It certifies the constructions on \nWorlds\ worlds, a plane of
-\nSimGridCells\ $(n, K)$ cells and \nSimBlockLengths\ block lengths, and on
-nothing else. The stationarity and mixing the moving-block bootstrap needs are
+It certifies the pointwise constructions on \nWorlds\ worlds, a plane of
+\nSimGridCells\ $(n, K)$ cells and \nSimBlockLengths\ block lengths, and
+the band on the \nBandCoverageCells\ matched families of
+Section~\ref{sec:simband} --- on nothing else. The stationarity and mixing the moving-block bootstrap needs are
 assumed and not tested; the split point is fixed within a draw, so
 split-position uncertainty is outside every interval reported here; and the
 drifting world shows what happens when the estimator is not consistent for the
