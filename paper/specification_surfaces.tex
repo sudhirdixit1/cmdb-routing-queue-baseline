@@ -216,8 +216,8 @@ one metric to the reduction under another (Proposition~\ref{prop:nonid}). And,
 relative to a \emph{declared family} of recalibrations, $R$ survives every
 member of that family exactly when each member acts \emph{affinely} on the
 instrument (Proposition~\ref{prop:rank}) --- which within the affine family is
-strictly weaker than rank-basedness (Corollary~\ref{cor:notexactly}) and
-outside it is not (Remark~\ref{rem:familyrel}). The proposition also converts
+strictly weaker than rank-basedness, and outside it is not
+(Section~\ref{sec:weaker}). The proposition also converts
 a search into a proof: one violating triple settles an instrument for the
 family it was found in.
 
@@ -567,9 +567,15 @@ any $R$ in this paper was computed:
 \item $R$ is reported only where $V_s(f \mid B_0)$ is resolvably positive
 under the \emph{simultaneous} band, not merely positive as a point estimate;
 \item its interval is a Fieller set and its \emph{kind} --- bounded,
-unbounded, or the complement of an interval --- is printed beside it, because
-a percentile interval reports a bounded interval in all three cases
-(Section~\ref{sec:fieller});
+unbounded, or the complement of an interval --- is printed beside it. A
+confidence set for a ratio is the solution set of a quadratic
+\citep{fieller1954} and is a bounded interval only when that quadratic's
+leading coefficient is positive, which is to say only when the denominator is
+resolvably away from zero; otherwise it is unbounded or is the
+\emph{complement} of an interval, and no bounded interval summarises it
+(Supplement~\ref{app:objects}). Of the \nFieller\ reductions this paper
+computes, \nFiellerUnbounded\ have a non-bounded Fieller set, and a percentile
+interval reports a bounded one for every single one of them;
 \item the magnitude of $R$ is never compared with the spread of $R$ across
 metrics as though both lived on an unproblematic common scale.
 \end{enumerate}
@@ -600,14 +606,12 @@ two baselines: the metric is an argument of the estimand.
 \noindent The construction is in Supplement~\ref{app:props}.
 
 
-\begin{remark}
-The construction establishes non-identifiability and not unboundedness: $R$ is
-built over a bounded interval in any fixed configuration, so the right reading
-is that no function carries one metric's reduction to another's. In the two
+It establishes non-identifiability and not unboundedness: $R$ is built over a
+bounded interval in any fixed configuration, so the reading is that no
+function carries one metric's reduction to another's. In the two
 configurations of \texttt{results/s29\_prop1.csv} the AUC reduction is
 identical to \propOneAucGap\ while the average-precision reduction differs by
 \propOneApGap.
-\end{remark}
 
 The second proposition concerns what a monotone recalibration of the scoring
 system does to the reduction. It is stated \emph{relative to a declared family
@@ -632,8 +636,8 @@ invariant on \emph{that class} without acting affinely; the direction that
 matters for practice, (ii) $\Rightarrow$ (i), needs no richness at all. A
 reader working inside a restricted family should therefore read the
 proposition as a sufficient condition and establish non-invariance on their
-own class by exhibiting a configuration in it, which is what the certificates
-of Remark~\ref{rem:cancel} do.
+own class by exhibiting a configuration in it, which is what the
+certificates below do.
 
 \begin{proposition}[What survives a declared family of recalibrations]
 \label{prop:rank}
@@ -657,44 +661,38 @@ moved only for length. Taking $\Psi$ to be every strictly increasing
 continuous map recovers the unrestricted statement, and taking it to be the
 recalibrations an analyst has declared is the version that can be checked.
 
-\begin{corollary}[Within a declared family, invariance is strictly weaker than
-rank-basedness]
-\label{cor:notexactly}
+\paragraph{Within a declared family, invariance is strictly weaker than
+rank-basedness}
+\label{sec:weaker}
 A rank-based instrument satisfies (ii) with $A \equiv 1$, $B \equiv 0$ for
-every $\Psi$, hence satisfies (i). The converse fails for some $\Psi$. Let
-$\Psi_{\mathrm{aff}}$ be the affine rescalings and let $m$ be the gap between
-the mean score on the positives and the mean score on the negatives. It is not
+every $\Psi$, hence satisfies (i); the converse fails for some $\Psi$. Let
+$\Psi_{\mathrm{aff}}$ be the affine rescalings and $m$ the gap between the
+mean score on the positives and the mean score on the negatives. It is not
 rank-based --- an affine recalibration changes it, by up to
 \widerMChangeAffine\ over the configurations in
 \texttt{results/s29\_wider.csv} --- yet $\psi$ acts affinely on it with
 $A(\psi)$ the slope, so its reduction is $\Psi_{\mathrm{aff}}$-invariant to
 \widerRShiftAffine.
-\end{corollary}
 
-\begin{remark}[The separation is family-relative]
-\label{rem:familyrel}
-The same witness does \emph{not} separate at $\Psi = $ all monotone maps: over
-\nPsiFamiliesNonAffine\ non-affine recalibration families the class-mean gap's
-reduction shifts by up to \widerRShiftNonAffine, against
-\widerRShiftAffine\ inside $\Psi_{\mathrm{aff}}$. Whether any instrument
-satisfies (i) unrestrictedly without being rank-based is a question this paper
-does not settle and does not need to: an analyst declares the recalibrations
-they will consider, and the proposition answers for those.
-\end{remark}
+\textbf{The separation is family-relative.} The same witness does \emph{not}
+separate at $\Psi = $ all monotone maps: over \nPsiFamiliesNonAffine\
+non-affine recalibration families the class-mean gap's reduction shifts by up
+to \widerRShiftNonAffine, against \widerRShiftAffine\ inside
+$\Psi_{\mathrm{aff}}$. Whether any instrument satisfies (i) unrestrictedly
+without being rank-based is a question this paper does not settle and does
+not need to: an analyst declares the recalibrations they will consider, and
+the proposition answers for those.
 
-\begin{remark}[What this buys]
-\label{rem:cancel}
-The proposition turns a search into a proof: to show that a given instrument's
-reduction is \emph{not} invariant it suffices to exhibit one $\psi$ and one
-triple $(a,b,c)$ violating \eqref{eq:ratiopres}, a \emph{certificate} that
-$\psi$ does not act affinely on $m$, because the proposition then rules out
-invariance for every configuration.
+\textbf{What this buys} is that a search becomes a proof. To show that an
+instrument's reduction is \emph{not} invariant it suffices to exhibit one
+$\psi$ and one triple $(a,b,c)$ violating \eqref{eq:ratiopres} --- a
+\emph{certificate} that $\psi$ does not act affinely on $m$ --- because the
+proposition then rules out invariance for every configuration.
 \texttt{results/s29\_certificates.csv} carries \nCertificates\ of them, one
 for each of the three non-rank-based instruments under each of \nPsiFamilies\
 recalibration families, the smallest moving $R$ by \certificateMinShift; the
 two rank-based instruments are invariant across \nInvarianceChecks\ checks to
 \invarianceMaxShift.
-\end{remark}
 % ---- paper/parts/20_inference.tex ----
 \section{Estimation and inference}
 \label{sec:inference}
@@ -941,40 +939,23 @@ produce. At \nDrawsPlanned\ draws the smallest attainable Holm-adjusted value
 over five tests is \pMinAttainableHolm, and \nPlannedReject\ of the five
 survive.
 
-\paragraph{A one-sided $p$-value and a two-sided basic interval are different
-statements about the same draws, and on \textsf{PC3} they disagree}
+\paragraph{A one-sided $p$-value and a two-sided basic interval disagree on
+\textsf{PC3}, and the interval decides}
 \textsf{PC3}'s one-sided $p$ is \pcThreePraw\ (Holm-adjusted
 \pcThreePholm) and its two-sided basic interval, [\pcThreeLo, \pcThreeHi],
-contains zero. Both are computed from the same \nDrawsPcThree\ draws of the
-planned-contrast run and are the values Table~\ref{tab:confirm} prints; a
-quantity of this kind estimated twice at two draw counts is two estimates and
-not one number, and this paper quotes one of them. The $p$-value says where
-those draws lie: their central ninety-five per cent runs from \pcThreeQlo\ to
-\pcThreeQhi, entirely above zero. The basic interval says where the
-\emph{estimand} lies, obtained by pivoting that distribution about the
-estimate; the draws are centred \pcThreeShift\ AUC \emph{above} the estimate
---- the upward shift Section~\ref{sec:boot} diagnoses --- so pivoting moves
-the interval down by twice that shift and its lower limit crosses zero even
-though almost no draw does. This paper answers the second question:
-\textbf{a contrast is called resolved only when the interval says so}, and
-\textsf{PC3} is not resolved on any of the four cohort-and-target combinations
-Section~\ref{sec:cohort} reports. Every other comparison in this paper is
-\emph{exploratory}, is labelled as such where it appears, and carries no
-multiplicity correction, because none would be meaningful over a surface that
-is deliberately enumerated in full.
-
-\subsection{Fieller intervals for the reduction}
-\label{sec:fieller}
-
-A confidence set for the ratio $\vartheta = V_1/V_0$ is the solution set of a
-quadratic in $\vartheta$ \citep{fieller1954}, and it is a bounded interval only
-when the quadratic's leading coefficient is positive --- that is, only when the
-denominator is resolvably away from zero. Otherwise the set is unbounded or is
-the \emph{complement} of an interval, and no bounded interval is a correct
-summary of it (Supplement~\ref{app:objects}). Of the \nFieller\ reductions
-this paper computes, \nFiellerUnbounded\ have a non-bounded Fieller set; a
-percentile interval reports a bounded interval for every one of them, which is
-why the ratio is reported last and never where its denominator is unresolved.
+contains zero. Both come from the same \nDrawsPcThree\ draws. The $p$-value
+says where those draws lie --- their central ninety-five per cent runs
+\pcThreeQlo\ to \pcThreeQhi, entirely above zero --- while the interval says
+where the \emph{estimand} lies, obtained by pivoting that distribution about
+the estimate; the draws sit \pcThreeShift\ AUC \emph{above} the estimate, the
+upward shift Section~\ref{sec:boot} diagnoses, so pivoting moves the interval
+down by twice that shift and its lower limit crosses zero even though almost
+no draw does. \textbf{A contrast is called resolved only when the interval
+says so}, and \textsf{PC3} is not resolved on any of the four
+cohort-and-target combinations Section~\ref{sec:cohort} reports. Every other
+comparison here is \emph{exploratory}, labelled as such where it appears, and
+carries no multiplicity correction, because none would be meaningful over a
+surface enumerated in full.
 
 \subsection{The sensitivity decomposition}
 \label{sec:sobol}
@@ -1728,26 +1709,26 @@ contribution is the second, and the first should be reported beside it.
 The four rules of Section~\ref{sec:regretdef} --- \emph{one-number},
 \emph{uniform}, \emph{majority} and \emph{weighted mean} --- are compared
 under the loss defined there, inside one instrument at a time and in that
-instrument's own units; no average in this paper crosses an instrument.
-Supplement~\ref{app:secondary} reports the comparison in full and
-Table~\ref{tab:rules} the numbers. The weighted mean is optimal in sample by
-construction, so what matters is out of sample: choosing the action on a
+instrument's own units. Table~\ref{tab:rules} and
+Supplement~\ref{app:secondary} carry it in full. The weighted mean is optimal
+in sample by construction, so what matters is out of sample: choosing on a
 random half of the admissible cells and paying on the other half, the
 one-number rule costs \oosOneNumberAuc\ AUC of expected excess regret against
-\oosMajorityAuc\ for the majority rule and \oosMeanAuc\ for the weighted mean,
-and the one-number rule is worse than the majority rule in
+\oosMajorityAuc\ for the majority rule and \oosMeanAuc\ for the weighted
+mean, and is worse than the majority rule in
 \nInstrumentsOneNumberWorse\ instruments of \nInstruments.
 
-Three results run against the surface's advocate. The conservative rule is the
-worst of the four in \nInstrumentsUniformWorst\ instruments, because it
-declines so often that the performance it forgoes exceeds the performance the
-one-number rule destroys; the median excess regret of the one-number rule is
-\emph{zero} in every instrument, because on most pairs every rule picks the
-same action; and under rolling-origin folds the ordering does not hold, at
-\oostOneNumber\ against \oostMajority. We therefore do not conclude that a
-surface report is a better decision rule than a number. The case for reporting
-the surface rests on the decomposition and on the sign disagreement, and the
-regret comparison is a check on those rather than a result in its own right.
+\textbf{Three results run against the surface's advocate, and we report them
+rather than the comparison alone.} The conservative rule is the worst of the
+four in \nInstrumentsUniformWorst\ instruments, declining so often that the
+performance it forgoes exceeds the performance the one-number rule destroys;
+the median excess regret of the one-number rule is \emph{zero} in every
+instrument, because on most pairs every rule picks the same action; and under
+rolling-origin folds the ordering does not hold, at \oostOneNumber\ against
+\oostMajority. We therefore do not conclude that a surface report is a better
+decision rule than a number. The case for reporting the surface rests on the
+decomposition and on the sign disagreement; this comparison is a check on
+those and not a result in its own right.
 % ---- paper/parts/50_cmdb.tex ----
 \section{Case study: a configuration management database}
 \label{sec:cmdb}
@@ -2232,52 +2213,41 @@ the staff who keep it current --- is nowhere in this evidence.
 \subsection{The minimum reportable form}
 
 The apparatus of Sections~\ref{sec:surface} and~\ref{sec:inference} implies a
-reporting standard, and it is short enough to state in full. A feature-value
-claim is reportable when it carries:
-
-\begin{enumerate}
-\item \textbf{the design space}, as an enumerable declaration --- which
-learners, encodings, targets, splits, decision times, quality mechanisms,
-baselines, metrics and operating points are admissible, why anything
-defensible was left out, and \textbf{the measure placed on those levels};
-\item \textbf{the denominator}, as a count that a reader can reproduce from
-the axis levels: declared cells, computed cells, and the cells any inference
-actually rests on, which need not be the same set;
-\item \textbf{the absolute increments} at every rung of the baseline ladder,
-in the metric's own units, with intervals from a resampling scheme that
-refits the model;
-\item \textbf{the sensitivity decomposition}, with the total higher-order
-share reported as $1 - \sum_i S_i$ rather than as any per-axis difference;
-\item \textbf{the resolution region and $\rho$}, under a band whose family is
-the set the label ranges over;
-\item \textbf{the ratio $R$ last if at all}, with a Fieller set and the set's
-kind, and never where the denominator is not resolvably positive.
-\end{enumerate}
-
-Nothing in that list is expensive once the surface exists. The cost is the
-surface, and the surface is a factorial over declarations the analyst has
-already made implicitly.
+reporting standard short enough to state in full. A feature-value claim is
+reportable when it carries: \textbf{the design space}, as an enumerable
+declaration of which learners, encodings, targets, splits, decision times,
+quality mechanisms, baselines, metrics and operating points are admissible,
+why anything defensible was left out, and \emph{the measure placed on those
+levels}; \textbf{the denominator}, as a count a reader can reproduce from the
+axis levels --- declared cells, computed cells, and the cells any inference
+actually rests on, which need not be the same set; \textbf{the absolute
+increments} at every rung of the baseline ladder, in the metric's own units,
+with intervals from a resampling scheme that refits the model; \textbf{the
+sensitivity decomposition}, with the total higher-order share reported as
+$1 - \sum_i S_i$ and not as any per-axis difference; \textbf{the resolution
+region and $\rho$}, under a band whose family is the set the label ranges
+over; and \textbf{the ratio $R$ last if at all}, with a Fieller set and the
+set's kind, never where the denominator is not resolvably positive. Nothing
+in that list is expensive once the surface exists, and the surface is a
+factorial over declarations the analyst has already made implicitly.
 
 \subsection{\texttt{fieldvalue}}
 \label{sec:tool}
 
-The standard ships as \texttt{fieldvalue}, a package that computes the surface
-from a data frame, a feature name and a dictionary of baselines. Its notable
-property is a refusal: \texttt{Surface} raises rather than returning a scalar.
-\texttt{Surface.report()} emits the minimum reportable form above;
-\texttt{Surface.at(...)} returns one cell and requires the caller to name every
+The standard ships as \texttt{fieldvalue}, which computes the surface from a
+data frame, a feature name and a dictionary of baselines. Its notable
+property is a refusal: \texttt{Surface} raises rather than returning a
+scalar, \texttt{Surface.report()} emits the form above, and
+\texttt{Surface.at(...)} returns one cell only if the caller names every
 axis. Version \fvVersion\ adds the four objects of
 Sections~\ref{sec:sobol}--\ref{sec:regretdef} as functions of a surface ---
-\texttt{decompose}, \texttt{regions}, \texttt{robustness}, \texttt{regret} ---
-each taking a tidy frame rather than this package's own object, so a reader can
-apply them to a surface computed by some other pipeline.
-
-The package carries \nTests\ tests. It is also an \emph{independent
-implementation}: the analysis scripts and the package compute the same four
-objects from the same definitions in different code, neither written against
-the other, and \texttt{scripts/s11\_tool\_agreement.py} runs both on the same
-input. On this paper's corpus they agree on \nAgreeQuantities\ of
-\nAgreeQuantities\ quantities, with a largest difference of \agreeTolerance.
+\texttt{decompose}, \texttt{regions}, \texttt{robustness}, \texttt{regret}
+--- each taking a tidy frame rather than this package's own object, so they
+apply to a surface computed by some other pipeline. It carries \nTests\ tests
+and is an \emph{independent implementation}: the analysis scripts and the
+package compute the same four objects from the same definitions in different
+code, neither written against the other, and on this corpus they agree on
+\nAgreeQuantities\ of \nAgreeQuantities\ quantities to \agreeTolerance.
 
 \subsection{Beyond process logs, and beyond this paper's claims}
 \label{sec:worked}

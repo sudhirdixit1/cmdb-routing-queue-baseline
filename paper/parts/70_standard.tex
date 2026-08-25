@@ -5,52 +5,41 @@
 \subsection{The minimum reportable form}
 
 The apparatus of Sections~\ref{sec:surface} and~\ref{sec:inference} implies a
-reporting standard, and it is short enough to state in full. A feature-value
-claim is reportable when it carries:
-
-\begin{enumerate}
-\item \textbf{the design space}, as an enumerable declaration --- which
-learners, encodings, targets, splits, decision times, quality mechanisms,
-baselines, metrics and operating points are admissible, why anything
-defensible was left out, and \textbf{the measure placed on those levels};
-\item \textbf{the denominator}, as a count that a reader can reproduce from
-the axis levels: declared cells, computed cells, and the cells any inference
-actually rests on, which need not be the same set;
-\item \textbf{the absolute increments} at every rung of the baseline ladder,
-in the metric's own units, with intervals from a resampling scheme that
-refits the model;
-\item \textbf{the sensitivity decomposition}, with the total higher-order
-share reported as $1 - \sum_i S_i$ rather than as any per-axis difference;
-\item \textbf{the resolution region and $\rho$}, under a band whose family is
-the set the label ranges over;
-\item \textbf{the ratio $R$ last if at all}, with a Fieller set and the set's
-kind, and never where the denominator is not resolvably positive.
-\end{enumerate}
-
-Nothing in that list is expensive once the surface exists. The cost is the
-surface, and the surface is a factorial over declarations the analyst has
-already made implicitly.
+reporting standard short enough to state in full. A feature-value claim is
+reportable when it carries: \textbf{the design space}, as an enumerable
+declaration of which learners, encodings, targets, splits, decision times,
+quality mechanisms, baselines, metrics and operating points are admissible,
+why anything defensible was left out, and \emph{the measure placed on those
+levels}; \textbf{the denominator}, as a count a reader can reproduce from the
+axis levels --- declared cells, computed cells, and the cells any inference
+actually rests on, which need not be the same set; \textbf{the absolute
+increments} at every rung of the baseline ladder, in the metric's own units,
+with intervals from a resampling scheme that refits the model; \textbf{the
+sensitivity decomposition}, with the total higher-order share reported as
+$1 - \sum_i S_i$ and not as any per-axis difference; \textbf{the resolution
+region and $\rho$}, under a band whose family is the set the label ranges
+over; and \textbf{the ratio $R$ last if at all}, with a Fieller set and the
+set's kind, never where the denominator is not resolvably positive. Nothing
+in that list is expensive once the surface exists, and the surface is a
+factorial over declarations the analyst has already made implicitly.
 
 \subsection{\texttt{fieldvalue}}
 \label{sec:tool}
 
-The standard ships as \texttt{fieldvalue}, a package that computes the surface
-from a data frame, a feature name and a dictionary of baselines. Its notable
-property is a refusal: \texttt{Surface} raises rather than returning a scalar.
-\texttt{Surface.report()} emits the minimum reportable form above;
-\texttt{Surface.at(...)} returns one cell and requires the caller to name every
+The standard ships as \texttt{fieldvalue}, which computes the surface from a
+data frame, a feature name and a dictionary of baselines. Its notable
+property is a refusal: \texttt{Surface} raises rather than returning a
+scalar, \texttt{Surface.report()} emits the form above, and
+\texttt{Surface.at(...)} returns one cell only if the caller names every
 axis. Version \fvVersion\ adds the four objects of
 Sections~\ref{sec:sobol}--\ref{sec:regretdef} as functions of a surface ---
-\texttt{decompose}, \texttt{regions}, \texttt{robustness}, \texttt{regret} ---
-each taking a tidy frame rather than this package's own object, so a reader can
-apply them to a surface computed by some other pipeline.
-
-The package carries \nTests\ tests. It is also an \emph{independent
-implementation}: the analysis scripts and the package compute the same four
-objects from the same definitions in different code, neither written against
-the other, and \texttt{scripts/s11\_tool\_agreement.py} runs both on the same
-input. On this paper's corpus they agree on \nAgreeQuantities\ of
-\nAgreeQuantities\ quantities, with a largest difference of \agreeTolerance.
+\texttt{decompose}, \texttt{regions}, \texttt{robustness}, \texttt{regret}
+--- each taking a tidy frame rather than this package's own object, so they
+apply to a surface computed by some other pipeline. It carries \nTests\ tests
+and is an \emph{independent implementation}: the analysis scripts and the
+package compute the same four objects from the same definitions in different
+code, neither written against the other, and on this corpus they agree on
+\nAgreeQuantities\ of \nAgreeQuantities\ quantities to \agreeTolerance.
 
 \subsection{Beyond process logs, and beyond this paper's claims}
 \label{sec:worked}

@@ -442,23 +442,23 @@ contribution is the second, and the first should be reported beside it.
 The four rules of Section~\ref{sec:regretdef} --- \emph{one-number},
 \emph{uniform}, \emph{majority} and \emph{weighted mean} --- are compared
 under the loss defined there, inside one instrument at a time and in that
-instrument's own units; no average in this paper crosses an instrument.
-Supplement~\ref{app:secondary} reports the comparison in full and
-Table~\ref{tab:rules} the numbers. The weighted mean is optimal in sample by
-construction, so what matters is out of sample: choosing the action on a
+instrument's own units. Table~\ref{tab:rules} and
+Supplement~\ref{app:secondary} carry it in full. The weighted mean is optimal
+in sample by construction, so what matters is out of sample: choosing on a
 random half of the admissible cells and paying on the other half, the
 one-number rule costs \oosOneNumberAuc\ AUC of expected excess regret against
-\oosMajorityAuc\ for the majority rule and \oosMeanAuc\ for the weighted mean,
-and the one-number rule is worse than the majority rule in
+\oosMajorityAuc\ for the majority rule and \oosMeanAuc\ for the weighted
+mean, and is worse than the majority rule in
 \nInstrumentsOneNumberWorse\ instruments of \nInstruments.
 
-Three results run against the surface's advocate. The conservative rule is the
-worst of the four in \nInstrumentsUniformWorst\ instruments, because it
-declines so often that the performance it forgoes exceeds the performance the
-one-number rule destroys; the median excess regret of the one-number rule is
-\emph{zero} in every instrument, because on most pairs every rule picks the
-same action; and under rolling-origin folds the ordering does not hold, at
-\oostOneNumber\ against \oostMajority. We therefore do not conclude that a
-surface report is a better decision rule than a number. The case for reporting
-the surface rests on the decomposition and on the sign disagreement, and the
-regret comparison is a check on those rather than a result in its own right.
+\textbf{Three results run against the surface's advocate, and we report them
+rather than the comparison alone.} The conservative rule is the worst of the
+four in \nInstrumentsUniformWorst\ instruments, declining so often that the
+performance it forgoes exceeds the performance the one-number rule destroys;
+the median excess regret of the one-number rule is \emph{zero} in every
+instrument, because on most pairs every rule picks the same action; and under
+rolling-origin folds the ordering does not hold, at \oostOneNumber\ against
+\oostMajority. We therefore do not conclude that a surface report is a better
+decision rule than a number. The case for reporting the surface rests on the
+decomposition and on the sign disagreement; this comparison is a check on
+those and not a result in its own right.

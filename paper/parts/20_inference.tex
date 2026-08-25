@@ -243,40 +243,23 @@ produce. At \nDrawsPlanned\ draws the smallest attainable Holm-adjusted value
 over five tests is \pMinAttainableHolm, and \nPlannedReject\ of the five
 survive.
 
-\paragraph{A one-sided $p$-value and a two-sided basic interval are different
-statements about the same draws, and on \textsf{PC3} they disagree}
+\paragraph{A one-sided $p$-value and a two-sided basic interval disagree on
+\textsf{PC3}, and the interval decides}
 \textsf{PC3}'s one-sided $p$ is \pcThreePraw\ (Holm-adjusted
 \pcThreePholm) and its two-sided basic interval, [\pcThreeLo, \pcThreeHi],
-contains zero. Both are computed from the same \nDrawsPcThree\ draws of the
-planned-contrast run and are the values Table~\ref{tab:confirm} prints; a
-quantity of this kind estimated twice at two draw counts is two estimates and
-not one number, and this paper quotes one of them. The $p$-value says where
-those draws lie: their central ninety-five per cent runs from \pcThreeQlo\ to
-\pcThreeQhi, entirely above zero. The basic interval says where the
-\emph{estimand} lies, obtained by pivoting that distribution about the
-estimate; the draws are centred \pcThreeShift\ AUC \emph{above} the estimate
---- the upward shift Section~\ref{sec:boot} diagnoses --- so pivoting moves
-the interval down by twice that shift and its lower limit crosses zero even
-though almost no draw does. This paper answers the second question:
-\textbf{a contrast is called resolved only when the interval says so}, and
-\textsf{PC3} is not resolved on any of the four cohort-and-target combinations
-Section~\ref{sec:cohort} reports. Every other comparison in this paper is
-\emph{exploratory}, is labelled as such where it appears, and carries no
-multiplicity correction, because none would be meaningful over a surface that
-is deliberately enumerated in full.
-
-\subsection{Fieller intervals for the reduction}
-\label{sec:fieller}
-
-A confidence set for the ratio $\vartheta = V_1/V_0$ is the solution set of a
-quadratic in $\vartheta$ \citep{fieller1954}, and it is a bounded interval only
-when the quadratic's leading coefficient is positive --- that is, only when the
-denominator is resolvably away from zero. Otherwise the set is unbounded or is
-the \emph{complement} of an interval, and no bounded interval is a correct
-summary of it (Supplement~\ref{app:objects}). Of the \nFieller\ reductions
-this paper computes, \nFiellerUnbounded\ have a non-bounded Fieller set; a
-percentile interval reports a bounded interval for every one of them, which is
-why the ratio is reported last and never where its denominator is unresolved.
+contains zero. Both come from the same \nDrawsPcThree\ draws. The $p$-value
+says where those draws lie --- their central ninety-five per cent runs
+\pcThreeQlo\ to \pcThreeQhi, entirely above zero --- while the interval says
+where the \emph{estimand} lies, obtained by pivoting that distribution about
+the estimate; the draws sit \pcThreeShift\ AUC \emph{above} the estimate, the
+upward shift Section~\ref{sec:boot} diagnoses, so pivoting moves the interval
+down by twice that shift and its lower limit crosses zero even though almost
+no draw does. \textbf{A contrast is called resolved only when the interval
+says so}, and \textsf{PC3} is not resolved on any of the four
+cohort-and-target combinations Section~\ref{sec:cohort} reports. Every other
+comparison here is \emph{exploratory}, labelled as such where it appears, and
+carries no multiplicity correction, because none would be meaningful over a
+surface enumerated in full.
 
 \subsection{The sensitivity decomposition}
 \label{sec:sobol}
