@@ -11,6 +11,10 @@ pandas==2.3.1
 scipy==1.15.3
 scikit-learn==1.7.2
 matplotlib==3.10.5
+# pandas routes DataFrame.to_latex through its Styler, which imports jinja2.
+# Every generated table in both documents comes through that call, so this is
+# a build dependency and not an optional one.
+jinja2==3.1.6
 
 # --- round eighteen -------------------------------------------------------
 # The audit fetches its frame from the OpenAlex API and its full texts from

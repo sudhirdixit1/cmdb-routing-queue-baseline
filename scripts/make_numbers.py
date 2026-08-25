@@ -853,12 +853,24 @@ def count_tests():
     number this paper exists to complain about."""
     #  pytest --collect-only takes tens of seconds under load and this file is
     #  run after every edit, so the answer is cached against the test files'
-    #  modification times.  A stale count would be a number in the manuscript
-    #  that no longer matches the suite, so the cache key is the mtimes.
+    #  CONTENT.  It was cached against their modification times, which a fresh
+    #  clone rewrites, so the cache never hit on the machine that most needed
+    #  it and the run fell through to whatever pytest could be made to do.
+    #
+    #  Round twenty-five.  There used to be a fallback here that counted
+    #  `def test_` lines when pytest would not collect, and it was silent.  On
+    #  a clone whose environment lacked pytest -- which the lock file allowed
+    #  until this round, since it never carried pytest at all -- that fallback
+    #  put 42 into the manuscript where the suite collects 108, past every
+    #  gate, because no verifier re-derives this macro.  A number this file
+    #  cannot compute is now an error, not a guess.
+    import hashlib
     import json
     import subprocess
     tests = sorted((SRC_ROOT / "fieldvalue" / "tests").glob("test_*.py"))
-    key = str([(t.name, int(t.stat().st_mtime)) for t in tests])
+    key = hashlib.sha256(b"".join(
+        t.name.encode() + t.read_bytes().replace(b"\r\n", b"\n")
+        for t in tests)).hexdigest()
     cache = SRC_ROOT / "results" / ".test_count.json"
     if cache.exists():
         try:
@@ -867,23 +879,22 @@ def count_tests():
                 return int(j["n"])
         except Exception:  # noqa: BLE001
             pass
-    try:
-        out = subprocess.run([sys.executable, "-m", "pytest",
-                              str(SRC_ROOT / "fieldvalue"),
-                              "--collect-only", "-q"],
-                             capture_output=True, text=True, timeout=300,
-                             cwd=str(ROOT))
-        m = re.search(r"(\d+) tests? collected", out.stdout)
-        if m:
-            cache.write_text(json.dumps(dict(key=key, n=int(m.group(1)))),
-                             encoding="utf-8")
-            return int(m.group(1))
-    except Exception:  # noqa: BLE001
-        pass
-    n = 0
-    for p in (SRC_ROOT / "fieldvalue" / "tests").glob("test_*.py"):
-        n += len(re.findall(r"^def test_", p.read_text(encoding="utf-8"), re.M))
-    return n or np.nan
+    out = subprocess.run([sys.executable, "-m", "pytest",
+                          str(SRC_ROOT / "fieldvalue"),
+                          "--collect-only", "-q"],
+                         capture_output=True, text=True, timeout=300,
+                         cwd=str(ROOT))
+    m = re.search(r"(\d+) tests? collected", out.stdout)
+    if not m:
+        raise RuntimeError(
+            "cannot collect fieldvalue's tests, and \\nTests is printed in "
+            "section 9 of the manuscript.  Install the locked environment "
+            "(python -m pip install --require-hashes -r requirements.lock) "
+            "and re-run.  pytest said:\n"
+            + (out.stdout or "")[-2000:] + (out.stderr or "")[-2000:])
+    cache.write_text(json.dumps(dict(key=key, n=int(m.group(1)))),
+                     encoding="utf-8")
+    return int(m.group(1))
 
 
 def read_fv_version():

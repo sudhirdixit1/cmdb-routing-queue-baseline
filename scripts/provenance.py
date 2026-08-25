@@ -43,8 +43,33 @@ def analysis_scripts():
                   if not p.name.endswith("_test.py"))
 
 
+def _normalise(b: bytes) -> bytes:
+    """CRLF and lone CR to LF.
+
+    Round twenty-five.  The hash was taken over raw bytes, so a checkout whose
+    line endings differed from the accepting machine's reported every script as
+    out of date.  A fresh clone on Unix of the state this repository was handed
+    over in reported twenty of thirty-seven stale, and not one of them had
+    changed by a character: the store had been written where those twenty stood
+    with CRLF.  A guard that fires on a checkout artefact teaches its reader to
+    ignore it, which is the opposite of what this file is for, so the hash is
+    now taken over content with the line endings normalised away.
+    """
+    return b.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+
 def sha(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()[:16]
+    return hashlib.sha256(_normalise(Path(path).read_bytes())).hexdigest()[:16]
+
+
+def sha_crlf(path):
+    """What `sha` would have returned for this content rendered with CRLF.
+
+    Only `--renormalise` uses it, to recognise an entry that is stale by line
+    ending alone and migrate it without asserting anything new about the run.
+    """
+    b = _normalise(Path(path).read_bytes()).replace(b"\n", b"\r\n")
+    return hashlib.sha256(b).hexdigest()[:16]
 
 
 def load():
@@ -80,8 +105,33 @@ def main(argv=None):
     ap.add_argument("--accept", action="append", default=[],
                     help="script filename whose current outputs are correct")
     ap.add_argument("--accept-all", action="store_true")
+    ap.add_argument("--renormalise", action="store_true",
+                    help="one-time migration: rewrite entries that are stale "
+                         "only because they were recorded over CRLF bytes")
     ap.add_argument("--note", default="")
     a = ap.parse_args(argv)
+
+    if a.renormalise:
+        rec, moved, left = load(), [], []
+        for p in analysis_scripts():
+            got = rec.get(p.name)
+            if got is None or got.get("sha") == sha(p):
+                continue
+            if got.get("sha") == sha_crlf(p):
+                got["sha"] = sha(p)
+                got["renormalised"] = time.strftime(
+                    "%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+                moved.append(p.name)
+            else:
+                left.append(p.name)
+        save(rec)
+        print("renormalised %d entries; %d still out of date"
+              % (len(moved), len(left)))
+        for n in moved:
+            print("  line endings only  %-26s %s" % (n, rec[n]["sha"]))
+        for n in left:
+            print("  CHANGED, re-run it %-26s" % n)
+        return 1 if left else 0
 
     if a.accept or a.accept_all:
         if not a.note:

@@ -10,6 +10,8 @@ data/*
 # Python
 __pycache__/
 *.py[cod]
+.venv/
+venv/
 
 # Excel lock files
 ~$*.xlsx

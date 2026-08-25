@@ -25,6 +25,24 @@ PKGS = [
     "six==1.17.0", "cycler==0.12.1", "fonttools==4.59.0", "kiwisolver==1.4.8",
     "packaging==25.0", "pillow==11.3.0", "pyparsing==3.2.3",
     "contourpy==1.3.2", "tzdata==2025.2",
+    # pandas routes DataFrame.to_latex through Styler, which imports jinja2.
+    # Absent from the lock until round twenty-five, so a reader who followed
+    # REPRODUCE.md exactly got an ImportError out of make_numbers.py -- the
+    # first gate -- and no table.  markupsafe is jinja2's only dependency.
+    "jinja2==3.1.6", "markupsafe==3.0.2",
+    # requirements.txt has pinned these three since round eighteen and the lock
+    # never carried them, so `--require-hashes` installed an environment that
+    # requirements.txt says is incomplete.  pytest's absence was not loud:
+    # make_numbers.count_tests falls back to counting `def test_` lines when
+    # pytest will not collect, and that fallback wrote 42 into the manuscript
+    # where the suite collects 108.  Their dependencies are pinned with it,
+    # because --require-hashes refuses to resolve one it was not given.
+    "pytest==8.4.2", "iniconfig==2.1.0", "pluggy==1.6.0", "pygments==2.19.2",
+    ("exceptiongroup==1.3.0", 'python_version < "3.11"'),
+    ("tomli==2.2.1", 'python_version < "3.11"'),
+    "requests==2.32.5", "certifi==2025.8.3", "charset-normalizer==3.4.3",
+    "idna==3.10", "urllib3==2.5.0",
+    "pymupdf==1.26.6",
 ]
 HEAD = """# requirements.lock -- every dependency pinned by version AND by the
 # SHA-256 of every artefact PyPI serves for it.  Install with
@@ -40,7 +58,11 @@ HEAD = """# requirements.lock -- every dependency pinned by version AND by the
 def main():
     lines = [HEAD]
     for spec in PKGS:
+        #  An entry is either "name==version" or that paired with the
+        #  environment marker under which it is needed at all.
+        spec, marker = spec if isinstance(spec, tuple) else (spec, "")
         name, ver = spec.split("==")
+        spec = f"{spec} ; {marker}" if marker else spec
         try:
             d = json.loads(urllib.request.urlopen(
                 f"https://pypi.org/pypi/{name}/{ver}/json", timeout=60).read())
