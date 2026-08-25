@@ -673,3 +673,78 @@ def write_round25(mn):
             "\\textbf{??} result file absent\n"
             "\\caption{Reference sensitivity.}"
             "\\label{tab:refsens}\\end{table}\n", encoding="utf-8")
+
+    # -------------------------------------------- the four objects, early
+    #  ROUND TWENTY-FOUR.  The referees asked, three times, for one summary
+    #  table near the front naming the four reporting objects: what each is
+    #  for, where it is defined, which table reports it, and what it costs.
+    #
+    #  This one is EMITTED AS LATEX rather than through `tex_table`, and the
+    #  reason is rule four of this repository's notes: `to_latex(escape=True)`
+    #  escapes what you pre-escape, so a cell containing \ref{...} prints the
+    #  control sequence and a cell containing $\rho$ prints the dollars.  The
+    #  first version of this table did exactly that.  Every cell here is prose
+    #  and a cross-reference and NOT ONE IS A NUMBER, so nothing can drift
+    #  against a result file; the cross-references are LaTeX's own and go
+    #  stale loudly.  The cost column is the one thing a reader cannot get
+    #  from the text, and it is the property that decides affordability.
+    OBJECTS = [
+        ("Sensitivity decomposition",
+         "how much of the disagreement each analysis choice explains, and "
+         "how much belongs to no single one",
+         r"\ref{sec:sobol}", r"\ref{tab:sobol}",
+         r"exact; no refit. A M\"obius sum over the surface already "
+         r"computed"),
+        ("Simultaneous band",
+         "an interval that holds over every cell a claim quantifies over, "
+         "not one cell at a time",
+         r"\ref{sec:simbands}", r"\ref{tab:calbands}",
+         r"the whole cost: one draw refits every arm of every cell"),
+        (r"Resolution region and $\rho$",
+         "which way the surface points where the data settle it, and how "
+         "much of it they settle",
+         r"\ref{sec:regionsdef}", r"\ref{tab:master}",
+         r"a function of the band; no further refit"),
+        ("Specification regret",
+         "what choosing one specification costs against the best one, on a "
+         "scale a decision can use",
+         r"\ref{sec:regretdef}", r"\ref{tab:regret}",
+         r"exact; no refit, on the surface already computed"),
+    ]
+    body = "\n".join(
+        r"%s & %s & %s & %s & %s \\" % (o, w, d, t, c)
+        for (o, w, d, t, c) in OBJECTS)
+    (TABLES / "objects.tex").write_text(
+        "\\begin{table}[t]\n\\centering\n\\footnotesize\n"
+        "\\setlength{\\tabcolsep}{4pt}%\n"
+        "\\renewcommand{\\arraystretch}{1.2}%\n"
+        "\\begin{tabular}{"
+        #  the two reference columns are `Section~4.6' and `Table~3': narrow,
+        #  but `l' lets them set at their natural width and the five columns
+        #  then overran the text block by eleven points.  They are p{} too,
+        #  so the widths sum to something that fits.
+        #  `Section~4.6' is one unbreakable token: a p{} column narrower than
+        #  it spills rather than wrapping.  The section and table numbers are
+        #  therefore bare refs and the words live in the headings, which are
+        #  allowed to wrap.
+        ">{\\raggedright\\arraybackslash}p{0.17\\linewidth}"
+        ">{\\raggedright\\arraybackslash}p{0.27\\linewidth}"
+        "cc"
+        ">{\\raggedright\\arraybackslash}p{0.26\\linewidth}}\n"
+        "\\toprule\n"
+        "object & what it is for & \\S & table & "
+        "what it costs \\\\\n\\midrule\n"
+        + body +
+        "\n\\bottomrule\n\\end{tabular}\n"
+        "\\caption{The four reporting objects this paper supplies, what each "
+        "is for, where it is defined, where it is reported on this corpus, "
+        "and what it costs; the two middle columns are the section it is "
+        "defined in and the table that reports it. Only the second costs "
+        "model fits: a draw of the "
+        "bootstrap refits every arm of every cell, which is why the surface "
+        "an inference is taken over is smaller than the surface a point "
+        "estimate is taken over (Section~\\ref{sec:threesurfaces}). The "
+        "other three are functions of a surface that has already been "
+        "computed, so an analyst who has done the sweep has already paid for "
+        "them.}\n\\label{tab:objects}\n\\end{table}\n",
+        encoding="utf-8")
