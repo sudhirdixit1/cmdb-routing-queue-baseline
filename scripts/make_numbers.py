@@ -952,7 +952,7 @@ def read_release(what):
 
 # ==========================================================================
 def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
-              note=None, textcols=None):
+              note=None, textcols=None, size=None):
     """`textcols` maps a RENAMED column name to a width in fractions of
     \\linewidth.  A table with a free-text column cannot be set by shrinking
     it: \\resizebox scales the glyphs and the leading together, so at the
@@ -1045,8 +1045,12 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
     else:
         body = ("\\resizebox{\\ifdim\\width>\\linewidth\\linewidth\\else"
                 "\\width\\fi}{!}{%%\n" + body.rstrip() + "%\n}")
+    #  `size` overrides the body font for a table whose HEIGHT is the
+    #  problem.  \\resizebox handles width and cannot see height: a float
+    #  taller than its page is a LaTeX warning and not an overfull hbox, so
+    #  nothing in this build reported one until round twenty-five.
     out = ["\\begin{table}[t]", "\\centering",
-           "\\footnotesize" if textcols else "\\small", body,
+           size or ("\\footnotesize" if textcols else "\\small"), body,
            "\\caption{%s}" % caption, "\\label{%s}" % label]
     if note:
         out.insert(-2, "")
@@ -1410,7 +1414,12 @@ def write_tables(D):
                       "This family is NOT coverage-calibrated; "
                       "Section~\\ref{sec:dcabands} gives the counts under "
                       "the empirical critical value beside these." % _how,
-                      "tab:dca"), encoding="utf-8")
+                      #  thirty-three operating points and a seven-line
+                      #  caption: at \small the float is a few points taller
+                      #  than its page and LaTeX absorbs the difference by
+                      #  squeezing the glue around it.  It rendered, so no
+                      #  gate saw it for four rounds.
+                      "tab:dca", size="\\footnotesize"), encoding="utf-8")
     else:
         blank("dca", "Decision curve.", "tab:dca")
 

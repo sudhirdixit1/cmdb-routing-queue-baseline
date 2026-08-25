@@ -493,6 +493,17 @@ def emit(mn):
     #  `Cross' trio is the same partition on the scale where the instrument
     #  is an axis, and the two order latitude and resampling oppositely,
     #  which is why both are printed wherever either is.
+    #  ROUND TWENTY-FOUR, minor 2.  Every `refSens' macro is a MEDIAN OVER
+    #  THE 19 PAIRS of the all-cells rate under one reference specification,
+    #  and the Min and Max range over the 26 one-axis variants of that
+    #  specification -- not over pairs, and not over measures.
+    put("refSensDeclaredPct", pct(first(F34, "refsens_declared")))
+    put("refSensMinPct", pct(first(F34, "refsens_min")))
+    put("refSensMaxPct", pct(first(F34, "refsens_max")))
+    put("refSensBoostingPct", pct(first(F34, "refsens_boosting")))
+    put("refSensMetricMinPct", pct(first(F34, "refsens_metric_min")))
+    put("refSensMetricMaxPct", pct(first(F34, "refsens_metric_max")))
+    put("nRefSensVariants", thousands(first(F34, "n_refsens_variants")))
     put("shareLatitudePct", pct(first(F34, "share_latitude")))
     put("shareResamplingPct", pct(first(F34, "share_resampling")))
     put("shareCounterfactualPct", pct(first(F34, "share_counterfactual")))

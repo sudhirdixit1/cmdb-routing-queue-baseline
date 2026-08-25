@@ -108,6 +108,74 @@ def resolved_map():
     return W[[c for c in keep if c in W.columns]]
 
 
+def _ref_value(sub, ref):
+    """`S23.reference_value` with the reference dictionary passed in rather
+    than read from the module, so that it can be varied."""
+    q = sub
+    for a, lv in ref.items():
+        if a in q.columns:
+            r = q[q[a].astype(str) == lv]
+            if len(r):
+                q = r
+    return float(q.V.iloc[0]) if len(q) else float(np.median(sub.V.values))
+
+
+def reference_sensitivity(SC):
+    """ROUND TWENTY-FOUR, minor 2.  What the headline costs depends on which
+    cell is called the reference, and the manuscript declared one and never
+    said what a different one would give.
+
+    A referee computed it and was right that it is cheap.  The declared
+    reference is varied ONE AXIS AT A TIME over every level that axis carries
+    --- the pipeline over its four, the instrument over its five, the
+    baseline rung over its admissible three, the split over its six and the
+    register-quality condition over its levels --- and the all-cells rate is
+    recomputed under the equal-level measure at each.  Everything else is
+    held at the declared reference, because varying two at once answers a
+    different question and there is no rate to compare it with.
+
+    The rate itself is unchanged in definition: the reference supplies the
+    SIGN that the other cells are counted as agreeing or disagreeing with, so
+    moving it moves which cells disagree and nothing else.
+    """
+    axes5 = tuple(list(S23.AXES) + ["metric"])
+    base = dict(A22.REFERENCE)
+    variants = [("declared", "--", dict(base))]
+    for axis in ("learner", "metric", "rung", "split", "quality_level"):
+        if axis not in SC.columns:
+            continue
+        for lv in sorted(SC[axis].astype(str).unique()):
+            if axis == "metric" and lv not in S.SCALARS:
+                continue
+            if axis == "rung" and lv in S.IMPLAUSIBLE_RUNGS:
+                continue
+            if lv == base.get(axis):
+                continue
+            variants.append((axis, lv, dict(base) | {axis: lv}))
+
+    rows = []
+    for axis, lv, ref in variants:
+        rates = []
+        for (log, target), sub in SC.groupby(["log", "target"]):
+            if len(sub) < 16:
+                continue
+            m = sub[sub.metric == ref["metric"]]
+            v_conv = _ref_value(m if len(m) else sub, ref)
+            v = sub.V.values.astype(float)
+            disagree = (v > 0) if v_conv <= 0 else (v <= 0)
+            w = S23.product_weights(sub, "equal-level", axes=axes5)
+            if w.sum() <= 0:
+                continue
+            rates.append(float((w * disagree).sum() / w.sum()))
+        if not rates:
+            continue
+        rows.append(dict(axis=axis, level=lv, n_pairs=len(rates),
+                         misreport_all_median=float(np.median(rates)),
+                         misreport_all_min=float(np.min(rates)),
+                         misreport_all_max=float(np.max(rates))))
+    return pd.DataFrame(rows)
+
+
 def three_rates(SC, RES):
     """Per pair and measure: the three sign-disagreement rates."""
     axes5 = tuple(list(S23.AXES) + ["metric"])
@@ -257,6 +325,11 @@ def main():
     RES = resolved_map()
     M = three_rates(SC, RES)
     M.to_csv(RESULTS / "s34_misreport.csv", index=False)
+
+    RS = reference_sensitivity(SC)
+    RS.to_csv(RESULTS / "s34_refsens.csv", index=False)
+    print("\n  THE HEADLINE UNDER A DIFFERENT REFERENCE SPECIFICATION")
+    print(RS.to_string(index=False, float_format=lambda x: "%.3f" % x))
     eq = M[M.measure == "equal-level"]
     print("\n" + eq[["log", "target", "misreport_all",
                      "misreport_resolved_nominal", "n_resolved_nominal",
@@ -468,6 +541,26 @@ def main():
             eq.merge(fam, on=["log", "target"]).query("family == 'other'")
             .pipe(lambda g: g.n_disagree_calibrated.sum()
                   / max(1, g.n_resolved_calibrated.sum()))),
+        #  ROUND TWENTY-FOUR, minor 2: what the headline is worth under a
+        #  different declared reference.  `refsens_*` range over the ONE-AXIS
+        #  variants of the reference cell, each recomputed on all 19 pairs
+        #  under the equal-level measure; `declared' is the paper's own.
+        refsens_declared=float(
+            RS[RS.axis == "declared"].misreport_all_median.iloc[0])
+        if len(RS[RS.axis == "declared"]) else np.nan,
+        refsens_min=float(RS.misreport_all_median.min()) if len(RS) else np.nan,
+        refsens_max=float(RS.misreport_all_median.max()) if len(RS) else np.nan,
+        refsens_boosting=float(
+            RS[(RS.axis == "learner")
+               & (RS.level == "hgb")].misreport_all_median.iloc[0])
+        if len(RS[(RS.axis == "learner") & (RS.level == "hgb")]) else np.nan,
+        refsens_metric_min=float(
+            RS[RS.axis.isin(["declared", "metric"])].misreport_all_median.min())
+        if len(RS) else np.nan,
+        refsens_metric_max=float(
+            RS[RS.axis.isin(["declared", "metric"])].misreport_all_median.max())
+        if len(RS) else np.nan,
+        n_refsens_variants=int(len(RS)),
         share_latitude=float(K["analyst latitude"].median())
         if "analyst latitude" in K.columns else np.nan,
         share_resampling=float(K["resampling"].median())

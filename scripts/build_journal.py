@@ -147,6 +147,16 @@ def main():
         sover = [l for l in slog.splitlines()
                  if l.startswith("Overfull \\hbox")]
         print(f"    {len(sover)} overfull hboxes in the supplement")
+        #  ROUND TWENTY-FIVE.  A float TALLER than its page is not an
+        #  overfull hbox, so the check above cannot see one.  A table that
+        #  grew from nineteen rows to thirty-eight ran off the bottom of its
+        #  page with the page number printed through it, and this summary
+        #  said `0 overfull hboxes' about it.  Both documents are scanned.
+        sbig = [l for l in slog.splitlines() if "Float too large" in l]
+        print(f"    {len(sbig)} floats too large for their page "
+              f"in the supplement")
+        for u in sbig[:6]:
+            print(f"      {u.strip()}")
         if sundef:
             print(f"    {len(sundef)} UNDEFINED in supplement:")
             for u in sundef[:10]:
@@ -174,6 +184,10 @@ def main():
     print(f"OK  {pdf}")
     print(f"    {pages.strip()}")
     print(f"    {len(over)} overfull hboxes")
+    big = [l for l in log.splitlines() if "Float too large" in l]
+    print(f"    {len(big)} floats too large for their page")
+    for u in big[:6]:
+        print(f"      {u.strip()}")
     if fonts:
         print(f"    {len(fonts)} font-shape substitutions (not references):")
         for u in fonts[:4]:

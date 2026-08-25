@@ -49,57 +49,121 @@ def load(n):
 
 # --------------------------------------------------------------------------
 def fig_sobol():
+    """ROUND TWENTY-FIVE, round 24's minor comment 8.
+
+    This figure was a stacked bar per pair whose segments were MEDIANS over
+    the five instruments.  Medians do not add, so the bars did not sum to one
+    -- several exceeded it -- and the caption had to tell the reader not to
+    perform the addition the picture invites.  A referee said to plot one
+    pair's decomposition exactly instead, with the corpus summarised as
+    points and intervals, and they were right: a stacked bar is a promise
+    that the parts make the whole, and only the left panel can keep it.
+
+    LEFT.  One pair, one instrument, so the components are a decomposition
+    and sum to one exactly.  The pair is the case study's own log and the
+    reference target, selected by the same rule the rest of the paper uses
+    rather than chosen for its shape.
+    RIGHT.  Every axis's first-order index across the corpus: the median over
+    pairs as a point, with the range the middle pairs occupy as a bar and the
+    full range as a rule.  Nothing here is stacked, so nothing invites an
+    addition that would be wrong.
+    """
     IDX = load("s22_indices.csv")
     SUM = load("s22_summary.csv")
     if IDX is None or SUM is None:
         return None
     pr = IDX[(IDX.scale == "raw-within-metric")
              & (IDX.measure == "equal-level")]
-    if pr.empty:
+    s = SUM[(SUM.scale == "raw-within-metric")
+            & (SUM.measure == "equal-level")]
+    if pr.empty or s.empty:
         return None
-    piv = (pr.groupby(["log", "target", "axis"]).S.median()
-           .unstack("axis").fillna(0.0))
-    s = SUM[(SUM.scale == "raw-within-metric") & (SUM.measure == "equal-level")]
-    rem = (s.groupby(["log", "target"]).interaction_total.median()
-           .reindex(piv.index).fillna(0.0))
+
     order = [c for c in ("split", "rung", "quality_level", "learner")
-             if c in piv.columns]
-    piv = piv[order]
-    piv = piv.assign(_rem=rem.values).sort_values("_rem")
-    fig, ax = plt.subplots(figsize=(6.6, 0.30 * len(piv) + 1.5))
-    left = np.zeros(len(piv))
-    shades = ["0.15", "0.38", "0.58", "0.76"]
-    labels = {"rung": "baseline", "learner": "learner",
+             if c in set(pr.axis)]
+    labels = {"rung": "baseline", "learner": "pipeline",
               "quality_level": "register quality", "split": "split"}
-    for k, c in enumerate(order):
-        ax.barh(range(len(piv)), piv[c].values, left=left,
+    shades = ["0.15", "0.38", "0.58", "0.76"]
+
+    #  the exact panel: the largest pair in the corpus, at the reference
+    #  instrument, which is the cell every other table reports at
+    REF_METRIC = "auc"
+    big = (pr.groupby(["log", "target"]).n_cells.max().idxmax()
+           if "n_cells" in pr.columns
+           else tuple(pr.groupby(["log", "target"]).size().idxmax()))
+    one = pr[(pr.log == big[0]) & (pr.target == big[1])
+             & (pr.metric == REF_METRIC)]
+    one_rem = s[(s.log == big[0]) & (s.target == big[1])
+                & (s.metric == REF_METRIC)]
+    if one.empty or one_rem.empty:
+        return None
+    parts = [float(one[one.axis == c].S.iloc[0]) if (one.axis == c).any()
+             else 0.0 for c in order]
+    remainder = float(one_rem.interaction_total.iloc[0])
+
+    fig, (axL, axR) = plt.subplots(
+        1, 2, figsize=(6.9, 2.9), gridspec_kw=dict(width_ratios=[1.0, 1.55]))
+
+    left = 0.0
+    for k, (c, v) in enumerate(zip(order, parts)):
+        axL.bar([0], [v], bottom=[left], width=0.55,
                 color=shades[k % len(shades)], edgecolor="white",
-                linewidth=0.4, label=labels.get(c, c))
-        left = left + piv[c].values
-    ax.barh(range(len(piv)), piv._rem.values, left=left, color="white",
-            edgecolor="0.25", linewidth=0.6, hatch="////",
+                linewidth=0.6, label=labels.get(c, c))
+        if v > 0.045:
+            axL.text(0, left + v / 2, "%.2f" % v, ha="center", va="center",
+                     fontsize=6.4, color="white" if k < 2 else "0.1")
+        left += v
+    axL.bar([0], [remainder], bottom=[left], width=0.55, color="white",
+            edgecolor="0.25", linewidth=0.7, hatch="////",
             label="higher-order total")
-    ax.set_yticks(range(len(piv)))
-    ax.set_yticklabels(["%s / %s" % (a, b) for a, b in piv.index], fontsize=6.5)
-    ax.set_xlabel("share of the variance of $V_s$, within instrument, "
-                  "equal-level measure")
-    #  ROUND TWENTY-TWO.  Each segment is a MEDIAN over instruments and
-    #  medians do not add, so several bars sum to slightly more than one.  A
-    #  fixed 1.02 limit clipped exactly the bars that show it.  The limit
-    #  comes from the data now, a dotted rule marks one, and the caption
-    #  says why the bars need not sum to it.
-    _tot = float((piv[order].sum(axis=1) + piv._rem).max())
-    ax.set_xlim(0, max(1.02, _tot * 1.02))
-    ax.axvline(1.0, color="0.6", lw=0.6, ls=":", zorder=0)
-    ax.legend(frameon=False, ncol=5, fontsize=6.2, loc="upper center",
-              bbox_to_anchor=(0.5, -0.11))
+    if remainder > 0.045:
+        axL.text(0, left + remainder / 2, "%.2f" % remainder, ha="center",
+                 va="center", fontsize=6.4, color="0.1")
+    axL.set_xlim(-0.55, 0.55)
+    axL.set_ylim(0, 1.0)
+    axL.set_xticks([])
+    axL.set_ylabel("share of the variance of $V_s$")
+    axL.set_title("%s / %s, %s\n(one decomposition: the parts sum to one)"
+                  % (big[0], big[1], REF_METRIC), fontsize=7.2)
     for sp in ("top", "right"):
-        ax.spines[sp].set_visible(False)
+        axL.spines[sp].set_visible(False)
+
+    #  the corpus panel: a point and two ranges per axis, plus the remainder
+    per = pr.groupby(["log", "target", "axis"]).S.median().reset_index()
+    rem = s.groupby(["log", "target"]).interaction_total.median().reset_index()
+    rows = [(labels.get(c, c), per[per.axis == c].S.values) for c in order]
+    rows.append(("higher-order total", rem.interaction_total.values))
+    ys = np.arange(len(rows))[::-1]
+    for y, (name, v) in zip(ys, rows):
+        v = np.asarray(v, float)
+        v = v[np.isfinite(v)]
+        if not len(v):
+            continue
+        axR.hlines(y, v.min(), v.max(), color="0.72", lw=1.0, zorder=1)
+        axR.hlines(y, np.percentile(v, 25), np.percentile(v, 75),
+                   color="0.35", lw=4.0, zorder=2)
+        axR.plot([np.median(v)], [y], "o", ms=4.6, color="black", zorder=3)
+    axR.set_yticks(ys)
+    axR.set_yticklabels([r[0] for r in rows], fontsize=7.2)
+    axR.set_xlim(0, 1.0)
+    axR.set_xlabel("first-order index across the \\nPairs\\ pairs"
+                   .replace("\\nPairs\\", "%d" % per.groupby(
+                       ["log", "target"]).ngroups))
+    axR.set_title("the corpus: median, middle half, full range", fontsize=7.2)
+    axR.grid(axis="x", color="0.9", lw=0.5, zorder=0)
+    for sp in ("top", "right", "left"):
+        axR.spines[sp].set_visible(False)
+
+    #  a legend anchored to the LEFT axes ran across the right panel's own
+    #  x-axis label; it belongs to the figure, under both panels
+    h, l = axL.get_legend_handles_labels()
+    fig.legend(h, l, frameon=False, ncol=5, fontsize=6.4,
+               loc="lower center", bbox_to_anchor=(0.5, 0.0))
+    fig.subplots_adjust(bottom=0.30, top=0.84, wspace=0.30)
     p = PAPER / "figS2_sobol.png"
     fig.savefig(p)
     plt.close(fig)
     return p
-
 
 def fig_regions():
     #  ROUND TWENTY-ONE.  The article's regions and rho are computed under a

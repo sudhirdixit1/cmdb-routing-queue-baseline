@@ -205,9 +205,32 @@ def write(mn):
     # ------------------------------------------------------- axis kinds
     K = load("s34_axiskind.csv")
     if K is not None and len(K):
-        cols = [c for c in ("scale", "log", "target", "analyst latitude",
-                            "resampling", "counterfactual", "higher-order")
-                if c in K.columns]
+        #  ROUND TWENTY-FIVE.  Stacking the two scales as rows doubled this
+        #  table to thirty-eight and it ran off the bottom of its page -- a
+        #  float taller than its page, which no overfull-hbox check sees.
+        #  One row per pair, the two scales side by side, which is also the
+        #  arrangement that shows the ordering reversing.
+        SHORT = {"raw, within instrument": "raw",
+                 "headroom, instrument as an axis": "hdrm"}
+        wide = K.copy()
+        wide["s"] = wide.scale.map(SHORT).fillna(wide.scale)
+        parts = []
+        for tag in ("raw", "hdrm"):
+            sub = wide[wide.s == tag].set_index(["log", "target"])
+            sub = sub[[c for c in ("analyst latitude", "resampling",
+                                   "counterfactual", "higher-order")
+                       if c in sub.columns]]
+            #  ten columns of full words forced \resizebox to shrink this
+            #  table to about half the body font, which is legible in a PDF
+            #  viewer at 200% and not on paper.  The headings are abbreviated
+            #  and the caption glosses them.
+            ABBR = {"analyst latitude": "lat.", "resampling": "res.",
+                    "counterfactual": "ctf.", "higher-order": "h.o."}
+            parts.append(sub.rename(columns=lambda c: "%s %s"
+                                    % (ABBR.get(c, c), tag)))
+        K = parts[0].join(parts[1], how="outer").reset_index() \
+            if len(parts) == 2 else parts[0].reset_index()
+        cols = list(K.columns)
         (TABLES / "axiskind.tex").write_text(
             tex_table(K[cols], "The variance decomposition partitioned by "
                                "what KIND of choice each axis is, under both "
@@ -224,6 +247,12 @@ def write(mn):
                                "register-quality condition, which is a "
                                "different state of the world. The remainder "
                                "belongs to no single axis. "
+                               "\\emph{Columns.} \\textsf{lat.} is analyst "
+                               "latitude, \\textsf{res.} resampling, "
+                               "\\textsf{ctf.} the counterfactual and "
+                               "\\textsf{h.o.} the higher-order remainder; "
+                               "\\textsf{raw} and \\textsf{hdrm} are the two "
+                               "scales. "
                                "\\emph{Which scale, and why there are two.} "
                                "\\textsf{raw, within instrument} is the "
                                "paper's primary scale: the decomposition is "
@@ -244,8 +273,7 @@ def write(mn):
                                "property of the scale and not of the corpus; "
                                "Section~\\ref{sec:family} says so rather "
                                "than choosing one.",
-                      "tab:axiskind",
-                      textcols={"scale": 0.14}),
+                      "tab:axiskind"),
             encoding="utf-8")
     else:
         blank("axiskind", "The decomposition by kind of axis.",
@@ -590,3 +618,58 @@ def write_round25(mn):
                      "is determined worse than \\bandCoverageSEMax.",
                   "tab:bandcov", floatfmt="%.3f"),
         encoding="utf-8")
+
+    # ------------------------------------------- reference sensitivity
+    RS = load("s34_refsens.csv")
+    if RS is not None and len(RS):
+        #  ROUND TWENTY-FIVE.  `quality_level' and `mask_common/0.5' are
+        #  internal identifiers, not headings or labels, and an unbreakable
+        #  identifier in a p{} column narrower than itself does not wrap, it
+        #  spills -- sixteen overfull boxes, which is rule five of the
+        #  repository's own notes.  They are relabelled, and the columns go
+        #  back to being ordinary ones.
+        AXIS = {"declared": "the declared reference", "learner": "pipeline",
+                "metric": "instrument", "rung": "baseline rung",
+                "split": "split", "quality_level": "register quality"}
+        LEVEL = {"hgb": "boosting, target-encoded",
+                 "hgb_iso": "boosting, isotonic", "logit_fr": "logistic, "
+                 "frequency-encoded", "B_half": "half the intake block",
+                 "B_intake": "intake only",
+                 "B_intake_g_km": "intake, group and knowledge",
+                 "brier_skill": "Brier skill",
+                 "logloss_skill": "log-loss skill", "ap": "average precision"}
+        d = RS.copy()
+        d["axis varied"] = d.axis.map(AXIS).fillna(d.axis)
+        d["reference level"] = [
+            LEVEL.get(v, str(v).replace("_", " ").replace("/", " at "))
+            for v in d.level]
+        d = d[["axis varied", "reference level", "n_pairs",
+               "misreport_all_median", "misreport_all_min",
+               "misreport_all_max"]].rename(columns={
+                   "n_pairs": "pairs",
+                   "misreport_all_median": "median rate",
+                   "misreport_all_min": "min over pairs",
+                   "misreport_all_max": "max over pairs"})
+        (TABLES / "refsens.tex").write_text(
+            tex_table(d, "The headline sign-disagreement rate under a "
+                         "different declared reference specification. Each "
+                         "row moves the reference ONE axis at a time and "
+                         "holds the rest at the declared cell, then "
+                         "recomputes the all-cells rate on every pair under "
+                         "the equal-level measure; the first row is the "
+                         "paper's own reference. The reference supplies the "
+                         "sign the other cells are counted as agreeing or "
+                         "disagreeing with, so moving it moves which cells "
+                         "disagree and nothing else. The median column is "
+                         "the corpus median the article quotes; the two "
+                         "beside it are over pairs and show that the spread "
+                         "within the corpus is far larger than the spread "
+                         "across reference specifications.",
+                      "tab:refsens", floatfmt="%.3f"),
+            encoding="utf-8")
+    else:
+        (TABLES / "refsens.tex").write_text(
+            "\\begin{table}[t]\\centering\\small\n"
+            "\\textbf{??} result file absent\n"
+            "\\caption{Reference sensitivity.}"
+            "\\label{tab:refsens}\\end{table}\n", encoding="utf-8")

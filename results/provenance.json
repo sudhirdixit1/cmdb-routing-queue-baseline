@@ -137,10 +137,9 @@
     "sha": "87e16a598d49c7d9"
   },
   "s28_figures.py": {
-    "at": "2026-08-25T12:00:14Z",
-    "note": "round twenty-three: the sensitivity figure no longer clips bars that exceed one, and marks one with a rule; figures regenerated",
-    "renormalised": "2026-08-25T21:21:27Z",
-    "sha": "b0d51a3a5edd6873"
+    "at": "2026-08-25T22:43:51Z",
+    "note": "Round twenty-five: figure 2 replaced. It was a stacked bar per pair whose segments were medians over the five instruments, which do not add, so the bars did not sum to one and the caption had to forbid the addition the picture invites. It is now one pair's exact decomposition beside the corpus as points and ranges.",
+    "sha": "9ecea18eea3d0bc6"
   },
   "s29_props.py": {
     "at": "2026-08-24T13:10:37Z",
@@ -170,9 +169,9 @@
     "sha": "c2ec82d9e4bb040c"
   },
   "s34_reporting.py": {
-    "at": "2026-08-25T22:16:13Z",
-    "note": "Round twenty-five: the axis-kind partition is now computed under both declared scales and both are written. It was computed only on the primary scale, which decomposes inside each instrument, while the docstring, the table caption and section 6.5 all described the latitude column as containing the instrument. Re-run on the same inputs; s34_misreport.csv and s34_family.csv are unchanged.",
-    "sha": "cd03395bd0e59a0b"
+    "at": "2026-08-25T22:43:51Z",
+    "note": "Round twenty-five: the axis-kind partition under both declared scales, and the reference-specification sensitivity of round 24's minor comment 2. Re-run on the same inputs.",
+    "sha": "6f81fbc95adae970"
   },
   "s35_utility.py": {
     "at": "2026-08-24T23:51:14Z",

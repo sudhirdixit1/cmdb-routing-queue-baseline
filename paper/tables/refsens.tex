@@ -1,0 +1,40 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllrrr}
+\toprule
+axis varied & reference level & pairs & median rate & min over pairs & max over pairs \\
+\midrule
+the declared reference & -- & 19 & 0.328 & 0.056 & 0.623 \\
+pipeline & boosting, target-encoded & 19 & 0.353 & 0.056 & 0.716 \\
+pipeline & boosting, isotonic & 19 & 0.328 & 0.056 & 0.640 \\
+pipeline & logistic, frequency-encoded & 19 & 0.353 & 0.056 & 0.756 \\
+instrument & average precision & 19 & 0.328 & 0.056 & 0.623 \\
+instrument & Brier skill & 19 & 0.382 & 0.056 & 0.672 \\
+instrument & log-loss skill & 19 & 0.382 & 0.056 & 0.672 \\
+instrument & nagelkerke & 19 & 0.382 & 0.056 & 0.672 \\
+baseline rung & half the intake block & 19 & 0.328 & 0.056 & 0.623 \\
+baseline rung & intake only & 19 & 0.328 & 0.056 & 0.623 \\
+baseline rung & intake, group and knowledge & 19 & 0.353 & 0.056 & 0.894 \\
+split & rolling1 & 19 & 0.353 & 0.056 & 0.743 \\
+split & rolling2 & 19 & 0.328 & 0.056 & 0.493 \\
+split & rolling3 & 19 & 0.353 & 0.056 & 0.743 \\
+split & rolling4 & 19 & 0.328 & 0.056 & 0.623 \\
+split & rolling5 & 19 & 0.384 & 0.056 & 0.716 \\
+register quality & clean at 1.0 & 19 & 0.328 & 0.056 & 0.623 \\
+register quality & corrupt at 0.05 & 19 & 0.328 & 0.056 & 0.623 \\
+register quality & corrupt at 0.15 & 19 & 0.328 & 0.056 & 0.647 \\
+register quality & duplicate at 0.15 & 19 & 0.328 & 0.056 & 0.623 \\
+register quality & mask common at 0.5 & 19 & 0.328 & 0.056 & 0.623 \\
+register quality & mask random at 0.5 & 19 & 0.328 & 0.056 & 0.623 \\
+register quality & mask rare at 0.25 & 19 & 0.382 & 0.056 & 0.889 \\
+register quality & mask rare at 0.5 & 19 & 0.328 & 0.056 & 0.623 \\
+register quality & mask rare at 0.75 & 19 & 0.328 & 0.056 & 0.623 \\
+register quality & stale at 1.0 & 19 & 0.328 & 0.056 & 0.623 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{The headline sign-disagreement rate under a different declared reference specification. Each row moves the reference ONE axis at a time and holds the rest at the declared cell, then recomputes the all-cells rate on every pair under the equal-level measure; the first row is the paper's own reference. The reference supplies the sign the other cells are counted as agreeing or disagreeing with, so moving it moves which cells disagree and nothing else. The median column is the corpus median the article quotes; the two beside it are over pairs and show that the spread within the corpus is far larger than the spread across reference specifications.}
+\label{tab:refsens}
+\end{table}
