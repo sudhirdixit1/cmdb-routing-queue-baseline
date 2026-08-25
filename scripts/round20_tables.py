@@ -487,6 +487,18 @@ def write(mn):
                                   aggfunc="first").reset_index())
             d.columns = [a if not b else "%s %s" % (b.replace("nested_", ""), a)
                          for a, b in d.columns]
+            #  ROUND TWENTY-FOUR, minor 3.  Ten coverages to three decimals
+            #  and no statement of how well any of them is determined.  They
+            #  are not the core experiment's: the grid trades replicates for
+            #  coverage of the plane, and its rates are far from nominal, so
+            #  the standard error at an observed rate of 0.2 is nothing like
+            #  the one the manuscript quotes at 0.95.  The replicate count
+            #  and the per-cell standard error are now columns.
+            rc = (grid[grid.interval == "nested_basic"]
+                  .set_index(["n_train", "K"])[["n", "coverage_se"]]
+                  .reset_index())
+            rc["coverage_se"] = rc.coverage_se * 100.0
+            d = d.merge(rc, on=["n_train", "K"], how="left")
             (TABLES / "sim31grid.tex").write_text(
                 tex_table(d,
                           "Sample size and register cardinality varied "
@@ -494,8 +506,25 @@ def write(mn):
                           "mean interval width for the nested percentile and "
                           "the nested basic construction. The last row is the "
                           "cardinality regime of the case study's own "
-                          "register.",
-                          "tab:sim31grid", floatfmt="%.3f"),
+                          "register. \\emph{How well these are determined.} "
+                          "Every cell is \\simGridReps\\ replicates, not the "
+                          "\\simCoreReps\\ of the core experiment, and the "
+                          "coverages here are far from nominal --- so the "
+                          "Monte Carlo standard error of a coverage in this "
+                          "table has a median of \\simGridSEMedian\\ "
+                          "percentage points and reaches "
+                          "\\simGridSEMax, against the "
+                          "\\simCoverageSE\\ that "
+                          "Section~\\ref{sec:simsensitivity} quotes for the "
+                          "core. It is \\simGridSERatio\\ times larger, it "
+                          "is computed at each cell's own observed rate "
+                          "rather than at the nominal one, and it is a "
+                          "column here rather than a sentence because the "
+                          "differences down this table are read row against "
+                          "row.",
+                          "tab:sim31grid", floatfmt="%.3f",
+                          colnames={"n": "replicates",
+                                    "coverage_se": "coverage se (pp)"}),
                 encoding="utf-8")
         blk = C31[(C31.estimand == "V_limit")
                   & (ex == "block" if ex is not None

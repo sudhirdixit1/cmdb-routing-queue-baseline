@@ -2,23 +2,23 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{llrrrr}
+\begin{tabular}{llrrrrlr}
 \toprule
-n train & K & basic coverage & pct coverage & basic mean width & pct mean width \\
+n train & K & basic coverage & pct coverage & basic mean width & pct mean width & replicates & coverage se (pp) \\
 \midrule
-2000 & 20 & 0.887 & 0.887 & 0.085 & 0.085 \\
-2000 & 200 & 0.780 & 0.480 & 0.042 & 0.042 \\
-2000 & 1000 & 0.453 & 0.100 & 0.064 & 0.064 \\
-4000 & 20 & 0.900 & 0.907 & 0.057 & 0.057 \\
-4000 & 200 & 0.907 & 0.500 & 0.031 & 0.031 \\
-4000 & 1000 & 0.507 & 0.080 & 0.047 & 0.047 \\
-8000 & 20 & 0.893 & 0.900 & 0.039 & 0.039 \\
-8000 & 200 & 0.893 & 0.480 & 0.021 & 0.021 \\
-8000 & 1000 & 0.613 & 0.033 & 0.034 & 0.034 \\
-8000 & 3019 & 0.213 & 0.000 & 0.026 & 0.026 \\
+2000 & 20 & 0.887 & 0.887 & 0.085 & 0.085 & 150 & 2.588 \\
+2000 & 200 & 0.780 & 0.480 & 0.042 & 0.042 & 150 & 3.382 \\
+2000 & 1000 & 0.453 & 0.100 & 0.064 & 0.064 & 150 & 4.065 \\
+4000 & 20 & 0.900 & 0.907 & 0.057 & 0.057 & 150 & 2.449 \\
+4000 & 200 & 0.907 & 0.500 & 0.031 & 0.031 & 150 & 2.375 \\
+4000 & 1000 & 0.507 & 0.080 & 0.047 & 0.047 & 150 & 4.082 \\
+8000 & 20 & 0.893 & 0.900 & 0.039 & 0.039 & 150 & 2.520 \\
+8000 & 200 & 0.893 & 0.480 & 0.021 & 0.021 & 150 & 2.520 \\
+8000 & 1000 & 0.613 & 0.033 & 0.034 & 0.034 & 150 & 3.976 \\
+8000 & 3019 & 0.213 & 0.000 & 0.026 & 0.026 & 150 & 3.345 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Sample size and register cardinality varied jointly. Coverage of $V_{\mathrm{limit}}$ and mean interval width for the nested percentile and the nested basic construction. The last row is the cardinality regime of the case study's own register.}
+\caption{Sample size and register cardinality varied jointly. Coverage of $V_{\mathrm{limit}}$ and mean interval width for the nested percentile and the nested basic construction. The last row is the cardinality regime of the case study's own register. \emph{How well these are determined.} Every cell is \simGridReps\ replicates, not the \simCoreReps\ of the core experiment, and the coverages here are far from nominal --- so the Monte Carlo standard error of a coverage in this table has a median of \simGridSEMedian\ percentage points and reaches \simGridSEMax, against the \simCoverageSE\ that Section~\ref{sec:simsensitivity} quotes for the core. It is \simGridSERatio\ times larger, it is computed at each cell's own observed rate rather than at the nominal one, and it is a column here rather than a sentence because the differences down this table are read row against row.}
 \label{tab:sim31grid}
 \end{table}

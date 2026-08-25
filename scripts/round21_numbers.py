@@ -817,3 +817,127 @@ def emit_round25(mn):
                   "nCellsLargestPair", "prevExcludedAboveMin",
                   "logExcludedAboveMin", "nExcludedAbove"):
             put(k, None)
+
+    # ================================================================
+    # the (n, K) grid's Monte Carlo precision, which it never stated
+    # ================================================================
+    #  ROUND TWENTY-FOUR, minor 3.  Table S30 prints ten coverages to three
+    #  decimals and says nothing about how well any of them is determined.
+    #  They come from the GRID experiment, which trades replicates for
+    #  coverage of the plane and runs at a fraction of the core's count, so
+    #  the standard error the manuscript quotes for the simulation -- the
+    #  core's -- is the wrong one to carry over to that table.  Worse, the
+    #  grid's coverages are nowhere near 0.95, and a standard error computed
+    #  at the nominal rate understates the error at an observed rate of 0.2
+    #  or 0.5.  The macros below are taken from the OBSERVED rate of each
+    #  cell, which is what s31 already writes per row.
+    #
+    #  WHAT EACH MACRO RANGES OVER (rule 7):
+    #    simGridReps         the replicate count of every grid cell
+    #    simGridSEMedian     the MEDIAN over the ten grid cells of the
+    #                        per-cell Monte Carlo standard error of coverage,
+    #                        each at that cell's own observed rate
+    #    simGridSEMax        the MAXIMUM of the same ten
+    #    simGridSERatio      simGridSEMedian divided by the CORE experiment's
+    #                        standard error, which is the one section 10.2
+    #                        quotes
+    C31 = load("s31_coverage.csv")
+    if C31 is not None and len(C31) and "coverage_se" in C31.columns:
+        gr = C31[(C31.estimand == "V_limit") & (C31.experiment == "grid")
+                 & (C31.interval == "nested_basic")]
+        co = C31[(C31.estimand == "V_limit") & (C31.experiment == "core")
+                 & (C31.interval == "nested_basic")]
+        if len(gr) and len(co):
+            gse = float(gr.coverage_se.median()) * 100.0
+            cse = float(co.coverage_se.median()) * 100.0
+            put("simGridReps", thousands(int(gr.n.max())))
+            put("simGridSEMedian", num(gse, 1))
+            put("simGridSEMax", num(float(gr.coverage_se.max()) * 100.0, 1))
+            put("simGridSERatio", num(gse / cse, 1) if cse else None)
+            put("simCoreReps", thousands(int(co.n.max())))
+        else:
+            for k in ("simGridReps", "simGridSEMedian", "simGridSEMax",
+                      "simGridSERatio", "simCoreReps"):
+                put(k, None)
+    else:
+        for k in ("simGridReps", "simGridSEMedian", "simGridSEMax",
+                  "simGridSERatio", "simCoreReps"):
+            put(k, None)
+
+    # ================================================================
+    # the two comparisons section 10.3 makes on the (n, K) plane
+    # ================================================================
+    #  ROUND TWENTY-FIVE.  Section 10.3 argued that K/n is not sufficient by
+    #  naming two cells at nearly the same ratio and quoting their coverages,
+    #  and it quoted them as LITERALS -- inside $...$, which is why the
+    #  no-numeric-literals check never saw them: `body_of` strips inline math
+    #  before it looks.  Three coverages of a simulation were typed into the
+    #  prose of a paper whose first rule is that no number is.  texlint now
+    #  reads inside math against an allowlist, and these are macros.
+    #
+    #  The cells are SELECTED BY RULE rather than named, so that re-running
+    #  s31 on a different grid moves the sentence with it:
+    #    the same-ratio pair   the two grid cells whose K/n ratios are closest
+    #                          to each other IN RELATIVE terms -- smallest
+    #                          |log(ratio_a) - log(ratio_b)| -- among cells
+    #                          that differ in both K and n.  Relative and not
+    #                          absolute: the plane's ratios span two orders of
+    #                          magnitude, and an absolute rule calls 0.010 and
+    #                          0.025 closer than 0.100 and 0.125 when they
+    #                          differ by a factor of two and a half.
+    #    the fixed-K pair      the smallest and largest n at the largest K
+    #                          that the grid runs at more than one n
+    if C31 is not None and len(C31) and "coverage_se" in C31.columns:
+        g = C31[(C31.estimand == "V_limit") & (C31.experiment == "grid")
+                & (C31.interval == "nested_basic")].copy()
+    else:
+        g = None
+    if g is not None and len(g) > 2:
+        g["ratio"] = g.K / g.n_train
+        rows = list(g.itertuples())
+        best = None
+        for i in range(len(rows)):
+            for j in range(i + 1, len(rows)):
+                a, b = rows[i], rows[j]
+                if a.K == b.K or a.n_train == b.n_train:
+                    continue
+                d = abs(np.log(a.ratio) - np.log(b.ratio))
+                if best is None or d < best[0]:
+                    best = (d, a, b)
+        _d, a, b = best
+        #  print the smaller-n cell first, which is the order the sentence
+        #  reads in and the order the plane is drawn in
+        if a.n_train > b.n_train:
+            a, b = b, a
+        put("simGridSameRatioKa", thousands(int(a.K)))
+        put("simGridSameRatioNa", thousands(int(a.n_train)))
+        put("simGridSameRatioCovA", num(float(a.coverage), 3))
+        put("simGridSameRatioKb", thousands(int(b.K)))
+        put("simGridSameRatioNb", thousands(int(b.n_train)))
+        put("simGridSameRatioCovB", num(float(b.coverage), 3))
+        gap = abs(float(a.coverage) - float(b.coverage))
+        se = float(np.sqrt(a.coverage_se ** 2 + b.coverage_se ** 2))
+        put("simGridSameRatioGapSE", num(gap / se, 1) if se else None)
+
+        counts = g.groupby("K").n_train.nunique()
+        multi = counts[counts > 1]
+        if len(multi):
+            kk = int(multi.index.max())
+            s = g[g.K == kk].sort_values("n_train")
+            lo, hi = s.iloc[0], s.iloc[-1]
+            put("simGridFixedK", thousands(kk))
+            put("simGridFixedNa", thousands(int(lo.n_train)))
+            put("simGridFixedNb", thousands(int(hi.n_train)))
+            put("simGridFixedCovA", num(float(lo.coverage), 3))
+            put("simGridFixedCovB", num(float(hi.coverage), 3))
+        else:
+            for k in ("simGridFixedK", "simGridFixedNa", "simGridFixedNb",
+                      "simGridFixedCovA", "simGridFixedCovB"):
+                put(k, None)
+    else:
+        for k in ("simGridSameRatioKa", "simGridSameRatioNa",
+                  "simGridSameRatioCovA", "simGridSameRatioKb",
+                  "simGridSameRatioNb", "simGridSameRatioCovB",
+                  "simGridSameRatioGapSE", "simGridFixedK", "simGridFixedNa",
+                  "simGridFixedNb", "simGridFixedCovA", "simGridFixedCovB"):
+            put(k, None)

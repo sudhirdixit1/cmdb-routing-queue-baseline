@@ -90,6 +90,31 @@ BANNED_OPENERS = [
 MAIN_TEXT_BANNED = [r"(?m)(^|\.\s+)An earlier version"]
 CORRECTION_APPENDIX = "app_corrections.tex"
 
+#  ROUND TWENTY-FIVE.  Check 6 reads `body_of`, and `body_of` strips inline
+#  math before it looks -- so `$0.780$` was invisible to the rule that no
+#  number is typed into the prose, and three coverages of the (n, K) plane sat
+#  in Section 10.3 as literals for four rounds.  The hole cannot be closed by
+#  banning digits inside math: a level, a nominal rate, a declared split and
+#  the standard normal quantile all belong there and are not results.
+#
+#  So the rule is an ALLOWLIST.  Every inline-math span in the body that
+#  carries a numeric literal must appear here with a reason, and anything else
+#  is a failure.  The cost of adding an entry is having to justify it, which
+#  is the point: a result cannot be justified, so it becomes a macro.
+MATH_LITERALS_ALLOWED = {
+    r"$[0,1]$": "the unit interval, a definition",
+    r"$\rho \in [-1,1]$": "the range of the robustness index, a definition",
+    r"$95\%$": "the nominal confidence level, a convention not a result",
+    r"$1.96$": "the standard normal quantile",
+    r"$\alpha = 0.05$": "the declared test level",
+    r"$\max(0,-V_s)$": "an argument of a maximum, not a number",
+    r"$70/30$": "the registered split proportion",
+    r"$[0.5, 2]$": "the declared calibration-slope window",
+    r"$0.05$": "the lower end of the declared threshold range for the desk",
+    r"$0.80$": "the upper end of the declared threshold range for the desk",
+    r"$63\%$": "1 - 1/e, the share of distinct levels a resample holds",
+}
+
 #  The checks this file performs, as a list rather than as a number in a
 #  sentence.  The manuscript quotes the count (Appendix H), so the list is
 #  where that number comes from and adding a check updates the paper.
@@ -318,6 +343,33 @@ def main(argv=None):
     if lits:
         FAILS.append("numeric literals in the prose (every number should be "
                      "a macro): %s" % ", ".join(sorted(set(lits))[:12]))
+
+    # 6b the same rule, INSIDE inline math, against the allowlist
+    mathbody = strip_comments(raw)
+    i0 = mathbody.find("\\begin{frontmatter}")
+    j0 = mathbody.find("\\appendix")
+    mathbody = mathbody[i0:j0 if j0 > 0 else len(mathbody)]
+    mathbody = re.sub(r"\\input\{[^}]*\}", " ", mathbody)
+    bad_math = []
+    for m in re.finditer(r"\$[^$]*\$", mathbody):
+        span = m.group(0)
+        if span in MATH_LITERALS_ALLOWED:
+            continue
+        #  a digit that is part of an identifier, an exponent or a brace
+        #  group -- n^{1/3}, V_0, \tau_2 -- is notation, not a quantity
+        #  strip trailing punctuation before the exemption test: a lone `0'
+        #  inside \max(0,-V_s) is matched as "0," and is not a quantity
+        found = [x for x in
+                 (y.rstrip(".,") for y in
+                  re.findall(r"(?<![\w.^{_])\d[\d.,]*(?![\w}])", span))
+                 if x not in {"", "0", "1", "2", "3", "4", "5"}]
+        if found:
+            bad_math.append(span if len(span) < 46 else span[:43] + "...")
+    if bad_math:
+        FAILS.append("numeric literals inside inline math, which check 6 "
+                     "cannot see (make each a macro, or add it to "
+                     "MATH_LITERALS_ALLOWED with a reason): %s"
+                     % ", ".join(sorted(set(bad_math))[:8]))
 
     # 7 rhetorical openers
     for pat in BANNED_OPENERS:

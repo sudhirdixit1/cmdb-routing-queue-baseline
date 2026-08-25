@@ -89,12 +89,15 @@ Carlo standard error at \nPlaneGridReps\ replicates --- and it has fallen
 below three quarters by \simGridRatioBad. The ratio is the right first-order
 summary --- the mechanism of Section~\ref{sec:boot} is why, and
 varying $n$ alone would not have exposed the regime the corpus occupies ---
-but it is not sufficient, and the plane says so in two places. Two cells at
-nearly the same ratio, $(K, n) = (200, 2000)$ and $(1000, 8000)$, cover
-$0.780$ and $0.613$, a gap of about three and a half combined Monte Carlo
-standard errors; and holding $K$ at $1000$ while moving $n$ from $2000$ to
-$8000$ moves coverage from $0.453$ to $0.613$, so $n$ carries signal of its
-own. The calibration of Section~\ref{sec:regions} is a function of the ratio
+but it is not sufficient, and the plane says so in two places. The two cells
+closest to each other in ratio --- a register of \simGridSameRatioKa\ levels
+at \simGridSameRatioNa\ training rows, and one of \simGridSameRatioKb\ at
+\simGridSameRatioNb\ --- cover \simGridSameRatioCovA\ and
+\simGridSameRatioCovB, a gap of \simGridSameRatioGapSE\ combined Monte Carlo
+standard errors; and holding the register at \simGridFixedK\ levels while
+moving the training half from \simGridFixedNa\ rows to \simGridFixedNb\ moves
+coverage from \simGridFixedCovA\ to \simGridFixedCovB, so $n$ carries signal
+of its own. The calibration of Section~\ref{sec:regions} is a function of the ratio
 alone and therefore inherits this residual, which
 Section~\ref{sec:lim} states.
 
