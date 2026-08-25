@@ -303,6 +303,17 @@ def emit(mn):
     put("calSlopeSe", num(first(F33, "c_slope_se"), 3))
     put("calIntercept", num(first(F33, "c_intercept"), 3))
     put("calAtMedianPair", num(first(F33, "c_at_median_pair"), 2))
+    #  ROUND TWENTY-FIVE.  The range of the applied factor across the corpus,
+    #  which is the quantity s41's shortfall factor has to be compared with:
+    #  both are multiplicative widenings of the same critical value.
+    C33 = load("s33_cells.csv")
+    if C33 is not None and len(C33):
+        put("calFactorMin", num(float(C33.c.min()), 2))
+        put("calFactorMax", num(float(C33.c.max()), 2))
+        put("calFactorMedian", num(float(C33.c.median()), 2))
+    else:
+        for k in ("calFactorMin", "calFactorMax", "calFactorMedian"):
+            put(k, None)
     put("nRegionsChangedByCalibration",
         thousands(first(F33, "n_regions_changed")))
     put("rhoMedianCalibrated", num(first(F33, "rho_median_calibrated"), 3))
@@ -1012,3 +1023,10 @@ def emit_round25(mn):
             thousands(int((dc41.n_degenerate > 0).sum())))
     else:
         put("nDcaFamiliesWithDegenerate", None)
+    #  the multiplicative widening that WOULD have given nominal family-wise
+    #  coverage, per family type, under the corpus's own tails.  Comparable
+    #  with `calFactor*' above because both widen the same critical value.
+    put("shortfallWholeMin", num(first(F41, "shortfall_whole_min"), 2))
+    put("shortfallWholeMax", num(first(F41, "shortfall_whole_max"), 2))
+    put("shortfallDcaMin", num(first(F41, "shortfall_dca_min"), 2))
+    put("shortfallDcaMax", num(first(F41, "shortfall_dca_max"), 2))

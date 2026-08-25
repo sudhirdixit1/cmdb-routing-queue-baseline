@@ -636,6 +636,17 @@ def summarise(R):
                 mean_width=float(sub["width_" + c].mean()),
                 q_median=float(sub[c].median()),
                 q_oracle=float(sub.t_max.quantile(1 - ALPHA)),
+                #  THE FACTOR THE BAND IS SHORT BY.  The oracle critical
+                #  value divided by the one the candidate supplies: the
+                #  multiplicative widening that WOULD have given nominal
+                #  family-wise coverage on this cell.  It is the quantity to
+                #  compare the coverage calibration of Section 6.4 against,
+                #  because that calibration is a multiplicative widening of
+                #  exactly this critical value -- fitted to restore POINTWISE
+                #  coverage, and therefore not fitted to this.
+                shortfall_factor=float(sub.t_max.quantile(1 - ALPHA)
+                                       / sub[c].median())
+                if float(sub[c].median()) else np.nan,
                 mean_false_cells=float(sub["n_false_" + c].mean()),
                 kurt_med=float(sub.kurt_med.median()),
                 kurt_p90=float(sub.kurt_p90.median()),
@@ -808,6 +819,7 @@ def main(argv=None):
     #  measured 0.392.
     grid_B = {(K, Bd) for (K, Bd, _f, _w) in GRID}
     G = C[[(k, b) in grid_B for k, b in zip(C.K_nom, C.B)]]
+    heavy = G[G["regime"] == "heavy"]
 
     def cv(regime, cand, how="median"):
         s = G[(G.regime == regime) & (G.candidate == cand)].coverage
@@ -840,6 +852,20 @@ def main(argv=None):
         corpus_kurt_med_dca_adm=float(dc.adm_kurt_med.median()),
         corpus_kurt_p90_dca_adm=float(dc.adm_kurt_p90.median()),
         corpus_lowdistinct_dca=float(dc.share_lowdistinct_20.median()),
+        #  what the multiplier band would have to be widened BY, under the
+        #  corpus's own tails, on each family type
+        shortfall_whole_min=float(
+            heavy[(heavy.candidate == "q_mult")
+                  & (heavy.family == "whole-surface")].shortfall_factor.min()),
+        shortfall_whole_max=float(
+            heavy[(heavy.candidate == "q_mult")
+                  & (heavy.family == "whole-surface")].shortfall_factor.max()),
+        shortfall_dca_min=float(
+            heavy[(heavy.candidate == "q_mult")
+                  & (heavy.family == "decision-curve")].shortfall_factor.min()),
+        shortfall_dca_max=float(
+            heavy[(heavy.candidate == "q_mult")
+                  & (heavy.family == "decision-curve")].shortfall_factor.max()),
         runtime_s=round(time.time() - t0, 1))
     for regime in REGIMES:
         for cand in CANDIDATES:

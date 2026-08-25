@@ -2451,6 +2451,17 @@ them because Section~\ref{sec:simbands}'s count of what
 $q_{\mathrm{emp}}$ resolves is, on those families, partly a count of
 arithmetic.
 
+\textbf{How far short, in the units the calibration works in.} A critical
+value is widened multiplicatively, so the useful summary of the shortfall is
+the factor that would have closed it. On the surface families that factor is
+\shortfallWholeMin\ to \shortfallWholeMax; on the decision-curve families,
+\shortfallDcaMin\ to \shortfallDcaMax. The coverage calibration of
+Section~\ref{sec:regions} applies \calFactorMin\ to \calFactorMax, is
+fitted to restore \emph{pointwise} coverage rather than this one, and is
+applied to the surface families only --- so it is of the right order where it
+acts and absent where the shortfall is largest. Section~\ref{sec:lim} says
+what follows.
+
 \textbf{The draw count is the binding constraint.} At the modal surface
 family the multiplier band covers \covMultBootThirtyThree\ at
 \nBootThirtyThree\ draws and \covMultBootOneThousand\ at
@@ -2609,12 +2620,28 @@ covers a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\ against
 a nominal $95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even under
 Gaussian draws, which is the case the construction is derived for. The
 bootstrap in that experiment is \emph{ideal}, so those are upper bounds on
-what the procedure attains here. Three consequences are load-bearing and none
-is repaired in this version. The resolved-cell counts, the region labels and
-$\rho$ are all anti-conservative: a band that covers \covMultHeavyMedian\ of
-the time where it claims $95\%$ resolves cells at a rate the data do not
-support, and every count of resolved cells in this paper should be read as an
-upper bound on what is resolved. The safeguard we described as conservative
+what the procedure attains here.
+
+\textbf{What that leaves the two families is not the same, and the difference
+is the calibration.} Section~\ref{sec:simband} also reports the
+multiplicative widening that \emph{would} have given nominal coverage on each
+matched cell, which is directly comparable with the inflation factor of
+Section~\ref{sec:regions} because both widen the same critical value. On the
+surface families that widening is \shortfallWholeMin\ to
+\shortfallWholeMax; the calibration already applies \calFactorMin\ to
+\calFactorMax, a median \calFactorMedian, so on those families it is of the
+right order and may already absorb the shortfall --- it was fitted to restore
+\emph{pointwise} coverage and not this, so that it does is fortunate and not
+by design, and we claim no more than the order. On the decision-curve
+families the widening needed is \shortfallDcaMin\ to \shortfallDcaMax\ ---
+about a doubling --- \textbf{and the calibration does not touch them at all}.
+The decision-curve conclusions of Section~\ref{sec:dcabands} are therefore
+the ones to distrust, by roughly a factor of two in the critical value, and
+the surface conclusions are the ones the calibration may already have
+covered. Neither statement is a coverage guarantee, and this version does not
+have one.
+
+The safeguard we described as conservative
 --- resolving only at the upper end of the critical value's Monte Carlo
 interval --- moves coverage by less than a point, because it controls the
 Monte Carlo error in $q$ and not the error in what $q$ estimates. And no
