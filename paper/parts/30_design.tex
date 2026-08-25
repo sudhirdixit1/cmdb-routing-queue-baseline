@@ -13,6 +13,17 @@ names the commit. Six amendments were declared afterwards, each with its date,
 its cause and the result it changed, and all six are in
 Supplement~\ref{app:protocol} rather than folded silently into the rules.
 
+\textbf{This is not a timestamped third-party registration, and the
+difference matters.} A registration on a public registry is attested by a
+party with no stake in the result; what is offered here is a file in a
+repository whose history the authors control, so a reader who does not trust
+that history has nothing else to check. Any claim in this paper that a rule
+was fixed in advance is therefore a claim about the repository and no
+stronger than the repository. We say so plainly instead of letting the word
+\emph{registered} carry a weight it has not earned: what the design buys is
+that the rules are legible, dated and amendable only on the record, not that
+an outside party watched them being written.
+
 \subsection{Roles}
 
 A log is admitted if the registered rules can find three things in it without
@@ -83,6 +94,19 @@ a cardinality-and-reuse rule, and it is not a configuration management
 database; a legal article is reused across cases but nobody maintains a
 discovery process for it. Those are threats, they are named per pair, and the
 paper's conclusions are stated at a level that survives them.
+
+\paragraph{The pair carrying the most cells sits closest to the admission
+edge} \logAdmittedMaxPrev\ has the highest prevalence of any admitted pair,
+\prevAdmittedMax, against the window's upper bound of \prevHi; the nearest
+pair the headroom rule turns away, \logExcludedAboveMin, is at
+\prevExcludedAboveMin, and \nExcludedAbove\ pairs in all are excluded above
+the bound. That pair is also the largest single contributor to the corpus,
+carrying \nCellsLargestPair\ of the \nComputationalCells\ admissible scalar
+cells. A rule with a sharp edge decides some case narrowly, and this is that
+case: the corpus's biggest component is admitted on a margin narrower than
+the gap to the pairs excluded beside it. Table~\ref{tab:family} reports every
+headline statistic on the ITSM-like subset as well, which is the population
+that does not turn on this decision.
 
 This is therefore a \emph{benchmark of specification sensitivity across
 heterogeneous prediction problems}, not a replication of one finding on

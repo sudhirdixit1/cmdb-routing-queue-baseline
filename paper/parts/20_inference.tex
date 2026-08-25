@@ -55,7 +55,8 @@ Section~\ref{sec:sim} the percentile interval covers \coverageSparsePct\
 against a nominal $95\%$, \emph{worse} than the fixed-model interval refitting
 was meant to improve on. Every interval here is therefore the \emph{basic}
 (pivotal) interval
-$[\,2\hat{V} - q_{1-\alpha/2},\; 2\hat{V} - q_{\alpha/2}\,]$, which pivots the
+$[\,2\hat{V} - q_{1-\alpha/2},\; 2\hat{V} - q_{\alpha/2}\,]$
+\citep{davison1997bootstrap}, which pivots the
 displacement out; simultaneous bands are recentred by the same shift, which is
 a property of the draws and so corrects a whole family at once
 (Table~\ref{tab:sim31}, and Supplement~\ref{app:noisy} for the diagnosis).
@@ -242,7 +243,15 @@ Because the surface is a complete factorial over its axes --- the audit of
 Section~\ref{sec:threesurfaces} establishes that it is, cell for cell --- the
 variance of $V_s$ across specifications admits an exact and \emph{orthogonal}
 functional-ANOVA decomposition \citep{sobol2001global,saltelli2010variance}
-under a product measure $\mathbb{P} = \bigotimes_i w_i$ over the axes. Every
+under a product measure $\mathbb{P} = \bigotimes_i w_i$ over the axes. The
+closest precedent is \citet{hutter2014efficient}, who decompose an
+algorithm's performance over its \emph{configuration} space by the same
+device and read the first-order and interaction terms as hyperparameter
+importance. What differs here is the object and what is done with it: the
+axes are analysis decisions rather than hyperparameters, the components are
+computed exactly over a complete factorial rather than estimated from a
+regression-tree surrogate over a sampled design, and the decomposition is one
+of four reporting objects rather than the conclusion. Every
 subset $u$ of axes has a component $g_u$, given by a M\"obius sum over the
 conditional means and computed exactly rather than estimated
 (Supplement~\ref{app:objects}); the components are mutually orthogonal, so

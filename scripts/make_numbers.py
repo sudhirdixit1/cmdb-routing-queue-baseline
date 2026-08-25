@@ -60,6 +60,14 @@ SRC_ROOT = HERE.parent
 TABLES = PAPER / "tables"
 TABLES.mkdir(parents=True, exist_ok=True)
 
+#: the registered prevalence window, as ONE definition.  It was written as a
+#: literal in the macro that prints it and again, separately, in the rule that
+#: applies it; round twenty-five needed a third reader -- the macro naming the
+#: nearest pair excluded ABOVE the window -- and three copies of a bound is
+#: how a bound comes to differ from itself.
+PREV_LO = "0.05"
+PREV_HI = "0.95"
+
 MISSING = r"\textbf{??}"
 _UNRESOLVED = []
 _MACROS = {}
@@ -242,8 +250,8 @@ def main(argv=None):
     put("minReuseF", "two")
     put("minGPresent", "50\\%")
     put("maxCardBZero", "200")
-    put("prevLo", "0.05")
-    put("prevHi", "0.95")
+    put("prevLo", PREV_LO)
+    put("prevHi", PREV_HI)
     put("minTrainCoverage", "50\%")
     put("minPerStratum", "25")
 
@@ -809,6 +817,7 @@ def main(argv=None):
     #  The review's twelve major comments; seven new result files.
     import round21_numbers  # noqa: E402
     round21_numbers.emit(sys.modules[__name__])
+    round21_numbers.emit_round25(sys.modules[__name__])
     import round21_tables  # noqa: E402
 
     # ---- write -----------------------------------------------------------

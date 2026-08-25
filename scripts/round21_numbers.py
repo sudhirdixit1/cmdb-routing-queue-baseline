@@ -717,3 +717,87 @@ def emit(mn):
     else:
         for k in ("VtauZeroLo", "VtauZeroHi", "VtauOneLo", "VtauOneHi"):
             put(k, None)
+
+
+def _texname(s):
+    """A log name is data, and BPIC15_5 carries an underscore.  A macro whose
+    value holds an unescaped LaTeX special is a live grenade -- texlint check
+    7c exists because one of them once commented out its own closing brace --
+    so a name that reaches the prose is escaped where it is defined."""
+    for a, b in (("\\", "\\textbackslash{}"), ("&", "\\&"), ("%", "\\%"),
+                 ("#", "\\#"), ("_", "\\_"), ("$", "\\$"),
+                 ("{", "\\{"), ("}", "\\}")):
+        s = s.replace(a, b)
+    return s
+
+
+def emit_round25(mn):
+    """ROUND TWENTY-FIVE.  The quantities the round-24 minor comments need,
+    and the ones s41 produces.
+
+    Kept in its own function rather than appended to `emit` because they come
+    from a disjoint set of sources and because a reader tracing a round-25
+    number should land on the round-25 block.  `make_numbers.main` calls this
+    once, immediately after `emit`.
+    """
+    put, load, pct, num, sig, first = (mn.put, mn.load, mn.pct, mn.num,
+                                       mn.sig, mn.first)
+    thousands = mn.thousands
+
+    # ================================================================
+    # the admission window, and how close the largest pair sits to it
+    # ================================================================
+    #  ROUND TWENTY-FOUR, minor 7.  The headroom rule admits a pair whose
+    #  prevalence IN THE FULL LOG lies inside [prevLo, prevHi].  A referee
+    #  observed that the pair carrying the most cells of any in the corpus
+    #  sits close to the upper edge, and that logs not much further out are
+    #  excluded by the same rule -- so the paper's largest single
+    #  contribution rests on a margin worth naming.
+    #
+    #  WHAT EACH MACRO RANGES OVER (rule 7 of the handoff):
+    #    prevAdmittedMax   the MAXIMUM prevalence over the 19 ADMITTED pairs
+    #    prevExcludedMin   the MINIMUM prevalence over the pairs excluded by
+    #                      the headroom rule ALONE -- not over all exclusions,
+    #                      most of which are excluded for other reasons
+    #    nCellsLargestPair the declared admissible scalar cells of the ONE
+    #                      pair attaining prevAdmittedMax
+    H = load("r33_headroom_sensitivity.csv")
+    A = load("s25_audit.csv")
+    if H is not None and len(H) and A is not None and len(A):
+        adm = H[H.admitted_as_registered.astype(bool)]
+        exc = H[~H.admitted_as_registered.astype(bool)]
+        if len(adm):
+            top = adm.loc[adm.prevalence_full.idxmax()]
+            put("prevAdmittedMax", num(float(top.prevalence_full), 3))
+            put("logAdmittedMaxPrev",
+                _texname("%s/%s" % (top.log, top.target)))
+            cell = A[(A.log == top.log) & (A.target == top.target)]
+            put("nCellsLargestPair",
+                thousands(int(cell.declared_admissible_scalar.iloc[0]))
+                if len(cell) else None)
+        else:
+            for k in ("prevAdmittedMax", "logAdmittedMaxPrev",
+                      "nCellsLargestPair"):
+                put(k, None)
+        #  The comparison the referee drew is at the UPPER edge, so the set
+        #  is the pairs the headroom rule turned away for being ABOVE the
+        #  window, not every pair it turned away: the corpus also contains
+        #  exclusions far below the lower edge, and the minimum over all
+        #  exclusions is one of those and answers a different question.
+        hi = float(mn.PREV_HI)
+        above = exc[exc.prevalence_full > hi]
+        if len(above):
+            bot = above.loc[above.prevalence_full.idxmin()]
+            put("prevExcludedAboveMin", num(float(bot.prevalence_full), 3))
+            put("logExcludedAboveMin", _texname("%s/%s" % (bot.log,
+                                                           bot.target)))
+            put("nExcludedAbove", thousands(int(len(above))))
+        else:
+            for k in ("prevExcludedAboveMin", "logExcludedAboveMin",
+                      "nExcludedAbove"):
+                put(k, None)
+    else:
+        for k in ("prevAdmittedMax", "logAdmittedMaxPrev",
+                  "nCellsLargestPair", "prevExcludedAboveMin",
+                  "logExcludedAboveMin", "nExcludedAbove"):
+            put(k, None)
