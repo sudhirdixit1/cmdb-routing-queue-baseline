@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{llrrrr}
+\toprule
+n train & K & basic coverage & pct coverage & basic mean width & pct mean width \\
+\midrule
+2000 & 20 & 0.887 & 0.887 & 0.085 & 0.085 \\
+2000 & 200 & 0.780 & 0.480 & 0.042 & 0.042 \\
+2000 & 1000 & 0.453 & 0.100 & 0.064 & 0.064 \\
+4000 & 20 & 0.900 & 0.907 & 0.057 & 0.057 \\
+4000 & 200 & 0.907 & 0.500 & 0.031 & 0.031 \\
+4000 & 1000 & 0.507 & 0.080 & 0.047 & 0.047 \\
+8000 & 20 & 0.893 & 0.900 & 0.039 & 0.039 \\
+8000 & 200 & 0.893 & 0.480 & 0.021 & 0.021 \\
+8000 & 1000 & 0.613 & 0.033 & 0.034 & 0.034 \\
+8000 & 3019 & 0.213 & 0.000 & 0.026 & 0.026 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Sample size and register cardinality varied jointly. Coverage of $V_{\mathrm{limit}}$ and mean interval width for the nested percentile and the nested basic construction. The last row is the cardinality regime of the case study's own register.}
+\label{tab:sim31grid}
+\end{table}

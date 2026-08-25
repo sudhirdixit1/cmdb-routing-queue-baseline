@@ -4,10 +4,14 @@ carried it in the main text; a referee for this journal observed that
 scientific transparency should be visible in the design and the supplement
 rather than repeatedly asserted, and that is right, so it is here.
 
-\texttt{REFEREE-LOG.md} in the archive carries the objection each correction
-answers and the commit that made it. What follows is the register grouped by
-\emph{class}, because the classes are more useful than the incidents: they
-say what kind of mistake this apparatus is prone to.
+\texttt{REFEREE-LOG.md} in the archive carries every objection this project
+has received, each with its disposition and with the corrections it produced
+named. What follows is the register grouped by \emph{class}, because the
+classes are more useful than the incidents: they say what kind of mistake this
+apparatus is prone to. Identifiers run in the order the corrections were made,
+across all twenty rounds; three of the low numbers never entered the register
+and the classes below are therefore not a contiguous range, which is a fact
+about the numbering and not a missing entry.
 
 \paragraph{Class A --- a control that could not fail}
 Four corrections (C1, C2, C8, C16) are nulls or searches drawn at the wrong
@@ -37,7 +41,7 @@ only existential (Remark~\ref{rem:cancel}); and --- the one that mattered most
 --- a headline spread that was inflated by an intercept-only baseline no
 analyst would build, while a later section of the same manuscript said so and
 the abstract did not. This class is the reason
-Section~\ref{sec:regions} excludes the intercept-only rung by definition and
+Section~\ref{sec:regionsdef} excludes the intercept-only rung by definition and
 the reason every number in this document is a generated macro rather than a
 typed literal.
 
@@ -73,15 +77,14 @@ discipline of \ref{app:verifier} makes this class structurally
 impossible rather than merely unlikely --- and does not make it impossible
 when the same wrong quantity is computed twice from the same wrong expression,
 which is C22. Correcting the pilot's frame size in the facts and not in the
-PRISMA flow left Section~ef{sec:practice} reading 
-AuditFrame\ and
-Table~ef{tab:prisma} reading two orders of magnitude more, four pages apart,
+PRISMA flow left Section~\ref{sec:practice} reading
+\nAuditFrame\ and Table~\ref{tab:prisma} reading two orders of magnitude more, four pages apart,
 \emph{after} the error had been found and written up. The frame is computed
 once now, before both consumers, and the verifier checks every row of the flow
 that the prose also quotes.
 
 \paragraph{Class G --- an estimand that was not the one being estimated}
-One correction (C20), found in this round and the reason
+One correction (C20), found in round nineteen and the reason
 \ref{app:noisy} exists. The simulation of Section~\ref{sec:sim}
 computed both estimands by enumerating the data generator's cells, which in
 the noisy world carry the register's \emph{true} value while the estimator
@@ -124,8 +127,81 @@ is smaller than the sample it contains, or differs from it while every design
 weight is one. A checker that recomputed the same aggregation would have
 agreed with the error.
 
-\paragraph{What found these, and what a reader should take from that}
-Of the corrections above, the ones this round found in its own work divide by
+\paragraph{Class I --- an inferential object whose denominator was not the
+one the claim quantified over}
+Two corrections (C26, C28), and they are the same mistake in two places. A
+region label such as \emph{uniformly beneficial} ranges over every admissible
+cell of a surface, and an earlier version supported it with max-$t$ bands
+whose family was the five scalar instruments \emph{at one cell}; the family
+was two orders of magnitude smaller than the claim. Widening it to the whole
+surface raises the critical value from \maxTWithinMedian\ to
+\maxTSurfaceMedian\ at the median pair and changes the region label on
+\nRegionChangedByFamily\ of \nPairs\ pairs --- and more at the cell level,
+where a region label's coarseness no longer hides it and the wider family
+unresolves cells throughout. Section~\ref{sec:simbands} now
+declares four interval objects by name so a table cannot print one and be read
+as the other. The same class covers the
+pilot's Wilson intervals (C28): a binomial interval was put around a ratio of
+two weighted totals through a fractional ``effective sample size'', and none
+of the five resulting intervals contains its design-based counterpart.
+
+The general form is worth stating because it is not a coding error and no
+checker in this repository would have caught it: \textbf{an interval is only
+as good as the correspondence between the family it controls and the sentence
+it is used to license}, and that correspondence is a judgement about English,
+not a property of the arithmetic.
+
+\paragraph{Class J --- a quantity assembled from units that do not add}
+Two corrections (C25, C27). The first: an earlier version reported the largest
+per-axis difference $\max_i(S_{T_i} - S_i)$ and described it as the share of
+variance carried by interactions. Those differences overlap across axes ---
+a two-way component appears in the total effect of both of its axes --- so
+their maximum is neither their sum nor their union, and the total higher-order
+share is $1 - \sum_i S_i$, which on this corpus is \interactionTotalPct\
+against the \largestInvolvementPct\ that was printed. The second: expected
+regret was averaged over an admissible set spanning five scalar instruments
+and reported as a single percentage ``in the metric's own units''. There is no
+such unit once AUC and Brier skill are inside one average.
+Section~\ref{sec:rules} now reports regret inside one instrument at a time,
+and Section~\ref{sec:nbregret} reports a common-utility version on calibrated
+net benefit, which is a scale on which averaging is defined.
+
+\paragraph{Class K --- a theorem stated wider than its proof, and wider than
+the truth}
+Two corrections (C23, C24). The necessity direction of the rank-invariance
+proposition quantified over every non-rank-based instrument and was supported
+by one stored configuration for five named instruments under one map. Repairing
+the proof also refuted the claim: what invariance of the \emph{reduction}
+requires is that the recalibration act \emph{affinely} on the instrument, not
+that it leave it fixed, and Corollary~\ref{cor:notexactly} exhibits a
+non-rank-based instrument whose reduction is invariant. The word
+\emph{exactly} was wrong, not merely unproved. C24 withdraws the axis
+non-redundancy search entirely: its answer moved with an arbitrary tolerance,
+no claim depended on it, and removing it was cheaper than repairing it.
+
+\paragraph{Class L --- a number the design cannot produce, and a word the
+design does not license}
+Two corrections (C29, C30). An earlier version printed raw and Holm-adjusted
+bootstrap $p$-values of $0.000$ from 200 draws; no finite bootstrap can
+produce zero,
+and Section~\ref{sec:planned} now uses the plus-one estimator with the
+smallest attainable value stated beside it. And the five contrasts were called
+\emph{confirmatory} when they had been fixed after eighteen rounds of analysis
+on the same data; they are \emph{final-round planned contrasts}, which is
+what the design supports.
+
+\paragraph{Class M --- an interpretation attached to a scale that does not
+carry it}
+One correction (C31). Decision-curve thresholds were read as probability
+thresholds,
+and therefore as cost ratios, on scores whose calibration slope was reported
+in the same manuscript as far from one. Section~\ref{sec:calibfirst} refits
+every model contributing to a decision-curve conclusion under a training-only
+calibration and labels raw-score curves as score-threshold sensitivity
+analyses, which is what they are.
+
+\paragraph{What found these, and what to take from it}
+Of the corrections above, those found in the project's own work divide by
 \emph{method} rather than by class. The estimand error (C20) was found by
 constructing two experiments that could each have confirmed the comfortable
 reading and having both refuse. The aggregation error (C21) and the

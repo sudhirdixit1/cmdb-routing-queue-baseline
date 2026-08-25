@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+world & bias vs limit & width (basic) & fixed pct & fixed basic & fixed bc & nested pct & nested basic & nested bc & m-out-of-n \\
+\midrule
+drift & 0.000 & 0.037 & 0.919 & 0.917 & 0.914 & 0.966 & 0.919 & 0.920 & -- \\
+imbalanced & -0.010 & 0.116 & 0.906 & 0.906 & 0.900 & 0.933 & 0.933 & 0.923 & -- \\
+linear & -0.002 & 0.060 & 0.925 & 0.931 & 0.915 & 0.939 & 0.931 & 0.921 & 0.768 \\
+noisy & -0.002 & 0.036 & 0.926 & 0.924 & 0.916 & 0.936 & 0.948 & 0.939 & -- \\
+nonlinear & -0.002 & 0.044 & 0.923 & 0.923 & 0.924 & 0.940 & 0.929 & 0.929 & 0.758 \\
+sparse & -0.012 & 0.034 & 0.631 & 0.643 & 0.620 & 0.372 & 0.899 & 0.631 & 0.728 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Coverage of the estimator's own limit $V_{\mathrm{limit}}$ in each simulated world, under seven interval constructions, at the replicate count of Section~\ref{sec:sim}, with the estimator's bias against that limit and the mean width of the interval this paper reports. Nominal is $0.95$; the Monte Carlo standard error on a coverage is \simCoverageSE\ percentage points, so differences below about a point are not differences. An empty cell is a construction not priced on that world.}
+\label{tab:sim31}
+\end{table}

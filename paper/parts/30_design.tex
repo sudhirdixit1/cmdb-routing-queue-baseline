@@ -11,7 +11,7 @@ version history shows the registering commit adding one file and no result
 file; \texttt{git log -{}-stat} is the check, and \texttt{REPRODUCE.md}
 names the commit. Six amendments were declared afterwards, each with its date,
 its cause and the result it changed, and all six are in
-\ref{app:protocol} rather than folded silently into the rules.
+Supplement~\ref{app:protocol} rather than folded silently into the rules.
 
 \subsection{Roles}
 
@@ -34,8 +34,8 @@ relabelling of the activity, nor a deterministic coarsening of $f$.
 
 Coarsenings of $f$ --- its type, its subtype, the service it belongs to ---
 are given their own role rather than being swept into $B_0$, because which
-\emph{layer} of a register pays is a separate question and is
-\ref{app:layers}.
+\emph{layer} of a register pays is a separate question, answered in
+Supplement~\ref{app:layers}.
 
 \subsection{Targets, splits and exclusions}
 
@@ -49,30 +49,48 @@ for event logs specifically, the discipline of
 \citet{weytjens2022leakage}. A log--target pair is excluded only for a
 registered reason --- too few cases, no variation in the test half, a prevalence outside
 $[\prevLo, \prevHi]$, or the absence of one of the three roles --- and every
-exclusion is reported with its code in Table~\ref{tab:corpus}.
+exclusion is reported with its code in Table~\ref{tab:corpus}, which accounts
+for every downloaded log that is not among the admitted pairs --- including
+the \nHeldOutLogs\ that were downloaded as a held-out set for a separate test
+and never offered to these rules at all.
 
-\input{tables/corpus}
 
-\textbf{Every admitted pair is analysed and reported.} An earlier version of
-this work ran the full surface on the three logs whose \emph{reduction} was
-resolvable, which conditions the analysis on the outcome and is the referee's
-ninth objection. Here the surface is computed on all \nPairs\ admitted pairs
-through one code path, and the pairs on which the register is worth nothing,
-or is worth something only under some specifications, are in the same tables
-as the rest.
+\textbf{Every admitted pair is analysed and reported.} Running the full
+surface only on the logs whose \emph{reduction} is resolvable would condition
+the analysis on the outcome. The surface is computed on all \nPairs\ admitted
+pairs through one code path, and the pairs on which the register is worth
+nothing are in the same tables as the rest.
 
 \subsection{What the corpus does and does not have in common}
+\label{sec:construct}
+
 
 The corpus is \nLogs\ public logs spanning \nDomains\ domains, and it includes
 the further ITSM logs the literature uses
 \citep{steeman2013bpic,amaral2018incident}. It is heterogeneous and the paper
-does not claim otherwise. The
-registers are a configuration item, a caller, a product, a vendor, a diagnosis
-and a legal article; the free fields are an assignment group, an assignee, a
-resource and a role; the targets mean different things in a bank's incident
-queue, a hospital's admissions and a municipality's permits. This is a
-\emph{benchmark of specification sensitivity across heterogeneous prediction
-problems}, not a replication of one finding on three organisations, and
-Section~\ref{sec:multilog} reports it as such. Where two pairs share a
-construct closely enough to be compared, the comparison is named; where they
-do not, the numbers sit side by side and are not averaged.
+does not claim otherwise. The registers are a configuration item, a caller, a
+product, a vendor, a diagnosis and a legal article; the free fields are an
+assignment group, an assignee, a resource and a role; the targets mean
+different things in a bank's incident queue, a hospital's admissions and a
+municipality's permits.
+
+Table~\ref{tab:construct} makes that explicit rather than leaving it to a
+sentence. For every pair it names the domain, the field playing the register
+role, why that field behaves as a maintained and reused entity, the free
+field, the interpretation of the target, and the specific threat to construct
+validity that the pair carries. A diagnosis code is admitted as a register by
+a cardinality-and-reuse rule, and it is not a configuration management
+database; a legal article is reused across cases but nobody maintains a
+discovery process for it. Those are threats, they are named per pair, and the
+paper's conclusions are stated at a level that survives them.
+
+This is therefore a \emph{benchmark of specification sensitivity across
+heterogeneous prediction problems}, not a replication of one finding on
+several organisations, and two disciplines follow. No domain-specific effect
+magnitude is averaged across domains as though it estimated one universal
+register value: the corpus-level statistics are all about \emph{sensitivity},
+which is a property each pair has separately and which can be summarised
+across pairs without assuming they measure one thing. And the \nITSMPairs\
+ITSM-like pairs, the closest family to the case study, are analysed as a group
+as well, with \emph{every} headline corpus statistic reported on both
+populations in Section~\ref{sec:family}.

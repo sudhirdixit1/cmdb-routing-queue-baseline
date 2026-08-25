@@ -1,0 +1,162 @@
+
+Section~\ref{sec:inference} states what each of the reporting objects is and
+why it is that and not something else. This appendix carries the constructions
+themselves, so that the section can be read for the argument and this one for
+the arithmetic. What is here is the detail a reader would need to reimplement
+the objects without reading the code.
+
+\subsection*{The multiplier bootstrap for the max-$t$ critical value}
+\label{app:multiplier}
+
+Let $\mathcal{F}$ be the declared family, $V^{(b)}_c$ the $b$th bootstrap draw
+at cell $c$, $\bar V_c$ the draw mean and $\hat\sigma_c$ the per-cell
+bootstrap standard error. Standardise the draw matrix,
+\[
+Z_{b,c} \;=\; \frac{V^{(b)}_c - \bar V_c}{\hat\sigma_c},
+\qquad b = 1,\dots,B, \quad c \in \mathcal{F},
+\]
+and let $e_1,\dots,e_B$ be independent standard normals drawn afresh for each
+replicate. The \emph{multiplier} statistic is
+\[
+T^{(\mathrm{mult})} \;=\; \max_{c \in \mathcal{F}}
+\Bigl| B^{-1/2}\textstyle\sum_{b} e_b Z_{b,c} \Bigr| .
+\]
+Conditionally on the draws, $B^{-1/2}\sum_b e_b Z_{b,\cdot}$ is a centred
+Gaussian vector whose covariance is exactly the empirical covariance of the
+standardised draws, so the distribution of $T^{(\mathrm{mult})}$ approximates
+that of the max-$t$ statistic without any further refitting
+\citep{chernozhukov2013gaussian}. The critical value $q_{1-\alpha}$ is the
+$(1-\alpha)$ quantile of \nMultiplier\ such replicates, generated in chunks so
+that the ${\nMultiplier}\times B$ normal matrix is never held at once.
+
+Two properties are worth stating because they are the reason the construction
+is used here. The precision of $q$ is governed by the number of multiplier
+replicates and not by $B$, so a design whose fitting budget is fixed by the
+cost of refitting an entire pipeline can still resolve its critical value; and
+because the multiplier draws are conditional on the observed $Z$, the
+construction inherits whatever dependence the moving-block resampling induced
+across cells, which is what a family-wise statement over a correlated surface
+requires. The approximation is asymptotic in the same sense the max-$t$ band
+is: it needs the high-dimensional central limit theorem to hold over a family
+whose size is comparable to the draw count, which Section~\ref{sec:lim} states
+as an assumption rather than a guarantee.
+
+The Monte Carlo interval for $q$ itself is retained. Writing
+$[q^-, q^+]$ for the order-statistic interval of the multiplier quantile, a
+cell is called \emph{resolved} only if its band excludes zero at $q^+$, so
+residual Monte Carlo noise leaves cells unresolved rather than resolving them
+in the wrong direction.
+
+\subsection*{Fieller's construction for the reduction}
+\label{app:fieller}
+
+For $\vartheta = V_1 / V_0$ with estimates $(\hat v_0, \hat v_1)$ and
+bootstrap covariance $(\hat s_{00}, \hat s_{11}, \hat s_{01})$, Fieller's
+theorem gives the confidence set
+\[
+\Bigl\{\vartheta : (\hat v_1 - \vartheta \hat v_0)^2 \leq
+z^2\bigl(\hat s_{11} - 2\vartheta \hat s_{01} +
+\vartheta^2 \hat s_{00}\bigr)\Bigr\},
+\]
+whose boundary solves a quadratic in $\vartheta$ with leading coefficient
+$\hat v_0^2 - z^2 \hat s_{00}$. When that coefficient is positive the set is a
+bounded interval. When it is zero or negative --- which is exactly the case in
+which the denominator $\hat v_0$ is not resolvably different from zero at
+level $z$ --- the set is a half-line, the whole line, or the complement of an
+interval, and reporting a bounded interval for it is reporting a set that is
+not the confidence set. \texttt{results/s02\_fieller.csv} records the kind of
+every set this paper computes, in its \texttt{fieller\_kind} column.
+
+\subsection*{The three regret designs}
+\label{app:regretdesigns}
+
+Section~\ref{sec:regretdef} defines the misreport rate $M(s)$ and the regret
+$G(s)$ and explains why an average of $G$ taken across instruments has no
+units. The three designs it names are constructed as follows.
+
+\begin{description}
+\item[A. Metric-specific.] For each scalar instrument $m$ separately, the
+admissible set is restricted to the cells whose metric axis is at $m$, and
+$M(s)$ and $G(s)$ are computed over that restriction under the declared
+measure. Every reported value carries the name of its unit, and no average is
+taken across instruments. The only cross-instrument statement the design
+permits is a count: in how many of the five instruments the \emph{direction}
+of a conclusion is the same, and which ones it is not --- and
+Section~\ref{sec:rules} reports both, because on this corpus two of those
+counts are four and not five. The design assumes nothing beyond the measure,
+and it is what the headline uses.
+
+\item[B. Common operational utility.] Net benefit at threshold $t$,
+\[
+\mathrm{NB}(t) \;=\; \frac{\mathrm{TP}(t)}{n}
+\;-\; \frac{\mathrm{FP}(t)}{n}\cdot\frac{t}{1-t},
+\]
+is measured in true positives per case at an exchange rate the threshold
+declares, so values at different thresholds are cardinally comparable and may
+be averaged. The increment is the difference in net benefit between the two
+arms at the same threshold, computed only on calibrated probabilities
+(Section~\ref{sec:dca}) because a threshold read as a cost ratio requires one.
+The resulting quantity is called \emph{decision} regret rather than
+predictive-performance regret. The design assumes a distribution over
+thresholds, which is declared and varied rather than fixed.
+
+\item[C. Partial identification.] If a reader insists on one number across
+instruments, the answer depends on a map $\phi$ from an instrument's units to
+theirs. Five are declared, in
+\texttt{s23\_regret.UTILITY\_MAPS}: the \emph{identity}; division by the
+instrument's remaining \emph{headroom}, the distance left to a perfect score;
+division by the increment's \emph{standard deviation} across the surface; a
+signed \emph{square root}; and a logistic squashing of the standardised
+increment. Each is increasing in the increment and each divides only by
+positive quantities, so all five fix zero and the \emph{sign} of an increment
+is invariant to every one of them; what moves is the relative magnitude an
+instrument contributes to a mixed average. The conclusion is reported as its
+\emph{range} over the family together with the part invariant to all of it,
+which is exactly the part the design declines to identify.
+\end{description}
+
+Designs A and C are computed on the full declared surface, since neither needs
+a bootstrap draw. Design B is computed on the calibrated decision-curve cells
+of Section~\ref{sec:dca}.
+
+\subsection*{Estimating the decomposition}
+\label{app:sobolest}
+
+Write $\mathbb{P} = \bigotimes_i w_i$ for the product measure over the axes.
+Every subset $u$ of axes has a component $g_u$ given by the M\"obius sum over
+the conditional means,
+\[
+g_u(x_u) \;=\; \sum_{v \subseteq u} (-1)^{|u| - |v|}\,
+\mathbb{E}_{\mathbb{P}}\!\left[V \mid x_v\right],
+\qquad
+D_u \;=\; \mathbb{E}_{\mathbb{P}}\!\left[g_u^2\right],
+\]
+and the components are mutually orthogonal, so
+$\sum_{u \neq \emptyset} D_u = \operatorname{Var}(V)$ exactly. The first-order
+and total indices of Section~\ref{sec:sobol} are $S_i = S_{\{i\}}$ and
+$S_{T_i} = \sum_{u \ni i} S_u$ for $S_u = D_u/\operatorname{Var}(V)$.
+
+The components are computed exactly rather than by
+a sampling estimator, which the complete factorial makes possible. For that
+product measure the conditional means
+$\mathbb{E}_{\mathbb{P}}[V \mid x_v]$ are weighted group means over the cell
+table, one for each of the $2^k$ subsets $v$ of the $k$ axes; the M\"obius sum
+then gives every $g_u$ and every $D_u = \mathbb{E}_{\mathbb{P}}[g_u^2]$. The
+implementation forms the group index once with a mixed-radix encoding of the
+axis levels and reuses it for all $2^k$ subsets, so the cost is $2^k$ passes
+over the cell table rather than $2^k$ table joins.
+
+Three checks run on every decomposition and are recorded rather than assumed.
+The disjoint components must sum to the variance, which is asserted
+numerically on all \nDecompositions\ decompositions. Duplicating a level with
+its weight split must leave every component unchanged, and does, to
+\invarianceDuplicateShift. Refining the operating-point grid under the same
+underlying continuous measure must leave the threshold axis's index unchanged,
+and moves it by \invarianceGridShift.
+
+Where the inference surface supplies draws, the whole decomposition is
+recomputed inside every draw, which gives an interval for every index rather
+than a point; corpus-level medians are bootstrapped with the log--target pair
+as the resampling unit, because pairs and not cells are the independent
+objects. No axis is called dominant anywhere in this paper where those
+intervals overlap.

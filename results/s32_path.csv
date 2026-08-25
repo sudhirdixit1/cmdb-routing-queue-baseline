@@ -1,0 +1,6 @@
+step,ordering,cohort,target,V,lo,hi,resolved,delta
+the case study as published,undeclared,reassignment,reassignment,-0.0032197248522803923,,,False,
+"the case study, tie-break declared",source_order,reassignment,reassignment,-0.0028649673662244357,-0.007304824566978724,0.0020329810950659,False,0.0003547574860559566
+then the other tie-break rule,identifier,reassignment,reassignment,-0.0028649673662244357,-0.007304824566978724,0.0020329810950659,False,0.0
+then the registered cohort,identifier,registered,reassignment,-0.0038470863058431837,-0.008983253920502967,0.0006879810459565899,False,-0.000982118939618748
+then the registered target,identifier,registered,handover,0.0076842335265743245,-0.0016067450759496421,0.01217393002731389,False,0.011531319832417508

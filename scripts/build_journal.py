@@ -81,7 +81,14 @@ def main():
 
     pdflatex, bibtex = find("pdflatex"), find("bibtex")
 
+    #  ROUND TWENTY-ONE.  Two documents now: the article and its supplement,
+    #  which reference each other through `xr'.  Both are copied, both are
+    #  built, and the article is built again afterwards so that a reference
+    #  to a supplement section resolves to the number the supplement settled
+    #  on rather than to the one it had on the first pass.
+    supp = "supplement" if (PAPER / "supplement.tex").exists() else None
     for f in [f"{STEM}.tex", "references.bib"] + \
+             ([f"{supp}.tex"] if supp else []) + \
              [p.name for p in sorted(PAPER.glob("*.png"))]:
         shutil.copy2(PAPER / f, out / f)
     #  ROUND NINETEEN.  The manuscript \input's a GENERATED macro file and a
@@ -95,19 +102,56 @@ def main():
             (out / sub).mkdir(exist_ok=True)
             for f in (PAPER / sub).glob("*.tex"):
                 shutil.copy2(f, out / sub / f.name)
-    for f in out.glob(f"{STEM}.*"):
-        if f.suffix in (".aux", ".bbl", ".blg", ".pdf", ".log"):
-            f.unlink()
+    for stem in [STEM] + ([supp] if supp else []):
+        for f in out.glob(f"{stem}.*"):
+            if f.suffix in (".aux", ".bbl", ".blg", ".pdf", ".log"):
+                f.unlink()
 
-    tex = [pdflatex, "-interaction=nonstopmode", "--enable-installer",
-           f"{STEM}.tex"]
-    run(tex, out, "p1.log")
-    blog = run([bibtex, STEM], out, "b1.log")
-    if "I couldn't open" in blog or "Illegal" in blog:
-        print(blog)
-        sys.exit("bibtex failed")
-    run(tex, out, "p2.log")
-    log = run(tex, out, "p3.log")
+    def tex_for(stem):
+        return [pdflatex, "-interaction=nonstopmode", "--enable-installer",
+                f"{stem}.tex"]
+
+    def build_one(stem, tag):
+        run(tex_for(stem), out, f"{tag}1.log")
+        blog = run([bibtex, stem], out, f"{tag}b.log")
+        if "I couldn't open" in blog or "Illegal" in blog:
+            print(blog)
+            sys.exit(f"bibtex failed on {stem}")
+        run(tex_for(stem), out, f"{tag}2.log")
+        return run(tex_for(stem), out, f"{tag}3.log")
+
+    log = build_one(STEM, "p")
+    if supp:
+        slog = build_one(supp, "s")
+        #  the article again, now that the supplement's numbers exist, and
+        #  the supplement again, now that the article's do
+        log = build_one(STEM, "p")
+        slog = build_one(supp, "s")
+        serrs = [l for l in slog.splitlines() if l.startswith("!")]
+        sundef = [l for l in slog.splitlines()
+                  if "Warning" in l and "undefined" in l.lower()
+                  and "Font" not in l]
+        spdf = out / f"{supp}.pdf"
+        if serrs or not spdf.exists():
+            print("\n".join(serrs) or "no supplement PDF produced")
+            sys.exit("SUPPLEMENT BUILD FAILED")
+        spages = next((l for l in slog.splitlines()
+                       if "Output written" in l), "")
+        shutil.copy2(spdf, PAPER / f"{supp}.pdf")
+        print(f"OK  {spdf}")
+        print(f"    {spages.strip()}")
+        #  ROUND TWENTY-TWO.  This line reported the ARTICLE's overfull boxes
+        #  and nothing else, so seventy cells spilling past their column edge
+        #  in the supplement sat unreported through four rounds.  A build
+        #  summary that checks one of two documents is worse than none.
+        sover = [l for l in slog.splitlines()
+                 if l.startswith("Overfull \\hbox")]
+        print(f"    {len(sover)} overfull hboxes in the supplement")
+        if sundef:
+            print(f"    {len(sundef)} UNDEFINED in supplement:")
+            for u in sundef[:10]:
+                print(f"      {u.strip()}")
+            sys.exit("undefined references in the supplement")
 
     errs = [l for l in log.splitlines() if l.startswith("!")]
     #  A `Font shape ... undefined' warning is a substitution, not a broken

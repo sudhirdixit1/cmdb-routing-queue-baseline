@@ -1,0 +1,2 @@
+n_cohort,prevalence,card_register,n_quality_points,n_sweep_levels,n_seeds,n_draws,n_failed,V_clean,V_rare_half,V_common_half,V_random_half,V_corrupt_thirty,V_duplicate_all,V_stale,V_lag_half,D_ref,D_ref_lo,D_ref_hi,R_ref,R_ref_kind,n_fieller,n_fieller_unbounded,runtime_s
+45455,0.4004619953800462,2929,16,11,3,400,0,0.10344533795377764,0.08189268994032295,0.07083362450492758,0.06763935702682915,0.0688693671186295,0.10153844022069929,0.10344533795377764,0.10735306790821308,0.08035927444365976,0.06259666989710819,0.09135516842784945,0.43719944453787885,bounded,30,0,255.6

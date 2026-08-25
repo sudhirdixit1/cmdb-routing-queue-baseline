@@ -1,0 +1,33 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{llrrrrrr}
+\toprule
+log & target & raw slope & platt slope & isotonic slope & raw ece & platt ece & isotonic ece \\
+\midrule
+BPIC13\_closed & handover & 0.332 & 1.005 & 0.886 & 0.149 & 0.120 & 0.096 \\
+BPIC13\_incidents & duration & 0.575 & 1.052 & 0.902 & 0.295 & 0.304 & 0.296 \\
+BPIC13\_incidents & handover & 0.743 & 1.334 & 1.049 & 0.140 & 0.149 & 0.142 \\
+BPIC14 & duration & 0.945 & 1.117 & 1.050 & 0.056 & 0.056 & 0.056 \\
+BPIC14 & handover & 0.952 & 1.049 & 0.995 & 0.017 & 0.015 & 0.015 \\
+BPIC15\_1 & duration & 0.731 & 1.812 & 1.118 & 0.208 & 0.172 & 0.152 \\
+BPIC15\_1 & handover & 0.778 & 1.654 & 1.466 & 0.075 & 0.066 & 0.050 \\
+BPIC15\_3 & duration & 0.886 & 1.225 & 1.109 & 0.190 & 0.152 & 0.152 \\
+BPIC15\_3 & handover & 0.450 & 1.247 & 0.904 & 0.071 & 0.057 & 0.039 \\
+BPIC15\_4 & duration & 0.025 & 0.028 & -0.013 & 0.364 & 0.313 & 0.340 \\
+BPIC15\_4 & handover & 0.282 & 0.701 & 0.456 & 0.086 & 0.071 & 0.080 \\
+BPIC15\_5 & duration & 0.263 & 0.853 & 0.414 & 0.252 & 0.209 & 0.211 \\
+BPIC17 & duration & 0.868 & 1.165 & 1.031 & 0.023 & 0.019 & 0.017 \\
+BPIC19 & duration & 0.293 & 0.355 & 0.372 & 0.339 & 0.338 & 0.338 \\
+Helpdesk & duration & 0.490 & 0.731 & 0.622 & 0.088 & 0.066 & 0.065 \\
+RoadFines & duration & 0.688 & 0.720 & 1.377 & 0.081 & 0.086 & 0.081 \\
+Sepsis & duration & 0.456 & 0.830 & 0.554 & 0.147 & 0.086 & 0.089 \\
+UCI498 & duration & 0.882 & 1.534 & 1.333 & 0.104 & 0.185 & 0.175 \\
+UCI498 & handover & 1.077 & 1.453 & 1.203 & 0.041 & 0.063 & 0.047 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Calibration before and after a training-only recalibration, one row per log--target pair: the median calibration slope and expected calibration error over the arms of the baseline ladder, raw and under each calibrator. A slope far from one is a score whose thresholds are not cost ratios; only curves computed on calibrated probabilities carry a probability-threshold reading.}
+\label{tab:calib2}
+\end{table}

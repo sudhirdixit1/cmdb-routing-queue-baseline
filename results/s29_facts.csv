@@ -1,0 +1,2 @@
+n_invariance_checks,invariance_max_shift,n_psis,n_rank_based,n_non_rank_based,n_certificates,certificate_min_shift,certificate_max_shift,n_instruments_certified,wider_m_change_affine,wider_R_shift_affine,wider_R_shift_nonaffine,prop1_auc_gap,prop1_ap_gap,runtime_s
+2400,0.0,6,2,3,18,0.24072766521741906,1.9424933339684447,3,0.07954531351393085,1.9095836023552692e-14,0.6379465982572632,2.220446049250313e-16,0.4166666666666665,143.1

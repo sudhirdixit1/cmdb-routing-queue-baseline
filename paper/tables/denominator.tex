@@ -1,0 +1,33 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllllllllllllllr}
+\toprule
+log & target & learners & splits & quality & rungs & metrics & declared scalar & computed scalar & model fits & duplicates & missing & inference cells & draws & register levels K & K / n train \\
+\midrule
+BPIC13\_closed & handover & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 337 & 0.324 \\
+BPIC13\_incidents & duration & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 704 & 0.133 \\
+BPIC13\_incidents & handover & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 704 & 0.133 \\
+BPIC14 & duration & 4 & 6 & 10 & 4 & 5 & 4800 & 4800 & 1200 & 0 & 0 & 96 & 150 & 3019 & 0.093 \\
+BPIC14 & handover & 4 & 6 & 10 & 4 & 5 & 4800 & 4800 & 1200 & 0 & 0 & 96 & 150 & 3019 & 0.093 \\
+BPIC15\_1 & duration & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 89 & 0.106 \\
+BPIC15\_1 & handover & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 89 & 0.106 \\
+BPIC15\_3 & duration & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 94 & 0.095 \\
+BPIC15\_3 & handover & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 94 & 0.095 \\
+BPIC15\_4 & duration & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 150 & 53 & 0.072 \\
+BPIC15\_4 & handover & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 150 & 53 & 0.072 \\
+BPIC15\_5 & duration & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 150 & 107 & 0.132 \\
+BPIC17 & duration & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 701 & 0.032 \\
+BPIC19 & duration & 3 & 6 & 6 & 3 & 5 & 1620 & 1620 & 432 & 0 & 0 & 24 & 40 & 1975 & 0.011 \\
+Helpdesk & duration & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 394 & 0.123 \\
+RoadFines & duration & 3 & 6 & 6 & 3 & 5 & 1620 & 1620 & 432 & 0 & 0 & 24 & 40 & 66 & 0.001 \\
+Sepsis & duration & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 150 & 147 & 0.200 \\
+UCI498 & duration & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 5245 & 0.301 \\
+UCI498 & handover & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 80 & 5245 & 0.301 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{The surface denominator audit. For every log--target pair: the declared level count on each axis, then two counts \emph{on the same basis} --- the admissible scalar cells the declaration multiplies out, and the same cells counted in the surface file --- which are equal on every pair. `model fits' is a different quantity and is printed separately: it counts fitted arms before the expansion over instruments and \emph{includes} the intercept-only rung, which the master surface carries so that the surface is complete and which no admissible set contains. Then duplicates, missing combinations, the size and draw count of the inference surface, the register's cardinality and its ratio to the training row count, which Section~\ref{sec:simsensitivity} shows is what governs whether the bands cover at their nominal level.}
+\label{tab:denominator}
+\end{table}

@@ -1,0 +1,26 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}%
+\renewcommand{\arraystretch}{1.15}%
+\hyphenpenalty=50 \exhyphenpenalty=50 \emergencystretch=1em\relax%
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}}
+\toprule
+statistic & all 19 & itsm 8 & other 11 \\
+\midrule
+baseline spread (AUC) & 0.073 [0.024, 0.097] & 0.070 [0.014, 0.132] & 0.088 [0.022, 0.097] \\
+higher-order share & 0.560 [0.409, 0.608] & 0.365 [0.233, 0.450] & 0.608 [0.532, 0.732] \\
+largest first-order index & 0.287 [0.185, 0.352] & 0.355 [0.278, 0.358] & 0.201 [0.151, 0.305] \\
+misreport, all cells & 0.328 [0.243, 0.452] & 0.271 [0.244, 0.481] & 0.353 [0.191, 0.617] \\
+misreport, analyst latitude only & 0.200 [0.100, 0.467] & 0.194 [0.067, 0.367] & 0.400 [0.067, 0.600] \\
+misreport, magnitude-weighted & 0.502 [0.102, 0.623] & 0.296 [0.025, 0.623] & 0.507 [0.139, 0.640] \\
+misreport, resolved cells (pooled) & 0.075 & 0.036 & 0.222 \\
+robustness index rho (calibrated) & 0.017 [0.000, 0.182] & 0.069 [-0.006, 0.552] & 0.000 [0.000, 0.182] \\
+one-number excess regret (AUC) & 0.000 [0.000, 0.003] & 0.000 [0.000, 0.011] & 0.000 [0.000, 0.005] \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Every headline corpus statistic on three populations: all nineteen log--target pairs, the eight from IT service management where the register is a maintained configuration or customer register, and the eleven where it is not. Each cell is the statistic with a 95\% percentile interval from a cluster bootstrap that resamples LOGS, because two targets on the same log share a cohort and are not two independent observations. The resolved-cell row is a pooled ratio --- disagreeing cells over resolved cells, summed across the population --- and not a median of per-pair rates, which on a population where most pairs resolve little prints zero and says nothing.}
+\label{tab:family}
+\end{table}

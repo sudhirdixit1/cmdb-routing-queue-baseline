@@ -4,30 +4,30 @@
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{llrrrrrr}
 \toprule
-log & target & learner & metric & quality level & rung & split & interaction \\
+log & target & learner & quality & rung & split & higher-order total & largest involvement \\
 \midrule
-BPIC13\_closed & handover & 0.048 & 0.105 & 0.014 & 0.039 & 0.111 & 0.482 \\
-BPIC13\_incidents & duration & 0.023 & 0.075 & 0.011 & 0.004 & 0.158 & 0.634 \\
-BPIC13\_incidents & handover & 0.020 & 0.053 & 0.031 & 0.007 & 0.094 & 0.670 \\
-BPIC14 & duration & 0.096 & 0.244 & 0.104 & 0.301 & 0.008 & 0.180 \\
-BPIC14 & handover & 0.319 & 0.139 & 0.065 & 0.154 & 0.007 & 0.263 \\
-BPIC15\_1 & duration & 0.025 & 0.101 & 0.005 & 0.034 & 0.141 & 0.556 \\
-BPIC15\_1 & handover & 0.003 & 0.036 & 0.027 & 0.004 & 0.060 & 0.680 \\
-BPIC15\_3 & duration & 0.026 & 0.080 & 0.068 & 0.002 & 0.184 & 0.483 \\
-BPIC15\_3 & handover & 0.005 & 0.064 & 0.001 & 0.019 & 0.125 & 0.572 \\
-BPIC15\_4 & duration & 0.029 & 0.021 & 0.007 & 0.012 & 0.156 & 0.680 \\
-BPIC15\_4 & handover & 0.064 & 0.024 & 0.038 & 0.000 & 0.017 & 0.676 \\
-BPIC15\_5 & duration & 0.098 & 0.091 & 0.020 & 0.043 & 0.043 & 0.592 \\
-BPIC17 & duration & 0.005 & 0.341 & 0.046 & 0.062 & 0.087 & 0.332 \\
-BPIC19 & duration & 0.000 & 0.188 & 0.013 & 0.004 & 0.507 & 0.251 \\
-Helpdesk & duration & 0.138 & 0.217 & 0.065 & 0.000 & 0.151 & 0.325 \\
-RoadFines & duration & 0.001 & 0.475 & 0.084 & 0.046 & 0.029 & 0.276 \\
-Sepsis & duration & 0.075 & 0.285 & 0.075 & 0.006 & 0.061 & 0.416 \\
-UCI498 & duration & 0.020 & 0.161 & 0.008 & 0.163 & 0.116 & 0.458 \\
-UCI498 & handover & 0.040 & 0.079 & 0.025 & 0.308 & 0.057 & 0.381 \\
+BPIC13\_closed & handover & 0.110 & 0.029 & 0.075 & 0.203 & 0.560 & 0.437 \\
+BPIC13\_incidents & duration & 0.036 & 0.029 & 0.029 & 0.384 & 0.409 & 0.372 \\
+BPIC13\_incidents & handover & 0.024 & 0.099 & 0.169 & 0.172 & 0.308 & 0.251 \\
+BPIC14 & duration & 0.242 & 0.151 & 0.359 & 0.013 & 0.233 & 0.180 \\
+BPIC14 & handover & 0.314 & 0.127 & 0.307 & 0.010 & 0.233 & 0.183 \\
+BPIC15\_1 & duration & 0.041 & 0.039 & 0.055 & 0.263 & 0.614 & 0.548 \\
+BPIC15\_1 & handover & 0.018 & 0.036 & 0.075 & 0.079 & 0.575 & 0.476 \\
+BPIC15\_3 & duration & 0.003 & 0.081 & 0.025 & 0.287 & 0.607 & 0.490 \\
+BPIC15\_3 & handover & 0.002 & 0.004 & 0.128 & 0.189 & 0.662 & 0.547 \\
+BPIC15\_4 & duration & 0.060 & 0.025 & 0.011 & 0.111 & 0.732 & 0.655 \\
+BPIC15\_4 & handover & 0.022 & 0.031 & 0.035 & 0.050 & 0.793 & 0.643 \\
+BPIC15\_5 & duration & 0.078 & 0.042 & 0.057 & 0.036 & 0.749 & 0.664 \\
+BPIC17 & duration & 0.000 & 0.062 & 0.001 & 0.346 & 0.590 & 0.494 \\
+BPIC19 & duration & 0.014 & 0.011 & 0.003 & 0.491 & 0.474 & 0.418 \\
+Helpdesk & duration & 0.262 & 0.086 & 0.008 & 0.222 & 0.339 & 0.314 \\
+RoadFines & duration & 0.009 & 0.289 & 0.032 & 0.192 & 0.449 & 0.424 \\
+Sepsis & duration & 0.021 & 0.145 & 0.008 & 0.134 & 0.608 & 0.574 \\
+UCI498 & duration & 0.048 & 0.030 & 0.056 & 0.399 & 0.433 & 0.391 \\
+UCI498 & handover & 0.079 & 0.071 & 0.287 & 0.136 & 0.390 & 0.285 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{First-order sensitivity indices on the headroom scale: the share of the variance in the increment across specifications explained by each design axis alone. The five do not sum to one, and the last column is the largest per-axis interaction share $S_{T_i} - S_i$ on that pair, which is where the remainder lives. Total indices per axis are in results/s03\_sobol.csv.}
+\caption{The corrected sensitivity decomposition, within instrument, under the equal-level measure. The four first-order indices, then the TOTAL higher-order share $1-\sum_i S_i$ of Equation~\eqref{eq:inttotal}, then the largest per-axis interaction involvement $\max_i(S_{T_i}-S_i)$ --- which is the quantity an earlier version reported as the interaction share and which is not it, because those differences overlap across axes.}
 \label{tab:sobol}
 \end{table}

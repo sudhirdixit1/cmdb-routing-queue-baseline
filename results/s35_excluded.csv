@@ -1,0 +1,119 @@
+log,target,learner,rung,slope_min,slope_max,n_arms,n_ok,admitted,reason
+BPIC13_closed,handover,hgb,B_half,-0.4022408475514717,-0.1962860385306671,2,0,False,recalibrated slope below 0.5
+BPIC13_closed,handover,hgb,B_intake,0.3253493276127545,0.9074171135068378,2,1,False,recalibrated slope below 0.5
+BPIC13_closed,handover,hgb,B_intake_g,2.0147697645706977,2.5952906793854083,2,0,False,recalibrated slope above 2.0
+BPIC13_closed,handover,logit,B_half,-0.2880415764281883,-0.2012455708781624,2,0,False,recalibrated slope below 0.5
+BPIC13_closed,handover,logit,B_intake,0.8644030511593745,0.9885916610545138,2,2,True,
+BPIC13_closed,handover,logit,B_intake_g,1.0422520811410745,1.1735042633617314,2,2,True,
+BPIC13_incidents,duration,hgb,B_half,0.6654058055933287,0.9150900401955674,2,2,True,
+BPIC13_incidents,duration,hgb,B_intake,0.9260876393397748,1.048708325426835,2,2,True,
+BPIC13_incidents,duration,hgb,B_intake_g,0.9560205039787092,1.016224057269532,2,2,True,
+BPIC13_incidents,duration,logit,B_half,0.6595432449242832,0.7175333462453155,2,2,True,
+BPIC13_incidents,duration,logit,B_intake,0.8892112639578206,0.9639688345841998,2,2,True,
+BPIC13_incidents,duration,logit,B_intake_g,0.8473099281239368,0.8685042651166103,2,2,True,
+BPIC13_incidents,handover,hgb,B_half,1.048489247007722,1.3050498213653998,2,2,True,
+BPIC13_incidents,handover,hgb,B_intake,1.1810110500416715,1.191752943256946,2,2,True,
+BPIC13_incidents,handover,hgb,B_intake_g,1.069365103477803,1.1074561450405154,2,2,True,
+BPIC13_incidents,handover,logit,B_half,0.9641512958387632,1.0486393075458504,2,2,True,
+BPIC13_incidents,handover,logit,B_intake,0.9003692745392234,1.011765568611171,2,2,True,
+BPIC13_incidents,handover,logit,B_intake_g,0.979519745422826,1.0151961744159017,2,2,True,
+BPIC14,duration,hgb,B_half,1.032805394160287,1.0588159422390304,2,2,True,
+BPIC14,duration,hgb,B_intake,1.0465104191396,1.0537718629553463,2,2,True,
+BPIC14,duration,hgb,B_intake_g,1.0593176014459271,1.0704852091237471,2,2,True,
+BPIC14,duration,hgb,B_intake_g_km,1.1417162695273773,1.149233004103784,2,2,True,
+BPIC14,duration,logit,B_half,0.9942577744021116,1.0292472224713602,2,2,True,
+BPIC14,duration,logit,B_intake,0.9966467596609356,1.0217812302641085,2,2,True,
+BPIC14,duration,logit,B_intake_g,1.018453545020824,1.0222870847305716,2,2,True,
+BPIC14,duration,logit,B_intake_g_km,1.084017718044051,1.1087057603567354,2,2,True,
+BPIC14,handover,hgb,B_half,0.6763895516162699,1.0264656403179069,2,2,True,
+BPIC14,handover,hgb,B_intake,0.6732792606357975,1.0232941639078323,2,2,True,
+BPIC14,handover,hgb,B_intake_g,0.8564309828517513,0.995924912944402,2,2,True,
+BPIC14,handover,hgb,B_intake_g_km,1.0524850779489208,1.0719616684972884,2,2,True,
+BPIC14,handover,logit,B_half,0.724740849294556,0.9902121394511252,2,2,True,
+BPIC14,handover,logit,B_intake,0.723854547725655,0.9930955539978842,2,2,True,
+BPIC14,handover,logit,B_intake_g,0.8538724194618156,1.005007131835391,2,2,True,
+BPIC14,handover,logit,B_intake_g_km,1.0358659438214708,1.0466737445632766,2,2,True,
+BPIC15_1,duration,hgb,B_half,0.9289175763063316,0.989523803474008,2,2,True,
+BPIC15_1,duration,hgb,B_intake,1.445552575382768,1.4880121393021408,2,2,True,
+BPIC15_1,duration,hgb,B_intake_g,1.644535683507242,1.8813271941419123,2,2,True,
+BPIC15_1,duration,logit,B_half,0.3377665508345558,0.7634679075581307,2,1,False,recalibrated slope below 0.5
+BPIC15_1,duration,logit,B_intake,0.9182853072461592,1.2461287279684554,2,2,True,
+BPIC15_1,duration,logit,B_intake_g,0.9491504329611692,1.3150721040069573,2,2,True,
+BPIC15_1,handover,hgb,B_half,0.9592831732700954,0.9818042854631712,2,2,True,
+BPIC15_1,handover,hgb,B_intake,1.7228703504582554,2.3291638497492047,2,1,False,recalibrated slope above 2.0
+BPIC15_1,handover,hgb,B_intake_g,2.000982354302363,3.0731260032828,2,0,False,recalibrated slope above 2.0
+BPIC15_1,handover,logit,B_half,0.8624378203435676,0.9448250646943523,2,2,True,
+BPIC15_1,handover,logit,B_intake,1.3142174866733096,1.4643003835492698,2,2,True,
+BPIC15_1,handover,logit,B_intake_g,1.4676445496167934,1.5871036389451394,2,2,True,
+BPIC15_3,duration,hgb,B_half,1.2024568156877309,1.2781427433492332,2,2,True,
+BPIC15_3,duration,hgb,B_intake,0.9602557930882664,1.345007778115986,2,2,True,
+BPIC15_3,duration,hgb,B_intake_g,1.014791807100306,1.9530096137754005,2,2,True,
+BPIC15_3,duration,logit,B_half,0.388321344092257,0.8293163959759889,2,1,False,recalibrated slope below 0.5
+BPIC15_3,duration,logit,B_intake,0.9765293273525456,1.5370996792815954,2,2,True,
+BPIC15_3,duration,logit,B_intake_g,1.0100477206854392,1.507030918520844,2,2,True,
+BPIC15_3,handover,hgb,B_half,0.3456140731930978,0.591423825571955,2,1,False,recalibrated slope below 0.5
+BPIC15_3,handover,hgb,B_intake,1.0790150650128063,1.6401980597078585,2,2,True,
+BPIC15_3,handover,hgb,B_intake_g,0.8820438514959456,0.9263527382833184,2,2,True,
+BPIC15_3,handover,logit,B_half,0.1283651475621015,0.2349980719555048,2,0,False,recalibrated slope below 0.5
+BPIC15_3,handover,logit,B_intake,0.7020965885240866,1.001320104471246,2,2,True,
+BPIC15_3,handover,logit,B_intake_g,0.931675422491874,0.9997110608505458,2,2,True,
+BPIC15_4,duration,hgb,B_half,-0.1776712413609067,0.3621039864409378,2,0,False,recalibrated slope below 0.5
+BPIC15_4,duration,hgb,B_intake,-0.1456929795928742,-0.0217363332296122,2,0,False,recalibrated slope below 0.5
+BPIC15_4,duration,hgb,B_intake_g,-0.1436316055838059,-0.0761110740256566,2,0,False,recalibrated slope below 0.5
+BPIC15_4,duration,logit,B_half,0.0131535815196189,0.0391843370346741,2,0,False,recalibrated slope below 0.5
+BPIC15_4,duration,logit,B_intake,-0.0463094364100357,0.0866551436460159,2,0,False,recalibrated slope below 0.5
+BPIC15_4,duration,logit,B_intake_g,-0.0047720221205424,0.062877417448179,2,0,False,recalibrated slope below 0.5
+BPIC15_4,handover,hgb,B_half,0.5916548645037043,0.6060992020149838,2,2,True,
+BPIC15_4,handover,hgb,B_intake,0.6293161707172391,0.7152188619743186,2,2,True,
+BPIC15_4,handover,hgb,B_intake_g,0.4479409406536614,0.6550010204929094,2,1,False,recalibrated slope below 0.5
+BPIC15_4,handover,logit,B_half,0.3898478421064414,0.4350861894455586,2,0,False,recalibrated slope below 0.5
+BPIC15_4,handover,logit,B_intake,0.4503103976888372,0.4621640020613644,2,0,False,recalibrated slope below 0.5
+BPIC15_4,handover,logit,B_intake_g,0.018760588909556,0.0712014089329767,2,0,False,recalibrated slope below 0.5
+BPIC15_5,duration,hgb,B_half,-0.2671045420850977,1.2548711494149127,2,1,False,recalibrated slope below 0.5
+BPIC15_5,duration,hgb,B_intake,0.4018687146116076,0.4270370671951419,2,0,False,recalibrated slope below 0.5
+BPIC15_5,duration,hgb,B_intake_g,0.0661011854159792,0.1198033460715355,2,0,False,recalibrated slope below 0.5
+BPIC15_5,duration,logit,B_half,0.2585104476490865,0.4812664885800232,2,0,False,recalibrated slope below 0.5
+BPIC15_5,duration,logit,B_intake,0.437302567220815,0.8069586353334628,2,1,False,recalibrated slope below 0.5
+BPIC15_5,duration,logit,B_intake_g,0.2168713643168112,0.4625464941633615,2,0,False,recalibrated slope below 0.5
+BPIC17,duration,hgb,B_half,1.0533431986953716,1.1642151565408962,2,2,True,
+BPIC17,duration,hgb,B_intake,0.9498814321943015,1.0892352529941631,2,2,True,
+BPIC17,duration,hgb,B_intake_g,0.9522652480772638,1.051914659406131,2,2,True,
+BPIC17,duration,logit,B_half,0.960271604896098,1.1642151565408962,2,2,True,
+BPIC17,duration,logit,B_intake,0.9169750170716932,0.961148668114272,2,2,True,
+BPIC17,duration,logit,B_intake_g,1.0106912256925795,1.071131793692497,2,2,True,
+BPIC19,duration,hgb,B_half,0.3352051005291279,0.7500957806495634,2,1,False,recalibrated slope below 0.5
+BPIC19,duration,hgb,B_intake,0.3342566792404117,0.3986132669234212,2,0,False,recalibrated slope below 0.5
+BPIC19,duration,hgb,B_intake_g,0.3384789191492323,0.4012893297473561,2,0,False,recalibrated slope below 0.5
+BPIC19,duration,logit,B_half,0.3419120100211786,0.7790555881106278,2,1,False,recalibrated slope below 0.5
+BPIC19,duration,logit,B_intake,0.3542085642739015,0.4116438044340889,2,0,False,recalibrated slope below 0.5
+BPIC19,duration,logit,B_intake_g,0.3521147709637769,0.3892820342867091,2,0,False,recalibrated slope below 0.5
+Helpdesk,duration,hgb,B_half,0.526393815826711,0.6206551158340603,2,2,True,
+Helpdesk,duration,hgb,B_intake,0.6232836989552817,0.7551588550196492,2,2,True,
+Helpdesk,duration,hgb,B_intake_g,0.7122659445443862,0.7430565500219598,2,2,True,
+Helpdesk,duration,logit,B_half,0.5580605353149858,0.6002648363696221,2,2,True,
+Helpdesk,duration,logit,B_intake,0.5724718654424942,0.616283394975317,2,2,True,
+Helpdesk,duration,logit,B_intake_g,0.7254325731272843,0.7282551939116352,2,2,True,
+RoadFines,duration,hgb,B_half,0.305612555271008,1.175413778746843,2,1,False,recalibrated slope below 0.5
+RoadFines,duration,hgb,B_intake,1.6129751308919764,2.085329681899696,2,1,False,recalibrated slope above 2.0
+RoadFines,duration,hgb,B_intake_g,1.824408253308173,1.9497428319368708,2,2,True,
+RoadFines,duration,logit,B_half,0.279650797342329,1.087017162980141,2,1,False,recalibrated slope below 0.5
+RoadFines,duration,logit,B_intake,1.579359924858288,1.7047077911221633,2,2,True,
+RoadFines,duration,logit,B_intake_g,0.2714774533380165,0.6657691093616666,2,1,False,recalibrated slope below 0.5
+Sepsis,duration,hgb,B_half,0.5437875036155024,1.2558353516091971,2,2,True,
+Sepsis,duration,hgb,B_intake,0.5612919393717871,0.8690551448696456,2,2,True,
+Sepsis,duration,hgb,B_intake_g,0.6317691625499843,0.9174321574603872,2,2,True,
+Sepsis,duration,logit,B_half,0.5384376531446673,0.9230727284651462,2,2,True,
+Sepsis,duration,logit,B_intake,0.2454940748228017,0.5468923721946142,2,1,False,recalibrated slope below 0.5
+Sepsis,duration,logit,B_intake_g,0.2462431047777224,0.494135029765979,2,0,False,recalibrated slope below 0.5
+UCI498,duration,hgb,B_half,0.562157450077622,1.647794177121509,2,2,True,
+UCI498,duration,hgb,B_intake,1.451560277375524,1.5028178776795305,2,2,True,
+UCI498,duration,hgb,B_intake_g,1.443630400665122,1.4527875697128183,2,2,True,
+UCI498,duration,logit,B_half,0.5731953110252234,0.9615537849452424,2,2,True,
+UCI498,duration,logit,B_intake,1.0748151660991971,1.3134046197638662,2,2,True,
+UCI498,duration,logit,B_intake_g,1.222529651746071,1.3528972355599649,2,2,True,
+UCI498,handover,hgb,B_half,-1.7380351357945183,1.410062926796492,2,1,False,recalibrated slope below 0.5
+UCI498,handover,hgb,B_intake,1.2014596832423456,1.2036705826256808,2,2,True,
+UCI498,handover,hgb,B_intake_g,1.4227192847487726,1.4378694616346064,2,2,True,
+UCI498,handover,logit,B_half,0.0256380828663936,0.7092749016255706,2,1,False,recalibrated slope below 0.5
+UCI498,handover,logit,B_intake,1.084110852255886,1.1121664182028137,2,2,True,
+UCI498,handover,logit,B_intake_g,1.52731319290608,1.554646144913069,2,2,True,

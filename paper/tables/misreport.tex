@@ -1,0 +1,33 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllrlrr}
+\toprule
+log & target & cells & all-cells rate & resolved / of which disagree & resolved rate & magnitude rate \\
+\midrule
+BPIC13\_closed & handover & 1080 & 0.284 & 0 / 0 & -- & 0.111 \\
+BPIC13\_incidents & duration & 1080 & 0.393 & 3 / 0 & 0.000 & 0.812 \\
+BPIC13\_incidents & handover & 1080 & 0.111 & 72 / 0 & 0.000 & 0.482 \\
+BPIC14 & duration & 4800 & 0.106 & 332 / 0 & 0.000 & 0.018 \\
+BPIC14 & handover & 4800 & 0.244 & 269 / 2 & 0.007 & 0.025 \\
+BPIC15\_1 & duration & 1080 & 0.423 & 2 / 0 & 0.000 & 0.502 \\
+BPIC15\_1 & handover & 1080 & 0.242 & 0 / 0 & -- & 0.529 \\
+BPIC15\_3 & duration & 1080 & 0.191 & 10 / 0 & 0.000 & 0.179 \\
+BPIC15\_3 & handover & 1080 & 0.616 & 0 / 0 & -- & 0.565 \\
+BPIC15\_4 & duration & 1080 & 0.623 & 0 / 0 & -- & 0.715 \\
+BPIC15\_4 & handover & 1080 & 0.618 & 0 / 0 & -- & 0.784 \\
+BPIC15\_5 & duration & 1080 & 0.328 & 0 / 0 & -- & 0.507 \\
+BPIC17 & duration & 1080 & 0.353 & 25 / 0 & 0.000 & 0.203 \\
+BPIC19 & duration & 1620 & 0.360 & 38 / 24 & 0.632 & 0.563 \\
+Helpdesk & duration & 1080 & 0.257 & 2 / 0 & 0.000 & 0.102 \\
+RoadFines & duration & 1620 & 0.173 & 63 / 18 & 0.286 & 0.099 \\
+Sepsis & duration & 1080 & 0.056 & 51 / 0 & 0.000 & 0.031 \\
+UCI498 & duration & 1080 & 0.493 & 17 / 17 & 1.000 & 0.623 \\
+UCI498 & handover & 1080 & 0.481 & 8 / 6 & 0.750 & 0.683 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{The sign-disagreement rate of a one-number report, counted three ways, under the equal-level measure. The all-cells rate counts every admissible cell, most of whose signs the data do not determine; the resolved rate is restricted to the cells whose coverage-calibrated whole-surface band excludes zero, and the column before it gives the two counts it is computed from; the magnitude rate weights every cell by $|V|$ as well as by the measure. A pair with no resolved cell has no resolved rate and is printed with none rather than with zero.}
+\label{tab:misreport}
+\end{table}

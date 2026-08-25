@@ -1,0 +1,34 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllrlrrrrrrr}
+\toprule
+world & n train & K & K / n & replicates & coverage at c = 1 & se & c & c lo & c hi & c applied & c log-linear \\
+\midrule
+linear & 8000 & 20 & 0.003 & 500 & 0.916 & 0.012 & 1.154 & 1.072 & 1.288 & 1.154 & 1.000 \\
+linear & 4000 & 20 & 0.005 & 500 & 0.898 & 0.014 & 1.219 & 1.100 & 1.314 & 1.164 & 1.004 \\
+linear & 2000 & 20 & 0.010 & 500 & 0.924 & 0.012 & 1.108 & 1.022 & 1.228 & 1.164 & 1.093 \\
+linear & 8000 & 100 & 0.013 & 500 & 0.936 & 0.011 & 1.096 & 0.960 & 1.205 & 1.180 & 1.124 \\
+sparse & 8000 & 100 & 0.013 & 500 & 0.892 & 0.014 & 1.317 & 1.221 & 1.452 & 1.180 & 1.124 \\
+linear & 4000 & 100 & 0.025 & 500 & 0.896 & 0.014 & 1.179 & 1.087 & 1.294 & 1.180 & 1.223 \\
+linear & 8000 & 200 & 0.025 & 499 & 0.932 & 0.011 & 1.093 & 0.985 & 1.264 & 1.180 & 1.223 \\
+linear & 4000 & 200 & 0.050 & 500 & 0.888 & 0.014 & 1.195 & 1.119 & 1.337 & 1.180 & 1.331 \\
+linear & 8000 & 400 & 0.050 & 500 & 0.884 & 0.014 & 1.152 & 1.106 & 1.226 & 1.180 & 1.331 \\
+linear & 2000 & 100 & 0.050 & 500 & 0.912 & 0.013 & 1.234 & 1.053 & 1.326 & 1.180 & 1.331 \\
+sparse & 4000 & 200 & 0.050 & 500 & 0.884 & 0.014 & 1.182 & 1.131 & 1.303 & 1.180 & 1.331 \\
+linear & 4000 & 400 & 0.100 & 499 & 0.796 & 0.018 & 1.287 & 1.225 & 1.400 & 1.314 & 1.449 \\
+linear & 2000 & 200 & 0.100 & 500 & 0.844 & 0.016 & 1.316 & 1.253 & 1.419 & 1.314 & 1.449 \\
+sparse & 2000 & 200 & 0.100 & 500 & 0.836 & 0.017 & 1.333 & 1.225 & 1.372 & 1.314 & 1.449 \\
+linear & 8000 & 1000 & 0.125 & 496 & 0.655 & 0.021 & 1.526 & 1.418 & 1.595 & 1.526 & 1.490 \\
+linear & 2000 & 400 & 0.200 & 500 & 0.758 & 0.019 & 1.562 & 1.418 & 1.670 & 1.562 & 1.578 \\
+linear & 4000 & 1000 & 0.250 & 500 & 0.520 & 0.022 & 1.739 & 1.633 & 1.807 & 1.727 & 1.622 \\
+sparse & 4000 & 1000 & 0.250 & 498 & 0.460 & 0.022 & 1.716 & 1.672 & 1.850 & 1.727 & 1.622 \\
+linear & 8000 & 3019 & 0.377 & 488 & 0.305 & 0.021 & 1.880 & 1.804 & 1.979 & 1.876 & 1.705 \\
+linear & 2000 & 1000 & 0.500 & 500 & 0.462 & 0.022 & 1.869 & 1.789 & 2.024 & 1.876 & 1.765 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{The coverage calibration. For each cell of the $(n, K)$ plane: the coverage the reported interval actually attains, and the factor $c$ by which it must be widened to attain the nominal level, with the Monte Carlo interval of that factor. $c$ is the $0.95$ quantile of the studentised error and is computed, not searched for. `c applied' is the monotone regression the corpus is calibrated with; `c log-linear' is the parametric fit whose slope Section~\ref{sec:regions} quotes, printed beside it because it sits below the measured factor at small ratios and would under-correct there.}
+\label{tab:plane}
+\end{table}

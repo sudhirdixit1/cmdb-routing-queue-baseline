@@ -1,13 +1,13 @@
 
-Every number in the manuscript is a macro defined in
-\texttt{paper/numbers.tex}, which \texttt{scripts/make\_numbers.py} generates
+Every number in the manuscript is a macro, defined in the generated file
+\texttt{paper/numbers.tex} that \texttt{scripts/make\_numbers.py} writes
 from \texttt{results/*.csv}. The manuscript contains no numeric literal
 outside that file and the generated tables. A number therefore cannot disagree
 between the abstract, a table and the conclusion: there is one of it.
 
 That removes one class of defect and creates another --- a wrong generator
 makes the whole manuscript wrong \emph{consistently}, and nothing looks odd
---- so the architecture comes with five controls.
+--- so the architecture comes with seven controls.
 
 \begin{description}
 \item[The generator.] \texttt{make\_numbers.py} emits a visible
@@ -26,9 +26,18 @@ beneficial while carrying an unresolved cell, nor conditionally harmful while
 carrying a beneficial one; that every region label is one of the six the
 manuscript defines and that the labels partition the pairs;
 that Proposition~\ref{prop:nonid}'s sweep still holds the AUC reduction at
-zero; that the case study's split partitions its cohort; and that the
+zero; that the disjoint functional-ANOVA components sum to one on every
+decomposition; that no planned contrast reports a $p$-value the draw count
+cannot produce, and that its Holm adjustment reproduces from the raw values;
+that no rank-based instrument's reduction moves under a monotone
+recalibration, and that every certificate for a non-rank-based one exhibits
+two ratios that actually differ; that the cells a region label ranges over are
+exactly the cells the simultaneous family that licenses it controls, and that
+every decision rule is compared over the declared regret population rather
+than over whatever the file happened to hold; that the case study's split
+partitions its cohort; and that the
 adjudicated set of the practice pilot is exactly the screened-in set. The
-partition condition is the one that would have caught this round's fifth
+partition condition is the one that would have caught round nineteen's fifth
 region label, which the analysis emitted and the manuscript did not define.
 
 \item[The corruption suite.] \texttt{scripts/s13\_attack\_numbers.py} is the
@@ -46,8 +55,26 @@ from the corrupted copy and then verifying, which is the only version of that
 test that means anything: without the regeneration the suite asks the verifier
 about a \texttt{numbers.tex} built from clean results, so any quantity the
 verifier re-derives from a different file than the generator reads is
-untouched and the corruption passes. One of the ten did exactly that, silently,
-for a round.
+untouched and the corruption passes. One corruption did exactly that,
+silently, for a round.
+
+\item[The condition on the set, not on the number.] Every check above compares
+one macro with one source file, and a whole class of defect passes all of
+them: two macros, each perfectly consistent with its own source, that the
+prose calls by the same name. That is not hypothetical. It is how a case
+study's increment came to be printed with two values and two signs, and no
+check in this repository could have seen it.
+
+The repair is a declaration rather than a computation. The verifier
+\texttt{round21\_verify.py} carries an \textsc{estimands} table: one entry per
+quantity a reader would name in one phrase, listing the macros that may hold
+it. Two members of an entry that disagree is a failure; a quantity that
+legitimately takes two values under two specifications gets two entries with
+different names, and the manuscript must then use those names. Corruption
+\textsf{G1} in the suite is the test: it moves a value in one result file and
+lets both the generator and the verifier read the moved value, so every
+macro-against-source check passes and only the condition on the set fails.
+\textbf{Write the check on the name, not on the number.}
 
 \item[The provenance record.] \texttt{results/provenance.json} holds the
 SHA-256 of every analysis script at the moment its outputs were last accepted,
@@ -64,25 +91,60 @@ reason.
 \item[The compliance linter.] \texttt{scripts/texlint.py} carries
 \nLintChecks\ checks: the abstract length, the keyword count, the highlight
 lengths against their own stated counts, the presence of all five required
-statements, the absence of any numeric literal in the prose, the absence of
-the rhetorical sentence-openers a referee asked to have deleted, that every
-\texttt{\textbackslash input} target exists, and that no source file carries a
-stray control character.
+statements, the absence of any numeric literal in the prose, the absence of a
+declared set of rhetorical sentence-openers, that every
+\texttt{\textbackslash input} target exists, that a spelled-out count matches
+the list it introduces --- whether that list is a run of identifiers or a
+\texttt{description} environment --- and that no manuscript part, generated
+table or analysis script carries a stray control character.
 
-Five of them exist because each caught a defect that had already reached a
+Seven of them exist because each caught a defect that had already reached a
 compiled PDF of \emph{this} manuscript: a spelled-out count that did not match
 the list it introduced; the word \emph{Appendix} written before a reference
-that already supplies it, on all fourteen appendix references at once; a macro
+that already supplies it, on every appendix reference at once; a macro
 swallowing the space after it and printing \texttt{42.0\%-{}-{}- and}; a macro
 carrying words quoted inside math mode and printing
-\texttt{18percentagepoints}; and a sentence's tail left behind by a scripted
-edit and printed twice. Every one of the five was found by \emph{reading the
-rendered pages}, which is the check no file in this repository replaces.
+\texttt{18percentagepoints}; a sentence's tail left behind by a scripted edit
+and printed twice; a
+\emph{backslash escape interpreted by a scripted edit}, which had written
+\texttt{\textbackslash ref\{x\}} into the file as a carriage return followed
+by \texttt{ef\{x\}} and \texttt{\textbackslash nMacro} as a newline followed
+by \texttt{nMacro}; and a spelled-out count introducing a
+\texttt{description} list of a different length --- which is the first defect
+in the form the first check could not see, and which was in the paragraph
+above this one, announcing five controls before listing six. Those print as
+garbage or as a wrong word, produce no wrong number, and every checker in this
+repository passed on the build that carried them. Each signature is exact ---
+a carriage return that is not a line ending, a line beginning with the tail of
+a control word, a numeral word whose list is a different length --- so each is
+now a check rather than a thing to remember. All seven were found by
+\emph{reading the rendered pages}, which is the check no file in this
+repository replaces.
+
+\item[The claim registry.] \texttt{scripts/claim\_registry.py} writes one row
+per macro: its value, every manuscript location that uses it, the generator
+file and \emph{line} that defined it --- captured from the calling frame, so
+it cannot drift --- the result file that line reads, and whether the verifier
+re-derives it independently. Because the manuscript contains no numeric
+literals, the registry is exhaustive by construction: any number a reader can
+see is a macro, and every macro is a row. \texttt{-{}-check} fails a build in
+which a macro the manuscript uses is unresolved.
+
+The registry also answers the question a reader should ask of the paragraph
+above: \emph{how many} macros are independently re-derived, not merely how
+many could be. Its summary row counts them, separately for the \emph{headline}
+macros --- the ones the abstract, the introduction and the conclusion print
+--- and the count is deliberately not quoted here, because it is a property of
+a build and belongs in the file rather than in a sentence. It is not all of
+them, and the ones it is not are visible in the same file. Writing the missing
+re-derivations is also how the largest arithmetic error in the register was
+found: a range taken over four rows of a table, three of which are corpus
+medians and one of which is a single pair.
 \end{description}
 
 \paragraph{What the harness does not do}
 It guards numbers thoroughly and prose only where a guard was written by hand.
-The correction register of \ref{app:corrections} groups this
+The correction register in the archive groups this
 project's own errors by class, and its largest class is sentences in which
 every printed number was correct and the relation asserted between them was
 not. The generated-macro discipline makes one sub-class of that structurally

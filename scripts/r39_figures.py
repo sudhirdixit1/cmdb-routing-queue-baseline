@@ -44,7 +44,7 @@ plt.rcParams.update({
     "font.family": "DejaVu Sans", "font.size": 9,
     "axes.spines.top": False, "axes.spines.right": False,
     "axes.grid": True, "grid.alpha": .25, "grid.linewidth": .5,
-    "figure.dpi": 200, "savefig.bbox": "tight", "savefig.pad_inches": .04,
+    "figure.dpi": 400, "savefig.bbox": "tight", "savefig.pad_inches": .04,
 })
 TEAL, RUST, OCHRE, SLATE = "#0D6B6E", "#A8442B", "#7A6112", "#5A6672"
 DOMAIN_COLOR = {"itsm": TEAL, "lending": SLATE, "procurement": RUST,

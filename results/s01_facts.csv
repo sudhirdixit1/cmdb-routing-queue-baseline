@@ -1,2 +1,2 @@
 n_pairs,n_tasks,n_rows,n_fits,n_logs,n_domains,n_learners,n_splits,n_quality,n_rungs,n_metrics,n_excluded,trainonly_checked,trainonly_passed,runtime_s
-19,42,262656,14592,13,6,4,6,10,5,36,0,122,122,2112.0
+19,44,273024,15168,13,6,4,6,10,5,36,0,122,122,2406.5

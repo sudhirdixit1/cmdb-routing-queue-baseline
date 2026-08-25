@@ -22,18 +22,18 @@ a measured pilot with its own error rate.
 The previous manuscript is retained in the archive as
 `paper/iaai27_empty_cmdb.tex` so the version history stays legible, and every
 claim of it that this version withdraws is recorded as a correction in
-Appendix C.
+Appendix D.
 
 Six of the referee's own **minimum resubmission gates** are addressed as
 follows.
 
 | Gate | Where |
 |---|---|
-| 1. The abstract and the later section make the same claim | Every number in the manuscript is a macro generated from a result file (Appendix G). There is one of each number; disagreement is structurally impossible. |
+| 1. The abstract and the later section make the same claim | Every number in the manuscript is a macro generated from a result file (Appendix J). There is one of each number; disagreement is structurally impossible. |
 | 2. A complete admissible baseline does not depend on unresolved timestamp assumptions | §7.1 defines **two decision times** and estimates a surface for each; §7.3 gives a leakage tipping-point curve so a reader can place their own belief. Neither surface is "the" headline. |
-| 3. The audit is rebuilt or no longer supports field-wide claims | §9.4 reports it as a **machine-assisted prevalence pilot** with measured screen sensitivity, an adjudicated sample of the papers the screen *rejected*, applicability-specific denominators, missing-data bounds, and an explicit statement of what its resolution is. **No claim in the paper depends on it.** |
-| 4. Uncertainty includes model refitting and temporal validation | §4.2: a nested moving-block bootstrap that refits the entire pipeline inside every draw, plus rolling-origin validation as an axis of the design. §4.3: simultaneous max-$t$ bands. §4.9 measures both against a known truth in six worlds. |
-| 5. Methodological novelty can be stated without "people usually report one number" | §3–§4 introduce the specification surface, an exact functional-ANOVA decomposition of its variance, resolution regions with a robustness index, simultaneous bands over the surface, Fieller sets for the ratio, and specification regret. The pilot is now a small subsection of §9 (§9.4). |
+| 3. The audit is rebuilt or no longer supports field-wide claims | Appendix G reports it as a **machine-assisted prevalence pilot** with measured screen sensitivity, an adjudicated sample of the papers the screen *rejected*, applicability-specific denominators, missing-data bounds, and an explicit statement of what its resolution is. **No claim in the paper depends on it.** |
+| 4. Uncertainty includes model refitting and temporal validation | §4.1: a nested moving-block bootstrap that refits the entire pipeline inside every draw, plus rolling-origin validation as an axis of the design. §4.3: simultaneous max-$t$ bands. §10 measures both against a known truth in six worlds. |
+| 5. Methodological novelty can be stated without "people usually report one number" | §3–§4 introduce the specification surface, an exact functional-ANOVA decomposition of its variance, resolution regions with a robustness index, simultaneous bands over the surface, Fieller sets for the ratio, and specification regret. The pilot is now one paragraph of §9 with its dossier in Appendix G. |
 | 6. The central contribution is identifiable within the first four pages | The abstract, the contribution list in §1 and Figure 1 are all on pages 1–3. |
 
 ---
@@ -63,7 +63,7 @@ What is done:
    treated two thresholds as two instruments, the $43.7\%$ / $35.0\%$
    mismatch, the section that said a withdrawn instrument was retained in a
    table that did not contain it — are recorded as corrections C17–C19 in
-   Appendix C and cannot recur under (3).
+   Appendix D and cannot recur under (3).
 5. The strong claim itself is **not restated**. §6 reports what the surface
    actually does, per pair, with a region label.
 
@@ -141,7 +141,7 @@ reconciliation and discovery mechanisms.
 dispositions and we take the second while doing as much of the first as one
 author honestly can.
 
-The audit is now a **pilot** (§9.4, Appendix F), and:
+The audit is now a **pilot** (§9 and Appendix G), and:
 
 * the frame is stratified, with an allocation and design weights declared
   before enumeration, and the enumeration is cached and reproducible. It is
@@ -152,9 +152,9 @@ The audit is now a **pilot** (§9.4, Appendix F), and:
   pilot is: the enumeration stopped short of its declared 2,400-record
   budget when the index's daily quota ran out, so every design weight is 1
   and the pilot is a **census of what one index returned**, not a
-  probability sample of a literature. §9.4 and Appendix F say so, and a
+  probability sample of a literature. §9 and Appendix G say so, and a
   fourth limit is now stated: the frame's coverage of the field is
-  unmeasured. The correction is C21 in Appendix C;
+  unmeasured. The correction is C21 in Appendix D;
 * **a random sample of the papers the screen rejected was adjudicated**, so
   the screen's misses are counted rather than assumed away. This is the single
   most important change: it converts "we found none" into a measurable
@@ -184,7 +184,7 @@ what the apparatus found in **our** work afterwards, reported because a
 referee is entitled to know what the process catches when nobody is looking at
 it.
 
-1. **The simulation's own truth was wrong in one world (§4.9, Appendix G).**
+1. **The simulation's own truth was wrong in one world (§10, Appendix H).**
    It reported that every interval construction fails on the noisy world —
    coverage 0.035, an apparent bias of −0.035 against an interval half-width of
    0.037. The natural write-up was that the estimator is biased there. We
@@ -199,7 +199,7 @@ it.
    mean was where it always was. `s18_bias_scaling.py --legacy-target`
    regenerates the pre-correction evidence.
 
-2. **The pilot's frame was 600 and the manuscript said 54,910 (§9.4, C21).**
+2. **The pilot's frame was 600 and the manuscript said 54,910 (Appendix G, C21).**
    A stratum-size column summed over rows rather than strata. See major comment
    4 above; correcting it changed what the pilot *is*.
 
@@ -218,8 +218,8 @@ it.
    about signs, a figure axis clipping the single most important bar out of the
    frame, and a comparison sentence whose two numbers were both zero. **Every
    checker in the repository ran clean on the build that carried all of them.**
-   Five became new lint checks; the general point is in Appendix C and
-   Appendix H, and it is that no apparatus we have replaces reading the
+   Five became new lint checks; the general point is in Appendix D and
+   Appendix J, and it is that no apparatus we have replaces reading the
    compiled pages.
 
 ## Major comment 5 — the ratio $R$ is unstable and read as a proportion
@@ -287,7 +287,7 @@ Neither surface is used to retire a claim the other supports.
   blocks, **refits the entire pipeline** — encoders, frequency tables, target
   encodings, register rankings, calibrators — and evaluates on a moving-block
   resample of the test half (§4.2);
-* **rolling-origin validation** as an axis, reported per fold (Appendix E);
+* **rolling-origin validation** as an axis, reported per fold (Appendix F);
 * **simultaneous max-$t$ bands** over two declared families, so the harmful
   band of §8.2 is a family statement with family-wise coverage (§4.3);
 * **five pre-specified confirmatory contrasts** with Holm correction, and
@@ -365,7 +365,7 @@ genuinely incomplete register as the next study.
   carried forward.
 * **Deleted**: sentences beginning "A referee is entitled to…", "A reader may
   object…", "We report rather than hide…", "This is correction number…". The
-  correction register survives in Appendix C, grouped by class.
+  correction register survives in Appendix D, grouped by class.
 * **Abstract** 250 words or fewer; **keywords** seven; **highlights** five,
   each within 85 characters, checked by a script rather than by hand.
 * **Statements**: CRediT, competing interests, funding, data availability,

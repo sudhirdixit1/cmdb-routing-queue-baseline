@@ -1983,7 +1983,8 @@ Seven defects in the round-nineteen build produced **no wrong number** and
 every checker in the repository passed on them:
 
 - the word *Appendix* printed twice on all fourteen appendix references,
-  because elsarticle's ef already supplies it;
+  because elsarticle's 
+ef already supplies it;
 - a macro ate the space before an em dash and printed `42.0%--- and`, because
   a control word swallows the whitespace after it;
 - a macro carrying words was quoted inside math and printed
@@ -2006,3 +2007,734 @@ you meant, whether the figure shows the number, or whether the comparison you
 built the section around still has two different numbers in it.  Budget time
 for reading the compiled PDF end to end, at the end, after every checker
 passes.  On this round that pass found more than every checker combined.
+
+
+## 25. Round twenty: what a second review asked for, and what it cost
+
+A second, developmental review of the round-nineteen manuscript recommended
+**reject and invite resubmission** and listed eight submission-blocking
+problems (P0.1–P0.8), six methodological strengthenings (P1.1–P1.6), three
+positioning items and a restructuring plan.
+`submission/response_to_blueprint.md` answers each in the order it was raised.
+
+### 25.1 The organising observation
+
+Four of the eight blocking problems were the same mistake wearing different
+clothes: **an inferential object that did not match the sentence it was used
+to license.** Not a wrong number — a wrong *object*.
+
+| the sentence | the object it was built on | what it should have been |
+|---|---|---|
+| "this surface is uniformly beneficial" | a max-t band over five instruments at ONE cell | a band over every admissible cell of the surface |
+| "the interactions carry 30.0%" | max_i(S_Ti − S_i), which overlaps across axes | 1 − sum_i S_i, which does not |
+| "57.2% more expected regret" | a mean over AUC, AP, Brier skill, log-loss skill and Nagelkerke R² | a mean inside one instrument, or a common utility |
+| "invariant exactly when rank-based" | one stored configuration for five named metrics | a proof — which showed the claim was false |
+
+Generalise it: **the generated-macro discipline guarantees that no two
+printings of a quantity disagree, and guarantees nothing about whether the
+quantity is the one the sentence needs.** Round nineteen's lesson was that a
+checker cannot read a sentence. Round twenty's is narrower and more useful: a
+checker *can* be made to read a **denominator**, a **family**, and a **unit**,
+and those are exactly where this class of error lives. `s25_denominator.py`
+asserts the denominator; `s21_bands.py` names four interval objects so a table
+cannot print one and be read as another; `s23_regret.py` carries a `unit`
+column and `round20_verify` fails a build in which two units enter one
+average.
+
+### 25.2 The machine is the constraint, and it changed the design
+
+The results were produced on an Intel Core Ultra 7 155U: twelve cores, of
+which **two are performance cores**, in a 15 W envelope. Measured, not
+assumed: twelve worker processes each ran at roughly one sixth of the
+single-process idle rate, so the machine delivers **under three cores of
+sustained throughput** for this workload. A fit measured at 0.17 s alone takes
+about 1.4 s in the pool.
+
+Three consequences, each a design decision rather than an excuse.
+
+**The inference surface is a declared sub-grid.** A nested bootstrap draw
+refits the whole pipeline, so its cost is the declared surface multiplied by
+the draw count, and the declared surface takes thirty-five minutes. `s20`
+therefore computes an **axis-complete** sub-grid — every axis at two or more
+levels, fixed by a rule reading only the row count of a log — and `s25`
+measures what the restriction costs by comparing point-estimate sign shares on
+the two surfaces. Round nineteen's grid was not axis-complete: it held the
+split axis fixed, and the split axis has the second-largest first-order index.
+That, not its size, is what made it indefensible.
+
+**Two optimisations paid for the axis it added.** The baseline arm does not
+contain the register column, so it is invariant to the register-quality
+mechanism: computing it once per (split, rung, learner) rather than once per
+quality condition removes about two fifths of the fits, and
+`s20_boot2.py --check` executes the invariance rather than asserting it (the
+spread across three mechanisms is exactly zero). And `prepare()` is cached per
+worker, which it was not, at about 1.4 s per task.
+
+**The critical value stopped depending on the draw count.** A max-t quantile
+from 150 observed maxima is the eighth largest of 150. `s21` estimates it by a
+**Gaussian multiplier bootstrap** over the standardised draw matrix — 20,000
+replications, matrix arithmetic, no fits — which reproduces the empirical
+covariance. The fitting budget now fixes B and not the precision of q. This is
+the single most useful thing in the round for anyone reproducing it on modest
+hardware, and it generalises: *the expensive part of a resampling scheme is
+the resampling, not the quantile, and the two can often be separated.*
+
+### 25.3 A defect class no checker in this repository could see, again
+
+Reading the **committed sources** — not the PDF this time — found
+`\ref{sec:practice}` written into `app_corrections.tex` as a carriage return
+followed by `ef{sec:practice}`, and `\nAuditFrame` as a newline followed by
+`AuditFrame`. A scripted edit had interpreted the backslash escapes instead of
+writing them. They print as garbage; they produce no wrong number; every
+checker passed on the build that carried them; and they were in HEAD.
+
+`texlint` check 15 now catches the signature exactly: a carriage return that
+is not part of a line ending, or a line beginning with the tail of a control
+word.
+
+**The trap I then fell into, recorded because it is instructive.** The repair
+script matched a line beginning `ho` as a mangled `\rho` — and joined
+`holdout's` and `holds` to their previous lines, creating two new defects
+while fixing three. A repair heuristic loose enough to catch a class is loose
+enough to damage it. The lint check uses only the exact signatures; the repair
+should have too.
+
+### 25.4 What changed in the numbers, and why each moved
+
+- **The interaction share roughly doubled** because 1 − sum_i S_i is a
+  different quantity from max_i(S_Ti − S_i), not because the data changed.
+- **The regret headline vanished and was replaced.** Inside one instrument the
+  *median* excess regret of a one-number report is **zero** — on most pairs
+  every rule picks the same action — and the mean is small. The finding that
+  survives is out-of-sample and is the one the paper now leads with. Reporting
+  the median beside the mean is what made the honest version legible.
+- **"Exactly the rank-based ones" became false**, not merely unproved. Proving
+  the necessity direction generally requires only that a recalibration act
+  *affinely* on the instrument, and the class-mean gap is a counterexample.
+  Attempting a proof to satisfy a referee is how the error was found; a
+  restricted restatement, which the review also offered as an option, would
+  have left it in place.
+- **The pilot's intervals moved without the estimates moving.** A Wilson
+  interval on a fractional effective sample is a binomial interval for a
+  quantity that is not a count; none of the five contains its design-based
+  counterpart.
+
+### 25.5 What is still open
+
+- **The inference surface is not the declared surface.** Axis-complete and
+  measured, but a median of roughly a sixth of each pair's computational
+  surface. Equating them needs a real machine, and `s20_boot2.py` is resumable
+  so the run can be extended rather than repeated.
+- **The simulation's replicate count** is below what the review asked. The
+  Monte Carlo standard error is now reported everywhere a coverage is, which
+  is the honest half of the fix.
+- **One adjudicator** on the practice pilot, and no organisational partner
+  with timestamped field histories. Both were open in round nineteen and stay
+  open.
+
+### 25.6 The check caught a leak in the mechanism written to demonstrate no leak
+
+`s27_quality.py` adds three *dependent* register-quality mechanisms, because
+the review is right that a register does not go missing at random. One of them
+drives missingness from a propensity score fitted on the training half. It
+failed its own train-only check on the first run.
+
+The reason is one line. The mechanism converts the fitted score into a **rank**
+before thresholding, and the first implementation took the rank over *all*
+rows. A training row's rank then depends on the test rows' scores, so
+perturbing the test half changes the training half's degraded values. That is
+leakage — in a mechanism written to show that this project's mechanisms do not
+leak.
+
+The repair is to take the rank against the training half's empirical
+distribution and map every row through it (`np.searchsorted` on the sorted
+training scores). All eight mechanisms then pass on both targets.
+
+**Why this is worth a paragraph in the handoff.** The train-only check is
+executed rather than asserted, and it exists because a mechanism that is
+*obviously* train-only stops being so under one line of normalisation. Rank
+transforms, quantile binning, standardisation, target encoding and
+frequency encoding all have this shape: each is innocent per row and each
+silently couples rows unless it is fitted on one side of the split. If you add
+a mechanism to this file, the check is not a formality.
+
+The manuscript reports the catch in the register-quality subsection rather
+than quietly fixing it, on the same principle as the rest of the correction
+register.
+
+### 25.7 If you are resuming this
+
+1. `python scripts/s20_boot2.py --plan` prints the inference grid and draw
+   allocation without taking a draw. It is the first thing to read.
+2. `bash scripts/round20_chain.sh` waits for `s20` and then runs everything
+   downstream in dependency order, through the checks and the PDF.
+3. `python scripts/claim_registry.py --check` is the fastest way to see
+   whether the manuscript is internally complete: it lists every macro the
+   prose uses that has not resolved, with the file and line that uses it.
+4. `results/provenance.json` still governs `--strict`. Every round-twenty
+   script needs accepting once its outputs are trusted:
+   `python scripts/provenance.py --accept s21_bands.py --note "..."`.
+
+### 25.8 Round twenty, second session: the simulation, the structure, and two near-misses
+
+The first session answered the eight blocking problems. This one closed the
+two methodological items that were still open, restructured the manuscript to
+the shape the review asked for, and caught two things in its own tooling.
+
+**The simulation was rebuilt at the size the claim needs (`s31_simboost.py`).**
+The review's P1.1 lists nine demands; `s10_simulation2.py` met four. `s31`
+meets the rest: a thousand replicates in each of six worlds, the `(n, K)`
+plane varied *jointly* over ten cells up to K = 3,019, three block lengths
+around the rule of thumb, and seven interval constructions including
+m-out-of-n subsampling. Two design decisions are worth carrying forward.
+
+It **imports** the world generator, the enumerated truth and the
+observed-population marginalisation from `s10` rather than copying them. Those
+are the delicate part of that file and one of them was wrong for two rounds;
+a copy would let the two drift, an import cannot. The only change to `s10` is
+an optional `k_override` on `world_spec`, which every existing caller leaves
+at its default, so `s10`'s own outputs are untouched.
+
+The headline coverage macros are **overridden** in `round20_numbers.emit` when
+`results/s31_facts.csv` exists and fall back to `s10` when it does not, and
+`verify_numbers` chooses its source the same way. That is the only override in
+the build, and it is deliberate: reporting a two-hundred-replicate run as the
+headline while a thousand-replicate run sits in `results/` is not defensible.
+`verify_numbers` additionally **fails** if `s31` ran fewer than a thousand
+replicates per world, because that is the count the manuscript claims.
+
+**Near-miss one: a smoke test wrote the files the manuscript reads.** A
+two-replicate run of `s31` — `--only core --reps 2`, to check the code path —
+wrote `results/s31_facts.csv`, and the next `make_numbers` picked it up and
+printed a coverage of 100% at `\nSimReps` = 2. Nothing downstream had run yet,
+so nothing reached a PDF, and the replicate-count check in `verify_numbers`
+would have caught it. But a checker that fires is a worse defence than a file
+that cannot be written, so `s31` now writes `s31_smoke_*` for any run below
+its declared replicate counts. **The general lesson: if a script has a `--reps`
+flag, a short run must not be able to write the name the paper reads.**
+
+**Near-miss two: `C4` meant two different things.** The five planned contrasts
+were labelled C1–C5 and the correction register numbers its entries C1–C31, so
+`Table~\ref{tab:confirm}` and `\ref{app:corrections}` used the same identifier
+space in the same section — §4 cites correction C29 and C30 three paragraphs
+from a table whose rows are C1 to C5. The contrasts are now PC1–PC5, the
+manuscript says why in one sentence, and the collision is the kind of thing
+that only surfaces from reading, not from checking.
+
+**A third: `texlint` check 15 did not cover generated tables.** It scanned
+`paper/parts/*.tex` for interpreted backslash escapes but not `paper/tables/`,
+which is where a caption written in Python is most likely to acquire one — and
+`"\textsf"` in a Python string is a TAB, for which Python raises no warning at
+all because `\t` is a *valid* escape. Check 15 now scans both directories and
+fails on any control character. The bug that motivated it was mine, committed
+and caught within the same hour.
+
+**Structure.** The manuscript is now the ten-section shape the review's §7
+asks for, plus two sections it does not name (decision-analytic evaluation,
+and the reporting standard with the software). Simulation is its own section;
+the practice pilot is one paragraph with its dossier in Appendix G; a new
+Appendix C, *Construction of the inferential objects*, carries the multiplier
+bootstrap, Fieller's set, the three regret designs and the decomposition's
+exact computation, so §4 can be read for the argument and the appendix for the
+arithmetic. **Adding an appendix in the middle relabels every appendix after
+it**, which silently invalidated eight `Appendix X` references in
+`submission/*.md`; they are fixed, and `check_response_refs.py` resolves
+letters by heading so it lists what each one now points at.
+
+**Length: not met, and said so.** The body is about 19,700 words against a
+requested 13,000–15,000, in 64 pages of main text and 33 of appendices. `python scripts/texlint.py --sections` prints the
+per-section table and writes `results/section_words.csv`;
+`check_response_refs.py` now checks the table in
+`submission/response_to_blueprint.md` against that file, because those word
+counts are the only numbers in the submission package that are not macros and
+are therefore the only ones that can go stale silently. Six of the ten
+recommended sections are inside their budgets, two are under, and the two over
+are §4 and §6 — the two the Priority 0 list required new objects in. The
+response says which two sections we would cut if the editor insists, rather
+than choosing for them.
+
+**A fourth, found by reading the code rather than the pages: one interval was
+not the construction the paper says every interval is.** Section 4.2 states
+that every interval in the manuscript is the basic (pivotal) construction,
+because a refit inside a draw shifts the bootstrap distribution below the
+estimate. `s26_calib_dca.py` built the decision curve's *simultaneous* band
+that way and its *pointwise* interval as a raw percentile interval — so
+Section 8.3's pointwise-versus-simultaneous comparison, whose whole point is
+that only the family differs, was comparing two constructions as well as two
+families. It never reached a submitted manuscript (the decision-curve band is
+new in round twenty), so it is not a correction in the register; it is a
+process note. The fix is two lines, and `s26` gained a `--bands-only` flag so
+that a change to an interval *construction* no longer has to pay for an hour
+of refits to see its effect. **The general lesson: a property asserted of
+"every X" is a property somebody has to check on each X, and the ones built by
+a different script are where it fails.**
+
+**A fifth, found by the unresolved-macro check: a wave-ordering bug hidden by
+a bare `except`.** `s27_quality.py` compares its mechanism variability with
+the *sampling* standard errors in `results/s21_cells.csv`, so it depends on
+`s21_bands.py`. Both the chain script and `reproduce_all.py`'s wave list ran
+s27 first. It therefore read the previous round's cell file, matched nothing,
+and returned `NaN` — inside a `try: ... except Exception: pass`, so the run
+printed no sign of it. What surfaced was one macro rendering as `??` at the
+end of a six-hour chain.
+
+Two fixes, and the second is the one that generalises. The ordering is
+corrected in `scripts/round20_chain.sh` and in `WAVES`, each with the reason
+written beside it. And the `except` now prints what it caught, and the empty
+comparison prints that it is empty — because **a dependency that fails
+silently is indistinguishable from one that does not exist**, and the only
+reason this one was visible at all is that every number in the manuscript is a
+macro and an unresolved macro is a build failure. A project without that
+discipline would have shipped the ratio as whatever the stale file happened to
+give.
+
+**A sixth, and the one worth generalising: two cross-instrument DIRECTION
+claims were false, and nothing could have caught them because they were not
+numbers.** §6.6 said the conservative rule is worst "in all five instruments"
+and that the out-of-sample ordering of the other three is "the same in all
+five". Neither holds: the conservative rule is worst in four, with Nagelkerke
+R² the exception, and the three-way ordering holds in four, with Brier skill
+the exception. Both sentences had survived every checker in the repository,
+because the repository checks *numbers* and these were adjectives.
+
+The fix is to make the claim a count. `nInstrumentsUniformWorst`,
+`nInstruments`, `nInstrumentsOosOrdering` and `nInstrumentsOneNumberWorse` are
+macros now, `round20_verify` re-derives each from the same table the prose
+reads, and the exception is itself a macro
+(`instrumentsUniformNotWorst`) so that the sentence naming it cannot go stale.
+**The general rule: a claim of the form "in all N" is a count wearing a
+quantifier, and this project's discipline only protects counts. Rewrite the
+quantifier as the count and the protection extends to it.** There are almost
+certainly more of these; the ones found here were found by computing the table
+the sentence summarised and looking at it.
+
+**A seventh, from reading the compiled pages rather than the sources: a table
+LaTeX said was too big and then set anyway.** The calibration table had one
+row per (pair, calibration) — fifty-seven rows — inside a `[t]` float. The
+build log carried `LaTeX Warning: Float too large for page by 309.47124pt`,
+the table ran onto the next page, and its caption was stranded there alone.
+Nothing failed: `build_journal` counts errors and undefined references and
+overfull *hboxes*, and this was none of those. The fix is a better table
+rather than a smaller font — one row per pair with the three calibrations as
+columns, which is nineteen rows and is also the comparison a reader actually
+makes. **Read the build log for `Warning`, not only for `Error`: pdflatex will
+tell you a float does not fit and then typeset it regardless.**
+
+**An eighth, and the neatest: Appendix J announced "five controls" and listed
+six.** `texlint` check 10 exists precisely to catch a spelled-out count that
+does not match the list it introduces, and it missed this one because it only
+understood the parenthesised-identifier form the correction register uses
+(`Four corrections (C1, C2, C8, C16)`), not a `description` environment whose
+items are `\item[...]` labels. The check now handles both forms, and the
+appendix that carried the defect now names it as the seventh entry in its own
+list of defects a checker was written for. That list is the honest summary of
+this whole architecture: **every check in it was written after the thing it
+checks had already reached a compiled page.**
+
+**A ninth, the same family as the sixth: a contrast between two numbers that
+are equal.** The worked example said the baseline axis "carries 25.9% of the
+variance against 25.9% for the metric". Both numbers are right; the word
+*against* is not, because on UCI Adult the two axes tie to three figures. The
+finding is more interesting than the sentence was — two axes an analyst would
+expect to differ carry the same share — and both §9.3 and Appendix I now say
+so. **The pattern to look for: a sentence built on "X against Y" where X and Y
+print the same, which the generated-macro discipline guarantees will keep
+printing the same and never flags.**
+
+### 25.9 What the thousand-replicate simulation actually said
+
+The core experiment finished at 09:43. The numbers matter because two of them
+are different from the two-hundred-replicate run and one of them changes a
+sentence.
+
+| world | fixed pct | nested pct | nested basic | nested bc | m-out-of-n |
+|---|---|---|---|---|---|
+| linear | 0.925 | 0.939 | 0.931 | 0.921 | 0.768 |
+| nonlinear | 0.923 | 0.940 | 0.929 | 0.929 | 0.758 |
+| drift | 0.919 | 0.966 | 0.919 | 0.920 | — |
+| imbalanced | 0.906 | 0.933 | 0.933 | 0.923 | — |
+| noisy | 0.926 | 0.936 | 0.948 | 0.939 | — |
+| **sparse** | 0.631 | **0.372** | **0.899** | 0.631 | **0.728** |
+
+**The sparse world is worse at a thousand replicates than it looked at two
+hundred**: the nested percentile interval covers 0.372, not the 0.420 the
+smaller run gave. The basic interval's repair holds at 0.899.
+
+**m-out-of-n loses, and not only in the sparse world.** It covers 0.728 there
+against the basic interval's 0.899, and undercovers on the two well-behaved
+worlds it was priced on as well (0.768 and 0.758). That is the negative result
+P1.1 asked for and it is reported as one, in §10 and in the response.
+
+**"The fixed-model interval undercovers and the nested one does not" was too
+strong** and has been rewritten. At a thousand replicates the Monte Carlo
+standard error is 0.7 points, and the nested basic interval's median of 0.930
+is short of nominal by more than that. What the run supports is the weaker,
+checkable claim now in the paper: the nested basic interval covers **at least
+as well as** the fixed-model one on every world, and the macro that says so
+(`nWorldsNestedAtLeastNaive`) is re-derived by the verifier. **The larger run
+did not confirm the smaller one's story; it sharpened it and cost one
+adjective.**
+
+### 25.10 The result the review's own experiment produced, and it is against us
+
+The `(n, K)` plane — item 4 of P1.1, the one asking for sample size and
+cardinality to be varied *jointly* — returned the most consequential number of
+the round.
+
+**Coverage of the interval this paper reports is governed by K/n**, the ratio
+of register cardinality to training rows, not by either alone:
+
+| K/n | nested basic | nested percentile |
+|---|---|---|
+| 0.003 – 0.010 | 0.89 – 0.90 | 0.89 – 0.90 |
+| 0.025 – 0.050 | 0.89 – 0.91 | 0.48 – 0.50 |
+| 0.100 – 0.125 | 0.78, 0.61 | 0.48, 0.03 |
+| 0.250 – 0.500 | 0.51, 0.45 | 0.08, 0.10 |
+| 0.377 (K = 3,019, n = 8,000) | **0.213** | **0.000** |
+
+**And this corpus lives there.** Median K/n across the nineteen pairs is
+**0.106**; ten are above a tenth; the maximum is 0.324; the case study is at
+0.093. So the bands the paper reports are *narrower* than their nominal level
+on most of its own pairs — the anti-conservative direction, which inflates the
+count of cells called resolved rather than deflating it.
+
+**What it does and does not touch.** The point estimates, the functional-ANOVA
+decomposition, the sign-disagreement rate and the whole regret comparison are
+computed without a band and are unaffected. The resolution regions, the
+robustness index and every "resolvably positive" statement rest on the bands
+and should be read as upper bounds. §10.4 states it, §11 repeats it as the
+sharpest limitation the study has, the denominator table now carries a `K/n`
+column so a reader can see which pairs are affected, and the cover letter puts
+it in front of the editor rather than leaving it to be found.
+
+**The lesson for whoever runs the next round.** The previous version ran the
+sparse world at one cardinality and concluded the basic interval repairs it.
+That was true at K = 200 on n = 4,000 and false two cells away. **A validation
+at a point is not a validation in a regime, and the difference is one nested
+loop.** If there is compute for one more experiment, it should be this plane
+at more cells and more replicates, because it is the only experiment so far
+that has told this project something it did not want to hear.
+
+**A twelfth, from the corruption suite itself: a test that could not fail.**
+Corruption E1 — "a region label inconsistent with its counts" — writes an
+impossible label into a regions file and requires the verifier to notice. It
+wrote into `results/s03_regions.csv`, which was the region file in round
+nineteen. Round twenty moved the manuscript's region labels to
+`s21_regions.csv`, and nobody moved the corruption. The suite reported
+**MISSED**, correctly: corrupting a file nothing reads is a test that cannot
+fail, which is the same defect the correction register calls Class A and which
+this project has now committed against its own test harness. E1 now corrupts
+whichever regions file the verifier reads, preferring the newer.
+
+**The generalisation is uncomfortable and worth writing down: when an analysis
+is replaced, its tests keep passing against the file it no longer uses.** The
+suite is the one instrument here that would notice, and it noticed only
+because it reports MISSED rather than staying silent. A suite that reported
+"10 of 10 corruptions caught" without naming them would have hidden this.
+
+### 25.11 The state at the end of this session
+
+- `verify_numbers`: **135 macros re-derived independently, 25 consistency
+  conditions, 0 failures.**
+- `claim_registry`: 0 unresolved macros; 129 of 453 re-derived independently,
+  25 of the 39 headline ones.
+- `s13_attack_numbers`: **10 corruptions caught, 0 missed.**
+- `texlint`: 0 failures. Check 10 now understands `description` lists as well
+  as identifier runs; check 15 scans `paper/tables/` and every `scripts/*.py`
+  for control characters as well as `paper/parts/`.
+- `final_search`: 2 standing failures, both the unminted archive DOI.
+- `build_journal`: 0 errors, 0 undefined references, 0 overfull hboxes, no
+  LaTeX warnings, 97 pages — 64 of main text and 33 of appendices.
+- `check_response_refs`: 75 references and 12 section word counts, 0
+  unresolved; `--sync` rewrites the word counts from `texlint`'s own file.
+- `provenance`: **28 of 28 scripts accepted, 0 out of date.**
+- Figures are regenerated at 400 dpi.
+
+`s31` completed at 10:14 and `results/s31_coverage.csv` begins with
+`experiment,`, which is the check that it was summarised with the
+experiment-aware key rather than the pooled one. If that file is ever
+regenerated by a process that predates the fix, the header is how you tell.
+
+**The one thing left that no script can do is mint the Zenodo DOI**
+(`submission/OWNER-ACTIONS.md` 1.1). `final_search` fails on it deliberately
+and passes once the DOI in `results/release.json` is real.
+
+**A tenth, in the file the response letter points a referee at.**
+`claim_registry.py` marks each macro with `verified_independently`, computed
+by parsing `verify_numbers.py` for the names passed to its `eq()` helper. The
+round-twenty re-derivations live in `round20_verify.py`, which
+`verify_numbers.main` calls but which the registry never parsed — so the
+registry counted 49 verified macros where the verifier reports 113, and wrote
+`verified_independently=False` for every quantity this round added. It now
+parses both files and reports 86 of the 430 defined macros as independently
+re-derived. **A checker that reports on another checker has to know where that
+one's code actually lives; a call through a module boundary is invisible to a
+parser that only opens one file.**
+
+**An eleventh, found by writing the re-derivation the registry said was
+missing: a range taken over two different populations.** `measureSpreadPct`
+was the max minus the min of `interaction_total_median` over all four rows of
+the measures table. Three of those rows are corpus medians over nineteen
+pairs; the fourth, the Dirichlet envelope, is computed on the primary pair
+alone. The range therefore spanned two populations and printed 37.9 points
+where the comparable figure — the range over the three product measures — is
+29.2. The envelope is now reported beside them at its own value rather than
+inside their range, and §4.7 and §11 say why in one clause.
+
+**How it was found is the point.** The claim registry reports which macros the
+verifier re-derives independently, and it showed ten of twenty-nine *headline*
+macros. Writing the missing re-derivations was meant to be bookkeeping; the
+second one disagreed with the generator, and the generator was wrong. **An
+independent re-derivation is not a formality even when you expect it to
+agree — the value of writing one is entirely in the case where it does not,
+and you cannot know which case that is in advance.** The registry's
+`n_headline_verified` is the number to watch: it is the count of headline
+claims that have survived being computed twice by different code.
+
+---
+
+## 26. Round twenty-one — the second developmental review
+
+`submission/review_round21.md` is the report; `response_to_review21.md` is the
+reply; `PLAN-ROUND21.md` is the plan it was worked from. Verdict: major
+revision, with a note that a strict reviewer would say reject-and-resubmit on
+M1 and M12 alone.
+
+### 26.1 The finding that matters most, and why no checker could have caught it
+
+The case study's headline number appeared in the manuscript with **two values
+and two signs**: −0.0032 in §7.1 and +0.0077 as planned contrast PC3, the
+second Holm-rejected. Both were right about their own source file. What was
+wrong was that **two macros answered to the same English sentence**, and every
+check in this repository verifies a macro against its source.
+
+`s32_cohort.py` resolves it by measurement rather than by argument: the full
+cohort × target factorial at three rungs, 24 cells at 400 nested draws. The
+answer is a finding.
+
+* **The target carries 99.3% of the difference**; the cohort 0.008%;
+  their interaction 0.69%. Reassignment before resolution has prevalence
+  0.372, the registered handover rule 0.927. They are different questions.
+* **Two candidate explanations were ruled out by computation.** The
+  assignment-group and knowledge fields the two analyses reach by different
+  routes agree on all 45,455 shared rows; so do the intake block and the
+  register. Both were checked because "they are probably the same field" is
+  not a finding.
+* **Neither cell resolves.** On all eight (ordering, cohort, target)
+  combinations the two-sided interval contains zero. The contradiction was
+  between two point estimates the data do not resolve.
+
+**The new control is a condition on the SET of macros, not on any one of
+them.** `round21_verify.ESTIMANDS` declares, for each quantity a reader would
+name in one phrase, which macros may hold it; two members that disagree is a
+failure. It fired immediately and correctly on `VTtwoKnow` against
+`VtauTwoKnowledge`, which differed by 0.0004 because `s08` and `s38` broke
+timestamp ties differently. **Write the condition on the name, not on the
+number.**
+
+### 26.2 The axis nobody declares, found by trying to reconcile two numbers
+
+270 incidents share a timestamp; the split is at 70% of the row order; and the
+sort that produced the case-study cohort was `sort_values`, whose default is
+**not stable**. So the order among tied timestamps was neither declared nor
+reproducible, and it is worth **0.00088 AUC of range** over 25 random
+tie-breaks — a quarter of the point estimate's own magnitude. It does not
+change the sign, so nothing here turns on it, and that is exactly why it is
+worth reporting: it is a specification axis no reporting standard asks anyone
+to state. `s08` now declares its tie-break so that `s08`, `s32` and `s38`
+stand on the same row order.
+
+**The general lesson: an unstable sort is an undeclared axis.** Anywhere a
+split point is a row position and timestamps tie, the tie-break is part of the
+specification.
+
+### 26.3 What the other new experiments said
+
+| script | comment | result |
+|---|---|---|
+| `s33_calibrate` | M3 | the widening factor is the 0.95 quantile of the studentised error — a computation, not a search. Every region label and ρ in the article is now calibrated at that pair's own K/n. |
+| `s34_reporting` | M4, M10 | the misreport headline falls from 32.8% of all cells to **10.4% of the cells the corpus resolves** (114 of 1,100). Magnitude-weighting makes it *higher* (50.2%), which is reported. |
+| `s35_utility` | M5 | the four collapse rules still mostly tie under a desk exchange rate. The section is reframed. What separates is the decision time: 1.71 true positives per thousand promised, 0.003 delivered. |
+| `s36_sca` | M6 | specification-curve analysis as practised, run unchanged on the same sub-surface, beside the region label. |
+| `s37_axes` | M7 | **encoding 10.1%, model family 5.2%, their interaction 9.8%** — the largest two-way term. Fusing them into one "learner" axis cannot express that. |
+| `s38_tau` | M2 | three decision times: the population costs −0.0297 AUC with the information fixed, the feature snapshot a further −0.0175. All three resolve. |
+| `s39_case_quality` | M1 | §7's quality and absorption on the case study's own cohort, so the section is one cohort throughout. |
+
+### 26.4 The structural change
+
+The appendices are a **separate document**, `paper/supplement.tex`, built by
+the same command, with S-numbering, and cross-referenced through `xr`. The
+build runs each document twice so the references converge.
+`texlint` now fails the build if "an earlier version of this work" or
+"correction Cnn" reappears in the article. Keyword limit 6, abstract limit
+200 words.
+
+**What did not work and is stated rather than hidden:** the article is 69
+pages against the review's 35–40. With 16 tables and 7 figures — eight of the
+tables added in answer to the review's own comments — the remaining prose
+budget is about half what the manuscript needs. The response names the four
+things it would cut, in order, and says that two of them re-open comments the
+review raised.
+
+### 26.5 Two mechanical traps this round walked into
+
+**A `put()` after the macro file is written does nothing.** `make_numbers`
+writes `numbers.tex` and *then* writes the tables, so a `put()` inside a table
+writer is silently lost and the build dies on an undefined control sequence.
+Every macro must be defined in the `*_numbers` module.
+
+**A renamed table file leaves the old one on disk.** Round twenty wrote
+`quality3.tex`; round twenty-one renamed that output to `quality3corpus.tex`
+and gave `quality3.tex` to a new script. Until the new script ran, the build
+used a **stale table from the previous cohort beside fresh macros**.
+`round21_tables` now writes the placeholder first and overwrites it only if
+the source exists.
+
+---
+
+## 27. Round twenty-two — what an independent pre-submission review found
+
+The round-twenty-one manuscript was given to an independent reviewer with the
+journal's brief, no knowledge of what had changed, and access to the
+repository. `REFEREE-LOG.md` has the dispositions; this is what is worth
+carrying forward.
+
+### 27.1 The finding, and the general form of it
+
+**The inference surface was not a subset of the declared surface.** On two of
+nineteen pairs the bootstrap grid carried the pipelines `{logit, logit_fr}`
+while the declared surface carried `{logit, hgb}`, so sixty of each pair's
+hundred and twenty band cells had no counterpart in the declaration and those
+pairs' region labels quantified over cells the design space says do not exist.
+
+Neither file was wrong about itself. `s20` drops boosting on the two largest
+logs because a refit inside every draw is unaffordable there, and says so;
+`s01` gave every non-primary log the family pair, and said so. **The defect
+was in the relation between two correct declarations, and the audit that
+existed checked level COUNTS rather than level IDENTITY**, so it could not
+see it.
+
+**The general form: an audit that counts is not an audit that matches.** Any
+time two files each enumerate a design space, the check that matters is a
+join on the full key, not an equality of cardinalities.
+`round21_verify` now does the join and names the pairs that fail it.
+
+### 27.2 The Highlights were outside the harness, and it showed
+
+The abstract said the sign-disagreement rate was 5.6% and Highlight 4 said
+"a tenth". Both were true of something --- the second is the NOMINAL band's
+rate --- and they disagreed because `submission/highlights.txt` was written by
+hand. It is the first thing an editor reads and the one part of the submission
+no check covered. `scripts/make_highlights.py` generates it from the macros
+now and the verifier fails if the file is stale.
+
+**And generating it immediately produced the next bug.** The highlights file
+is plain text, so `7.5%` is a percent sign; dropping it into a macro made it a
+LaTeX comment, which swallowed the macro's own closing brace and killed the
+build with a runaway argument three files later. `texlint` now refuses any
+generated macro whose value carries an unescaped `%`, `&` or `#`.
+
+### 27.3 A proposition that was stated more widely than its witness supports
+
+Proposition 2 quantified over every strictly increasing continuous map;
+Corollary 1's witness --- the class-mean gap --- is invariant only inside the
+AFFINE family, and `results/s29_wider.csv` in this repository records shifts up
+to 0.638 outside it. The corollary therefore did not establish the separation
+at the proposition's scope. **The paper's own certificate file refuted the
+paper's own corollary, and nobody had looked.**
+
+The proposition is now stated relative to a declared family, which is what the
+proof reaches and what an analyst can act on. The verifier checks the witness
+in both directions: negligible inside the family, non-negligible outside it.
+
+### 27.4 The numbers that moved, and which way
+
+| quantity | before | after | why |
+|---|---|---|---|
+| declared admissible scalar cells | 27,960 | 29,040 | the two largest logs gained a pipeline |
+| resolved cells, calibrated | 846 (s34) / 892 (s33) | 892 in both | the join failure closed |
+| headline sign-disagreement | 5.6% | **7.5%** | more resolved cells, more disagreements |
+| baseline spread at the median pair | 0.091 | **0.073** | the filter now holds the pipeline fixed, as the sentence claims |
+| the same rate over analyst-chosen axes only | not reported | **20.0%** | the design space pools three kinds of axis |
+| the same rate on the ITSM family | not reported | **3.6%** against 22.2% elsewhere | the headline is carried by the pairs the paper calls threats |
+
+Two of those move against the paper and are reported in the text rather than
+left in the archive.
+
+### 27.5 The trap to remember
+
+**A `put()` inside a table writer is lost.** `make_numbers` writes
+`numbers.tex` and then writes the tables, so a macro defined during table
+generation never reaches the file and the build dies on an undefined control
+sequence. This round hit it twice. Every macro belongs in a `*_numbers`
+module.
+
+### 27.6 The length reduction, and how it was done without losing evidence
+
+The review's ninth comment asked for a 35–40 page article and proposed a
+section budget summing to 41 pages of body. The article was 71. It is now
+substantially shorter, and the reduction was three separable moves rather than
+one editing pass, which matters because two of them are reversible and one is
+not.
+
+**Moved, not cut (about 10 pages).** Nine tables and two figures now live in
+the supplement: the planned contrasts, the ITSM family split, the register
+quality sweep, the decision-curve corpus table, the specification-curve
+comparison, the desk-utility table, the tipping curve's table, the axis-kind
+partition, the simulation's coverage table, the coverage figure and the
+regions figure. Three whole result subsections moved to a new
+Supplement S11 — the family-by-encoding crossing, the decision-rule comparison
+and the calibration/unseen-category/rolling-origin diagnostics — each leaving
+a paragraph in the article that carries the numbers a reader needs. The
+coverage calibration's derivation moved to a new Supplement S10.
+
+**Cut (about 3,300 words).** Nearly all of it was cross-section restatement.
+Four sections were describing the coverage calibration and one does now. The
+contributions list, the related-work section and the limitations each lost
+about a fifth of their length without losing a claim.
+
+**Three defects found while doing it.** Four figures carried a label and a
+caption and were never referenced in the running text — the reader was never
+told to look at them. Every table and figure is now named where it is
+discussed. `tables/confirm` had a `text` column that reproduced, word for
+word, the five sentences Section 4.4 already prints; it was also the column
+that ran the table 62pt into the margin. And **`build_journal.py` was
+reporting the article's overfull boxes and not the supplement's**, which had
+seventy — sixty-two of them in one table, where five `p{}` columns were
+narrower than the single unbreakable tokens they held, so every one printed
+past its column edge. Both documents now build with zero, and the summary
+prints both counts. If you add a `textcols` width, check it against the
+longest token in that column: a `p{}` column narrower than its content does
+not wrap, it spills, and `\resizebox` cannot see it because the cell still
+measures its declared width.
+
+**What is still over.** The body remains above the review's 41-page budget.
+The arithmetic is in `submission/response_to_review21.md` under M12 and is
+worth repeating here: the same review asked for eight new measurements in its
+Phases 1 and 2, which are about eight pages of article, and they were added.
+The response names, in order, the five things the editor could cut next and
+what each costs — and says which two of them the review itself asked for.
+
+### 27.7 Two traps in `s36_sca.py`, both paid for in wall-clock
+
+**It writes nothing until it finishes.** `pool.imap_unordered` accumulates in
+memory and every `to_csv` is after the loop, so killing the run at ninety per
+cent loses all of it. Four hours went that way in round twenty-two. If you
+change the design and need to restart, you restart from zero — so measure one
+task first (`--pairs LOG/TARGET --perms 2`) before committing to nineteen
+pairs.
+
+**Its cost is quadratic in the biggest log, not in the corpus.** A
+permutation replicate refits every cell, so BPIC19 at 251,734 cases was
+taking three quarters of an hour *per replicate* while the eleven small logs
+took seconds. The declared case cap (`N_MAX_CASES`) is what makes the
+experiment rerunnable; without it the honest choice is three pairs, which is
+what the review asked for and what round twenty-one did.
+
+**And a column-name collision that only fires at the end.**
+`results/s33_regions.csv` carries `rho` and `region` for the nominal band and
+`rho_calibrated`/`region_calibrated` for the calibrated one. Renaming the
+second pair onto the first pair's names without dropping them first gives a
+frame with two columns called `rho`, and `float(g.rho.iloc[0])` raises. It is
+in the last twenty lines of the script. Both are fixed; the lesson for the
+next script that reads that file is to drop before you rename.

@@ -1,0 +1,23 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{llll}
+\toprule
+axis & levels & measure & exclusions \\
+\midrule
+learner & 2-4 & equal / ref. / conc. & none \\
+encoding & 2-3 & set by the learner & none \\
+split & 6 & equal / ref. / conc. & none \\
+decision time (availability) & 1-2 & never averaged & two times on the primary log, one elsewhere \\
+register quality x severity & 6-10 & equal / ref. / conc. & none \\
+baseline (ladder rung) & 4-5 & equal / ref. / conc. & intercept-only: in the surface, out of every admissible set \\
+baseline, admissible only & 3-4 & equal / ref. / conc. & none \\
+scalar instrument & 5 & never averaged across & none \\
+operating point (net benefit) & 31 & declared threshold dist. & outside the declared range \\
+\bottomrule
+\end{tabular}%
+}
+\caption{The declared design space. One row per axis: the number of levels (a range where it differs by log), the measure the paper places on those levels, and every level excluded by declaration with its reason. Generated from the code that walks the space, so the level counts multiply to the cell counts of Table~\ref{tab:denominator}.}
+\label{tab:axes}
+\end{table}

@@ -1,0 +1,2 @@
+n_registered,n_case_cohort,n_extra,n_ties,agree_g,agree_km,n_target_undefined,n_cells,n_failed,n_draws,n_resolved,n_km_cells,n_sign_positive,v_published_case,n_tiebreak,tiebreak_min,tiebreak_max,tiebreak_sd,tiebreak_range,tiebreak_sign_positive,v_pc3,share_target,share_cohort,share_interaction,n_ordering_rules_agree,runtime_s
+46606,45455,1151,270,1.0,1.0,0,24,0,400,0,8,4,-0.0032197248522803,25,-0.0035853811327988,-0.0027075160388364,0.0001701279243213,0.0008778650939623,0,0.0076842335265743,0.993021354733672,7.888637940474153e-05,0.0068997588869231,12,2499.3

@@ -59,6 +59,6 @@
       "scheme": "url"
     }
   ],
-  "notes": "Round nineteen. This release accompanies a manuscript that replaces an earlier one, 'Four Choices Behind One Number: Reporting the Incremental Value of a Recorded Field', which a referee for Information Systems recommended rejecting as submitted. The earlier manuscript is retained in the archive; submission/response_to_referee.md answers the ten major comments one by one, and every claim of the earlier version that this one withdraws is recorded as a correction in the new manuscript's Appendix C.",
-  "version": "v19.0"
+  "notes": "Round nineteen. This release accompanies a manuscript that replaces an earlier one, 'Four Choices Behind One Number: Reporting the Incremental Value of a Recorded Field', which a referee for Information Systems recommended rejecting as submitted. The earlier manuscript is retained in the archive; submission/response_to_referee.md answers the ten major comments one by one, and every claim of the earlier version that this one withdraws is recorded as a correction in the new manuscript's Appendix C. Round twenty answers a second, developmental review: three surfaces distinguished and audited, whole-surface simultaneous bands with a multiplier-bootstrap critical value, an orthogonal variance decomposition under declared measures, regret computed inside one instrument at a time and evaluated out of sample, plus-one bootstrap p-values, training-only calibration before every decision curve, and a corrected rank-invariance proposition with a counterexample to the previous statement.",
+  "version": "v20.0"
 }

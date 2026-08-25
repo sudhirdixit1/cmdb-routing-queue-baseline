@@ -1,0 +1,2 @@
+n_families_whole,n_families_dca,n_below_whole,n_below_dca,q_whole_median,q_emp_whole_median,q_dca_median,q_emp_dca_median,ratio_whole_median,ratio_dca_median,resolved_whole_mult,resolved_whole_emp,resolved_dca_mult,resolved_dca_emp,n_draws_min,n_draws_max,runtime_s
+19,19,15,19,3.3347165264190672,4.343083105737341,3.868511389189661,8.099757259613488,1.288217187752284,2.0933743056962477,1150,995,3066,613,33,150,0.6

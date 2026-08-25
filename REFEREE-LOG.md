@@ -792,3 +792,738 @@ nobody checks.
 
 On the technical work, yes. On fit, that is what `submission/DECISIONS.md` §15
 re-took against six criteria fixed in advance, and it changed the venue.
+
+---
+
+# Round twenty — the developmental review
+
+A second, developmental review of the round-nineteen manuscript recommended
+**reject and invite resubmission** and listed eight submission-blocking
+scientific problems (P0.1–P0.8), six methodological strengthenings
+(P1.1–P1.6), three positioning items (P2.1–P2.3), a restructuring plan and
+five red-team gates. `submission/response_to_blueprint.md` is the
+point-by-point reply. Every item is dispositioned below, and the corrections
+each one produced are named so that the register in Appendix D can be read
+backwards from the objection.
+
+The organising observation, because it explains why the repairs cluster: four
+of the eight blocking problems are the same mistake in different places — **an
+inferential object that did not match the sentence it licensed**. A family
+smaller than the claim it covered; a variance component that was not the
+component it was named as; an average over units that do not add; a theorem
+stated wider than its proof.
+
+### B1. The region analysis was computed on a sub-grid and described as a property of the declared surface (P0.1). **CONCEDED — and the denominator is now an audited object**
+
+Three surfaces are named and counted from the files: **declared**,
+**computational** and **inference**. `s25_denominator.py` asserts
+`observed = expected − declared exclusions` and `duplicates = 0` per pair
+rather than leaving the manuscript to claim them. The inference surface is
+declared before any draw by a rule reading only a log's row count, and is
+**axis-complete** — round nineteen's grid held the split axis fixed, which is
+the specific defect that made the old denominator indefensible rather than
+merely small. The restriction is measured: the share of positive cells differs
+between the declared and inference surfaces by a median 0.064.
+
+One consequence is stated rather than left to be found: *uniformly* beneficial
+is easier to reach on a smaller cell set, so that one count is an **upper
+bound** on what the declared surface would give.
+
+### B2. Simultaneous inference was taken over a family smaller than the claim (P0.2). **CONCEDED — correction C26**
+
+Four interval objects are constructed and named — pointwise,
+within-instrument, whole-surface and decision-curve — and every table says
+which it prints. Region labels use the whole-surface family and nothing else.
+The critical value is estimated by a **Gaussian multiplier bootstrap** over
+the standardised draw matrix, which decouples the precision of the critical
+value from the refitting budget; this was not asked for and is the round's one
+methodological addition beyond the list.
+
+### B3. Specification regret averaged incommensurable units (P0.3). **CONCEDED — correction C27**
+
+All three designs the review offers are implemented: metric-specific
+(primary), common operational utility on calibrated net benefit, and partial
+identification over a declared family of five monotone utility maps. No
+average in the paper crosses an instrument.
+
+### B4. The interaction share was the largest per-axis difference (P0.4). **CONCEDED — correction C25**
+
+The per-axis differences overlap across axes and their maximum is neither the
+sum nor the union of the higher-order components. The total higher-order share
+is one minus the sum of the first-order indices, every disjoint component is
+computed, and the identity that the components sum to one is asserted
+numerically on every decomposition.
+
+### B5. The measure over specifications was implicit (P0.5). **CONCEDED — and one conclusion did not survive it**
+
+Four measures are declared and reported. Under the **concentrated** measure —
+a reader who rarely departs from the reference specification — a single axis
+carries more variance than everything higher-order combined on most pairs, so
+"the interactions dominate" is a claim about a measure and not only about a
+surface. This is reported as a substantive finding in the results and in the
+limitations rather than as a caveat, because it is one: how much interactions
+matter is a fact about how far a reader roams.
+
+### B6. Proposition 2 was stated wider than its proof (P0.6). **CONCEDED — corrections C23 and C24**
+
+Proving it generally showed the claim was **false**, not merely unproved: what
+invariance of the reduction requires is that the recalibration act *affinely*
+on the instrument, which is strictly weaker than rank-basedness, and a
+non-rank-based instrument with an invariant reduction is exhibited. The axis
+non-redundancy search is withdrawn entirely.
+
+### B7. Bootstrap p-values of zero, and the word "confirmatory" (P0.7). **CONCEDED — corrections C29 and C30**
+
+The plus-one estimator at 2,000 independent draws, with the smallest
+attainable raw and Holm-adjusted values printed beside the table. The
+contrasts are **final-round planned contrasts**, not confirmatory, and were
+relabelled **PC1–PC5** in the second session because C1–C5 collided with the
+correction register's own identifiers in the same section.
+
+### B8. Decision curves read thresholds as cost ratios on uncalibrated scores (P0.8). **CONCEDED — correction C31**
+
+Calibration is fitted inside the training half, repeated inside every
+bootstrap refit, and raw-score curves are labelled score-threshold sensitivity
+analyses. The decision-curve conclusions are qualitatively stable after
+calibration, which is reported rather than assumed.
+
+### B9. The bootstrap validation was too limited for a methods paper (P1.1). **MEASURED — `s31_simboost.py`**
+
+Nine demands; `s10_simulation2.py` met four. `s31` meets the rest: 1,000
+replicates in each of six worlds, Monte Carlo standard errors on every
+coverage, bias and width, sample size and register cardinality varied
+**jointly** over ten cells to a 3,019-level register, three block lengths
+around the rule of thumb, and seven interval constructions including
+m-out-of-n subsampling in the sparse regime.
+
+The result is a **NEGATIVE** one and is reported as such. In the sparse
+regime — the one that motivates subsampling — the nested percentile interval
+covers 37.2% against a nominal 95%, the bias-corrected percentile 63.1%,
+m-out-of-n 72.8%, and the basic (pivotal) interval 89.9%. Subsampling does not
+rescue the sparse world and undercovers on the well-behaved worlds too, so the
+paper keeps the basic interval and prints all seven coverages side by side.
+
+### B10. Sensitivity indices and region summaries had no uncertainty (P1.2). **MEASURED**
+
+The decomposition is recomputed inside every bootstrap draw; corpus medians
+are bootstrapped with the log–target pair as the resampling unit; no axis is
+called dominant where intervals overlap.
+
+### B11. The quality mechanisms were independent coin flips (P1.3). **MEASURED**
+
+Three dependent mechanisms added — on time, on the item's recorded type, and
+on a training-estimated propensity that correlates missingness with the
+outcome — plus severity curves over several levels and repeats over seeds. All
+are verified train-only **by execution**, and the check caught a real leak in
+the propensity mechanism itself (section 25.6 of `HANDOFF.md`).
+
+### B12. Construct validity across a heterogeneous corpus (P1.4). **CONCEDED, with a table**
+
+One row per pair: the field playing the register role, why it behaves as a
+maintained and reused entity, and the specific threat to construct validity
+that pair carries. The corpus is a benchmark of specification sensitivity
+across heterogeneous problems, not a replication, and nothing is averaged
+across pairs.
+
+### B13. Discipline the CMDB case study (P1.5). **CONCEDED**
+
+Two decision times, a knowledge-field availability curve a reader can place
+their own belief on, and decision curves only after calibration.
+
+### B14. Remove or radically reduce the practice pilot (P1.6). **CONCEDED — correction C28**
+
+One paragraph in the main text; protocol, screen accuracy, PRISMA-style flow
+and prevalence estimation in Appendix G. The Wilson intervals built on a
+fractional effective sample are withdrawn and replaced with a stratified
+bootstrap and a design-based linearised interval; none of the five Wilson
+intervals contains its design-based counterpart. One machine-assisted
+adjudicator and no independent human reliability study is stated prominently,
+and no claim in the paper depends on the pilot.
+
+### B15. State the novelty narrowly (P2.1). **CONCEDED**
+
+The introduction now distinguishes existing components, the new formalisation,
+the new reporting objects — naming which two are adaptations and which two are
+new — the new empirical evidence and the new operational case. The second,
+overlapping novelty statement in related work was merged into a single
+paragraph naming the gap in four places.
+
+### B16. Proposition 4 is interpretive, not difficult (P2.2). **CONCEDED**
+
+It is a **lemma**, its three strong assumptions are named in the sentence that
+states it, and the manuscript says in terms that the scientifically difficult
+part is specifying the utility and the weighting rather than proving the
+identity. The in-sample check is reported as an algebraic check and the rules
+are compared out of sample.
+
+### B17. Remove Computational Result 1 (P2.3). **CONCEDED — correction C24**
+
+Withdrawn. Its answer moved between zero and five of twelve ordered pairs as
+an arbitrary tolerance was swept; nothing depended on it.
+
+### B18. The manuscript is too long (the restructuring plan). **CONCEDED IN PART, and the shortfall is stated**
+
+The structure is now the recommended one, section for section, with simulation
+promoted to its own section and the pilot demoted to a paragraph. A new
+Appendix C carries the constructions moved out of the inference section. The
+body is nevertheless about 19,700 words against a requested 13,000–15,000, in
+64 pages of main text and 33 of appendices: six
+of the ten recommended sections are inside their budgets, two are under, and
+the two over are the two in which the Priority 0 list required new objects to
+be defined. The response names the two sections we would cut if the editor
+insists rather than choosing for them. `python scripts/texlint.py --sections`
+prints the table and `check_response_refs.py` checks the response against it.
+
+---
+
+# Round twenty-one — the second developmental review
+
+A second developmental review read the round-twenty manuscript, recommended
+**major revision**, and noted that a strict reviewer would recommend
+reject-and-resubmit on M1 and M12 alone. Twelve major comments and eleven
+minor ones. `submission/review_round21.md` is the report as received;
+`submission/response_to_review21.md` is the reply.
+
+### M1. The case study's headline number appears with two values and two signs. **MEASURED**
+
+The most serious objection this project has received, because it is the class
+of error the whole verification apparatus exists to prevent. `s32_cohort.py`
+estimates the increment at the later decision time over the full cohort x
+target factorial at three rungs, 24 cells at 400 nested draws. The
+reconciliation is a one-factor-at-a-time path and the answer is a finding: the
+target carries 99.3% of the difference, the cohort 0.008%. Two candidate
+explanations were ruled out by computation. Section 7 is now on one cohort
+throughout (`s39_case_quality.py`, and `s08` re-run under a declared
+tie-break). `round21_verify.py` adds an `ESTIMANDS` table that fails when two
+macros naming the same quantity disagree.
+
+**Why the old harness could not have caught it.** Every check in this
+repository verifies a macro against its own source file, and both macros were
+right about theirs. What was wrong was that two of them answered to the same
+English sentence. A check on a single number cannot see that; a check on the
+SET of numbers can, and is what the ESTIMANDS table is.
+
+### M2. The decision time is a relabelling of the baseline. **MEASURED**
+
+`s38_tau.py`. Three decision times, each with its own population, its own
+register and its own admissible set, one decision. The population costs
+-0.0297 AUC with the information held fixed; the feature snapshot a further
+-0.0175 before any baseline changes. All three resolve.
+
+### M3. Two of the four objects rest on bands the paper declares unreliable. **MEASURED**
+
+`s33_calibrate.py`. A denser (n, K) plane; a widening factor that is the 0.95
+quantile of the studentised error, so it is computed rather than searched for;
+a fitted curve in log(K/n); and every region label and rho in the article
+computed under the calibrated critical value, with the nominal one printed
+beside it.
+
+### M4. The misreport rate counts cells whose sign is not resolved. **MEASURED, and the headline fell**
+
+`s34_reporting.py`. Three rates: all cells, resolved cells, magnitude-weighted.
+The article's headline is the second and is smaller than the number it
+replaces. The magnitude-weighted rate is HIGHER than the unweighted one and is
+reported as such.
+
+### M5. The practical stakes are thin. **CONCEDED after measuring**
+
+`s35_utility.py` adds a registered calibration screen, a desk threshold
+distribution and a per-thousand-cases unit. The rules still mostly tie and the
+article says so in a paragraph of its own; the regret comparison is demoted to
+a check. What the section gained instead is the cost of deploying at the wrong
+decision time, which is larger than every difference between the rules.
+
+### M6. Novelty is narrower than the length implies. **MEASURED**
+
+`s36_sca.py` runs specification-curve analysis as practised, unchanged, on the
+same declared sub-surface, and the article reports where the two verdicts part
+company.
+
+### M7. The learner axis is confounded with the encoding axis. **MEASURED**
+
+`s37_axes.py`. Crossed on the case study's log: encoding 10.1%, family 5.2%,
+their interaction 9.8% -- the largest two-way term. The axis is called a
+pipeline throughout and the confound is named.
+
+### M8. Five corpus statistics that cannot be reproduced from the printed tables. **CONCEDED, all five**
+
+Aggregations labelled; PC3's one-sided p derived against its two-sided
+interval; the denominator table put on one basis with the model-fit column
+named; the master surface's intercept-only rung stated.
+
+### M9. Excluded pairs appear in an appendix table. **CONCEDED**
+
+The layer table is filtered by the surface's own admission list and its
+caption states the count dropped.
+
+### M10. Corpus statistics mix two populations. **MEASURED**
+
+Every headline statistic on all 19 pairs, the 8 ITSM pairs and the 11 others.
+
+### M11. The literature pilot should not be in the paper. **CONCEDED**
+
+Supplementary material; three sentences in the article; and the declaration
+now records that the model identifier for its adjudication was not captured.
+
+### M12. Ninety-seven pages written as a commentary on its own errors. **CONCEDED IN PART**
+
+The appendices are a separate document. Zero occurrences of "an earlier
+version of this work" and zero of "correction Cnn" remain in the article, and
+`texlint` fails the build if either returns. The prose is in a plainer
+register. The article is nevertheless longer than the 35-40 pages the review
+asked for, and the response says by how much and what would have to go.
+
+---
+
+# Round twenty-two — an independent pre-submission review
+
+Before submitting, the round-twenty-one manuscript was given to an independent
+reviewer with the journal's own brief, no knowledge of what had changed, and
+access to the repository to check any number it doubted. It returned **major
+revision** with nine major comments and twenty minor ones, and six of the nine
+were defects rather than differences of opinion. Every one of the six was
+verified against the result files before it was acted on.
+
+### R1. The inference surface is not a subset of the declared surface. **CONCEDED — the worst finding of the round**
+
+On `BPIC19/duration` and `RoadFines/duration` the whole-surface band carries
+the pipelines `{logit, logit_fr}` while the declared surface carries
+`{logit, hgb}`: sixty of each pair's hundred and twenty band cells had **no
+counterpart in the design declaration**. The region label and rho for those
+two pairs therefore quantified over cells the design space says do not exist.
+
+The cause is a deliberate choice in the right place and a missing one in the
+other: `s20` gives the two largest logs the ENCODING pair because a boosting
+fit refitted inside every draw is unaffordable there, and `s01` gave every
+non-primary log the FAMILY pair. Neither file was wrong about itself.
+
+**The declared surface is what widened** — one logistic fit per cell is cheap,
+and narrowing the inference surface is not — so the two largest logs now carry
+three pipelines in the declaration and the two `s20` can afford in the bands.
+The whole surface was recomputed and everything that reads it with it.
+
+**Why the audit missed it: it checked level COUNTS and not level IDENTITY.**
+`round21_verify` now asserts the subset relation cell for cell, which is the
+only version of the check that would have caught this.
+
+### R2. Two macros described in the same words held 892 and 846. **CONCEDED**
+
+The same gap, arriving four pages apart in the prose. Both are now
+`ESTIMANDS` entries and must agree. So is the headline rate, which was
+5.6% in the abstract and "a tenth" in Highlight 4 — the nominal figure. **The
+Highlights were the one part of the submission the macro discipline never
+covered**, and they are the first thing an editor reads.
+`scripts/make_highlights.py` generates them from the macros now, and the
+verifier fails if the file does not match what the current macros render to.
+
+### R3. The master table printed uncalibrated labels and a superseded column. **CONCEDED**
+
+Section 6.4 says in bold that every region and rho in the paper is the
+calibrated one; Table 3 took both from the nominal file, four labels differed,
+and the median rho a reader computed from it was 0.117 against the 0.017 the
+conclusion quotes. Its sign-disagreement column came from a round-nineteen
+file that disagrees with the round-twenty-one one on ten of nineteen pairs and
+still carries a "uniformly beneficial" label the paper's headline denies. Both
+columns now come from the current files, and the captions name them.
+
+### R4. The design space pools three kinds of axis. **CONCEDED, and it costs the headline a third**
+
+Analyst latitude (pipeline, rung, instrument), resampling (the split, five of
+whose six levels are folds on the same data) and counterfactual states of the
+world (register quality) were averaged into one rate. Restricted to the axes
+an analyst actually chooses, the sign-disagreement rate falls from 32.8% to
+about 20%. Both are now reported, the decomposition is partitioned by kind,
+and Section 11 says that the region labels are conditional on the quality axis
+being averaged over.
+
+### R5. No corpus-level headline carried any uncertainty. **CONCEDED**
+
+Every cell of the family table now carries a percentile interval from a
+cluster bootstrap with the LOG as the resampling unit, because two targets on
+one log share a cohort. The resolved-cell row was a median of per-pair rates
+and printed 0.000; it is a pooled ratio now. **And the pooled rate is lower on
+the ITSM family than on the rest**, which is the population the paper's
+argument is about, so the corpus-wide headline is partly carried by the pairs
+the paper itself names as construct-validity threats. That is now in the text.
+
+### R6. Corollary 1's witness does not support it. **CONCEDED — the proposition is restated**
+
+Proposition 2 quantified over every strictly increasing continuous map;
+Corollary 1's witness, the class-mean gap, is invariant only inside the AFFINE
+family, and this repository's own `s29_wider.csv` records shifts up to 0.638
+outside it. The corollary therefore did not establish the separation at the
+proposition's scope.
+
+The proposition is now stated **relative to a declared family** $\Psi$, which
+is both what the proof reaches and what an analyst can act on; the corollary
+is stated for the affine family; and a new remark reports the non-affine
+shifts and says plainly that the separation is family-relative and that the
+unrestricted question is open. `round21_verify` checks both directions.
+
+### R7. The design space omits the axis predictive process monitoring varies. **CONCEDED**
+
+Prefix length, prefix bucketing and sequence encoding cannot be axes here
+because this study predicts at one prediction point. Sections 2 and 11 now say
+so and say that the corpus result therefore does not measure the sensitivity
+of that literature's benchmark conclusions.
+
+### R8. Two pieces of load-bearing evidence rest on thin designs. **MEASURED**
+
+The calibration's counts are now reported at three settings --- nominal,
+calibrated, and every factor pushed to the upper end of its own Monte Carlo
+interval --- so a reader who rejects the transfer can read the nominal column.
+The specification-curve comparison now runs on **every** admitted pair rather
+than on three chosen to illustrate three outcomes.
+
+**What that cost, and the second budget it forced.** A permutation replicate
+refits every cell of every pair, so the experiment is quadratic in the
+corpus's largest logs: on BPIC19, at 251,734 cases, one replicate of the
+twenty-four-cell design took three quarters of an hour, and the run over
+nineteen pairs was on course for most of a day. The sub-surface already
+bounds the *cells*; the rows each fit sees are now bounded too, by a declared
+cap of twenty thousand cases per pair — a seeded sample drawn once and
+restored to time order, so the observed surface and its null are computed on
+the same cases. It binds on four logs, is recorded per pair in
+`s36_verdicts.csv`, and Section 6.7 states it. It does not touch the region
+labels the verdict is set beside, which are computed on the full data by
+`s33`.
+
+**And the run would have crashed at the end.** `s36` renames the calibrated
+region columns of `s33_regions.csv` onto `region` and `rho` — names that file
+*also* carries for the nominal ones — so `g.rho` was a two-column frame and
+`float()` of it raised. The failure is in the last twenty lines of the
+script, after every fit, so it would have surfaced only after the whole run
+had been paid for. The nominal columns are dropped before the rename now.
+
+### R9. Length, legibility, and an incomplete exclusion ledger. **CONCEDED IN PART**
+
+The construct table's columns were touching at 3pt of separation and are set
+at 5pt; Figure 1's panel labels sat on the tick labels and are inside the top
+right now; its axis-level legend is larger and its levels are spelled out. The
+ledger was incomplete in the direction that matters: two logs were downloaded
+as a **held-out set** for a separate test and were never offered to the
+admission rules, so they appeared neither among the admitted pairs nor among
+the exclusions. They are in the ledger now under `HELD_OUT`, and the
+data-availability statement no longer claims more than the table delivers.
+
+**Length.** The reduction was done in three separable moves, so that no
+evidence was lost to it. Nine tables and two figures moved to the supplement;
+three result subsections — the family-by-encoding crossing, the decision-rule
+comparison, and the calibration, unseen-category and rolling-origin
+diagnostics — moved to Supplement S11 with a paragraph of numbers left in the
+article; and the coverage calibration's derivation moved to Supplement S10.
+Then about 3,300 words of restatement came out. **Four sections were
+describing the coverage calibration and one does now.** The article carries
+seven tables and five figures against sixteen and seven, every one of them now
+named in the running text. The remaining gap to the review's 35–40 pages is
+stated in the response with the arithmetic that produces it: the same review
+asked for eight new measurements, which are about eight pages of article, and
+they were added.
+
+**And the build summary was checking one document of two.** It reported the
+article's overfull boxes and said nothing about the supplement's, which had
+**seventy** — sixty-two of them in the construct table alone, where five
+columns held single unbreakable tokens (`enforcement`, `org:resource`) in
+`p{}` columns narrower than the tokens, so every one of them printed past its
+column edge. That is the run-together look the review's twentieth minor
+comment described, and it had survived four rounds because nothing looked.
+Those columns are natural-width now and the guarded `\resizebox` takes up the
+slack; the same defect in the corpus severity table is fixed the same way;
+and `build_journal.py` prints both documents' counts. Four wide tables were
+also rebuilt with fewer columns — the planned contrasts lost a column that
+restated Section 4.4 word for word, the master table and the decision-time
+table print an interval as one column instead of two endpoints as two, and
+the region table prints its three cell counts as one triple per critical
+value, dropping it from fifteen columns to eleven. **Both documents now build
+with zero overfull boxes.**
+
+---
+
+# Round twenty-three — two blind referees, and the object they broke
+
+The round-twenty-two manuscript was sent to two independent readers with this
+journal's brief, no knowledge of its history, and access to the repository to
+check any number they doubted. One was asked to read as a methodologist, one
+as an information-systems and process-mining referee. **Both returned major
+revision.** Neither recommended reject; neither recommended accept.
+
+They agreed on four things and each found something the other did not. Every
+finding below was reproduced from the deposited files before it was acted on.
+
+## R23.1 The simultaneous band's critical value is contradicted by the paper's own second estimate. **CONCEDED — the worst finding in three rounds**
+
+`s21` writes two estimates of the same max-$t$ critical value side by side:
+the Gaussian multiplier quantile `q`, which the bands use, and the empirical
+quantile `q_emp` of the same $B$ observed maxima, with its order-statistic
+interval. Nobody had compared them.
+
+**`q` lies below the *entire* order-statistic interval of `q_emp` on 15 of 19
+whole-surface families and on all 19 decision-curve families**, in the
+anti-conservative direction. Median ratio: 1.29 on the surface families, 2.09
+on the decision-curve ones (3.87 against 8.10). The manuscript's only defence
+was that the empirical quantile is imprecise — a median order-statistic width
+of 2.0 against the multiplier's 0.04 — which is an argument about *variance*
+and says nothing about a systematic one-sided gap.
+
+The cause is not the draw count. A Gaussian multiplier reproduces the
+empirical *covariance* of the standardised draws and therefore only the
+excursions a Gaussian process makes; these draws are heavy-tailed. The
+referee's synthetic check makes the direction unambiguous: at the corpus's
+family sizes and draw counts the multiplier is accurate under Gaussian draws
+and badly anti-conservative under $t_3$ draws.
+
+What it costs, computed from the deposited bands file:
+
+| | multiplier | empirical |
+|---|---|---|
+| resolved whole-surface cells | 1,150 | **995** |
+| resolved decision-curve cells | 3,066 | **613** |
+
+The decision-curve exposure is fivefold and undisguised, because the coverage
+calibration of Section 6.4 is estimated for the scalar instruments and is
+**not** applied to that family — which the manuscript had also never said.
+
+**What was done.** `s40_qcheck.py` computes both counts and the per-family
+comparison. Section 4.3 carries a new paragraph stating the disagreement, its
+direction, its mechanism and what each estimator resolves. Section 6.4 reports
+the empirical count as a fourth setting beside the three calibration settings
+— and it moves the resolution by more than the calibration does. Section 8.3
+states that its family is uncalibrated and that its counts are upper bounds
+under the empirical value. Section 11 carries it as the sharpest limitation
+and says plainly what neither estimator settles: **nothing in this paper
+measures the band's family-wise coverage against a known answer.** The
+simulation validates the *pointwise* interval only. Extending it to
+family-wise coverage, at the corpus's family sizes, draw counts and tail
+behaviour, is named as the first thing to do with more compute. It is not done
+here and the paper does not pretend otherwise.
+
+## R23.2 $\tau_1$ and $\tau_2$ are not the same cases, so the information step was overstated by three quarters. **CONCEDED**
+
+Table 7's caption said "$\tau_1$ and $\tau_2$ only in what is known about the
+same cases" and Section 7.2 attributed the whole $-0.0175$ step to
+information. The table's own columns said otherwise: $\tau_1$ carries 44,513
+cases and $\tau_2$ carries 45,455, because 942 incidents have no interaction
+record. The clean population/information separation is the operational
+contribution of Section 7.2 and it was quoted again in the Conclusion.
+
+`s38` now also runs $\tau_2$ **restricted to $\tau_1$'s population** — same
+44,513 cases, same prevalence 0.4016. The decomposition is therefore:
+
+| step | what changes | value |
+|---|---|---|
+| $\tau_0 \to \tau_1$ | population | $-0.0297$ |
+| $\tau_1 \to \tau_2$ matched | **information alone** | $-0.0099$ |
+| $\tau_2$ matched $\to \tau_2$ | the 942 unmatched incidents | $-0.0076$ |
+
+The information channel was **$-0.0099$, not $-0.0175$**. The verifier now
+checks that the two steps sum to the unadjusted one and that the matched
+cohort really has $\tau_1$'s case count.
+
+## R23.3 The same contrast was printed with two intervals, and the same ladder rung with two constructions. **CONCEDED**
+
+`PC3` appeared as $[-0.00161, +0.01217]$ in Section 4.4 and
+$[-0.00059, +0.01210]$ in Table S15. Both were right about their own file —
+`s32` runs the cohort experiment at 400 draws, `s24` the planned contrasts at
+2,000 — and the point estimate agrees to seven figures. What was wrong is that
+the article quoted the 400-draw interval in the same paragraph as the
+2,000-draw budget, beside a table printing the 2,000-draw interval, under a
+supplement abstract promising that a quantity cannot differ between the two
+documents. Every `PC3` macro now comes from `s24`.
+
+**The ESTIMANDS guard could not have caught this, and now can.** It covered
+point estimates only. `INTERVAL_SOURCES` declares, per interval macro, the
+result file and row its endpoints must be re-derived from.
+
+## R23.4 "No surface is uniformly beneficial" is unreachable by construction. **CONCEDED — both referees, independently**
+
+A cell whose *point estimate* is negative can never be beneficial at any
+critical value, and every one of the 19 pairs has one. The label was therefore
+ruled out before any band, bootstrap or calibration was applied, and reporting
+"zero at every setting" as robustness presented invariance to something the
+label does not depend on. For the same reason $\rho = 1$ is not an attainable
+state for any pair in this design.
+
+Section 6.4 now leads with the informative reading — of the 13 pairs that
+resolve any sign, 9 have no harmful cell and 4 resolve both signs — and states
+that the uniform-beneficence count needs none of the apparatus. The
+Conclusion's first bullet says the thing that is actually true of point
+estimates.
+
+## R23.5 The headline was quoted on the population the paper concedes is the wrong one. **CONCEDED**
+
+The pooled resolved-cell misreport rate is 7.5%; on the eight ITSM pairs — the
+population the paper says it is about — it is 3.6%, and 22.2% on the other
+eleven. Section 6.6 said so; the abstract, the Highlights and the Conclusion
+printed only the pooled figure. All three carry both now, and the abstract
+also carries the 13-and-4 split. The Highlights are generated, so the first
+line an editor reads cannot drift from this again.
+
+## R23.6 The estimand was never defined as a population quantity. **CONCEDED**
+
+Equation (1) is written on a fixed train/test split, so as printed $V_s(f)$ is
+a deterministic functional of the log and an interval for it covers with
+probability 0 or 1 — while Section 4.1 resamples the training half precisely
+because the analyst does not want to condition on it. Definition 2 now gives
+the population estimand $\vartheta_s(f)$, states that the split rule and the
+pipeline are *part of* it rather than nuisances, and says that every printed
+cell is an estimate of it and that "resolved" is a statement about it.
+
+## R23.7 Six smaller things, each verified
+
+- **The layer conclusion overstated its table.** "Coarse layers are close to
+  free" against CI Type at $+0.134$ and the item at $+0.257$ on handover. The
+  claim that survives is about the item's *marginal* contribution over the
+  subtype, $+0.109$, and Section 7.6 states the layer figures per target.
+- **Two prevalences for one cohort.** `s08` records the test half's and `s38`
+  the whole cohort's; Section 7.1 attached the first to the 45,455-case cohort
+  and then compared it against a whole-cohort figure for the other target.
+  The cohort's prevalence is the cohort's now, and the test half's is a
+  separate macro named as such.
+- **The exclusion ledger was still incomplete.** A log offered to the
+  held-out set's rules and excluded by them appeared in neither column. The
+  ledger has a third source now, so "every downloaded log" is true as printed.
+- **Figure 2's caption promised bootstrap intervals the figure has none of**,
+  and called the hatched segment a remainder when it is one of the plotted
+  segments. Worse, `set_xlim(0, 1.02)` clipped exactly the bars that exceed
+  one — which they do, because each segment is a median over instruments and
+  medians do not add. The limit comes from the data now and the caption says
+  why.
+- **`to_latex(escape=True)` escapes what you pre-escape.** `50\%` printed as
+  `50\textbackslash %` and a math column heading as literal dollar signs.
+- **"Coverage is governed by $K/n$" was stronger than the grid supports.**
+  Two cells at nearly the same ratio cover 0.780 and 0.613, and holding $K$
+  fixed while moving $n$ moves coverage by 16 points. Section 10.3 now says
+  the ratio captures most of the dependence and not all of it, and that the
+  calibration inherits the residual.
+
+## R23.8 Length, again
+
+Both referees said the article is about twice the length its content supports.
+The practice pilot and the correction register are **out of the submission
+entirely** — not compressed, not moved to the supplement, removed to the
+archive — which is what both asked for and what the round-twenty-one review's
+eleventh comment had asked for before them. Section 9.3 now states in four
+sentences that the prevalence of one-number reporting is not established here
+and that the paper's argument does not need it.
+
+## R23.9 What this round did not do
+
+The band's family-wise coverage is still not validated against a known answer.
+That is the methods referee's "single most important thing", it is correctly
+identified, and it is a new experiment rather than an edit. The paper now
+reports both critical-value estimates and what each resolves, states the gap
+as its sharpest limitation, and names the experiment that would close it. A
+reader who wants the conservative reading has the numbers to take it.
+
+---
+
+# Round twenty-four — a third blind referee, and a sentence that was simply false
+
+The round-twenty-three manuscript was sent to a third independent reader under
+the same conditions as the two before it: this journal's brief, no knowledge
+of the paper's history, repository access to check any number. It returned
+**major revision**. It reproduced about thirty printed quantities from
+`results/` — the denominator, the baseline spread, the 892/67/7.5% chain, the
+ITSM split, every first-order median of Table 3, the critical-value
+comparison, the calibration factors and the case-study ladder — and found
+every one correct. Then it found seven things that were not.
+
+## R24.1 A sentence about simulated coverage is false against the paper's own grid. **CONCEDED**
+
+Section 10.3 said coverage "holds at or above 90.0% while $K/n$ is at most
+0.050". In `results/s31_coverage.csv` the cells at or below that ratio cover
+**0.887, 0.893, 0.893, 0.900 and 0.907** — the minimum is 88.7%.
+
+The macro was the trap. `simGridCoverageSafe` was defined as the minimum
+coverage *among the cells that attain 0.90*, and `simGridRatioSafe` as the
+largest ratio at which some cell attains it. Both are extrema over a selected
+subset; the manuscript read them as a guarantee over a range. **A macro is
+only as safe as its definition, and the verifier could not catch this because
+the macro matched its source exactly.** The pair is replaced by
+`coverageGridSafeMin`/`coverageGridSafeMax` — the honest range over every cell
+in the band — and the old macros are no longer emitted, so the sentence cannot
+be rebuilt from them.
+
+## R24.2 The coverage calibration is an extrapolation in $n$ over most of the corpus. **CONCEDED — the referee's single most important item**
+
+The plane that identifies the inflation factor is estimated at training sizes
+**2,000, 4,000 and 8,000**. This corpus runs **735 to 176,213** training rows,
+so **3 of 19 pairs** lie inside the range the factor was fitted on: nine below
+it and seven above. Section 10.3 proves in the same document that $K/n$ does
+not determine coverage — holding $K$ at 1,000 and moving $n$ from 2,000 to
+8,000 moves coverage from 0.453 to 0.613 — so a factor that is a function of
+the ratio alone is being read outside the region that identifies it on most of
+the corpus. Section 11 stated the transfer as an assumption in general terms
+and never told the reader how far it reaches.
+
+Section 6.4 now states the reach where the factor is applied, and Section 11
+carries it as a limitation of its own with the arithmetic. Widening the plane
+in $n$ is named as the cheapest outstanding improvement.
+
+## R24.3 The headline was quoted at one band setting when the file held another. **CONCEDED**
+
+`\misreportPooledResolvedNominalPct` (11.9%) existed in `numbers.tex`, was
+computed correctly, and was used **zero times** in either document, while the
+calibrated 7.5% was used four times including the abstract. Section 6.4 makes
+a virtue of reporting region counts at several settings; the headline deserved
+the same. Section 6.5 now prints both and says the calibrated figure is the
+smaller — the conservative choice, but a choice.
+
+**And one number was withdrawn rather than printed.** A rate under the
+empirical critical value was drafted for the same sentence and computed 4.7%
+where the correct value is near 11%: the quick version took each pair's
+reference sign from the first row of a group rather than from the reference
+cell. It is not in the manuscript. What is printed instead is the empirical
+band's resolution *count*, which `s40` computes correctly.
+
+## R24.4 The section names two defects in its own rate and corrects them one at a time. **CONCEDED**
+
+Restricting to analyst-latitude cells gives 20.0%; restricting to resolved
+cells gives 7.5%; the two were never imposed together although the argument
+asks for it. Jointly: **27 of 210 cells, 12.9%** over the corpus, and 7.5% on
+the ITSM eight. `s34` computes it now and Section 6.5 prints it as the rate
+that answers "how often would a one-number report be wrong about a sign the
+data determine, on a cell an analyst might actually have stood on".
+
+## R24.5 The headline's denominator is concentrated in three logs. **CONCEDED**
+
+Of the 67 disagreeing cells, **65 come from three logs** and only **4 of 13
+logs** contribute any at all. Two of the three also carry the smallest
+bootstrap budgets — 33 complete draws of 40 — so the largest contributors to
+the headline are also its noisiest. Both facts are in Section 6.5 and Section
+11 now.
+
+## R24.6 A supplementary table was the wrong object, chosen by row order. **CONCEDED**
+
+The decision-curve table filtered on log, target, learner, quality and rung
+but **not on split**, so the frame spanned two splits and a `.head(31)` chose
+between them by row order. The rows were the raw-score curve while the text
+and figure beside it read the isotonic-calibrated one — which Section 8.2
+states must be labelled wherever it appears — and the caption named neither
+the log, the target, the split nor the calibration. The sentence citing it
+quoted two numbers the table does not contain. **A supplementary table that
+fails the paper's own reporting standard is not a small defect.** The split is
+fixed, the calibrated curve is selected where the file carries one, the
+caption names the cell, and the citing sentence points at what the table
+actually shows.
+
+## R24.7 Definition 3 defines a label over a set the paper does not compute on. **CONCEDED**
+
+"Uniformly beneficial if every admissible cell is beneficial" — but the labels
+are computed on the inference family, a median 16.7% of a pair's admissible
+scalar cells. The direction is not neutral: a claim about every cell is easier
+to sustain over fewer cells, and *uniformly beneficial* is the label most
+helped. The definition is now stated relative to the declared family
+$\mathcal{F}$, $\rho$'s denominator is $|\mathcal{F}|$, and the asymmetry is
+spelled out underneath it.
+
+## R24.8 What three blind referees have now agreed on
+
+All three returned **major revision**; none returned reject and none returned
+accept. Two of the three independently found that "no surface is uniformly
+beneficial" is unreachable by construction, and two independently found that
+the headline was quoted on the population the paper itself calls the wrong
+one. Both are fixed. The one thing none of them could check, and that all
+three would want, is still outstanding and still stated: **nothing in this
+paper measures the simultaneous band's family-wise coverage against a known
+answer.**

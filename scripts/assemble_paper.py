@@ -17,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PARTS = ROOT / "paper" / "parts"
 OUT = ROOT / "paper" / "specification_surfaces.tex"
+OUT_SUPP = ROOT / "paper" / "supplement.tex"
 
 ORDER = [
     "00_front_intro_related.tex",
@@ -27,17 +28,30 @@ ORDER = [
     "50_cmdb.tex",
     "60_dca.tex",
     "70_standard.tex",
+    "75_simulation.tex",
     "80_limits.tex",
     "90_backmatter.tex",
 ]
 
+#  ROUND TWENTY-ONE.  The review's twelfth comment: the article is
+#  ninety-seven pages and nobody finishes it.  The appendices are now a
+#  SEPARATE DOCUMENT with its own numbering, built from the same parts and
+#  the same generated macros.  Cross-references between the two resolve
+#  through `xr', which is why build_journal.py runs both twice.
+ORDER_SUPP = [
+    "S0_supplement_front.tex",
+    "S9_supplement_back.tex",
+]
 
-def build():
-    missing = [p for p in ORDER if not (PARTS / p).exists()]
+DOCS = {OUT: ORDER, OUT_SUPP: ORDER_SUPP}
+
+
+def build(order):
+    missing = [p for p in order if not (PARTS / p).exists()]
     if missing:
         sys.exit("missing parts: %s" % ", ".join(missing))
     chunks = []
-    for p in ORDER:
+    for p in order:
         chunks.append("%% ---- paper/parts/%s ----\n" % p)
         chunks.append((PARTS / p).read_text(encoding="utf-8"))
     return "".join(chunks)
@@ -47,18 +61,18 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args(argv)
-    text = build()
-    if a.check:
-        cur = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
-        if cur != text:
-            sys.exit("paper/specification_surfaces.tex is stale; "
-                     "run scripts/assemble_paper.py")
-        print("assembled manuscript is current")
-        return
-    OUT.write_text(text, encoding="utf-8")
-    words = len(text.split())
-    print("wrote %s (%d parts, ~%d tokens of source)" % (OUT.name, len(ORDER),
-                                                         words))
+    for out, order in DOCS.items():
+        text = build(order)
+        if a.check:
+            cur = out.read_text(encoding="utf-8") if out.exists() else ""
+            if cur != text:
+                sys.exit("paper/%s is stale; run scripts/assemble_paper.py"
+                         % out.name)
+            print("assembled %s is current" % out.name)
+            continue
+        out.write_text(text, encoding="utf-8")
+        print("wrote %s (%d parts, ~%d tokens of source)"
+              % (out.name, len(order), len(text.split())))
 
 
 if __name__ == "__main__":

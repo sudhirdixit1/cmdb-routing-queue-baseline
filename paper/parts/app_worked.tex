@@ -1,0 +1,25 @@
+
+The standard is not about event logs and not about configuration databases,
+and the quickest way to show that is to run it on something else. UCI Adult
+(Census Income) predicts whether a person's income exceeds a threshold from
+\exRows\ records. Suppose an analyst wants to report what \texttt{occupation}
+is worth. It is the expensive field: a survey has to ask about it and code it,
+where age, sex, race and country come with the sampling frame and education
+comes with an enrolment record.
+
+Worth compared with what? Against the frame alone, against the frame plus
+education, or against the frame plus education plus hours worked. Measured
+how, at which operating point, and with the register how complete. Over the
+resulting \exCells\ cells the reduction runs \exRmin\ to \exRmax. The baseline
+axis and the metric axis carry the same first-order share of the variance in
+the increment to three figures --- \exSbaselinePct\ and \exSmetricPct\ ---
+against \exSpopulationPct\ for the register population, and a one-number
+report misstates the sign for a mean \exMisreportPct\ of the other cells. That
+the two lead axes tie is a property of this dataset and not a general one; it
+is the sort of thing a surface reports and a single number cannot.
+
+\texttt{examples/worked\_example.py} produces all of it in \exampleLines\
+statements against the package's public interface, and ends by calling
+\texttt{float()} on the surface so a reader can see what the refusal looks
+like.
+

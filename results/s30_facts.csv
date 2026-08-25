@@ -1,0 +1,2 @@
+n_codes,n_boot,n_in_total,n_out_total,n_in_adjudicated,n_out_adjudicated,weight_in,weight_out,weighted_eligible,design_width_median,boot_width_median,wilson_width_median,n_wilson_inside_design,max_lo_gap,max_hi_gap,runtime_s
+5,20000,54,315,54,120,1.0,2.625,54.875,0.19009453503438722,0.2680911290690773,0.2684441818831931,0,0.07280048164760744,0.1309026303363734,14.6

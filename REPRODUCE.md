@@ -49,7 +49,7 @@ Nothing is redistributed. Every dataset is public and is fetched from its DOI:
 | BPI Challenge 2014 | `10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35` | the case study, and one corpus log |
 | BPI Challenge 2013, incidents | `10.4121/uuid:500573e6-accc-4b0c-9576-aa5468b10cee` | a corpus log |
 | Incident management process enriched event log | `10.24432/C57S4H` | a corpus log |
-| twenty further public event logs | see `data/corpus/CHECKSUMS.txt` | the corpus |
+| the further public event logs | see `data/corpus/CHECKSUMS.txt`, which lists every file with its SHA-256 | the corpus, the held-out set, and the logs the registered rules exclude |
 
 ```bash
 python scripts/fetch_corpus.py       # resolves each DOI, downloads, checksums
@@ -80,8 +80,19 @@ deterministically.
 | decomposition, regret | `s03_decompose.py`, `s04_regret.py` | ~2 min |
 | the pilot | `s06_audit2.py` | ~20 min, network-bound, cached |
 | the noisy-world arms | `s18_bias_scaling.py` | ~1 min on 10 cores |
-| numbers and tables | `make_numbers.py`, `assemble_paper.py` | seconds |
-| figures | `s12_figures.py` | ~1 min |
+| **the inference surface** | `s20_boot2.py` | **4-6 h**, see below |
+| **whole-surface bands** | `s21_bands.py` | ~3 min, reads s20's draws |
+| **the corrected ANOVA** | `s22_anova.py` | ~5 min |
+| **regret on a coherent scale** | `s23_regret.py` | ~1 min |
+| **the planned contrasts** | `s24_confirm.py` | ~40 min on 12 cores |
+| **the denominator audit** | `s25_denominator.py` | ~2 min |
+| **calibration and decision curves** | `s26_calib_dca.py` | ~50 min |
+| **register-quality curves** | `s27_quality.py` | ~30 min |
+| **the propositions, round twenty** | `s29_props.py` | ~4 min |
+| **the pilot's design-based variance** | `s30_pilot_var.py` | ~20 s |
+| **the simulation at full size** | `s31_simboost.py` | **5-7 h**, see below |
+| numbers, tables, claim registry | `make_numbers.py`, `assemble_paper.py`, `claim_registry.py` | seconds |
+| figures | `s12_figures.py`, `s28_figures.py` | ~2 min |
 | verification | `verify_numbers.py`, `verify_paper.py` | ~2 min |
 | corruption suite | `s13_attack_numbers.py` | ~1 min |
 | PDF | `build_journal.py` | ~1 min |
@@ -90,6 +101,56 @@ deterministically.
 `s03_decompose.py`: it recomputes every interval and band from s02's stored
 draws using the basic (pivotal) construction, and s03 labels the resolution
 regions from those bands. `reproduce_all.py` already orders them this way.
+
+### The round-twenty chain, and why `s20_boot2.py` dominates it
+
+`s20_boot2.py` computes the **inference surface**: a nested moving-block
+bootstrap in which every draw refits the entire pipeline over an
+axis-complete sub-grid of the declared design space. Its cost is therefore the
+cost of the declared surface multiplied by the draw count, and on the machine
+these results were produced on --- an Intel Core Ultra 7 155U, twelve cores of
+which two are performance cores, delivering under three cores of *sustained*
+throughput under a 15 W envelope --- it takes four to six hours. On a
+workstation it is proportionally faster.
+
+It is **resumable**: a pair whose draw file already carries the declared
+number of draws is skipped, so an interrupted run continues rather than
+restarting. `python scripts/s20_boot2.py --plan` prints the grid and the draw
+allocation without taking a draw, and `--no-resume` forces a rebuild.
+
+`bash scripts/round20_chain.sh` waits for it and then runs everything
+downstream in dependency order, through the checks and the PDF.
+
+### The other long job: `s31_simboost.py`
+
+`s31_simboost.py` is the simulation at the size a methods claim needs: a
+thousand replicates in each of six worlds with a hundred pipeline refits
+inside each replicate, plus an `(n, K)` plane up to a 3,019-level register and
+three block lengths around *n*^(1/3). It is five to seven hours on the machine
+above and is **independent of everything else** — nothing reads its output but
+`make_numbers.py` — so it can run beside the chain, and
+`python scripts/s31_simboost.py --plan` prices it before it starts. Its three
+experiments are written as they finish and `--resume` keeps the ones already
+on disk, so `--only core` alone reproduces every coverage number the
+manuscript prints; `block` and `grid` add the two sensitivity tables.
+
+When `results/s31_*.csv` is absent, `make_numbers.py` falls back to the
+200-replicate `s10_simulation2.py` run for the same macros and
+`verify_numbers.py` checks them against that file instead, so a partial
+reproduction is consistent rather than broken. Where `s31` *has* run,
+`verify_numbers.py` additionally fails if it ran fewer than a thousand
+replicates per world, because that is the count the manuscript claims and the
+review requires. A reproduction that stops before `s31` therefore reproduces a
+manuscript whose `\nSimReps` reads 200; the submitted one reads the full
+count, and `results/s31_facts.csv` in the archive carries it.
+
+Two things about the draw count are worth stating because a reader will ask.
+First, the critical value of a max-*t* band is **not** taken as the empirical
+quantile of those few hundred maxima: `s21_bands.py` estimates it by a
+Gaussian multiplier bootstrap over the standardised draw matrix, 20,000 times,
+so the fitting budget fixes *B* and not the precision of *q*. Second, the five
+planned contrasts of `s24_confirm.py` live on one cell each and are therefore
+affordable at 2,000 draws, which is where the plus-one *p*-values come from.
 
 `s18_bias_scaling.py --legacy-target` regenerates Appendix G's
 pre-correction figures. It is not needed for the manuscript's numbers; it is
@@ -117,6 +178,9 @@ python scripts/provenance.py              # which script version produced
                                           # each result file
 python scripts/s13_attack_numbers.py      # the verifier's own regression suite
 python scripts/assemble_paper.py --check  # the shipped .tex is current
+python scripts/claim_registry.py --check  # every macro the manuscript uses
+                                          # resolves, and every headline
+                                          # number is re-derived independently
 python -m pytest fieldvalue -q            # the package
 ```
 

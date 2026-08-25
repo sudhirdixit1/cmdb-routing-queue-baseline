@@ -2,32 +2,32 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{llrrrlrr}
+\begin{tabular}{llrlllrr}
 \toprule
-log & target & V at reference & lo & hi & region & rho & misreport rate \\
+log & target & V at reference & pointwise & simultaneous & region & rho & misreport rate \\
 \midrule
-BPIC13\_closed & handover & -0.009 & -0.041 & 0.018 & conditionally harmful & -0.033 & 0.428 \\
-BPIC13\_incidents & duration & 0.028 & 0.014 & 0.056 & conditionally beneficial & 0.533 & 0.393 \\
-BPIC13\_incidents & handover & 0.037 & 0.027 & 0.051 & conditionally beneficial & 0.867 & 0.111 \\
-BPIC14 & duration & 0.096 & 0.090 & 0.109 & conditionally beneficial & 0.781 & 0.205 \\
-BPIC14 & handover & 0.167 & 0.146 & 0.204 & sign-changing & 0.541 & 0.340 \\
-BPIC15\_1 & duration & 0.001 & -0.030 & 0.045 & conditionally beneficial & 0.200 & 0.500 \\
-BPIC15\_1 & handover & 0.007 & -0.008 & 0.021 & conditionally beneficial & 0.033 & 0.242 \\
-BPIC15\_3 & duration & 0.035 & -0.004 & 0.067 & conditionally beneficial & 0.500 & 0.191 \\
-BPIC15\_3 & handover & -0.003 & -0.048 & 0.061 & unresolved & 0.000 & 0.577 \\
-BPIC15\_4 & duration & 0.035 & 0.010 & 0.078 & conditionally beneficial & 0.033 & 0.500 \\
-BPIC15\_4 & handover & 0.001 & -0.028 & 0.056 & unresolved & 0.000 & 0.422 \\
-BPIC15\_5 & duration & 0.032 & -0.024 & 0.090 & conditionally beneficial & 0.267 & 0.385 \\
-BPIC17 & duration & 0.002 & -0.003 & 0.012 & conditionally beneficial & 0.200 & 0.353 \\
-BPIC19 & duration & 0.024 & 0.011 & 0.042 & sign-changing & -0.367 & 0.349 \\
-Helpdesk & duration & -0.020 & -0.043 & -0.002 & conditionally beneficial & 0.033 & 0.257 \\
-RoadFines & duration & 0.031 & 0.024 & 0.037 & sign-changing & 0.400 & 0.136 \\
-Sepsis & duration & 0.153 & 0.108 & 0.207 & uniformly beneficial & 1.000 & 0.056 \\
-UCI498 & duration & -0.007 & -0.010 & 0.007 & conditionally beneficial & 0.133 & 0.502 \\
-UCI498 & handover & -0.003 & -0.007 & -0.001 & sign-changing & 0.233 & 0.506 \\
+BPIC13\_closed & handover & -0.009 & [-0.041, +0.018] & [-0.068, +0.046] & unresolved & 0.000 & 0.284 \\
+BPIC13\_incidents & duration & 0.028 & [+0.013, +0.060] & [-0.003, +0.074] & conditionally beneficial & 0.017 & 0.393 \\
+BPIC13\_incidents & handover & 0.037 & [+0.030, +0.050] & [+0.021, +0.059] & conditionally beneficial & 0.400 & 0.111 \\
+BPIC14 & duration & 0.096 & [+0.089, +0.109] & [+0.081, +0.119] & conditionally beneficial & 0.692 & 0.106 \\
+BPIC14 & handover & 0.167 & [+0.143, +0.205] & [+0.115, +0.228] & sign-changing & 0.552 & 0.244 \\
+BPIC15\_1 & duration & 0.001 & [-0.029, +0.046] & [-0.073, +0.071] & conditionally beneficial & 0.011 & 0.423 \\
+BPIC15\_1 & handover & 0.007 & [-0.007, +0.021] & [-0.017, +0.032] & unresolved & 0.000 & 0.242 \\
+BPIC15\_3 & duration & 0.035 & [-0.000, +0.070] & [-0.025, +0.094] & conditionally beneficial & 0.056 & 0.191 \\
+BPIC15\_3 & handover & -0.003 & [-0.047, +0.058] & [-0.088, +0.088] & unresolved & 0.000 & 0.616 \\
+BPIC15\_4 & duration & 0.035 & [+0.016, +0.084] & [-0.008, +0.101] & unresolved & 0.000 & 0.623 \\
+BPIC15\_4 & handover & 0.001 & [-0.026, +0.056] & [-0.059, +0.076] & unresolved & 0.000 & 0.618 \\
+BPIC15\_5 & duration & 0.032 & [-0.026, +0.100] & [-0.075, +0.143] & unresolved & 0.000 & 0.328 \\
+BPIC17 & duration & 0.002 & [-0.003, +0.010] & [-0.008, +0.018] & conditionally beneficial & 0.139 & 0.353 \\
+BPIC19 & duration & 0.024 & [+0.011, +0.043] & [-0.001, +0.052] & sign-changing & -0.083 & 0.360 \\
+Helpdesk & duration & -0.020 & [-0.039, -0.003] & [-0.054, +0.007] & conditionally harmful & -0.011 & 0.257 \\
+RoadFines & duration & 0.031 & [+0.025, +0.037] & [+0.020, +0.042] & sign-changing & 0.225 & 0.173 \\
+Sepsis & duration & 0.153 & [+0.114, +0.210] & [+0.076, +0.237] & conditionally beneficial & 0.283 & 0.056 \\
+UCI498 & duration & -0.007 & [-0.011, +0.006] & [-0.016, +0.015] & conditionally beneficial & 0.094 & 0.493 \\
+UCI498 & handover & -0.003 & [-0.007, -0.001] & [-0.009, +0.002] & conditionally beneficial & 0.044 & 0.481 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{The master table. One row per admitted log--target pair: the increment at the reference specification with its 95\% interval from the nested bootstrap, the resolution region, the robustness index $\rho$, and the share of admissible specifications whose sign disagrees with a conventional one-number report. The reference cell's sign and the region need not agree, and on several pairs they do not: a surface can be conditionally beneficial while the one cell an analyst would have stood on is negative, which is this paper's argument in a line.}
+\caption{The master table. One row per admitted log--target pair. `pointwise' is the 95\% interval at the reference cell, basic (pivotal) construction; `simultaneous' is that same cell's WHOLE-SURFACE simultaneous band, at the conservative end of the critical value's Monte Carlo interval. They are different objects, and the region label uses only the second. Then the resolution region and the robustness index $\rho$, both under the COVERAGE-CALIBRATED critical value of Section~\ref{sec:regions} --- the nominal ones are in Table~\ref{tab:calbands} --- and the share of admissible specifications whose sign disagrees with a conventional one-number report, under the equal-level measure, which is the `all-cells rate' column of Table~\ref{tab:misreport}. The reference cell's sign and the region need not agree, and on several pairs they do not: a surface can be conditionally beneficial while the one cell an analyst would have stood on is negative.}
 \label{tab:master}
 \end{table}

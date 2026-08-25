@@ -61,8 +61,18 @@ LAMBDAS = tuple(np.round(np.arange(0.0, 1.0001, 0.1), 2))
 
 
 def load_cohort():
+    #  ROUND TWENTY-ONE.  The cohort is sorted in time and split at 70% of the
+    #  row order, and 270 incidents share a timestamp with another.  The sort
+    #  that produced this cohort was not a stable one, so the order among
+    #  those ties was neither declared nor reproducible, and s32 measures what
+    #  that is worth: about 0.0009 AUC of range at the knowledge rung.  The
+    #  tie-break is declared here -- by incident identifier -- so that this
+    #  file, s32 and s38 all stand on the same row order and their numbers
+    #  agree to every digit rather than to three.
     import base14 as B
     D = B.D.copy()
+    D = D.sort_values(["_t", "Incident ID"],
+                      kind="mergesort").reset_index(drop=True)
     intake = list(B.INTAKE)
     ident = B.IDENT
     q = B.Q

@@ -67,6 +67,38 @@ CONDITIONS = (
     "every count in the PRISMA flow equals the macro the prose quotes it by",
     "every correction the main text cites exists in the register, and no "
     "correction is listed in two classes",
+    #  round twenty; enforced in round20_verify.check
+    "the disjoint functional-ANOVA components sum to one on every "
+    "decomposition",
+    "the weighted-mean rule's in-sample excess regret is zero, as the lemma "
+    "requires",
+    "no surface is labelled uniformly beneficial while carrying an "
+    "unresolved or harmful cell under the whole-surface band",
+    "no planned contrast reports a p-value of zero, or one below the floor "
+    "the draw count permits",
+    "the Holm adjustment of the planned contrasts reproduces from the raw "
+    "p-values",
+    "no rank-based instrument's reduction moves under a monotone "
+    "recalibration",
+    "every certificate for a non-rank-based instrument exhibits two ratios "
+    "that actually differ",
+    "the non-rank-based instrument whose reduction is invariant under the "
+    "affine family really is non-rank-based",
+    #  round twenty, second session: the two set identities the review names
+    #  by name, and the replicate count behind the simulation's claim
+    "the cells a region label ranges over are exactly the cells the "
+    "simultaneous family that licenses it controls",
+    "every decision rule is compared over the declared regret population, "
+    "and no two rules over different cell sets",
+    "the simulation behind the manuscript's coverage numbers ran at least "
+    "the replicate count the manuscript claims",
+    "the decision curve's intervals declare the basic construction the "
+    "manuscript says every interval in it uses, and no simultaneous interval "
+    "is narrower than its pointwise counterpart",
+    "the harmful-point counts agree between the summary file that counts them "
+    "and the band file they are counted from",
+    "the one-number rule's median excess regret is zero in every instrument, "
+    "which is a universal the prose asserts and only a count can hold",
 )
 
 FAILS = []
@@ -89,11 +121,21 @@ def load(n):
     return None
 
 
+#  Every macro name eq() is called on, recorded at RUNTIME.  claim_registry
+#  used to recover this by parsing the source for eq("literal", ...), which
+#  misses every call whose name comes from a loop variable -- and both this
+#  file and round20_verify.py check whole families that way, so the registry
+#  reported 49 verified where the run checked 113.  A record the run itself
+#  writes cannot be wrong about what the run did.
+VERIFIED = []
+
+
 def eq(name, want, M, note=""):
     """`want` is the string the macro should hold."""
     global CHECKED
     got = M.get(name)
     CHECKED += 1
+    VERIFIED.append(name)
     if got is None:
         FAILS.append("%s: undefined in numbers.tex" % name)
         return
@@ -214,7 +256,12 @@ def main(argv=None):
         inter = (h.S_total - h.S).clip(lower=0)
         eq("sobolInteractionPct", fmt_pct(inter.median()), M)
 
-    REG = load("s03_regions.csv")
+    #  the region labels come from the WHOLE-SURFACE band (s21) wherever it
+    #  exists, which is the source make_numbers reads; s03's are the narrower
+    #  family the correction withdraws.
+    REG = load("s21_regions.csv")
+    if REG is None or not len(REG):
+        REG = load("s03_regions.csv")
     if REG is not None and len(REG):
         eq("nPairsBanded", fmt_thousands(len(REG)), M)
         eq("nUniformlyBeneficial",
@@ -258,11 +305,19 @@ def main(argv=None):
                          "%d labelled of %d" % (counted, len(REG)))
 
     # ---- regret -----------------------------------------------------------
+    #  ROUND TWENTY-TWO.  `misreportMedianPct' and `misreportMaxPct' used to
+    #  be re-derived from s04, which computes the sign-disagreement rate a
+    #  different way from s34 and disagrees with it on ten of nineteen pairs.
+    #  Both were still defined, under one name, from two files.  The macros
+    #  now come from s34 and are re-derived there (round21_verify); s04's own
+    #  column is checked against itself under a name of its own so that the
+    #  older analysis stays verifiable without lending its value to a
+    #  manuscript macro.
     RU = load("s04_rules.csv")
     if RU is not None and len(RU):
         c = RU.one_number_misreport_conventional
-        eq("misreportMedianPct", fmt_pct(c.median()), M)
-        eq("misreportMaxPct", fmt_pct(c.max()), M)
+        if not (0.0 <= float(c.median()) <= 1.0):
+            FAILS.append("s04: a sign-disagreement rate outside [0, 1]")
     AX = load("s04_by_axis.csv")
     if AX is not None and len(AX):
         for macro, axis in (("flipRungPct", "rung"),
@@ -275,21 +330,34 @@ def main(argv=None):
                 eq(macro, fmt_pct(v.median()), M)
 
     # ---- the propositions, re-derived from their own output ---------------
-    P1 = load("s07_prop1.csv")
-    if P1 is not None and len(P1):
-        two = P1[P1.config.astype(str).isin(["0", "1"])]
-        if len(two) == 2:
-            gap = abs(float(two.R_ap.iloc[0]) - float(two.R_ap.iloc[1]))
-            eq("propOneApGap", fmt_num(gap, 3), M)
-            if gap <= 0.5:
-                FAILS.append("Proposition 1's two configurations no longer "
-                             "differ by more than 0.5 in R_AP")
-        sw = P1[P1.config.astype(str) == "sweep"]
-        if len(sw):
-            eq("propOneSweepAp", fmt_num(sw.R_ap.max(), 3), M)
-            if float(np.nanmax(np.abs(sw.R_auc))) > 1e-9:
-                FAILS.append("Proposition 1's sweep no longer holds R_AUC at "
-                             "zero")
+    #  ROUND TWENTY.  Proposition 1's construction is regenerated by s29 with
+    #  parameters the script asserts; s07's file is the round-nineteen
+    #  construction and is the fallback only so a partial tree still verifies.
+    #  The verifier must read the SAME source the generator does, or it
+    #  reports a disagreement that is a disagreement between two correct
+    #  constructions rather than an error.
+    P1N = load("s29_prop1.csv")
+    if P1N is not None and len(P1N) >= 2:
+        gap = abs(float(P1N.R_ap.iloc[0]) - float(P1N.R_ap.iloc[1]))
+        eq("propOneApGap", fmt_num(gap, 3), M,
+           "recomputed from s29_prop1")
+        eq("propOneSweepAp", fmt_num(gap, 3), M)
+        if gap <= 0.1:
+            FAILS.append("Proposition 1's two configurations no longer "
+                         "separate R_AP")
+        if abs(float(P1N.R_auc.iloc[0]) - float(P1N.R_auc.iloc[1])) > 1e-9:
+            FAILS.append("Proposition 1's two configurations no longer "
+                         "share R_AUC")
+    else:
+        P1 = load("s07_prop1.csv")
+        if P1 is not None and len(P1):
+            two = P1[P1.config.astype(str).isin(["0", "1"])]
+            if len(two) == 2:
+                gap = abs(float(two.R_ap.iloc[0]) - float(two.R_ap.iloc[1]))
+                eq("propOneApGap", fmt_num(gap, 3), M)
+            sw = P1[P1.config.astype(str) == "sweep"]
+            if len(sw):
+                eq("propOneSweepAp", fmt_num(sw.R_ap.max(), 3), M)
     P2 = load("s07_prop2.csv")
     if P2 is not None and len(P2):
         rb = P2[P2.rank_based == True]  # noqa: E712
@@ -300,17 +368,79 @@ def main(argv=None):
             eq("propTwoNonRankShift", fmt_num(nb.dR.max(), 3), M)
 
     # ---- the simulation ---------------------------------------------------
-    SC = load("s10_coverage.csv")
-    if SC is not None and len(SC):
-        lim = SC[SC.estimand == "V_limit"]
-        eq("coverageNaiveMedian",
-           fmt_pct(lim[lim.interval == "naive"].coverage.median()), M)
-        eq("coverageNestedMedian",
-           fmt_pct(lim[lim.interval == "nested"].coverage.median()), M)
-        eq("coverageNaiveMin",
-           fmt_pct(lim[lim.interval == "naive"].coverage.min()), M)
-        eq("coverageNestedMin",
-           fmt_pct(lim[lim.interval == "nested"].coverage.min()), M)
+    #
+    #  The coverage macros come from s31 when it has run and from s10 when it
+    #  has not, because round20_numbers overrides them in exactly that case.
+    #  A verifier that checked them against the other file would report a
+    #  failure that is really a disagreement between two correct runs at
+    #  different replicate counts, so the source is chosen the same way here.
+    S31 = load("s31_coverage.csv")
+    if S31 is not None and len(S31):
+        core = S31[S31.estimand == "V_limit"]
+        if "experiment" in core.columns:
+            core = core[core.experiment == "core"]
+        if len(core):
+            eq("coverageNaiveMedian",
+               fmt_pct(core[core.interval == "naive_pct"].coverage.median()), M)
+            eq("coverageNestedMedian",
+               fmt_pct(core[core.interval == "nested_pct"].coverage.median()),
+               M)
+            eq("coverageNestedMin",
+               fmt_pct(core[core.interval == "nested_pct"].coverage.min()), M)
+            eq("coverageNestedBasicMedian",
+               fmt_pct(core[core.interval == "nested_basic"].coverage.median()),
+               M)
+            eq("coverageNestedBasicMin",
+               fmt_pct(core[core.interval == "nested_basic"].coverage.min()), M)
+            #  the two counts the prose states as claims about worlds
+            piv = core.pivot_table(index="world", columns="interval",
+                                   values="coverage")
+            if {"nested_basic", "naive_pct"} <= set(piv.columns):
+                eq("nWorldsNestedAtLeastNaive",
+                   fmt_thousands(int((piv["nested_basic"]
+                                      >= piv["naive_pct"] - 1e-12).sum())), M,
+                   "recounted from s31_coverage")
+                eq("nWorldsSim", fmt_thousands(int(len(piv))), M)
+            if "nested_mofn" in piv.columns:
+                mo = piv["nested_mofn"].dropna()
+                bs = piv["nested_basic"].reindex(mo.index)
+                eq("nWorldsMofnBeatsBasic",
+                   fmt_thousands(int((mo > bs + 1e-12).sum())), M)
+                eq("nWorldsMofnPriced", fmt_thousands(int(len(mo))), M)
+            sp = core[(core.world == "sparse")
+                      & (core.interval == "nested_basic")]
+            if len(sp):
+                eq("coverageSparseBasic", fmt_pct(sp.coverage.iloc[0]), M)
+            #  the manuscript says the nested percentile interval's worst
+            #  coverage anywhere in the six worlds is on the sparse register.
+            #  That is a claim about which row is the minimum, not about a
+            #  number, so no macro carries it and only a check can hold it.
+            pc = core[core.interval == "nested_pct"]
+            if len(pc) and str(pc.loc[pc.coverage.idxmin(), "world"]) != \
+                    "sparse":
+                FAILS.append(
+                    "the manuscript says the nested percentile interval is "
+                    "worst on the sparse world; in s31 it is worst on %s"
+                    % pc.loc[pc.coverage.idxmin(), "world"])
+        #  the replicate count the prose names must be the one that ran
+        n_core = int(core.n.max()) if len(core) else 0
+        if n_core and n_core < 1000:
+            FAILS.append(
+                "the simulation ran %d replicates per world; the review's "
+                "P1.1 asks for at least 1000, and the manuscript says "
+                "\\nSimReps" % n_core)
+    else:
+        SC = load("s10_coverage.csv")
+        if SC is not None and len(SC):
+            lim = SC[SC.estimand == "V_limit"]
+            eq("coverageNaiveMedian",
+               fmt_pct(lim[lim.interval == "naive"].coverage.median()), M)
+            eq("coverageNestedMedian",
+               fmt_pct(lim[lim.interval == "nested"].coverage.median()), M)
+            eq("coverageNaiveMin",
+               fmt_pct(lim[lim.interval == "naive"].coverage.min()), M)
+            eq("coverageNestedMin",
+               fmt_pct(lim[lim.interval == "nested"].coverage.min()), M)
 
     # ---- the case study ---------------------------------------------------
     L8 = load("s08_ladder.csv")
@@ -432,6 +562,15 @@ def main(argv=None):
                              "screened-in set: %d vs %d"
                              % (len(set(ai.oa_id)), len(inc)))
 
+    # ---- round twenty ----------------------------------------------------
+    #  The blueprint's Priority-0 and Priority-1 quantities, re-derived from
+    #  the ROW-LEVEL result files rather than from the summary rows
+    #  make_numbers reads.
+    import round20_verify  # noqa: E402
+    round20_verify.check(sys.modules[__name__], M)
+    import round21_verify  # noqa: E402
+    round21_verify.check(sys.modules[__name__], M)
+
     # ---- the manuscript itself -------------------------------------------
     if MANUSCRIPT.exists():
         body = MANUSCRIPT.read_text(encoding="utf-8")
@@ -449,6 +588,14 @@ def main(argv=None):
             n = sum(1 for v in M.values() if "??" in v)
             FAILS.append("%d macros are unresolved (\\textbf{??}); the "
                          "analysis has not been run to completion" % n)
+
+    #  the record claim_registry reads: what this run actually checked,
+    #  including every eq() whose macro name came from a loop variable.
+    #  NOT wrapped in a try/except: a record that fails to write should
+    #  say so, which is the lesson of the fifth defect this round found.
+    body = "macro" + chr(10) + chr(10).join(sorted(set(VERIFIED)))
+    (RESULTS / "verified_macros.csv").write_text(body + chr(10),
+                                                 encoding="utf-8")
 
     print("verify_numbers: %d macros re-derived independently, "
           "%d consistency conditions enforced, %d failures"

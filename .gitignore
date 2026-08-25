@@ -25,6 +25,12 @@ build/
 *.pdf
 *.synctex.gz
 !paper/iaai27_empty_cmdb.pdf
+#  The two documents actually submitted.  `*.pdf' above ignores build
+#  products, and these are build products -- but they are also the
+#  deliverable, and a reader who clones this repository should get the
+#  article and its supplement without having to run LaTeX first.
+!paper/specification_surfaces.pdf
+!paper/supplement.pdf
 
 # Superseded workbooks from a withdrawn analysis; kept on disk, out of the repo.
 capability_readiness_matrix.xlsx

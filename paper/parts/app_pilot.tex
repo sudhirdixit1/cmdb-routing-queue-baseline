@@ -6,7 +6,10 @@ appendix gives the flow, the design and the numbers.
 
 \input{tables/prisma}
 
-Table~\ref{tab:prisma} is the PRISMA-style flow. Records were enumerated from
+Table~\ref{tab:prisma} is the flow, laid out in the style
+\citet{page2021prisma} prescribe for a systematic review --- which this is
+not, and the appendix says so throughout; the layout is used because it makes
+what was excluded, and why, countable. Records were enumerated from
 a public index across \nAuditStrata\ strata --- venues, two citation seeds and
 a topic frame --- and the enumeration is cached per stratum in the archive so
 it can be re-run without re-querying.
@@ -40,7 +43,11 @@ sensitivity \auditSens\ [\auditSensLo, \auditSensHi], specificity
 the adjudicated ones has median $\kappa = \auditKappa$, which is poor. The
 prevalence estimates in Table~\ref{tab:pilot} are nonetheless unbiased for the
 adjudicated standard, because the two strata are combined with their sampling
-weights rather than the screened-in stratum being used alone.
+weights rather than the screened-in stratum being used alone. That is why no
+sensitivity-and-specificity correction of the \citet{rogan1978estimating} kind
+is applied: such a correction repairs a prevalence estimated \emph{from the
+screen}, and the estimate here is made from the adjudications, with the screen
+entering only as the stratifier.
 
 \subsection*{Two mechanical screens, one standard}
 
@@ -101,3 +108,69 @@ each coded concept. The dossiers are committed to
 \texttt{adjudication\_out.csv}, with a free-text reason for every one. There
 is one adjudicator, machine-assisted; that is transparency, not independence,
 and Section~\ref{sec:practice} says so.
+
+\subsection*{The prevalence estimates, and their denominators}
+
+\input{tables/pilot}
+
+Over an estimated \nAuditEligible\ eligible papers with an effective sample
+size of \nAuditEffective: \auditBStatedPct\ state the composition of their
+baseline; \auditBJustifiedPct\ argue for what the baseline excludes;
+\auditMJustifiedPct\ argue for the metric; \auditThetaStatedPct\ state or
+integrate over an operating point; \auditRangeBaselinePct\ report the
+increment at more than one baseline, \auditRangeMetricPct\ under more than one
+metric, \auditRangeThresholdPct\ across a range of operating points and
+\auditRangePopulationPct\ across a range of register populations.
+
+Denominators are applicability-specific. Only \nAuditApplicable\ of the
+eligible papers have an incremental feature that is a lookup into an external
+register at all, so the population axis has a denominator of
+\nAuditApplicable\ and not of \nAuditEligible. Using the eligible count for
+every axis understates every rate whose axis does not apply to every paper,
+and is not done here.
+
+\paragraph{Variance}
+Each proportion here is a \emph{ratio} of two weighted totals: the numerator
+counts eligible papers carrying a code, the denominator estimates the eligible
+population, and both are random. The screened-in stratum is a census, so it
+carries a design weight of \auditWeightIn\ and contributes no sampling
+variance; the screened-out stratum was adjudicated at a sampling fraction
+whose reciprocal is \auditWeightOut.
+
+A \textbf{Wilson} interval computed from a fractional ``effective sample
+size'' --- which is what this pilot previously reported --- is a binomial
+interval for a binomial count, and neither the numerator nor the denominator
+here is one. Table~\ref{tab:pilot} reports instead a
+\textbf{stratified nonparametric bootstrap} --- resampling adjudicated papers
+within stratum and recomputing the ratio, \nPilotBoot\ times --- as the
+primary interval, because with \nAuditOutSampled\ adjudicated papers in the
+second stratum a linearisation is not to be trusted, and the
+\textbf{design-based} linearised interval beside it. The design-based interval
+has a median width of \auditDesignWidthPct\ percentage points and the
+bootstrap \auditBootWidthPct, against the Wilson interval's
+\auditWilsonWidthPct; and \emph{none} of the five Wilson intervals is
+contained in its design-based counterpart, the endpoints differing by up to
+\auditMaxGapPct\ percentage points. That is correction~C28 in
+\ref{app:corrections}.
+
+\subsection*{Four limits, stated rather than buried}
+
+The frame is what one provider's index returned before its daily quota stopped
+the enumeration, so it is a convenience frame and its coverage of the field is
+unmeasured; nothing here corrects for that, and nothing can without a second
+index.
+
+An effective sample of \nAuditEffective\ resolves a proportion to about
+$\pm\auditHalfWidthPct$ percentage points; a design that resolved it to
+$\pm 7$ points would need \nAuditRequired\ adjudicated papers. That is the
+sample-size calculation, and this pilot does not meet it.
+
+Full text was unavailable for \nAuditNoFullText\ of the sampled records, and
+under the extreme assumptions that none or all of them are eligible the
+eligibility rate moves between \auditBoundLo\ and \auditBoundHi.
+
+There is one adjudicator, machine-assisted, not two independent human raters.
+Every adjudication was made from an evidence dossier committed to the
+repository, so the judgements can be re-examined against exactly what they
+were made from; that is transparency, not independence, and no inter-rater
+reliability statistic reported here is a substitute for a second human.

@@ -1,0 +1,124 @@
+\section{Simulation against a known answer}
+\label{sec:sim}
+
+Everything so far has been measured on real logs, where the answer is not
+known. This section measures the estimator where it is. The full tables are in
+Supplement~\ref{app:tables} and the diagnosis of the one world that failed is
+in Supplement~\ref{app:noisy}.
+
+\subsection{Six worlds, two estimands}
+\label{sec:simworlds}
+
+A simulation that fits a logistic data-generating process with logistic
+regression tests an unusually favourable arrangement. This one uses \nWorlds\
+worlds --- four of them misspecified for the estimator --- at \nSimReps\
+replicates each. The covariate space is finite, so the joint distribution of
+cell and outcome is enumerated and the population AUC of any scoring rule is
+computed in closed form rather than simulated. The worlds are a logistic
+surface, a nonlinear one with an interaction and a threshold the logistic
+model cannot see, a drifting one, a sparse register with \nSimSparse\ levels,
+an imbalanced outcome at prevalence \simPrevalence, and a noisy register in
+which a share of values are wrong.
+
+Two estimands are separated because under misspecification they differ.
+$V_{\mathrm{oracle}}$ is the increment between the two Bayes-optimal scoring
+rules --- what the register is worth in the world. $V_{\mathrm{limit}}$ is the
+increment between the two fitted pipelines' limits --- what the estimator
+estimates. A resampling interval can only cover the second, and reporting its
+coverage of the first as though it were the estimator's coverage is a category
+error. Both are reported in Table~\ref{tab:sim31}. Where a register value is
+corrupted the cells the generator writes down are not the cells the estimator
+observes, so the truth has to be marginalised over the corruption; the two
+experiments that found that and the check that guards it are in
+Supplement~\ref{app:noisy}.
+
+\subsection{Coverage, bias and width}
+\label{sec:simcoverage}
+
+Coverage estimates carry a Monte Carlo standard error of about
+$\simCoverageSE$ percentage points at \nSimReps\ replicates, which is the
+resolution every comparison here should be read at;
+Figure~\ref{fig:coverage} draws them by construction and world.
+
+\textbf{Where the refit helps.} The nested basic interval covers at least as
+well as the fixed-model percentile interval on \nWorldsNestedAtLeastNaive\ of
+the \nWorldsSim\ worlds, and its median across them is
+\coverageNestedBasicMedian\ against the fixed-model interval's
+\coverageNaiveMedian. Both fall a little short of nominal on most worlds, by
+more than the Monte Carlo resolution.
+
+\textbf{Where the percentile interval fails, and why.} On the sparse world it
+collapses to \coverageSparsePct, and the \emph{nested} percentile interval is
+worse there than the fixed-model one. The cause is Section~\ref{sec:boot}: a
+bootstrap training resample holds about $63\%$ of the distinct register
+levels, so every refit sees a sparser register and the bootstrap distribution
+shifts below the estimate. The basic interval pivots that shift out and
+restores coverage --- \coverageSparseBasic\ --- and costs nothing where there
+was nothing to repair, at a median \coverageNestedBasicMedian\ and a minimum
+\coverageNestedBasicMin\ across all \nWorlds\ worlds. The bias-corrected
+percentile does \emph{not} repair the sparse world (\coverageSparseBc), which
+is why every interval and band in this paper uses the basic construction. The
+$m$-out-of-$n$ subsampling interval, the standard alternative in exactly this
+regime, does not win either: \coverageSparseMofn\ on the sparse world and a
+median \coverageMofnMedian\ across the \nWorldsMofnPriced\ worlds it was
+priced on.
+
+\textbf{What no interval repairs.} Against $V_{\mathrm{oracle}}$ rather than
+$V_{\mathrm{limit}}$, every construction undercovers on the drifting world ---
+\coverageDriftOracle\ at best --- and it should: when the coefficients move
+between eras the estimator is not consistent for the oracle quantity, and the
+largest gap is \biasOracleMax\ in AUC units. Under misspecification an
+interval around the estimator's own limit is not an interval around the
+quantity a reader cares about, and no resampling scheme repairs that.
+
+\subsection{Sample size, register cardinality and block length}
+\label{sec:simsensitivity}
+
+A construction that works at one sample size, one register cardinality and one
+block length has been validated at a point, not in a regime. Sample size and
+register cardinality are therefore varied \emph{jointly}, up to $K = \simKMax$
+levels --- the cardinality of the case study's own register --- and the block
+length is varied around its rule of thumb.
+
+\textbf{The ratio $K/n$ captures most of the dependence, and not all of it.}
+Across the plane the basic interval covers a median \coverageGridMedian\ and a
+minimum \coverageGridMin, the last at a ratio of \simGridWorstRatio. Below
+$K/n = \simGridRatioSafe$ its coverage lies between \coverageGridSafeMin\ and
+\coverageGridSafeMax\ --- short of nominal everywhere, by about one Monte
+Carlo standard error at \nPlaneGridReps\ replicates --- and it has fallen
+below three quarters by \simGridRatioBad. The ratio is the right first-order
+summary --- the mechanism of Section~\ref{sec:boot} is why, and
+varying $n$ alone would not have exposed the regime the corpus occupies ---
+but it is not sufficient, and the plane says so in two places. Two cells at
+nearly the same ratio, $(K, n) = (200, 2000)$ and $(1000, 8000)$, cover
+$0.780$ and $0.613$, a gap of about three and a half combined Monte Carlo
+standard errors; and holding $K$ at $1000$ while moving $n$ from $2000$ to
+$8000$ moves coverage from $0.453$ to $0.613$, so $n$ carries signal of its
+own. The calibration of Section~\ref{sec:regions} is a function of the ratio
+alone and therefore inherits this residual, which
+Section~\ref{sec:lim} states.
+
+\textbf{Where this corpus sits, and what is done about it.} The median
+log--target pair here has $K/n = \corpusRatioMedian$, the range runs
+\corpusRatioMin\ to \corpusRatioMax, and \nPairsRatioAboveTenth\ of \nPairs\
+pairs are above a tenth. Most of this corpus therefore sits at or beyond the
+ratio at which coverage starts to fall, and a nominal band on those pairs is
+\emph{narrower} than a $95\%$ interval should be --- the anti-conservative
+direction, which inflates the count of resolved cells. The plane is dense
+enough to calibrate against, and Section~\ref{sec:regions} does.
+
+\textbf{Block length.} \nSimBlockLengths\ lengths are examined --- half the
+rule $\lceil n^{1/3} \rceil$, the rule, and twice it. Coverage moves with the
+length, spanning \coverageBlockSpreadMax\ within a world, of the order of two
+standard errors; but the comparison the paper rests on is unchanged at every
+length, the basic interval beating the percentile interval on the sparse
+register by at least \blockSparseGapMin\ at all \nSimBlockLengths.
+
+\paragraph{What the simulation does not establish}
+It certifies the constructions on \nWorlds\ worlds, a plane of
+\nSimGridCells\ $(n, K)$ cells and \nSimBlockLengths\ block lengths, and on
+nothing else. The stationarity and mixing the moving-block bootstrap needs are
+assumed and not tested; the split point is fixed within a draw, so
+split-position uncertainty is outside every interval reported here; and the
+drifting world shows what happens when the estimator is not consistent for the
+quantity a reader cares about.

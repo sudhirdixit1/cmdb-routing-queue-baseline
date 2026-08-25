@@ -72,8 +72,35 @@ def admitted_pairs():
 
 
 #  ---- the grid ------------------------------------------------------------
+#  ROUND TWENTY-TWO.  The DECLARED surface and the INFERENCE surface must
+#  carry the same pipeline levels, or a region label computed on the second
+#  quantifies over cells the first says do not exist.  They did not: s20
+#  gives the two largest logs the ENCODING pair (one-hot and frequency
+#  logistic), because a boosting fit refitted inside every draw is
+#  unaffordable there, while this file gave every non-primary log the FAMILY
+#  pair.  On BPIC19 and RoadFines the inference surface therefore contained a
+#  pipeline the declared surface did not, and 60 of each pair's 120 band
+#  cells had no counterpart in the declaration.
+#
+#  The declared surface is the one that widens, because widening it is cheap
+#  -- one logistic fit per cell -- and narrowing the inference surface is not.
+#  The two largest logs now carry THREE pipelines here and the two that s20
+#  can afford there, and `verify_numbers` asserts the subset relation cell for
+#  cell rather than leaving it to a docstring.
 LEARNERS_PRIMARY = ("logit", "logit_fr", "hgb", "hgb_iso")
 LEARNERS_OTHER = ("logit", "hgb")
+LEARNERS_LARGE = ("logit", "hgb", "logit_fr")
+
+
+def learners_for(log, n_rows):
+    """The pipelines the DECLARED surface carries.  The size threshold is
+    s20's own `size_class`, imported rather than retyped, so the two files
+    cannot disagree about which logs are large."""
+    if log == PRIMARY:
+        return LEARNERS_PRIMARY
+    import s20_boot2 as B
+    return LEARNERS_LARGE if B.size_class(n_rows) == B.LARGE \
+        else LEARNERS_OTHER
 
 QUALITY_PRIMARY = (("clean", 1.00), ("mask_rare", 0.75), ("mask_rare", 0.50),
                    ("mask_rare", 0.25), ("mask_random", 0.50),
@@ -232,10 +259,14 @@ def main(argv):
     pairs = admitted_pairs()
     if only:
         pairs = [p for p in pairs if p[0] in only]
-    tasks = []
+    #  the row count decides the pipeline set, and it has to be read before
+    #  the tasks are built rather than inside them
+    import r32_corpus as _C
+    tasks, n_rows = [], {}
     for log, target, domain in pairs:
-        learners = LEARNERS_PRIMARY if log == PRIMARY else LEARNERS_OTHER
-        for lr in learners:
+        if log not in n_rows:
+            n_rows[log] = len(_C.load(log))
+        for lr in learners_for(log, n_rows[log]):
             tasks.append((log, target, domain, lr))
     print("=" * 92)
     print("s01  THE FROZEN MASTER SURFACE")

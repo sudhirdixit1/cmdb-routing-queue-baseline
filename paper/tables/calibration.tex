@@ -9,6 +9,8 @@ log & target & n train & n test & prev test & cal intercept & cal slope & brier 
 BPIC13\_closed & handover & 1040 & 447 & 0.275 & -0.368 & 0.916 & 0.170 & 0.407 \\
 BPIC13\_incidents & duration & 5287 & 2267 & 0.154 & -1.783 & 0.571 & 0.216 & 0.105 \\
 BPIC13\_incidents & handover & 5287 & 2267 & 0.616 & -0.925 & 0.943 & 0.167 & 0.105 \\
+BPIC14 & duration & 32624 & 13982 & 0.427 & -0.259 & 0.938 & 0.202 & 0.053 \\
+BPIC14 & handover & 32624 & 13982 & 0.945 & 0.378 & 0.994 & 0.037 & 0.053 \\
 BPIC15\_1 & duration & 839 & 360 & 0.442 & -1.204 & 0.997 & 0.228 & 0.753 \\
 BPIC15\_1 & handover & 839 & 360 & 0.839 & -0.061 & 1.255 & 0.066 & 0.753 \\
 BPIC15\_3 & duration & 986 & 423 & 0.456 & -0.746 & 0.928 & 0.214 & 0.095 \\
@@ -17,17 +19,15 @@ BPIC15\_4 & duration & 737 & 316 & 0.225 & -1.927 & 0.029 & 0.351 & 0.649 \\
 BPIC15\_4 & handover & 737 & 316 & 0.867 & -1.349 & 0.302 & 0.119 & 0.649 \\
 BPIC15\_5 & duration & 809 & 347 & 0.285 & -0.793 & 0.290 & 0.244 & 0.867 \\
 BPIC17 & duration & 22056 & 9453 & 0.494 & -0.060 & 0.758 & 0.244 & 0.060 \\
-BPIC14 & handover & 32624 & 13982 & 0.945 & 0.378 & 0.994 & 0.037 & 0.053 \\
-Helpdesk & duration & 3206 & 1374 & 0.451 & -0.149 & 0.475 & 0.245 & 0.229 \\
-Sepsis & duration & 735 & 315 & 0.444 & -0.307 & 0.716 & 0.192 & 0.079 \\
-BPIC14 & duration & 32624 & 13982 & 0.427 & -0.259 & 0.938 & 0.202 & 0.053 \\
-UCI498 & duration & 17442 & 7476 & 0.286 & -0.619 & 0.811 & 0.176 & 0.192 \\
-RoadFines & duration & 105259 & 45111 & 0.429 & -0.312 & 0.626 & 0.244 & 0.368 \\
-UCI498 & handover & 17442 & 7476 & 0.420 & 0.017 & 1.230 & 0.071 & 0.192 \\
 BPIC19 & duration & 176213 & 75521 & 0.162 & -3.163 & 0.278 & 0.352 & 0.299 \\
+Helpdesk & duration & 3206 & 1374 & 0.451 & -0.149 & 0.475 & 0.245 & 0.229 \\
+RoadFines & duration & 105259 & 45111 & 0.429 & -0.312 & 0.626 & 0.244 & 0.368 \\
+Sepsis & duration & 735 & 315 & 0.444 & -0.307 & 0.716 & 0.192 & 0.079 \\
+UCI498 & duration & 17442 & 7476 & 0.286 & -0.619 & 0.811 & 0.176 & 0.192 \\
+UCI498 & handover & 17442 & 7476 & 0.420 & 0.017 & 1.230 & 0.071 & 0.192 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Calibration and unseen-category rates at the reference cell.}
+\caption{Calibration and unseen-category rates at the reference cell, one row per log--target pair in the same order as every other per-pair table. Every row is on the cohort and target the registered rules of Section~\ref{sec:design} define, BPIC14's included; the case study's own cohort is smaller and its counts are in Section~\ref{sec:cohort}.}
 \label{tab:calibration}
 \end{table}

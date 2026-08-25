@@ -34,7 +34,7 @@ from common import RESULTS  # noqa: E402
 
 PAPER = HERE.parent / "paper"
 plt.rcParams.update({"font.size": 8, "axes.linewidth": 0.6,
-                     "figure.dpi": 200, "savefig.bbox": "tight"})
+                     "figure.dpi": 400, "savefig.bbox": "tight"})
 
 GREY = "0.35"
 DARK = "0.15"
@@ -100,14 +100,40 @@ def fig_speccurve():
         hit = (d[col].values == lv)
         ax1.scatter(x[hit], np.full(hit.sum(), len(levels) - i - 1), s=1.4,
                     color=DARK, marker="|", linewidths=0.5)
+    #  the axis-level labels are the legend of panel (b) and were set at 6pt
+    #  and truncated at 34 characters, which a reviewer reported as
+    #  unreadable.  They are set larger, the axis name is separated from the
+    #  level by an en dash so the eye can find the boundary, and the level is
+    #  shortened rather than the label truncated mid-word.
+    def _lab(c, v):
+        v = str(v)
+        v = {"holdout70": "single holdout", "B_half": "half of intake",
+             "B_intake": "intake", "B_intake_g": "intake + group",
+             "B_intake_g_km": "intake + group + knowledge",
+             "logit": "logistic, one-hot", "logit_fr": "logistic, frequency",
+             "hgb": "boosting, target-enc.",
+             "hgb_iso": "boosting, isotonic",
+             "clean": "clean register"}.get(v, v)
+        v = v.replace("mask_rare", "long tail absent").replace(
+            "mask_common", "core absent").replace(
+            "mask_random", "absent at random").replace("_", " ")
+        return "%s – %s" % (dict(AX)[c], v)
+
     ax1.set_yticks(range(len(levels)))
-    ax1.set_yticklabels([("%s: %s" % (dict(AX)[c], str(v)))[:34]
-                         for c, v in levels][::-1], fontsize=6)
+    ax1.set_yticklabels([_lab(c, v) for c, v in levels][::-1], fontsize=7)
     ax1.set_ylim(-0.6, len(levels) - 0.4)
     ax1.set_xlabel("specification, ordered by the increment")
     for a in (ax0, ax1):
         a.spines["top"].set_visible(False)
         a.spines["right"].set_visible(False)
+    #  ROUND TWENTY-ONE, minor: the two panels were unlabelled, so the caption
+    #  had to say "the panel below" and a reader had to work out which.
+    #  ROUND TWENTY-TWO: at the left margin the labels sat on top of panel
+    #  (b)'s tick labels, which are long.  Inside the top right of each panel
+    #  is empty on both and cannot collide with anything.
+    for a, tag in ((ax0, "(a)"), (ax1, "(b)")):
+        a.text(0.995, 0.97, tag, transform=a.transAxes, fontsize=9,
+               fontweight="bold", va="top", ha="right")
     p = PAPER / "figS1_speccurve.png"
     fig.savefig(p)
     plt.close(fig)

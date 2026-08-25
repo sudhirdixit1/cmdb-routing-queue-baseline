@@ -1,0 +1,6 @@
+metric,unit,n_pairs,one_number_worse,majority_worse,tied,median_excess_one_number,median_excess_majority
+ap,average precision,19,3,1,15,0.0,0.0
+auc,AUC,19,5,0,14,0.0,0.0
+brier_skill,Brier skill,19,3,2,14,0.0,0.0
+logloss_skill,log-loss skill,19,3,3,13,0.0,0.0
+nagelkerke,Nagelkerke R2,19,3,3,13,0.0,0.0

@@ -1,3 +1,14 @@
+> **SUPERSEDED IN ITS PARTICULARS — round sixteen.** This file records four
+> decisions taken three rounds before the manuscript being submitted, and its
+> section numbers, its title and several of its numbers belong to a document
+> that no longer exists: the title settled in decision 1 was replaced in round
+> nineteen, and the headline it defends was withdrawn as inflated by an
+> intercept-only baseline. It is kept, and shipped, because the *reasoning* is
+> still the reasoning — each decision says what was chosen, what was rejected,
+> and what would overturn it — and because a decision recorded and later
+> reversed is more useful to a reader than a decision never written down.
+> The current record is `response_to_blueprint.md` and `../REFEREE-LOG.md`.
+
 # Decisions taken in round sixteen, and why
 
 The plan (`PLAN-INFORMATION-SYSTEMS.md`, §9) left four decisions open. Three

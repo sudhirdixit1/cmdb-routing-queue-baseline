@@ -1,0 +1,50 @@
+Section~\ref{sec:regions} reports every region label and every robustness
+index under a critical value calibrated at the pair's own ratio of register
+cardinality to training row count. This section gives the construction the
+article summarises.
+
+\subsection{The inflation factor has a closed form}
+
+Write the basic interval of Section~\ref{sec:boot} as
+$[\hat V - L,\, \hat V + U]$. Inflated by a factor $c$ it becomes
+$[\hat V - cL,\, \hat V + cU]$, and it covers the truth $\vartheta$ exactly
+when
+\[
+c \;\geq\; \max\!\left\{\frac{\hat V - \vartheta}{L},\;
+\frac{\vartheta - \hat V}{U}\right\}.
+\]
+The smallest $c$ attaining nominal coverage at level $1 - \alpha$ over a set
+of replicates is therefore the $(1-\alpha)$ quantile of that ratio across
+them, and its Monte Carlo interval comes from the same order statistics. No
+search over candidate factors is needed, and the estimate inherits the
+replicate count directly: the plane carries \nPlaneCells\ cells at
+\nPlaneReps\ replicates each, over $K/n$ from \planeKnMin\ to \planeKnMax,
+on two data-generating worlds rather than one (Table~\ref{tab:plane}).
+
+\subsection{A monotone fit, not a parametric one}
+
+The dependence of $c$ on $K/n$ is well summarised by a log-linear fit whose
+slope is \calSlope, with a standard error of \calSlopeSe: the widening a pair
+needs grows with its register's cardinality relative to its training set, as
+the mechanism of Section~\ref{sec:boot} predicts. That fit is quoted because
+it is the interpretable summary, but it is \emph{not} what the corpus is
+calibrated with. The parametric fit sits below the measured factor at the
+smallest ratios, and using it would under-correct exactly the pairs whose
+bands are narrowest --- the pairs where an anti-conservative band does the
+most damage. The corpus is therefore calibrated with an isotonic regression
+through the measured factors, which is monotone by construction and
+interpolates the measurements rather than smoothing through them.
+Table~\ref{tab:plane} prints the two curves side by side.
+
+\subsection{What the calibration does and does not correct}
+
+The factor is estimated on a \emph{pointwise} interval in a simulation and
+applied to a \emph{simultaneous} band on real logs. It corrects the scale of
+the studentised statistic, which is the channel the plane identifies. It does
+not correct a change in the shape of the maximum's distribution, and it
+assumes that the simulated worlds' dependence on $K/n$ transfers to logs whose
+dependence structure and signal are not the simulation's. Because that
+transfer is an assumption, Section~\ref{sec:regions} reports the corpus counts
+at three settings --- nominal, calibrated, and every factor pushed to the
+upper end of its own Monte Carlo interval --- and Section~\ref{sec:lim}
+carries the transfer as a limitation.

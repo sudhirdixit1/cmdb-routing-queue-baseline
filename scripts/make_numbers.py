@@ -76,8 +76,20 @@ def load(name):
     return None
 
 
+#: where each macro was defined, for the claim registry.  Captured from the
+#: caller's frame rather than declared at each call site, so it cannot drift
+#: out of date and costs nothing to maintain: a reader who wants to know where
+#: a number came from is given a file and a line to open.
+_SOURCE = {}
+
+
 def put(name, value, fmt="%s"):
     """Define a macro.  `value` None or NaN yields the visible ?? marker."""
+    try:
+        f = sys._getframe(1)
+        _SOURCE[name] = (Path(f.f_code.co_filename).name, f.f_lineno)
+    except Exception:  # noqa: BLE001
+        _SOURCE[name] = ("?", 0)
     if value is None or (isinstance(value, float) and not np.isfinite(value)):
         _UNRESOLVED.append(name)
         _MACROS[name] = MISSING
@@ -178,7 +190,13 @@ def main(argv=None):
     CF = load("s02_confirmatory.csv")
     FIE = load("s02_fieller.csv")
     S3 = load("s03_facts.csv")
-    REG = load("s03_regions.csv")
+    #  ROUND TWENTY.  The region labels come from the WHOLE-SURFACE
+    #  simultaneous band (s21) wherever it exists; s03's are the narrower
+    #  within-instrument family the correction withdraws, and are the
+    #  fallback only so a partial build still produces a document.
+    REG = load("s21_regions.csv")
+    if REG is None or not len(REG):
+        REG = load("s03_regions.csv")
     SOB = load("s03_sobol.csv")
     S4 = load("s04_facts.csv")
     RU = load("s04_rules.csv")
@@ -243,7 +261,18 @@ def main(argv=None):
         put("cardF", None)
         put("nCohortCorpus", None)
     put("nCohort", thousands(first(S8, "n_cohort")))
-    put("casePrevalence", num(first(S8, "prevalence"), 3))
+    #  ROUND TWENTY-TWO.  `s08' records the prevalence of the TEST HALF
+    #  (`yte.mean()') and `s38' the prevalence of the whole cohort, and the
+    #  manuscript attached the first to the 45,455-case cohort and then set
+    #  it against a whole-cohort figure for the other target.  Two referees
+    #  found it independently.  The cohort's prevalence is the cohort's, so
+    #  it comes from s38 now; the test half's is a macro of its own and is
+    #  named as the test half wherever it appears.
+    _f38 = load("s38_facts.csv")
+    put("casePrevalence",
+        num(first(_f38, "prev_t2"), 3) if _f38 is not None
+        else num(first(S8, "prevalence"), 3))
+    put("casePrevalenceTest", num(first(S8, "prevalence"), 3))
     put("nCaseTrain", thousands(first(S8, "n_train")))
     put("nCaseTest", thousands(first(S8, "n_test")))
 
@@ -340,8 +369,15 @@ def main(argv=None):
     # ---- the headline spread --------------------------------------------
     if SUR is not None and len(SUR):
         import spec as S
+        #  ROUND TWENTY-ONE.  The prose says "holding the pipeline, the split,
+        #  the register and the metric at the reference and varying only the
+        #  baseline rung".  This filter did not hold the PIPELINE, so the
+        #  spread it produced was over the rung AND the pipeline together and
+        #  the sentence overstated what one axis does.  The filter now matches
+        #  the sentence.
         A = SUR[(~SUR.rung.isin(S.IMPLAUSIBLE_RUNGS))
                 & (SUR.metric == "auc") & (SUR.quality == "clean")
+                & (SUR.learner == "logit")
                 & (SUR.split == "holdout70")]
         if len(A):
             sp = A.groupby(["log", "target"]).V.apply(lambda s: s.max() - s.min())
@@ -349,8 +385,21 @@ def main(argv=None):
                 "widest" % (float(sp.median()), float(sp.max())))
             put("spreadMedian", num(sp.median(), 3))
             put("spreadMax", num(sp.max(), 3))
+            #  the pairs on which varying the BASELINE alone moves the
+            #  increment by more than the increment is at the reference
+            #  cell.  Section 6.3 says this happens "on most pairs"; that is
+            #  a count, so it is one, and a reader can check the word
+            #  against the number.
+            ref = A[(A.learner == "logit")
+                    & (A.rung == "B_intake_g")]
+            base = ref.groupby(["log", "target"]).V.median().abs()
+            both = pd.concat([sp.rename("spread"),
+                              base.rename("ref")], axis=1).dropna()
+            put("nSpreadExceedsIncrement",
+                thousands(int((both.spread > both.ref).sum())))
         else:
-            for k in ("spreadHeadline", "spreadMedian", "spreadMax"):
+            for k in ("spreadHeadline", "spreadMedian", "spreadMax",
+                      "nSpreadExceedsIncrement"):
                 put(k, None)
         #  how many pairs have BOTH signs among their admissible cells
         B = SUR[(~SUR.rung.isin(S.IMPLAUSIBLE_RUNGS))
@@ -358,7 +407,8 @@ def main(argv=None):
         g = B.groupby(["log", "target"]).V.apply(lambda s: float((s > 0).mean()))
         put("nSignVaries", thousands(int(((g > 0.10) & (g < 0.90)).sum())))
     else:
-        for k in ("spreadHeadline", "spreadMedian", "spreadMax", "nSignVaries"):
+        for k in ("spreadHeadline", "spreadMedian", "spreadMax",
+                  "nSignVaries", "nSpreadExceedsIncrement"):
             put(k, None)
 
     # ---- propositions ----------------------------------------------------
@@ -609,7 +659,9 @@ def main(argv=None):
     BN = load("s17_bands.csv")
     if BN is None or not len(BN):
         BN = load("s02_bands.csv")
-    CE = load("s17_cells.csv")
+    CE = load("s21_cells.csv")
+    if CE is None or not len(CE):
+        CE = load("s17_cells.csv")
     if CE is None or not len(CE):
         CE = load("s02_cells.csv")
     if BN is not None and len(BN):
@@ -726,9 +778,38 @@ def main(argv=None):
                            r"4bb0-bd82-af5268819c35}")
     put("doiBPICthirteen", r"\url{https://doi.org/10.4121/uuid:500573e6-"
                            r"accc-4b0c-9576-aa5468b10cee}")
-    put("nCorpusLogs", "21")
+    #  DERIVED, not typed.  An earlier version hard-coded 21 here while the
+    #  manuscript described a corpus of 13 admitted logs, and a data
+    #  availability statement that disagrees with the paper is exactly the
+    #  kind of defect the generated-macro architecture exists to prevent.
+    #  The two counts are different quantities and both are now named:
+    #  DOWNLOADED is what the checksum file lists, ADMITTED is what the
+    #  registered rules keep.
+    try:
+        _lines = (SRC_ROOT / "data" / "corpus" / "CHECKSUMS.txt").read_text(
+            encoding="utf-8").splitlines()
+        _n = sum(1 for l in _lines
+                 if l.strip() and not l.strip().startswith("#"))
+    except Exception:  # noqa: BLE001
+        _n = None
+    put("nCorpusDownloaded", thousands(_n) if _n else None)
+    put("nCorpusLogs", thousands(_n) if _n else None)
     put("zenodoDOI", read_release("doi"))
     put("releaseTag", read_release("tag"))
+
+    # ---- round twenty ----------------------------------------------------
+    #  The quantities the blueprint's Priority-0 and Priority-1 repairs
+    #  produce come from a disjoint set of result files, so they are defined
+    #  in their own module.  It writes into THIS module's macro table, so
+    #  there is still one writer of numbers.tex and one of each number.
+    import round20_numbers  # noqa: E402
+    round20_numbers.emit(sys.modules[__name__])
+    import round20_tables  # noqa: E402
+    #  ---- round twenty-one ----------------------------------------------
+    #  The review's twelve major comments; seven new result files.
+    import round21_numbers  # noqa: E402
+    round21_numbers.emit(sys.modules[__name__])
+    import round21_tables  # noqa: E402
 
     # ---- write -----------------------------------------------------------
     lines = ["%% GENERATED by scripts/make_numbers.py -- do not edit.",
@@ -737,9 +818,16 @@ def main(argv=None):
         lines.append("\\newcommand{\\%s}{%s}" % (k, _MACROS[k]))
     (PAPER / "numbers.tex").write_text("\n".join(lines) + "\n",
                                        encoding="utf-8")
+    #  where each macro came from, for scripts/claim_registry.py.  Captured
+    #  from the calling frame, so it cannot drift out of date.
+    pd.DataFrame([dict(macro=k, generator=v[0], line=v[1])
+                  for k, v in sorted(_SOURCE.items())]).to_csv(
+        RESULTS / "macro_sources.csv", index=False)
     write_tables(dict(SUR=SUR, FIT=FIT, REG=REG, SOB=SOB, RU=RU, AX=AX,
                       CF=CF, FIE=FIE, S6P=S6P, S8L=S8L, S8T=S8T, S10C=S10C,
                       CE=CE, BN=BN, S9M=S9M, DR=load("s04_decision_rules.csv")))
+    round20_tables.write(sys.modules[__name__])
+    round21_tables.write(sys.modules[__name__])
 
     print("wrote paper/numbers.tex with %d macros" % len(_MACROS))
     stale = provenance.mismatches()
@@ -843,7 +931,14 @@ def read_release(what):
 
 # ==========================================================================
 def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
-              note=None):
+              note=None, textcols=None):
+    """`textcols` maps a RENAMED column name to a width in fractions of
+    \\linewidth.  A table with a free-text column cannot be set by shrinking
+    it: \\resizebox scales the glyphs and the leading together, so at the
+    reduction a forty-character cell needs, consecutive rows touch.  Naming
+    the text columns turns them into `p{}' columns that WRAP, and the table
+    is then set at the body font with no reduction at all.  Two tables in an
+    earlier version were unreadable for exactly this reason."""
     d = df.copy()
     if colnames:
         d = d.rename(columns=colnames)
@@ -885,9 +980,52 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
     #  the body font and wide ones fit.  The guard matters: an unconditional
     #  \resizebox{\textwidth} also STRETCHES a narrow table, which looks worse
     #  than the overfull box did.
-    body = ("\\resizebox{\\ifdim\\width>\\linewidth\\linewidth\\else\\width"
-            "\\fi}{!}{%%\n" + body.rstrip() + "%\n}")
-    out = ["\\begin{table}[t]", "\\centering", "\\small", body,
+    if textcols:
+        #  rebuild the column spec: a ragged-right p{} for the named text
+        #  columns, l or r for the rest, exactly as pandas chose them.
+        #  Ragged right rather than justified because a 0.2\linewidth column
+        #  of justified prose is mostly interword space, and because a
+        #  justified column is what pushed `org:resource' into the margin.
+        m = re.search(r"\\begin\{tabular\}\{([^}]*)\}", body)
+        if m:
+            spec = list(m.group(1))
+            names = list(d.columns)
+            new = []
+            for i, c in enumerate(names):
+                w = textcols.get(c)
+                new.append(">{\\raggedright\\arraybackslash}p{%.3f\\linewidth}"
+                           % w if w else (spec[i] if i < len(spec) else "l"))
+            body = body.replace(m.group(0),
+                                "\\begin{tabular}{%s}" % "".join(new), 1)
+        #  a narrow column holds tokens like `case:RequestedAmount' that TeX
+        #  will not break, so hyphenation is made cheap and a last-resort
+        #  stretch is allowed; without both, one such token overfills the row
+        #  ROUND TWENTY-TWO.  At 3pt of column separation two ragged-right
+        #  text columns whose lines both run full width have their words
+        #  touching, and a reviewer read a row of the construct table as one
+        #  run-on string.  5pt is the smallest separation at which they read
+        #  as separate columns.
+        #  ROUND TWENTY-TWO.  A p{} column narrow enough to fit seven of them
+        #  across the measure is narrower than its own longest single word:
+        #  `enforcement' in a 0.085\linewidth column is 20pt wider than the
+        #  column, and no amount of hyphenation setting breaks a word TeX
+        #  will not hyphenate.  Seventy such cells spilled past their column
+        #  edge in the supplement, which is the run-together look a reviewer
+        #  read as carelessness.  The guarded \resizebox is applied here too:
+        #  the p{} columns still WRAP, so rows cannot touch, and the shrink
+        #  only has to absorb whatever a single unbreakable token exceeds its
+        #  column by.
+        body = ("\\setlength{\\tabcolsep}{5pt}%\n"
+                "\\renewcommand{\\arraystretch}{1.15}%\n"
+                "\\hyphenpenalty=50 \\exhyphenpenalty=50 "
+                "\\emergencystretch=1em\\relax%\n"
+                "\\resizebox{\\ifdim\\width>\\linewidth\\linewidth\\else"
+                "\\width\\fi}{!}{%%\n" + body.rstrip() + "%\n}")
+    else:
+        body = ("\\resizebox{\\ifdim\\width>\\linewidth\\linewidth\\else"
+                "\\width\\fi}{!}{%%\n" + body.rstrip() + "%\n}")
+    out = ["\\begin{table}[t]", "\\centering",
+           "\\footnotesize" if textcols else "\\small", body,
            "\\caption{%s}" % caption, "\\label{%s}" % label]
     if note:
         out.insert(-2, "")
@@ -910,29 +1048,101 @@ def write_tables(D):
 
     # ---- master ----------------------------------------------------------
     if SUR is not None and len(SUR) and CE is not None and len(CE):
+        #  THE REFERENCE CELL IS A COMPLETE ASSIGNMENT, INCLUDING THE SPLIT.
+        #  s21's cell file carries the split axis, which s17's did not, so a
+        #  filter that omitted it would silently return one row per split and
+        #  print each pair twice -- a table that looks like a duplication bug
+        #  and is really an under-specified reference cell.
         ref = CE[(CE.metric == "auc") & (CE.quality == "clean")
                  & (CE.rung == "B_intake_g") & (CE.learner == "logit")]
-        m = ref[["log", "target", "V", "lo", "hi"]].copy()
-        if REG is not None and len(REG):
+        if "split" in ref.columns:
+            ref = ref[ref.split == "holdout70"]
+        ref = ref.drop_duplicates(["log", "target"])
+        lo_c = "lo" if "lo" in ref.columns else "basic_lo"
+        hi_c = "hi" if "hi" in ref.columns else "basic_hi"
+        m = ref[["log", "target", "V", lo_c, hi_c]].copy()
+        m = m.rename(columns={lo_c: "lo", hi_c: "hi"})
+        #  and the SIMULTANEOUS band at the same cell, which is what a
+        #  surface-level table has to print beside a surface-level label.
+        BS = load("s21_bands.csv")
+        if (BS is not None and len(BS) and "metric" in BS.columns
+                and "family" in BS.columns):
+            w = BS[(BS.family == "whole-surface") & (BS.metric == "auc")
+                   & (BS.quality == "clean") & (BS.rung == "B_intake_g")
+                   & (BS.learner == "logit") & (BS.split == "holdout70")]
+            if len(w):
+                w = (w[["log", "target", "cons_lo", "cons_hi"]]
+                     .drop_duplicates(["log", "target"])
+                     .rename(columns={"cons_lo": "sim lo",
+                                      "cons_hi": "sim hi"}))
+                m = m.merge(w, on=["log", "target"], how="left")
+        #  ROUND TWENTY-TWO.  This table said `region' and `rho' and took
+        #  them from the NOMINAL band, four pages after the text asserts in
+        #  bold that every region label and every rho in the paper is the
+        #  calibrated one.  Four labels differed and the median rho a reader
+        #  computed from this table was the nominal 0.117 rather than the
+        #  0.017 the conclusion quotes.  It now takes both from s33, which is
+        #  the file the calibrated regions live in, and falls back to the
+        #  nominal file only when s33 has not been run.
+        CAL = load("s33_regions.csv")
+        if CAL is not None and len(CAL):
+            m = m.merge(
+                CAL[["log", "target", "region_calibrated", "rho_calibrated"]]
+                .rename(columns={"region_calibrated": "region",
+                                 "rho_calibrated": "rho"}),
+                on=["log", "target"], how="left")
+        elif REG is not None and len(REG):
             m = m.merge(REG[["log", "target", "region", "rho"]],
                         on=["log", "target"], how="left")
-        if RU is not None and len(RU):
+        #  and the sign-disagreement column came from s04, a round-nineteen
+        #  file whose values differ from the round-twenty-one ones on ten of
+        #  nineteen pairs under a caption that describes them identically.
+        MIS = load("s34_misreport.csv")
+        if MIS is not None and len(MIS):
+            mm = (MIS[MIS.measure == "equal-level"]
+                  [["log", "target", "misreport_all"]]
+                  .rename(columns={"misreport_all":
+                                   "one_number_misreport_conventional"}))
+            m = m.merge(mm, on=["log", "target"], how="left")
+        elif RU is not None and len(RU):
             m = m.merge(RU[["log", "target",
                             "one_number_misreport_conventional"]],
                         on=["log", "target"], how="left")
+        #  ROUND TWENTY-TWO, M9.  Four interval-endpoint columns are two
+        #  intervals to a reader, and printing them as two columns is both
+        #  narrower and what the caption already calls them.
+        ms = m.sort_values(["log", "target"]).copy()
+        if {"lo", "hi", "sim lo", "sim hi"} <= set(ms.columns):
+            ms["pointwise"] = ["[%+.3f, %+.3f]" % (a, b)
+                               for a, b in zip(ms.lo, ms.hi)]
+            ms["simultaneous"] = ["[%+.3f, %+.3f]" % (a, b)
+                                  for a, b in zip(ms["sim lo"], ms["sim hi"])]
+            keep = [c for c in ms.columns
+                    if c not in ("lo", "hi", "sim lo", "sim hi")]
+            order = ["log", "target", "V", "pointwise", "simultaneous"]
+            ms = ms[order + [c for c in keep if c not in order]]
         (TABLES / "master.tex").write_text(
-            tex_table(m.sort_values(["log", "target"]),
+            tex_table(ms,
                       "The master table. One row per admitted log--target "
-                      "pair: the increment at the reference specification "
-                      "with its 95\\% interval from the nested bootstrap, the "
-                      "resolution region, the robustness index $\\rho$, and "
-                      "the share of admissible specifications whose sign "
-                      "disagrees with a conventional one-number report. The "
-                      "reference cell's sign and the region need not agree, "
-                      "and on several pairs they do not: a surface can be "
-                      "conditionally beneficial while the one cell an analyst "
-                      "would have stood on is negative, which is this paper's "
-                      "argument in a line.",
+                      "pair. `pointwise' is the 95\\% interval at the "
+                      "reference cell, basic (pivotal) construction; "
+                      "`simultaneous' is that same cell's "
+                      "WHOLE-SURFACE simultaneous band, at the conservative "
+                      "end of the critical value's Monte Carlo interval. They "
+                      "are different objects, and the region label uses only "
+                      "the second. Then the resolution region and the "
+                      "robustness index $\\rho$, both under the "
+                      "COVERAGE-CALIBRATED critical value of "
+                      "Section~\\ref{sec:regions} --- the nominal ones are in "
+                      "Table~\\ref{tab:calbands} --- and the share of "
+                      "admissible specifications whose sign disagrees with a "
+                      "conventional one-number report, under the equal-level "
+                      "measure, which is the `all-cells rate' column of "
+                      "Table~\\ref{tab:misreport}. The reference cell's sign "
+                      "and the region need not agree, and on several pairs "
+                      "they do not: a surface can be conditionally beneficial "
+                      "while the one cell an analyst would have stood on is "
+                      "negative.",
                       "tab:master",
                       #  pandas escapes the header row too, so a column name
                       #  cannot carry math; these are plain words on purpose.
@@ -998,10 +1208,22 @@ def write_tables(D):
                 & (FIT.rung == "B_intake_g")]
         cols = ["log", "target", "n_train", "n_test", "prev_test",
                 "cal_intercept", "cal_slope", "brier", "unseen"]
+        #  ROUND TWENTY-ONE, minor: this was the one per-pair table whose rows
+        #  were in the order the fit file happened to produce, and a reader
+        #  comparing it with any other per-pair table had to search.  Every
+        #  per-pair table in this paper is now sorted by (log, target).
+        c = c.sort_values(["log", "target"])
         (TABLES / "calibration.tex").write_text(
             tex_table(c[[x for x in cols if x in c.columns]],
                       "Calibration and unseen-category rates at the reference "
-                      "cell.", "tab:calibration"), encoding="utf-8")
+                      "cell, one row per log--target pair in the same order "
+                      "as every other per-pair table. Every row is on the "
+                      "cohort and target the registered rules of "
+                      "Section~\\ref{sec:design} define, BPIC14's included; "
+                      "the case study's own cohort is smaller and its "
+                      "counts are in Section~\\ref{sec:cohort}.",
+                      "tab:calibration"),
+            encoding="utf-8")
     else:
         blank("calibration", "Calibration.", "tab:calibration")
 
@@ -1026,6 +1248,15 @@ def write_tables(D):
             piv = (d.assign(interval=d.interval.map(WANT))
                    .pivot_table(index="world", columns="interval",
                                 values="coverage").reset_index())
+            #  ROUND TWENTY.  A coverage without its Monte Carlo error is a
+            #  number a reader cannot judge: at this replicate count the
+            #  standard error of a coverage near the nominal is about 1.5
+            #  points, and two bars differing by less than that are not
+            #  differing.  The half-width is the same for every cell of a row
+            #  to within rounding, so it is one column rather than ten.
+            nrep = float(d.n.iloc[0]) if "n" in d.columns else np.nan
+            if np.isfinite(nrep) and nrep > 0:
+                piv["MC half-width"] = 1.96 * np.sqrt(0.95 * 0.05 / nrep)
             body = piv
         else:
             body = S10C[S10C.estimand == "V_limit"]
@@ -1037,8 +1268,11 @@ def write_tables(D):
                       "constructions. The nested percentile interval "
                       "is the one that fails, on the sparse world, and "
                       "the basic construction is the repair; the "
-                      "bias-corrected percentile is not. The oracle "
-                      "rows are in results/s10\_coverage.csv.",
+                      "bias-corrected percentile is not. The last column is "
+                      "the Monte Carlo half-width of every coverage in the "
+                      "row at this replicate count, so a reader can see which "
+                      "differences the simulation resolves. The oracle rows "
+                      "are in results/s10\_coverage.csv.",
                       "tab:sim"),
             encoding="utf-8")
     else:
@@ -1065,7 +1299,10 @@ def write_tables(D):
     if EV is not None and len(EV):
         (TABLES / "availability.tex").write_text(
             tex_table(EV, "What the interaction file establishes, and what it "
-                      "does not.", "tab:availability"), encoding="utf-8")
+                      "does not. Case study cohort, reassignment target.",
+                      "tab:availability",
+                      textcols={"evidence": 0.30, "establishes": 0.44}),
+            encoding="utf-8")
     else:
         blank("availability", "Availability evidence.", "tab:availability")
 
@@ -1097,24 +1334,61 @@ def write_tables(D):
                 & (FIE.metric.isin(list(S.SCALARS)))]
         cols = ["metric", "b_lo", "b_hi", "V_lo", "V_hi", "D", "D_lo", "D_hi",
                 "R", "R_fieller_lo", "R_fieller_hi", "fieller_kind"]
-        (TABLES / "absorption.tex").write_text(
+        (TABLES / "absorptioncorpus.tex").write_text(
             tex_table(f[[c for c in cols if c in f.columns]],
                       "Absolute absorption $D$ first, the ratio $R$ second, "
-                      "with its Fieller set and the set's kind.",
-                      "tab:absorption"), encoding="utf-8")
+                      "with its Fieller set and the set's kind, on the "
+                      "REGISTERED cohort and the handover target, over all "
+                      "five instruments. The case study's own cohort and "
+                      "target are in Table~\\ref{tab:absorption}.",
+                      "tab:absorptioncorpus"), encoding="utf-8")
     else:
-        blank("absorption", "Absorption.", "tab:absorption")
+        blank("absorptioncorpus", "Absorption.", "tab:absorptioncorpus")
 
     # ---- decision curve --------------------------------------------------
+    #  ROUND TWENTY-THREE.  A referee read this table against the sentence
+    #  that cites it and found three things wrong at once.  The filter left
+    #  the SPLIT free, so the frame spanned two splits and `.head(31)' chose
+    #  between them by row order; the cells were the RAW-score curve while
+    #  Section 8.3 and Figure 5 read the isotonic-calibrated one, which
+    #  Section 8.2 says must be labelled wherever it appears; and the caption
+    #  named neither the log, the target, the split nor the calibration.  A
+    #  supplementary table that fails the paper's own reporting standard is
+    #  not a small defect.  The split is fixed, the calibrated curve is
+    #  selected where the file carries one, and the caption says what the
+    #  rows are.
     BN = D["BN"]
     if BN is not None and len(BN):
         b = BN[(BN.log == "BPIC14") & (BN.target == "handover")
                & (BN.learner == "logit") & (BN.quality == "clean")
                & (BN.rung == "B_intake_g") & (BN.family == "decision-curve")]
+        if "split" in b.columns:
+            b = b[b.split == "holdout70"]
+        _cal = "calibrated"
+        if "calibration" in b.columns and (b.calibration == _cal).any():
+            b = b[b.calibration == _cal]
+            _how = "on ISOTONIC-CALIBRATED probabilities"
+        else:
+            _how = ("on RAW scores, and is therefore a score-threshold "
+                    "sensitivity analysis in the sense of "
+                    "Section~\\ref{sec:calibfirst} rather than a decision "
+                    "curve")
+        b = b.sort_values("metric")
         (TABLES / "dca.tex").write_text(
             tex_table(b[["metric", "V", "se", "sim_lo", "sim_hi",
-                         "sim_resolved"]].head(31),
-                      "The decision curve with simultaneous max-$t$ bands.",
+                         "sim_resolved"]],
+                      "The decision curve of Figure~\\ref{fig:dca} as a "
+                      "table: BPIC14, the registered handover target, "
+                      "one-hot logistic regression, the clean register, the "
+                      "single temporal holdout, the intake block plus the "
+                      "free field as baseline. Every row is one operating "
+                      "point %s. The bands are the "
+                      "whole-family simultaneous max-$t$ construction over "
+                      "this pair's declared decision-curve family, and "
+                      "`sim resolved' says whether that band excludes zero. "
+                      "This family is NOT coverage-calibrated; "
+                      "Section~\\ref{sec:dcabands} gives the counts under "
+                      "the empirical critical value beside these." % _how,
                       "tab:dca"), encoding="utf-8")
     else:
         blank("dca", "Decision curve.", "tab:dca")
@@ -1221,9 +1495,26 @@ def write_tables(D):
     if LY is None:
         LY = load("e10b_layers.csv")
     if LY is not None and len(LY):
+        #  ROUND TWENTY-ONE, M9.  This table reported Helpdesk/handover and
+        #  BPIC19/handover, which the registered exclusion rules of
+        #  Section 5 remove -- the first at a base AUC of 0.400 on a
+        #  prevalence of 0.0011, which is degenerate.  A table in an appendix
+        #  is not exempt from the corpus's own admission rule, so the pairs
+        #  the rule admits are the pairs this table prints, and the filter is
+        #  taken from the surface rather than typed.
+        #  the count of dropped rows is a MACRO, defined in round21_numbers
+        #  before numbers.tex is written; a put() here would run after that
+        #  file had already been written and the macro would be undefined.
+        if SUR is not None and len(SUR):
+            adm = set(zip(SUR.log.astype(str), SUR.target.astype(str)))
+            LY = LY[[(str(a), str(b)) in adm
+                     for a, b in zip(LY.log, LY.target)]]
         (TABLES / "layers.tex").write_text(
-            tex_table(LY.head(20), "The increment of each layer of the "
-                      "register over the same baseline.", "tab:layers"),
+            tex_table(LY.head(24), "The increment of each layer of the "
+                      "register over the same baseline, on the log--target "
+                      "pairs the registered rules of Section~"
+                      "\\ref{sec:design} admit. \\nLayerRowsExcluded\\ rows "
+                      "on excluded pairs are not printed.", "tab:layers"),
             encoding="utf-8")
     else:
         blank("layers", "Register layers.", "tab:layers")
@@ -1261,15 +1552,24 @@ def write_tables(D):
     # ---- the extended quality table -------------------------------------
     S9M = D.get("S9M")
     if S9M is not None and len(S9M):
-        (TABLES / "quality2.tex").write_text(
+        #  ROUND TWENTY-ONE: this is the REGISTERED-cohort, handover-target
+        #  version and is named so.  Section 7 prints the case study's own
+        #  cohort (round21_tables, from s39); this one goes to the supplement
+        #  beside the rest of the corpus, and the two captions say which is
+        #  which so that a reader comparing them is comparing knowingly.
+        (TABLES / "quality2corpus.tex").write_text(
             tex_table(S9M[S9M.encoder == "ignores-missing"]
                       [["mechanism", "level", "populated", "V"]],
-                      "Register-quality mechanisms on the primary log at the "
-                      "reference cell, including a discovery lag and a sweep "
-                      "of the two accuracy mechanisms.", "tab:quality2"),
+                      "Register-quality mechanisms on the REGISTERED cohort "
+                      "(\\nRegisteredCohort\\ cases) and the handover target, "
+                      "at the reference cell, including a discovery lag and a "
+                      "sweep of the two accuracy mechanisms. The case "
+                      "study's own cohort and target are in "
+                      "Table~\\ref{tab:quality2}.", "tab:quality2corpus"),
             encoding="utf-8")
     else:
-        blank("quality2", "Register quality, extended.", "tab:quality2")
+        blank("quality2corpus", "Register quality, extended.",
+              "tab:quality2corpus")
 
     # ---- the three decision rules ---------------------------------------
     DR = D.get("DR")
@@ -1289,9 +1589,48 @@ def write_tables(D):
     # ---- corpus ----------------------------------------------------------
     EXC = load("r33_excluded.csv")
     if EXC is not None and len(EXC):
+        #  ROUND TWENTY-TWO.  The data-availability statement claimed this
+        #  table gave a code for every downloaded log that is not admitted,
+        #  and it did not: two logs were downloaded as a HELD-OUT SET for a
+        #  separate test and were never offered to the admission rules at
+        #  all, so they appeared neither here nor among the admitted pairs.
+        #  A ledger with a silent third category is not a ledger.  The rows
+        #  are added from the held-out file rather than typed.
+        HO = load("r43_holdout.csv")
+        if HO is not None and len(HO):
+            rows = [dict(log=str(lg), domain=str(dm), code="HELD_OUT",
+                         detail="downloaded as a held-out log for the "
+                                "out-of-corpus test; never offered to the "
+                                "admission rules")
+                    for lg, dm in HO[["log", "domain"]].drop_duplicates()
+                    .itertuples(index=False)]
+            EXC = pd.concat([EXC, pd.DataFrame(rows)], ignore_index=True)
+        #  ROUND TWENTY-TWO again, and the same hole one level down: a
+        #  referee counted the checksummed downloads against this table and
+        #  found one more log in neither column.  A log offered to the
+        #  HELD-OUT set's rules and excluded by them was recorded only in
+        #  `r43_holdout_excluded.csv'.  It belongs in the ledger under the
+        #  code those rules gave it, so that "every downloaded log" is true
+        #  as printed rather than true of two of the three categories.
+        HX = load("r43_holdout_excluded.csv")
+        if HX is not None and len(HX):
+            rows = [dict(log=str(r.log), domain=str(r.domain),
+                         code=str(r.code),
+                         detail="held-out set: %s" % r.detail)
+                    for r in HX.itertuples()]
+            EXC = pd.concat([EXC, pd.DataFrame(rows)], ignore_index=True)
+        #  `nHeldOutLogs' is defined in round21_numbers, which runs BEFORE
+        #  numbers.tex is written; a put() here would be too late to reach it.
         (TABLES / "corpus.tex").write_text(
-            tex_table(EXC, "Every log the registered rules exclude, with its "
-                      "registered exclusion code.", "tab:corpus"),
+            tex_table(EXC, "Every downloaded log that is not among the "
+                      "\\nPairs\\ admitted log--target pairs, with its "
+                      "registered exclusion code. \\textsf{HELD\\_OUT} names "
+                      "the logs downloaded as a held-out set for a separate "
+                      "test and never offered to the admission rules; every "
+                      "other code is a rule of Section~\\ref{sec:design}. "
+                      "Some logs appear here under one target and among the "
+                      "admitted pairs under the other, which is what a "
+                      "per-pair admission rule does.", "tab:corpus"),
             encoding="utf-8")
     else:
         blank("corpus", "The corpus.", "tab:corpus")

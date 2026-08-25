@@ -183,9 +183,70 @@ WAVES = [
         #  in Appendix G that the noisy world's apparent bias was not one.
         "s18_bias_scaling.py",
     ],
+    # ---- round twenty -----------------------------------------------------
+    #  The chain is: the INFERENCE SURFACE (s20), then the bands built on it
+    #  (s21), then everything that reads either.  s22, s25, s29 and s30 read
+    #  s01 or a stored file and can run beside s20; s23 reads s26's calibrated
+    #  curves for its common-utility design, so it comes after.
+    [
+        "s20_boot2.py",                # the axis-complete inference surface
+    ],
+    [
+        "s21_bands.py",                # whole-surface simultaneous bands
+        "s22_anova.py",                # the corrected, measure-aware ANOVA
+        "s24_confirm.py",              # planned contrasts, plus-one p-values
+        "s25_denominator.py",          # the surface denominator audit
+        "s26_calib_dca.py",            # calibration first, then the curve
+        "s29_props.py",                # the propositions, at their scope
+        "s30_pilot_var.py",            # design-based variance for the pilot
+    ],
+    [
+        #  s27 compares its mechanism variability with the SAMPLING standard
+        #  errors in results/s21_cells.csv, so it cannot share a wave with
+        #  s21.  It did for one round, read the previous round's file, matched
+        #  nothing, and left a macro unresolved.
+        "s27_quality.py",              # severity curves, seeds, dependence
+        "s23_regret.py",               # reads s01, s22 and s26
+    ],
+    #  s31 is last because it is the longest single job in the repository --
+    #  a thousand replicates per world with a hundred pipeline refits inside
+    #  each -- and because nothing else reads it.  A run that has to be cut
+    #  short should lose the simulation's replicate count and keep every
+    #  number that comes off the corpus.
+    [
+        "s31_simboost.py",             # P1.1: the simulation at full size
+    ],
+    # ---- round twenty-one -------------------------------------------------
+    #  The review's twelve major comments.  The order is a dependency order:
+    #  s33 must precede s34, because s34 restricts the sign-disagreement rate
+    #  to the cells the CALIBRATED band resolves and falls back to the
+    #  nominal one when s33 has not run.  s39 and s08 put Section 7 on one
+    #  cohort and read nothing the others write.
+    [
+        "s32_cohort.py",               # M1: the cohort/target reconciliation
+        "s37_axes.py",                 # M7: family and encoding, crossed
+        "s38_tau.py",                  # M2: the decision time as an axis
+    ],
+    [
+        "s33_calibrate.py",            # M3: the coverage-calibrated band
+        "s36_sca.py",                  # M6: against specification curves
+        "s39_case_quality.py",         # M1: Section 7 on one cohort
+        "s08_decision_time.py",        # re-run under a declared tie-break
+    ],
+    [
+        "s34_reporting.py",            # M4, M10: three rates, three families
+        "s35_utility.py",              # M5: the decision in a desk's units
+        "patch_s32_ties.py",           # the one count s32 printed and did not
+                                       # store; a no-op after a full s32 run
+    ],
 ]
-FIGURES = ["r25_figures.py", "r39_figures.py", "s12_figures.py"]
-NUMBERS = ["make_numbers.py", "assemble_paper.py"]
+#  s28 is LAST because it overwrites five of the figures the earlier scripts
+#  write, from the round-twenty result files, and the manuscript cites those
+#  file names.  A run that produced them in the other order would ship a
+#  correct number beside a picture of a withdrawn one.
+FIGURES = ["r25_figures.py", "r39_figures.py", "s12_figures.py",
+           "s28_figures.py"]
+NUMBERS = ["make_numbers.py", "assemble_paper.py", "claim_registry.py"]
 
 
 def hdr(msg):
@@ -335,7 +396,8 @@ def stage_verify():
     in the archive; it is run last and its failure is reported rather than
     fatal, because that manuscript is superseded."""
     hdr("VERIFICATION")
-    for s in ("s11_tool_agreement.py", "verify_numbers.py", "texlint.py"):
+    for s in ("s11_tool_agreement.py", "verify_numbers.py", "texlint.py",
+              "claim_registry.py", "final_search.py"):
         rc = subprocess.run([sys.executable, str(SCRIPTS / s)],
                             cwd=str(SCRIPTS))
         if rc.returncode != 0:

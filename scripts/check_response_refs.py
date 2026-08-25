@@ -34,7 +34,10 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 MANUSCRIPT = ROOT / "paper" / "specification_surfaces.tex"
+SUPPLEMENT = ROOT / "paper" / "supplement.tex"
 DOCS = [ROOT / "submission" / "response_to_referee.md",
+        ROOT / "submission" / "response_to_blueprint.md",
+        ROOT / "submission" / "response_to_review21.md",
         ROOT / "submission" / "cover_letter.md"]
 
 HEADING = re.compile(r"\\(appendix|section|subsection)(\*?)(?:\{([^}]*)\})?")
@@ -84,11 +87,33 @@ def numbering(text):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--map", action="store_true")
+    ap.add_argument("--sync", action="store_true",
+                    help="rewrite the structure table's word counts from "
+                         "results/section_words.csv instead of failing on "
+                         "them.  Every edit to the manuscript moves those "
+                         "numbers, and a human retyping them is how they go "
+                         "wrong.")
     a = ap.parse_args(argv)
 
     if not MANUSCRIPT.exists():
         sys.exit("assemble the manuscript first: python assemble_paper.py")
     N = numbering(MANUSCRIPT.read_text(encoding="utf-8"))
+    #  ROUND TWENTY-ONE.  The appendices are a separate document now, and the
+    #  earlier response letters refer to them by the letters they had inside
+    #  the article.  Those letters still name real headings, in the
+    #  supplement, in the same order -- so the map is positional and is built
+    #  here rather than leaving twelve stale references in two historical
+    #  documents that answered earlier reviews correctly at the time.
+    if SUPPLEMENT.exists():
+        S = numbering(SUPPLEMENT.read_text(encoding="utf-8"))
+        tops = [k for k in S if "." not in k]
+        tops.sort(key=int)
+        for i, k in enumerate(tops):
+            letter = string.ascii_uppercase[i]
+            N.setdefault(letter, "Supplement S%s: %s" % (k, S[k]))
+            for sub in sorted(x for x in S if x.startswith(k + ".")):
+                N.setdefault("%s.%s" % (letter, sub.split(".", 1)[1]),
+                             "Supplement S%s: %s" % (sub, S[sub]))
     if a.map:
         for k in sorted(N, key=lambda s: (len(s.split(".")), s)):
             print("  %-7s %s" % (k, N[k]))
@@ -110,9 +135,55 @@ def main(argv=None):
                     bad.append("%s:%d  %s names no heading in the manuscript"
                                % (doc.name, i, ref))
 
+    #  The response's structure table quotes a word count per section.  Those
+    #  are the only numbers in the submission package that are not macros, so
+    #  they are the only ones that can go stale silently -- and they will,
+    #  because every edit to the manuscript moves them.  texlint writes
+    #  results/section_words.csv on every run; this checks the table against
+    #  it.
+    n_words = 0
+    sw = ROOT / "results" / "section_words.csv"
+    resp = ROOT / "submission" / "response_to_blueprint.md"
+    if sw.exists() and resp.exists():
+        want = {}
+        for line in sw.read_text(encoding="utf-8").splitlines()[1:]:
+            name, _, n = line.rpartition(",")
+            want[name.strip('"').lower()] = int(n)
+        row = re.compile(r"^(\|\s*\d+\s*\|\s*)([^|]+?)(\s*\|\s*)([\d,]+)(\s*\|)")
+        lines = resp.read_text(encoding="utf-8").splitlines()
+        changed = 0
+        for i, line in enumerate(lines, 1):
+            m = row.match(line)
+            if not m:
+                continue
+            label, quoted = m.group(2).strip(), int(m.group(4).replace(",", ""))
+            key = next((k for k in want
+                        if k.startswith(label.lower()[:18])), None)
+            if key is None:
+                bad.append("%s:%d  the structure table names a section "
+                           "%r that the manuscript does not have"
+                           % (resp.name, i, label))
+                continue
+            n_words += 1
+            if want[key] == quoted:
+                continue
+            if a.sync:
+                lines[i - 1] = "%s%s%s%s%s" % (
+                    m.group(1), m.group(2), m.group(3),
+                    "{:,}".format(want[key]), m.group(5)) \
+                    + line[m.end():]
+                changed += 1
+            else:
+                bad.append("%s:%d  the structure table says %s is %d words; "
+                           "texlint counts %d"
+                           % (resp.name, i, label, quoted, want[key]))
+        if a.sync and changed:
+            resp.write_text("\n".join(lines) + "\n", encoding="utf-8")
+            print("  synced %d word counts in %s" % (changed, resp.name))
+
     print()
-    print("check_response_refs: %d references checked, %d unresolved"
-          % (checked, len(bad)))
+    print("check_response_refs: %d references checked, %d section word counts "
+          "checked, %d unresolved" % (checked, n_words, len(bad)))
     for b in bad:
         print("  FAIL  " + b)
     return 1 if bad else 0

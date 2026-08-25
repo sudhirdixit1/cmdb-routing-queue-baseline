@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllrll}
+\toprule
+threshold measure & majority & one-number & uniform-beneficial & weighted-mean & pairs where the rules differ \\
+\midrule
+desk distribution & 0 & 0 & 0.0477 & 0 & 11 \\
+fixed 1:19 & 0 & 0 & 0.0000 & 0 & 5 \\
+fixed 1:2 & 0 & 0 & 0.3251 & 0 & 10 \\
+fixed 1:4 & 0 & 0 & 0.2127 & 0 & 11 \\
+fixed 1:9 & 0 & 0 & 0.0000 & 0 & 7 \\
+uniform over the declared range & 0 & 0 & 1.3468 & 0 & 13 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Median excess regret of each decision rule, in net benefit per thousand cases, on the models that pass the registered calibration rule. The desk distribution places its mass on the exchange rates a service desk plausibly holds; the fixed rows report single exchange rates so that a reader who rejects the distribution still has a number. The last column counts the pairs on which the four rules do not all lose the same.}
+\label{tab:desk}
+\end{table}

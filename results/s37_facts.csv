@@ -1,0 +1,2 @@
+n_pipelines,n_cells_per_pipeline,n_rows,n_failed,n_families,n_encodings,share_family,share_encoding,share_family_x_encoding,share_rung,share_quality,share_split,higher_order_share,larger_axis,runtime_s
+12,36,2160,0,2,3,0.05160640407217708,0.1013408275882454,0.09749655025358206,0.4653956518295461,0.06701452666977545,0.012762872607002367,0.27454760241387044,encoding,359.0

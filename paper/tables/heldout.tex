@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllrrrr}
+\toprule
+design & metric & unit & majority & one-number & uniform-beneficial & weighted-mean \\
+\midrule
+held-out cells & ap & average precision & 0.000 & 0.002 & 0.027 & 0.000 \\
+held-out cells & auc & AUC & 0.000 & 0.005 & 0.026 & 0.000 \\
+held-out cells & brier\_skill & Brier skill & 0.001 & 0.002 & 0.031 & 0.001 \\
+held-out cells & logloss\_skill & log-loss skill & 0.003 & 0.004 & 0.023 & 0.001 \\
+held-out cells & nagelkerke & Nagelkerke R2 & 0.030 & 0.043 & 0.037 & 0.004 \\
+held-out time & ap & average precision & 0.001 & 0.002 & 0.019 & 0.001 \\
+held-out time & auc & AUC & 0.002 & 0.004 & 0.022 & 0.002 \\
+held-out time & brier\_skill & Brier skill & 0.013 & 0.000 & 0.025 & 0.011 \\
+held-out time & logloss\_skill & log-loss skill & 0.017 & 0.003 & 0.018 & 0.019 \\
+held-out time & nagelkerke & Nagelkerke R2 & 0.062 & 0.036 & 0.026 & 0.061 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{The same four rules evaluated OUT OF SAMPLE: the action is chosen on one half of the admissible cells and the loss paid on the other, and separately the action is chosen on the earlier rolling folds and the loss paid on the later ones. The weighted-mean rule is optimal in sample by construction, so only these columns are evidence about rules.}
+\label{tab:heldout}
+\end{table}

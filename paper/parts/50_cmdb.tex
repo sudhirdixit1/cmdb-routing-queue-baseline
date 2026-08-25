@@ -1,162 +1,212 @@
-
 \section{Case study: a configuration management database}
 \label{sec:cmdb}
 
 A configuration management database is the register an IT estate keeps of the
 items it contains, and it is bought partly on the argument that operational
 analytics need it. This section evaluates one against a named decision on a
-public log: at intake, will this incident be reassigned to another group
-before it is resolved? The estate is a bank's, the log is BPI Challenge 2014
-\citep{vandongen2014bpic}, the cohort is \nCohort\ incidents at prevalence
-\casePrevalence, and the register field is the affected configuration item,
-with \cardF\ distinct values.
+public log: will this case be reassigned to another group before it is
+resolved? The estate is a bank's and the log is BPI Challenge 2014
+\citep{vandongen2014bpic}; the register field is the affected configuration
+item, with \cardF\ distinct values. It is reported at greater length than the
+other \nPairs\ pairs because it is the case that motivated the study and the
+one on which the decision time --- when in the service-desk process the
+prediction is made --- decides the answer.
 
-\paragraph{Two cohorts, and why}
-BPI Challenge 2014 appears twice in this paper under two different cohorts,
-and the numbers differ. Section~\ref{sec:multilog} applies the registered
-generic rules of Section~\ref{sec:design}, which admit \nCohortCorpus\ cases
-and define the target by the registered handover and duration rules. This
-section uses the cohort and the reassignment target this project defined for
-the estate in an earlier round: \nCohort\ cases, \nCaseTrain\ in training and
-\nCaseTest\ in test. The cohort and eligibility rule is part of what a
-specification fixes (Section~\ref{sec:surface}), so two cohorts is two answers
-rather than a discrepancy --- but it is exactly the kind of thing a reader is
-entitled to have pointed out rather than to discover, and an earlier version
-of this work did not point it out.
+\subsection{One log, two published answers, and what separates them}
+\label{sec:cohort}
 
-This is one case among the \nPairs\ in Section~\ref{sec:multilog}, and it is
-reported at greater length for two reasons: it is the case that motivated the
-study, and it is the one on which the availability axis --- which fields exist
-when the prediction is made --- turns out to decide the answer.
+\input{tables/cohort}
 
-\subsection{Two decision times}
+This log appears twice in this paper. Section~\ref{sec:multilog} applies the
+registered generic rules of Section~\ref{sec:design}, which admit
+\nRegisteredCohort\ cases and define the target by the registered handover
+rule. This section uses the cohort and the reassignment target defined for the
+estate: \nCohort\ cases at prevalence \casePrevalence\ (\casePrevalenceTest\
+in the test half), \nCaseTrain\ in
+training and \nCaseTest\ in test. The first set is a strict subset of the
+second; the extra \nExtraCases\ cases are those the estate's own cutoff
+excludes.
+
+The two produce different answers about the register at the later decision
+time, and the difference is large enough to change the sign. Against intake
+plus group plus the knowledge reference, the estate's cohort and reassignment
+target give \VTtwoKnow\ and the registered cohort and handover target give
+\VregisteredTauTwo, on which the planned contrast \textsf{PC3}'s one-sided
+$p$-value rejects at the Holm-adjusted level while its interval does not
+exclude zero (Section~\ref{sec:planned}). Table~\ref{tab:cohort} takes the
+manuscript from the first to the second one factor at a time.
+
+\textbf{It is the target, not the cohort.} Over the cohort $\times$ target
+design the target carries \shareTargetPct\ of the variance in the increment,
+the cohort \shareCohortPct, and their interaction \shareCohortTargetPct.
+Reassignment to another group before resolution has prevalence
+\casePrevalence; handover between activity groups, under the registered rule,
+has prevalence \prevRegisteredHandover. They are not the same question and the
+register is not worth the same to them. Two further candidate explanations
+were checked and are not explanations: the fields reached by the two analyses
+agree on every row.
+
+\textbf{An axis nobody declares, and this paper was standing on it.} Both
+analyses sort the log in time and split at seventy per cent of the row order,
+and \nTiedTimestamps\ incidents share their timestamp with another. How those
+ties are broken decides which cases fall either side of the split, and the
+sort the case study originally used was not stable, so its tie order was
+neither declared nor reproducible: it printed \VpublishedTauTwo\ where the two
+declared rules both give \VTtwoKnow. Over \nTiebreakDraws\ random tie-breaks
+the increment at the knowledge rung ranges over \tiebreakRange\ AUC with a
+standard deviation of \tiebreakSd, and it does not change sign
+(\nTiebreakPositive\ of \nTiebreakDraws\ draws are positive), so no conclusion
+here turns on it --- but it is a quarter of the point estimate's own
+magnitude, produced by a choice no reporting standard asks anyone to state.
+Every number in this section is computed under a declared tie-break, by
+incident identifier, on the estate's cohort and reassignment target, and every
+caption says so; the registered cohort's answers are in
+Section~\ref{sec:multilog} with the other \nPairs\ pairs. The decision-time
+result below is therefore a statement about a routing decision on this estate,
+not about handover in general.
+
+\subsection{Three decision times}
 \label{sec:twodecision}
 
-\input{tables/decisiontime}
+\input{tables/tau}
 
 An incident in this estate does not begin as an incident. A caller reaches the
 service desk, an \emph{interaction} is opened, the desk works it, and if it
-cannot be closed there an incident is created and routed. There are therefore
-two moments at which a prediction could be made, and they admit different
-fields.
+cannot be closed there an incident is created and routed. Three moments at
+which a prediction could be made are estimated, and what changes between them
+is not only which fields are admissible (Table~\ref{tab:tau}).
 
 \begin{description}
-\item[$\tau_1$, interaction opening.] The desk has just picked up the call.
-The admissible baseline is the intake block: category, impact, urgency,
-priority. Against it the register is worth \VTone\ AUC
-[\VToneLo, \VTonehi].
+\item[$\tau_0$, first touch, every call.] The desk has just picked up the
+call and does not yet know whether it will escalate. The population is every
+interaction --- \nTauZero\ of them --- the register is the interaction's own
+affected item, with \cardTauZero\ values, and the admissible baseline is the
+interaction's intake block. Against it the register is worth \VtauZero\
+[\VtauZeroLo, \VtauZeroHi].
+\item[$\tau_1$, first touch, the calls that escalate.] The same moment and
+the same fields, restricted to the \nTauOne\ calls that did become incidents.
+The register is worth \VtauOne\ [\VtauOneLo, \VtauOneHi].
 \item[$\tau_2$, incident creation.] The desk has worked the interaction and
-escalated it. The group that logged the incident is now known, and so ---
-probably --- is the knowledge-article reference the desk consulted. Against
-the intake block plus the group the register is worth \VTtwoGroup\
-[\VTtwoGroupLo, \VTtwoGroupHi]; against the intake block plus the group plus
-the knowledge reference it is worth \VTtwoKnow\
-[\VTtwoKnowLo, \VTtwoKnowHi].
+escalated it. The population is the \nTauTwo\ incidents; the group that logged
+the incident is known, and so --- probably --- is the knowledge-article
+reference the desk consulted. Against the intake block the register is worth
+\VtauTwo; against intake plus group, \VTtwoGroup\ [\VTtwoGroupLo,
+\VTtwoGroupHi]; against intake plus group plus the knowledge reference,
+\VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] --- the one rung of the five that
+does not resolve.
 \end{description}
 
-Neither of these is ``the'' answer, and the paper does not choose between
-them. They are the answers to two different questions, and which one a reader
-wants depends on where in their own process they intend to predict. An
-earlier version of this work reported the first, then discovered the second
-and reported that instead; reporting both, with the decision time named, is
-what the estimand of Section~\ref{sec:surface} requires.
+The pairwise differences separate the mechanisms that a baseline ladder alone
+conflates, and separating them properly requires one more row than the three
+moments give. $\tau_1$ and $\tau_2$ are \emph{not} the same cases:
+\nTauTwoUnmatched\ incidents have no interaction record, so $\tau_2$ carries
+\nTauTwo\ cases against $\tau_1$'s \nTauOne. Table~\ref{tab:tau} therefore
+also reports $\tau_2$ restricted to $\tau_1$'s own population --- the same
+\nTauTwoMatched\ cases at the same prevalence \prevTauOne\ --- which is the
+row that makes the information step an information step.
 
-\subsection{What the interaction file can and cannot establish}
+Restricting the population from every call to the calls that escalate, holding
+the information fixed, moves the increment by \deltaCohortAtTau\ AUC. Moving
+from first touch to incident creation \emph{on the matched cases}, changing
+what is known and nothing else, moves it a further \deltaSnapshotAtTau. The
+remaining \deltaPopulationResidual\ is what the \nTauTwoUnmatched\ incidents
+with no interaction record are worth, and it is a population difference rather
+than an information one: the unadjusted $\tau_1$-to-$\tau_2$ step,
+\deltaSnapshotUnmatched, is the sum of the two and attributing all of it to
+information would overstate the information channel by three quarters.
+Admitting the group and then the knowledge reference takes the increment the
+rest of the way to zero. A decision time is therefore an argument of the
+estimand in its own right: it fixes the population, the feature snapshot and
+the admissible set, and only the third of those is a baseline.
 
-\input{tables/availability}
-
-The knowledge reference is load-bearing --- it is the field that takes the
-register's increment to indistinguishable from zero --- so the evidence for
-its availability at $\tau_2$ has to be stated exactly, and it is weaker than
-an earlier version of this work implied.
-
-What the interaction detail file establishes is that the field is written by
-the service-desk process and not by the incident process: \nOrphans\
-interactions in the file never became incidents, and \kmOrphanPopulated\ of
-them carry a knowledge reference. What it does not establish is \emph{when},
-for a given incident, the value was written. The file is a closed record, so
-agreement between its values and the incident's cannot distinguish a value
-written before the incident from one written after. Only \nClosedBefore\
-interactions were formally closed before their incident was opened, which is
-too few to rest anything on. That the recorded handling time had elapsed for
-\nWorkedBefore\ of them shows the desk had worked the interaction, which is
-not a timestamped field-value history. And a baseline AUC of \kmBaseAuc\ from
-this one field is a reason for suspicion rather than for confidence.
-
-Table~\ref{tab:availability} lists each piece of evidence beside what it does
-and does not establish. The honest summary is that availability at $\tau_2$ is
-\emph{probable and unproven}, and that the correct disposition of an
-unprovable admissibility assumption is a sensitivity analysis, not a
-headline.
+Neither $\tau_0$ nor $\tau_2$ is ``the'' answer: which one a reader wants
+depends on where in their own process they intend to predict. A desk screening
+at $\tau_0$ looks at \nTauZero\ calls a year at a prevalence of \prevTauZero;
+a desk screening at $\tau_2$ looks at \nTauTwo\ incidents at \prevTauTwo, and
+Section~\ref{sec:nbregret} prices the difference.
 
 \subsection{The leakage tipping point}
 
-\input{tables/tipping}
+The knowledge reference is load-bearing: it is the field that takes the
+register's increment to indistinguishable from zero, so the evidence that it
+was available at $\tau_2$ is stated exactly, and it is weaker than proof. The
+interaction detail file establishes that the field is written by the
+service-desk process and not by the incident process --- \nOrphans\
+interactions in it never became incidents, and \kmOrphanPopulated\ of them
+carry a knowledge reference --- but not \emph{when}, for a given incident, the
+value was written. Table~\ref{tab:availability} lists each piece of evidence
+beside what it does and does not establish. Availability at $\tau_2$ is
+probable and unproven, and the disposition of an unprovable admissibility
+assumption is a sensitivity analysis rather than a headline.
+
+
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.82\linewidth]{figS5_tipping.png}
-\caption{The register's increment as a function of $\lambda$, the share of
+\caption{The register's increment at $\tau_2$ on the estate's cohort and
+reassignment target, as a function of $\lambda$, the share of
 knowledge-article references assumed to have been written after the incident
 existed. A reader who has a belief about $\lambda$ can read their own answer
 off the curve.}
 \label{fig:tipping}
 \end{figure}
 
-Because availability is probable rather than proven, we report the register's
-increment as a function of $\lambda$, the share of knowledge references
-assumed to have been written after the incident existed and therefore
-inadmissible. Masking a random $\lambda$ share of the field and re-estimating
-traces a curve from the permissive end ($\lambda = 0$, the field fully
-admissible) to the conservative end ($\lambda = 1$, equivalent to $\tau_2$
-without the field at all). Figure~\ref{fig:tipping} draws it and
-Table~\ref{tab:tipping} tabulates it.
+Because availability is probable rather than proven, the increment is reported
+in Figure~\ref{fig:tipping} as a function of $\lambda$, the share of knowledge
+references assumed to have been written after the incident existed and
+therefore inadmissible. Masking a
+random $\lambda$ share of the field and re-estimating traces a curve from the
+permissive end ($\lambda = 0$, the field fully admissible) to the conservative
+end ($\lambda = 1$, equivalent to $\tau_2$ without the field at all). The
+masking is stochastic, so each point is a mean over \nTippingSeeds\ seeds with
+the spread across them printed beside it, and the curve is a sensitivity
+display rather than an estimate the paper quotes a number from.
 
-The curve lets a reader place their own belief rather than accepting ours. At
-$\lambda = 0$ --- every knowledge reference admissible --- the register is
-worth \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi], which is not resolvably
-different from zero. At $\lambda = 1$ it is worth what $\tau_2$ without the
-field says. It reaches half of that knowledge-free value at
-$\lambda = \lambdaHalf$: a reader who believes that more than
-\lambdaHalfPct\ of knowledge references are written \emph{after} the incident
-exists should read this estate's register as worth at least half of
-\VTtwoGroup\ AUC, and a reader who believes almost none are should read it as
-worth almost nothing.
-
-We have no way to measure $\lambda$ and we do not claim one. What the curve
-does is make the assumption explicit and continuous, where the previous
-version of this work made it binary and made it for the reader.
+At $\lambda = 0$ the register is worth \VTtwoKnow\ [\VTtwoKnowLo,
+\VTtwoKnowHi], which is not resolvably different from zero, and it reaches
+half of its knowledge-free value at $\lambda = \lambdaHalf$: a reader who
+believes that more than \lambdaHalfPct\ of knowledge references are written
+\emph{after} the incident exists should read this estate's register as worth
+at least half of \VTtwoGroup\ AUC, and one who believes almost none are should
+read it as worth almost nothing. We have no way to measure $\lambda$ and do
+not claim one; the curve makes the assumption explicit and continuous rather
+than binary and made on the reader's behalf.
 
 \subsection{Register quality}
 \label{sec:quality}
 
-\input{tables/quality2}
-
 Masking a complete field is a sensitivity experiment, not a model of a real
-register, so Table~\ref{tab:quality2} reports the \nQualityKinds\ mechanisms of
-Section~\ref{sec:surface} plus a discovery lag, and sweeps the two accuracy
-mechanisms rather than reporting one level of each. Four things follow, and
-two of them are nulls we did not expect.
+register, so Table~\ref{tab:quality2} reports the \nQualityKinds\ mechanisms
+of Section~\ref{sec:surface} plus a discovery lag, and sweeps the accuracy and
+reconciliation mechanisms rather than reporting one level of each. Everything
+here is on the estate's cohort and reassignment target;
+Table~\ref{tab:quality3} carries the severity curves, over \nCaseSweepLevels\
+severities and \nQualitySeeds\ seeds per stochastic mechanism, and
+Table~\ref{tab:quality2corpus} the same mechanisms on the registered cohort.
+Four things follow, and two of them are nulls we did not expect.
 
-\textbf{Coverage dominates, and its direction does not matter here.} At half
-population the register is worth \qRareHalf\ if its long tail is absent and
-\qCommonHalf\ if its core is, against \qClean\ complete. There is essentially
-no asymmetry between those two on this cohort: \emph{how much} of the register
-is populated matters and \emph{which part} does not. Loss at random
-is slightly worse than either (\qRandomHalf), because it fragments every
-identity rather than removing some cleanly.
+\textbf{Coverage is the expensive failure, and losing the long tail is not the
+worst way to lose it.} At half population the register is worth \qRareHalf\ if
+its long tail is absent and \qCommonHalf\ if its core is, against \qClean\
+complete. Losing the core costs more than losing the tail, which is the
+opposite of the usual intuition that the rare identities carry the
+information: on this estate the frequent items are the ones the model has
+enough cases to learn from. Loss at random is worse than either
+(\qRandomHalf), because it fragments every identity rather than removing some
+cleanly.
 
 \textbf{Accuracy costs about what coverage costs.} Corrupting three tenths of
-the identities --- the register is complete, and wrong --- costs
-\qCorruptThirty\ against the clean field, close to what losing three tenths of
-its coverage costs. A maturity assessment that counts populated rows and does
-not sample them for correctness is measuring one of two equally large things.
+the identities --- the register is complete, and wrong --- leaves it worth
+\qCorruptThirty, a loss of \qCorruptThirtyDelta, about what losing a third of
+its population costs. A maturity assessment that counts populated rows and
+does not sample them for correctness is measuring one of the two and reporting
+it as the whole.
 
 \textbf{Reconciliation failure is nearly free.} Splitting \emph{every}
-identity into two records costs \qDuplicateAll. With thousands of cases per
-identity, halving the evidence behind each still leaves enough, and a register
-whose main defect is duplication is in better shape than one whose main defect
-is either of the two above.
+identity into two records moves the increment by \qDuplicateAllDelta: with
+thousands of cases per identity, halving the evidence behind each still leaves
+enough.
 
 \textbf{Staleness is exactly zero, and the reason is the encoder.} Removing
 identities the register had not seen by the split point moves the increment by
@@ -164,31 +214,77 @@ identities the register had not seen by the split point moves the increment by
 the training half already ignores levels it has never seen, so a test row
 carrying an undiscovered identity contributes an all-zero encoding either way.
 Under an encoder that keeps missingness as an explicit indicator the effect is
-\qStaleKeepsDelta, because the training half then contains no missing values
-for the indicator to learn from. A \emph{discovery lag} --- identities first
-used in the last half of the training window absent everywhere, leaving
-\qLagHalfPopulated\ of rows populated --- costs \qLagHalfDelta.
+non-zero; Supplement~\ref{app:tables} measures that on the registered cohort.
+A \emph{discovery lag} --- identities first used in the last half of the
+training window absent everywhere, leaving \qLagHalfPopulated\ of rows
+populated --- moves it by \qLagHalfDelta. Whether a data-quality defect is
+visible is therefore an interaction between the quality axis and the encoding
+axis, and an analyst who varies one without the other will conclude that the
+defect does not matter.
 
-The last of these is the paper's own thesis appearing inside its own
-apparatus: whether a data-quality defect is visible at all is an interaction
-between the quality axis and the encoding axis, and an analyst who varies one
-without the other will conclude that the defect does not matter.
+\textbf{And which rows go missing matters as much as how many.} The three
+\emph{dependent} mechanisms of Section~\ref{sec:surface} carry severity
+integrals \integralTime, \integralContent\ and \integralPropensity, against
+\integralMaskRare\ for the independent long-tail mechanism, which the
+dependent ones bracket rather than track: the identity of the missing rows
+changes what the loss costs by up to half again, so a quality axis built only
+from independent coin flips is measuring one corner of the question. The
+summary is an integral against a uniform measure on severity, and coarsening
+the sweep from \nCaseSweepLevels\ severities to five moves it by at most
+\gridShiftMaxCase\ AUC. Every mechanism is verified by execution to be a
+function of the training half alone --- \nQualityLeakChecked\ checks run and
+\nQualityLeakPassed\ pass.
 
-The stochastic mechanisms are averaged over \nSeeds\ seeds, and the frequency
-rankings that decide which identities vanish first are computed on the
-training half alone; \texttt{results/s01\_trainonly.csv} records the
-\nTrainOnly\ executed checks, all of which pass, that this is so.
+\subsection{What this says to a configuration management programme}
+\label{sec:csdm}
+
+The register in this log is layered, and the layers are the ones a common
+service data model uses: an item belongs to a class, a class to a subtype, and
+a subtype rolls up to a service component. Supplement~\ref{app:layers}
+estimates the increment at each layer against the intake block, on the
+registered targets. The coarse layers are \emph{not} free --- on the handover
+target the item's type alone is worth \layerTypeHandover\ and its subtype
+\layerSubtypeHandover, against \layerItemHandover\ for the item itself, and on
+duration \layerTypeDuration\ against \layerItemDuration\ --- so knowing that a
+case concerns \emph{a laptop} is worth between a third and two thirds of
+knowing which one. What the item adds \emph{on top of} the subtype is the
+quantity a populated hierarchy does not buy, and it is
+\layerItemMarginalHandover\ on handover and \layerItemMarginalDuration\ on
+duration. A programme that populates the class hierarchy and stops has bought
+a real part of the value and left the larger marginal part on the table; it
+has not bought nothing. These figures are on the registered targets rather
+than this section's reassignment target, and Supplement~\ref{app:layers} says
+so.
+
+The three dependent quality mechanisms map onto how a configuration management
+database actually decays, which is why they are in the design space rather
+than independent coin flips. \emph{Discovery lag} is the interval between a
+service going live and the discovery tooling finding its items, which is why a
+new service's cases carry an empty affected item for weeks. \emph{Unreconciled
+duplicates} arise when two discovery sources write the same physical item
+under two identifiers. \emph{Propensity-dependent missingness} arises when the
+affected item is populated by the desk rather than by discovery: the unusual
+case, which is the one worth predicting, is the one the desk is least likely
+to classify correctly under time pressure. The measured costs above say which
+of the three is worth spending on: on this estate, coverage and accuracy at
+the item level, and not reconciliation.
+
+Two disclaimers. This is predictive performance on one estate for one
+decision, not procurement advice, and a register that pays nothing here may be
+bought for change control, audit or impact analysis, none of which this
+measures; and the ranking of the mechanisms is a property of this cohort's
+cardinality and volume.
 
 \subsection{The absorption, and why the ratio is secondary}
 
-\input{tables/absorption}
-
-The quantity an earlier version of this work led with was the \emph{relative}
+The quantity a report of this kind usually leads with is the \emph{relative}
 reduction $R$: the share of the register's apparent value that a single free
-field absorbs. Table~\ref{tab:absorption} reports the absolute absorption
-$D = V(f \mid B_0) - V(f \mid B_1)$ first, with its own interval, and $R$
-second with a Fieller set and the set's kind. On this estate at the reference
-cell $D$ is \Dabs\ [\DabsLo, \DabsHi] and $R$ is \Rref\ with a
-\RrefKind\ Fieller set; across the corpus \nFiellerUnbounded\ of \nFieller\
-reductions have a Fieller set that is not a bounded interval, and for those a
-percentile interval is not a summary of anything.
+field absorbs. The absolute absorption $D = V(f \mid B_0) - V(f \mid B_1)$ is
+reported first, with its own interval, and $R$ second with a Fieller set and
+the set's kind. On this estate at the reference cell $D$ is \Dabs\ [\DabsLo,
+\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set;
+\nFiellerUnboundedCase\ of the \nFiellerCase\ reductions this ladder produces
+have a Fieller set that is not a bounded interval, and for those a percentile
+interval is not a summary of anything. Across the corpus the figure is
+\nFiellerUnbounded\ of \nFieller, and the full ladder is
+Table~\ref{tab:absorption}.

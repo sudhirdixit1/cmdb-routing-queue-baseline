@@ -1,0 +1,17 @@
+log,target,mechanism,meaning,train_only
+BPIC14,handover,mask_rare,population: the long tail of identities is absent,True
+BPIC14,handover,mask_common,population: the core identities are absent,True
+BPIC14,handover,time,discovery: the register was populated late,True
+BPIC14,handover,mask_random,population: absent independently of everything,True
+BPIC14,handover,corrupt,accuracy: a share of rows carry the wrong identity,True
+BPIC14,handover,duplicate,reconciliation: one item exists under two keys,True
+BPIC14,handover,content,discovery: coverage depends on the item's type,True
+BPIC14,handover,propensity,missing where the work is unusual: a training-estimated propensity drives the missingness,True
+BPIC14,duration,mask_rare,population: the long tail of identities is absent,True
+BPIC14,duration,mask_common,population: the core identities are absent,True
+BPIC14,duration,time,discovery: the register was populated late,True
+BPIC14,duration,mask_random,population: absent independently of everything,True
+BPIC14,duration,corrupt,accuracy: a share of rows carry the wrong identity,True
+BPIC14,duration,duplicate,reconciliation: one item exists under two keys,True
+BPIC14,duration,content,discovery: coverage depends on the item's type,True
+BPIC14,duration,propensity,missing where the work is unusual: a training-estimated propensity drives the missingness,True

@@ -1,0 +1,33 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{llrrrrlrlrl}
+\toprule
+log & target & K / n & q upper & c & q calibrated & cells (nominal) & rho & cells (cal) & rho (cal) & region \\
+\midrule
+BPIC13\_closed & handover & 0.324 & 3.359 & 1.820 & 6.113 & 0 / 1 / 179 & -0.006 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC13\_incidents & duration & 0.133 & 3.374 & 1.531 & 5.165 & 21 / 0 / 159 & 0.117 & 3 / 0 / 177 & 0.017 & conditionally beneficial \\
+BPIC13\_incidents & handover & 0.133 & 3.348 & 1.531 & 5.125 & 97 / 0 / 83 & 0.539 & 72 / 0 / 108 & 0.400 & conditionally beneficial \\
+BPIC14 & duration & 0.093 & 3.509 & 1.299 & 4.557 & 337 / 0 / 143 & 0.702 & 332 / 0 / 148 & 0.692 & conditionally beneficial \\
+BPIC14 & handover & 0.093 & 3.589 & 1.299 & 4.660 & 279 / 2 / 199 & 0.577 & 267 / 2 / 211 & 0.552 & sign-changing \\
+BPIC15\_1 & duration & 0.106 & 3.357 & 1.367 & 4.590 & 6 / 0 / 174 & 0.033 & 2 / 0 / 178 & 0.011 & conditionally beneficial \\
+BPIC15\_1 & handover & 0.106 & 3.382 & 1.367 & 4.624 & 2 / 0 / 178 & 0.011 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_3 & duration & 0.095 & 3.353 & 1.305 & 4.374 & 40 / 0 / 140 & 0.222 & 10 / 0 / 170 & 0.056 & conditionally beneficial \\
+BPIC15\_3 & handover & 0.095 & 3.339 & 1.305 & 4.357 & 2 / 0 / 178 & 0.011 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_4 & duration & 0.072 & 3.400 & 1.249 & 4.245 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_4 & handover & 0.072 & 3.447 & 1.249 & 4.304 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_5 & duration & 0.132 & 3.412 & 1.530 & 5.221 & 4 / 3 / 173 & 0.006 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC17 & duration & 0.032 & 3.271 & 1.180 & 3.861 & 35 / 0 / 145 & 0.194 & 25 / 0 / 155 & 0.139 & conditionally beneficial \\
+BPIC19 & duration & 0.011 & 3.336 & 1.172 & 3.911 & 14 / 28 / 78 & -0.117 & 14 / 24 / 82 & -0.083 & sign-changing \\
+Helpdesk & duration & 0.123 & 3.333 & 1.509 & 5.029 & 0 / 8 / 172 & -0.044 & 0 / 2 / 178 & -0.011 & conditionally harmful \\
+RoadFines & duration & 0.001 & 3.158 & 1.154 & 3.644 & 47 / 20 / 53 & 0.225 & 45 / 18 / 57 & 0.225 & sign-changing \\
+Sepsis & duration & 0.200 & 3.338 & 1.562 & 5.214 & 106 / 0 / 74 & 0.589 & 51 / 0 / 129 & 0.283 & conditionally beneficial \\
+UCI498 & duration & 0.301 & 3.276 & 1.793 & 5.873 & 58 / 0 / 122 & 0.322 & 17 / 0 / 163 & 0.094 & conditionally beneficial \\
+UCI498 & handover & 0.301 & 3.349 & 1.793 & 6.004 & 40 / 0 / 140 & 0.222 & 8 / 0 / 172 & 0.044 & conditionally beneficial \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Resolution regions under the nominal critical value and under one calibrated for the register's cardinality. $c$ is the inflation factor the $(n, K)$ plane of Section~\ref{sec:simsensitivity} gives at that pair's own $K/n$; the calibrated critical value is $c$ times the nominal one. `q upper' is the UPPER end of the critical value's Monte Carlo interval, which is the value the bands use by the rule of Section~\ref{sec:simbands} that a cell resolves only at the conservative end; the point estimate whose corpus median the text quotes is smaller. The cell columns are beneficial / harmful / unresolved, and the admissible count is the same under both critical values. The calibrated columns are the ones the article's counts use; the nominal ones are printed beside them so that the size of the correction is visible.}
+\label{tab:calbands}
+\end{table}

@@ -45,9 +45,26 @@ PAPER = ROOT / "paper"
 TEX = PAPER / "specification_surfaces.tex"
 HIGH = ROOT / "submission" / "highlights.txt"
 
-ABSTRACT_LIMIT = 250
-KEYWORD_LIMIT = 7
+#  ROUND TWENTY-ONE.  The review's front-matter items: the Elsevier template
+#  caps keywords at SIX, not seven, and asks for an abstract that a reader
+#  finishes -- the limit here is the one the review set, 200 words, which is
+#  stricter than the journal's and is the point.
+ABSTRACT_LIMIT = 200
+KEYWORD_LIMIT = 6
 HIGHLIGHT_LIMIT = 85
+
+#  the changelog belongs in the repository, not in the article.  These are the
+#  two phrases the review named; each is a failure wherever it appears in the
+#  MAIN TEXT, and the supplement is exempt because that is where the
+#  correction register lives.
+BANNED_IN_MAIN = [
+    ("self-reference", r"an earlier version of this work|"
+                       r"an earlier version of this paper|"
+                       r"the previous version of this work|"
+                       r"an earlier draft of this section|"
+                       r"an earlier round"),
+    ("correction reference", r"correction~?C\d+"),
+]
 
 REQUIRED = [
     ("CRediT", r"CRediT authorship contribution statement"),
@@ -91,6 +108,7 @@ CHECKS = (
     "that no macro swallows the space after it",
     "that no macro carrying words or math is used inside math mode",
     "that no phrase is repeated immediately",
+    "that no backslash escape was interpreted by a scripted edit",
 )
 
 FAILS, NOTES = [], []
@@ -122,6 +140,10 @@ def body_of(t):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--report", action="store_true")
+    ap.add_argument("--sections", action="store_true",
+                    help="also print the word count of every section, "
+                         "which is what a length request is really "
+                         "about")
     a = ap.parse_args(argv)
     if not TEX.exists():
         sys.exit("assembled manuscript not found; run assemble_paper.py")
@@ -301,6 +323,38 @@ def main(argv=None):
     for pat in BANNED_OPENERS:
         if re.search(pat, t):
             FAILS.append("a banned rhetorical opener survives: %s" % pat)
+
+    #  7c  ROUND TWENTY-TWO.  A macro whose VALUE carries an unescaped LaTeX
+    #  special is a live grenade: an unescaped `%' comments out the rest of
+    #  the line, including the macro's own closing brace, and the build dies
+    #  on a runaway argument several files later.  That happened the first
+    #  time a generated highlight quoted a rate.  Every value in the
+    #  generated macro file is checked here, once, where it is cheap.
+    nums = PAPER / "numbers.tex"
+    if nums.exists():
+        bad_macros = []
+        for line in nums.read_text(encoding="utf-8").splitlines():
+            m = re.match(r"\\newcommand\{\\([A-Za-z]+)\}\{(.*)\}\s*$", line)
+            if not m:
+                continue
+            val = m.group(2)
+            #  a lone % or & or # that is not already escaped
+            if re.search(r"(?<!\\)[%&#]", val):
+                bad_macros.append(m.group(1))
+        if bad_macros:
+            FAILS.append("%d generated macros carry an unescaped LaTeX "
+                         "special in their value: %s"
+                         % (len(bad_macros), ", ".join(bad_macros[:8])))
+
+    #  7b  ROUND TWENTY-ONE.  The changelog is out of the article.  `t' is the
+    #  assembled MAIN document only; the supplement is a separate file and is
+    #  where the correction register lives, so it is not scanned here.
+    for name, pat in BANNED_IN_MAIN:
+        hits = re.findall(pat, t, flags=re.IGNORECASE)
+        if hits:
+            FAILS.append("%d %s(s) survive in the article, which the review "
+                         "asked to have moved to the archive: %s"
+                         % (len(hits), name, ", ".join(sorted(set(hits))[:6])))
     for f in sorted((PAPER / "parts").glob("*.tex")):
         if f.name == CORRECTION_APPENDIX:
             continue
@@ -380,13 +434,129 @@ def main(argv=None):
                 FAILS.append("%s: \"%s\" introduces %d items: %s"
                              % (f.name, m.group(0)[:46].replace(chr(10), " "),
                                 len(items), ", ".join(items)))
+    #  The same check where the list is a `description' environment rather
+    #  than a parenthesised run of identifiers.  Appendix J said "the
+    #  architecture comes with five controls" and then listed SIX, which the
+    #  identifier form above cannot see because the items are \item[...]
+    #  labels.  A spelled-out count in the sentence immediately before a
+    #  description environment is compared with the number of \item's in it.
+    LIST = re.compile(
+        r"\b(%s)\b[^.]{0,60}\.\s*\n+\\begin\{(description|enumerate|itemize)\}"
+        r"(.*?)\\end\{\2\}" % "|".join(WORD), re.I | re.S)
+    for f in sorted((PAPER / "parts").glob("*.tex")):
+        src = strip_comments(f.read_text(encoding="utf-8"))
+        for m in LIST.finditer(src):
+            said = WORD[m.group(1).lower()]
+            n_items = len(re.findall(r"(?m)^\s*\\item\b", m.group(3)))
+            if n_items == 0:
+                continue
+            n_enum += 1
+            if said != n_items:
+                head = re.sub(r"\s+", " ", m.group(0)[:60])
+                FAILS.append("%s: \"%s\" introduces a list of %d items"
+                             % (f.name, head, n_items))
     NOTES.append("%d spelled-out counts checked against the list each "
                  "introduces" % n_enum)
+
+    # 15 a backslash escape interpreted by a scripted edit
+    #
+    #  A Python edit that writes "\\ref{x}" as "\ref{x}" puts a CARRIAGE
+    #  RETURN in the file followed by `ef{x}`, and one that writes "\\nMacro"
+    #  puts a NEWLINE followed by `nMacro`.  Both print as garbage; neither is
+    #  a wrong NUMBER, so the generated-macro discipline cannot see them; and
+    #  both survived into a committed manuscript in an earlier round.  The
+    #  signature is exact: a CR that is not part of a CRLF pair, or a line
+    #  that begins with the tail of a common control word.
+    #  The TAB case is the one that reached a generated TABLE rather than a
+    #  hand-written part: "\\textsf" written as "\textsf" inside a Python
+    #  caption is a TAB followed by `extsf`, and Python raises no warning for
+    #  it because \t is a VALID escape.  So the scan covers paper/tables as
+    #  well, and any control character other than newline is a failure --
+    #  nothing in this manuscript legitimately contains one.
+    TAILS = ("ef{", "ef ", "aisebox", "ightarrow", "esizebox", "ewcommand",
+             "oindent", "ewline", "extbf", "extit", "exttt", "extsf",
+             "extsc", "extsuperscript", "imes", "op{", "mph{", "ilde",
+             "ar{", "egin{", "f{")
+    CTRL = {9: "tab", 11: "vertical tab", 12: "form feed", 8: "backspace",
+            7: "bell", 0: "NUL", 27: "escape"}
+    n_esc = 0
+    for f in sorted(list((PAPER / "parts").glob("*.tex"))
+                    + list((PAPER / "tables").glob("*.tex"))):
+        raw = f.read_bytes().decode("utf-8")
+        n_esc += 1
+        for i, ch in enumerate(raw):
+            if ch == chr(13) and (i + 1 >= len(raw) or raw[i + 1] != chr(10)):
+                FAILS.append("%s: a carriage return that is not a line "
+                             "ending at line %d -- a backslash escape was "
+                             "interpreted by a scripted edit"
+                             % (f.name, raw[:i].count(chr(10)) + 1))
+                break
+        for i, ch in enumerate(raw):
+            if ord(ch) in CTRL:
+                FAILS.append("%s: a %s character at line %d -- a backslash "
+                             "escape was interpreted by a scripted edit"
+                             % (f.name, CTRL[ord(ch)],
+                                raw[:i].count(chr(10)) + 1))
+                break
+        for ln, line in enumerate(raw.split(chr(10)), 1):
+            for t in TAILS:
+                #  at the head of a line, or straight after a control char
+                if line.lstrip(chr(13)).startswith(t):
+                    FAILS.append("%s:%d begins with %r, which is the tail of "
+                                 "a control word whose backslash was eaten"
+                                 % (f.name, ln, line[:12]))
+                    break
+    #  And the SCRIPTS, because the tables and the macros are written by them
+    #  and a control character in a Python string lands in the PDF.  This
+    #  round it happened three times in one session: a caption written as
+    #  "\textsf" (a TAB), a line continuation eaten out of a regex, and a
+    #  "\b" in a search pattern that became a BACKSPACE and silently turned a
+    #  word-boundary assertion into a match against a character no file
+    #  contains.  Python warns about none of them, because \t and \b are
+    #  VALID escapes.  Nothing in this repository's Python legitimately holds
+    #  a control character other than newline.
+    n_py = 0
+    for f in sorted((ROOT / "scripts").glob("*.py")):
+        raw = f.read_bytes()
+        n_py += 1
+        bad = [(i, c) for i, c in enumerate(raw)
+               if c in CTRL and c != 10]
+        if bad:
+            i, c = bad[0]
+            FAILS.append("scripts/%s: a %s character at line %d -- a "
+                         "backslash escape was interpreted where a literal "
+                         "was meant" % (f.name, CTRL[c],
+                                        raw[:i].count(b"\n") + 1))
+    NOTES.append("%d manuscript parts and generated tables, and %d scripts, "
+                 "checked for interpreted escapes" % (n_esc, n_py))
 
     #  the body word count, reported rather than enforced
     words = len(re.sub(r"[{}$\\]", " ", body).split())
     NOTES.append("abstract %d words; %d keywords; %d highlights; "
                  "main-text source about %d words" % (n_abs, n_kw, n_hi, words))
+
+    #  and the same count PER SECTION, because a reviewer who asks for a
+    #  length asks for a shape.  Reported, never enforced: a section that is
+    #  over its budget is an editorial judgement, not a defect a script can
+    #  adjudicate.  submission/response_to_blueprint.md quotes this list.
+    cuts = [(m.start(), re.sub(r"\\[a-zA-Z]+|[{}$\\]", "", m.group(1)).strip())
+            for m in re.finditer(r"\n\\section\*?\{([^}]*)\}", body)]
+    cuts.append((len(body), "(end)"))
+    rows = []
+    for i in range(len(cuts) - 1):
+        seg = body[cuts[i][0]:cuts[i + 1][0]]
+        rows.append((cuts[i][1], len(re.sub(r"[{}$\\]", " ", seg).split())))
+    #  written every run, so submission/response_to_blueprint.md's structure
+    #  table has a file to be checked against and cannot go stale silently.
+    out = ROOT / "results" / "section_words.csv"
+    if out.parent.exists():
+        out.write_text("section,words\n" + "".join(
+            '"%s",%d\n' % (s.replace('"', "'"), n) for s, n in rows),
+            encoding="utf-8")
+    if a.sections:
+        print("  -- words per section --")
+        for s, n in rows:
+            print("     %5d  %s" % (n, s))
 
     for n in NOTES:
         print("  " + n)

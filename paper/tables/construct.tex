@@ -1,0 +1,36 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}%
+\renewcommand{\arraystretch}{1.15}%
+\hyphenpenalty=50 \exhyphenpenalty=50 \emergencystretch=1em\relax%
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllll>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}}
+\toprule
+log & domain & target & register & free field & why it behaves as a register & threat to construct validity \\
+\midrule
+RoadFines & enforcement & duration & article & org:resource & article of law, reused across fines & semantics legal, not operational \\
+Sepsis & healthcare & duration & Diagnose & org:group & diagnosis vocabulary: reused, not maintained & no maintenance process; quality axis hypothetical \\
+BPIC13\_closed & itsm & handover & product & org:resource & maintained CI or customer register & none beyond domain: closest to the case study \\
+BPIC13\_incidents & itsm & duration & product & org:resource & maintained CI or customer register & none beyond domain: closest to the case study \\
+BPIC13\_incidents & itsm & handover & product & org:resource & maintained CI or customer register & none beyond domain: closest to the case study \\
+BPIC14 & itsm & duration & CI Name (aff) & assignment group & maintained CI or customer register & none beyond domain: closest to the case study \\
+BPIC14 & itsm & handover & CI Name (aff) & assignment group & maintained CI or customer register & none beyond domain: closest to the case study \\
+Helpdesk & itsm & duration & customer & Resource & maintained CI or customer register & none beyond domain: closest to the case study \\
+UCI498 & itsm & duration & caller\_id & assigned\_to & maintained CI or customer register & none beyond domain: closest to the case study \\
+UCI498 & itsm & handover & caller\_id & assigned\_to & maintained CI or customer register & none beyond domain: closest to the case study \\
+BPIC17 & lending & duration & case:RequestedAmount & org:resource & application or offer reference & near-unique per case, so reuse is thin \\
+BPIC15\_1 & permitting & duration & case:parts & org:resource & case-type reference, reused & nobody curates it \\
+BPIC15\_1 & permitting & handover & case:parts & org:resource & case-type reference, reused & nobody curates it \\
+BPIC15\_3 & permitting & duration & case:parts & org:resource & case-type reference, reused & nobody curates it \\
+BPIC15\_3 & permitting & handover & case:parts & org:resource & case-type reference, reused & nobody curates it \\
+BPIC15\_4 & permitting & duration & case:parts & org:resource & case-type reference, reused & nobody curates it \\
+BPIC15\_4 & permitting & handover & case:parts & org:resource & case-type reference, reused & nobody curates it \\
+BPIC15\_5 & permitting & duration & case:parts & org:resource & case-type reference, reused & nobody curates it \\
+BPIC19 & procurement & duration & case:Vendor & org:resource & item or vendor catalogue entry & target is a duration, not a routing decision \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Construct validity, per log--target pair: the field playing the register role, why it behaves as a maintained and reused entity, the free field, and the specific threat to construct validity the pair carries. These are not the same construct, which is why the corpus is a benchmark of specification sensitivity rather than a replication.}
+\label{tab:construct}
+\end{table}

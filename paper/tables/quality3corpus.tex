@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}%
+\renewcommand{\arraystretch}{1.15}%
+\hyphenpenalty=50 \exhyphenpenalty=50 \emergencystretch=1em\relax%
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{l>{\raggedright\arraybackslash}p{0.260\linewidth}llrrrrr}
+\toprule
+mechanism & operational failure mode & n levels & n seeds & integral & grid shift & seed s.d. & V complete & V empty \\
+\midrule
+content & discovery: coverage depends on the item's type & 11 & 20 & 0.090 & 0.015 & 0.031 & 0.146 & 0.000 \\
+corrupt & accuracy: a share of rows carry the wrong identity & 11 & 20 & 0.113 & 0.010 & 0.005 & 0.068 & 0.167 \\
+duplicate & reconciliation: one item exists under two keys & 11 & 20 & 0.165 & 0.001 & 0.001 & 0.163 & 0.167 \\
+mask\_common & population: the core identities are absent & 11 & 1 & 0.104 & 0.018 & 0.000 & 0.167 & 0.014 \\
+mask\_random & population: absent independently of everything & 11 & 20 & 0.088 & 0.016 & 0.004 & 0.167 & 0.000 \\
+mask\_rare & population: the long tail of identities is absent & 11 & 1 & 0.092 & 0.016 & 0.000 & 0.167 & 0.014 \\
+propensity & missing where the work is unusual: a training-estimated propensity drives the missingness & 11 & 20 & 0.069 & 0.010 & 0.004 & 0.119 & 0.000 \\
+time & discovery: the register was populated late & 11 & 1 & 0.105 & 0.005 & 0.000 & 0.167 & 0.000 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Register-quality mechanisms as severity CURVES rather than points, on the primary log at the reference cell. Each row gives the operational failure mode the mechanism represents, the number of severities and seeds, the integral of the increment against a uniform measure on severity, how much coarsening the severity grid by a factor of four moves that integral, the spread across seeds, and the endpoints.}
+\label{tab:quality3corpus}
+\end{table}

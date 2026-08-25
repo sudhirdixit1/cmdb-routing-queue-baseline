@@ -22,37 +22,130 @@ the same AUC increment $d/2$ over the fully tied baseline, so any two of them
 give $R_{\mathrm{AUC}} = 0$ exactly. Along that line the AP increment runs
 from $d(1-\pi)$ at $\alpha = d$, $\beta = 0$ down to
 $\dfrac{d\rho}{\bigl(1 + (1-d)\rho\bigr)(1+\rho)}$ at $\alpha = 1$, a ratio of
-about $1 + \rho$. The construction therefore needs an imbalanced problem to
-drive $R_{\mathrm{AP}}$ close to one, and the file uses $\rho = 500$. This is
-a property of the construction and not a hidden assumption: with $\rho = 9$
-the same argument gives a gap of about $0.9$, which is still enough to refute
-the existence of $\varphi$.
+about $1 + \rho$. How far apart the two reductions can be pushed therefore
+grows with the imbalance, which is a property of the construction and not a
+hidden assumption: refuting the existence of $\varphi$ needs only that the two
+be \emph{different}, and at the modest $\rho = \propOneRho$ this paper uses
+they differ by \propOneApGap.
 
-\subsection*{Proposition~\ref{prop:rank}: the cancelling configuration}
+\subsection*{Proposition~\ref{prop:rank}: the cancelling configuration, and
+what a certificate is}
 
-Remark~\ref{rem:cancel} claims a configuration on which a non-rank-based
+Remark~\ref{rem:cancel} notes a configuration on which a non-rank-based
 metric's increment moves under $\psi$ while the ratio does not. The
 construction is immediate once stated: take $\sigma_{B_1} = \sigma_{B_0}$ and
 $\sigma_{B_1 \cup f} = \sigma_{B_0 \cup f}$. Then $V(B_1) = V(B_0)$ for every
 metric and every $\psi$, so $R = 0$ identically, while $V$ itself moves under
 $\psi$ whenever $m$ is not rank-based. The configuration is degenerate --- the
-two baselines induce the same scores --- and that is the point: the
-existential quantifier in part~(ii) cannot be strengthened to a universal one
-without excluding cases like it, and the earlier version of this work did not
-exclude them.
+two baselines induce the same scores --- and that is why the proposition
+quantifies over configurations rather than asserting a
+configuration-by-configuration change.
 
-\subsection*{Result~\ref{res:nonredundancy}: what the search does}
+A \emph{certificate} for an instrument $m$ and a recalibration $\psi$ is a
+triple of score vectors $(a,b,c)$ on one labelled test set for which
+\[
+\frac{m(b) - m(a)}{m(c) - m(a)}
+\;\neq\;
+\frac{m(\psi b) - m(\psi a)}{m(\psi c) - m(\psi a)} .
+\]
+By Proposition~\ref{prop:rank} the existence of one such triple establishes
+that $\psi$ does not act affinely on $m$, and therefore that $R_m$ is not
+invariant --- a conclusion about \emph{every} configuration drawn from a
+finite object. The certificates are searched for by maximising the gap over
+random triples; \texttt{results/s29\_certificates.csv} records, for every
+instrument and every recalibration family, the triple found, the two ratios,
+and the resulting shift in $R$. The search reports failure where it fails, and
+a failure is not evidence of invariance.
 
-For each ordered pair of axes $(i,j)$ the search looks for two estates whose
-increments agree, to a declared tolerance, at \emph{every} level of axis $i$
-and disagree at some level of axis $j$. A reader who knew only the axis-$i$
-readings could not tell those two estates apart, yet their axis-$j$ readings
-differ; so the axis-$i$ readings do not determine the axis-$j$ readings.
+\subsection*{A withdrawn computational result}
 
-The family is \nResultEstates\ synthetic estates, each with its own seed,
-prevalence, signal strength and noise; every cell is a pure function of the
-estate and the level assignment. An earlier implementation drew fresh noise
-inside each cell evaluation, so two evaluations of the same cell disagreed and
-the search found almost nothing; that is a defect of the search, not a
-property of the axes, and it is recorded here because the count it produced
-appeared in a previous draft.
+A previous draft reported, as a labelled computational result, a search over a
+family of synthetic estates for witnesses that no design axis determines
+another. It is withdrawn and does not appear in this manuscript. Its answer
+moved between zero and five of twelve ordered pairs as an arbitrary equality
+tolerance was swept; failing to find a witness is not evidence that one axis
+determines another; and finding witnesses in a finite synthetic family is not
+a non-redundancy theorem. Nothing in the manuscript depended on it, which is
+the clearest argument for removing it rather than repairing it. This is
+the correction register in the archive.
+
+\subsection*{Proposition~\ref{prop:nonid}: the construction}
+
+\begin{proof}[Proof (construction)]
+Take $P$ positives and $N$ negatives and let every score take one of two
+values, so a scoring rule is described by the pair $(a,b)$ counting positives
+and negatives in the high block; write $\alpha = a/P$, $\beta = b/N$,
+$\rho = N/P$. Both baselines are the fully tied rule $\alpha = \beta = 1$,
+which has $\mathrm{AUC} = 1/2$ and $\mathrm{AP} = \pi$, the prevalence. Then
+exactly
+\[
+\mathrm{AUC} - \tfrac12 = \tfrac{\alpha - \beta}{2},
+\qquad
+\mathrm{AP} - \pi = \alpha\left(\frac{\alpha}{\alpha + \beta\rho} - \pi\right).
+\]
+Fixing $\alpha - \beta$ equal on the two legs makes the AUC increments equal,
+hence $R_{\mathrm{AUC}} = 0$ exactly --- in integers, not to rounding ---
+while sliding $\alpha$ along the admissible range moves the AP increments and
+sweeps $R_{\mathrm{AP}}$. With $P = \nPropP$, $N = \nPropN$ and therefore
+$\rho = \propOneRho$, the two configurations in
+\texttt{results/s29\_prop1.csv} --- $(\alpha,\beta)$ of $(0.8, 0.4)$ and
+$(0.6, 0.2)$ in one, $(0.9, 0.5)$ and $(0.5, 0.1)$ in the other --- have
+identical $R_{\mathrm{AUC}}$ to \propOneAucGap\ and $R_{\mathrm{AP}}$ of
+\propOneRapA\ against \propOneRapB, differing by \propOneApGap. A single
+$\varphi$ cannot take one input to two outputs.
+
+The construction is only a proof if those two conditions hold, so
+\texttt{s29\_props.py} asserts both: it refuses to write its output if the two
+configurations fail to share $R_{\mathrm{AUC}}$ or fail to separate
+$R_{\mathrm{AP}}$. A far more imbalanced problem --- $\rho = 500$, which this
+construction previously used --- drives the gap close to one, and the modest
+$\rho$ here shows the separation does not depend on extreme imbalance.
+\end{proof}
+
+\subsection*{Proposition~\ref{prop:rank}: the proof}
+
+\begin{proof}
+(ii) $\Rightarrow$ (i). Each of $V_m(B_0)$ and $V_m(B_1)$ is a difference of
+two values of $m$, so an affine change of scale multiplies both by $A(\psi)$
+and the additive constant cancels; their ratio, and hence $R_m$, is unchanged
+wherever the denominator is nonzero.
+
+(i) $\Rightarrow$ (ii). Fix $\psi$ and the test set, and write $m(\sigma)$ for
+$m(\sigma,y)$. For score vectors $a, b, c$, Assumption~\ref{ass:rich} admits
+the configuration
+$\sigma_{B_0} = a$, $\sigma_{B_0 \cup f} = c$, $\sigma_{B_1} = a$,
+$\sigma_{B_1 \cup f} = b$, for which
+$R_m = 1 - \bigl(m(b) - m(a)\bigr)/\bigl(m(c) - m(a)\bigr)$. Invariance says
+\begin{equation}
+\label{eq:ratiopres}
+\frac{m(b) - m(a)}{m(c) - m(a)}
+\;=\;
+\frac{m(\psi b) - m(\psi a)}{m(\psi c) - m(\psi a)}
+\end{equation}
+for every admissible triple. First, the map $T : m(\sigma) \mapsto
+m(\psi\sigma)$ is well defined: if $m(b) = m(b')$ then applying
+\eqref{eq:ratiopres} to $(a,b,c)$ and to $(a,b',c)$ with the same $a,c$ gives
+$m(\psi b) = m(\psi b')$. Second, fix $a$ and $c$ and put
+$k = \bigl(T(m(c)) - T(m(a))\bigr)/\bigl(m(c) - m(a)\bigr)$; then
+\eqref{eq:ratiopres} reads $T(u) = T(m(a)) + k\,(u - m(a))$ for every
+$u$ in the range of $m$, which is affine with slope $A(\psi) = k$ and
+intercept $B(\psi) = T(m(a)) - k\,m(a)$. The slope is nonzero because
+otherwise the transformed denominator vanishes and $R_m$ is undefined rather
+than invariant.
+\end{proof}
+
+\subsection*{Proposition~\ref{prop:scale}: the $3\times 3$ construction}
+
+\begin{proof}[Proof (construction)]
+Two levels per axis will not do, and the reason is worth stating: with two
+levels the two main effects are $|P+Q|$ and $|P-Q|$, where $P$ and $Q$ are the
+two within-axis differences, so their ordering is decided by
+$\operatorname{sign}(PQ)$, and a strictly increasing $\phi$ preserves the sign
+of each difference. At two levels the ordering is therefore \emph{invariant}
+and the proposition is false. From three levels a conditional mean averages
+more than two cells and a convex $\phi$ reweights them unequally. The
+$3 \times 3$ design in \texttt{results/s07\_prop3.csv} has
+$S_A = \pThreeRawA$ against $S_B = \pThreeRawB$ in its own units and
+$S_A = \pThreeSqrtA$ against $S_B = \pThreeSqrtB$ under $\phi = \sqrt{\cdot}$,
+so the leader changes.
+\end{proof}

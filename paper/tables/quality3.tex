@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllrrrrrr}
+\toprule
+mechanism & levels & seeds & integral & coarse & shift & seed s.d. & V complete & V empty \\
+\midrule
+content & 11 & 3 & 0.049 & 0.047 & 0.001 & 0.002 & 0.085 & -0.001 \\
+mask\_rare & 11 & 1 & 0.069 & 0.066 & 0.003 & 0.000 & 0.103 & -0.003 \\
+propensity & 11 & 3 & 0.056 & 0.054 & 0.002 & 0.002 & 0.086 & -0.001 \\
+time & 11 & 1 & 0.077 & 0.088 & 0.011 & 0.000 & 0.115 & -0.001 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Register-quality mechanisms as severity CURVES rather than points, on the case study's cohort and reassignment target. The integral is taken against a uniform measure on severity over \nCaseSweepLevels\ levels; `grid shift' is how much coarsening that grid to five levels moves it, which is the check that the summary is a property of the curve and not of the grid.}
+\label{tab:quality3}
+\end{table}

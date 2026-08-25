@@ -1,19 +1,22 @@
 \begin{table}[t]
 \centering
-\small
+\footnotesize
+\setlength{\tabcolsep}{5pt}%
+\renewcommand{\arraystretch}{1.15}%
+\hyphenpenalty=50 \exhyphenpenalty=50 \emergencystretch=1em\relax%
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{lrrrrlllr}
+\begin{tabular}{l>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}r>{\raggedright\arraybackslash}p{0.170\linewidth}rrr}
 \toprule
-contrast & estimate & se & lo & hi & p raw & n draws & p holm & reject holm 05 \\
+contrast & cell a & cell b & estimate & interval & p Holm & Holm & resolved \\
 \midrule
-C1 register adds to the intake baseline & 0.257 & 0.011 & 0.236 & 0.278 & 0 & 200 & 0 & True \\
-C2 register adds once the free field is admitted & 0.167 & 0.016 & 0.130 & 0.189 & 0 & 200 & 0 & True \\
-C3 register adds at the later decision time & 0.008 & 0.003 & 0.003 & 0.017 & 0 & 200 & 0 & True \\
-C4 absorption by the free field is positive & 0.090 & 0.017 & 0.063 & 0.126 & 0 & 200 & 0 & True \\
-C5 a half-empty register is worth less & 0.063 & 0.006 & 0.050 & 0.071 & 0 & 200 & 0 & True \\
+PC1 & intake & -- & 0.25718 & [+0.23556, +0.27809] & 0.00250 & True & True \\
+PC2 & intake + g & -- & 0.16727 & [+0.14456, +0.20735] & 0.00250 & True & True \\
+PC3 & intake + g + km & -- & 0.00768 & [-0.00059, +0.01210] & 0.00250 & True & False \\
+PC4 & intake & intake + g & 0.08991 & [+0.04844, +0.11706] & 0.00250 & True & True \\
+PC5 & intake + g & intake + g, long tail 50\% & 0.06339 & [+0.05368, +0.07740] & 0.00250 & True & True \\
 \bottomrule
 \end{tabular}%
 }
-\caption{The five pre-specified confirmatory contrasts, with Holm-corrected one-sided bootstrap $p$-values.}
+\caption{The five final-round \emph{planned} contrasts (\textsf{PC1}--\textsf{PC5}), stated in words in Section~\ref{sec:planned}. Every one is on the REGISTERED cohort (\nRegisteredCohort\ cases) and the handover target --- not the case study's cohort and reassignment target, which Section~\ref{sec:cohort} reconciles against these --- at incident creation, with the register clean, under one-hot logistic regression on the single temporal holdout in ROC AUC; \textsf{PC3} additionally admits the knowledge reference and \textsf{PC5}'s second cell carries the quality named in it. $p$-values are ONE-SIDED bootstrap values from the plus-one estimator $(k+1)/(B+1)$ with a Holm step-down correction; the intervals are TWO-SIDED basic intervals from the same draws, and the last column says whether the interval resolves --- which is the criterion this paper uses and is not the same as the $p$-value's. \textsf{PC3} is the contrast on which they differ, and Section~\ref{sec:planned} derives why. The contrasts are not confirmatory: they were fixed before this analysis round, not before the data were seen.}
 \label{tab:confirm}
 \end{table}

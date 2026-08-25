@@ -1,0 +1,37 @@
+log,target,learner,threshold_measure,promised_rung,deployed_rung,promised_per_1000,delivered_per_1000,shortfall_per_1000
+BPIC14,handover,hgb,uniform over the declared range,B_intake,B_half,11.835226722095706,11.57676387498238,0.2584628471133266
+BPIC14,handover,hgb,uniform over the declared range,B_intake,B_intake_g,11.835226722095706,12.73796780132818,-0.9027410792324733
+BPIC14,handover,hgb,uniform over the declared range,B_intake,B_intake_g_km,11.835226722095706,0.6822055102953584,11.153021211800349
+BPIC14,handover,logit,uniform over the declared range,B_intake,B_half,11.095287339452643,11.075842603890234,0.019444735562409998
+BPIC14,handover,logit,uniform over the declared range,B_intake,B_intake_g,11.095287339452643,14.240792105689293,-3.145504766236649
+BPIC14,handover,logit,uniform over the declared range,B_intake,B_intake_g_km,11.095287339452643,0.1830799184619378,10.912207420990706
+BPIC14,handover,hgb,desk distribution,B_intake,B_half,1.7726367988034908,1.7593988851889557,0.013237913614535081
+BPIC14,handover,hgb,desk distribution,B_intake,B_intake_g,1.7726367988034908,1.3826703860191862,0.3899664127843046
+BPIC14,handover,hgb,desk distribution,B_intake,B_intake_g_km,1.7726367988034908,-0.01950708833637298,1.7921438871398636
+BPIC14,handover,logit,desk distribution,B_intake,B_half,1.6426662708788122,1.637007756256606,0.005658514622206142
+BPIC14,handover,logit,desk distribution,B_intake,B_intake_g,1.6426662708788122,1.5582419061941872,0.084424364684625
+BPIC14,handover,logit,desk distribution,B_intake,B_intake_g_km,1.6426662708788122,0.025449243251677744,1.6172170276271345
+BPIC14,handover,hgb,fixed 1:2,B_intake,B_half,4.1534883474519,4.3230184840826,-0.16953013663070002
+BPIC14,handover,hgb,fixed 1:2,B_intake,B_intake_g,4.1534883474519,4.0819678210607995,0.07152052639110024
+BPIC14,handover,hgb,fixed 1:2,B_intake,B_intake_g_km,4.1534883474519,0.1536366863216,3.9998516611303003
+BPIC14,handover,logit,fixed 1:2,B_intake,B_half,3.8144280741905,3.8144280741905,0.0
+BPIC14,handover,logit,fixed 1:2,B_intake,B_intake_g,3.8144280741905,4.630291856725799,-0.8158637825352996
+BPIC14,handover,logit,fixed 1:2,B_intake,B_intake_g_km,3.8144280741905,0.015893450309056867,3.798534623881443
+BPIC14,handover,hgb,fixed 1:4,B_intake,B_half,1.7701330281789,1.6986125017879001,0.07152052639100007
+BPIC14,handover,hgb,fixed 1:4,B_intake,B_intake_g,1.7701330281789,0.9297668430838,0.8403661850951001
+BPIC14,handover,hgb,fixed 1:4,B_intake,B_intake_g_km,1.7701330281789,0.1072807895866,1.6628522385923001
+BPIC14,handover,logit,fixed 1:4,B_intake,B_half,1.6270919753968,1.6270919753968,0.0
+BPIC14,handover,logit,fixed 1:4,B_intake,B_intake_g,1.6270919753968,1.5198111858102,0.10728078958660006
+BPIC14,handover,logit,fixed 1:4,B_intake,B_intake_g_km,1.6270919753968,0.1072807895865,1.5198111858102998
+BPIC14,handover,hgb,fixed 1:9,B_intake,B_half,0.0,0.0,0.0
+BPIC14,handover,hgb,fixed 1:9,B_intake,B_intake_g,0.0,0.0,0.0
+BPIC14,handover,hgb,fixed 1:9,B_intake,B_intake_g_km,0.0,0.0,0.0
+BPIC14,handover,logit,fixed 1:9,B_intake,B_half,0.0,0.0,0.0
+BPIC14,handover,logit,fixed 1:9,B_intake,B_intake_g,0.0,0.0,0.0
+BPIC14,handover,logit,fixed 1:9,B_intake,B_intake_g_km,0.0,0.0,0.0
+BPIC14,handover,hgb,fixed 1:19,B_intake,B_half,0.0,0.0,0.0
+BPIC14,handover,hgb,fixed 1:19,B_intake,B_intake_g,0.0,0.0,0.0
+BPIC14,handover,hgb,fixed 1:19,B_intake,B_intake_g_km,0.0,0.0,0.0
+BPIC14,handover,logit,fixed 1:19,B_intake,B_half,0.0,0.0,0.0
+BPIC14,handover,logit,fixed 1:19,B_intake,B_intake_g,0.0,0.0,0.0
+BPIC14,handover,logit,fixed 1:19,B_intake,B_intake_g_km,0.0,0.0,0.0

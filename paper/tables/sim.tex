@@ -2,19 +2,19 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{lrrrrr}
+\begin{tabular}{lrrrrrr}
 \toprule
-world & fixed-model, basic & fixed-model, percentile & nested, basic & nested, bias-corrected & nested, percentile \\
+world & fixed-model, basic & fixed-model, percentile & nested, basic & nested, bias-corrected & nested, percentile & MC half-width \\
 \midrule
-drift & 0.935 & 0.915 & 0.910 & 0.915 & 0.975 \\
-imbalanced & 0.910 & 0.910 & 0.935 & 0.950 & 0.940 \\
-linear & 0.920 & 0.900 & 0.915 & 0.915 & 0.945 \\
-noisy & 0.930 & 0.930 & 0.920 & 0.925 & 0.920 \\
-nonlinear & 0.935 & 0.925 & 0.935 & 0.940 & 0.950 \\
-sparse & 0.660 & 0.635 & 0.925 & 0.675 & 0.420 \\
+drift & 0.935 & 0.915 & 0.910 & 0.915 & 0.975 & 0.030 \\
+imbalanced & 0.910 & 0.910 & 0.935 & 0.950 & 0.940 & 0.030 \\
+linear & 0.920 & 0.900 & 0.915 & 0.915 & 0.945 & 0.030 \\
+noisy & 0.930 & 0.930 & 0.920 & 0.925 & 0.920 & 0.030 \\
+nonlinear & 0.935 & 0.925 & 0.935 & 0.940 & 0.950 & 0.030 \\
+sparse & 0.660 & 0.635 & 0.925 & 0.675 & 0.420 & 0.030 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Simulation: coverage of the estimator's own limit at the nominal 95\%, by world, for the fixed-model and the nested bootstrap under the percentile, basic and bias-corrected constructions. The nested percentile interval is the one that fails, on the sparse world, and the basic construction is the repair; the bias-corrected percentile is not. The oracle rows are in results/s10\_coverage.csv.}
+\caption{Simulation: coverage of the estimator's own limit at the nominal 95\%, by world, for the fixed-model and the nested bootstrap under the percentile, basic and bias-corrected constructions. The nested percentile interval is the one that fails, on the sparse world, and the basic construction is the repair; the bias-corrected percentile is not. The last column is the Monte Carlo half-width of every coverage in the row at this replicate count, so a reader can see which differences the simulation resolves. The oracle rows are in results/s10\_coverage.csv.}
 \label{tab:sim}
 \end{table}

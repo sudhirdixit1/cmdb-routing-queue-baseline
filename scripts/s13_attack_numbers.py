@@ -158,7 +158,16 @@ def _d1(R, P):
 
 @corruption("E1 a region label inconsistent with its counts", "result file")
 def _e1(R, P):
-    p = R / "s03_regions.csv"
+    #  s21_regions is the file the manuscript's region labels come from as of
+    #  round twenty; s03_regions is the round-nineteen one, kept for the
+    #  within-instrument comparison.  This corruption pointed at s03 until
+    #  the suite reported it MISSED -- corrupting a file nothing reads is a
+    #  test that cannot fail, which is the same defect the correction
+    #  register calls Class A.  It corrupts whichever of the two the
+    #  verifier actually reads, preferring the newer.
+    p = R / "s21_regions.csv"
+    if not p.exists():
+        p = R / "s03_regions.csv"
     if not p.exists():
         return "skip"
     d = pd.read_csv(p)
@@ -190,6 +199,38 @@ def _f2(R, P):
     if len(inc) == 0:
         return "skip"
     d.loc[inc[0], "status"] = "NO_METRIC"
+    d.to_csv(p, index=False)
+
+
+@corruption("G1 two macros naming one quantity made to disagree",
+            "result file")
+def _g1(R, P):
+    """THE CORRUPTION THE ROUND-TWENTY SUITE COULD NOT HAVE CAUGHT.
+
+    Every other corruption here breaks the agreement between a macro and its
+    own source file, which `verify_numbers.eq` sees.  This one does not: it
+    moves a value in `s38_ladder.csv` and lets the generator AND the verifier
+    both read the moved value, so the macro is perfectly consistent with its
+    source.  What it breaks is the agreement between that macro and a
+    DIFFERENT macro, computed from a different file, that the manuscript
+    calls by the same name.
+
+    That is precisely the defect the second developmental review found: the
+    case study's increment at the later decision time appeared with two values
+    and two signs, and every check in the repository passed.  Only
+    `round21_verify.ESTIMANDS`, which is a condition on the SET of macros
+    rather than on any one of them, can fail here.
+    """
+    p = R / "s38_ladder.csv"
+    if not p.exists():
+        return "skip"
+    d = pd.read_csv(p)
+    m = d[(d.decision_time == "t2_incident_creation")
+          & (d.rung == "B_intake_g_km")]
+    if not len(m):
+        return "skip"
+    i = m.index[0]
+    d.loc[i, "V"] = float(d.loc[i, "V"]) + 0.05
     d.to_csv(p, index=False)
 
 

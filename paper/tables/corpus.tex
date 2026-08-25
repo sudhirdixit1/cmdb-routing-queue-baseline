@@ -23,9 +23,12 @@ BPIC20\_rfp & expenses & NO\_G & n=6886 \\
 Sepsis & healthcare & NO\_HEADROOM & handover/primary prev=1.0000 \\
 HospitalBilling & healthcare & NO\_F & n=100000 \\
 RoadFines & enforcement & NO\_HEADROOM & handover/primary prev=0.0037 \\
+BPIC11 & healthcare & HELD\_OUT & downloaded as a held-out log for the out-of-corpus test; never offered to the admission rules \\
+BPIC18 & agriculture & NO\_TEST\_VARIATION & held-out set: duration \\
+BPIC18 & agriculture & NO\_HEADROOM & held-out set: handover prev=1.0000 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Every log the registered rules exclude, with its registered exclusion code.}
+\caption{Every downloaded log that is not among the \nPairs\ admitted log--target pairs, with its registered exclusion code. \textsf{HELD\_OUT} names the logs downloaded as a held-out set for a separate test and never offered to the admission rules; every other code is a rule of Section~\ref{sec:design}. Some logs appear here under one target and among the admitted pairs under the other, which is what a per-pair admission rule does.}
 \label{tab:corpus}
 \end{table}

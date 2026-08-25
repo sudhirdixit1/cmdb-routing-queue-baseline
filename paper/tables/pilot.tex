@@ -2,22 +2,18 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{llrrr}
+\begin{tabular}{lrrrrrrr}
 \toprule
-code & effective n & share & lo & hi \\
+code & estimate & boot lo & boot hi & design lo & design hi & Wilson lo & Wilson hi \\
 \midrule
-B\_stated & 29.6 & 0.850 & 0.664 & 0.927 \\
-B\_justified & 29.6 & 0.175 & 0.073 & 0.336 \\
-M\_justified & 29.6 & 0.055 & 0.018 & 0.213 \\
-Theta\_stated & 29.6 & 0.271 & 0.142 & 0.444 \\
-Range\_reported & 29.6 & 0.440 & 0.274 & 0.608 \\
-range\_over\_baseline & 29.6 & 0.337 & 0.192 & 0.512 \\
-range\_over\_metric & 29.6 & 0.150 & 0.053 & 0.297 \\
-range\_over\_threshold & 29.6 & 0.048 & 0.006 & 0.167 \\
-range\_over\_population & 29.6 & 0.000 & 0.000 & 0.114 \\
+B\_stated & 0.850 & 0.705 & 0.973 & 0.755 & 0.945 & 0.682 & 0.937 \\
+B\_justified & 0.175 & 0.067 & 0.315 & 0.102 & 0.249 & 0.078 & 0.347 \\
+M\_justified & 0.055 & 0.000 & 0.129 & 0.042 & 0.067 & 0.013 & 0.198 \\
+Theta\_stated & 0.271 & 0.121 & 0.442 & 0.162 & 0.380 & 0.144 & 0.450 \\
+Range\_reported & 0.440 & 0.264 & 0.619 & 0.317 & 0.562 & 0.278 & 0.615 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{The practice pilot: weighted prevalence over the estimated eligible population, with Wilson intervals on the effective sample size.}
+\caption{The pilot's proportions over the estimated eligible population, with the stratified bootstrap interval this paper reports, the design-based linearised interval beside it, and the Wilson interval an earlier version printed. None of the five Wilson intervals is contained in its design-based counterpart.}
 \label{tab:pilot}
 \end{table}

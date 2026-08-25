@@ -15,22 +15,24 @@ Zenodo DOI. There is nothing to cite yet, so the macro currently renders as
 *"the archived release cited in the data-availability statement (DOI reserved,
 inserted at proof)"* rather than as the `??` marker — a number that does not
 exist yet is a different thing from a number that is missing, and the
-manuscript says which. `.zenodo.json` already carries `"version": "v19.0"`.
+manuscript says which. `.zenodo.json` already carries `"version": "v21.0"`.
 
 1. Log in at <https://zenodo.org> with the GitHub account that owns
    `sudhirdixit1/cmdb-routing-queue-baseline`.
 2. **Settings → GitHub**, and switch the repository **on**. Zenodo will then
    archive every future release.
-3. **The tag already exists and is pushed.** `v19.0` points at the commit
-   this manuscript was built from, and its message records the gate results at
-   that commit. Nothing to do here — verify with:
+3. **Tag the round-twenty-one commit as `v21.0`** and push it. It must point at
+   the commit this manuscript was built from, and its message should record
+   the gate results at that commit:
 
    ```bash
+   git tag -a v21.0 -m "round twenty-one: the developmental review's twelve major comments"
+   git push origin v21.0
    git ls-remote --tags origin
    ```
 
-4. On GitHub, **Releases → Draft a new release**, choose the existing tag
-   `v19.0`, title it
+4. On GitHub, **Releases → Draft a new release**, choose the tag
+   `v21.0`, title it
    *Specification Surfaces for Incremental Predictive Performance*, and
    publish. Zenodo mints the DOI within a minute or two.
 5. Put the DOI into `.zenodo.json` as `"doi": "10.5281/zenodo.XXXXXXX"`, then:
@@ -43,6 +45,12 @@ manuscript says which. `.zenodo.json` already carries `"version": "v19.0"`.
 
    `--strict` fails if any macro is still unresolved, which is the check that
    the DOI actually landed in the manuscript.
+
+**This is the one blocking item a script cannot clear.** The second review is
+explicit that a manuscript whose archive DOI reads "reserved" should not be
+submitted, and it is right: a reproducibility claim that points at a mutable
+repository is not a reproducibility claim. Everything else in this repository
+is done; this needs the depositing account.
 
 ### 1.2 Decide what to do about the branch
 
@@ -70,18 +78,53 @@ not as part of the PDF.
 | Manuscript | `build/journal/specification_surfaces.pdf` |
 | Highlights | `submission/highlights.txt` (the paste-ready block at the bottom) |
 | Cover letter | `submission/cover_letter.md` |
+| Supplementary material | `build/journal/supplement.pdf` |
 | Response to the previous report | `submission/response_to_referee.md` |
 | Declaration of interests | `submission/declaration_of_interests.md` |
 | CRediT | `submission/credit_statement.md` |
 | Data availability | `submission/data_availability.md` |
 | Suggested reviewers | `submission/suggested_reviewers.md` |
+| Response to the first developmental review | `submission/response_to_blueprint.md` |
+| Response to the second developmental review | `submission/response_to_review21.md` |
 
-### 1.5 Check the length against the journal's own guidance
+### 1.5 Corresponding-author details the submission system asks for
+
+The manuscript carries the name, the affiliation line and the email. The
+editorial system also asks for a **full postal address and a telephone
+number**, which are personal details deliberately not committed to a public
+repository. Have them ready at upload; nothing in the build supplies them.
+
+### 1.6 Figures, if the production office asks for more
+
+Every figure is generated at 400 dpi, which is above the 300 dpi Elsevier asks
+for on combination art. If production wants vector files instead, change
+`savefig(p)` to also write `p.with_suffix(".pdf")` in `scripts/s12_figures.py`
+and `scripts/s28_figures.py` and re-run them; the manuscript's
+`\includegraphics` calls name the `.png` explicitly and do not need to change.
+
+### 1.7 Check the length against the journal's own guidance
 
 `python scripts/texlint.py --report` prints the abstract word count, the
-keyword count, the highlight lengths and an approximate main-text word count.
-The abstract is at the 250-word limit exactly; if the journal's counter
-disagrees with ours by a word, cut one.
+keyword count, the highlight lengths and an approximate main-text word count;
+`--sections` adds the per-section breakdown and writes
+`results/section_words.csv`. The abstract is 198 words; the linter's limit is
+200, which is stricter than the journal's 250 and is the limit the second
+developmental review set.
+
+The appendices are now a separate supplementary document, which is the change
+that review asked for. Check the article's page count against the journal's
+own guidance before submitting; if the editor asks for a shorter article
+still, the two things to cut are section 9 (the reporting standard and the
+software) and the partial-identification passage of section 8, in that order.
+
+### 1.8 Confirm the generative-AI version register
+
+`AI-USE.md` records the model identifier and dates for every round. Round
+twenty-one's is `claude-opus-5`; rounds one to twenty are recorded as
+**unrecorded**, because they were not recorded at the time. If you have
+session records that establish them, fill them in. If you do not, leave them
+as they are: an unrecorded identifier stated as unrecorded is a disclosure,
+and a guessed one is not.
 
 ---
 

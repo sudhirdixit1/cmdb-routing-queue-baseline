@@ -2,32 +2,32 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{llllllrrllllr}
+\begin{tabular}{llllllrlrl}
 \toprule
-log & target & n cells & n beneficial & n harmful & n unresolved & rho & share positive & region & dc cells & dc beneficial & dc harmful & dc rho \\
+log & target & cells & beneficial & harmful & unresolved & rho & region & q & label under the narrow family \\
 \midrule
-BPIC13\_closed & handover & 30 & 0 & 1 & 29 & -0.033 & 0.033 & conditionally harmful & 186 & 0 & 1 & -0.005 \\
-BPIC13\_incidents & duration & 30 & 16 & 0 & 14 & 0.533 & 1.000 & conditionally beneficial & 186 & 23 & 3 & 0.108 \\
-BPIC13\_incidents & handover & 30 & 26 & 0 & 4 & 0.867 & 1.000 & conditionally beneficial & 176 & 37 & 0 & 0.210 \\
-BPIC14 & duration & 320 & 250 & 0 & 70 & 0.781 & 0.916 & conditionally beneficial & 1973 & 601 & 75 & 0.267 \\
-BPIC14 & handover & 320 & 204 & 31 & 85 & 0.541 & 0.791 & sign-changing & 1944 & 490 & 3 & 0.251 \\
-BPIC15\_1 & duration & 30 & 6 & 0 & 24 & 0.200 & 0.667 & conditionally beneficial & 181 & 0 & 0 & 0.000 \\
-BPIC15\_1 & handover & 30 & 1 & 0 & 29 & 0.033 & 0.967 & conditionally beneficial & 183 & 0 & 0 & 0.000 \\
-BPIC15\_3 & duration & 30 & 15 & 0 & 15 & 0.500 & 1.000 & conditionally beneficial & 186 & 27 & 1 & 0.140 \\
-BPIC15\_3 & handover & 30 & 0 & 0 & 30 & 0.000 & 0.533 & unresolved & 158 & 0 & 0 & 0.000 \\
-BPIC15\_4 & duration & 30 & 1 & 0 & 29 & 0.033 & 1.000 & conditionally beneficial & 174 & 1 & 0 & 0.006 \\
-BPIC15\_4 & handover & 30 & 0 & 0 & 30 & 0.000 & 0.033 & unresolved & 178 & 0 & 0 & 0.000 \\
-BPIC15\_5 & duration & 30 & 8 & 0 & 22 & 0.267 & 0.767 & conditionally beneficial & 186 & 5 & 1 & 0.022 \\
-BPIC17 & duration & 30 & 6 & 0 & 24 & 0.200 & 0.700 & conditionally beneficial & 162 & 0 & 0 & 0.000 \\
-BPIC19 & duration & 30 & 7 & 18 & 5 & -0.367 & 0.333 & sign-changing & 186 & 82 & 33 & 0.263 \\
-Helpdesk & duration & 30 & 1 & 0 & 29 & 0.033 & 0.167 & conditionally beneficial & 186 & 0 & 0 & 0.000 \\
-RoadFines & duration & 30 & 21 & 9 & 0 & 0.400 & 0.700 & sign-changing & 153 & 12 & 2 & 0.065 \\
-Sepsis & duration & 30 & 30 & 0 & 0 & 1.000 & 1.000 & uniformly beneficial & 186 & 81 & 0 & 0.435 \\
-UCI498 & duration & 30 & 4 & 0 & 26 & 0.133 & 0.467 & conditionally beneficial & 186 & 11 & 3 & 0.043 \\
-UCI498 & handover & 30 & 8 & 1 & 21 & 0.233 & 0.267 & sign-changing & 186 & 3 & 4 & -0.005 \\
+BPIC13\_closed & handover & 180 & 0 & 1 & 179 & -0.006 & conditionally harmful & 3.338 & sign-changing \\
+BPIC13\_incidents & duration & 180 & 21 & 0 & 159 & 0.117 & conditionally beneficial & 3.354 & sign-changing \\
+BPIC13\_incidents & handover & 180 & 97 & 0 & 83 & 0.539 & conditionally beneficial & 3.330 & conditionally beneficial \\
+BPIC14 & duration & 480 & 337 & 0 & 143 & 0.702 & conditionally beneficial & 3.492 & conditionally beneficial \\
+BPIC14 & handover & 480 & 279 & 2 & 199 & 0.577 & sign-changing & 3.569 & sign-changing \\
+BPIC15\_1 & duration & 180 & 6 & 0 & 174 & 0.033 & conditionally beneficial & 3.339 & conditionally beneficial \\
+BPIC15\_1 & handover & 180 & 2 & 0 & 178 & 0.011 & conditionally beneficial & 3.358 & sign-changing \\
+BPIC15\_3 & duration & 180 & 40 & 0 & 140 & 0.222 & conditionally beneficial & 3.335 & sign-changing \\
+BPIC15\_3 & handover & 180 & 2 & 0 & 178 & 0.011 & conditionally beneficial & 3.318 & sign-changing \\
+BPIC15\_4 & duration & 180 & 0 & 0 & 180 & 0.000 & unresolved & 3.380 & sign-changing \\
+BPIC15\_4 & handover & 180 & 0 & 0 & 180 & 0.000 & unresolved & 3.425 & sign-changing \\
+BPIC15\_5 & duration & 180 & 4 & 3 & 173 & 0.006 & sign-changing & 3.395 & sign-changing \\
+BPIC17 & duration & 180 & 35 & 0 & 145 & 0.194 & conditionally beneficial & 3.252 & conditionally beneficial \\
+BPIC19 & duration & 120 & 14 & 28 & 78 & -0.117 & sign-changing & 3.317 & sign-changing \\
+Helpdesk & duration & 180 & 0 & 8 & 172 & -0.044 & conditionally harmful & 3.312 & sign-changing \\
+RoadFines & duration & 120 & 47 & 20 & 53 & 0.225 & sign-changing & 3.140 & sign-changing \\
+Sepsis & duration & 180 & 106 & 0 & 74 & 0.589 & conditionally beneficial & 3.320 & conditionally beneficial \\
+UCI498 & duration & 180 & 58 & 0 & 122 & 0.322 & conditionally beneficial & 3.257 & conditionally beneficial \\
+UCI498 & handover & 180 & 40 & 0 & 140 & 0.222 & conditionally beneficial & 3.329 & sign-changing \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Resolution regions under the simultaneous max-$t$ bands.}
+\caption{Resolution regions from the WHOLE-SURFACE simultaneous band at its NOMINAL critical value, with that value $q$ and, for comparison, the label a narrower within-instrument family would have given the same draws. \textbf{These are not the labels the article quotes}: the article's regions and $\rho$ are computed under the coverage-calibrated critical value and are in Table~\ref{tab:calbands}. This table is printed so that the cost of the wider FAMILY is visible separately from the cost of the CALIBRATION.}
 \label{tab:regions}
 \end{table}

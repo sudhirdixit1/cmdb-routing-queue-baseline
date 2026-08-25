@@ -19,30 +19,47 @@ so $(1-\theta)/\theta$ is the number of false nominations the desk is willing
 to accept for one true one. Choosing $\theta$ is choosing an operational cost
 ratio, and it belongs to the analyst's declaration rather than to a grid
 search. We report the whole grid --- \nGrid\ points from \gridLo\ to
-\gridHi\ --- and name three points a desk might occupy, each with the ratio it
-encodes.
+\gridHi\ --- and name three points a desk might occupy: $\theta =
+\thetaCheap$, or \ratioCheap\ false nominations accepted per true one, where a
+review is cheap and the desk nominates liberally; $\thetaBase$, or
+\ratioBase, where a review and a miss cost about the same; and $\thetaDear$,
+or \ratioDear, where review capacity is scarce. A reader whose desk sits at a
+ratio not in that list reads their own point off Figure~\ref{fig:dca}: the
+operating point is the reader's to choose, so the analyst reports the curve
+rather than a point on it.
 
-\begin{center}
-\begin{tabular}{lll}
-\toprule
-$\theta$ & false accepted per true & the desk this describes \\
-\midrule
-\thetaCheap & \ratioCheap & a review is cheap; nominate liberally \\
-\thetaBase  & \ratioBase  & a review and a miss cost about the same \\
-\thetaDear  & \ratioDear  & review capacity is scarce \\
-\bottomrule
-\end{tabular}
-\end{center}
+\subsection{Calibration comes first, or the threshold means nothing}
+\label{sec:calibfirst}
 
-\noindent A reader whose desk sits at a ratio not in that list reads their own
-point off Figure~\ref{fig:dca}. Reporting the grid is what makes that
-possible, and it is the same argument as the rest of the paper one level
-down: the operating point is the reader's to choose, so the analyst reports
-the curve rather than a point on it.
+The identity above reads $\theta$ as a probability threshold, and everything
+that follows from it requires the score to be a probability. A threshold of
+\thetaBase\ applied to a score whose calibration slope is \slopeWorstRaw\ is
+not a statement about a cost ratio of \ratioBase\ false nominations per true
+one; it is a statement about a number that happens to lie at \thetaBase\ on an
+arbitrary scale. Every model contributing to a decision-curve conclusion in
+this paper is therefore refitted under a \textbf{training-only} calibration:
+isotonic and Platt scaling, each cross-validated \emph{inside} the training
+half, so no test outcome touches the calibrator, and the calibration is
+rebuilt inside every resampling iteration. Table~\ref{tab:calib2} gives the
+diagnostics for the raw and the calibrated scores on every pair.
+
+The correction bites. Across the corpus the median calibration slope is
+\slopeRawMedian\ on raw scores and \slopeIsoMedian\ after isotonic
+calibration; the median expected calibration error falls from \eceRawMedian\
+to \eceIsoMedian; and the number of arms whose slope lies outside $[0.5, 2]$
+falls from \nSlopeOutRaw\ to \nSlopeOutIso. It also changes conclusions: the
+sign of the net-benefit increment differs between the raw and the calibrated
+curve at a mean \dcaSignChangePct\ of thresholds.
+
+\textbf{What may and may not be read as a decision curve.} Curves computed on
+calibrated probabilities carry the probability-threshold interpretation and
+are what Section~\ref{sec:dcabands} and the case study read. Curves on raw
+scores are reported as \emph{score-threshold sensitivity analyses} and are
+labelled so in every table; they say how a conclusion moves as a selection
+rule tightens, and they do not say what cost ratio that rule encodes.
 
 \subsection{Simultaneous bands change what can be said}
-
-\input{tables/dca}
+\label{sec:dcabands}
 
 \begin{figure}[t]
 \centering
@@ -50,47 +67,118 @@ the curve rather than a point on it.
 \caption{The register's net-benefit increment across the operating range at
 the reference cell, with the pointwise interval and the simultaneous max-$t$
 band. The simultaneous band is what a claim about a \emph{range} of thresholds
-has to be read against.}
+has to be read against. The curve dips near $\theta = \dcaDipTheta$, where the
+simultaneous band's lower edge reaches \dcaDipValue: \nHarmfulPointwise\ of
+the \nDcGrid\ operating points resolve as harmful pointwise and
+\nHarmfulSimultaneous\ under the simultaneous band, so the dip a reader can
+see is not a harm the evidence resolves.}
 \label{fig:dca}
 \end{figure}
 
 Figure~\ref{fig:dca} draws the register's net-benefit increment across the
-grid at the reference cell, with the pointwise interval and the simultaneous
-max-$t$ band. The difference is not cosmetic. The band's median width is
-\dcBandWidth\ against the pointwise interval's \dcPointWidth, and across the
-\nDcGrid\ operating points of this estate's decision curve the pointwise
-interval declares the increment resolvably positive at
-\nBeneficialPointwise\ of them while the simultaneous band declares it at
-\nBeneficialSimultaneous. Those three points are the price of a statement
-about a \emph{range} of thresholds rather than about each threshold
+grid at the reference cell on \emph{calibrated} probabilities, with the
+pointwise interval and the simultaneous max-$t$ band. The band's family is
+declared separately from the scalar family and spans every admissible
+net-benefit cell of the pair --- \nDcaFamily\ members, critical value
+\dcaQ\ --- and the difference from a pointwise reading is not cosmetic. Its
+median width is \dcBandWidth\ against the pointwise interval's
+\dcPointWidth, and across the \nDcGrid\ operating points of this estate's
+decision curve the pointwise interval declares the increment resolvably
+positive at \nBeneficialPointwise\ of them while the simultaneous band
+declares it at \nBeneficialSimultaneous. Both are built from the same draws,
+so the only thing that differs is the family: those points are the price of a
+statement about a \emph{range} of thresholds rather than about each threshold
 separately, and a paper that reads a decision curve across its range and
 prices it pointwise has claimed the first while paying for the second.
 
-Neither construction resolves any point of this curve as harmful ---
-\nHarmfulPointwise\ pointwise and \nHarmfulSimultaneous\ simultaneously ---
-which is worth saying because the curve dips visibly below zero near
-$\theta = 0.55$ and a reader looking at Figure~\ref{fig:dca} would be entitled
-to wonder.
+The curve dips near $\theta = \dcaDipTheta$, where the simultaneous band's
+lower edge reaches \dcaDipValue, so the count of points that resolve as
+\emph{harmful} is reported rather than left to the eye:
+\nHarmfulPointwise\ of the \nDcGrid\ points pointwise and
+\nHarmfulSimultaneous\ under the simultaneous band. The second can only be
+smaller than or equal to the first --- the wider family gives the wider
+interval at every point, which \texttt{verify\_numbers} checks --- so a dip a
+reader can see is not a harm the evidence resolves. Over the \nDcaRows\
+decision-curve cells the corpus carries, the same counts are
+\dcaHarmfulPointwise\ and \dcaHarmfulSimultaneous; Table~\ref{tab:dca} prints
+this pair's own curve, operating point by operating point, and its caption
+names the cell it is computed at.
 
-\subsection{What the operational statement does not say}
+\textbf{And this family is the one most exposed to how the critical value was
+estimated.} The decision-curve bands are \emph{not} coverage-calibrated: the
+$(n,K)$ calibration of Section~\ref{sec:regions} is estimated for the scalar
+instruments and is not applied here. On every one of the \nFamiliesDca\
+decision-curve families the multiplier critical value lies below the whole
+order-statistic interval of the empirical quantile
+(Section~\ref{sec:simbands}), by a median factor of \qRatioDcaMedian, and
+across the corpus's decision-curve cells the multiplier band resolves
+\nResolvedDcaMult\ against the empirical band's \nResolvedDcaEmp. A reader who
+takes the empirical value should read this section's counts as upper bounds.
+Section~\ref{sec:lim} states why we do not choose between the two.
 
-Net benefit converts a discrimination increment into units the desk
-recognises. It does not convert it into money, and three gaps remain, each of
-which would need data this study does not have.
+\subsection{The decision, in units a service desk uses}
+\label{sec:nbregret}
 
-First, nominating a case for review is not the same as preventing a
-reassignment. Net benefit counts correct nominations; whether acting on one
-changes the outcome is an interventional question and this is observational
-evidence.
+Because net benefit is a single cardinal utility, the decision-rule comparison
+of Section~\ref{sec:rules} can be run on it without the unit problem that
+forces that section to work instrument by instrument. Three things have to be
+settled first, and each is settled by a declared rule rather than a default.
 
-Second, the exchange rate is declared, not measured. A desk's true ratio of
-review cost to reassignment cost is an organisational quantity; we report the
-whole curve so that a reader who knows theirs can read off their own point,
-and we do not pretend to know it.
+\textbf{Which models may enter.} A threshold is a cost ratio only if the score
+is a probability, so a model whose recalibrated slope lies outside
+$[\slopeLo, \slopeHi]$ is excluded from the decision-analytic reading by a
+registered rule applied at the level of the (pair, pipeline, baseline) triple
+and requiring both arms to pass. A \emph{model} here is one such triple,
+not one fitted classifier. The rule removes \nModelsDcaExcluded\ of
+\nModelsDca\ of them and leaves \nPairsDcaExcluded\ of \nPairs\ pairs
+with none. \textbf{That count is itself the strongest operational finding in this
+section}: on a third of the models a published evaluation would fit here, no
+threshold can be read as a cost ratio at all.
 
-Third, the cost of the register itself --- discovery tooling, reconciliation
-effort, the staff who keep it current --- is nowhere in this evidence. A
-register that is worth \VTtwoGroup\ AUC on one task may still be worth buying
-for a dozen other reasons, and may not be worth buying for this one. Nothing
-here settles that, and Section~\ref{sec:lim} says so again because it is the
-inference a reader is most likely to draw and least entitled to.
+\textbf{Which thresholds.} A uniform measure over an operating range from
+$0.05$ to $0.80$ is not a desk's belief. For a decision about pre-empting a
+reassignment the false positive costs a specialist's few minutes and the false
+negative costs a re-triage, a second queue wait and the service-level exposure
+that goes with it; ratios between three and ten to one put the indifference
+threshold between \deskQlo\ and \deskQhi, with a median of \deskQmid. A Beta
+distribution with that support is declared as the \emph{desk distribution},
+and single exchange rates are reported beside it.
+
+\textbf{Which unit.} Net benefit per case is a rate near zero, and three
+decimal places of it look like a tie, so Table~\ref{tab:desk} reports it per
+thousand cases.
+
+\textbf{And the rules still mostly tie.} Under the desk distribution the
+one-number rule, the majority rule and the weighted mean all carry a median
+excess regret of \excessOneNumberDesk\ per thousand cases; only the
+conservative rule loses, at \excessUniformDesk. The four rules do not all
+choose the same action on \nSeparatingDesk\ pairs, and where they differ the
+one-number rule is the worst on \nOneNumberWorstDesk\ of them, at a maximum of
+\maxExcessOneNumberDesk\ per thousand --- a real ordering and a small
+quantity. \textbf{The case against a one-number report does not rest on this
+design.} It rests on the decomposition of Section~\ref{sec:sobol} and on the
+sign disagreement of Section~\ref{sec:results-regret}, which is unit-free.
+
+\textbf{What does separate, in this unit, is the decision time.} The register
+is worth \promisedPerThousand\ true positives per thousand cases against the
+intake block. Against intake plus group plus the knowledge reference --- the
+same estate, the same register, a later moment in the same process --- it is
+worth \deliveredPerThousand. A desk that read the first number and deployed
+where the second applies is short \shortfallPerThousand\ per thousand cases.
+That is the operational content of Section~\ref{sec:twodecision}, and it is
+larger than every difference between the four collapse rules put together.
+It is also conditional on the knowledge reference being admissible at
+$\tau_2$, which Section~\ref{sec:cmdb} shows is probable and unproven: the
+second figure is the $\lambda = 0$ end of Figure~\ref{fig:tipping}, and a reader
+who believes a share $\lambda$ of those references are written after the incident
+exists should read their own figure off that curve.
+
+\paragraph{What the operational statement does not say} Net benefit converts a
+discrimination increment into units the desk recognises. It does not convert
+it into money, and three gaps remain, each needing data this study does not
+have: nominating a case for review is not the same as preventing a
+reassignment, and whether acting on a nomination changes the outcome is an
+interventional question on observational evidence; the exchange rate is
+declared rather than measured, which is why the whole curve is reported; and
+the cost of the register itself --- discovery tooling, reconciliation effort,
+the staff who keep it current --- is nowhere in this evidence.

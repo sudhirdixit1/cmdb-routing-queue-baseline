@@ -86,9 +86,14 @@ WORLD_SEED = {"linear": 11, "nonlinear": 23, "drift": 37, "sparse": 53,
 
 
 # --------------------------------------------------------------------------
-def world_spec(world, rng):
-    """Return (K, cell probabilities, P(y=1 | cell), and the era-2 version)."""
-    K = 200 if world == "sparse" else 20
+def world_spec(world, rng, k_override=None):
+    """Return (K, cell probabilities, P(y=1 | cell), and the era-2 version).
+
+    `k_override` names the register cardinality explicitly and is used only by
+    s31, which varies it against the sample size.  Every caller in this file
+    leaves it at None and gets the round-nineteen worlds unchanged.
+    """
+    K = k_override or (200 if world == "sparse" else 20)
     nb, ng = 4, 3                       # intake cells, free-field levels
     uf = rng.normal(0, 1.0, K)
     ub = rng.normal(0, 0.8, nb)

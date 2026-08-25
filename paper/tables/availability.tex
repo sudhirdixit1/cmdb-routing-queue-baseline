@@ -1,8 +1,11 @@
 \begin{table}[t]
 \centering
-\small
+\footnotesize
+\setlength{\tabcolsep}{5pt}%
+\renewcommand{\arraystretch}{1.15}%
+\hyphenpenalty=50 \exhyphenpenalty=50 \emergencystretch=1em\relax%
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{lrl}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.300\linewidth}r>{\raggedright\arraybackslash}p{0.440\linewidth}}
 \toprule
 evidence & value & establishes \\
 \midrule
@@ -16,6 +19,6 @@ base AUC from the knowledge reference alone & 0.648 & the field is highly predic
 \bottomrule
 \end{tabular}%
 }
-\caption{What the interaction file establishes, and what it does not.}
+\caption{What the interaction file establishes, and what it does not. Case study cohort, reassignment target.}
 \label{tab:availability}
 \end{table}

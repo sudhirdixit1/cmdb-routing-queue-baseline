@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{llrrrrrr}
+\toprule
+log & target & encoding & family & quality level & rung & split & higher-order \\
+\midrule
+BPIC14 & duration & 0.091 & 0.066 & 0.065 & 0.492 & 0.014 & 0.271 \\
+BPIC14 & handover & 0.125 & 0.049 & 0.109 & 0.430 & 0.009 & 0.276 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{The decomposition with the model family and the encoding as separate axes, on the case study's log where all six pipelines run. First-order shares, median over the five instruments, under the equal-level measure, then the total higher-order share. The `learner' axis of Table~\ref{tab:sobol} is the two of them together.}
+\label{tab:axes2}
+\end{table}
