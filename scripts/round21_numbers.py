@@ -485,9 +485,25 @@ def emit(mn):
     #  partition of the variance into the three kinds of axis
     put("misreportLatitudePct", pct(first(F34, "misreport_latitude_median")))
     put("nCellsLatitude", thousands(first(F34, "n_cells_latitude")))
+    #  ROUND TWENTY-FIVE.  These three are the partition taken on the
+    #  PRIMARY scale, which decomposes INSIDE each instrument and takes the
+    #  median across instruments -- so the instrument is a stratum and the
+    #  latitude share below is the pipeline and the rung, NOT the pipeline,
+    #  the rung and the instrument as three rounds of prose claimed.  The
+    #  `Cross' trio is the same partition on the scale where the instrument
+    #  is an axis, and the two order latitude and resampling oppositely,
+    #  which is why both are printed wherever either is.
     put("shareLatitudePct", pct(first(F34, "share_latitude")))
     put("shareResamplingPct", pct(first(F34, "share_resampling")))
     put("shareCounterfactualPct", pct(first(F34, "share_counterfactual")))
+    put("shareLatitudeCrossPct", pct(first(F34, "share_latitude_cross")))
+    put("shareResamplingCrossPct", pct(first(F34, "share_resampling_cross")))
+    put("shareCounterfactualCrossPct",
+        pct(first(F34, "share_counterfactual_cross")))
+    put("nPairsResamplingOverLatitude",
+        thousands(first(F34, "n_pairs_resampling_over_latitude")))
+    put("nPairsResamplingOverLatitudeCross",
+        thousands(first(F34, "n_pairs_resampling_over_latitude_cross")))
     #  M5: the headline is LOWER on the population the paper is about
     put("misreportPooledItsmPct",
         pct(first(F34, "misreport_pooled_resolved_itsm")))

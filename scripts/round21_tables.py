@@ -205,14 +205,17 @@ def write(mn):
     # ------------------------------------------------------- axis kinds
     K = load("s34_axiskind.csv")
     if K is not None and len(K):
-        cols = [c for c in ("log", "target", "analyst latitude", "resampling",
-                            "counterfactual", "higher-order") if c in K.columns]
+        cols = [c for c in ("scale", "log", "target", "analyst latitude",
+                            "resampling", "counterfactual", "higher-order")
+                if c in K.columns]
         (TABLES / "axiskind.tex").write_text(
             tex_table(K[cols], "The variance decomposition partitioned by "
-                               "what KIND of choice each axis is. "
-                               "\\emph{Analyst latitude} is the pipeline, the "
-                               "baseline rung and the instrument --- things "
-                               "an analyst chooses and could have chosen "
+                               "what KIND of choice each axis is, under both "
+                               "declared scales. "
+                               "\\emph{Analyst latitude} is the pipeline and "
+                               "the baseline rung --- and, on the second "
+                               "scale only, the instrument --- things an "
+                               "analyst chooses and could have chosen "
                                "otherwise. \\emph{Resampling} is the split, "
                                "five of whose six levels are expanding-origin "
                                "folds on the same data and are therefore "
@@ -220,10 +223,29 @@ def write(mn):
                                "analyses. \\emph{Counterfactual} is the "
                                "register-quality condition, which is a "
                                "different state of the world. The remainder "
-                               "belongs to no single axis. A reader asking "
-                               "what a one-number report exposes them to "
-                               "should read the first column.",
-                      "tab:axiskind"),
+                               "belongs to no single axis. "
+                               "\\emph{Which scale, and why there are two.} "
+                               "\\textsf{raw, within instrument} is the "
+                               "paper's primary scale: the decomposition is "
+                               "taken separately inside each of the five "
+                               "instruments, on that instrument's own units, "
+                               "and the median is reported --- so the "
+                               "instrument is a stratum here and its own "
+                               "contribution appears in no column. "
+                               "\\textsf{headroom, instrument as an axis} is "
+                               "the secondary scale of "
+                               "Section~\\ref{sec:sobol}: raw AUC and raw "
+                               "average precision do not share units, so "
+                               "making the instrument a sixth axis requires "
+                               "the headroom rescaling. Every row is the "
+                               "equal-level measure. The two scales order "
+                               "\\emph{analyst latitude} against "
+                               "\\emph{resampling} oppositely, which is a "
+                               "property of the scale and not of the corpus; "
+                               "Section~\\ref{sec:family} says so rather "
+                               "than choosing one.",
+                      "tab:axiskind",
+                      textcols={"scale": 0.14}),
             encoding="utf-8")
     else:
         blank("axiskind", "The decomposition by kind of axis.",

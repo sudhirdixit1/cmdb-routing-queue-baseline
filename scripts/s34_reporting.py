@@ -26,7 +26,12 @@ M4b.  THE AXES ARE NOT ALL THE SAME KIND OF THING, AND POOLING THEM INFLATES
 THE RATE.  The design space mixes three kinds of axis and the manuscript's
 headline averages over all of them:
 
-  ANALYST LATITUDE   the pipeline, the baseline rung and the instrument.
+  ANALYST LATITUDE   the pipeline and the baseline rung -- and, on the scale
+                     where the instrument is an axis rather than a stratum,
+                     the instrument too; round twenty-five found that this
+                     line had claimed the instrument on both scales while the
+                     primary one excludes it, and that the ordering below
+                     turns on which is meant.
                      These are choices an analyst makes and could have made
                      otherwise, and they are what a reader of a one-number
                      report is exposed to.
@@ -333,22 +338,66 @@ def main():
                     "itsm 8", "other 11"]].to_string(index=False))
 
     # ---- the decomposition, partitioned by what KIND of axis it is -------
+    #  ROUND TWENTY-FIVE.  This block said, in its own docstring and in the
+    #  table's caption and in Section 6.5, that ANALYST LATITUDE is "the
+    #  pipeline, the baseline rung and the instrument".  It was not.  The
+    #  primary scale is `raw-within-metric`: the decomposition is taken
+    #  SEPARATELY INSIDE each instrument and the median is taken across them,
+    #  so the instrument is a stratum and cannot be an axis, and the latitude
+    #  column carried the pipeline and the rung alone.  The instrument's own
+    #  contribution was in no column of the table that claimed to contain it.
+    #
+    #  It is not a labelling slip, because the ordering the section states in
+    #  bold depends on it.  The only scale on which the instrument IS an axis
+    #  is `headroom-metric-as-axis` -- raw AUC and raw AP do not share a
+    #  scale, so pooling instruments as levels of one axis requires the
+    #  headroom rescaling, which this paper demotes to a secondary scale --
+    #  and on that scale latitude and resampling swap places.  Both are
+    #  computed here and both are reported, because which of them is larger
+    #  is a property of the scale and not of the corpus, and a paper whose
+    #  subject is that a value is a surface should not report the corner of
+    #  it that suits the sentence.
     KIND = {"learner": "analyst latitude", "rung": "analyst latitude",
             "metric": "analyst latitude", "quality_level": "counterfactual",
             "split": "resampling"}
-    prk = IDX[(IDX.scale == "raw-within-metric")
-              & (IDX.measure == "equal-level")].copy()
-    prk["kind"] = prk.axis.map(KIND).fillna("analyst latitude")
-    per = (prk.groupby(["log", "target", "metric", "kind"]).S.sum()
-           .groupby(level=[0, 1, 3]).median().reset_index())
-    K = (per.pivot_table(index=["log", "target"], columns="kind", values="S")
-         .reset_index())
-    #  whatever is left belongs to no single axis
-    K["higher-order"] = 1.0 - K[[c for c in K.columns
-                                 if c not in ("log", "target")]].sum(axis=1)
-    K.to_csv(RESULTS / "s34_axiskind.csv", index=False)
+
+    def _partition(sub, within_metric):
+        sub = sub.copy()
+        sub["kind"] = sub.axis.map(KIND).fillna("analyst latitude")
+        if within_metric:
+            per = (sub.groupby(["log", "target", "metric", "kind"]).S.sum()
+                   .groupby(level=[0, 1, 3]).median().reset_index())
+        else:
+            per = sub.groupby(["log", "target", "kind"]).S.sum().reset_index()
+        out = (per.pivot_table(index=["log", "target"], columns="kind",
+                               values="S").reset_index())
+        #  whatever is left belongs to no single axis
+        out["higher-order"] = 1.0 - out[[c for c in out.columns
+                                         if c not in ("log", "target")]
+                                        ].sum(axis=1)
+        return out
+
+    K = _partition(IDX[(IDX.scale == "raw-within-metric")
+                       & (IDX.measure == "equal-level")], True)
+    K["scale"] = "raw, within instrument"
+    XI = IDX[(IDX.scale == "headroom-metric-as-axis")
+             & (IDX.measure == "equal-level")]
+    if len(XI):
+        KX = _partition(XI, False)
+        KX["scale"] = "headroom, instrument as an axis"
+        pd.concat([K, KX], ignore_index=True).to_csv(
+            RESULTS / "s34_axiskind.csv", index=False)
+    else:
+        KX = None
+        K.to_csv(RESULTS / "s34_axiskind.csv", index=False)
     print("\n  FIRST-ORDER VARIANCE BY KIND OF AXIS, median over pairs")
-    print(K.drop(columns=["log", "target"]).median().to_string())
+    for tag, D in (("raw, within instrument", K),
+                   ("headroom, instrument as an axis", KX)):
+        if D is None:
+            continue
+        print("   %s" % tag)
+        print(D.drop(columns=["log", "target", "scale"]).median()
+              .to_string())
 
     med = eq.misreport_all.median()
     med_res = eq.misreport_resolved_nominal.dropna()
@@ -425,6 +474,22 @@ def main():
         if "resampling" in K.columns else np.nan,
         share_counterfactual=float(K["counterfactual"].median())
         if "counterfactual" in K.columns else np.nan,
+        #  the same three with the instrument counted as an axis, and the
+        #  count of pairs on which the ordering the section states actually
+        #  holds.  Both are needed: a median can order two quantities that
+        #  are ordered the other way on most pairs.
+        n_pairs_resampling_over_latitude=int(
+            (K["resampling"] > K["analyst latitude"]).sum())
+        if "resampling" in K.columns else 0,
+        share_latitude_cross=float(KX["analyst latitude"].median())
+        if KX is not None else np.nan,
+        share_resampling_cross=float(KX["resampling"].median())
+        if KX is not None else np.nan,
+        share_counterfactual_cross=float(KX["counterfactual"].median())
+        if KX is not None else np.nan,
+        n_pairs_resampling_over_latitude_cross=int(
+            (KX["resampling"] > KX["analyst latitude"]).sum())
+        if KX is not None else 0,
         runtime_s=round(time.time() - t0, 1))
     pd.DataFrame([facts]).to_csv(RESULTS / "s34_facts.csv", index=False)
     print("\n" + pd.Series(facts).to_string())

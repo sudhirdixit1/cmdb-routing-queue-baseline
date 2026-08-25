@@ -1495,16 +1495,30 @@ headline is stated.
 \textbf{The axes are not all the same kind of thing.} The design space mixes
 choices an analyst makes with things that are not choices at all, and
 Table~\ref{tab:axiskind} partitions the decomposition accordingly:
-\emph{analyst latitude} is the pipeline, the baseline rung and the instrument;
+\emph{analyst latitude} is the pipeline and the baseline rung;
 \emph{resampling} is the split, five of whose six levels are expanding-origin
 folds on the same data; \emph{counterfactual} is the register-quality
 condition, a different state of the world rather than a different way of
-analysing this one. The ordering is not the one the apparatus would prefer.
-Analyst latitude carries a median \shareLatitudePct\ of the variance,
-resampling \shareResamplingPct\ and the counterfactual
-\shareCounterfactualPct: \textbf{on the median pair, the split --- a sampling
-choice and not an analytic one --- moves the increment more than all three
-analytic axes together}, the case study's log being the exception. Restricted
+analysing this one. On the primary scale, analyst latitude carries a median
+\shareLatitudePct\ of the variance, resampling \shareResamplingPct\ and the
+counterfactual \shareCounterfactualPct, and resampling is the larger of the
+first two on \nPairsResamplingOverLatitude\ of the \nPairs\ pairs.
+
+\textbf{Whether the split moves the increment more than the analytic axes
+depends on which scale the partition is taken under, and we report both
+rather than the one that reads better.} The primary scale decomposes
+\emph{inside} each instrument and takes the median across the five, so the
+instrument is a stratum and its own contribution is in none of the three
+columns. Making it a sixth axis needs the headroom rescaling of
+Section~\ref{sec:sobol}, because raw AUC and raw average precision do not
+share units --- and on that scale the ordering reverses: analyst latitude
+carries \shareLatitudeCrossPct, resampling \shareResamplingCrossPct\ and the
+counterfactual \shareCounterfactualCrossPct, with resampling the larger on
+\nPairsResamplingOverLatitudeCross\ pairs. The instrument is an analyst's
+choice, so the second number is the one that answers the question as asked;
+the first is the one taken on the units the rest of Section~\ref{sec:multilog}
+uses. Neither is a corpus fact independent of the scale, which is the
+paper's own thesis applied to the paper. Restricted
 to the \nCellsLatitude\ analyst-latitude cells a pair carries, the
 disagreement rate is \misreportLatitudePct\ against the pooled
 \misreportEqualPct: the first is what a one-number report exposes a reader to,

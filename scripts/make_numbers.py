@@ -1529,12 +1529,38 @@ def write_tables(D):
             adm = set(zip(SUR.log.astype(str), SUR.target.astype(str)))
             LY = LY[[(str(a), str(b)) in adm
                      for a, b in zip(LY.log, LY.target)]]
+        #  ROUND TWENTY-FOUR, minor 5.  Four of this table's headings were
+        #  variable names and nothing said what they meant.  One of them was
+        #  also WRONG: `gain over b0' is the gain over B_0 on every row whose
+        #  layer index is a layer index, and on the marginal row -- the one
+        #  carrying -1 -- it is the gain over B_0 PLUS the second-finest
+        #  layer, which is a different baseline.  The heading is renamed to
+        #  the quantity it actually holds on every row and the caption
+        #  glosses all four, including the exception.
         (TABLES / "layers.tex").write_text(
             tex_table(LY.head(24), "The increment of each layer of the "
                       "register over the same baseline, on the log--target "
                       "pairs the registered rules of Section~"
                       "\\ref{sec:design} admit. \\nLayerRowsExcluded\\ rows "
-                      "on excluded pairs are not printed.", "tab:layers"),
+                      "on excluded pairs are not printed. "
+                      "\\emph{Columns.} \\textsf{levels from coarse} is the "
+                      "layer's depth, counting from the coarsest layer at "
+                      "0 inward; the value $-1$ is not a depth but marks "
+                      "the \\emph{marginal} row, which adds the finest "
+                      "layer on top of the second finest. "
+                      "\\textsf{base auc} is the AUC of the model this row "
+                      "is measured against --- the intake block $B_0$ with "
+                      "every register layer removed on a layer row, and "
+                      "$B_0$ together with the second-finest layer on the "
+                      "marginal row. \\textsf{auc} is the AUC of that same "
+                      "model with this row's layer added, and "
+                      "\\textsf{gain over base} is the difference of the "
+                      "two. Because the marginal row's baseline is not "
+                      "$B_0$, its gain is not comparable with the rows "
+                      "above it and is not meant to be: it answers what the "
+                      "finest layer is worth once the coarser one is "
+                      "already in the model.", "tab:layers",
+                      colnames={"gain_over_b0": "gain_over_base"}),
             encoding="utf-8")
     else:
         blank("layers", "Register layers.", "tab:layers")

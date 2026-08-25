@@ -4,7 +4,7 @@
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lllllllrrr}
 \toprule
-log & target & level & levels from coarse & cardinality & n & n test & base auc & auc & gain over b0 \\
+log & target & level & levels from coarse & cardinality & n & n test & base auc & auc & gain over base \\
 \midrule
 Helpdesk & duration & service\_type & 0 & 3 & 4580 & 1374 & 0.629 & 0.629 & 0.001 \\
 Helpdesk & duration & support\_section & 1 & 7 & 4580 & 1374 & 0.629 & 0.629 & 0.000 \\
@@ -26,6 +26,6 @@ BPIC14 & duration & CI Name (aff) marginal over CI Subtype (aff) & -1 & 3019 & 4
 \bottomrule
 \end{tabular}%
 }
-\caption{The increment of each layer of the register over the same baseline, on the log--target pairs the registered rules of Section~\ref{sec:design} admit. \nLayerRowsExcluded\ rows on excluded pairs are not printed.}
+\caption{The increment of each layer of the register over the same baseline, on the log--target pairs the registered rules of Section~\ref{sec:design} admit. \nLayerRowsExcluded\ rows on excluded pairs are not printed. \emph{Columns.} \textsf{levels from coarse} is the layer's depth, counting from the coarsest layer at 0 inward; the value $-1$ is not a depth but marks the \emph{marginal} row, which adds the finest layer on top of the second finest. \textsf{base auc} is the AUC of the model this row is measured against --- the intake block $B_0$ with every register layer removed on a layer row, and $B_0$ together with the second-finest layer on the marginal row. \textsf{auc} is the AUC of that same model with this row's layer added, and \textsf{gain over base} is the difference of the two. Because the marginal row's baseline is not $B_0$, its gain is not comparable with the rows above it and is not meant to be: it answers what the finest layer is worth once the coarser one is already in the model.}
 \label{tab:layers}
 \end{table}

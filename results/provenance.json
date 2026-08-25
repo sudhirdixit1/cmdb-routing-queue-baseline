@@ -170,9 +170,9 @@
     "sha": "c2ec82d9e4bb040c"
   },
   "s34_reporting.py": {
-    "at": "2026-08-25T12:46:02Z",
-    "note": "round twenty-three: adds the joint analyst-latitude-and-resolved rate and the per-log concentration of sign disagreements",
-    "sha": "b1bb8f265ff90271"
+    "at": "2026-08-25T22:16:13Z",
+    "note": "Round twenty-five: the axis-kind partition is now computed under both declared scales and both are written. It was computed only on the primary scale, which decomposes inside each instrument, while the docstring, the table caption and section 6.5 all described the latitude column as containing the instrument. Re-run on the same inputs; s34_misreport.csv and s34_family.csv are unchanged.",
+    "sha": "cd03395bd0e59a0b"
   },
   "s35_utility.py": {
     "at": "2026-08-24T23:51:14Z",
