@@ -2038,9 +2038,9 @@ rules of Section~\ref{sec:design} admit \nLogs, yielding the \nPairs\
 log--target pairs analysed here. The counts are different quantities and
 Table~\ref{tab:corpus} accounts for every downloaded log that is not among the
 admitted pairs, in one of two ways: with the registered exclusion code the
-rules gave it, or, for the \nHeldOutLogs\ logs downloaded as a held-out set
-for the out-of-corpus test, with the code \textsf{HELD\_OUT} and the statement
-that they were never offered to the admission rules. The literature pilot's frame, sample,
+rules gave it, or with the code \textsf{HELD\_OUT}, which marks the held-out
+set --- \nHeldOutLogs\ of the checksummed files, downloaded for the
+out-of-corpus test and never offered to the admission rules. The literature pilot's frame, sample,
 codes, adjudications and evidence dossiers are in the archive; the retrieved
 full texts are other publishers' copyrighted PDFs and are not redistributed,
 but \texttt{scripts/s06\_audit2.py -{}-fetch} re-retrieves them from the DOIs

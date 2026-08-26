@@ -404,7 +404,7 @@ K402,nFolds,five,4,30_design.tex:57; app_objects.tex:266; app_protocol.tex:214; 
 K403,nGrid,31,3,20_inference.tex:94; 40_multilog.tex:10; 60_dca.tex:21,"Multi-log results; Simultaneous bands over the family the claim ranges over; The operating point is a cost ratio, not a knob",make_numbers.py,245,s10_coverage.csv,False,False,False
 K404,nHarmfulPointwise,0,3,60_dca.tex:51; app_secondary.tex:293; app_secondary.tex:319,Simultaneous bands change what can be said; Simultaneous bands on the decision curve,round20_numbers.py,402,s26_bands.csv,False,False,False
 K405,nHarmfulSimultaneous,0,3,60_dca.tex:51; app_secondary.tex:295; app_secondary.tex:320,Simultaneous bands change what can be said; Simultaneous bands on the decision curve,round20_numbers.py,401,s26_bands.csv,False,False,False
-K406,nHeldOutLogs,1,2,90_backmatter.tex:68; app_protocol.tex:223,"Data availability; Targets, splits and exclusions",round21_numbers.py,440,r43_holdout.csv,False,False,False
+K406,nHeldOutLogs,1,2,90_backmatter.tex:69; app_protocol.tex:223,"Data availability; Targets, splits and exclusions",round21_numbers.py,440,r43_holdout.csv,False,False,False
 K407,nHighlights,5,0,,,round21_numbers.py,62,,True,False,False
 K408,nITSMPairs,8,1,30_design.tex:95,What the corpus does and does not have in common,round20_numbers.py,709,s01_surface.csv,False,False,False
 K409,nIncompleteFamilies,2,1,app_objects.tex:296,"The four interval objects, and what each ranges over",round20_numbers.py,140,s21_incomplete.csv,False,False,False
