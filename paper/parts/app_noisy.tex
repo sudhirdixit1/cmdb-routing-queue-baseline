@@ -130,3 +130,31 @@ observes, so the truth has to be marginalised over the corruption; the two
 experiments that found that and the check that guards it are in
 Supplement~\ref{app:noisy}.
 
+\subsection{Where the refit helps, and where the percentile interval fails}
+\label{app:refit}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+\textbf{Where the refit helps.} The nested basic interval covers at least as
+well as the fixed-model percentile interval on \nWorldsNestedAtLeastNaive\ of
+the \nWorldsSim\ worlds, and its median across them is
+\coverageNestedBasicMedian\ against the fixed-model interval's
+\coverageNaiveMedian. Both fall a little short of nominal on most worlds, by
+more than the Monte Carlo resolution.
+
+\textbf{Where the percentile interval fails, and why.} On the sparse world it
+collapses to \coverageSparsePct, and the \emph{nested} percentile interval is
+worse there than the fixed-model one. The cause is Section~\ref{sec:boot}: a
+bootstrap training resample holds about $63\%$ of the distinct register
+levels, so every refit sees a sparser register and the bootstrap distribution
+shifts below the estimate. The basic interval pivots that shift out and
+restores coverage --- \coverageSparseBasic\ --- and costs nothing where there
+was nothing to repair, at a median \coverageNestedBasicMedian\ and a minimum
+\coverageNestedBasicMin\ across all \nWorlds\ worlds. The bias-corrected
+percentile does \emph{not} repair the sparse world (\coverageSparseBc), which
+is why every interval and band in this paper uses the basic construction. The
+$m$-out-of-$n$ subsampling interval, the standard alternative in exactly this
+regime, does not win either: \coverageSparseMofn\ on the sparse world and a
+median \coverageMofnMedian\ across the \nWorldsMofnPriced\ worlds it was
+priced on.
+

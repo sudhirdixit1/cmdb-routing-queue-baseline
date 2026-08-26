@@ -201,3 +201,50 @@ test half and re-degrading must leave the training half's degraded values
 identical, which \texttt{results/s01\_trainonly.csv} records over \nTrainOnly\
 checks.
 
+\subsection{Targets, splits and the exclusion codes}
+\label{app:targets}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+\subsection{Targets, splits and exclusions}
+
+Two targets are defined for every log: \emph{handover}, whether more than one
+resource group touches the case, and \emph{duration}, whether the case runs
+longer than the training half's median. Cases are ordered by their first
+timestamp and split $70/30$; the rolling-origin scheme adds \nFolds\
+expanding-window folds. Fields that are determined only at closure are excluded by name, which is the
+standard leakage discipline \citep{kaufman2012leakage,kapoor2023leakage} and,
+for event logs specifically, the discipline of
+\citet{weytjens2022leakage}. A log--target pair is excluded only for a
+registered reason --- too few cases, no variation in the test half, a prevalence outside
+$[\prevLo, \prevHi]$, or the absence of one of the three roles --- and every
+exclusion is reported with its code in Table~\ref{tab:corpus}, which accounts
+for every downloaded log that is not among the admitted pairs --- including
+the \nHeldOutLogs\ that were downloaded as a held-out set for a separate test
+and never offered to these rules at all.
+
+
+\textbf{Every admitted pair is analysed and reported.} Running the full
+surface only on the logs whose \emph{reduction} is resolvable would condition
+the analysis on the outcome. The surface is computed on all \nPairs\ admitted
+pairs through one code path, and the pairs on which the register is worth
+nothing are in the same tables as the rest.
+
+\subsection{The admission margin at the upper edge}
+\label{app:margin}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+\paragraph{The pair carrying the most cells sits closest to the admission
+edge} \logAdmittedMaxPrev\ has the highest prevalence of any admitted pair,
+\prevAdmittedMax, against the window's upper bound of \prevHi; the nearest
+pair the headroom rule turns away, \logExcludedAboveMin, is at
+\prevExcludedAboveMin, and \nExcludedAbove\ pairs in all are excluded above
+the bound. That pair is also the largest single contributor to the corpus,
+carrying \nCellsLargestPair\ of the \nComputationalCells\ admissible scalar
+cells. A rule with a sharp edge decides some case narrowly, and this is that
+case: the corpus's biggest component is admitted on a margin narrower than
+the gap to the pairs excluded beside it. Table~\ref{tab:family} reports every
+headline statistic on the ITSM-like subset as well, which is the population
+that does not turn on this decision.
+

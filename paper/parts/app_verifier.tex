@@ -164,3 +164,27 @@ manuscript, and would have passed it silently. What caught it was constructing
 two experiments that could each have confirmed the comfortable reading and
 having both refuse to. No checker in this repository would have done that on
 its own.
+
+\subsection{The inference surface, the draw counts and the pipeline axis}
+\label{app:budget}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+\paragraph{The inference surface is smaller than the declared surface, and the
+grid is not uniform across the corpus}
+Every point estimate comes from the full declared space; every \emph{band}
+comes from the inference surface, a median \inferenceShareMedianPct\ of each
+pair's computational surface. It is a subset of the declared surface cell for
+cell and the share of positive cells differs between them by a median
+\repGapMedian, but a study with compute to spare should equate the two. The
+same budget shows in two further places. The draw counts run
+\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ as declared and
+\nDrawsEffectiveMin\ to \nDrawsSurfaceMax\ effectively, because a replicate
+that leaves any cell of a family without outcome variation is dropped from
+that family; the two families that lose the most sit on logs that also supply
+much of the sign disagreement of Section~\ref{sec:results-regret}, so the
+headline's largest contributors are also its noisiest. And the pipeline axis
+carries four levels on the case study's log and two or three elsewhere, by a
+rule declared on row count before the runs, so a sensitivity index computed on
+one pair is not strictly comparable with one computed on another.
+

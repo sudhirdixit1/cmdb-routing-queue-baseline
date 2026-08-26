@@ -24,24 +24,17 @@ median \coverageNaiveMedian\ and the nested basic interval
 \coverageNestedBasicMedian.
 
 \paragraph{Refitting inside the draw breaks the percentile interval}
-A bootstrap resample contains about $1 - e^{-1}$ of the distinct levels of a
-high-cardinality categorical, so with \cardF\ register levels every refit
-inside every draw sees a sparser register than the real training half and
-returns a smaller increment. The bootstrap distribution is then displaced
-relative to the estimate, and a percentile interval taken from a displaced
-distribution is a correct interval for the wrong quantity: it misses no matter
-how wide it is. On this corpus the displacement is small --- negative in
-\shiftNegativePct\ of cells, by a median \shiftMedian\ AUC --- but it bites in
-the regime the mechanism predicts: on the sparse world of
-Section~\ref{sec:sim} the percentile interval covers \coverageSparsePct\
-against a nominal $95\%$, \emph{worse} than the fixed-model interval refitting
-was meant to improve on. Every interval here is therefore the \emph{basic}
-(pivotal) interval
+A bootstrap resample holds about $1 - e^{-1}$ of a high-cardinality
+categorical's distinct levels, so every refit sees a sparser register and
+returns a smaller increment; the bootstrap distribution is displaced and a
+percentile interval taken from it is a correct interval for the wrong
+quantity. On the sparse world of Section~\ref{sec:sim} it covers
+\coverageSparsePct\ against a nominal $95\%$, \emph{worse} than the
+fixed-model interval refitting was meant to improve on. Every interval here
+is therefore the \emph{basic} (pivotal) interval
 $[\,2\hat{V} - q_{1-\alpha/2},\; 2\hat{V} - q_{\alpha/2}\,]$
-\citep{davison1997bootstrap}, which pivots the
-displacement out; simultaneous bands are recentred by the same shift, which is
-a property of the draws and so corrects a whole family at once
-(Table~\ref{tab:sim31}, and Supplement~\ref{app:noisy} for the diagnosis).
+\citep{davison1997bootstrap}, and simultaneous bands are recentred by the
+same shift (Supplement~\ref{app:pctfail}).
 
 \paragraph{A pivoted interval need not contain the estimate it is built from,
 and on this corpus \nCellsExcludingV\ cells do not}
@@ -56,16 +49,15 @@ whole-surface cells --- \shareCellsExcludingVPct\ --- on
 displacement to half-width has a median \dispOverHalfwidthMedian\ across
 pairs and \dispOverHalfwidthWorst\ on that pair.
 
-\textbf{It gets worse with the sample size, not better}, and that is the
-uncomfortable part. The displacement is a bias --- a resample holds about
-$1 - e^{-1}$ of the distinct levels however many rows it has --- so at a fixed
-ratio of cardinality to sample size it does not shrink with $n$, while the
+\textbf{It gets worse with the sample size, not better.} The displacement is
+a bias --- a resample holds about $1 - e^{-1}$ of the distinct levels however
+many rows it has --- so at a fixed ratio it does not shrink with $n$ while the
 half-width shrinks like $n^{-1/2}$. Section~\ref{sec:simsensitivity} locates
-the crossing: at a fixed ratio of \straddleRatio\ the interval straddles its
-own estimate in every replicate up to \nStraddleAllMax\ training rows and in
-only \shareStraddleAtHalfPct\ of them by \nStraddleHalfMin. The three pairs above are the corpus's pairs
-nearest that crossing, and Section~\ref{sec:regions} reports what it costs the
-coverage calibration.
+the crossing: at a ratio of \straddleRatio\ the interval straddles its own
+estimate in every replicate up to \nStraddleAllMax\ training rows and in only
+\shareStraddleAtHalfPct\ of them by \nStraddleHalfMin. The three pairs above
+are the corpus's nearest it, and Section~\ref{sec:regions} reports what it
+costs the coverage calibration.
 
 \subsection{Three surfaces, and which one a claim may quantify over}
 \label{sec:threesurfaces}

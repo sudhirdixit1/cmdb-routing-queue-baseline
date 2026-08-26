@@ -536,24 +536,17 @@ median \coverageNaiveMedian\ and the nested basic interval
 \coverageNestedBasicMedian.
 
 \paragraph{Refitting inside the draw breaks the percentile interval}
-A bootstrap resample contains about $1 - e^{-1}$ of the distinct levels of a
-high-cardinality categorical, so with \cardF\ register levels every refit
-inside every draw sees a sparser register than the real training half and
-returns a smaller increment. The bootstrap distribution is then displaced
-relative to the estimate, and a percentile interval taken from a displaced
-distribution is a correct interval for the wrong quantity: it misses no matter
-how wide it is. On this corpus the displacement is small --- negative in
-\shiftNegativePct\ of cells, by a median \shiftMedian\ AUC --- but it bites in
-the regime the mechanism predicts: on the sparse world of
-Section~\ref{sec:sim} the percentile interval covers \coverageSparsePct\
-against a nominal $95\%$, \emph{worse} than the fixed-model interval refitting
-was meant to improve on. Every interval here is therefore the \emph{basic}
-(pivotal) interval
+A bootstrap resample holds about $1 - e^{-1}$ of a high-cardinality
+categorical's distinct levels, so every refit sees a sparser register and
+returns a smaller increment; the bootstrap distribution is displaced and a
+percentile interval taken from it is a correct interval for the wrong
+quantity. On the sparse world of Section~\ref{sec:sim} it covers
+\coverageSparsePct\ against a nominal $95\%$, \emph{worse} than the
+fixed-model interval refitting was meant to improve on. Every interval here
+is therefore the \emph{basic} (pivotal) interval
 $[\,2\hat{V} - q_{1-\alpha/2},\; 2\hat{V} - q_{\alpha/2}\,]$
-\citep{davison1997bootstrap}, which pivots the
-displacement out; simultaneous bands are recentred by the same shift, which is
-a property of the draws and so corrects a whole family at once
-(Table~\ref{tab:sim31}, and Supplement~\ref{app:noisy} for the diagnosis).
+\citep{davison1997bootstrap}, and simultaneous bands are recentred by the
+same shift (Supplement~\ref{app:pctfail}).
 
 \paragraph{A pivoted interval need not contain the estimate it is built from,
 and on this corpus \nCellsExcludingV\ cells do not}
@@ -568,16 +561,15 @@ whole-surface cells --- \shareCellsExcludingVPct\ --- on
 displacement to half-width has a median \dispOverHalfwidthMedian\ across
 pairs and \dispOverHalfwidthWorst\ on that pair.
 
-\textbf{It gets worse with the sample size, not better}, and that is the
-uncomfortable part. The displacement is a bias --- a resample holds about
-$1 - e^{-1}$ of the distinct levels however many rows it has --- so at a fixed
-ratio of cardinality to sample size it does not shrink with $n$, while the
+\textbf{It gets worse with the sample size, not better.} The displacement is
+a bias --- a resample holds about $1 - e^{-1}$ of the distinct levels however
+many rows it has --- so at a fixed ratio it does not shrink with $n$ while the
 half-width shrinks like $n^{-1/2}$. Section~\ref{sec:simsensitivity} locates
-the crossing: at a fixed ratio of \straddleRatio\ the interval straddles its
-own estimate in every replicate up to \nStraddleAllMax\ training rows and in
-only \shareStraddleAtHalfPct\ of them by \nStraddleHalfMin. The three pairs above are the corpus's pairs
-nearest that crossing, and Section~\ref{sec:regions} reports what it costs the
-coverage calibration.
+the crossing: at a ratio of \straddleRatio\ the interval straddles its own
+estimate in every replicate up to \nStraddleAllMax\ training rows and in only
+\shareStraddleAtHalfPct\ of them by \nStraddleHalfMin. The three pairs above
+are the corpus's nearest it, and Section~\ref{sec:regions} reports what it
+costs the coverage calibration.
 
 \subsection{Three surfaces, and which one a claim may quantify over}
 \label{sec:threesurfaces}
@@ -877,28 +869,19 @@ are given their own role rather than being swept into $B_0$, because which
 Supplement~\ref{app:layers}.
 
 \subsection{Targets, splits and exclusions}
+\label{sec:targets}
 
-Two targets are defined for every log: \emph{handover}, whether more than one
-resource group touches the case, and \emph{duration}, whether the case runs
-longer than the training half's median. Cases are ordered by their first
-timestamp and split $70/30$; the rolling-origin scheme adds \nFolds\
-expanding-window folds. Fields that are determined only at closure are excluded by name, which is the
-standard leakage discipline \citep{kaufman2012leakage,kapoor2023leakage} and,
-for event logs specifically, the discipline of
-\citet{weytjens2022leakage}. A log--target pair is excluded only for a
-registered reason --- too few cases, no variation in the test half, a prevalence outside
-$[\prevLo, \prevHi]$, or the absence of one of the three roles --- and every
-exclusion is reported with its code in Table~\ref{tab:corpus}, which accounts
-for every downloaded log that is not among the admitted pairs --- including
-the \nHeldOutLogs\ that were downloaded as a held-out set for a separate test
-and never offered to these rules at all.
-
-
-\textbf{Every admitted pair is analysed and reported.} Running the full
-surface only on the logs whose \emph{reduction} is resolvable would condition
-the analysis on the outcome. The surface is computed on all \nPairs\ admitted
-pairs through one code path, and the pairs on which the register is worth
-nothing are in the same tables as the rest.
+Two targets are defined for every log --- \emph{handover}, whether more than
+one resource group touches the case, and \emph{duration}, whether it runs
+longer than the training half's median. Cases are ordered by first timestamp
+and split $70/30$, with \nFolds\ expanding-window rolling-origin folds
+beside it, and fields determined only at closure are excluded by name
+\citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}. A pair is
+excluded only for a registered reason, and \textbf{every admitted pair is
+analysed and reported} --- running the surface only where the reduction
+resolves would condition the analysis on the outcome.
+Supplement~\ref{app:targets} gives the rules, the exclusion codes and the
+admission margin at the upper edge of the prevalence window.
 
 \subsection{What the corpus does and does not have in common}
 \label{sec:construct}
@@ -922,19 +905,6 @@ a cardinality-and-reuse rule, and it is not a configuration management
 database; a legal article is reused across cases but nobody maintains a
 discovery process for it. Those are threats, they are named per pair, and the
 paper's conclusions are stated at a level that survives them.
-
-\paragraph{The pair carrying the most cells sits closest to the admission
-edge} \logAdmittedMaxPrev\ has the highest prevalence of any admitted pair,
-\prevAdmittedMax, against the window's upper bound of \prevHi; the nearest
-pair the headroom rule turns away, \logExcludedAboveMin, is at
-\prevExcludedAboveMin, and \nExcludedAbove\ pairs in all are excluded above
-the bound. That pair is also the largest single contributor to the corpus,
-carrying \nCellsLargestPair\ of the \nComputationalCells\ admissible scalar
-cells. A rule with a sharp edge decides some case narrowly, and this is that
-case: the corpus's biggest component is admitted on a margin narrower than
-the gap to the pairs excluded beside it. Table~\ref{tab:family} reports every
-headline statistic on the ITSM-like subset as well, which is the population
-that does not turn on this decision.
 
 This is therefore a \emph{benchmark of specification sensitivity across
 heterogeneous prediction problems}, not a replication of one finding on
@@ -1068,15 +1038,6 @@ records.
 \subsection{Resolution regions, and the coverage they have}
 \label{sec:regions}
 
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.92\linewidth]{figS3_regions.png}
-\caption{The robustness index $\rho$ per log--target pair, with the region
-label, under the coverage-calibrated critical value. $\rho = 1$, the dotted
-line, is the only state in which a single positive number is a safe summary.}
-\label{fig:regions}
-\end{figure}
 
 Table~\ref{tab:calbands} and Figure~\ref{fig:regions} carry the region labels
 and the robustness index for every pair, computed on the inference surface
@@ -1601,28 +1562,13 @@ $\simCoverageSE$ percentage points at \nSimReps\ replicates, which is the
 resolution every comparison here should be read at;
 Figure~\ref{fig:coverage} draws them by construction and world.
 
-\textbf{Where the refit helps.} The nested basic interval covers at least as
-well as the fixed-model percentile interval on \nWorldsNestedAtLeastNaive\ of
-the \nWorldsSim\ worlds, and its median across them is
-\coverageNestedBasicMedian\ against the fixed-model interval's
-\coverageNaiveMedian. Both fall a little short of nominal on most worlds, by
-more than the Monte Carlo resolution.
-
-\textbf{Where the percentile interval fails, and why.} On the sparse world it
-collapses to \coverageSparsePct, and the \emph{nested} percentile interval is
-worse there than the fixed-model one. The cause is Section~\ref{sec:boot}: a
-bootstrap training resample holds about $63\%$ of the distinct register
-levels, so every refit sees a sparser register and the bootstrap distribution
-shifts below the estimate. The basic interval pivots that shift out and
-restores coverage --- \coverageSparseBasic\ --- and costs nothing where there
-was nothing to repair, at a median \coverageNestedBasicMedian\ and a minimum
-\coverageNestedBasicMin\ across all \nWorlds\ worlds. The bias-corrected
-percentile does \emph{not} repair the sparse world (\coverageSparseBc), which
-is why every interval and band in this paper uses the basic construction. The
-$m$-out-of-$n$ subsampling interval, the standard alternative in exactly this
-regime, does not win either: \coverageSparseMofn\ on the sparse world and a
-median \coverageMofnMedian\ across the \nWorldsMofnPriced\ worlds it was
-priced on.
+\textbf{Where the refit helps, and where the percentile interval fails.} The
+nested basic interval covers a median \coverageNestedBasicMedian\ against the
+fixed-model interval's \coverageNaiveMedian; on the sparse world the
+\emph{percentile} interval collapses to \coverageSparsePct\ and the basic
+construction restores it to \coverageSparseBasic, which is why every interval
+and band here is the basic one (Supplement~\ref{app:refit};
+Table~\ref{tab:sim31}).
 
 \textbf{What no interval repairs.} Against $V_{\mathrm{oracle}}$ rather than
 $V_{\mathrm{limit}}$, every construction undercovers on the drifting world ---
@@ -1800,23 +1746,12 @@ the quality axis being averaged over: a surface is asked to be resolvably
 beneficial in cells where three quarters of the register has been deleted,
 which is part of why no surface here is uniformly beneficial.
 
-\paragraph{The inference surface is smaller than the declared surface, and the
-grid is not uniform across the corpus}
+\paragraph{The inference surface is smaller than the declared surface}
 Every point estimate comes from the full declared space; every \emph{band}
 comes from the inference surface, a median \inferenceShareMedianPct\ of each
-pair's computational surface. It is a subset of the declared surface cell for
-cell and the share of positive cells differs between them by a median
-\repGapMedian, but a study with compute to spare should equate the two. The
-same budget shows in two further places. The draw counts run
-\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ as declared and
-\nDrawsEffectiveMin\ to \nDrawsSurfaceMax\ effectively, because a replicate
-that leaves any cell of a family without outcome variation is dropped from
-that family; the two families that lose the most sit on logs that also supply
-much of the sign disagreement of Section~\ref{sec:results-regret}, so the
-headline's largest contributors are also its noisiest. And the pipeline axis
-carries four levels on the case study's log and two or three elsewhere, by a
-rule declared on row count before the runs, so a sensitivity index computed on
-one pair is not strictly comparable with one computed on another.
+pair's computational surface, and the draw counts run \nDrawsSurfaceMin\ to
+\nDrawsSurfaceMax\ as declared. Supplement~\ref{app:budget} gives what that
+budget costs and where it binds.
 
 \paragraph{Every weighted quantity depends on a measure that is a modelling
 choice}

@@ -64,20 +64,20 @@ K062,auditThetaStatedPct,27\%,1,app_pilot.tex:119,"The prevalence estimates, and
 K063,auditWeightIn,1.000,1,app_pilot.tex:136,"The prevalence estimates, and their denominators",round20_numbers.py,478,s30_facts.csv,False,False,False
 K064,auditWeightOut,2.625,1,app_pilot.tex:138,"The prevalence estimates, and their denominators",round20_numbers.py,479,s30_facts.csv,False,False,False
 K065,auditWilsonWidthPct,27\%,1,app_pilot.tex:151,"The prevalence estimates, and their denominators",round20_numbers.py,482,s30_facts.csv,True,False,False
-K066,bandCoverageSEMax,1.1\%,1,75_simulation.tex:134,The band's family-wise coverage,round21_numbers.py,1046,s41_profile.csv,False,False,False
+K066,bandCoverageSEMax,1.1\%,1,75_simulation.tex:119,The band's family-wise coverage,round21_numbers.py,1046,s41_profile.csv,False,False,False
 K067,biasNoisyBefore,$-0.0353$,3,app_corrections.tex:94; app_noisy.tex:5; app_noisy.tex:99,"The two estimands, and the marginalisation",make_numbers.py,466,s10_coverage_wrongtruth.csv,False,False,False
-K068,biasOracleMax,0.0161,1,75_simulation.tex:59,"Coverage, bias and width",round20_numbers.py,702,,False,False,False
-K069,blockSparseGapMin,46.4\%,1,75_simulation.tex:108,"Sample size, register cardinality and block length",round20_numbers.py,637,s31_coverage.csv,False,False,False
+K068,biasOracleMax,0.0161,1,75_simulation.tex:44,"Coverage, bias and width",round20_numbers.py,702,,False,False,False
+K069,blockSparseGapMin,46.4\%,1,75_simulation.tex:93,"Sample size, register cardinality and block length",round20_numbers.py,637,s31_coverage.csv,False,False,False
 K070,calAtMedianPair,1.34,0,,,round21_numbers.py,327,s33_regions.csv,False,False,False
-K071,calFactorMax,1.88,2,75_simulation.tex:161; 80_limits.tex:155,Limitations; The band's family-wise coverage,round21_numbers.py,334,s33_cells.csv,False,False,True
+K071,calFactorMax,1.88,2,75_simulation.tex:146; 80_limits.tex:144,Limitations; The band's family-wise coverage,round21_numbers.py,334,s33_cells.csv,False,False,True
 K072,calFactorMedian,1.29,0,,,round21_numbers.py,335,s33_cells.csv,False,False,False
-K073,calFactorMin,1.09,2,75_simulation.tex:161; 80_limits.tex:155,Limitations; The band's family-wise coverage,round21_numbers.py,333,s33_cells.csv,False,False,True
+K073,calFactorMin,1.09,2,75_simulation.tex:146; 80_limits.tex:144,Limitations; The band's family-wise coverage,round21_numbers.py,333,s33_cells.csv,False,False,True
 K074,calIntercept,1.815,0,,,round21_numbers.py,326,s33_regions.csv,False,False,False
-K075,calMax,1.77,1,40_multilog.tex:152,"Resolution regions, and the coverage they have",round21_numbers.py,400,s33_sensitivity.csv,False,False,False
-K076,calMin,1.18,1,40_multilog.tex:152,"Resolution regions, and the coverage they have",round21_numbers.py,399,s33_sensitivity.csv,False,False,False
-K077,calSlope,0.102,2,40_multilog.tex:151; app_calibration.tex:27,"A monotone fit, not a parametric one; Resolution regions, and the coverage they have",round21_numbers.py,324,s33_regions.csv,False,False,False
-K078,calSlopeSe,0.005,2,40_multilog.tex:151; app_calibration.tex:27,"A monotone fit, not a parametric one; Resolution regions, and the coverage they have",round21_numbers.py,325,s33_regions.csv,False,False,False
-K079,cardF,"3{,}019",3,20_inference.tex:28; 50_cmdb.tex:10; app_objects.tex:244,"Case study: a configuration management database; The estimator, and uncertainty that includes the model; The pipeline, and what the estimator holds fixed",make_numbers.py,266,s10_coverage.csv,True,False,False
+K075,calMax,1.77,1,40_multilog.tex:143,"Resolution regions, and the coverage they have",round21_numbers.py,400,s33_sensitivity.csv,False,False,False
+K076,calMin,1.18,1,40_multilog.tex:143,"Resolution regions, and the coverage they have",round21_numbers.py,399,s33_sensitivity.csv,False,False,False
+K077,calSlope,0.102,2,40_multilog.tex:142; app_calibration.tex:27,"A monotone fit, not a parametric one; Resolution regions, and the coverage they have",round21_numbers.py,324,s33_regions.csv,False,False,False
+K078,calSlopeSe,0.005,2,40_multilog.tex:142; app_calibration.tex:27,"A monotone fit, not a parametric one; Resolution regions, and the coverage they have",round21_numbers.py,325,s33_regions.csv,False,False,False
+K079,cardF,"3{,}019",3,50_cmdb.tex:10; app_objects.tex:244; app_objects.tex:406,"Case study: a configuration management database; The pipeline, and what the estimator holds fixed; Why refitting inside the draw breaks the percentile interval",make_numbers.py,266,s10_coverage.csv,True,False,False
 K080,cardTauZero,"4{,}034",1,app_secondary.tex:585,"The three decision times, moment by moment",round21_numbers.py,775,s38_facts.csv,False,False,False
 K081,casePrevalence,0.400,2,50_cmdb.tex:23; 50_cmdb.tex:42,"One log, two published answers, and what separates them",make_numbers.py,280,s38_facts.csv,False,False,False
 K082,casePrevalenceTest,0.372,1,50_cmdb.tex:23,"One log, two published answers, and what separates them",make_numbers.py,283,s38_facts.csv,False,False,False
@@ -86,13 +86,13 @@ K084,certificateMaxShift,1.942,0,,,round20_numbers.py,450,s29_facts.csv,False,Fa
 K085,certificateMinShift,0.241,1,10_surface.tex:210,Two propositions,round20_numbers.py,449,s29_facts.csv,True,False,False
 K086,concentratedFirstOrderPct,39.2\%,2,40_multilog.tex:91; app_secondary.tex:479,"The measure, the target axis, and which axis leads; What the choices are worth",round20_numbers.py,240,s22_indices.csv,False,False,False
 K087,corpusKurtMedDca,0.39,0,,,round21_numbers.py,1077,s41_profile.csv,False,False,False
-K088,corpusKurtMedWhole,0.32,1,75_simulation.tex:140,The band's family-wise coverage,round21_numbers.py,1075,s41_profile.csv,False,False,False
+K088,corpusKurtMedWhole,0.32,1,75_simulation.tex:125,The band's family-wise coverage,round21_numbers.py,1075,s41_profile.csv,False,False,False
 K089,corpusKurtNinetyDca,5.9,0,,,round21_numbers.py,1078,s41_profile.csv,False,False,False
-K090,corpusKurtNinetyWhole,3.6,1,75_simulation.tex:141,The band's family-wise coverage,round21_numbers.py,1076,s41_profile.csv,False,False,False
-K091,corpusNtrainHi,"176{,}213",2,40_multilog.tex:162; app_calibration.tex:72,"Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,167,s01_surface.csv.gz,False,False,False
-K092,corpusNtrainLo,735,2,40_multilog.tex:162; app_calibration.tex:72,"Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,166,s01_surface.csv.gz,False,False,False
+K090,corpusKurtNinetyWhole,3.6,1,75_simulation.tex:126,The band's family-wise coverage,round21_numbers.py,1076,s41_profile.csv,False,False,False
+K091,corpusNtrainHi,"176{,}213",2,40_multilog.tex:153; app_calibration.tex:72,"Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,167,s01_surface.csv.gz,False,False,False
+K092,corpusNtrainLo,735,2,40_multilog.tex:153; app_calibration.tex:72,"Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,166,s01_surface.csv.gz,False,False,False
 K093,corpusRatioMax,0.324,1,app_calibration.tex:138,"The $(n,K)$ grid, cell by cell",round20_numbers.py,175,s01_surface.csv,False,False,False
-K094,corpusRatioMedian,0.106,2,75_simulation.tex:81; app_calibration.tex:137,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round20_numbers.py,174,s01_surface.csv,False,False,False
+K094,corpusRatioMedian,0.106,2,75_simulation.tex:66; app_calibration.tex:137,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round20_numbers.py,174,s01_surface.csv,False,False,False
 K095,corpusRatioMin,0.001,1,app_calibration.tex:138,"The $(n,K)$ grid, cell by cell",round20_numbers.py,176,s01_surface.csv,False,False,False
 K096,corruptLevel,15\%,0,,,make_numbers.py,708,s02_cells.csv,False,False,False
 K097,covEmpDegenMedian,89.0\%,0,,,round21_numbers.py,1052,s41_profile.csv,False,False,False
@@ -105,60 +105,60 @@ K103,covEmpHiDegenMedian,91.4\%,0,,,round21_numbers.py,1052,s41_profile.csv,Fals
 K104,covEmpHiDegenMin,88.9\%,0,,,round21_numbers.py,1054,s41_profile.csv,False,False,False
 K105,covEmpHiGaussMedian,92.1\%,0,,,round21_numbers.py,1052,s41_profile.csv,False,False,False
 K106,covEmpHiGaussMin,72.6\%,0,,,round21_numbers.py,1054,s41_profile.csv,False,False,False
-K107,covEmpHiHeavyMedian,92.2\%,2,20_inference.tex:175; 75_simulation.tex:176,Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1052,s41_profile.csv,False,False,False
-K108,covEmpHiHeavyMin,86.5\%,2,20_inference.tex:175; 75_simulation.tex:178,Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1054,s41_profile.csv,False,False,False
-K109,covMultBootEighty,90.9\%,1,20_inference.tex:185,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1061,s41_profile.csv,False,False,False
-K110,covMultBootFourHundred,95.8\%,2,20_inference.tex:186; 80_limits.tex:146,Limitations; Simultaneous bands over the family the claim ranges over,round21_numbers.py,1061,s41_profile.csv,False,False,True
-K111,covMultBootOneFifty,94.4\%,1,20_inference.tex:185,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1061,s41_profile.csv,False,False,False
-K112,covMultBootOneThousand,96.6\%,1,75_simulation.tex:169,The band's family-wise coverage,round21_numbers.py,1061,s41_profile.csv,False,False,False
-K113,covMultBootThirtyThree,82.0\%,3,20_inference.tex:184; 75_simulation.tex:168; 80_limits.tex:145,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1061,s41_profile.csv,False,False,True
-K114,covMultDegenMedian,84.4\%,1,75_simulation.tex:144,The band's family-wise coverage,round21_numbers.py,1052,s41_profile.csv,False,False,False
-K115,covMultDegenMin,39.2\%,1,75_simulation.tex:144,The band's family-wise coverage,round21_numbers.py,1054,s41_profile.csv,False,False,False
-K116,covMultGaussMedian,87.3\%,3,20_inference.tex:160; 75_simulation.tex:138; 80_limits.tex:138,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1052,s41_profile.csv,False,False,True
-K117,covMultGaussMin,74.8\%,3,20_inference.tex:161; 75_simulation.tex:139; 80_limits.tex:138,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1054,s41_profile.csv,False,False,True
-K118,covMultHeavyMedian,84.6\%,4,20_inference.tex:163; 20_inference.tex:168; 75_simulation.tex:142; 80_limits.tex:137,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1052,s41_profile.csv,False,False,True
-K119,covMultHeavyMin,76.1\%,3,20_inference.tex:163; 75_simulation.tex:142; 80_limits.tex:137,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1054,s41_profile.csv,False,False,True
+K107,covEmpHiHeavyMedian,92.2\%,2,20_inference.tex:167; 75_simulation.tex:161,Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1052,s41_profile.csv,False,False,False
+K108,covEmpHiHeavyMin,86.5\%,2,20_inference.tex:167; 75_simulation.tex:163,Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1054,s41_profile.csv,False,False,False
+K109,covMultBootEighty,90.9\%,1,20_inference.tex:177,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1061,s41_profile.csv,False,False,False
+K110,covMultBootFourHundred,95.8\%,2,20_inference.tex:178; 80_limits.tex:135,Limitations; Simultaneous bands over the family the claim ranges over,round21_numbers.py,1061,s41_profile.csv,False,False,True
+K111,covMultBootOneFifty,94.4\%,1,20_inference.tex:177,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1061,s41_profile.csv,False,False,False
+K112,covMultBootOneThousand,96.6\%,1,75_simulation.tex:154,The band's family-wise coverage,round21_numbers.py,1061,s41_profile.csv,False,False,False
+K113,covMultBootThirtyThree,82.0\%,3,20_inference.tex:176; 75_simulation.tex:153; 80_limits.tex:134,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1061,s41_profile.csv,False,False,True
+K114,covMultDegenMedian,84.4\%,1,75_simulation.tex:129,The band's family-wise coverage,round21_numbers.py,1052,s41_profile.csv,False,False,False
+K115,covMultDegenMin,39.2\%,1,75_simulation.tex:129,The band's family-wise coverage,round21_numbers.py,1054,s41_profile.csv,False,False,False
+K116,covMultGaussMedian,87.3\%,3,20_inference.tex:152; 75_simulation.tex:123; 80_limits.tex:127,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1052,s41_profile.csv,False,False,True
+K117,covMultGaussMin,74.8\%,3,20_inference.tex:153; 75_simulation.tex:124; 80_limits.tex:127,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1054,s41_profile.csv,False,False,True
+K118,covMultHeavyMedian,84.6\%,4,20_inference.tex:155; 20_inference.tex:160; 75_simulation.tex:127; 80_limits.tex:126,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1052,s41_profile.csv,False,False,True
+K119,covMultHeavyMin,76.1\%,3,20_inference.tex:155; 75_simulation.tex:127; 80_limits.tex:126,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1054,s41_profile.csv,False,False,True
 K120,covMultHiDegenMedian,84.8\%,0,,,round21_numbers.py,1052,s41_profile.csv,False,False,False
 K121,covMultHiDegenMin,39.4\%,0,,,round21_numbers.py,1054,s41_profile.csv,False,False,False
 K122,covMultHiGaussMedian,87.9\%,0,,,round21_numbers.py,1052,s41_profile.csv,False,False,False
 K123,covMultHiGaussMin,75.6\%,0,,,round21_numbers.py,1054,s41_profile.csv,False,False,False
-K124,covMultHiHeavyMedian,84.8\%,1,20_inference.tex:168,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1052,s41_profile.csv,False,False,False
+K124,covMultHiHeavyMedian,84.8\%,1,20_inference.tex:160,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1052,s41_profile.csv,False,False,False
 K125,covMultHiHeavyMin,76.6\%,0,,,round21_numbers.py,1054,s41_profile.csv,False,False,False
 K126,covPercellBootEighty,92.4\%,0,,,round21_numbers.py,1062,s41_profile.csv,False,False,False
-K127,covPercellBootFourHundred,94.6\%,1,20_inference.tex:188,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1062,s41_profile.csv,False,False,False
+K127,covPercellBootFourHundred,94.6\%,1,20_inference.tex:180,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1062,s41_profile.csv,False,False,False
 K128,covPercellBootOneFifty,94.0\%,0,,,round21_numbers.py,1062,s41_profile.csv,False,False,False
-K129,covPercellBootOneThousand,94.9\%,1,75_simulation.tex:171,The band's family-wise coverage,round21_numbers.py,1062,s41_profile.csv,False,False,False
-K130,covPercellBootThirtyThree,90.3\%,2,20_inference.tex:187; 75_simulation.tex:171,Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1062,s41_profile.csv,False,False,False
+K129,covPercellBootOneThousand,94.9\%,1,75_simulation.tex:156,The band's family-wise coverage,round21_numbers.py,1062,s41_profile.csv,False,False,False
+K130,covPercellBootThirtyThree,90.3\%,2,20_inference.tex:179; 75_simulation.tex:156,Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1062,s41_profile.csv,False,False,False
 K131,covRadDegenMedian,79.6\%,0,,,round21_numbers.py,1052,s41_profile.csv,False,False,False
 K132,covRadDegenMin,24.5\%,0,,,round21_numbers.py,1054,s41_profile.csv,False,False,False
 K133,covRadGaussMedian,82.9\%,0,,,round21_numbers.py,1052,s41_profile.csv,False,False,False
 K134,covRadGaussMin,60.1\%,0,,,round21_numbers.py,1054,s41_profile.csv,False,False,False
-K135,covRadHeavyMedian,80.7\%,2,20_inference.tex:179; 75_simulation.tex:181,Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1052,s41_profile.csv,False,False,False
+K135,covRadHeavyMedian,80.7\%,2,20_inference.tex:171; 75_simulation.tex:166,Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1052,s41_profile.csv,False,False,False
 K136,covRadHeavyMin,63.1\%,0,,,round21_numbers.py,1054,s41_profile.csv,False,False,False
 K137,coverageBlockMax,92.0\%,0,,,round20_numbers.py,611,s31_coverage.csv,False,False,False
 K138,coverageBlockMin,83.6\%,0,,,round20_numbers.py,610,s31_coverage.csv,False,False,False
-K139,coverageBlockSpreadMax,3.6\%,2,75_simulation.tex:105; 80_limits.tex:182,"Limitations; Sample size, register cardinality and block length",round20_numbers.py,625,s31_coverage.csv,False,False,True
-K140,coverageDriftOracle,65.8\%,1,75_simulation.tex:57,"Coverage, bias and width",round20_numbers.py,668,,False,False,False
-K141,coverageGridMedian,83.3\%,2,75_simulation.tex:73; app_calibration.tex:116,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round20_numbers.py,551,s31_coverage.csv,False,False,False
-K142,coverageGridMin,21.3\%,2,75_simulation.tex:74; app_calibration.tex:117,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round20_numbers.py,550,s31_coverage.csv,False,False,False
+K139,coverageBlockSpreadMax,3.6\%,2,75_simulation.tex:90; 80_limits.tex:171,"Limitations; Sample size, register cardinality and block length",round20_numbers.py,625,s31_coverage.csv,False,False,True
+K140,coverageDriftOracle,65.8\%,1,75_simulation.tex:42,"Coverage, bias and width",round20_numbers.py,668,,False,False,False
+K141,coverageGridMedian,83.3\%,2,75_simulation.tex:58; app_calibration.tex:116,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round20_numbers.py,551,s31_coverage.csv,False,False,False
+K142,coverageGridMin,21.3\%,2,75_simulation.tex:59; app_calibration.tex:117,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round20_numbers.py,550,s31_coverage.csv,False,False,False
 K143,coverageGridSafeMax,90.7\%,1,app_calibration.tex:119,"The $(n,K)$ grid, cell by cell",round20_numbers.py,588,s31_coverage.csv,False,False,False
 K144,coverageGridSafeMin,88.7\%,1,app_calibration.tex:118,"The $(n,K)$ grid, cell by cell",round20_numbers.py,586,s31_coverage.csv,False,False,False
-K145,coverageMofnMedian,75.8\%,1,75_simulation.tex:52,"Coverage, bias and width",round20_numbers.py,546,s31_coverage.csv,False,False,False
+K145,coverageMofnMedian,75.8\%,1,app_noisy.tex:158,"Where the refit helps, and where the percentile interval fails",round20_numbers.py,546,s31_coverage.csv,False,False,False
 K146,coverageNaiveBasicMedian,92.0\%,0,,,round20_numbers.py,532,s31_coverage.csv,False,False,False
-K147,coverageNaiveMedian,92.1\%,3,20_inference.tex:23; 75_simulation.tex:36; app_objects.tex:264,"Coverage, bias and width; The estimator, and uncertainty that includes the model; The pipeline, and what the estimator holds fixed",round20_numbers.py,531,s31_coverage.csv,True,False,False
+K147,coverageNaiveMedian,92.1\%,4,20_inference.tex:23; 75_simulation.tex:34; app_noisy.tex:142; app_objects.tex:264,"Coverage, bias and width; The estimator, and uncertainty that includes the model; The pipeline, and what the estimator holds fixed",round20_numbers.py,531,s31_coverage.csv,True,False,False
 K148,coverageNaiveMin,63.5\%,0,,,make_numbers.py,538,s17_facts.csv,False,False,False
-K149,coverageNestedBasicMedian,93.0\%,4,20_inference.tex:24; 75_simulation.tex:35; 75_simulation.tex:46; app_objects.tex:265,"Coverage, bias and width; The estimator, and uncertainty that includes the model; The pipeline, and what the estimator holds fixed",round20_numbers.py,536,s31_coverage.csv,True,False,False
-K150,coverageNestedBasicMin,89.9\%,1,75_simulation.tex:47,"Coverage, bias and width",round20_numbers.py,538,s31_coverage.csv,True,False,False
+K149,coverageNestedBasicMedian,93.0\%,5,20_inference.tex:24; 75_simulation.tex:33; app_noisy.tex:141; app_noisy.tex:152; app_objects.tex:265,"Coverage, bias and width; The estimator, and uncertainty that includes the model; The pipeline, and what the estimator holds fixed",round20_numbers.py,536,s31_coverage.csv,True,False,False
+K150,coverageNestedBasicMin,89.9\%,1,app_noisy.tex:153,"Where the refit helps, and where the percentile interval fails",round20_numbers.py,538,s31_coverage.csv,True,False,False
 K151,coverageNestedBcMedian,92.2\%,0,,,round20_numbers.py,540,s31_coverage.csv,False,False,False
 K152,coverageNestedBcMin,63.1\%,0,,,round20_numbers.py,541,s31_coverage.csv,False,False,False
 K153,coverageNestedMedian,93.8\%,0,,,round20_numbers.py,534,s31_coverage.csv,True,False,False
 K154,coverageNestedMin,37.2\%,0,,,round20_numbers.py,535,s31_coverage.csv,True,False,False
 K155,coverageNoisyAfter,94.8\%,1,app_noisy.tex:51,,round20_numbers.py,674,,False,False,False
 K156,coverageNoisyBefore,7.0\%,3,app_corrections.tex:93; app_noisy.tex:4; app_noisy.tex:98,"The two estimands, and the marginalisation",make_numbers.py,464,s10_coverage_wrongtruth.csv,False,False,False
-K157,coverageSparseBasic,89.9\%,1,75_simulation.tex:45,"Coverage, bias and width",round20_numbers.py,543,s31_coverage.csv,True,False,False
-K158,coverageSparseBc,63.1\%,1,75_simulation.tex:48,"Coverage, bias and width",round20_numbers.py,544,s31_coverage.csv,False,False,False
-K159,coverageSparseMofn,72.8\%,1,75_simulation.tex:51,"Coverage, bias and width",round20_numbers.py,547,s31_coverage.csv,False,False,False
-K160,coverageSparsePct,37.2\%,2,20_inference.tex:36; 75_simulation.tex:40,"Coverage, bias and width; The estimator, and uncertainty that includes the model",round20_numbers.py,542,s31_coverage.csv,False,False,False
+K157,coverageSparseBasic,89.9\%,2,75_simulation.tex:36; app_noisy.tex:151,"Coverage, bias and width; Where the refit helps, and where the percentile interval fails",round20_numbers.py,543,s31_coverage.csv,True,False,False
+K158,coverageSparseBc,63.1\%,1,app_noisy.tex:154,"Where the refit helps, and where the percentile interval fails",round20_numbers.py,544,s31_coverage.csv,False,False,False
+K159,coverageSparseMofn,72.8\%,1,app_noisy.tex:157,"Where the refit helps, and where the percentile interval fails",round20_numbers.py,547,s31_coverage.csv,False,False,False
+K160,coverageSparsePct,37.2\%,4,20_inference.tex:32; 75_simulation.tex:35; app_noisy.tex:146; app_objects.tex:414,"Coverage, bias and width; The estimator, and uncertainty that includes the model; Where the refit helps, and where the percentile interval fails",round20_numbers.py,542,s31_coverage.csv,False,False,False
 K161,crossTargetAgreement,45\%,0,,,make_numbers.py,784,s16_facts.csv,False,False,False
 K162,crossedHigherOrderPct,27.5\%,0,,,round21_numbers.py,680,s37_facts.csv,False,False,False
 K163,dcBandWidth,0.0136,1,app_secondary.tex:306,Simultaneous bands on the decision curve,round20_numbers.py,397,s26_bands.csv,False,False,False
@@ -169,19 +169,19 @@ K167,dcaHarmfulPointwise,3,1,app_secondary.tex:325,Simultaneous bands on the dec
 K168,dcaHarmfulSimultaneous,1,1,app_secondary.tex:325,Simultaneous bands on the decision curve,round21_numbers.py,426,s26_facts.csv,True,False,False
 K169,dcaQ,3.57,1,app_secondary.tex:305,Simultaneous bands on the decision curve,round20_numbers.py,408,s26_bands.csv,False,False,False
 K170,dcaSignChangePct,27.4\%,1,app_secondary.tex:272,Calibration before the decision curve,round20_numbers.py,373,s26_calibration.csv,False,False,False
-K171,deliveredPerThousand,0.003,3,60_dca.tex:85; 80_limits.tex:256; app_secondary.tex:449,"Conclusion; The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,638,s35_facts.csv,False,False,True
-K172,deltaCohortAtTau,$-0.0297$,2,80_limits.tex:261; app_secondary.tex:611,"Conclusion; The three decision times, moment by moment",round21_numbers.py,779,s38_facts.csv,True,False,True
+K171,deliveredPerThousand,0.003,3,60_dca.tex:85; 80_limits.tex:245; app_secondary.tex:449,"Conclusion; The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,638,s35_facts.csv,False,False,True
+K172,deltaCohortAtTau,$-0.0297$,2,80_limits.tex:250; app_secondary.tex:611,"Conclusion; The three decision times, moment by moment",round21_numbers.py,779,s38_facts.csv,True,False,True
 K173,deltaCohortStep,$-0.00098$,0,,,round21_numbers.py,307,s32_tiebreak.csv,False,False,False
-K174,deltaPopulationResidual,$-0.0076$,2,80_limits.tex:263; app_secondary.tex:614,"Conclusion; The three decision times, moment by moment",round21_numbers.py,788,s38_facts.csv,True,False,True
-K175,deltaSnapshotAtTau,$-0.0099$,2,80_limits.tex:262; app_secondary.tex:613,"Conclusion; The three decision times, moment by moment",round21_numbers.py,787,s38_facts.csv,True,False,True
+K174,deltaPopulationResidual,$-0.0076$,2,80_limits.tex:252; app_secondary.tex:614,"Conclusion; The three decision times, moment by moment",round21_numbers.py,788,s38_facts.csv,True,False,True
+K175,deltaSnapshotAtTau,$-0.0099$,2,80_limits.tex:251; app_secondary.tex:613,"Conclusion; The three decision times, moment by moment",round21_numbers.py,787,s38_facts.csv,True,False,True
 K176,deltaSnapshotUnmatched,$-0.0175$,1,app_secondary.tex:617,"The three decision times, moment by moment",round21_numbers.py,790,s38_facts.csv,True,False,False
 K177,deltaTargetStep,$+0.01153$,0,,,round21_numbers.py,309,s32_tiebreak.csv,False,False,False
 K178,deltaTiebreak,$+0.00035$,0,,,round21_numbers.py,305,s32_tiebreak.csv,False,False,False
 K179,deskQhi,0.36,2,60_dca.tex:71; app_secondary.tex:426,"The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,630,s35_facts.csv,False,False,False
 K180,deskQlo,0.08,2,60_dca.tex:71; app_secondary.tex:426,"The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,628,s35_facts.csv,False,False,False
 K181,deskQmid,0.19,2,60_dca.tex:71; app_secondary.tex:426,"The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,629,s35_facts.csv,False,False,False
-K182,dispOverHalfwidthMedian,0.09,1,20_inference.tex:56,"The estimator, and uncertainty that includes the model",round21_numbers.py,122,s40_facts.csv,False,False,False
-K183,dispOverHalfwidthWorst,0.45,1,20_inference.tex:57,"The estimator, and uncertainty that includes the model",round21_numbers.py,124,s40_facts.csv,False,False,False
+K182,dispOverHalfwidthMedian,0.09,1,20_inference.tex:49,"The estimator, and uncertainty that includes the model",round21_numbers.py,122,s40_facts.csv,False,False,False
+K183,dispOverHalfwidthWorst,0.45,1,20_inference.tex:50,"The estimator, and uncertainty that includes the model",round21_numbers.py,124,s40_facts.csv,False,False,False
 K184,doiBPICfourteen,\url{https://doi.org/10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35},1,90_backmatter.tex:60,Data availability,make_numbers.py,785,s16_facts.csv,False,False,False
 K185,doiBPICthirteen,\url{https://doi.org/10.4121/uuid:500573e6-accc-4b0c-9576-aa5468b10cee},1,90_backmatter.tex:60,Data availability,make_numbers.py,787,s16_facts.csv,False,False,False
 K186,eceIsoMedian,0.089,1,app_secondary.tex:269,Calibration before the decision curve,round20_numbers.py,370,s26_calibration.csv,True,False,False
@@ -200,7 +200,7 @@ K198,excessOneNumberAuc,0.0045,0,,,round20_numbers.py,276,s23_facts.csv,True,Fal
 K199,excessOneNumberDesk,0.000,2,60_dca.tex:79; app_secondary.tex:436,"The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,633,s35_facts.csv,False,False,False
 K200,excessUniformAuc,0.0259,0,,,round20_numbers.py,285,s23_metric_regret.csv,False,False,False
 K201,excessUniformDesk,0.048,2,60_dca.tex:80; app_secondary.tex:437,"The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,634,s35_facts.csv,False,False,False
-K202,familySizeMedian,180,3,20_inference.tex:125; 40_multilog.tex:136; app_objects.tex:287,"Resolution regions, and the coverage they have; Simultaneous bands over the family the claim ranges over; The four interval objects, and what each ranges over",round20_numbers.py,121,s21_incomplete.csv,True,False,False
+K202,familySizeMedian,180,3,20_inference.tex:117; 40_multilog.tex:127; app_objects.tex:287,"Resolution regions, and the coverage they have; Simultaneous bands over the family the claim ranges over; The four interval objects, and what each ranges over",round20_numbers.py,121,s21_incomplete.csv,True,False,False
 K203,fieldAgreement,1.000,0,,,round21_numbers.py,237,s32_tiebreak.csv,False,False,False
 K204,fixedKcoverageSpreadPct,19.5\%,0,,,round21_numbers.py,362,s33_cells.csv,False,False,False
 K205,flipLearnerPct,31.3\%,1,app_secondary.tex:649,"Magnitude weighting, and the rate under each measure",make_numbers.py,350,s38_facts.csv,True,False,False
@@ -216,8 +216,8 @@ K214,gridShiftMaxCase,0.0114,1,app_secondary.tex:242,The case study's leakage an
 K215,gridShiftMedian,0.0111,0,,,round20_numbers.py,429,s27_facts.csv,False,False,False
 K216,highlightMaxChars,74,0,,,round21_numbers.py,63,,False,False,False
 K217,highlightsList,"\item A field's incremental predictive performance is a surface, not one number \item An exact variance decomposition says which analyst choice moves the answer \item Coverage-calibrated bands say where the sign of that surface is resolved \item Sign misstated for 7.5\% of resolved cells, 3.5\% on ITSM \item A register's worth turns on the decision time and on which target is set",1,00_front_intro_related.tex:134,Highlights,round21_numbers.py,59,,False,False,True
-K218,identityMaxExcess,exactly zero,3,20_inference.tex:313; app_objects.tex:220; app_secondary.tex:55,"Decision rules, in sample and out; Specification regret; Specification regret: the three designs",round20_numbers.py,339,s23_heldout.csv,False,False,False
-K219,inferenceShareMedianPct,12.5\%,3,20_inference.tex:92; 20_inference.tex:266; 80_limits.tex:42,"Limitations; Resolution regions and the robustness index; Three surfaces, and which one a claim may quantify over",round20_numbers.py,113,s21_incomplete.csv,True,False,True
+K218,identityMaxExcess,exactly zero,3,20_inference.tex:305; app_objects.tex:220; app_secondary.tex:55,"Decision rules, in sample and out; Specification regret; Specification regret: the three designs",round20_numbers.py,339,s23_heldout.csv,False,False,False
+K219,inferenceShareMedianPct,12.5\%,4,20_inference.tex:84; 20_inference.tex:258; 80_limits.tex:41; app_verifier.tex:176,"Limitations; Resolution regions and the robustness index; The inference surface, the draw counts and the pipeline axis",round20_numbers.py,113,s21_incomplete.csv,True,False,True
 K220,instrumentsOosOrderingFails,Brier skill,0,,,round20_numbers.py,317,s23_heldout.csv,False,False,False
 K221,instrumentsUniformNotWorst,Nagelkerke $R^2$,1,app_secondary.tex:70,"Decision rules, in sample and out",round20_numbers.py,299,s23_metric_regret.csv,False,False,False
 K222,integralContent,$+0.0486$,2,50_cmdb.tex:116; app_secondary.tex:235,"The case study's leakage and quality experiments; The leakage tipping point, and register quality",round21_numbers.py,757,s39_integrals.csv,False,False,False
@@ -234,7 +234,7 @@ K232,interactionMinPct,23.3\%,1,40_multilog.tex:82,What the choices are worth,ro
 K233,interactionTotalCI,95\%\ interval 40.9\% to 60.8\%,1,40_multilog.tex:82,What the choices are worth,round20_numbers.py,200,s22_indices.csv,False,False,False
 K234,interactionTotalConcentratedPct,31.7\%,2,40_multilog.tex:90; app_secondary.tex:477,"The measure, the target axis, and which axis leads; What the choices are worth",round20_numbers.py,255,s22_indices.csv,False,False,False
 K235,interactionTotalEnvelopePct,18.1\%,0,,,round20_numbers.py,255,s22_indices.csv,False,False,False
-K236,interactionTotalPct,56.0\%,6,20_inference.tex:257; 40_multilog.tex:81; 80_limits.tex:231; app_corrections.tex:160; app_secondary.tex:358; app_secondary.tex:665,"Conclusion; The ITSM family, statistic by statistic; The eight pairs where the construct is what this paper is about",round20_numbers.py,196,s22_indices.csv,True,False,True
+K236,interactionTotalPct,56.0\%,6,20_inference.tex:249; 40_multilog.tex:81; 80_limits.tex:220; app_corrections.tex:160; app_secondary.tex:358; app_secondary.tex:665,"Conclusion; The ITSM family, statistic by statistic; The eight pairs where the construct is what this paper is about",round20_numbers.py,196,s22_indices.csv,True,False,True
 K237,interactionTotalReferencePct,49.6\%,1,app_secondary.tex:476,"The measure, the target axis, and which axis leads",round20_numbers.py,255,s22_indices.csv,False,False,False
 K238,invarianceDuplicateShift,$5.6 \times 10^{-17}$,3,app_objects.tex:153; app_objects.tex:371; app_secondary.tex:485,"Estimating the decomposition; The measure the decomposition is taken under; The measure, the target axis, and which axis leads",round20_numbers.py,260,s22_invariance.csv,False,False,False
 K239,invarianceGridShift,0.004,3,app_objects.tex:155; app_objects.tex:373; app_secondary.tex:485,"Estimating the decomposition; The measure the decomposition is taken under; The measure, the target axis, and which axis leads",round20_numbers.py,263,s22_invariance.csv,False,False,False
@@ -249,9 +249,9 @@ K247,ladderSpreadMax,0.22,1,app_calibration.tex:82,"The plane's reach in $n$, an
 K248,ladderSpreadSE,2.8,1,app_calibration.tex:83,"The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,361,s33_cells.csv,False,False,False
 K249,lambdaHalf,0.64,2,50_cmdb.tex:101; app_secondary.tex:175,"The case study's leakage and quality experiments; The leakage tipping point, and register quality",make_numbers.py,554,s17_facts.csv,False,False,False
 K250,lambdaHalfPct,64\%,2,50_cmdb.tex:102; app_secondary.tex:176,"The case study's leakage and quality experiments; The leakage tipping point, and register quality",make_numbers.py,555,s17_facts.csv,False,False,False
-K251,largerPipelineAxis,encoding,1,80_limits.tex:198,Limitations,round21_numbers.py,682,s37_facts.csv,False,False,True
-K252,largestFirstOrderPct,28.7\%,5,40_multilog.tex:66; 40_multilog.tex:78; 80_limits.tex:230; app_secondary.tex:359; app_secondary.tex:666,"Conclusion; The ITSM family, statistic by statistic; The eight pairs where the construct is what this paper is about",round20_numbers.py,205,s22_indices.csv,True,False,True
-K253,largestInvolvementPct,43.7\%,3,20_inference.tex:256; 40_multilog.tex:85; app_corrections.tex:161,The sensitivity decomposition; What the choices are worth,round20_numbers.py,204,s22_indices.csv,True,False,False
+K251,largerPipelineAxis,encoding,1,80_limits.tex:187,Limitations,round21_numbers.py,682,s37_facts.csv,False,False,True
+K252,largestFirstOrderPct,28.7\%,5,40_multilog.tex:66; 40_multilog.tex:78; 80_limits.tex:219; app_secondary.tex:359; app_secondary.tex:666,"Conclusion; The ITSM family, statistic by statistic; The eight pairs where the construct is what this paper is about",round20_numbers.py,205,s22_indices.csv,True,False,True
+K253,largestInvolvementPct,43.7\%,3,20_inference.tex:248; 40_multilog.tex:85; app_corrections.tex:161,The sensitivity decomposition; What the choices are worth,round20_numbers.py,204,s22_indices.csv,True,False,False
 K254,layerItemDuration,$+0.129$,1,app_secondary.tex:540,What this says to a configuration management programme,round21_numbers.py,206,r34_layers.csv,False,False,False
 K255,layerItemHandover,$+0.257$,1,app_secondary.tex:539,What this says to a configuration management programme,round21_numbers.py,206,r34_layers.csv,False,False,False
 K256,layerItemMarginalDuration,$+0.087$,1,app_secondary.tex:544,What this says to a configuration management programme,round21_numbers.py,209,r34_layers.csv,False,False,False
@@ -263,8 +263,8 @@ K261,layerTypeHandover,$+0.134$,1,app_secondary.tex:538,What this says to a conf
 K262,leaveOneOutAgreePct,57\%,1,app_secondary.tex:77,"Decision rules, in sample and out",round20_numbers.py,337,s23_heldout.csv,False,False,False
 K263,limitNoisyAfter,$+0.0804$,1,app_noisy.tex:41,,make_numbers.py,480,s10_coverage_wrongtruth.csv,False,False,False
 K264,limitNoisyBefore,$+0.1135$,1,app_noisy.tex:40,,make_numbers.py,469,s10_coverage_wrongtruth.csv,False,False,False
-K265,logAdmittedMaxPrev,BPIC14/handover,1,30_design.tex:99,What the corpus does and does not have in common,round21_numbers.py,862,s25_audit.csv,False,False,False
-K266,logExcludedAboveMin,BPIC15\_5/handover,1,30_design.tex:101,What the corpus does and does not have in common,round21_numbers.py,882,s25_audit.csv,False,False,False
+K265,logAdmittedMaxPrev,BPIC14/handover,1,app_protocol.tex:239,The admission margin at the upper edge,round21_numbers.py,862,s25_audit.csv,False,False,False
+K266,logExcludedAboveMin,BPIC15\_5/handover,1,app_protocol.tex:241,The admission margin at the upper edge,round21_numbers.py,882,s25_audit.csv,False,False,False
 K267,maxCardBZero,200,1,30_design.tex:42,Roles,make_numbers.py,252,s10_coverage.csv,False,False,False
 K268,maxExcessOneNumberDesk,0.412,1,app_secondary.tex:440,"The desk's decision, in net benefit per thousand",round21_numbers.py,635,s35_facts.csv,False,False,False
 K269,maxKoverN,0.324,0,,,round21_numbers.py,466,s01_surface.csv,False,False,False
@@ -272,13 +272,13 @@ K270,maxShortfallApplied,0.18,1,app_calibration.tex:87,"The plane's reach in $n$
 K271,maxTMedian,4.03,0,,,make_numbers.py,289,s38_facts.csv,True,False,False
 K272,maxTMedianRatio,2.06,0,,,make_numbers.py,291,s38_facts.csv,True,False,False
 K273,maxTSurfaceMax,3.57,0,,,round20_numbers.py,119,s21_incomplete.csv,True,False,False
-K274,maxTSurfaceMedian,3.33,5,20_inference.tex:126; 40_multilog.tex:137; 40_multilog.tex:153; app_corrections.tex:138; app_objects.tex:288,"Resolution regions, and the coverage they have; Simultaneous bands over the family the claim ranges over; The four interval objects, and what each ranges over",round20_numbers.py,117,s21_incomplete.csv,True,False,False
+K274,maxTSurfaceMedian,3.33,5,20_inference.tex:118; 40_multilog.tex:128; 40_multilog.tex:144; app_corrections.tex:138; app_objects.tex:288,"Resolution regions, and the coverage they have; Simultaneous bands over the family the claim ranges over; The four interval objects, and what each ranges over",round20_numbers.py,117,s21_incomplete.csv,True,False,False
 K275,maxTSurfaceMin,3.14,0,,,round20_numbers.py,118,s21_incomplete.csv,True,False,False
-K276,maxTWithinMedian,2.35,4,20_inference.tex:127; 40_multilog.tex:137; app_corrections.tex:137; app_objects.tex:289,"Resolution regions, and the coverage they have; Simultaneous bands over the family the claim ranges over; The four interval objects, and what each ranges over",round20_numbers.py,120,s21_incomplete.csv,True,False,False
+K276,maxTWithinMedian,2.35,4,20_inference.tex:119; 40_multilog.tex:128; app_corrections.tex:137; app_objects.tex:289,"Resolution regions, and the coverage they have; Simultaneous bands over the family the claim ranges over; The four interval objects, and what each ranges over",round20_numbers.py,120,s21_incomplete.csv,True,False,False
 K277,meanNoisyEstimate,$+0.0781$,2,app_corrections.tex:96; app_noisy.tex:41,,make_numbers.py,471,s10_coverage_wrongtruth.csv,False,False,False
-K278,measureSpreadPct,24.3\%,2,40_multilog.tex:89; 80_limits.tex:63,Limitations; What the choices are worth,round20_numbers.py,217,s22_indices.csv,True,False,True
+K278,measureSpreadPct,24.3\%,2,40_multilog.tex:89; 80_limits.tex:52,Limitations; What the choices are worth,round20_numbers.py,217,s22_indices.csv,True,False,True
 K279,mechanismVsSamplingMedian,0.21,0,,,round20_numbers.py,432,s27_facts.csv,False,False,False
-K280,medianKoverN,0.106,1,40_multilog.tex:146,"Resolution regions, and the coverage they have",round21_numbers.py,465,s01_surface.csv,False,False,False
+K280,medianKoverN,0.106,1,40_multilog.tex:137,"Resolution regions, and the coverage they have",round21_numbers.py,465,s01_surface.csv,False,False,False
 K281,minCardF,50,1,30_design.tex:34,Roles,make_numbers.py,249,s10_coverage.csv,False,False,False
 K282,minDrawSharePct,83\%,0,,,round20_numbers.py,143,s21_incomplete.csv,False,False,False
 K283,minDrawsComplete,33,0,,,round20_numbers.py,144,s21_incomplete.csv,False,False,False
@@ -287,20 +287,20 @@ K285,minPerStratum,25,1,app_pilot.tex:18,Flow,make_numbers.py,256,s10_coverage.c
 K286,minReuseF,two,1,30_design.tex:35,Roles,make_numbers.py,250,s10_coverage.csv,False,False,False
 K287,minTrainCoverage,50\%,1,app_protocol.tex:18,,make_numbers.py,255,s10_coverage.csv,False,False,False
 K288,misreportConcentratedPct,13.4\%,1,app_secondary.tex:641,"Magnitude weighting, and the rate under each measure",round20_numbers.py,347,s23_heldout.csv,False,False,False
-K289,misreportEqualPct,32.8\%,7,40_multilog.tex:196; 40_multilog.tex:230; 80_limits.tex:33; 80_limits.tex:238; app_secondary.tex:360; app_secondary.tex:639,"Conclusion; Limitations; Magnitude weighting, and the rate under each measure",round20_numbers.py,345,s23_heldout.csv,False,False,True
+K289,misreportEqualPct,32.8\%,7,40_multilog.tex:187; 40_multilog.tex:221; 80_limits.tex:33; 80_limits.tex:227; app_secondary.tex:360; app_secondary.tex:639,"Conclusion; Limitations; Magnitude weighting, and the rate under each measure",round20_numbers.py,345,s23_heldout.csv,False,False,True
 K290,misreportItsmPct,27.1\%,2,app_secondary.tex:360; app_secondary.tex:662,"The ITSM family, statistic by statistic; The eight pairs where the construct is what this paper is about",round21_numbers.py,530,s34_family.csv,False,False,False
-K291,misreportLatitudePct,20.0\%,2,40_multilog.tex:229; 80_limits.tex:33,Limitations; What one number costs,round21_numbers.py,549,s34_family.csv,True,False,True
+K291,misreportLatitudePct,20.0\%,2,40_multilog.tex:220; 80_limits.tex:33,Limitations; What one number costs,round21_numbers.py,549,s34_family.csv,True,False,True
 K292,misreportMagnitudeItsmPct,29.6\%,0,,,round21_numbers.py,586,s34_family.csv,False,False,False
 K293,misreportMagnitudePct,50.2\%,1,app_secondary.tex:637,"Magnitude weighting, and the rate under each measure",round21_numbers.py,515,s34_family.csv,True,False,False
 K294,misreportMaxPct,62.3\%,0,,,round21_numbers.py,541,s34_family.csv,True,False,False
 K295,misreportMeasureSpreadPct,19.4\%,0,,,round20_numbers.py,348,s23_heldout.csv,False,False,False
 K296,misreportMedianPct,32.8\%,0,,,round21_numbers.py,540,s34_family.csv,True,False,False
 K297,misreportMinPct,5.6\%,0,,,round21_numbers.py,542,s34_family.csv,True,False,False
-K298,misreportPooledItsmPct,3.5\%,4,00_front_intro_related.tex:109; 80_limits.tex:241; app_secondary.tex:363; app_secondary.tex:663,"Conclusion; The ITSM family, statistic by statistic; The eight pairs where the construct is what this paper is about",round21_numbers.py,582,s34_family.csv,False,False,True
+K298,misreportPooledItsmPct,3.5\%,4,00_front_intro_related.tex:109; 80_limits.tex:230; app_secondary.tex:363; app_secondary.tex:663,"Conclusion; The ITSM family, statistic by statistic; The eight pairs where the construct is what this paper is about",round21_numbers.py,582,s34_family.csv,False,False,True
 K299,misreportPooledOtherPct,22.2\%,2,app_secondary.tex:364; app_secondary.tex:664,"The ITSM family, statistic by statistic; The eight pairs where the construct is what this paper is about",round21_numbers.py,584,s34_family.csv,False,False,False
-K300,misreportPooledResolvedLatitudePct,12.9\%,1,40_multilog.tex:259,What one number costs,round21_numbers.py,493,s34_family.csv,False,False,False
+K300,misreportPooledResolvedLatitudePct,12.9\%,1,40_multilog.tex:250,What one number costs,round21_numbers.py,493,s34_family.csv,False,False,False
 K301,misreportPooledResolvedNominalPct,11.9\%,1,app_secondary.tex:513,What the pooled resolved rate is a ratio of,round21_numbers.py,485,s34_family.csv,True,False,False
-K302,misreportPooledResolvedPct,7.5\%,4,00_front_intro_related.tex:108; 40_multilog.tex:252; 80_limits.tex:239; app_secondary.tex:365,"Conclusion; The ITSM family, statistic by statistic; What one number costs",round21_numbers.py,483,s34_family.csv,True,False,True
+K302,misreportPooledResolvedPct,7.5\%,4,00_front_intro_related.tex:108; 40_multilog.tex:243; 80_limits.tex:228; app_secondary.tex:365,"Conclusion; The ITSM family, statistic by statistic; What one number costs",round21_numbers.py,483,s34_family.csv,True,False,True
 K303,misreportReferencePct,25.4\%,1,app_secondary.tex:640,"Magnitude weighting, and the rate under each measure",round20_numbers.py,346,s23_heldout.csv,False,False,False
 K304,modalLeadingAxis,the split,1,app_secondary.tex:499,"The measure, the target axis, and which axis leads",round20_numbers.py,237,s22_indices.csv,False,False,False
 K305,modalLeadingSharePct,51\%,1,app_secondary.tex:500,"The measure, the target axis, and which axis leads",round20_numbers.py,239,s22_indices.csv,False,False,False
@@ -325,27 +325,27 @@ K323,nAxesLeading,4,1,app_secondary.tex:498,"The measure, the target axis, and w
 K324,nBadMajorityAuc,0,0,,,round20_numbers.py,279,s23_facts.csv,False,False,False
 K325,nBadOneNumberAuc,5,0,,,round20_numbers.py,278,s23_facts.csv,True,False,False
 K326,nBadUniformAuc,14,0,,,round20_numbers.py,280,s23_facts.csv,True,False,False
-K327,nBandCoverageCells,18,2,75_simulation.tex:133; 75_simulation.tex:186,The band's family-wise coverage,round21_numbers.py,1045,s41_profile.csv,False,False,False
-K328,nBandCoverageReps,"2{,}000",1,75_simulation.tex:132,The band's family-wise coverage,round21_numbers.py,1044,s41_profile.csv,False,False,False
+K327,nBandCoverageCells,18,2,75_simulation.tex:118; 75_simulation.tex:171,The band's family-wise coverage,round21_numbers.py,1045,s41_profile.csv,False,False,False
+K328,nBandCoverageReps,"2{,}000",1,75_simulation.tex:117,The band's family-wise coverage,round21_numbers.py,1044,s41_profile.csv,False,False,False
 K329,nBandResolvedRaw,"2{,}046",0,,,make_numbers.py,535,s17_facts.csv,False,False,False
 K330,nBandResolvedRecentred,"2{,}163",0,,,make_numbers.py,536,s17_facts.csv,False,False,False
 K331,nBeneficialPointwise,24,2,60_dca.tex:49; app_secondary.tex:309,Simultaneous bands change what can be said; Simultaneous bands on the decision curve,round20_numbers.py,400,s26_bands.csv,False,False,False
 K332,nBeneficialSimultaneous,18,2,60_dca.tex:50; app_secondary.tex:310,Simultaneous bands change what can be said; Simultaneous bands on the decision curve,round20_numbers.py,399,s26_bands.csv,False,False,False
-K333,nBootEighty,80,1,20_inference.tex:185,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1063,s41_profile.csv,False,False,False
-K334,nBootFourHundred,400,2,20_inference.tex:186; 80_limits.tex:146,Limitations; Simultaneous bands over the family the claim ranges over,round21_numbers.py,1063,s41_profile.csv,False,False,True
-K335,nBootOneFifty,150,1,20_inference.tex:186,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1063,s41_profile.csv,False,False,False
-K336,nBootOneThousand,"1{,}000",1,75_simulation.tex:170,The band's family-wise coverage,round21_numbers.py,1063,s41_profile.csv,False,False,False
-K337,nBootThirtyThree,33,3,20_inference.tex:184; 75_simulation.tex:169; 80_limits.tex:145,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1063,s41_profile.csv,False,False,True
+K333,nBootEighty,80,1,20_inference.tex:177,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1063,s41_profile.csv,False,False,False
+K334,nBootFourHundred,400,2,20_inference.tex:178; 80_limits.tex:135,Limitations; Simultaneous bands over the family the claim ranges over,round21_numbers.py,1063,s41_profile.csv,False,False,True
+K335,nBootOneFifty,150,1,20_inference.tex:178,Simultaneous bands over the family the claim ranges over,round21_numbers.py,1063,s41_profile.csv,False,False,False
+K336,nBootOneThousand,"1{,}000",1,75_simulation.tex:155,The band's family-wise coverage,round21_numbers.py,1063,s41_profile.csv,False,False,False
+K337,nBootThirtyThree,33,3,20_inference.tex:176; 75_simulation.tex:154; 80_limits.tex:134,Limitations; Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1063,s41_profile.csv,False,False,True
 K338,nCaseQualityPoints,16,0,,,round21_numbers.py,734,s39_absorption.csv,False,False,False
 K339,nCaseSweepLevels,11,2,app_secondary.tex:192; app_secondary.tex:241,The case study's leakage and quality experiments,round21_numbers.py,735,s39_absorption.csv,False,False,False
 K340,nCaseTest,"13{,}637",1,50_cmdb.tex:25,"One log, two published answers, and what separates them",make_numbers.py,285,s38_facts.csv,False,False,False
 K341,nCaseTrain,"31{,}818",1,50_cmdb.tex:24,"One log, two published answers, and what separates them",make_numbers.py,284,s38_facts.csv,False,False,False
-K342,nCellsExcludingV,74,3,20_inference.tex:47; 20_inference.tex:52; 80_limits.tex:111,"Limitations; The estimator, and uncertainty that includes the model",round21_numbers.py,117,s40_facts.csv,False,False,True
-K343,nCellsLargestPair,"4{,}800",1,30_design.tex:104,What the corpus does and does not have in common,round21_numbers.py,865,s25_audit.csv,False,False,False
-K344,nCellsLatitude,30,1,40_multilog.tex:228,What one number costs,round21_numbers.py,550,s34_family.csv,False,False,False
-K345,nCellsPerPairMedian,180,1,40_multilog.tex:246,What one number costs,round21_numbers.py,527,s34_family.csv,False,False,False
-K346,nCellsUnderApplied,2,3,40_multilog.tex:167; 80_limits.tex:106; app_calibration.tex:86,"Limitations; Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,346,s33_cells.csv,False,False,True
-K347,nCellsWholeTotal,"3{,}900",2,20_inference.tex:52; 80_limits.tex:112,"Limitations; The estimator, and uncertainty that includes the model",round21_numbers.py,118,s40_facts.csv,False,False,True
+K342,nCellsExcludingV,74,3,20_inference.tex:40; 20_inference.tex:45; 80_limits.tex:100,"Limitations; The estimator, and uncertainty that includes the model",round21_numbers.py,117,s40_facts.csv,False,False,True
+K343,nCellsLargestPair,"4{,}800",1,app_protocol.tex:244,The admission margin at the upper edge,round21_numbers.py,865,s25_audit.csv,False,False,False
+K344,nCellsLatitude,30,1,40_multilog.tex:219,What one number costs,round21_numbers.py,550,s34_family.csv,False,False,False
+K345,nCellsPerPairMedian,180,1,40_multilog.tex:237,What one number costs,round21_numbers.py,527,s34_family.csv,False,False,False
+K346,nCellsUnderApplied,2,3,40_multilog.tex:158; 80_limits.tex:95; app_calibration.tex:86,"Limitations; Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,346,s33_cells.csv,False,False,True
+K347,nCellsWholeTotal,"3{,}900",2,20_inference.tex:45; 80_limits.tex:101,"Limitations; The estimator, and uncertainty that includes the model",round21_numbers.py,118,s40_facts.csv,False,False,True
 K348,nCertificates,18,1,10_surface.tex:209,Two propositions,round20_numbers.py,447,s29_facts.csv,True,False,False
 K349,nClosedBefore,5,0,,,make_numbers.py,560,r35_facts.csv,False,False,False
 K350,nCohort,"45{,}455",2,00_front_intro_related.tex:112; 50_cmdb.tex:23,"One log, two published answers, and what separates them",make_numbers.py,271,s10_coverage.csv,True,False,True
@@ -354,13 +354,13 @@ K352,nCohortCorpus,"46{,}606",0,,,make_numbers.py,267,s10_coverage.csv,True,Fals
 K353,nCohortDraws,400,0,,,round21_numbers.py,248,s32_tiebreak.csv,False,False,False
 K354,nCohortResolved,0,0,,,round21_numbers.py,255,s32_tiebreak.csv,False,False,False
 K355,nCohortSignPositive,4,0,,,round21_numbers.py,254,s32_tiebreak.csv,False,False,False
-K356,nComputationalCells,"29{,}040",2,20_inference.tex:80; 30_design.tex:104,"Three surfaces, and which one a claim may quantify over; What the corpus does and does not have in common",round20_numbers.py,51,s25_representative.csv,False,False,False
+K356,nComputationalCells,"29{,}040",2,20_inference.tex:72; app_protocol.tex:244,"The admission margin at the upper edge; Three surfaces, and which one a claim may quantify over",round20_numbers.py,51,s25_representative.csv,False,False,False
 K357,nComputationalRows,"273{,}024",0,,,round20_numbers.py,53,s25_representative.csv,False,False,False
-K358,nConcentratedExceeds,12,3,40_multilog.tex:92; 80_limits.tex:66; app_secondary.tex:479,"Limitations; The measure, the target axis, and which axis leads; What the choices are worth",round20_numbers.py,241,s22_indices.csv,True,False,True
+K358,nConcentratedExceeds,12,3,40_multilog.tex:92; 80_limits.tex:55; app_secondary.tex:479,"Limitations; The measure, the target axis, and which axis leads; What the choices are worth",round20_numbers.py,241,s22_indices.csv,True,False,True
 K359,nCondBeneficial,11,0,,,round20_numbers.py,152,s21_incomplete.csv,True,False,False
-K360,nCondBeneficialCal,9,2,40_multilog.tex:176; app_calibration.tex:107,"Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,410,s33_sensitivity.csv,False,False,False
+K360,nCondBeneficialCal,9,2,40_multilog.tex:167; app_calibration.tex:107,"Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,410,s33_sensitivity.csv,False,False,False
 K361,nCondHarmful,2,0,,,round20_numbers.py,154,s21_incomplete.csv,True,False,False
-K362,nCondHarmfulCal,1,2,20_inference.tex:292; app_calibration.tex:108,"Resolution regions and the robustness index; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,410,s33_sensitivity.csv,False,False,False
+K362,nCondHarmfulCal,1,2,20_inference.tex:284; app_calibration.tex:108,"Resolution regions and the robustness index; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,410,s33_sensitivity.csv,False,False,False
 K363,nConditions,25,1,app_verifier.tex:21,,make_numbers.py,635,s06_missing_bounds.csv,False,False,False
 K364,nConfirmReject,5,0,,,make_numbers.py,295,s38_facts.csv,True,False,False
 K365,nCorpusDownloaded,26,1,90_backmatter.tex:62,Data availability,make_numbers.py,803,s16_facts.csv,False,False,False
@@ -372,26 +372,26 @@ K370,nDcaRows,"10{,}974",1,app_secondary.tex:323,Simultaneous bands on the decis
 K371,nDecisionTimes,4,0,,,round21_numbers.py,769,s38_facts.csv,False,False,False
 K372,nDeclaredAdmissible,"5{,}808",0,,,round20_numbers.py,46,s25_representative.csv,False,False,False
 K373,nDeclaredAdmissibleDC,"180{,}048",0,,,round20_numbers.py,49,s25_representative.csv,False,False,False
-K374,nDeclaredAdmissibleScalar,"29{,}040",3,00_front_intro_related.tex:106; 20_inference.tex:81; 40_multilog.tex:13,"Multi-log results; Three surfaces, and which one a claim may quantify over",round20_numbers.py,47,s25_representative.csv,True,False,True
+K374,nDeclaredAdmissibleScalar,"29{,}040",3,00_front_intro_related.tex:106; 20_inference.tex:73; 40_multilog.tex:13,"Multi-log results; Three surfaces, and which one a claim may quantify over",round20_numbers.py,47,s25_representative.csv,True,False,True
 K375,nDeclaredCells,"7{,}584",0,,,round20_numbers.py,44,s25_representative.csv,False,False,False
 K376,nDeclaredScalar,"37{,}920",0,,,round20_numbers.py,45,s25_representative.csv,False,False,False
-K377,nDecompositions,304,2,20_inference.tex:254; app_objects.tex:151,Estimating the decomposition; The sensitivity decomposition,round20_numbers.py,194,s22_indices.csv,False,False,False
-K378,nDegenerateCellsDca,841,3,75_simulation.tex:148; 80_limits.tex:164; app_calibration.tex:152,Limitations; The band's family-wise coverage; The degenerate decision-curve cells,round21_numbers.py,1066,s41_profile.csv,False,False,True
-K379,nDegenerateCellsWhole,0,2,75_simulation.tex:150; app_calibration.tex:155,The band's family-wise coverage; The degenerate decision-curve cells,round21_numbers.py,1067,s41_profile.csv,False,False,False
-K380,nDisagreeLatitude,27,1,40_multilog.tex:263,What one number costs,round21_numbers.py,496,s34_family.csv,False,False,False
-K381,nDisagreeResolved,67,2,40_multilog.tex:253; app_secondary.tex:518,What one number costs; What the pooled resolved rate is a ratio of,round21_numbers.py,488,s34_family.csv,False,False,False
+K377,nDecompositions,304,2,20_inference.tex:246; app_objects.tex:151,Estimating the decomposition; The sensitivity decomposition,round20_numbers.py,194,s22_indices.csv,False,False,False
+K378,nDegenerateCellsDca,841,3,75_simulation.tex:133; 80_limits.tex:153; app_calibration.tex:152,Limitations; The band's family-wise coverage; The degenerate decision-curve cells,round21_numbers.py,1066,s41_profile.csv,False,False,True
+K379,nDegenerateCellsWhole,0,2,75_simulation.tex:135; app_calibration.tex:155,The band's family-wise coverage; The degenerate decision-curve cells,round21_numbers.py,1067,s41_profile.csv,False,False,False
+K380,nDisagreeLatitude,27,1,40_multilog.tex:254,What one number costs,round21_numbers.py,496,s34_family.csv,False,False,False
+K381,nDisagreeResolved,67,2,40_multilog.tex:244; app_secondary.tex:518,What one number costs; What the pooled resolved rate is a ratio of,round21_numbers.py,488,s34_family.csv,False,False,False
 K382,nDisagreeTopThree,65,1,app_secondary.tex:518,What the pooled resolved rate is a ratio of,round21_numbers.py,498,s34_family.csv,False,False,False
-K383,nDomains,6,1,30_design.tex:79,What the corpus does and does not have in common,make_numbers.py,224,s10_coverage.csv,True,False,False
+K383,nDomains,6,1,30_design.tex:70,What the corpus does and does not have in common,make_numbers.py,224,s10_coverage.csv,True,False,False
 K384,nDrawRows,"1{,}791{,}720",0,,,make_numbers.py,288,s38_facts.csv,False,False,False
-K385,nDrawsEffectiveMin,33,2,20_inference.tex:190; 80_limits.tex:48,Limitations; Simultaneous bands over the family the claim ranges over,round20_numbers.py,96,s21_incomplete.csv,False,False,True
+K385,nDrawsEffectiveMin,33,2,20_inference.tex:182; app_verifier.tex:182,"Simultaneous bands over the family the claim ranges over; The inference surface, the draw counts and the pipeline axis",round20_numbers.py,96,s21_incomplete.csv,False,False,False
 K386,nDrawsPcThree,"2{,}000",1,app_objects.tex:307,"The planned contrasts, and where a p-value and an interval disagree",round21_numbers.py,289,s32_tiebreak.csv,False,False,False
-K387,nDrawsPlanned,"2{,}000",1,20_inference.tex:211,"Planned contrasts, and a $p$-value the design can produce",round20_numbers.py,354,s24_facts.csv,True,False,False
+K387,nDrawsPlanned,"2{,}000",1,20_inference.tex:203,"Planned contrasts, and a $p$-value the design can produce",round20_numbers.py,354,s24_facts.csv,True,False,False
 K388,nDrawsSurface,80,0,,,round20_numbers.py,86,s21_regions.csv,True,False,False
-K389,nDrawsSurfaceMax,150,6,20_inference.tex:189; 20_inference.tex:190; 80_limits.tex:47; 80_limits.tex:48; 80_limits.tex:179; app_objects.tex:343,"Limitations; Simultaneous bands over the family the claim ranges over; The two estimates of the critical value, and how they differ",round20_numbers.py,88,s21_regions.csv,True,False,True
-K390,nDrawsSurfaceMin,40,4,20_inference.tex:189; 80_limits.tex:47; 80_limits.tex:179; app_objects.tex:342,"Limitations; Simultaneous bands over the family the claim ranges over; The two estimates of the critical value, and how they differ",round20_numbers.py,87,s21_regions.csv,True,False,True
-K391,nDuplicateCells,0,2,20_inference.tex:81; 40_multilog.tex:18,"Multi-log results; Three surfaces, and which one a claim may quantify over",round20_numbers.py,54,s25_representative.csv,True,False,False
+K389,nDrawsSurfaceMax,150,7,20_inference.tex:181; 20_inference.tex:182; 80_limits.tex:43; 80_limits.tex:168; app_objects.tex:343; app_verifier.tex:181,"Limitations; Simultaneous bands over the family the claim ranges over; The inference surface, the draw counts and the pipeline axis",round20_numbers.py,88,s21_regions.csv,True,False,True
+K390,nDrawsSurfaceMin,40,5,20_inference.tex:181; 80_limits.tex:42; 80_limits.tex:168; app_objects.tex:342; app_verifier.tex:181,"Limitations; Simultaneous bands over the family the claim ranges over; The inference surface, the draw counts and the pipeline axis",round20_numbers.py,87,s21_regions.csv,True,False,True
+K391,nDuplicateCells,0,2,20_inference.tex:73; 40_multilog.tex:18,"Multi-log results; Three surfaces, and which one a claim may quantify over",round20_numbers.py,54,s25_representative.csv,True,False,False
 K392,nEqualExceeds,6,1,app_secondary.tex:481,"The measure, the target axis, and which axis leads",round20_numbers.py,242,s22_indices.csv,True,False,False
-K393,nExcludedAbove,5,1,30_design.tex:102,What the corpus does and does not have in common,round21_numbers.py,884,s25_audit.csv,False,False,False
+K393,nExcludedAbove,5,1,app_protocol.tex:242,The admission margin at the upper edge,round21_numbers.py,884,s25_audit.csv,False,False,False
 K394,nExclusionRows,0,0,,,round20_numbers.py,56,s25_representative.csv,False,False,False
 K395,nExtraCases,"1{,}151",1,50_cmdb.tex:26,"One log, two published answers, and what separates them",round21_numbers.py,235,s32_tiebreak.csv,False,False,False
 K396,nFamiliesDca,19,3,app_calibration.tex:163; app_objects.tex:331; app_secondary.tex:332,"Simultaneous bands on the decision curve; The degenerate decision-curve cells; The two estimates of the critical value, and how they differ",round21_numbers.py,128,s40_facts.csv,False,False,False
@@ -400,29 +400,29 @@ K398,nFieller,"10{,}584",2,10_surface.tex:124; 50_cmdb.tex:141,"The absorption, 
 K399,nFiellerCase,30,1,50_cmdb.tex:138,"The absorption, and why the ratio is secondary",round21_numbers.py,731,s39_absorption.csv,False,False,False
 K400,nFiellerUnbounded,"5{,}282",2,10_surface.tex:125; 50_cmdb.tex:141,"The absorption, and why the ratio is secondary; The relative reduction, and its pathologies",make_numbers.py,294,s38_facts.csv,True,False,False
 K401,nFiellerUnboundedCase,0,1,50_cmdb.tex:138,"The absorption, and why the ratio is secondary",round21_numbers.py,732,s39_absorption.csv,False,False,False
-K402,nFolds,five,3,30_design.tex:56; app_objects.tex:266; app_rolling.tex:2,"Targets, splits and exclusions; The pipeline, and what the estimator holds fixed",make_numbers.py,244,s10_coverage.csv,False,False,False
-K403,nGrid,31,3,20_inference.tex:102; 40_multilog.tex:10; 60_dca.tex:21,"Multi-log results; Simultaneous bands over the family the claim ranges over; The operating point is a cost ratio, not a knob",make_numbers.py,245,s10_coverage.csv,False,False,False
+K402,nFolds,five,4,30_design.tex:57; app_objects.tex:266; app_protocol.tex:214; app_rolling.tex:2,"Targets, splits and exclusions; The pipeline, and what the estimator holds fixed",make_numbers.py,244,s10_coverage.csv,False,False,False
+K403,nGrid,31,3,20_inference.tex:94; 40_multilog.tex:10; 60_dca.tex:21,"Multi-log results; Simultaneous bands over the family the claim ranges over; The operating point is a cost ratio, not a knob",make_numbers.py,245,s10_coverage.csv,False,False,False
 K404,nHarmfulPointwise,0,3,60_dca.tex:51; app_secondary.tex:293; app_secondary.tex:319,Simultaneous bands change what can be said; Simultaneous bands on the decision curve,round20_numbers.py,402,s26_bands.csv,False,False,False
 K405,nHarmfulSimultaneous,0,3,60_dca.tex:51; app_secondary.tex:295; app_secondary.tex:320,Simultaneous bands change what can be said; Simultaneous bands on the decision curve,round20_numbers.py,401,s26_bands.csv,False,False,False
-K406,nHeldOutLogs,1,2,30_design.tex:65; 90_backmatter.tex:68,"Data availability; Targets, splits and exclusions",round21_numbers.py,440,r43_holdout.csv,False,False,False
+K406,nHeldOutLogs,1,2,90_backmatter.tex:68; app_protocol.tex:223,"Data availability; Targets, splits and exclusions",round21_numbers.py,440,r43_holdout.csv,False,False,False
 K407,nHighlights,5,0,,,round21_numbers.py,62,,True,False,False
-K408,nITSMPairs,8,1,30_design.tex:117,What the corpus does and does not have in common,round20_numbers.py,709,s01_surface.csv,False,False,False
+K408,nITSMPairs,8,1,30_design.tex:95,What the corpus does and does not have in common,round20_numbers.py,709,s01_surface.csv,False,False,False
 K409,nIncompleteFamilies,2,1,app_objects.tex:296,"The four interval objects, and what each ranges over",round20_numbers.py,140,s21_incomplete.csv,False,False,False
 K410,nInferenceCells,780,0,,,round20_numbers.py,75,s21_regions.csv,False,False,False
-K411,nInferenceScalar,"3{,}900",2,20_inference.tex:91; 40_multilog.tex:19,"Multi-log results; Three surfaces, and which one a claim may quantify over",round20_numbers.py,76,s21_regions.csv,False,False,False
-K412,nInstruments,5,4,40_multilog.tex:314; app_secondary.tex:62; app_secondary.tex:67; app_secondary.tex:386,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,297,s23_metric_regret.csv,True,False,False
+K411,nInferenceScalar,"3{,}900",2,20_inference.tex:83; 40_multilog.tex:19,"Multi-log results; Three surfaces, and which one a claim may quantify over",round20_numbers.py,76,s21_regions.csv,False,False,False
+K412,nInstruments,5,4,40_multilog.tex:305; app_secondary.tex:62; app_secondary.tex:67; app_secondary.tex:386,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,297,s23_metric_regret.csv,True,False,False
 K413,nInstrumentsOneNumberWorse,5,2,app_secondary.tex:61; app_secondary.tex:386,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,320,s23_heldout.csv,True,False,False
 K414,nInstrumentsOosOrdering,4,1,app_secondary.tex:63,"Decision rules, in sample and out",round20_numbers.py,315,s23_heldout.csv,True,False,False
-K415,nInstrumentsUniformWorst,4,3,40_multilog.tex:313; app_secondary.tex:67; app_secondary.tex:390,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,296,s23_metric_regret.csv,True,False,False
+K415,nInstrumentsUniformWorst,4,3,40_multilog.tex:304; app_secondary.tex:67; app_secondary.tex:390,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,296,s23_metric_regret.csv,True,False,False
 K416,nInvarianceChecks,"2{,}400",1,10_surface.tex:211,Two propositions,round20_numbers.py,445,s29_facts.csv,True,False,False
 K417,nInvariancePassed,7,0,,,round20_numbers.py,265,s22_invariance.csv,False,False,False
 K418,nInvarianceTests,7,0,,,round20_numbers.py,266,s22_invariance.csv,False,False,False
-K419,nItsmPairs,8,4,00_front_intro_related.tex:109; 00_front_intro_related.tex:216; 80_limits.tex:242; app_secondary.tex:658,Conclusion; Introduction; The eight pairs where the construct is what this paper is about,round21_numbers.py,588,s34_family.csv,False,False,True
+K419,nItsmPairs,8,4,00_front_intro_related.tex:109; 00_front_intro_related.tex:216; 80_limits.tex:231; app_secondary.tex:658,Conclusion; Introduction; The eight pairs where the construct is what this paper is about,round21_numbers.py,588,s34_family.csv,False,False,True
 K420,nLayerRowsExcluded,9,0,,,round21_numbers.py,454,s01_surface.csv,False,False,False
 K421,nLearners,4,1,40_multilog.tex:8,Multi-log results,make_numbers.py,225,s10_coverage.csv,True,False,False
 K422,nLeaveOneOut,79,1,app_secondary.tex:77,"Decision rules, in sample and out",round20_numbers.py,338,s23_heldout.csv,False,False,False
 K423,nLintChecks,15,1,app_verifier.tex:92,,make_numbers.py,636,s06_missing_bounds.csv,False,False,False
-K424,nLogs,13,5,00_front_intro_related.tex:105; 30_design.tex:79; 80_limits.tex:82; 90_backmatter.tex:64; app_secondary.tex:519,Data availability; Limitations; What the corpus does and does not have in common,make_numbers.py,223,s10_coverage.csv,True,False,True
+K424,nLogs,13,5,00_front_intro_related.tex:105; 30_design.tex:70; 80_limits.tex:71; 90_backmatter.tex:64; app_secondary.tex:519,Data availability; Limitations; What the corpus does and does not have in common,make_numbers.py,223,s10_coverage.csv,True,False,True
 K425,nLogsBothTargets,6,1,app_secondary.tex:489,"The measure, the target axis, and which axis leads",make_numbers.py,305,s38_facts.csv,False,False,False
 K426,nLogsDisagree,4,1,app_secondary.tex:519,What the pooled resolved rate is a ratio of,round21_numbers.py,499,s34_family.csv,False,False,False
 K427,nMapsInvariant,14,0,,,round20_numbers.py,340,s23_heldout.csv,False,False,False
@@ -430,30 +430,30 @@ K428,nMeanOptimal,19,0,,,make_numbers.py,365,s38_facts.csv,False,False,False
 K429,nMetrics,36,1,40_multilog.tex:9,Multi-log results,make_numbers.py,228,s10_coverage.csv,True,False,False
 K430,nMisreportOverQuarter,12,0,,,round21_numbers.py,545,s34_family.csv,False,False,False
 K431,nMisreportOverTen,18,0,,,round21_numbers.py,543,s34_family.csv,False,False,False
-K432,nMissingCells,0,2,20_inference.tex:82; 40_multilog.tex:19,"Multi-log results; Three surfaces, and which one a claim may quantify over",round20_numbers.py,55,s25_representative.csv,False,False,False
-K433,nModelsDca,118,4,00_front_intro_related.tex:111; 60_dca.tex:73; 80_limits.tex:252; app_secondary.tex:416,"Conclusion; The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,622,s35_facts.csv,False,False,True
+K432,nMissingCells,0,2,20_inference.tex:74; 40_multilog.tex:19,"Multi-log results; Three surfaces, and which one a claim may quantify over",round20_numbers.py,55,s25_representative.csv,False,False,False
+K433,nModelsDca,118,4,00_front_intro_related.tex:111; 60_dca.tex:73; 80_limits.tex:241; app_secondary.tex:416,"Conclusion; The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,622,s35_facts.csv,False,False,True
 K434,nModelsDcaAdmitted,78,0,,,round21_numbers.py,623,s35_facts.csv,True,False,False
-K435,nModelsDcaExcluded,40,4,00_front_intro_related.tex:111; 60_dca.tex:72; 80_limits.tex:252; app_secondary.tex:415,"Conclusion; The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,624,s35_facts.csv,True,False,True
-K436,nMultiplier,"20{,}000",3,20_inference.tex:137; app_objects.tex:29; app_objects.tex:30,Simultaneous bands over the family the claim ranges over; The multiplier bootstrap for the max-$t$ critical value,round20_numbers.py,128,s21_incomplete.csv,False,False,False
+K435,nModelsDcaExcluded,40,4,00_front_intro_related.tex:111; 60_dca.tex:72; 80_limits.tex:241; app_secondary.tex:415,"Conclusion; The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,624,s35_facts.csv,True,False,True
+K436,nMultiplier,"20{,}000",3,20_inference.tex:129; app_objects.tex:29; app_objects.tex:30,Simultaneous bands over the family the claim ranges over; The multiplier bootstrap for the max-$t$ critical value,round20_numbers.py,128,s21_incomplete.csv,False,False,False
 K437,nOneNumberOptimal,9,0,,,make_numbers.py,366,s38_facts.csv,False,False,False
 K438,nOneNumberWorstDesk,10,2,60_dca.tex:81; app_secondary.tex:439,"The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,632,s35_facts.csv,False,False,False
 K439,nOrphans,"94{,}250",1,app_secondary.tex:141,The case study's leakage and quality experiments,make_numbers.py,558,r35_facts.csv,False,False,False
-K440,nPairs,19,34,00_front_intro_related.tex:104; 00_front_intro_related.tex:214; 00_front_intro_related.tex:216; 20_inference.tex:54; 20_inference.tex:293; 30_design.tex:71,Case study: a configuration management database; Conclusion; Data availability,make_numbers.py,222,s10_coverage.csv,True,False,True
+K440,nPairs,19,34,00_front_intro_related.tex:104; 00_front_intro_related.tex:214; 00_front_intro_related.tex:216; 20_inference.tex:47; 20_inference.tex:285; 40_multilog.tex:8,Case study: a configuration management database; Conclusion; Data availability,make_numbers.py,222,s10_coverage.csv,True,False,True
 K441,nPairsAbovePlaneN,0,0,,,round21_numbers.py,165,s01_surface.csv.gz,False,False,False
 K442,nPairsAboveTenth,10,0,,,round21_numbers.py,467,s01_surface.csv,False,False,False
 K443,nPairsBanded,19,0,,,round20_numbers.py,165,s21_incomplete.csv,True,False,False
 K444,nPairsBelowPlaneN,0,0,,,round21_numbers.py,164,s01_surface.csv.gz,False,False,False
 K445,nPairsDcaExcluded,3,2,60_dca.tex:73; app_secondary.tex:416,"The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,625,s35_facts.csv,False,False,False
-K446,nPairsExcludingV,3,2,20_inference.tex:54; 80_limits.tex:113,"Limitations; The estimator, and uncertainty that includes the model",round21_numbers.py,120,s40_facts.csv,False,False,True
-K447,nPairsInsidePlaneN,19,3,40_multilog.tex:162; 80_limits.tex:100; app_calibration.tex:73,"Limitations; Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,162,s01_surface.csv.gz,False,False,True
+K446,nPairsExcludingV,3,2,20_inference.tex:47; 80_limits.tex:102,"Limitations; The estimator, and uncertainty that includes the model",round21_numbers.py,120,s40_facts.csv,False,False,True
+K447,nPairsInsidePlaneN,19,3,40_multilog.tex:153; 80_limits.tex:89; app_calibration.tex:73,"Limitations; Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,162,s01_surface.csv.gz,False,False,True
 K448,nPairsNoResolvedCell,6,1,app_secondary.tex:523,What the pooled resolved rate is a ratio of,round21_numbers.py,520,s34_family.csv,False,False,False
 K449,nPairsNoResolvedDisagreement,8,1,app_secondary.tex:521,What the pooled resolved rate is a ratio of,round21_numbers.py,516,s34_family.csv,False,False,False
-K450,nPairsOther,15,3,40_multilog.tex:116; 80_limits.tex:199; app_secondary.tex:41,Limitations; The pipeline axis is two axes; What the choices are worth,round21_numbers.py,471,s01_surface.csv,False,False,True
-K451,nPairsRatioAboveTenth,10,2,75_simulation.tex:82; app_calibration.tex:138,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round20_numbers.py,177,s01_surface.csv,False,False,False
-K452,nPairsResamplingOverLatitude,10,1,40_multilog.tex:211,What one number costs,round21_numbers.py,577,s34_family.csv,False,False,False
-K453,nPairsResamplingOverLatitudeCross,7,1,40_multilog.tex:223,What one number costs,round21_numbers.py,579,s34_family.csv,False,False,False
-K454,nPairsResolveBothSigns,3,3,00_front_intro_related.tex:110; 40_multilog.tex:176; 80_limits.tex:224,"Conclusion; Resolution regions, and the coverage they have",round21_numbers.py,184,s33_regions.csv,False,False,True
-K455,nPairsResolvingAny,13,3,00_front_intro_related.tex:110; 40_multilog.tex:175; 80_limits.tex:223,"Conclusion; Resolution regions, and the coverage they have",round21_numbers.py,183,s33_regions.csv,False,False,True
+K450,nPairsOther,15,3,40_multilog.tex:116; 80_limits.tex:188; app_secondary.tex:41,Limitations; The pipeline axis is two axes; What the choices are worth,round21_numbers.py,471,s01_surface.csv,False,False,True
+K451,nPairsRatioAboveTenth,10,2,75_simulation.tex:67; app_calibration.tex:138,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round20_numbers.py,177,s01_surface.csv,False,False,False
+K452,nPairsResamplingOverLatitude,10,1,40_multilog.tex:202,What one number costs,round21_numbers.py,577,s34_family.csv,False,False,False
+K453,nPairsResamplingOverLatitudeCross,7,1,40_multilog.tex:214,What one number costs,round21_numbers.py,579,s34_family.csv,False,False,False
+K454,nPairsResolveBothSigns,3,3,00_front_intro_related.tex:110; 40_multilog.tex:167; 80_limits.tex:213,"Conclusion; Resolution regions, and the coverage they have",round21_numbers.py,184,s33_regions.csv,False,False,True
+K455,nPairsResolvingAny,13,3,00_front_intro_related.tex:110; 40_multilog.tex:166; 80_limits.tex:212,"Conclusion; Resolution regions, and the coverage they have",round21_numbers.py,183,s33_regions.csv,False,False,True
 K456,nPairsSomeResolvedDisagreement,5,1,app_secondary.tex:522,What the pooled resolved rate is a ratio of,round21_numbers.py,518,s34_family.csv,False,False,False
 K457,nPairsTwoLearners,15,2,40_multilog.tex:109; app_secondary.tex:14,The pipeline axis is two axes; What the choices are worth,round21_numbers.py,470,s01_surface.csv,False,False,False
 K458,nPairsWithNegativeCell,19,0,,,round21_numbers.py,221,s21_bands.csv.gz,False,False,False
@@ -461,12 +461,12 @@ K459,nPenaltyDecades,five,1,app_noisy.tex:30,,make_numbers.py,518,s18_legacy_fac
 K460,nPilotBoot,"20{,}000",1,app_pilot.tex:145,"The prevalence estimates, and their denominators",round20_numbers.py,487,s30_facts.csv,False,False,False
 K461,nPipelines,12,2,40_multilog.tex:111; app_secondary.tex:21,The pipeline axis is two axes; What the choices are worth,round21_numbers.py,676,s37_facts.csv,False,False,False
 K462,nPlaneCells,29,1,app_calibration.tex:20,The inflation factor has a closed form,round21_numbers.py,320,s33_regions.csv,True,False,False
-K463,nPlaneCellsOffered,33,4,40_multilog.tex:168; 75_simulation.tex:98; 80_limits.tex:108; app_calibration.tex:93,"Limitations; Resolution regions, and the coverage they have; Sample size, register cardinality and block length",round21_numbers.py,344,s33_cells.csv,False,False,True
-K464,nPlaneCellsUndefined,4,5,40_multilog.tex:168; 75_simulation.tex:98; 80_limits.tex:108; app_calibration.tex:93; app_calibration.tex:99,"Limitations; Resolution regions, and the coverage they have; Sample size, register cardinality and block length",round21_numbers.py,343,s33_cells.csv,False,False,True
+K463,nPlaneCellsOffered,33,4,40_multilog.tex:159; 75_simulation.tex:83; 80_limits.tex:97; app_calibration.tex:93,"Limitations; Resolution regions, and the coverage they have; Sample size, register cardinality and block length",round21_numbers.py,344,s33_cells.csv,False,False,True
+K464,nPlaneCellsUndefined,4,5,40_multilog.tex:159; 75_simulation.tex:83; 80_limits.tex:97; app_calibration.tex:93; app_calibration.tex:99,"Limitations; Resolution regions, and the coverage they have; Sample size, register cardinality and block length",round21_numbers.py,343,s33_cells.csv,False,False,True
 K465,nPlaneGridReps,150,1,app_calibration.tex:120,"The $(n,K)$ grid, cell by cell",round20_numbers.py,590,s31_coverage.csv,False,False,False
 K466,nPlaneReps,500,1,app_calibration.tex:21,The inflation factor has a closed form,round21_numbers.py,321,s33_regions.csv,False,False,False
 K467,nPlannedContrasts,5,0,,,round20_numbers.py,359,s24_facts.csv,False,False,False
-K468,nPlannedReject,5,1,20_inference.tex:212,"Planned contrasts, and a $p$-value the design can produce",round20_numbers.py,357,s24_facts.csv,True,False,False
+K468,nPlannedReject,5,1,20_inference.tex:204,"Planned contrasts, and a $p$-value the design can produce",round20_numbers.py,357,s24_facts.csv,True,False,False
 K469,nPropN,600,1,app_props.tex:89,Proposition~\ref{prop:nonid,round20_numbers.py,465,s29_prop1.csv,False,False,False
 K470,nPropP,200,1,app_props.tex:89,Proposition~\ref{prop:nonid,round20_numbers.py,464,s29_prop1.csv,False,False,False
 K471,nPsiFamilies,6,0,,,round20_numbers.py,448,s29_facts.csv,False,False,False
@@ -481,48 +481,48 @@ K479,nQualityLeakChecked,16,1,app_secondary.tex:243,The case study's leakage and
 K480,nQualityLeakPassed,16,1,app_secondary.tex:244,The case study's leakage and quality experiments,round20_numbers.py,435,s27_facts.csv,False,False,False
 K481,nQualityLevels,11,1,app_protocol.tex:197,"The measure on the axes, and the two axes that are not analysis choices",round20_numbers.py,427,s27_facts.csv,False,False,False
 K482,nQualitySeeds,20,2,app_protocol.tex:198; app_secondary.tex:193,"The case study's leakage and quality experiments; The measure on the axes, and the two axes that are not analysis choices",round20_numbers.py,426,s27_facts.csv,False,False,False
-K483,nRefSensVariants,26,1,40_multilog.tex:238,What one number costs,round21_numbers.py,569,s34_family.csv,False,False,False
-K484,nRegionChangedByFamily,9,2,40_multilog.tex:139; app_corrections.tex:139,"Resolution regions, and the coverage they have",round20_numbers.py,122,s21_incomplete.csv,True,False,False
+K483,nRefSensVariants,26,1,40_multilog.tex:229,What one number costs,round21_numbers.py,569,s34_family.csv,False,False,False
+K484,nRegionChangedByFamily,9,2,40_multilog.tex:130; app_corrections.tex:139,"Resolution regions, and the coverage they have",round20_numbers.py,122,s21_incomplete.csv,True,False,False
 K485,nRegionChangedByMC,0,0,,,round20_numbers.py,124,s21_incomplete.csv,False,False,False
-K486,nRegionsChangedByCalibration,4,1,40_multilog.tex:155,"Resolution regions, and the coverage they have",round21_numbers.py,369,s33_cells.csv,False,False,False
+K486,nRegionsChangedByCalibration,4,1,40_multilog.tex:146,"Resolution regions, and the coverage they have",round21_numbers.py,369,s33_cells.csv,False,False,False
 K487,nRegisteredCohort,"46{,}606",1,50_cmdb.tex:21,"One log, two published answers, and what separates them",round21_numbers.py,234,s32_tiebreak.csv,False,False,False
 K488,nRepsBlock,250,0,,,round20_numbers.py,630,s31_coverage.csv,False,False,False
-K489,nResolvedCellsCalibrated,896,1,40_multilog.tex:154,"Resolution regions, and the coverage they have",round21_numbers.py,374,s33_cells.csv,True,False,False
-K490,nResolvedCellsNominal,"1{,}150",1,40_multilog.tex:154,"Resolution regions, and the coverage they have",round21_numbers.py,372,s33_cells.csv,False,False,False
-K491,nResolvedCorpus,896,1,40_multilog.tex:252,What one number costs,round21_numbers.py,487,s34_family.csv,True,False,False
+K489,nResolvedCellsCalibrated,896,1,40_multilog.tex:145,"Resolution regions, and the coverage they have",round21_numbers.py,374,s33_cells.csv,True,False,False
+K490,nResolvedCellsNominal,"1{,}150",1,40_multilog.tex:145,"Resolution regions, and the coverage they have",round21_numbers.py,372,s33_cells.csv,False,False,False
+K491,nResolvedCorpus,896,1,40_multilog.tex:243,What one number costs,round21_numbers.py,487,s34_family.csv,True,False,False
 K492,nResolvedCorpusNominal,"1{,}150",0,,,round21_numbers.py,513,s34_family.csv,False,False,False
 K493,nResolvedDcaEmp,613,2,app_objects.tex:348; app_secondary.tex:337,"Simultaneous bands on the decision curve; The two estimates of the critical value, and how they differ",round21_numbers.py,137,s40_facts.csv,False,False,False
 K494,nResolvedDcaMult,"3{,}066",2,app_objects.tex:348; app_secondary.tex:337,"Simultaneous bands on the decision curve; The two estimates of the critical value, and how they differ",round21_numbers.py,136,s40_facts.csv,False,False,False
-K495,nResolvedLatitude,210,1,40_multilog.tex:262,What one number costs,round21_numbers.py,495,s34_family.csv,False,False,False
+K495,nResolvedLatitude,210,1,40_multilog.tex:253,What one number costs,round21_numbers.py,495,s34_family.csv,False,False,False
 K496,nResolvedMax,332,1,app_secondary.tex:510,What the pooled resolved rate is a ratio of,round21_numbers.py,502,s34_family.csv,False,False,False
-K497,nResolvedMedian,8,1,40_multilog.tex:246,What one number costs,round21_numbers.py,521,s34_family.csv,False,False,False
+K497,nResolvedMedian,8,1,40_multilog.tex:237,What one number costs,round21_numbers.py,521,s34_family.csv,False,False,False
 K498,nResolvedSensCalibrated,896,1,app_calibration.tex:178,The region counts at four calibration settings,round21_numbers.py,388,s33_sensitivity.csv,False,False,False
 K499,nResolvedSensNominal,"1{,}150",1,app_calibration.tex:177,The region counts at four calibration settings,round21_numbers.py,388,s33_sensitivity.csv,False,False,False
 K500,nResolvedSensUpper,833,1,app_calibration.tex:180,The region counts at four calibration settings,round21_numbers.py,388,s33_sensitivity.csv,False,False,False
-K501,nResolvedWhole,"1{,}150",1,40_multilog.tex:140,"Resolution regions, and the coverage they have",round20_numbers.py,125,s21_incomplete.csv,False,False,False
+K501,nResolvedWhole,"1{,}150",1,40_multilog.tex:131,"Resolution regions, and the coverage they have",round20_numbers.py,125,s21_incomplete.csv,False,False,False
 K502,nResolvedWholeEmp,995,3,app_calibration.tex:182; app_objects.tex:347; app_secondary.tex:517,"The region counts at four calibration settings; The two estimates of the critical value, and how they differ; What the pooled resolved rate is a ratio of",round21_numbers.py,135,s40_facts.csv,False,False,False
 K503,nResolvedWholeMult,"1{,}150",3,app_calibration.tex:183; app_objects.tex:347; app_secondary.tex:517,"The region counts at four calibration settings; The two estimates of the critical value, and how they differ; What the pooled resolved rate is a ratio of",round21_numbers.py,134,s40_facts.csv,False,False,False
-K504,nResolvedWithin,"1{,}510",1,40_multilog.tex:141,"Resolution regions, and the coverage they have",round20_numbers.py,126,s21_incomplete.csv,False,False,False
+K504,nResolvedWithin,"1{,}510",1,40_multilog.tex:132,"Resolution regions, and the coverage they have",round20_numbers.py,126,s21_incomplete.csv,False,False,False
 K505,nResultEstates,18,0,,,make_numbers.py,441,s07_prop3.csv,False,False,False
 K506,nResultPairs,12,0,,,make_numbers.py,442,s07_prop3.csv,False,False,False
-K507,nScaAgreeNull,3,1,40_multilog.tex:287,Against specification-curve analysis as practised,round21_numbers.py,657,s36_verdicts.csv,True,False,False
-K508,nScaCapped,7,1,40_multilog.tex:280,Against specification-curve analysis as practised,round21_numbers.py,653,s36_verdicts.csv,False,False,False
-K509,nScaCells,24,1,40_multilog.tex:276,Against specification-curve analysis as practised,round21_numbers.py,648,s36_verdicts.csv,False,False,False
-K510,nScaDisagree,9,1,40_multilog.tex:282,Against specification-curve analysis as practised,round21_numbers.py,656,s36_verdicts.csv,True,False,False
-K511,nScaMaxCases,"20{,}000",1,40_multilog.tex:279,Against specification-curve analysis as practised,round21_numbers.py,652,s36_verdicts.csv,False,False,False
+K507,nScaAgreeNull,3,1,40_multilog.tex:278,Against specification-curve analysis as practised,round21_numbers.py,657,s36_verdicts.csv,True,False,False
+K508,nScaCapped,7,1,40_multilog.tex:271,Against specification-curve analysis as practised,round21_numbers.py,653,s36_verdicts.csv,False,False,False
+K509,nScaCells,24,1,40_multilog.tex:267,Against specification-curve analysis as practised,round21_numbers.py,648,s36_verdicts.csv,False,False,False
+K510,nScaDisagree,9,1,40_multilog.tex:273,Against specification-curve analysis as practised,round21_numbers.py,656,s36_verdicts.csv,True,False,False
+K511,nScaMaxCases,"20{,}000",1,40_multilog.tex:270,Against specification-curve analysis as practised,round21_numbers.py,652,s36_verdicts.csv,False,False,False
 K512,nScaNonNull,12,0,,,round21_numbers.py,654,s36_verdicts.csv,False,False,False
-K513,nScaPairs,19,2,40_multilog.tex:275; 40_multilog.tex:282,Against specification-curve analysis as practised,round21_numbers.py,646,s36_verdicts.csv,True,False,False
-K514,nScaPerms,100,1,40_multilog.tex:275,Against specification-curve analysis as practised,round21_numbers.py,647,s36_verdicts.csv,False,False,False
+K513,nScaPairs,19,2,40_multilog.tex:266; 40_multilog.tex:273,Against specification-curve analysis as practised,round21_numbers.py,646,s36_verdicts.csv,True,False,False
+K514,nScaPerms,100,1,40_multilog.tex:266,Against specification-curve analysis as practised,round21_numbers.py,647,s36_verdicts.csv,False,False,False
 K515,nScaSignVaries,16,0,,,round21_numbers.py,655,s36_verdicts.csv,False,False,False
-K516,nScaSubSurfaceDisagree,1,1,40_multilog.tex:291,Against specification-curve analysis as practised,round21_numbers.py,658,s36_verdicts.csv,True,False,False
+K516,nScaSubSurfaceDisagree,1,1,40_multilog.tex:282,Against specification-curve analysis as practised,round21_numbers.py,658,s36_verdicts.csv,True,False,False
 K517,nScaleReps,30,1,app_noisy.tex:17,,make_numbers.py,514,s18_legacy_facts.csv,False,False,False
 K518,nSeeds,three,0,,,make_numbers.py,248,s10_coverage.csv,False,False,False
 K519,nSeparatingDesk,11,2,60_dca.tex:80; app_secondary.tex:438,"The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,631,s35_facts.csv,False,False,False
 K520,nSignChanging,4,0,,,round20_numbers.py,158,s21_incomplete.csv,True,False,False
 K521,nSignChangingCal,3,1,app_calibration.tex:107,"The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,410,s33_sensitivity.csv,False,False,False
-K522,nSignVaries,18,1,80_limits.tex:236,Conclusion,make_numbers.py,416,,True,False,True
-K523,nSimBlockLengths,3,3,75_simulation.tex:103; 75_simulation.tex:108; 75_simulation.tex:185,"Sample size, register cardinality and block length; The band's family-wise coverage",round20_numbers.py,549,s31_coverage.csv,False,False,False
-K524,nSimGridCells,10,2,75_simulation.tex:89; 75_simulation.tex:185,"Sample size, register cardinality and block length; The band's family-wise coverage",round20_numbers.py,548,s31_coverage.csv,False,False,False
+K522,nSignVaries,18,1,80_limits.tex:225,Conclusion,make_numbers.py,416,,True,False,True
+K523,nSimBlockLengths,3,3,75_simulation.tex:88; 75_simulation.tex:93; 75_simulation.tex:170,"Sample size, register cardinality and block length; The band's family-wise coverage",round20_numbers.py,549,s31_coverage.csv,False,False,False
+K524,nSimGridCells,10,2,75_simulation.tex:74; 75_simulation.tex:170,"Sample size, register cardinality and block length; The band's family-wise coverage",round20_numbers.py,548,s31_coverage.csv,False,False,False
 K525,nSimReps,"1{,}000",3,75_simulation.tex:13; 75_simulation.tex:28; app_noisy.tex:112,"Coverage, bias and width; Six worlds, two estimands; The six simulated worlds and the two estimands",round20_numbers.py,526,s31_coverage.csv,False,False,False
 K526,nSimRuns,"78{,}000",0,,,round20_numbers.py,675,,False,False,False
 K527,nSimSparse,200,1,app_noisy.tex:117,The six simulated worlds and the two estimands,make_numbers.py,449,s07_prop3.csv,False,False,False
@@ -531,8 +531,8 @@ K529,nSlopeOutIso,63,1,app_secondary.tex:270,Calibration before the decision cur
 K530,nSlopeOutRaw,92,1,app_secondary.tex:270,Calibration before the decision curve,round20_numbers.py,371,s26_calibration.csv,True,False,False
 K531,nSplits,6,1,40_multilog.tex:8,Multi-log results,make_numbers.py,226,s10_coverage.csv,True,False,False
 K532,nSpreadExceedsIncrement,15,1,40_multilog.tex:101,What the choices are worth,make_numbers.py,406,,False,False,False
-K533,nStraddleAllMax,"8{,}000",3,20_inference.tex:65; 75_simulation.tex:93; 80_limits.tex:125,"Limitations; Sample size, register cardinality and block length; The estimator, and uncertainty that includes the model",round21_numbers.py,340,s33_cells.csv,False,False,True
-K534,nStraddleHalfMin,"50{,}000",4,20_inference.tex:66; 75_simulation.tex:94; 75_simulation.tex:99; app_calibration.tex:99,"Sample size, register cardinality and block length; The estimator, and uncertainty that includes the model; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,341,s33_cells.csv,False,False,False
+K533,nStraddleAllMax,"8{,}000",3,20_inference.tex:57; 75_simulation.tex:78; 80_limits.tex:114,"Limitations; Sample size, register cardinality and block length; The estimator, and uncertainty that includes the model",round21_numbers.py,340,s33_cells.csv,False,False,True
+K534,nStraddleHalfMin,"50{,}000",4,20_inference.tex:58; 75_simulation.tex:79; 75_simulation.tex:84; app_calibration.tex:99,"Sample size, register cardinality and block length; The estimator, and uncertainty that includes the model; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,341,s33_cells.csv,False,False,False
 K535,nSurfaceRows,"273{,}024",1,40_multilog.tex:11,Multi-log results,make_numbers.py,229,s10_coverage.csv,True,False,False
 K536,nTauDraws,300,0,,,round21_numbers.py,768,s38_facts.csv,False,False,False
 K537,nTauOne,"44{,}513",2,app_secondary.tex:589; app_secondary.tex:605,"The three decision times, moment by moment",round21_numbers.py,771,s38_facts.csv,False,False,False
@@ -557,16 +557,16 @@ K555,nUniformlyBeneficial,0,0,,,round20_numbers.py,150,s21_incomplete.csv,True,F
 K556,nUniformlyBeneficialCal,0,0,,,round21_numbers.py,410,s33_sensitivity.csv,False,False,False
 K557,nUniformlyBeneficialCalibrated,0,0,,,round21_numbers.py,376,s33_cells.csv,False,False,False
 K558,nUniformlyHarmful,0,0,,,round20_numbers.py,156,s21_incomplete.csv,False,False,False
-K559,nUniformlyHarmfulCal,0,1,20_inference.tex:292,Resolution regions and the robustness index,round21_numbers.py,410,s33_sensitivity.csv,False,False,False
+K559,nUniformlyHarmfulCal,0,1,20_inference.tex:284,Resolution regions and the robustness index,round21_numbers.py,410,s33_sensitivity.csv,False,False,False
 K560,nUnresolvedCalibrated,6,1,app_calibration.tex:108,"The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,378,s33_cells.csv,False,False,False
 K561,nUnresolvedPairs,2,0,,,round20_numbers.py,160,s21_incomplete.csv,True,False,False
 K562,nWilsonInsideDesign,0,0,,,round20_numbers.py,488,s30_facts.csv,False,False,False
 K563,nWorkedBefore,"41{,}413",0,,,make_numbers.py,561,r35_facts.csv,False,False,False
-K564,nWorlds,six,5,75_simulation.tex:12; 75_simulation.tex:47; 75_simulation.tex:184; app_noisy.tex:111; app_tables.tex:95,"Coverage, bias and width; Six worlds, two estimands; The band's family-wise coverage",make_numbers.py,447,s07_prop3.csv,False,False,False
+K564,nWorlds,six,5,75_simulation.tex:12; 75_simulation.tex:169; app_noisy.tex:111; app_noisy.tex:153; app_tables.tex:95,"Six worlds, two estimands; The band's family-wise coverage; The simulation in full",make_numbers.py,447,s07_prop3.csv,False,False,False
 K565,nWorldsMofnBeatsBasic,0,0,,,round20_numbers.py,694,,True,False,False
-K566,nWorldsMofnPriced,3,1,75_simulation.tex:52,"Coverage, bias and width",round20_numbers.py,696,,True,False,False
-K567,nWorldsNestedAtLeastNaive,6,1,75_simulation.tex:33,"Coverage, bias and width",round20_numbers.py,686,,True,False,False
-K568,nWorldsSim,6,1,75_simulation.tex:34,"Coverage, bias and width",round20_numbers.py,687,,True,False,False
+K566,nWorldsMofnPriced,3,1,app_noisy.tex:158,"Where the refit helps, and where the percentile interval fails",round20_numbers.py,696,,True,False,False
+K567,nWorldsNestedAtLeastNaive,6,1,app_noisy.tex:139,"Where the refit helps, and where the percentile interval fails",round20_numbers.py,686,,True,False,False
+K568,nWorldsSim,6,1,app_noisy.tex:140,"Where the refit helps, and where the percentile interval fails",round20_numbers.py,687,,True,False,False
 K569,nbExcessMajority,0.00000,0,,,round20_numbers.py,342,s23_heldout.csv,False,False,False
 K570,nbExcessMean,0.00000,0,,,round20_numbers.py,343,s23_heldout.csv,False,False,False
 K571,nbExcessOneNumber,0.00000,0,,,round20_numbers.py,341,s23_heldout.csv,False,False,False
@@ -577,15 +577,15 @@ K575,noisyGapLarge,$+0.0329$,1,app_noisy.tex:20,,make_numbers.py,520,s18_legacy_
 K576,noisyGapLoose,$+0.0362$,1,app_noisy.tex:31,,make_numbers.py,522,s18_legacy_facts.csv,False,False,False
 K577,noisyGapSmall,$+0.0361$,1,app_noisy.tex:19,,make_numbers.py,519,s18_legacy_facts.csv,False,False,False
 K578,noisyGapTight,$+0.0361$,1,app_noisy.tex:31,,make_numbers.py,521,s18_legacy_facts.csv,False,False,False
-K579,oosMajorityAuc,0.00011,3,40_multilog.tex:311; app_secondary.tex:59; app_secondary.tex:384,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,332,s23_heldout.csv,True,False,False
-K580,oosMeanAuc,0.00002,4,40_multilog.tex:311; 80_limits.tex:249; app_secondary.tex:59; app_secondary.tex:384,"Conclusion; Decision rules, in sample and out; The decision rules in full",round20_numbers.py,333,s23_heldout.csv,True,False,True
-K581,oosOneNumberAuc,0.00450,4,40_multilog.tex:310; 80_limits.tex:249; app_secondary.tex:58; app_secondary.tex:383,"Conclusion; Decision rules, in sample and out; The decision rules in full",round20_numbers.py,331,s23_heldout.csv,True,False,True
-K582,oostMajority,0.01922,3,40_multilog.tex:316; app_secondary.tex:75; app_secondary.tex:395,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,335,s23_heldout.csv,False,False,False
+K579,oosMajorityAuc,0.00011,3,40_multilog.tex:302; app_secondary.tex:59; app_secondary.tex:384,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,332,s23_heldout.csv,True,False,False
+K580,oosMeanAuc,0.00002,4,40_multilog.tex:302; 80_limits.tex:238; app_secondary.tex:59; app_secondary.tex:384,"Conclusion; Decision rules, in sample and out; The decision rules in full",round20_numbers.py,333,s23_heldout.csv,True,False,True
+K581,oosOneNumberAuc,0.00450,4,40_multilog.tex:301; 80_limits.tex:238; app_secondary.tex:58; app_secondary.tex:383,"Conclusion; Decision rules, in sample and out; The decision rules in full",round20_numbers.py,331,s23_heldout.csv,True,False,True
+K582,oostMajority,0.01922,3,40_multilog.tex:307; app_secondary.tex:75; app_secondary.tex:395,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,335,s23_heldout.csv,False,False,False
 K583,oostMean,0.0191,0,,,round20_numbers.py,336,s23_heldout.csv,False,False,False
-K584,oostOneNumber,0.00885,3,40_multilog.tex:316; app_secondary.tex:74; app_secondary.tex:394,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,334,s23_heldout.csv,False,False,False
+K584,oostOneNumber,0.00885,3,40_multilog.tex:307; app_secondary.tex:74; app_secondary.tex:394,"Decision rules, in sample and out; The decision rules in full",round20_numbers.py,334,s23_heldout.csv,False,False,False
 K585,otherHigherOrderPct,60.8\%,0,,,round21_numbers.py,608,,False,False,False
 K586,otherLargestFirstOrderPct,20.1\%,0,,,round21_numbers.py,610,,False,False,False
-K587,pMinAttainableHolm,0.00250,1,20_inference.tex:212,"Planned contrasts, and a $p$-value the design can produce",round20_numbers.py,356,s24_facts.csv,True,False,False
+K587,pMinAttainableHolm,0.00250,1,20_inference.tex:204,"Planned contrasts, and a $p$-value the design can produce",round20_numbers.py,356,s24_facts.csv,True,False,False
 K588,pMinAttainableRaw,0.00050,0,,,round20_numbers.py,355,s24_facts.csv,True,False,False
 K589,pPlannedMin,0.00250,0,,,round20_numbers.py,358,s24_facts.csv,False,False,False
 K590,pThreeRawA,0.421,1,app_props.tex:148,Proposition~\ref{prop:scale,make_numbers.py,434,s07_prop3.csv,False,False,False
@@ -602,18 +602,18 @@ K600,pcThreeShift,0.00193,1,app_objects.tex:311,"The planned contrasts, and wher
 K601,planeKnMax,0.500,1,app_calibration.tex:21,The inflation factor has a closed form,round21_numbers.py,323,s33_regions.csv,False,False,False
 K602,planeKnMin,0.0011,1,app_calibration.tex:21,The inflation factor has a closed form,round21_numbers.py,322,s33_regions.csv,False,False,False
 K603,planeNdependenceBeta,0.067,1,app_calibration.tex:79,"The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,351,s33_cells.csv,False,False,False
-K604,planeNdependenceT,8.3,3,40_multilog.tex:165; 80_limits.tex:104; app_calibration.tex:79,"Limitations; Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,345,s33_cells.csv,False,False,True
-K605,planeNtrainHi,"180{,}000",4,40_multilog.tex:161; 75_simulation.tex:90; 80_limits.tex:101; app_calibration.tex:72,"Limitations; Resolution regions, and the coverage they have; Sample size, register cardinality and block length",round21_numbers.py,161,s01_surface.csv.gz,False,False,True
-K606,planeNtrainLo,500,4,40_multilog.tex:161; 75_simulation.tex:90; 80_limits.tex:101; app_calibration.tex:71,"Limitations; Resolution regions, and the coverage they have; Sample size, register cardinality and block length",round21_numbers.py,160,s01_surface.csv.gz,False,False,True
-K607,prevAdmittedMax,0.927,1,30_design.tex:100,What the corpus does and does not have in common,round21_numbers.py,861,s25_audit.csv,False,False,False
-K608,prevExcludedAboveMin,0.959,1,30_design.tex:102,What the corpus does and does not have in common,round21_numbers.py,881,s25_audit.csv,False,False,False
-K609,prevHi,0.95,2,30_design.tex:62; 30_design.tex:100,"Targets, splits and exclusions; What the corpus does and does not have in common",make_numbers.py,254,s10_coverage.csv,False,False,False
-K610,prevLo,0.05,1,30_design.tex:62,"Targets, splits and exclusions",make_numbers.py,253,s10_coverage.csv,False,False,False
+K604,planeNdependenceT,8.3,3,40_multilog.tex:156; 80_limits.tex:93; app_calibration.tex:79,"Limitations; Resolution regions, and the coverage they have; The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,345,s33_cells.csv,False,False,True
+K605,planeNtrainHi,"180{,}000",4,40_multilog.tex:152; 75_simulation.tex:75; 80_limits.tex:90; app_calibration.tex:72,"Limitations; Resolution regions, and the coverage they have; Sample size, register cardinality and block length",round21_numbers.py,161,s01_surface.csv.gz,False,False,True
+K606,planeNtrainLo,500,4,40_multilog.tex:152; 75_simulation.tex:75; 80_limits.tex:90; app_calibration.tex:71,"Limitations; Resolution regions, and the coverage they have; Sample size, register cardinality and block length",round21_numbers.py,160,s01_surface.csv.gz,False,False,True
+K607,prevAdmittedMax,0.927,1,app_protocol.tex:240,The admission margin at the upper edge,round21_numbers.py,861,s25_audit.csv,False,False,False
+K608,prevExcludedAboveMin,0.959,1,app_protocol.tex:242,The admission margin at the upper edge,round21_numbers.py,881,s25_audit.csv,False,False,False
+K609,prevHi,0.95,2,app_protocol.tex:220; app_protocol.tex:240,"Targets, splits and exclusions; The admission margin at the upper edge",make_numbers.py,254,s10_coverage.csv,False,False,False
+K610,prevLo,0.05,1,app_protocol.tex:220,"Targets, splits and exclusions",make_numbers.py,253,s10_coverage.csv,False,False,False
 K611,prevRegisteredHandover,0.927,1,50_cmdb.tex:43,"One log, two published answers, and what separates them",round21_numbers.py,251,s32_tiebreak.csv,False,False,False
 K612,prevTauOne,0.402,1,app_secondary.tex:607,"The three decision times, moment by moment",round21_numbers.py,794,s38_facts.csv,False,False,False
 K613,prevTauTwo,0.400,1,app_secondary.tex:627,"The three decision times, moment by moment",round21_numbers.py,774,s38_facts.csv,False,False,False
 K614,prevTauZero,0.146,1,app_secondary.tex:626,"The three decision times, moment by moment",round21_numbers.py,773,s38_facts.csv,False,False,False
-K615,promisedPerThousand,1.71,3,60_dca.tex:84; 80_limits.tex:255; app_secondary.tex:446,"Conclusion; The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,637,s35_facts.csv,False,False,True
+K615,promisedPerThousand,1.71,3,60_dca.tex:84; 80_limits.tex:244; app_secondary.tex:446,"Conclusion; The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,637,s35_facts.csv,False,False,True
 K616,propOneApGap,0.417,3,10_surface.tex:162; app_props.tex:29; app_props.tex:94,Proposition~\ref{prop:nonid; Two propositions,round20_numbers.py,463,s29_prop1.csv,True,False,False
 K617,propOneAucGap,$2.2 \times 10^{-16}$,2,10_surface.tex:161; app_props.tex:93,Proposition~\ref{prop:nonid; Two propositions,round20_numbers.py,462,s29_prop1.csv,False,False,False
 K618,propOneRapA,-0.250,1,app_props.tex:94,Proposition~\ref{prop:nonid,round20_numbers.py,471,s29_prop1.csv,False,False,False
@@ -625,7 +625,7 @@ K623,propOneSweepAuc,$2.2 \times 10^{-16}$,0,,,round20_numbers.py,467,s29_prop1.
 K624,propTwoCancelShift,machine precision,0,,,make_numbers.py,431,,False,False,False
 K625,propTwoNonRankShift,11.696,0,,,make_numbers.py,430,,True,False,False
 K626,propTwoRankShift,exactly zero,0,,,make_numbers.py,429,,False,False,False
-K627,qCalibratedMedian,4.54,1,40_multilog.tex:153,"Resolution regions, and the coverage they have",round21_numbers.py,401,s33_sensitivity.csv,False,False,False
+K627,qCalibratedMedian,4.54,1,40_multilog.tex:144,"Resolution regions, and the coverage they have",round21_numbers.py,401,s33_sensitivity.csv,False,False,False
 K628,qClean,$+0.1034$,2,50_cmdb.tex:111; app_secondary.tex:199,"The case study's leakage and quality experiments; The leakage tipping point, and register quality",round21_numbers.py,711,s39_absorption.csv,False,False,False
 K629,qCleanCorpus,$+0.1673$,0,,,,0,,False,False,False
 K630,qCommonHalf,$+0.0708$,2,50_cmdb.tex:113; app_secondary.tex:199,"The case study's leakage and quality experiments; The leakage tipping point, and register quality",round21_numbers.py,713,s39_absorption.csv,False,False,False
@@ -640,11 +640,11 @@ K638,qDuplicateAllCorpus,$-0.0038$,0,,,,0,,False,False,False
 K639,qDuplicateAllDelta,$-0.0019$,1,app_secondary.tex:215,The case study's leakage and quality experiments,round21_numbers.py,721,s39_absorption.csv,False,False,False
 K640,qEmpDcaMedian,8.10,1,app_objects.tex:335,"The two estimates of the critical value, and how they differ",round21_numbers.py,131,s40_facts.csv,False,False,False
 K641,qEmpWholeMedian,4.34,0,,,round21_numbers.py,129,s40_facts.csv,False,False,False
-K642,qEmpWidth,2.01,1,20_inference.tex:141,Simultaneous bands over the family the claim ranges over,round20_numbers.py,129,s21_incomplete.csv,False,False,False
+K642,qEmpWidth,2.01,1,20_inference.tex:133,Simultaneous bands over the family the claim ranges over,round20_numbers.py,129,s21_incomplete.csv,False,False,False
 K643,qLagHalfDelta,$+0.0039$,1,app_secondary.tex:228,The case study's leakage and quality experiments,round21_numbers.py,724,s39_absorption.csv,False,False,False
 K644,qLagHalfDeltaCorpus,$-0.0031$,0,,,,0,,False,False,False
 K645,qLagHalfPopulated,94.0\%,1,app_secondary.tex:227,The case study's leakage and quality experiments,round21_numbers.py,746,s39_absorption.csv,False,False,False
-K646,qMultWidth,0.037,1,20_inference.tex:141,Simultaneous bands over the family the claim ranges over,round20_numbers.py,130,s21_incomplete.csv,False,False,False
+K646,qMultWidth,0.037,1,20_inference.tex:133,Simultaneous bands over the family the claim ranges over,round20_numbers.py,130,s21_incomplete.csv,False,False,False
 K647,qRandomHalf,$+0.0676$,1,app_secondary.tex:204,The case study's leakage and quality experiments,round21_numbers.py,714,s39_absorption.csv,False,False,False
 K648,qRandomHalfCorpus,$+0.0951$,0,,,,0,,False,False,False
 K649,qRareHalf,$+0.0819$,2,50_cmdb.tex:112; app_secondary.tex:198,"The case study's leakage and quality experiments; The leakage tipping point, and register quality",round21_numbers.py,712,s39_absorption.csv,False,False,False
@@ -657,15 +657,15 @@ K655,qStaleDeltaCorpus,$+0.0000$,0,,,,0,,False,False,False
 K656,qStaleKeepsDelta,$+0.0000$,0,,,make_numbers.py,717,s09_facts.csv,False,False,False
 K657,ratioBase,2.3,2,60_dca.tex:25; app_secondary.tex:257,"Calibration before the decision curve; The operating point is a cost ratio, not a knob",make_numbers.py,662,s11_facts.csv,False,False,False
 K658,ratioCheap,9.0,1,60_dca.tex:23,"The operating point is a cost ratio, not a knob",make_numbers.py,662,s11_facts.csv,False,False,False
-K659,ratioDcaAdmissible,1.80,3,75_simulation.tex:152; 80_limits.tex:167; app_calibration.tex:161,Limitations; The band's family-wise coverage; The degenerate decision-curve cells,round21_numbers.py,1071,s41_profile.csv,False,False,True
-K660,ratioDcaAll,2.09,3,75_simulation.tex:152; 80_limits.tex:167; app_calibration.tex:161,Limitations; The band's family-wise coverage; The degenerate decision-curve cells,round21_numbers.py,1070,s41_profile.csv,False,False,True
+K659,ratioDcaAdmissible,1.80,3,75_simulation.tex:137; 80_limits.tex:156; app_calibration.tex:161,Limitations; The band's family-wise coverage; The degenerate decision-curve cells,round21_numbers.py,1071,s41_profile.csv,False,False,True
+K660,ratioDcaAll,2.09,3,75_simulation.tex:137; 80_limits.tex:156; app_calibration.tex:161,Limitations; The band's family-wise coverage; The degenerate decision-curve cells,round21_numbers.py,1070,s41_profile.csv,False,False,True
 K661,ratioDear,0.7,1,60_dca.tex:26,"The operating point is a cost ratio, not a knob",make_numbers.py,662,s11_facts.csv,False,False,False
-K662,refSensBoostingPct,35.3\%,1,40_multilog.tex:240,What one number costs,round21_numbers.py,566,s34_family.csv,False,False,False
-K663,refSensDeclaredPct,32.8\%,1,40_multilog.tex:240,What one number costs,round21_numbers.py,563,s34_family.csv,False,False,False
-K664,refSensMaxPct,38.4\%,1,40_multilog.tex:239,What one number costs,round21_numbers.py,565,s34_family.csv,False,False,False
-K665,refSensMetricMaxPct,38.2\%,1,40_multilog.tex:242,What one number costs,round21_numbers.py,568,s34_family.csv,False,False,False
-K666,refSensMetricMinPct,32.8\%,1,40_multilog.tex:241,What one number costs,round21_numbers.py,567,s34_family.csv,False,False,False
-K667,refSensMinPct,32.8\%,1,40_multilog.tex:239,What one number costs,round21_numbers.py,564,s34_family.csv,False,False,False
+K662,refSensBoostingPct,35.3\%,1,40_multilog.tex:231,What one number costs,round21_numbers.py,566,s34_family.csv,False,False,False
+K663,refSensDeclaredPct,32.8\%,1,40_multilog.tex:231,What one number costs,round21_numbers.py,563,s34_family.csv,False,False,False
+K664,refSensMaxPct,38.4\%,1,40_multilog.tex:230,What one number costs,round21_numbers.py,565,s34_family.csv,False,False,False
+K665,refSensMetricMaxPct,38.2\%,1,40_multilog.tex:233,What one number costs,round21_numbers.py,568,s34_family.csv,False,False,False
+K666,refSensMetricMinPct,32.8\%,1,40_multilog.tex:232,What one number costs,round21_numbers.py,567,s34_family.csv,False,False,False
+K667,refSensMinPct,32.8\%,1,40_multilog.tex:230,What one number costs,round21_numbers.py,564,s34_family.csv,False,False,False
 K668,regretMajority,0.0287,0,,,make_numbers.py,356,s38_facts.csv,False,False,False
 K669,regretMajorityAdj,0.0192,0,,,make_numbers.py,358,s38_facts.csv,False,False,False
 K670,regretMajorityGainAdjPct,18.7\%,0,,,make_numbers.py,373,s38_facts.csv,False,False,False
@@ -678,9 +678,9 @@ K676,regretOracle,0.0232,0,,,make_numbers.py,364,s38_facts.csv,False,False,False
 K677,regretUniformRule,0.0478,0,,,make_numbers.py,355,s38_facts.csv,False,False,False
 K678,releaseTag,v25.0,1,90_backmatter.tex:80,Code availability,make_numbers.py,806,s16_facts.csv,False,False,False
 K679,repGapMax,0.223,0,,,round20_numbers.py,61,s25_representative.csv,True,False,False
-K680,repGapMedian,0.067,2,20_inference.tex:94; 80_limits.tex:45,"Limitations; Three surfaces, and which one a claim may quantify over",round20_numbers.py,60,s25_representative.csv,True,False,True
+K680,repGapMedian,0.067,2,20_inference.tex:86; app_verifier.tex:179,"The inference surface, the draw counts and the pipeline axis; Three surfaces, and which one a claim may quantify over",round20_numbers.py,60,s25_representative.csv,True,False,False
 K681,resolutionLostPct,23.8\%,0,,,round20_numbers.py,127,s21_incomplete.csv,False,False,False
-K682,resolutionLostToCalibrationPct,22.1\%,1,40_multilog.tex:155,"Resolution regions, and the coverage they have",round21_numbers.py,413,s33_sensitivity.csv,False,False,False
+K682,resolutionLostToCalibrationPct,22.1\%,1,40_multilog.tex:146,"Resolution regions, and the coverage they have",round21_numbers.py,413,s33_sensitivity.csv,False,False,False
 K683,resultWitnessMax,5,0,,,make_numbers.py,444,s07_prop3.csv,False,False,False
 K684,resultWitnessMin,0,0,,,make_numbers.py,443,s07_prop3.csv,False,False,False
 K685,rhoMax,0.702,0,,,round20_numbers.py,164,s21_incomplete.csv,False,False,False
@@ -709,36 +709,36 @@ K707,shMetricPct,10.1\%,0,,,round20_numbers.py,249,s22_indices.csv,False,False,F
 K708,shQualityPct,2.7\%,0,,,round20_numbers.py,249,s22_indices.csv,False,False,False
 K709,shRungPct,1.9\%,0,,,round20_numbers.py,249,s22_indices.csv,False,False,False
 K710,shSplitPct,9.4\%,0,,,round20_numbers.py,249,s22_indices.csv,False,False,False
-K711,shareCellsExcludingVPct,1.9\%,1,20_inference.tex:53,"The estimator, and uncertainty that includes the model",round21_numbers.py,119,s40_facts.csv,False,False,False
-K712,shareCohortPct,0.0\%,3,00_front_intro_related.tex:223; 50_cmdb.tex:40; 80_limits.tex:266,"Conclusion; Introduction; One log, two published answers, and what separates them",round21_numbers.py,241,s32_tiebreak.csv,False,False,True
+K711,shareCellsExcludingVPct,1.9\%,1,20_inference.tex:46,"The estimator, and uncertainty that includes the model",round21_numbers.py,119,s40_facts.csv,False,False,False
+K712,shareCohortPct,0.0\%,3,00_front_intro_related.tex:223; 50_cmdb.tex:40; 80_limits.tex:255,"Conclusion; Introduction; One log, two published answers, and what separates them",round21_numbers.py,241,s32_tiebreak.csv,False,False,True
 K713,shareCohortTargetPct,0.7\%,1,50_cmdb.tex:40,"One log, two published answers, and what separates them",round21_numbers.py,242,s32_tiebreak.csv,False,False,False
-K714,shareCounterfactualCrossPct,2.7\%,1,40_multilog.tex:222,What one number costs,round21_numbers.py,575,s34_family.csv,False,False,False
-K715,shareCounterfactualPct,4.2\%,1,40_multilog.tex:210,What one number costs,round21_numbers.py,572,s34_family.csv,False,False,False
+K714,shareCounterfactualCrossPct,2.7\%,1,40_multilog.tex:213,What one number costs,round21_numbers.py,575,s34_family.csv,False,False,False
+K715,shareCounterfactualPct,4.2\%,1,40_multilog.tex:201,What one number costs,round21_numbers.py,572,s34_family.csv,False,False,False
 K716,shareDegenerateDcaMaxPct,17.2\%,1,app_calibration.tex:154,The degenerate decision-curve cells,round21_numbers.py,1068,s41_profile.csv,False,False,False
-K717,shareExcludingVMaxPct,21.1\%,2,20_inference.tex:55; 80_limits.tex:114,"Limitations; The estimator, and uncertainty that includes the model",round21_numbers.py,121,s40_facts.csv,False,False,True
-K718,shareLatitudeCrossPct,19.2\%,1,40_multilog.tex:221,What one number costs,round21_numbers.py,573,s34_family.csv,False,False,False
-K719,shareLatitudePct,11.1\%,1,40_multilog.tex:209,What one number costs,round21_numbers.py,570,s34_family.csv,False,False,False
-K720,shareResamplingCrossPct,9.4\%,1,40_multilog.tex:221,What one number costs,round21_numbers.py,574,s34_family.csv,False,False,False
-K721,shareResamplingPct,18.9\%,1,40_multilog.tex:209,What one number costs,round21_numbers.py,571,s34_family.csv,False,False,False
-K722,shareStraddleAtHalfPct,1.6\%,2,20_inference.tex:66; 75_simulation.tex:94,"Sample size, register cardinality and block length; The estimator, and uncertainty that includes the model",round21_numbers.py,342,s33_cells.csv,False,False,False
-K723,shareTargetPct,99.3\%,3,00_front_intro_related.tex:223; 50_cmdb.tex:39; 80_limits.tex:266,"Conclusion; Introduction; One log, two published answers, and what separates them",round21_numbers.py,240,s32_tiebreak.csv,False,False,True
-K724,shiftMedian,-0.0001,1,20_inference.tex:34,"The estimator, and uncertainty that includes the model",make_numbers.py,533,s17_facts.csv,False,False,False
-K725,shiftNegativePct,56\%,1,20_inference.tex:34,"The estimator, and uncertainty that includes the model",make_numbers.py,534,s17_facts.csv,False,False,False
-K726,shortfallDcaMax,2.05,2,75_simulation.tex:160; 80_limits.tex:158,Limitations; The band's family-wise coverage,round21_numbers.py,1091,s41_profile.csv,False,False,True
-K727,shortfallDcaMin,1.90,2,75_simulation.tex:160; 80_limits.tex:158,Limitations; The band's family-wise coverage,round21_numbers.py,1090,s41_profile.csv,False,False,True
+K717,shareExcludingVMaxPct,21.1\%,2,20_inference.tex:48; 80_limits.tex:103,"Limitations; The estimator, and uncertainty that includes the model",round21_numbers.py,121,s40_facts.csv,False,False,True
+K718,shareLatitudeCrossPct,19.2\%,1,40_multilog.tex:212,What one number costs,round21_numbers.py,573,s34_family.csv,False,False,False
+K719,shareLatitudePct,11.1\%,1,40_multilog.tex:200,What one number costs,round21_numbers.py,570,s34_family.csv,False,False,False
+K720,shareResamplingCrossPct,9.4\%,1,40_multilog.tex:212,What one number costs,round21_numbers.py,574,s34_family.csv,False,False,False
+K721,shareResamplingPct,18.9\%,1,40_multilog.tex:200,What one number costs,round21_numbers.py,571,s34_family.csv,False,False,False
+K722,shareStraddleAtHalfPct,1.6\%,2,20_inference.tex:58; 75_simulation.tex:79,"Sample size, register cardinality and block length; The estimator, and uncertainty that includes the model",round21_numbers.py,342,s33_cells.csv,False,False,False
+K723,shareTargetPct,99.3\%,3,00_front_intro_related.tex:223; 50_cmdb.tex:39; 80_limits.tex:255,"Conclusion; Introduction; One log, two published answers, and what separates them",round21_numbers.py,240,s32_tiebreak.csv,False,False,True
+K724,shiftMedian,-0.0001,1,app_objects.tex:412,Why refitting inside the draw breaks the percentile interval,make_numbers.py,533,s17_facts.csv,False,False,False
+K725,shiftNegativePct,56\%,1,app_objects.tex:412,Why refitting inside the draw breaks the percentile interval,make_numbers.py,534,s17_facts.csv,False,False,False
+K726,shortfallDcaMax,2.05,2,75_simulation.tex:145; 80_limits.tex:147,Limitations; The band's family-wise coverage,round21_numbers.py,1091,s41_profile.csv,False,False,True
+K727,shortfallDcaMin,1.90,2,75_simulation.tex:145; 80_limits.tex:147,Limitations; The band's family-wise coverage,round21_numbers.py,1090,s41_profile.csv,False,False,True
 K728,shortfallPerThousand,1.70,2,60_dca.tex:86; app_secondary.tex:450,"The decision, in units a service desk uses; The desk's decision, in net benefit per thousand",round21_numbers.py,639,s35_facts.csv,False,False,False
-K729,shortfallWholeMax,1.24,2,75_simulation.tex:159; 80_limits.tex:153,Limitations; The band's family-wise coverage,round21_numbers.py,1089,s41_profile.csv,False,False,True
-K730,shortfallWholeMin,1.05,2,75_simulation.tex:159; 80_limits.tex:153,Limitations; The band's family-wise coverage,round21_numbers.py,1088,s41_profile.csv,False,False,True
-K731,simCoreNtrain,"4{,}000",2,80_limits.tex:121; 80_limits.tex:129,Limitations,round21_numbers.py,937,s31_coverage.csv,False,False,True
+K729,shortfallWholeMax,1.24,2,75_simulation.tex:144; 80_limits.tex:142,Limitations; The band's family-wise coverage,round21_numbers.py,1089,s41_profile.csv,False,False,True
+K730,shortfallWholeMin,1.05,2,75_simulation.tex:144; 80_limits.tex:142,Limitations; The band's family-wise coverage,round21_numbers.py,1088,s41_profile.csv,False,False,True
+K731,simCoreNtrain,"4{,}000",2,80_limits.tex:110; 80_limits.tex:118,Limitations,round21_numbers.py,937,s31_coverage.csv,False,False,True
 K732,simCoreReps,"1{,}000",0,,,round21_numbers.py,931,s31_coverage.csv,False,False,False
 K733,simCoverageHalfWidth,1.4,0,,,round20_numbers.py,530,s31_coverage.csv,False,False,False
 K734,simCoverageSE,0.7,1,75_simulation.tex:28,"Coverage, bias and width",round20_numbers.py,529,s31_coverage.csv,False,False,False
 K735,simCoverageSEBlock,1.4,0,,,round20_numbers.py,627,s31_coverage.csv,False,False,False
-K736,simGridFixedCovA,0.453,2,75_simulation.tex:79; app_calibration.tex:131,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,1012,s31_coverage.csv,False,False,False
-K737,simGridFixedCovB,0.613,2,75_simulation.tex:80; app_calibration.tex:131,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,1013,s31_coverage.csv,False,False,False
+K736,simGridFixedCovA,0.453,2,75_simulation.tex:64; app_calibration.tex:131,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,1012,s31_coverage.csv,False,False,False
+K737,simGridFixedCovB,0.613,2,75_simulation.tex:65; app_calibration.tex:131,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,1013,s31_coverage.csv,False,False,False
 K738,simGridFixedK,"1{,}000",1,app_calibration.tex:129,"The $(n,K)$ grid, cell by cell",round21_numbers.py,1009,s31_coverage.csv,False,False,False
-K739,simGridFixedNa,"2{,}000",2,75_simulation.tex:78; app_calibration.tex:130,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,1010,s31_coverage.csv,False,False,False
-K740,simGridFixedNb,"8{,}000",2,75_simulation.tex:79; app_calibration.tex:130,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,1011,s31_coverage.csv,False,False,False
+K739,simGridFixedNa,"2{,}000",2,75_simulation.tex:63; app_calibration.tex:130,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,1010,s31_coverage.csv,False,False,False
+K740,simGridFixedNb,"8{,}000",2,75_simulation.tex:64; app_calibration.tex:130,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,1011,s31_coverage.csv,False,False,False
 K741,simGridRatioBad,0.125,1,app_calibration.tex:121,"The $(n,K)$ grid, cell by cell",round20_numbers.py,593,s31_coverage.csv,False,False,False
 K742,simGridRatioMax,0.500,0,,,round20_numbers.py,567,s31_coverage.csv,False,False,False
 K743,simGridRatioMin,0.003,0,,,round20_numbers.py,566,s31_coverage.csv,False,False,False
@@ -747,9 +747,9 @@ K745,simGridReps,150,0,,,round21_numbers.py,927,s31_coverage.csv,False,False,Fal
 K746,simGridSEMax,4.1,0,,,round21_numbers.py,929,s31_coverage.csv,False,False,False
 K747,simGridSEMedian,3.0,0,,,round21_numbers.py,928,s31_coverage.csv,False,False,False
 K748,simGridSERatio,3.7,0,,,round21_numbers.py,930,s31_coverage.csv,False,False,False
-K749,simGridSameRatioCovA,0.780,2,75_simulation.tex:76; app_calibration.tex:127,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,995,s31_coverage.csv,False,False,False
-K750,simGridSameRatioCovB,0.613,2,75_simulation.tex:76; app_calibration.tex:128,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,998,s31_coverage.csv,False,False,False
-K751,simGridSameRatioGapSE,3.2,2,75_simulation.tex:77; app_calibration.tex:128,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,1001,s31_coverage.csv,False,False,False
+K749,simGridSameRatioCovA,0.780,2,75_simulation.tex:61; app_calibration.tex:127,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,995,s31_coverage.csv,False,False,False
+K750,simGridSameRatioCovB,0.613,2,75_simulation.tex:61; app_calibration.tex:128,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,998,s31_coverage.csv,False,False,False
+K751,simGridSameRatioGapSE,3.2,2,75_simulation.tex:62; app_calibration.tex:128,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round21_numbers.py,1001,s31_coverage.csv,False,False,False
 K752,simGridSameRatioKa,200,1,app_calibration.tex:125,"The $(n,K)$ grid, cell by cell",round21_numbers.py,993,s31_coverage.csv,False,False,False
 K753,simGridSameRatioKb,"1{,}000",1,app_calibration.tex:126,"The $(n,K)$ grid, cell by cell",round21_numbers.py,996,s31_coverage.csv,False,False,False
 K754,simGridSameRatioNa,"2{,}000",1,app_calibration.tex:126,"The $(n,K)$ grid, cell by cell",round21_numbers.py,994,s31_coverage.csv,False,False,False
@@ -757,8 +757,8 @@ K755,simGridSameRatioNb,"8{,}000",1,app_calibration.tex:127,"The $(n,K)$ grid, c
 K756,simGridWorstCoverage,21.3\%,0,,,round20_numbers.py,600,s31_coverage.csv,False,False,False
 K757,simGridWorstK,"3{,}019",0,,,round20_numbers.py,601,s31_coverage.csv,False,False,False
 K758,simGridWorstN,"8{,}000",0,,,round20_numbers.py,602,s31_coverage.csv,False,False,False
-K759,simGridWorstRatio,0.377,2,75_simulation.tex:74; app_calibration.tex:117,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round20_numbers.py,599,s31_coverage.csv,False,False,False
-K760,simKMax,"3{,}019",1,75_simulation.tex:68,"Sample size, register cardinality and block length",round20_numbers.py,644,,False,False,False
+K759,simGridWorstRatio,0.377,2,75_simulation.tex:59; app_calibration.tex:117,"Sample size, register cardinality and block length; The $(n,K)$ grid, cell by cell",round20_numbers.py,599,s31_coverage.csv,False,False,False
+K760,simKMax,"3{,}019",1,75_simulation.tex:53,"Sample size, register cardinality and block length",round20_numbers.py,644,,False,False,False
 K761,simNMax,"8{,}000",0,,,round20_numbers.py,645,,False,False,False
 K762,simNoiseRate,20\%,3,app_corrections.tex:92; app_noisy.tex:38; app_noisy.tex:86,"The two estimands, and the marginalisation",make_numbers.py,451,s07_prop3.csv,False,False,False
 K763,simPrevalence,0.02,1,app_noisy.tex:118,The six simulated worlds and the two estimands,make_numbers.py,450,s07_prop3.csv,False,False,False
@@ -786,12 +786,12 @@ K784,sparseGapLarge,$+0.0006$,1,app_noisy.tex:19,,make_numbers.py,526,s18_legacy
 K785,sparseGapSmall,$+0.0118$,1,app_noisy.tex:18,,make_numbers.py,525,s18_legacy_facts.csv,False,False,False
 K786,spreadHeadline,0.073 AUC at the median pair and 0.252 at the widest,0,,,make_numbers.py,392,s38_facts.csv,False,False,False
 K787,spreadMax,0.252,1,40_multilog.tex:100,What the choices are worth,make_numbers.py,395,s38_facts.csv,True,False,False
-K788,spreadMedian,0.073,3,00_front_intro_related.tex:107; 40_multilog.tex:99; 80_limits.tex:228,Conclusion; What the choices are worth,make_numbers.py,394,s38_facts.csv,True,False,True
+K788,spreadMedian,0.073,3,00_front_intro_related.tex:107; 40_multilog.tex:99; 80_limits.tex:217,Conclusion; What the choices are worth,make_numbers.py,394,s38_facts.csv,True,False,True
 K789,straddleGapHi,0.976,1,app_calibration.tex:103,"The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,349,s33_cells.csv,False,False,False
 K790,straddleGapLo,0.078,1,app_calibration.tex:102,"The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,348,s33_cells.csv,False,False,False
 K791,straddleMin,0.90,1,app_calibration.tex:101,"The plane's reach in $n$, and where the factor is undefined",round21_numbers.py,350,s33_cells.csv,False,False,False
-K792,straddleRatio,0.125,3,20_inference.tex:64; 75_simulation.tex:92; 80_limits.tex:125,"Limitations; Sample size, register cardinality and block length; The estimator, and uncertainty that includes the model",round21_numbers.py,339,s33_cells.csv,False,False,True
-K793,targetAgreement,51\%,2,80_limits.tex:84; app_secondary.tex:491,"Limitations; The measure, the target axis, and which axis leads",make_numbers.py,781,s16_facts.csv,True,False,True
+K792,straddleRatio,0.125,3,20_inference.tex:56; 75_simulation.tex:77; 80_limits.tex:114,"Limitations; Sample size, register cardinality and block length; The estimator, and uncertainty that includes the model",round21_numbers.py,339,s33_cells.csv,False,False,True
+K793,targetAgreement,51\%,2,80_limits.tex:73; app_secondary.tex:491,"Limitations; The measure, the target axis, and which axis leads",make_numbers.py,781,s16_facts.csv,True,False,True
 K794,targetAgreementHi,66\%,0,,,make_numbers.py,783,s16_facts.csv,True,False,False
 K795,targetAgreementLo,43\%,0,,,make_numbers.py,782,s16_facts.csv,True,False,False
 K796,thetaBase,0.30,3,60_dca.tex:24; app_secondary.tex:256; app_secondary.tex:258,"Calibration before the decision curve; The operating point is a cost ratio, not a knob",make_numbers.py,661,s11_facts.csv,False,False,False
@@ -809,7 +809,7 @@ K807,widerPsiWorst,beta-cdf,0,,,round21_numbers.py,93,s29_wider.csv,False,False,
 K808,widerRShiftAffine,$1.9 \times 10^{-14}$,1,10_surface.tex:201,Two propositions,round20_numbers.py,452,s29_facts.csv,False,False,False
 K809,widerRShiftNonAffine,0.638,1,10_surface.tex:204,Two propositions,round21_numbers.py,87,s29_wider.csv,True,False,False
 K810,widerRShiftNonAffineMedian,0.059,0,,,round21_numbers.py,89,s29_wider.csv,False,False,False
-K811,widthEmpHiOverMult,1.52,2,20_inference.tex:176; 75_simulation.tex:177,Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1064,s41_profile.csv,False,False,False
+K811,widthEmpHiOverMult,1.52,2,20_inference.tex:168; 75_simulation.tex:162,Simultaneous bands over the family the claim ranges over; The band's family-wise coverage,round21_numbers.py,1064,s41_profile.csv,False,False,False
 K812,widthNoisyBefore,0.0367,1,app_noisy.tex:6,,make_numbers.py,467,s10_coverage_wrongtruth.csv,False,False,False
 K813,wrssIsotonic,52,1,app_calibration.tex:44,"A monotone fit, not a parametric one",round21_numbers.py,356,s33_cells.csv,False,False,False
 K814,wrssRatioOnly,253,1,app_calibration.tex:43,"A monotone fit, not a parametric one",round21_numbers.py,354,s33_cells.csv,False,False,False

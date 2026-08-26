@@ -36,23 +36,12 @@ the quality axis being averaged over: a surface is asked to be resolvably
 beneficial in cells where three quarters of the register has been deleted,
 which is part of why no surface here is uniformly beneficial.
 
-\paragraph{The inference surface is smaller than the declared surface, and the
-grid is not uniform across the corpus}
+\paragraph{The inference surface is smaller than the declared surface}
 Every point estimate comes from the full declared space; every \emph{band}
 comes from the inference surface, a median \inferenceShareMedianPct\ of each
-pair's computational surface. It is a subset of the declared surface cell for
-cell and the share of positive cells differs between them by a median
-\repGapMedian, but a study with compute to spare should equate the two. The
-same budget shows in two further places. The draw counts run
-\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ as declared and
-\nDrawsEffectiveMin\ to \nDrawsSurfaceMax\ effectively, because a replicate
-that leaves any cell of a family without outcome variation is dropped from
-that family; the two families that lose the most sit on logs that also supply
-much of the sign disagreement of Section~\ref{sec:results-regret}, so the
-headline's largest contributors are also its noisiest. And the pipeline axis
-carries four levels on the case study's log and two or three elsewhere, by a
-rule declared on row count before the runs, so a sensitivity index computed on
-one pair is not strictly comparable with one computed on another.
+pair's computational surface, and the draw counts run \nDrawsSurfaceMin\ to
+\nDrawsSurfaceMax\ as declared. Supplement~\ref{app:budget} gives what that
+budget costs and where it binds.
 
 \paragraph{Every weighted quantity depends on a measure that is a modelling
 choice}
