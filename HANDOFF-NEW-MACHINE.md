@@ -354,7 +354,14 @@ errors and 0 undefined references, and needs **no file under `data/`** beyond
 the three the repository tracks. Verified to fail when a number drifts.
 
 *Mint the DOI* cannot be done from here: it needs the depositing account and
-it publishes a release. What round twenty-five could do around it, it did.
+it publishes a release. What round twenty-five could do around it, it did ---
+including establishing that **Zenodo holds no record for this repository at
+all**. A query of its public API by repository name, by manuscript title and
+by owner returns nothing, while the remote carries a `v19.0` tag: a release
+was tagged and never archived, which is what an un-enabled GitHub integration
+looks like. So the first thing the depositing account must do is switch the
+repository on in Zenodo's GitHub settings; Zenodo archives only releases made
+after that, and tagging first will mint nothing.
 See `submission/OWNER-ACTIONS.md`. Minting the DOI needs the depositing
 account and a published release, so it is still owner-only. What round
 twenty-five could do, it did: the instructions there named the wrong tag,

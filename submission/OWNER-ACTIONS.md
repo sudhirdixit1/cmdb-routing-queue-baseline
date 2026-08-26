@@ -54,6 +54,14 @@ from the committed copy by a byte. That is the *confirm the archived release
 reproduces the submitted numbers* half of this item, and it passes on the
 commit this file ships with.
 
+**Step 2 has never been done, and that is the binding one.** Round
+twenty-five queried Zenodo's public API for this repository by name, by the
+manuscript's title and by the owner's username: **zero records**. The remote
+carries a `v19.0` tag, so a release was tagged and never archived --- which
+is what an un-enabled integration looks like. Zenodo only archives releases
+made *after* the repository is switched on, so **switching it on is not
+optional and tagging first will produce nothing**. Do step 2, then step 3.
+
 **The insertion itself is verified.** Round twenty-five dry-ran step 5 with a
 placeholder DOI: `make_numbers.py --strict` exits clean, `\zenodoDOI`
 becomes the URL everywhere it appears, the code-availability statement sets
