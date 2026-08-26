@@ -1,4 +1,4 @@
-# Submission package — *Information Systems* (Elsevier), round twenty
+# Submission package — *Information Systems* (Elsevier)
 
 The manuscript is **Specification Surfaces for Incremental Predictive
 Performance: Estimation, Uncertainty, and Multi-Log Evaluation**. It replaces
@@ -32,6 +32,7 @@ only numbers in this package that are not macros.
 | file | where it goes |
 |---|---|
 | `../build/journal/specification_surfaces.pdf` | The manuscript. |
+| `../build/journal/supplement.pdf` | **The supplement.** The article makes 35 references to it across 29 distinct appendices, so a reader who receives the article alone cannot follow 29 of its pointers. Elsevier takes it as a *supplementary file*; it is built by the same command as the article and must be uploaded with it. `scripts/verify_release.py` fails if the article references an appendix and the package does not list the document that contains it. |
 | `highlights.txt` | Highlights. Five bullets, each within Elsevier's 85-character limit, with lengths **derived** by `scripts/check_highlights.py` rather than counted — the counts have shipped wrong twice. |
 | `cover_letter.md` | Cover letter. |
 | `response_to_blueprint.md` | Response to the second review. Upload this one if the system takes a single response document. |
@@ -59,8 +60,10 @@ python scripts/check_response_refs.py       # every section this package cites e
 python scripts/check_highlights.py          # the highlight lengths
 python scripts/provenance.py                # which script version produced each result
 python scripts/s13_attack_numbers.py        # the verifier's own regression suite
-python scripts/build_journal.py             # 0 errors, 0 undefined references
+python scripts/build_journal.py             # 0 errors, 0 undefined references, BOTH documents
 python scripts/final_search.py              # the patterns that must not appear in the built PDF
+python scripts/check_package.py             # every file this table names exists, and every
+                                            # document the article references is in the table
 ```
 
 `final_search.py` reads the **built PDF**, not the sources, and its two

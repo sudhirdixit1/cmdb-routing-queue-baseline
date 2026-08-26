@@ -239,14 +239,30 @@ def region_of(labels):
     return "unresolved", nb, nh, nu
 
 
-def main():
+def main(argv=None):
+    """ROUND TWENTY-SEVEN.  The draw directory and the output prefix are
+    arguments, so the identical band code can be run over the designed,
+    weighted surface of `s44_designed.py` without either run being able to
+    overwrite the other's files.  With no arguments this is exactly the
+    function it was: `results/s20` in, `results/s21_*` out.
+    """
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--draws-dir", default="s20",
+                    help="directory under results/ holding draws_*.csv.gz")
+    ap.add_argument("--prefix", default="s21",
+                    help="prefix for the output files under results/")
+    a = ap.parse_args(argv)
+    global INCOMPLETE
+    INCOMPLETE = []
     t0 = time.time()
-    files = sorted((RESULTS / "s20").glob("draws_*.csv.gz"))
+    files = sorted((RESULTS / a.draws_dir).glob("draws_*.csv.gz"))
     if not files:
-        print("s20 has produced nothing yet")
+        print("%s has produced nothing yet" % a.draws_dir)
         return
     print("=" * 92)
-    print("s21  WHOLE-SURFACE SIMULTANEOUS BANDS")
+    print("s21  WHOLE-SURFACE SIMULTANEOUS BANDS  (%s -> %s)"
+          % (a.draws_dir, a.prefix))
     print("=" * 92)
     cells, bands, regions, crits = [], [], [], []
     for fn in files:
@@ -400,11 +416,11 @@ def main():
                 B.loc[need, c] = parts[i].values
     R = pd.DataFrame(regions)
     Q = pd.DataFrame(crits)
-    C.to_csv(RESULTS / "s21_cells.csv", index=False)
-    B.to_csv(RESULTS / "s21_bands.csv.gz", index=False, compression="gzip")
-    R.to_csv(RESULTS / "s21_regions.csv", index=False)
-    Q.to_csv(RESULTS / "s21_critical.csv", index=False)
-    pd.DataFrame(INCOMPLETE).to_csv(RESULTS / "s21_incomplete.csv",
+    C.to_csv(RESULTS / (a.prefix + "_cells.csv"), index=False)
+    B.to_csv(RESULTS / (a.prefix + "_bands.csv.gz"), index=False, compression="gzip")
+    R.to_csv(RESULTS / (a.prefix + "_regions.csv"), index=False)
+    Q.to_csv(RESULTS / (a.prefix + "_critical.csv"), index=False)
+    pd.DataFrame(INCOMPLETE).to_csv(RESULTS / (a.prefix + "_incomplete.csv"),
                                     index=False)
 
     if len(R):
@@ -465,7 +481,7 @@ def main():
         n_region_changed_by_mc=int(
             (R.region != R.region_nominal_q).sum()) if len(R) else 0,
         runtime_s=round(time.time() - t0, 1))
-    pd.DataFrame([facts]).to_csv(RESULTS / "s21_facts.csv", index=False)
+    pd.DataFrame([facts]).to_csv(RESULTS / (a.prefix + "_facts.csv"), index=False)
     print("\n" + pd.Series(facts).to_string())
 
 

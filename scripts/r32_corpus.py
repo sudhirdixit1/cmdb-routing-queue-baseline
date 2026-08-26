@@ -239,6 +239,28 @@ def _to_frame(rows):
 # ---------------------------------------------------------------------------
 # CSV / zip logs.  Each returns the same shape as parse_xes.
 # ---------------------------------------------------------------------------
+def _find(name):
+    """A corpus file, wherever the reader put it.
+
+    `fetch_corpus.py` writes everything it downloads into `data/corpus/`.
+    `_xes` has always looked there first and fallen back to `data/raw/`, but
+    the two loaders below named `data/raw/` directly, so a reader who followed
+    REPRODUCE.md and ran the fetch got a `FileNotFoundError` on exactly two
+    logs -- the case study's and one of the two the corpus's largest claims
+    rest on -- while the other seventeen loaded.  The fallback is now one
+    function and every loader uses it.
+    """
+    p = CORPUS / name
+    if p.exists():
+        return p
+    q = RAW / name
+    if q.exists():
+        return q
+    raise FileNotFoundError(
+        "%s is in neither %s nor %s; run `python scripts/fetch_corpus.py`"
+        % (name, CORPUS, RAW))
+
+
 def load_bpic14_corpus():
     """Rabobank, assembled from the incident table and the activity table.
 
@@ -246,11 +268,11 @@ def load_bpic14_corpus():
     but the target here is the generic handover target, not the log's own
     `# Reassignments` column.  r33 reports both and their agreement.
     """
-    inc = pd.read_csv(RAW / "Detail_Incident.csv", sep=";", low_memory=False,
+    inc = pd.read_csv(_find("Detail_Incident.csv"), sep=";", low_memory=False,
                       encoding="latin-1")
     inc = inc.loc[:, [c for c in inc.columns if not c.startswith("Unnamed")]]
     inc.columns = [c.strip() for c in inc.columns]
-    act = pd.read_csv(RAW / "Detail_Incident_Activity.csv", sep=";",
+    act = pd.read_csv(_find("Detail_Incident_Activity.csv"), sep=";",
                       low_memory=False, encoding="latin-1")
     act.columns = [c.strip() for c in act.columns]
     act["ts"] = pd.to_datetime(act["DateStamp"], format="%d-%m-%Y %H:%M:%S",
@@ -276,7 +298,7 @@ def load_bpic14_corpus():
 
 
 def load_uci_corpus():
-    z = RAW / "incident_event_log.zip"
+    z = _find("incident_event_log.zip")
     with zipfile.ZipFile(z) as zf:
         df = pd.read_csv(zf.open("incident_event_log.csv"), low_memory=False)
     df["sys_mod_count"] = pd.to_numeric(df["sys_mod_count"], errors="coerce")
@@ -299,7 +321,7 @@ def load_uci_corpus():
 
 
 def load_helpdesk_corpus():
-    d = pd.read_csv(CORPUS / "finale.csv", low_memory=False)
+    d = pd.read_csv(_find("finale.csv"), low_memory=False)
     d.columns = [c.strip() for c in d.columns]
     cid = next(c for c in d.columns
                if c.lower() in ("case id", "case_id", "caseid", "case"))
@@ -327,10 +349,7 @@ def load_helpdesk_corpus():
 # ---------------------------------------------------------------------------
 def _xes(name, **kw):
     def f():
-        p = CORPUS / name
-        if not p.exists():
-            p = RAW / name
-        return parse_xes(p, **kw)
+        return parse_xes(_find(name), **kw)
     return f
 
 

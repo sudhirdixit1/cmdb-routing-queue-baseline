@@ -58,9 +58,10 @@ entirely different reasons.
 --------------------------------------------------------------------------
 STAGE 3 IS DELIBERATELY THE MOST FAVOURABLE CASE THE BAND CAN BE GIVEN
 
-The truth is theta_c = 0 at every cell.  A draw from the sampling distribution
-gives the point estimate; B further draws FROM THE SAME DISTRIBUTION give the
-bootstrap.  That is the ideal bootstrap: its distribution is not an
+The truth theta_c is zero at every cell in three of the four regimes and a
+fixed, heterogeneous, non-zero vector in the fourth.  A draw from the sampling
+distribution, added to the truth, gives the point estimate; B further draws
+FROM THE SAME DISTRIBUTION give the bootstrap.  That is the ideal bootstrap: its distribution is not an
 approximation of the sampling distribution, it IS the sampling distribution.
 Every way a real bootstrap can be wrong -- a resampling scheme that does not
 reproduce the dependence, a refit that is unstable, a block length that is
@@ -97,7 +98,9 @@ variance: the whole grid's best fit was a ninetieth-percentile kurtosis of
 innovation, it is a discrete event at the level of the DRAW -- one refit comes
 apart -- and a draw-level event is what is modelled here.
 
-THREE REGIMES ARE RUN, and the third exists because of what stage 1 found:
+FOUR REGIMES ARE RUN.  The third exists because of what stage 1 found; the
+fourth exists because the first three cannot distinguish a band that covers
+from a band that never resolves anything.
   gaussian     no contamination; the case the multiplier is derived for
   heavy        contamination calibrated to the corpus's kurtosis profile
   degenerate   heavy, plus a share of cells put on a coarse lattice so that
@@ -105,6 +108,16 @@ THREE REGIMES ARE RUN, and the third exists because of what stage 1 found:
                cells above.  Their own bands are trivially right; what they
                do is inflate the critical value the OTHER cells are judged
                by, which is the cost this regime measures.
+  nonzero      heavy, with the truth a fixed vector two sampling standard
+               deviations wide rather than zero.  Under a zero truth every
+               cell the band resolves is a mistake, so the experiment can only
+               measure a type-I error and a band that resolves nothing scores
+               perfectly.  Under a non-zero truth a cell can be resolved
+               CORRECTLY, `n_resolved` counts them, and `n_false` counts only
+               resolutions on the wrong side of the truth -- which is the
+               quantity a resolution region actually rests on.  The band is
+               equivariant in the truth and the VERDICT is not, which is why
+               this is a regime and not an argument.
 
 FIVE CANDIDATE CRITICAL VALUES ARE SCORED, not one:
   q_mult      the Gaussian multiplier quantile -- what the bands use now
@@ -194,7 +207,27 @@ GRID = (
     (1100, 80, "decision-curve", "the modal curve family"),
     (2966, 150, "decision-curve", "BPIC14/duration, the largest family of all"),
 )
-REGIMES = ("gaussian", "heavy", "degenerate")
+#  ROUND TWENTY-SEVEN adds `nonzero`.  The three regimes above all put the
+#  truth at zero at every cell, and the file argued that a non-zero truth
+#  "would be the same experiment run slower" because the band is equivariant
+#  in the truth.  That argument is right about the band and wrong about the
+#  experiment, for two reasons a reader is entitled to see tested rather than
+#  reasoned about.  The pivotal recentring the paper applies is a function of
+#  the bootstrap MEDIAN, which is equivariant only when the bootstrap
+#  distribution is; and the resolved/unresolved verdict a region label rests
+#  on is NOT equivariant, because "excludes zero" is a statement about a fixed
+#  point and not about the truth.  Under a zero truth every rejection is a
+#  false one and the experiment can only measure a type-I error; under a
+#  non-zero truth a cell can be correctly resolved, and family-wise coverage
+#  is then the quantity a region label actually depends on.  The truth is
+#  fixed per family and drawn once, so replicates of one grid cell remain
+#  replicates of one experiment.
+REGIMES = ("gaussian", "heavy", "degenerate", "nonzero")
+
+#: the non-zero regime's truth, in units of a cell's own sampling standard
+#: deviation -- two, which is the neighbourhood in which a 95% band is
+#: actually being asked to resolve a sign.
+TRUTH_SCALE = 2.0
 REPS = 2000
 
 #: the draw-count sensitivity, at the modal surface cell.  400 is past where
@@ -361,6 +394,17 @@ def loadings(K, r, m, seed):
     return L / np.sqrt((L ** 2).sum(axis=1, keepdims=True))
 
 
+def truth_vector(K, regime, seed):
+    """The truth at every cell of a family: zero under the three regimes that
+    had it, and a fixed heterogeneous vector under `nonzero`.  Drawn from the
+    family's own seed, so it is a property of the family and not of the
+    replicate."""
+    if regime != "nonzero":
+        return np.zeros(K)
+    rng = np.random.default_rng(seed + 5779)
+    return TRUTH_SCALE * rng.standard_normal(K)
+
+
 def fragile_cells(K, p, seed):
     """Which cells a contaminated draw is amplified at.  Fixed for a family,
     so every replicate of one grid cell is a replicate of ONE experiment."""
@@ -437,9 +481,13 @@ def one_rep(task):
 
     #  one draw for the estimate and Bd for the bootstrap, from the SAME
     #  distribution: the bootstrap is ideal by construction
+    mu = truth_vector(K, regime, SEED + 101 * K)
     X = draw_family(Bd + 1, K, L, w=par["w"], frag=frag, eps=eps, lam=lam,
                     rng=rng)
-    V_hat, Wd = X[0], X[1:] + X[0]
+    #  the estimate is the truth plus one draw from the sampling distribution,
+    #  and the bootstrap is Bd more draws centred on the estimate -- which is
+    #  the ideal bootstrap, as before, and reduces to the old line when mu = 0
+    V_hat, Wd = mu + X[0], X[1:] + (mu + X[0])
 
     if regime == "degenerate":
         #  a share of cells put on a lattice coarse enough that most of their
@@ -455,10 +503,10 @@ def one_rep(task):
     keep = se > 1e-15
     if keep.sum() < 2:
         return None
-    Wd, se, V_hat = Wd[:, keep], se[keep], V_hat[keep]
+    Wd, se, V_hat, mu = Wd[:, keep], se[keep], V_hat[keep], mu[keep]
     Z = (Wd - Wd.mean(axis=0)) / se
     ok = Z.std(axis=0, ddof=1) > 1e-12
-    Z, Wd, se, V_hat = Z[:, ok], Wd[:, ok], se[ok], V_hat[ok]
+    Z, Wd, se, V_hat, mu = Z[:, ok], Wd[:, ok], se[ok], V_hat[ok], mu[ok]
 
     mq = B21.multiplier_quantile(Z, ALPHA, seed=int(rng.integers(1 << 31)))
     if mq is None:
@@ -487,7 +535,8 @@ def one_rep(task):
     #  experiment into a group per distinct survivor count, which it did.
     out = dict(K_nom=K_nom, K=int(Z.shape[1]), B=Bd, family=fam,
                regime=regime, rep=rep,
-               cov_point_basic=float(np.mean((lo_b <= 0) & (0 <= hi_b))),
+               truth_scale=float(np.abs(mu).mean()),
+               cov_point_basic=float(np.mean((lo_b <= mu) & (mu <= hi_b))),
                q_mult=q_mult, q_mult_hi=q_mult_hi, q_emp=q_emp,
                q_emp_hi=q_emp_hi, q_rad=q_rad, ceiling=ceiling,
                q_emp_at_ceiling=bool(q_emp >= ceiling - 1e-9),
@@ -496,14 +545,22 @@ def one_rep(task):
                #  the value that WOULD have covered on this replicate, had it
                #  been known: every candidate is trying to estimate its 95th
                #  percentile across replicates
-               t_max=float(np.abs(centre / se).max()))
+               t_max=float(np.abs((centre - mu) / se).max()))
     for name in CANDIDATES:
         q = out[name]
         lo, hi = centre - q * se, centre + q * se
-        out["cov_all_" + name] = bool(np.all((lo <= 0) & (0 <= hi)))
-        out["cov_point_" + name] = float(np.mean((lo <= 0) & (0 <= hi)))
+        out["cov_all_" + name] = bool(np.all((lo <= mu) & (mu <= hi)))
+        out["cov_point_" + name] = float(np.mean((lo <= mu) & (mu <= hi)))
         out["width_" + name] = float(np.mean(hi - lo))
-        out["n_false_" + name] = int(np.sum((lo > 0) | (hi < 0)))
+        #  a FALSE resolution is a cell whose band excludes zero on the wrong
+        #  side of the truth.  Under a zero truth that is any cell the band
+        #  resolves, which is what this counted before; under a non-zero truth
+        #  a cell the band resolves in the truth's own direction is a CORRECT
+        #  resolution, and only a sign error counts.
+        res_pos, res_neg = lo > 0, hi < 0
+        out["n_resolved_" + name] = int(np.sum(res_pos | res_neg))
+        out["n_false_" + name] = int(np.sum((res_pos & (mu <= 0))
+                                            | (res_neg & (mu >= 0))))
     return out
 
 
@@ -654,6 +711,14 @@ def summarise(R):
                     (sub.t_max / sub[c].replace(0, np.nan)).quantile(
                         1 - ALPHA)),
                 mean_false_cells=float(sub["n_false_" + c].mean()),
+                #  under a non-zero truth a resolved cell is not automatically
+                #  a mistake, so the two are counted apart: `mean_resolved` is
+                #  how much the band decides and `mean_false_cells` how much
+                #  of that it gets wrong.  A band that resolves nothing has a
+                #  perfect false rate and is useless, which is the failure
+                #  mode the zero-truth regimes cannot see.
+                mean_resolved_cells=float(sub["n_resolved_" + c].mean()),
+                truth_scale=float(sub.truth_scale.mean()),
                 kurt_med=float(sub.kurt_med.median()),
                 kurt_p90=float(sub.kurt_p90.median()),
                 share_q_emp_at_ceiling=float(sub.q_emp_at_ceiling.mean())))
@@ -694,6 +759,23 @@ def selftest():
     ok1 = (lo1 <= mu) & (mu <= hi1)
     print("  equivariance: max endpoint shift error %.3e" % d)
     print("  same coverage event at every cell: %s" % bool((ok0 == ok1).all()))
+
+    #  THREE, the verdict is NOT equivariant, which is why `nonzero` is a
+    #  regime and not an argument.  Coverage of the truth is the same event
+    #  at every truth (check one); "the band excludes zero" is not, because
+    #  zero is a fixed point and the truth moves relative to it.  A file that
+    #  measures only coverage at zero can therefore report a band that never
+    #  resolves anything as a band that never errs.
+    res0 = int(np.sum((lo0 > 0) | (hi0 < 0)))
+    res1 = int(np.sum((lo1 > 0) | (hi1 < 0)))
+    print("  cells the band resolves: %d at truth zero, %d at truth mu -- "
+          "equivariant verdict: %s" % (res0, res1, res0 == res1))
+    #  and the non-zero regime's own truth must be non-zero and heterogeneous
+    tv = truth_vector(200, "nonzero", SEED)
+    z = truth_vector(200, "heavy", SEED)
+    print("  truth vector: |mu| mean %.3f, sd %.3f, zero regimes at %.3f"
+          % (float(np.abs(tv).mean()), float(tv.std()),
+             float(np.abs(z).max())))
 
     big = draw_family(400000, 200, loadings(200, 8, 0.4, SEED),
                       0.2, fragile_cells(200, 0.2, SEED), 0.05, 4.0,

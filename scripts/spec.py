@@ -57,55 +57,81 @@ SCALARS = ("auc", "ap", "brier_skill", "nagelkerke", "logloss_skill")
 from sklearn.metrics import average_precision_score, roc_auc_score
 
 
-def brier_skill(p, y, p0):
-    ref = float(np.mean((p0 - y) ** 2))
-    return float(1.0 - np.mean((p - y) ** 2) / ref) if ref > EPS else np.nan
+#  EVERY INSTRUMENT TAKES A WEIGHT, BECAUSE THE RESAMPLING SCHEME DOES.
+#  Under the weighted block bootstrap of `block_weights` a draw is a weight
+#  vector rather than an index multiset, so a metric computed by counting rows
+#  would silently evaluate the point estimate in every draw.  `w=None` is the
+#  unweighted case and reduces to the arithmetic that was here before, exactly:
+#  `_wmean(x, None)` is `x.mean()`.
+def _wmean(x, w=None):
+    x = np.asarray(x, float)
+    if w is None:
+        return float(np.mean(x))
+    w = np.asarray(w, float)
+    s = float(np.sum(w))
+    return float(np.dot(x, w) / s) if s > EPS else np.nan
 
 
-def _ll(p, y):
+def brier_skill(p, y, p0, w=None):
+    ref = _wmean((p0 - y) ** 2, w)
+    return float(1.0 - _wmean((p - y) ** 2, w) / ref) if ref > EPS else np.nan
+
+
+def _ll(p, y, w=None):
     p = np.clip(np.asarray(p, float), 1e-12, 1 - 1e-12)
     y = np.asarray(y, float)
-    return float(np.mean(y * np.log(p) + (1 - y) * np.log(1 - p)))
+    return _wmean(y * np.log(p) + (1 - y) * np.log(1 - p), w)
 
 
-def logloss_skill(p, y, p0):
+def logloss_skill(p, y, p0, w=None):
     """1 - deviance(p) / deviance(intercept).  A proper scoring rule on the
     log scale, and the one instrument here that is neither rank-based nor a
     squared error."""
-    ref = _ll(np.full(len(np.asarray(y)), float(p0)), y)
-    return float(1.0 - _ll(p, y) / ref) if abs(ref) > EPS else np.nan
+    ref = _ll(np.full(len(np.asarray(y)), float(p0)), y, w)
+    return float(1.0 - _ll(p, y, w) / ref) if abs(ref) > EPS else np.nan
 
 
-def nagelkerke(p, y, p0):
-    n = len(y)
-    ll1, ll0 = _ll(p, y) * n, _ll(np.full(n, float(p0)), y) * n
+def nagelkerke(p, y, p0, w=None):
+    #  the effective sample size, which is the row count when w is None and
+    #  Kish's when it is not: the Cox-Snell exponent is per-observation, so a
+    #  weighted fit must divide by the weight it actually carries.
+    n = _eff_n(len(y), w)
+    ll1, ll0 = _ll(p, y, w) * n, _ll(np.full(len(y), float(p0)), y, w) * n
     cox = 1.0 - np.exp(2.0 * (ll0 - ll1) / n)
     mx = 1.0 - np.exp(2.0 * ll0 / n)
     return float(cox / mx) if mx > EPS else np.nan
 
 
-def net_benefit(p, y, t):
+def _eff_n(n, w=None):
+    if w is None:
+        return float(n)
+    w = np.asarray(w, float)
+    s2 = float(np.sum(w ** 2))
+    return float(np.sum(w) ** 2 / s2) if s2 > EPS else float(n)
+
+
+def net_benefit(p, y, t, w=None):
     """Vickers-Elkin net benefit per case, at exchange rate t/(1-t)."""
     y = np.asarray(y).astype(int)
     sel = np.asarray(p) >= t
-    n = len(y)
-    if n == 0:
+    if len(y) == 0:
         return np.nan
-    tp = float(np.sum(sel & (y == 1))) / n
-    fp = float(np.sum(sel & (y == 0))) / n
+    tp = _wmean(sel & (y == 1), w)
+    fp = _wmean(sel & (y == 0), w)
     return float(tp - fp * (t / (1.0 - t)))
 
 
-def all_metrics(p, y, prev_tr, grid=NB_GRID):
+def all_metrics(p, y, prev_tr, grid=NB_GRID, w=None):
     y = np.asarray(y).astype(int)
     two = len(np.unique(y)) > 1
-    out = {"auc": roc_auc_score(y, p) if two else np.nan,
-           "ap": average_precision_score(y, p) if two else np.nan,
-           "brier_skill": brier_skill(p, y, prev_tr),
-           "nagelkerke": nagelkerke(p, y, prev_tr),
-           "logloss_skill": logloss_skill(p, y, prev_tr)}
+    kw = {} if w is None else {"sample_weight": np.asarray(w, float)}
+    out = {"auc": roc_auc_score(y, p, **kw) if two else np.nan,
+           "ap": average_precision_score(y, p, **kw) if two else np.nan,
+           "brier_skill": brier_skill(p, y, prev_tr, w),
+           "nagelkerke": nagelkerke(p, y, prev_tr, w),
+           "logloss_skill": logloss_skill(p, y, prev_tr, w)}
     for t in grid:
-        out["nb_%.3f" % t] = net_benefit(p, y, float(t))
+        out["nb_%.3f" % t] = net_benefit(p, y, float(t), w)
     return out
 
 
@@ -156,36 +182,102 @@ def unseen_rate(tr, te, cols):
 # --------------------------------------------------------------------------
 # learners.  Each returns test-set probabilities; each is fitted on train only.
 # --------------------------------------------------------------------------
-def _onehot_logit(tr, te, cols, y, seed, C_=1.0):
+def _onehot_logit(tr, te, cols, y, seed, C_=1.0, w=None):
     from sklearn.linear_model import LogisticRegression
     from sklearn.preprocessing import OneHotEncoder
     e = OneHotEncoder(handle_unknown="ignore")
     X = e.fit_transform(tr[cols].astype(str))
-    m = LogisticRegression(max_iter=3000, C=C_, random_state=seed).fit(X, y)
+    m = LogisticRegression(max_iter=3000, C=C_, random_state=seed)
+    #  `handle_unknown="ignore"` still encodes every level PRESENT in tr, and
+    #  under the weighted scheme every level of the register is present in
+    #  every draw, which is the whole point of it.
+    m.fit(X, y, sample_weight=None if w is None else np.asarray(w, float))
     return m.predict_proba(e.transform(te[cols].astype(str)))[:, 1]
 
 
-def _freq_logit(tr, te, cols, y, seed):
+def _freq_logit(tr, te, cols, y, seed, w=None):
     """Frequency (count) encoding fitted on the training half only, then
     logistic regression on the log counts.  A second, target-free encoding of
     the same columns, so the encoding axis can be measured rather than
     asserted."""
     from sklearn.linear_model import LogisticRegression
     Xtr, Xte = [], []
+    ww = None if w is None else np.asarray(w, float)
     for c in cols:
         a = tr[c].astype(str)
-        vc = a.value_counts()
+        #  THE COUNT IS THE DRAW'S COUNT.  A frequency encoding is a statistic
+        #  of the resample, so under weights it is the WEIGHTED count; using
+        #  the unweighted one would encode the point estimate's frequencies
+        #  into every draw and understate the encoding's own variability.
+        vc = (a.value_counts() if ww is None
+              else pd.Series(ww, index=a.values).groupby(level=0).sum())
         Xtr.append(np.log1p(a.map(vc).fillna(0.0).values.astype(float)))
         Xte.append(np.log1p(te[c].astype(str).map(vc).fillna(0.0)
                             .values.astype(float)))
     Xtr, Xte = np.column_stack(Xtr), np.column_stack(Xte)
-    mu, sd = Xtr.mean(0), Xtr.std(0) + 1e-9
+    if ww is None:
+        mu, sd = Xtr.mean(0), Xtr.std(0) + 1e-9
+    else:
+        mu = np.average(Xtr, axis=0, weights=ww)
+        sd = np.sqrt(np.average((Xtr - mu) ** 2, axis=0, weights=ww)) + 1e-9
     m = LogisticRegression(max_iter=3000, random_state=seed)
-    m.fit((Xtr - mu) / sd, y)
+    m.fit((Xtr - mu) / sd, y, sample_weight=ww)
     return m.predict_proba((Xte - mu) / sd)[:, 1]
 
 
-def _hgb(tr, te, cols, y, seed, calibrate=None):
+def _wtarget_encode(Xtr, y, Xte, w, seed, cv=5, smooth=20.0):
+    """A CROSS-FITTED TARGET ENCODER THAT TAKES A WEIGHT.
+
+    `sklearn.preprocessing.TargetEncoder` has no `sample_weight`, and a target
+    encoding is a statistic of the training data: under the weighted scheme an
+    unweighted encoder would put the point estimate's category means inside
+    every draw, so the draw would understate exactly the variability the
+    encoding contributes.  This is the same estimator with the weights carried
+    through -- a cross-fitted, m-smoothed category mean:
+
+        mhat(c) = (sum_i w_i y_i [x_i = c] + smooth * ybar) /
+                  (sum_i w_i [x_i = c] + smooth)
+
+    computed on the folds a row is NOT in, so no training row sees its own
+    outcome in its own encoding, and with the full training half for the test
+    rows.  A category unseen in a fold falls back to the weighted prior.
+
+    It is used only when `w is not None`.  With no weights the learner keeps
+    sklearn's encoder, so every unweighted number this repository has ever
+    produced is unchanged by this function's existence.
+    """
+    from sklearn.model_selection import KFold
+    Xtr = np.asarray(Xtr, dtype=object)
+    Xte = np.asarray(Xte, dtype=object)
+    y = np.asarray(y, float)
+    w = np.ones(len(y)) if w is None else np.asarray(w, float)
+    n, k = Xtr.shape
+    Etr = np.zeros((n, k), float)
+    Ete = np.zeros((len(Xte), k), float)
+
+    def _means(idx, col):
+        a = Xtr[idx, col]
+        ser = pd.DataFrame({"c": a, "w": w[idx], "wy": w[idx] * y[idx]})
+        g = ser.groupby("c", sort=False)[["w", "wy"]].sum()
+        prior = float(ser.wy.sum() / ser.w.sum()) if ser.w.sum() > 0 else 0.5
+        m = (g.wy + smooth * prior) / (g.w + smooth)
+        return m, prior
+
+    for col in range(k):
+        #  the test half is encoded with the whole training half
+        m, prior = _means(np.arange(n), col)
+        Ete[:, col] = pd.Series(Xte[:, col]).map(m).fillna(prior).values
+        #  and each training fold with the folds it is not in
+        kf = KFold(n_splits=min(cv, max(2, n // 2)), shuffle=True,
+                   random_state=seed)
+        for fit_idx, out_idx in kf.split(np.arange(n)):
+            mm, pp = _means(fit_idx, col)
+            Etr[out_idx, col] = (pd.Series(Xtr[out_idx, col]).map(mm)
+                                 .fillna(pp).values)
+    return Etr, Ete
+
+
+def _hgb(tr, te, cols, y, seed, calibrate=None, w=None):
     """Cross-fitted target encoding plus histogram gradient boosting.  The
     encoder is cross-fitted inside the training half, so no training row sees
     its own outcome in its own encoding; the test half is encoded with the
@@ -194,23 +286,32 @@ def _hgb(tr, te, cols, y, seed, calibrate=None):
     3,019 levels, which is why the encoding is target-based and cross-fitted
     rather than one-hot."""
     from sklearn.ensemble import HistGradientBoostingClassifier
-    from sklearn.preprocessing import TargetEncoder
-    e = TargetEncoder(target_type="binary", cv=5, random_state=seed)
-    X = e.fit_transform(tr[cols].astype(str).values, y)
-    Xt = e.transform(te[cols].astype(str).values)
+    if w is None:
+        from sklearn.preprocessing import TargetEncoder
+        e = TargetEncoder(target_type="binary", cv=5, random_state=seed)
+        X = e.fit_transform(tr[cols].astype(str).values, y)
+        Xt = e.transform(te[cols].astype(str).values)
+    else:
+        X, Xt = _wtarget_encode(tr[cols].astype(str).values, y,
+                                te[cols].astype(str).values, w, seed)
     base = HistGradientBoostingClassifier(max_iter=200, learning_rate=0.1,
                                           random_state=seed)
     if calibrate:
         from sklearn.calibration import CalibratedClassifierCV
         base = CalibratedClassifierCV(base, method=calibrate, cv=3)
-    return base.fit(X, y).predict_proba(Xt)[:, 1]
+    ww = None if w is None else np.asarray(w, float)
+    return base.fit(X, y, sample_weight=ww).predict_proba(Xt)[:, 1]
 
 
+#  Every learner takes an optional training weight as its sixth argument.
+#  Passing none is the scheme this repository ran until round twenty-seven and
+#  reproduces its numbers exactly; passing one is the weighted block bootstrap.
 LEARNERS = {
-    "logit": lambda tr, te, c, y, s: _onehot_logit(tr, te, c, y, s),
-    "logit_fr": lambda tr, te, c, y, s: _freq_logit(tr, te, c, y, s),
-    "hgb": lambda tr, te, c, y, s: _hgb(tr, te, c, y, s),
-    "hgb_iso": lambda tr, te, c, y, s: _hgb(tr, te, c, y, s, calibrate="isotonic"),
+    "logit": lambda tr, te, c, y, s, w=None: _onehot_logit(tr, te, c, y, s, w=w),
+    "logit_fr": lambda tr, te, c, y, s, w=None: _freq_logit(tr, te, c, y, s, w=w),
+    "hgb": lambda tr, te, c, y, s, w=None: _hgb(tr, te, c, y, s, w=w),
+    "hgb_iso": lambda tr, te, c, y, s, w=None: _hgb(tr, te, c, y, s,
+                                                    calibrate="isotonic", w=w),
 }
 LEARNER_ENCODING = {"logit": "onehot", "logit_fr": "frequency",
                     "hgb": "target-xfit", "hgb_iso": "target-xfit"}
@@ -340,6 +441,57 @@ def block_indices(n, rng, ell=None):
     starts = rng.integers(0, max(1, n - ell + 1), size=k)
     out = np.concatenate([np.arange(s, s + ell) for s in starts])[:n]
     return np.clip(out, 0, n - 1)
+
+
+def block_length(n, ell=None):
+    """The block length the two schemes share, so a comparison between them
+    is a comparison of schemes and not of bandwidths."""
+    return int(ell) if ell is not None else max(10, int(round(n ** (1.0 / 3.0))))
+
+
+def block_weights(n, rng, ell=None):
+    """THE WEIGHTED BLOCK BOOTSTRAP: a draw is a weight vector, not a subset.
+
+    `block_indices` resamples blocks with replacement, so about $1 - e^{-1}$ of
+    the rows appear in any one draw and the rest do not appear at all.  On a
+    high-cardinality register that is not a nuisance, it is a bias: a register
+    level absent from a draw cannot be fitted in it, so the refit is of a
+    smaller register than the one the estimand is about, and the bootstrap
+    distribution is displaced.  The displacement does not shrink with $n$ while
+    the interval's half-width does, so the interval becomes a correct interval
+    for the wrong quantity, and the pivotal interval built from it can exclude
+    its own point estimate.
+
+    The repair is to give every row a positive weight in every draw.  The
+    blocks are a circular tiling of the row order at a RANDOM OFFSET, so a
+    block boundary is not fixed across draws and the temporal dependence
+    survives at the same length scale `block_indices` uses; each block gets one
+    weight, and the block weights are $k$ times a Dirichlet$(1,\dots,1)$ --
+    equivalently, i.i.d. exponentials normalised to sum to $k$.  Every row
+    therefore carries the weight of exactly one block, the weights are strictly
+    positive with probability one, they average to one, and their variance is
+    one, which is the variance of a block's multiplicity under
+    `block_indices`.  The two schemes differ in whether a row can be dropped
+    and in nothing else that is declared.
+
+    Returns a float array of length `n` with mean 1.
+    """
+    ell = block_length(n, ell)
+    k = int(np.ceil(n / float(ell)))
+    #  one exponential per block, normalised: (w_1..w_k) ~ k * Dirichlet(1^k)
+    xi = rng.exponential(1.0, size=k)
+    s = float(xi.sum())
+    if s <= 0:
+        return np.ones(n, float)
+    xi = xi * (k / s)
+    off = int(rng.integers(0, ell)) if ell > 1 else 0
+    #  the circular tiling: row i belongs to block ((i - off) mod n) // ell
+    idx = ((np.arange(n) - off) % n) // ell
+    w = xi[np.clip(idx, 0, k - 1)]
+    #  a tiling of n rows into blocks of length ell leaves a short last block;
+    #  renormalising to mean one keeps the weight budget exactly n whatever
+    #  the remainder is
+    return w * (n / float(w.sum()))
 
 
 # --------------------------------------------------------------------------

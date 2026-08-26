@@ -71,10 +71,10 @@ independent exponentials, applied per moving block so the temporal dependence
 survives --- gives every row positive weight in every draw, so every register
 level is present in every refit and the displacement disappears at source
 rather than being pivoted around. That is a change to one function and a
-re-run of the whole inference surface, it is not in this version, the
-comparison against the multinomial and $m$-out-of-$n$ resamples across the
-$(n,K)$ plane is not run, and no conclusion here should be read as evidence
-that the refit's cost was worth paying.
+re-run of the whole inference surface; the comparison against the multinomial
+and $m$-out-of-$n$ resamples across the $(n,K)$ plane is not run, and no
+conclusion here should be read as evidence that the refit's cost was worth
+paying.
 
 \paragraph{Internal --- further assumptions, named}
 The split point is fixed within a draw, so split-position uncertainty is
@@ -93,11 +93,12 @@ rejects the transfer should rely on the objects that need no band: the point
 estimates, the decomposition, the disagreement rates and the regret
 comparison.
 
-\paragraph{Conclusion --- two headlines this round withdrew}
+\paragraph{Conclusion --- two claims a specification surface invites and
+this evidence does not support}
 The pooled decomposition is mostly resampling. Net of it the higher-order
-share falls from \pooledInteractionMedianPct\ to \foldInteractionTotalPct\ and
-no longer exceeds the largest first-order index, so \emph{most of the variance
-belongs to no single axis} --- which earlier versions of this paper asserted
+share falls from \pooledInteractionMedianPct\ to \foldInteractionTotalPct\
+and no longer exceeds the largest first-order index, so \emph{most of the
+variance belongs to no single axis} --- the reading a pooled surface invites
 --- holds on \nFoldInteractionExceeds\ of \nPairs\ pairs rather than
 \nPooledInteractionExceeds\ (Section~\ref{sec:axes2}). What survives is that
 \emph{which} axis leads is a property of the pair. And a sign disagreement is

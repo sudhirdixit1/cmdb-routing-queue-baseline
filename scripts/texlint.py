@@ -66,6 +66,36 @@ BANNED_IN_MAIN = [
     ("correction reference", r"correction~?C\d+"),
 ]
 
+#  ---- THE REVISION NARRATIVE, WHICH BELONGS IN THE RESPONSE LETTER --------
+#  An archival article is read by people who never saw its referee reports.
+#  A manuscript that says "round twenty-six adds", "a defect a referee named"
+#  or "it is not in this version" is telling those readers about a
+#  conversation they were not part of, and it dates the article to a moment in
+#  a review process rather than to a state of knowledge.  Every one of these
+#  sentences has a home -- `submission/response_to_review*.md' -- and this
+#  check is what keeps them there.  It runs over the article AND the
+#  supplement, because both are archived.
+#
+#  It is deliberately blunt: a phrase that trips it can almost always be said
+#  without the history, and where it genuinely cannot -- the pre-registration
+#  paragraph has to say what was fixed BEFORE the results -- the sentence is
+#  written about the protocol rather than about the round.
+REVISION_NARRATIVE = [
+    ("a numbered revision round",
+     r"\bround (?:nineteen|twenty|twenty-\w+|twenty\s+\w+|\d+)\b"),
+    ("a reference to the referees",
+     r"\b(?:a|the|this|our|its) referees?\b|\breferees\b|"
+     r"\bthe (?:report|review)(?:'s)? (?:asks|asked|names|named|"
+     r"wants|wanted|requires|required)\b"),
+    ("a reference to this draft as one of several",
+     r"\bthis version of the (?:paper|manuscript|article)\b|"
+     r"\b(?:not|absent) in this version\b|\bin this version\b|"
+     r"\bthis (?:round|revision|resubmission)\b|"
+     r"\bearlier (?:versions?|drafts?) of this (?:paper|work|manuscript)\b|"
+     r"\bthe previous (?:version|draft|round)\b|"
+     r"\bin (?:this|the current) revision\b"),
+]
+
 REQUIRED = [
     ("CRediT", r"CRediT authorship contribution statement"),
     ("competing interests", r"Declaration of competing interest"),
@@ -168,6 +198,7 @@ CHECKS = (
     "that no macro carrying words or math is used inside math mode",
     "that no phrase is repeated immediately",
     "that no backslash escape was interpreted by a scripted edit",
+    "that neither document narrates its own revision history",
 )
 
 FAILS, NOTES = [], []
@@ -483,6 +514,26 @@ def main(argv=None):
             FAILS.append("%d %s(s) survive in the article, which the review "
                          "asked to have moved to the archive: %s"
                          % (len(hits), name, ", ".join(sorted(set(hits))[:6])))
+    #  16  THE REVISION NARRATIVE.  Over every part that reaches either
+    #  archived document, comments stripped, so a source annotation is free
+    #  and a sentence a reader sees is not.
+    _narr = []
+    for f in sorted((PAPER / "parts").glob("*.tex")):
+        if f.name in (CORRECTION_APPENDIX, "app_pilot.tex",
+                      "_appendix_block.tex"):
+            continue
+        src = strip_comments(f.read_text(encoding="utf-8"))
+        for name, pat in REVISION_NARRATIVE:
+            for m in re.finditer(pat, src, flags=re.IGNORECASE):
+                line = src[:m.start()].count("\n") + 1
+                _narr.append("%s:%d %s (%r)"
+                             % (f.name, line, name, m.group(0)[:48]))
+    if _narr:
+        FAILS.append(
+            "%d passage(s) narrate the manuscript's own revision history, "
+            "which belongs in the response letter and not in an archival "
+            "article: %s" % (len(_narr), "; ".join(_narr[:8])))
+
     for f in sorted((PAPER / "parts").glob("*.tex")):
         if f.name == CORRECTION_APPENDIX:
             continue
