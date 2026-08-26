@@ -36,16 +36,26 @@ of them had gone stale before round twenty-five added that check.
    `v25.0`, title it
    *Specification Surfaces for Incremental Predictive Performance*, and
    publish. Zenodo mints the DOI within a minute or two.
-5. Put the DOI into `.zenodo.json` as `"doi": "10.5281/zenodo.XXXXXXX"`, then:
+5. Paste the minted DOI into one command:
 
    ```bash
-   python scripts/make_numbers.py --strict
-   python scripts/assemble_paper.py
-   python scripts/build_journal.py
+   python scripts/insert_doi.py 10.5281/zenodo.XXXXXXX
    ```
 
-   `--strict` fails if any macro is still unresolved, which is the check that
-   the DOI actually landed in the manuscript.
+   That writes the `doi` key into `.zenodo.json` and runs the whole chain ---
+   `make_numbers.py --strict`, `assemble_paper.py`, `texlint.py`,
+   `verify_numbers.py`, `build_journal.py`, `check_response_refs.py` --- so a
+   DOI that does not build is reported before you commit it. It takes a bare
+   DOI or a `doi.org` URL.
+
+   **It refuses a DOI that is not this archive's.** Before writing anything it
+   resolves the DOI against Zenodo's public API (no credential needed to
+   read) and checks the record's title against `.zenodo.json`'s and its
+   depositor against this archive's creators. A mistyped digit usually lands
+   on somebody else's deposit rather than on nothing, and a live link in a
+   submitted paper that goes to the wrong record is worse than the
+   placeholder, which at least cannot mislead. `--no-verify` skips the check
+   for an offline machine; `--dry-run` reports and writes nothing.
 
 Before tagging, run `python scripts/verify_release.py`. It exports the tree
 with `git archive` --- which sees exactly what the tag will --- and rebuilds
@@ -62,13 +72,18 @@ is what an un-enabled integration looks like. Zenodo only archives releases
 made *after* the repository is switched on, so **switching it on is not
 optional and tagging first will produce nothing**. Do step 2, then step 3.
 
-**The insertion itself is verified.** Round twenty-five dry-ran step 5 with a
-placeholder DOI: `make_numbers.py --strict` exits clean, `\zenodoDOI`
-becomes the URL everywhere it appears, the code-availability statement sets
-it without an overfull box, and both documents build at 0 errors and 0
-undefined references. So the only thing between this manuscript and a real
-DOI is the deposit --- nothing in the build will surprise you when you paste
-the number in.
+**The insertion itself is verified end to end.** Round twenty-five ran step 5
+against a `git archive` export --- a tree carrying only what is committed,
+which is what the tag will point at --- with a placeholder DOI. All six gates
+exit clean, `\zenodoDOI` becomes `\url{https://doi.org/...}`, the
+code-availability statement on **page 43** of the article carries the
+resolved URL with the placeholder gone, the article is still 48 pages, and
+both documents build at 0 errors, 0 undefined references, 0 overfull boxes.
+The refusals were exercised too: a malformed DOI, a well-formed DOI Zenodo
+has no record for, and a real Zenodo DOI belonging to a different deposit are
+each refused with nothing written. So the only thing between this manuscript
+and a real DOI is the deposit --- nothing in the build will surprise you when
+you paste the number in.
 
 **Minting the DOI is the one blocking item a script cannot clear.** The second review is
 explicit that a manuscript whose archive DOI reads "reserved" should not be

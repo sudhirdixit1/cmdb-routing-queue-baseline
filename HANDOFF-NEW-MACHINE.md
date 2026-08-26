@@ -119,6 +119,9 @@ python scripts/verify_release.py      # a clean checkout reproduces every
                                       # number byte for byte, with no data/
 ```
 
+Once the archive DOI exists, `python scripts/insert_doi.py <DOI>` puts it in
+and re-runs the gates behind it; see item E.
+
 **Trap:** `verify_numbers` and `texlint` read the *assembled* file. If you edit
 `paper/parts/*.tex` and skip `assemble_paper.py`, they check a stale document
 and lie to you. This has happened.
@@ -194,7 +197,9 @@ In the supplement: `corpus` `construct` `denominator` `confirm` `regions`
 `s32_cohort.py` · `s33_calibrate.py` (**coverage calibration**) ·
 `s34_reporting.py` (**misreport rates**) · `s35_utility.py` · `s36_sca.py`
 (specification-curve comparison) · `s37_axes.py` · `s38_tau.py` (**decision
-times**) · `s39_case_quality.py` · `s40_qcheck.py` (**critical-value check**)
+times**) · `s39_case_quality.py` · `s40_qcheck.py` (**critical-value check**) ·
+`s41_bandcoverage.py` (**what the band's family-wise coverage actually
+is, and its `--selftest`**)
 
 ### `scripts/` — build, gates, macro modules
 `make_numbers.py` `round20_numbers.py` `round21_numbers.py`
@@ -204,6 +209,9 @@ times**) · `s39_case_quality.py` · `s40_qcheck.py` (**critical-value check**)
 `check_response_refs.py` `check_highlights.py` `make_highlights.py`
 `fill_response21.py` `attack_verifier.py` `s13_attack_numbers.py`
 `reproduce_all.py` `spec.py` `common.py` `base14.py` `r32_corpus.py`
+`verify_release.py` (**does a clean checkout reproduce the submitted
+numbers**) `insert_doi.py` (**the minted archive DOI, checked against
+Zenodo and inserted, with the gates re-run behind it**)
 
 > Many `e*`, `r1`–`r49` and `patch_*` scripts are **history** from earlier
 > rounds. Do not run them; do not delete them either — some results files
@@ -353,10 +361,28 @@ what is committed regenerates `paper/numbers.tex` **byte for byte** and all
 errors and 0 undefined references, and needs **no file under `data/`** beyond
 the three the repository tracks. Verified to fail when a number drifts.
 
-*Mint the DOI* cannot be done from here: it needs the depositing account and
-it publishes a release. What round twenty-five could do around it, it did ---
-including establishing that **Zenodo holds no record for this repository at
-all**. A query of its public API by repository name, by manuscript title and
+*Mint the DOI* is two halves that are not alike, and only one of them needs a
+person. **Minting** cannot be done from here: it needs the depositing account
+and it publishes a release. **Inserting** is mechanical, and
+`scripts/insert_doi.py` now does the whole of it in one command ---
+
+```bash
+python scripts/insert_doi.py 10.5281/zenodo.XXXXXXX
+```
+
+--- writing the key into `.zenodo.json` and running `make_numbers --strict`,
+`assemble_paper`, `texlint`, `verify_numbers`, `build_journal` and
+`check_response_refs` behind it. It **resolves the DOI against Zenodo's
+public API before writing anything** and refuses one whose record is titled
+differently or deposited by somebody else: a mistyped digit usually lands on
+another real deposit rather than on nothing, and a live link in a submitted
+paper that goes to the wrong record is worse than the placeholder. Verified
+end to end against a `git archive` export with a placeholder DOI --- six
+gates clean, the resolved URL on page 43 with the placeholder gone, still 48
+pages --- and its three refusal paths exercised.
+
+What round twenty-five could do around the minting itself, it did --- including
+establishing that **Zenodo holds no record for this repository at all**. A query of its public API by repository name, by manuscript title and
 by owner returns nothing, while the remote carries a `v19.0` tag: a release
 was tagged and never archived, which is what an un-enabled GitHub integration
 looks like. So the first thing the depositing account must do is switch the
@@ -430,7 +456,9 @@ deleting nothing. The article is 48 pages once the journal's required
 declarations and the reference list are counted, and those ten pages are not
 the author's to cut.
 
-**What is left is E**, and only its last step: tag the release, publish it,
-and put the minted DOI into `.zenodo.json`. Everything around that step —
-the instructions, the version, the branch, and seven stale numbers in the
-archive's own description — was wrong and is fixed.
+**What is left is E**, and only the part of it that is a person logging in:
+switch the repository on in Zenodo, tag the release, publish it. The
+insertion that follows is one command, `scripts/insert_doi.py`, verified end
+to end. Everything around that step — the instructions, the version, the
+branch, and seven stale numbers in the archive's own description — was wrong
+and is fixed.
