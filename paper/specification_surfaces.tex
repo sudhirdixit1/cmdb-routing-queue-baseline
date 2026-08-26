@@ -2435,6 +2435,22 @@ ratio at which coverage starts to fall, and a nominal band on those pairs is
 direction, which inflates the count of resolved cells. The plane is dense
 enough to calibrate against, and Section~\ref{sec:regions} does.
 
+\textbf{Where the interval stops containing its own estimate.} The denser
+plane the coverage calibration of Section~\ref{sec:regions} is fitted on ---
+a different and larger object from the \nSimGridCells-cell grid above, at
+\planeNtrainLo\ to \planeNtrainHi\ training rows --- locates the crossing
+Section~\ref{sec:boot} describes. At a fixed ratio
+of \straddleRatio\ the basic interval straddles its own point estimate in
+every replicate up to \nStraddleAllMax\ training rows and in only
+\shareStraddleAtHalfPct\ of them by \nStraddleHalfMin, because the bootstrap
+displacement is a bias that does not shrink with $n$ while the half-width
+does. Past that crossing the inflation factor is not defined --- it is a
+widening about the estimate, and there is nothing to widen about --- and
+\nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\ cells have none
+for that reason, every one of them at \nStraddleHalfMin\ rows or more.
+Section~\ref{sec:regions} reports what that leaves the corpus, and
+Supplement~\ref{app:calibration} describes that plane's design.
+
 \textbf{Block length.} \nSimBlockLengths\ lengths are examined --- half the
 rule $\lceil n^{1/3} \rceil$, the rule, and twice it. Coverage moves with the
 length, spanning \coverageBlockSpreadMax\ within a world, of the order of two
@@ -2692,8 +2708,10 @@ anti-conservative direction, because the draws are heavier-tailed than the
 Gaussian process the multiplier simulates. Section~\ref{sec:simbands} reports
 what each estimator resolves --- \nResolvedWholeMult\ surface cells against
 \nResolvedWholeEmp, and \nResolvedDcaMult\ decision-curve cells against
-\nResolvedDcaEmp\ --- and a reader who prefers the empirical value should read
-the second of each pair.
+\nResolvedDcaEmp. A reader who prefers the empirical value should read the
+second of each pair on the \emph{surface} families and not on the
+decision-curve ones, where Section~\ref{sec:simband} shows that
+$q_{\mathrm{emp}}$ is inflated by cells whose value is zero by arithmetic.
 
 \textbf{The band does not attain its nominal level, and we now know by how
 much.} Section~\ref{sec:simband} measures family-wise coverage against a

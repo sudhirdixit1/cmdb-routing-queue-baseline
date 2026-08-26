@@ -155,8 +155,10 @@ anti-conservative direction, because the draws are heavier-tailed than the
 Gaussian process the multiplier simulates. Section~\ref{sec:simbands} reports
 what each estimator resolves --- \nResolvedWholeMult\ surface cells against
 \nResolvedWholeEmp, and \nResolvedDcaMult\ decision-curve cells against
-\nResolvedDcaEmp\ --- and a reader who prefers the empirical value should read
-the second of each pair.
+\nResolvedDcaEmp. A reader who prefers the empirical value should read the
+second of each pair on the \emph{surface} families and not on the
+decision-curve ones, where Section~\ref{sec:simband} shows that
+$q_{\mathrm{emp}}$ is inflated by cells whose value is zero by arithmetic.
 
 \textbf{The band does not attain its nominal level, and we now know by how
 much.} Section~\ref{sec:simband} measures family-wise coverage against a

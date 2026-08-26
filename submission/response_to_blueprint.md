@@ -491,8 +491,8 @@ than counted by hand.
 | 7 | Case study: a configuration management database | 2,576 | 1,500–2,000 | just over |
 | 8 | Decision-analytic evaluation | 1,635 | — | added |
 | 9 | A reporting standard, and software | 602 | — | added |
-| 10 | Simulation | 1,847 | 1,000–1,500 | just over |
-| 11 | Limitations | 2,349 | 1,200–1,500 | just over |
+| 10 | Simulation | 1,995 | 1,000–1,500 | just over |
+| 11 | Limitations | 2,372 | 1,200–1,500 | just over |
 | 12 | Conclusion | 585 | 400–600 | ✓ |
 
 **The body is about 19,700 words against the 13,000–15,000 requested, and we
