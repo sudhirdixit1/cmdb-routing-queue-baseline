@@ -54,6 +54,14 @@ from the committed copy by a byte. That is the *confirm the archived release
 reproduces the submitted numbers* half of this item, and it passes on the
 commit this file ships with.
 
+**The insertion itself is verified.** Round twenty-five dry-ran step 5 with a
+placeholder DOI: `make_numbers.py --strict` exits clean, `\zenodoDOI`
+becomes the URL everywhere it appears, the code-availability statement sets
+it without an overfull box, and both documents build at 0 errors and 0
+undefined references. So the only thing between this manuscript and a real
+DOI is the deposit --- nothing in the build will surprise you when you paste
+the number in.
+
 **Minting the DOI is the one blocking item a script cannot clear.** The second review is
 explicit that a manuscript whose archive DOI reads "reserved" should not be
 submitted, and it is right: a reproducibility claim that points at a mutable
