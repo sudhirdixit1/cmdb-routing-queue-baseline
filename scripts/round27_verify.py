@@ -68,6 +68,8 @@ CONDITIONS = (
     "rung, on the same cases, to the sixth decimal",
     "every drift percentile is a percentile, and the drift flag is exactly "
     "the upper-tail rule it is defined from",
+    "neither document calls a register's coarse layers free while the "
+    "measured share says otherwise",
 )
 
 _ORD = ("first", "second", "third", "fourth", "fifth", "sixth",
@@ -81,6 +83,11 @@ def _num(s):
         return None
     t = re.sub(r"[$\\,{}]|\\,|\{,\}", "", str(s)).replace("{,}", "")
     t = t.replace(",", "").replace("+", "").strip()
+    #  a percentage macro renders as "52\%"; stripping the backslash above
+    #  leaves the sign behind, and float() then returns None -- which silently
+    #  skipped the comparison this function exists for.
+    if t.endswith("%"):
+        t = t[:-1].strip()
     try:
         return float(t)
     except ValueError:
@@ -243,6 +250,68 @@ def check(vn, M):
             vn.FAILS.append(
                 "round-27 condition: one pair of BPIC14 is credited with at "
                 "least as many cells as the log that contains it")
+
+    # --- 8.  the layer claim, in BOTH documents ---------------------------
+    #  Round twenty-two withdrew "the coarse layers are close to free" from
+    #  the article after measuring that the case study's type layer is worth a
+    #  third to a half of what the item is worth.  The SUPPLEMENT kept the
+    #  withdrawn reading for five rounds, about a table holding three logs on
+    #  which the answer differs.  The share is a macro now, re-derived here,
+    #  and the withdrawn phrase may not describe the case study in either
+    #  document while that share is more than a tenth.
+    R34s = _read(results, "r34_layers.csv")
+    if R34s is not None and len(R34s):
+        for tg, nm in (("handover", "Handover"), ("duration", "Duration")):
+            it = R34s[(R34s.log == "BPIC14") & (R34s.target == tg)
+                      & (R34s.level == "CI Name (aff)")]
+            ty = R34s[(R34s.log == "BPIC14") & (R34s.target == tg)
+                      & (R34s.level == "CI Type (aff)")]
+            if not len(it) or not len(ty):
+                continue
+            want = 100.0 * float(ty.gain_over_b0.iloc[0]) / float(
+                it.gain_over_b0.iloc[0])
+            got = _num(M.get("layerTypeSharePct" + nm))
+            if got is not None and abs(got - want) > 0.6:
+                vn.FAILS.append(
+                    "round-27 condition: \\layerTypeSharePct%s is %s and the "
+                    "ladder gives %.1f%%" % (nm, M["layerTypeSharePct" + nm],
+                                             want))
+            if got is not None and got > 10:
+                #  the ASSEMBLED files are a preamble and a list of \input,
+                #  so the prose is in the parts.  Scanning the assembled file
+                #  is how the first version of this condition managed to pass
+                #  against the very sentence it was written for.
+                srcs = sorted((Path(vn.PAPER) / "parts").glob("*.tex"))
+                for f in srcs:
+                    body = f.read_text(encoding="utf-8")
+                    for phrase in ("close to free", "nearly free",
+                                   "essentially free", "largely free",
+                                   "almost free"):
+                        for m in re.finditer(re.escape(phrase), body):
+                            #  the phrase is only this defect when it is said
+                            #  ABOUT a coarsening.  A quality mechanism that
+                            #  is "nearly free" is a different sentence, and
+                            #  the file-level version of this check called one
+                            #  of those a failure.
+                            near = body[max(0, m.start() - 220):m.end() + 220]
+                            if not re.search(r"coarse|coarsen|layer", near,
+                                             re.I):
+                                continue
+                            #  and a NEGATED form is the corrected sentence,
+                            #  not the withdrawn one: "the coarse layers are
+                            #  \emph{not} close to free" is exactly what this
+                            #  condition wants the documents to say.
+                            before = body[max(0, m.start() - 60):m.start()]
+                            if re.search(r"\bnot\b|\bnever\b|far from|"
+                                         r"hardly|anything but", before,
+                                         re.I):
+                                continue
+                            vn.FAILS.append(
+                                "round-27 condition: %s calls a coarse layer "
+                                "%r while the case study's type layer is "
+                                "worth %.0f%% of what the item is worth over "
+                                "the same baseline on the %s target"
+                                % (f.name, phrase, got, tg))
 
     # --- 6.  the prefix pilot's anchor is the layer ladder's own cell ----
     #  The prefix axis at k = 0 IS case creation on the registered cohort and

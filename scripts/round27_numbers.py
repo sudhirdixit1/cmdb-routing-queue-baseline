@@ -29,6 +29,54 @@ def emit(mn):
     num, pct, sig, thousands = mn.num, mn.pct, mn.sig, mn.thousands
 
     # ================================================================
+    # r34 -- the OTHER logs' layer ladders
+    # ================================================================
+    #  Round twenty-two corrected the article's claim that a register's coarse
+    #  layers are "close to free": on the case study the item's type is worth
+    #  a third to a half of what the item is worth.  The SUPPLEMENT's layer
+    #  section still carried the withdrawn reading, and it carried it about a
+    #  table holding three logs on which the answer differs.  The corrected
+    #  statement needs the other two logs' numbers, so they are macros.
+    R34 = load("r34_layers.csv")
+    if R34 is not None and len(R34):
+        def lay(log, target, level):
+            s = R34[(R34.log == log) & (R34.target == target)
+                    & (R34.level == level)]
+            return float(s.gain_over_b0.iloc[0]) if len(s) else None
+
+        put("layerHelpdeskCoarseMax",
+            sig(max([v for v in (lay("Helpdesk", "duration", "service_type"),
+                                 lay("Helpdesk", "duration",
+                                     "support_section"))
+                     if v is not None], default=None), 3))
+        put("layerHelpdeskItem", sig(lay("Helpdesk", "duration", "product"), 3))
+        put("layerBpicNineteenCoarseMax",
+            sig(max([v for v in (lay("BPIC19", "handover",
+                                     "case:Item Category"),
+                                 lay("BPIC19", "handover",
+                                     "case:Spend area text"))
+                     if v is not None], default=None), 3))
+        put("layerBpicNineteenItem",
+            sig(lay("BPIC19", "handover", "case:Item"), 3))
+        put("layerBpicNineteenItemMarginal",
+            sig(lay("BPIC19", "handover",
+                    "case:Item marginal over case:Item Category"), 3))
+        #  the share of the item's increment the coarsest layer reaches, on
+        #  the case study's two targets -- the quantity the withdrawn claim
+        #  got wrong
+        for tg, nm in (("handover", "Handover"), ("duration", "Duration")):
+            it = lay("BPIC14", tg, "CI Name (aff)")
+            ty = lay("BPIC14", tg, "CI Type (aff)")
+            put("layerTypeSharePct" + nm,
+                pct(ty / it, 0) if it and ty else None)
+    else:
+        for k in ("layerHelpdeskCoarseMax", "layerHelpdeskItem",
+                  "layerBpicNineteenCoarseMax", "layerBpicNineteenItem",
+                  "layerBpicNineteenItemMarginal",
+                  "layerTypeSharePctHandover", "layerTypeSharePctDuration"):
+            put(k, None)
+
+    # ================================================================
     # s45 -- the prefix axis, on one log
     # ================================================================
     P = load("s45_prefix.csv")

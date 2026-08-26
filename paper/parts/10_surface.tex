@@ -154,10 +154,11 @@ metrics as though both lived on an unproblematic common scale.
 \subsection{Two facts about the metric, and why they are remarks}
 \label{sec:props}
 
-Two properties of the reduction are used later and are stated here as remarks
-rather than proved here; Supplement~\ref{app:props} carries both statements in
-full, their constructions, the richness assumption the second needs, and the
-witness that separates it from rank-basedness.
+Two properties of the reduction are used later. The first is used in this
+article and is stated here; the second is used where it is proved, and is
+stated there. Supplement~\ref{app:props} carries both in full, their
+constructions, the richness assumption the second needs, and the witness that
+separates it from rank-basedness.
 
 \begin{remark}[The metric is an argument of the estimand]
 \label{prop:nonid}
@@ -170,19 +171,8 @@ practically important difference of Section~\ref{sec:results-regret} is
 declared in one instrument's units and applied there only.
 \end{remark}
 
-\begin{remark}[What survives a declared family of recalibrations]
-\label{prop:rank}
-For a family $\Psi$ of strictly increasing maps applied simultaneously to all
-four arms of a configuration, the reduction is $\Psi$-invariant exactly when
-the metric is \emph{affine} under $\Psi$. Rank-basedness is sufficient and not
-necessary, and the gap is family-relative: the class-mean gap --- the
-difference in mean score between the two outcome classes, which is not
-rank-based --- has a reduction invariant to \widerRShiftAffine\ inside the
-affine family and shifting by up to \widerRShiftNonAffine\ over
-\nPsiFamiliesNonAffine\ non-affine ones. What this buys is that a search
-becomes a proof: one map and one configuration violating the invariance rules
-it out everywhere, and \nCertificates\ such certificates are computed, the
-smallest moving the reduction by \certificateMinShift, against
-\nInvarianceChecks\ checks in which the two rank-based instruments hold to
-\invarianceMaxShift.
-\end{remark}
+\noindent The second --- \textbf{Remark~\ref{prop:rank}}, that a reduction is
+invariant to a declared family of recalibrations exactly when the metric is
+\emph{affine} under it, so that one violating map rules the invariance out
+everywhere --- is stated and proved in Supplement~\ref{app:props}, with the
+\nCertificates\ certificates it licenses.
