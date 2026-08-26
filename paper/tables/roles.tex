@@ -1,0 +1,36 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}%
+\renewcommand{\arraystretch}{1.15}%
+\hyphenpenalty=50 \exhyphenpenalty=50 \emergencystretch=1em\relax%
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lll>{\raggedright\arraybackslash}p{0.210\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}lll}
+\toprule
+log & target & ITSM & register field f & free field g & axes: pipe/split/qual/rung & cases & levels of f \\
+\midrule
+BPIC13\_closed & handover & yes & product & org:\discretionary{}{}{}resource & 2/6/6/3 & 1,487 & 337 \\
+BPIC13\_incidents & duration & yes & product & org:\discretionary{}{}{}resource & 2/6/6/3 & 7,554 & 704 \\
+BPIC13\_incidents & handover & yes & product & org:\discretionary{}{}{}resource & 2/6/6/3 & 7,554 & 704 \\
+BPIC14 & duration & yes & CI Name (aff) & assignment group & 4/6/10/4 & 46,606 & 3,019 \\
+BPIC14 & handover & yes & CI Name (aff) & assignment group & 4/6/10/4 & 46,606 & 3,019 \\
+BPIC15\_1 & duration & -- & case:\discretionary{}{}{}parts & org:\discretionary{}{}{}resource & 2/6/6/3 & 1,199 & 89 \\
+BPIC15\_1 & handover & -- & case:\discretionary{}{}{}parts & org:\discretionary{}{}{}resource & 2/6/6/3 & 1,199 & 89 \\
+BPIC15\_3 & duration & -- & case:\discretionary{}{}{}parts & org:\discretionary{}{}{}resource & 2/6/6/3 & 1,409 & 94 \\
+BPIC15\_3 & handover & -- & case:\discretionary{}{}{}parts & org:\discretionary{}{}{}resource & 2/6/6/3 & 1,409 & 94 \\
+BPIC15\_4 & duration & -- & case:\discretionary{}{}{}parts & org:\discretionary{}{}{}resource & 2/6/6/3 & 1,053 & 53 \\
+BPIC15\_4 & handover & -- & case:\discretionary{}{}{}parts & org:\discretionary{}{}{}resource & 2/6/6/3 & 1,053 & 53 \\
+BPIC15\_5 & duration & -- & case:\discretionary{}{}{}parts & org:\discretionary{}{}{}resource & 2/6/6/3 & 1,156 & 107 \\
+BPIC17 & duration & -- & case:\discretionary{}{}{}RequestedAmount & org:\discretionary{}{}{}resource & 2/6/6/3 & 31,509 & 701 \\
+BPIC19 & duration & -- & case:\discretionary{}{}{}Vendor & org:\discretionary{}{}{}resource & 3/6/6/3 & 251,734 & 1,975 \\
+Helpdesk & duration & yes & customer & Resource & 2/6/6/3 & 4,580 & 394 \\
+RoadFines & duration & -- & article & org:\discretionary{}{}{}resource & 3/6/6/3 & 150,370 & 66 \\
+Sepsis & duration & -- & Diagnose & org:\discretionary{}{}{}group & 2/6/6/3 & 1,050 & 147 \\
+UCI498 & duration & yes & caller\_id & assigned\_to & 2/6/6/3 & 24,918 & 5,245 \\
+UCI498 & handover & yes & caller\_id & assigned\_to & 2/6/6/3 & 24,918 & 5,245 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{ROLES AND LEVELS, PER PAIR. Which recorded attribute plays the register $f$ and which the free field $g$ on each admitted pair, whether the pair is IT service management, and how many levels each varied axis carries: pipeline, split, register-quality condition, baseline rung. Every pair also carries the \nInstruments\ scalar instruments, so the per-pair factorial is \nPerPairAxes\ axes wide and not the \nAxes\ of Definition~\ref{def:space}; Section~\ref{sec:design} says which axes are fixed on which pairs and why. `cases' is the admitted case count and `levels of $f$' the register's cardinality. This table was Supplement Table~S11 through round twenty-five; the master table cannot be read without it.}
+\label{tab:roles}
+\end{table}

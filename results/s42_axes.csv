@@ -1,0 +1,20 @@
+log,target,domain,register_field,free_field,n_pipeline,n_encoding,n_family,n_split,n_quality,n_rung,n_instrument,n_cells,n_train,card_f,prevalence
+BPIC13_closed,handover,itsm,product,org:resource,2,2,2,6,6,3,5,1080,1487,337,0.3846671149966375
+BPIC13_incidents,duration,itsm,product,org:resource,2,2,2,6,6,3,5,1080,7554,704,0.3960815462006883
+BPIC13_incidents,handover,itsm,product,org:resource,2,2,2,6,6,3,5,1080,7554,704,0.7415938575589092
+BPIC14,duration,itsm,CI Name (aff),assignment group,4,3,2,6,10,4,5,4800,46606,3019,0.4781787752649873
+BPIC14,handover,itsm,CI Name (aff),assignment group,4,3,2,6,10,4,5,4800,46606,3019,0.9266403467364716
+BPIC15_1,duration,permitting,case:parts,org:resource,2,2,2,6,6,3,5,1080,1199,89,0.4812343619683069
+BPIC15_1,handover,permitting,case:parts,org:resource,2,2,2,6,6,3,5,1080,1199,89,0.8698915763135947
+BPIC15_3,duration,permitting,case:parts,org:resource,2,2,2,6,6,3,5,1080,1409,94,0.4854506742370476
+BPIC15_3,handover,permitting,case:parts,org:resource,2,2,2,6,6,3,5,1080,1409,94,0.8537970191625266
+BPIC15_4,duration,permitting,case:parts,org:resource,2,2,2,6,6,3,5,1080,1053,53,0.4169040835707502
+BPIC15_4,handover,permitting,case:parts,org:resource,2,2,2,6,6,3,5,1080,1053,53,0.8945868945868946
+BPIC15_5,duration,permitting,case:parts,org:resource,2,2,2,6,6,3,5,1080,1156,107,0.435121107266436
+BPIC17,duration,lending,case:RequestedAmount,org:resource,2,2,2,6,6,3,5,1080,31509,701,0.4982068615316259
+BPIC19,duration,procurement,case:Vendor,org:resource,3,3,2,6,6,3,5,1620,251734,1975,0.3985953427030119
+Helpdesk,duration,itsm,customer,Resource,2,2,2,6,6,3,5,1080,4580,394,0.4853711790393013
+RoadFines,duration,enforcement,article,org:resource,3,3,2,6,6,3,5,1620,150370,66,0.4786460065172574
+Sepsis,duration,healthcare,Diagnose,org:group,2,2,2,6,6,3,5,1080,1050,147,0.4828571428571429
+UCI498,duration,itsm,caller_id,assigned_to,2,2,2,6,6,3,5,1080,24918,5245,0.4357492575648126
+UCI498,handover,itsm,caller_id,assigned_to,2,2,2,6,6,3,5,1080,24918,5245,0.3591379725499639

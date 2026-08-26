@@ -1,4 +1,4 @@
-\subsection*{Proposition~\ref{prop:nonid}: the two-point algebra in full}
+\subsection*{Remark~\ref{prop:nonid}: the two-point algebra in full}
 
 Let a scoring rule take one of two values, with $a$ of the $P$ positives and
 $b$ of the $N$ negatives in the high block; write $\alpha = a/P$,
@@ -28,10 +28,10 @@ hidden assumption: refuting the existence of $\varphi$ needs only that the two
 be \emph{different}, and at the modest $\rho = \propOneRho$ this paper uses
 they differ by \propOneApGap.
 
-\subsection*{Proposition~\ref{prop:rank}: the cancelling configuration, and
+\subsection*{Remark~\ref{prop:rank}: the cancelling configuration, and
 what a certificate is}
 
-Section~\ref{sec:weaker} notes a configuration on which a non-rank-based
+Section~\ref{sec:props} notes a configuration on which a non-rank-based
 metric's increment moves under $\psi$ while the ratio does not. The
 construction is immediate once stated: take $\sigma_{B_1} = \sigma_{B_0}$ and
 $\sigma_{B_1 \cup f} = \sigma_{B_0 \cup f}$. Then $V(B_1) = V(B_0)$ for every
@@ -48,7 +48,7 @@ triple of score vectors $(a,b,c)$ on one labelled test set for which
 \;\neq\;
 \frac{m(\psi b) - m(\psi a)}{m(\psi c) - m(\psi a)} .
 \]
-By Proposition~\ref{prop:rank} the existence of one such triple establishes
+By Remark~\ref{prop:rank} the existence of one such triple establishes
 that $\psi$ does not act affinely on $m$, and therefore that $R_m$ is not
 invariant --- a conclusion about \emph{every} configuration drawn from a
 finite object. The certificates are searched for by maximising the gap over
@@ -69,7 +69,7 @@ a non-redundancy theorem. Nothing in the manuscript depended on it, which is
 the clearest argument for removing it rather than repairing it. This is
 the correction register in the archive.
 
-\subsection*{Proposition~\ref{prop:nonid}: the construction}
+\subsection*{Remark~\ref{prop:nonid}: the construction}
 
 \begin{proof}[Proof (construction)]
 Take $P$ positives and $N$ negatives and let every score take one of two
@@ -102,7 +102,21 @@ construction previously used --- drives the gap close to one, and the modest
 $\rho$ here shows the separation does not depend on extreme imbalance.
 \end{proof}
 
-\subsection*{Proposition~\ref{prop:rank}: the proof}
+\subsection*{Remark~\ref{prop:rank}: the proof}
+
+The equivalence's harder direction needs one assumption, which round
+twenty-six moved here from the article with the propositions themselves.
+
+\begin{assumption}[Richness]
+\label{ass:rich}
+Every quadruple of score vectors on the fixed labelled test set is realisable
+as a configuration. This is the assumption that no restriction is placed on
+the model class; it is what makes ``for every configuration'' quantify over a
+set with more than three elements, and it fails only if the analyst commits in
+advance to a family of scoring rules narrow enough to constrain the four arms
+jointly. It is used only for (i) $\Rightarrow$ (ii); the direction that
+matters in practice needs none.
+\end{assumption}
 
 \begin{proof}
 (ii) $\Rightarrow$ (i). Each of $V_m(B_0)$ and $V_m(B_1)$ is a difference of

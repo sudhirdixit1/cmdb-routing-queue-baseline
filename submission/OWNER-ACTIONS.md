@@ -6,6 +6,29 @@ it is not mistaken for done.
 
 ---
 
+## 0. The one-line item round twenty-six added
+
+### 0.1 The affiliation's city and country  *(done)*
+
+Supplied in round twenty-six as **Apex, United States**, in
+`scripts/round26_numbers.py`:
+
+```python
+AFFILIATION_CITY = "Apex"
+AFFILIATION_COUNTRY = "United States"
+```
+
+Setting either back to `None` makes the title block print the visible `??`
+marker and `verify_numbers` fail, which is the intended behaviour for a value
+the repository cannot derive.
+
+**The ORCID** is the other half of the same referee comment. Elsevier collects
+it from the corresponding author's profile in the submission system rather
+than from the manuscript source, so there is nothing to change in the LaTeX —
+but the profile has to carry one before submission.
+
+---
+
 ## 1. Before submission
 
 ### 1.1 Mint the archive DOI  *(required by the referee's Phase 7)*
@@ -15,7 +38,7 @@ Zenodo DOI. There is nothing to cite yet, so the macro currently renders as
 *"the archived release cited in the data-availability statement (DOI reserved,
 inserted at proof)"* rather than as the `??` marker — a number that does not
 exist yet is a different thing from a number that is missing, and the
-manuscript says which. `.zenodo.json` carries `"version": "v25.0"`, and its numeric claims are
+manuscript says which. `.zenodo.json` carries `"version": "v25.0"` and must be moved to `v26.0`, and its numeric claims are
 checked against `paper/numbers.tex` by `check_response_refs.py` --- seven
 of them had gone stale before round twenty-five added that check.
 
@@ -23,12 +46,12 @@ of them had gone stale before round twenty-five added that check.
    `sudhirdixit1/cmdb-routing-queue-baseline`.
 2. **Settings → GitHub**, and switch the repository **on**. Zenodo will then
    archive every future release.
-3. **Tag the commit this manuscript was built from as `v25.0`** and push it.
+3. **Tag the commit this manuscript was built from as `v26.0`** and push it.
    Its message should record the gate results at that commit:
 
    ```bash
-   git tag -a v25.0 -m "round twenty-five: the band's family-wise coverage, and the calibration plane widened in n"
-   git push origin v25.0
+   git tag -a v26.0 -m "round twenty-six: the split as an error stratum, the MPID, and two headlines withdrawn"
+   git push origin v26.0
    git ls-remote --tags origin
    ```
 

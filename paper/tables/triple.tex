@@ -1,0 +1,33 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllllll}
+\toprule
+log & target & family size & beneficial/harmful/unresolved & resolved share & region & label under minimum share \\
+\midrule
+BPIC13\_closed & handover & 180 & 0/0/180 & 0.0 & unresolved & -- \\
+BPIC13\_incidents & duration & 180 & 3/0/177 & 1.7 & conditionally beneficial & unresolved (below minimum share) \\
+BPIC13\_incidents & handover & 180 & 76/0/104 & 42.2 & conditionally beneficial & -- \\
+BPIC14 & duration & 480 & 332/0/148 & 69.2 & conditionally beneficial & -- \\
+BPIC14 & handover & 480 & 267/2/211 & 56.0 & sign-changing & -- \\
+BPIC15\_1 & duration & 180 & 2/0/178 & 1.1 & conditionally beneficial & unresolved (below minimum share) \\
+BPIC15\_1 & handover & 180 & 0/0/180 & 0.0 & unresolved & -- \\
+BPIC15\_3 & duration & 180 & 10/0/170 & 5.6 & conditionally beneficial & -- \\
+BPIC15\_3 & handover & 180 & 0/0/180 & 0.0 & unresolved & -- \\
+BPIC15\_4 & duration & 180 & 0/0/180 & 0.0 & unresolved & -- \\
+BPIC15\_4 & handover & 180 & 0/0/180 & 0.0 & unresolved & -- \\
+BPIC15\_5 & duration & 180 & 0/0/180 & 0.0 & unresolved & -- \\
+BPIC17 & duration & 180 & 25/0/155 & 13.9 & conditionally beneficial & -- \\
+BPIC19 & duration & 120 & 14/24/82 & 31.7 & sign-changing & -- \\
+Helpdesk & duration & 180 & 0/2/178 & 1.1 & conditionally harmful & unresolved (below minimum share) \\
+RoadFines & duration & 120 & 45/18/57 & 52.5 & sign-changing & -- \\
+Sepsis & duration & 180 & 51/0/129 & 28.3 & conditionally beneficial & -- \\
+UCI498 & duration & 180 & 17/0/163 & 9.4 & conditionally beneficial & -- \\
+UCI498 & handover & 180 & 8/0/172 & 4.4 & conditionally beneficial & unresolved (below minimum share) \\
+\bottomrule
+\end{tabular}%
+}
+\caption{WHAT A REGION LABEL RESTS ON. $|\mathcal{F}|$ is the inference family's size; the triple counts its cells the coverage-calibrated whole-surface band calls beneficial, harmful and unresolved. A directional label follows from as few as two resolved cells, and the last column applies the minimum resolved share of Definition~\ref{def:regions} --- \minResolvedSharePct\ of the family --- which withdraws the direction on \nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs that carry one. A dash means the label is unchanged.}
+\label{tab:triple}
+\end{table}

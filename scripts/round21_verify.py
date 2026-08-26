@@ -28,6 +28,16 @@ import pandas as pd
 #: quantity that legitimately takes two values under two specifications gets
 #: TWO entries with different names, and the manuscript must use those names.
 ESTIMANDS = {
+    #  ROUND TWENTY-SIX.  Round twenty-six computed the pooled decomposition's
+    #  medians again, to compare them with the fold-averaged ones, and did it
+    #  over a cell set that includes the demoted cross-instrument scale.  The
+    #  paper then carried 28.7% and 29.1% for one quantity, and 56.0% and
+    #  52.5% for another, four sections apart.  Same name, same idea, one
+    #  value each.
+    "the pooled higher-order share at the median pair": (
+        "interactionTotalPct", "pooledInteractionMedianPct"),
+    "the pooled largest first-order index at the median pair": (
+        "largestFirstOrderPct", "pooledLargestFirstMedianPct"),
     #  the quantity Section 7 quotes: the estate's cohort and reassignment
     #  target, under the DECLARED tie-break.  s08 and s38 must agree.
     "the register's increment at tau2 against intake plus group plus "

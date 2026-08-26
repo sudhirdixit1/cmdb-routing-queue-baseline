@@ -37,7 +37,13 @@ recur across the temporal split, so that a document number is not mistaken for
 a maintained entity.
 \item[The free field $g$.] A resource-like attribute, present on at least
 \minGPresent\ of cases, whose value varies within a case, so that it can carry
-information about routing.
+information about routing. \textbf{Only the \emph{first} value it takes on a
+case is used as a feature}, while the handover target is defined from the
+whole sequence of values --- so the feature is what is known when the case
+opens and the target is what happens afterwards, and the field cannot inform
+the model about its own future. The distinction is not cosmetic: the same
+attribute supplies both, and using the case-level set would put the answer in
+the features.
 \item[The intake block $B_0$.] Every remaining attribute of cardinality at
 most \maxCardBZero\ that is neither an outcome, nor a timestamp, nor a
 relabelling of the activity, nor a deterministic coarsening of $f$.
@@ -46,7 +52,26 @@ relabelling of the activity, nor a deterministic coarsening of $f$.
 Coarsenings of $f$ --- its type, its subtype, the service it belongs to ---
 are given their own role rather than being swept into $B_0$, because which
 \emph{layer} of a register pays is a separate question, answered in
-Supplement~\ref{app:layers}.
+Section~\ref{sec:programme}.
+
+\input{tables/roles}
+
+\textbf{Table~\ref{tab:roles} is what the rules found, and it is also the
+design space as it was actually varied.} It names, per pair, the attribute
+that plays each role and the number of levels each axis carries. Two things
+are visible there that Definition~\ref{def:space} and
+Table~\ref{tab:axes} do not say. The \emph{target} is not an axis of any
+surface: the surface is computed per log--target pair, so each of the two
+targets a log carries has a surface of its own, and the cohort $\times$ target
+design exists only in Section~\ref{sec:cohort}. And the per-pair factorial is
+\nPerPairAxes\ axes wide --- pipeline, split, register quality, baseline rung,
+instrument --- not the \nAxes\ of Definition~\ref{def:space}: the decision
+time varies only on the case study's log, the operating point only in the
+decision-curve family, and the cohort only in
+Section~\ref{sec:cohort}. Definition~\ref{def:space} declares what the
+estimand's arguments \emph{are}; Table~\ref{tab:roles} declares which of them
+this study \emph{varied}, and Section~\ref{sec:lim} carries the difference as
+a limitation rather than leaving a reader to find it.
 
 \subsection{Targets, splits and exclusions}
 \label{sec:targets}
@@ -62,6 +87,21 @@ analysed and reported} --- running the surface only where the reduction
 resolves would condition the analysis on the outcome.
 Supplement~\ref{app:targets} gives the rules, the exclusion codes and the
 admission margin at the upper edge of the prevalence window.
+
+\textbf{Two exclusions a reader of Table~\ref{tab:roles} will ask about.}
+BPIC15\_2 is excluded under \textsc{small\_n} at \nBpicFifteenTwoRows\ cases
+while its four siblings are admitted --- the rule is a floor on the case count
+and nothing about the log's content --- and the further BPIC15 targets, the
+BPIC20 logs and BPIC12 are excluded under \textsc{no\_headroom} or
+\textsc{no\_g}, which are prevalence and role failures. \textbf{And the
+registered handover target on the case study's log sits at the upper edge of
+the admission window}: test prevalence \prevAdmittedMax\ against a
+window that closes at \prevHi, which excludes other logs at
+\prevExcludedAboveMin. That pair carries \nCellsBpicFourteen\ of the corpus's
+\nDeclaredAdmissibleScalar\ admissible cells, so a corpus statistic pooled
+over cells is partly a statement about it; Section~\ref{sec:family} reports
+every headline on the ITSM family separately for this reason, and
+Section~\ref{sec:lim} asks whether the window should be tightened.
 
 \subsection{What the corpus does and does not have in common}
 \label{sec:construct}

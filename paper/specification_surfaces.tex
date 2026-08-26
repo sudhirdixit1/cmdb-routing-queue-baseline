@@ -89,29 +89,34 @@
 \title{Specification Surfaces for Incremental Predictive Performance:
 Estimation, Uncertainty, and Multi-Log Evaluation}
 
+%%  ROUND TWENTY-SIX.  The Guide for Authors asks for a complete affiliation
+%%  address and an ORCID, and the referee found neither.  The city and country
+%%  are here; the ORCID is registered through the submission system, where
+%%  Elsevier collects it from the corresponding author's profile rather than
+%%  from the manuscript source.
 \author[ind]{Sudhir Dixit}
 \ead{sudhir.dixit1@gmail.com}
-\address[ind]{Independent Researcher}
+\address[ind]{Independent Researcher, \affiliationCity, \affiliationCountry}
 
 \begin{abstract}
 What a recorded field is worth to a prediction is reported as one number, but
-that number is a functional of rarely stated choices: baseline, pipeline,
-target, split, decision time, register quality, metric and operating point. We
-define incremental predictive performance as a \emph{specification surface}
-$V_s(f)$ over a declared design space under a declared measure, and give four
+that number is a functional of choices the report rarely states: the baseline,
+the pipeline, the outcome predicted, the split, the moment the decision is
+taken, how completely the register behind the field is populated, and the
+metric. We define incremental predictive performance as a \emph{specification
+surface} $V_s(f)$ over a design space the analyst declares, and give three
 objects for reporting one: an exact functional-ANOVA decomposition of its
-variance; simultaneous max-$t$ bands over the \emph{whole} surface a claim
-ranges over, from a pipeline-refitting moving-block bootstrap; \emph{resolution
-regions} with a robustness index; and \emph{specification regret}. On \nPairs\ log--target
-pairs from \nLogs\ public event logs, over an audited
-\nDeclaredAdmissibleScalar-cell space, the baseline alone moves the increment
-by \spreadMedian\ AUC at the median pair, and a one-number report misstates
-the sign of \misreportPooledResolvedPct\ of resolved cells ---
-\misreportPooledItsmPct\ on the \nItsmPairs\ maintained registers. Of the
-\nPairsResolvingAny\ pairs resolving any sign, \nPairsResolveBothSigns\ resolve
-both. On \nModelsDcaExcluded\ of \nModelsDca\ models a threshold is not a
-cost ratio at all. In a case study on \nCohort\ bank incidents, a register's
-value turns on the decision time and its sign on the target.
+variance that separates analyst choices from the resampling a design also
+contains; simultaneous max-$t$ bands from a pipeline-refitting bootstrap,
+whose coverage we measure against a known answer and find short of nominal;
+and \emph{resolution regions}, which say where a sign is determined. On
+\nPairs\ pairs from \nLogs\ public event logs, resampling carries
+a median \shareResamplingStratumPct\ of the variance, and net of it no single
+analyst choice dominates on \nFoldInteractionExceeds\ pairs. Most
+specifications leave the sign undetermined; where the data determine one,
+admissible specifications sit a median \madResolvedMedian\ AUC from the
+conventional report. In a case study on \nCohort\ bank incidents, a register's
+worth turns on the decision time and its sign on the target.
 \end{abstract}
 
 %%  Six keywords: the Elsevier template caps them at six and an earlier
@@ -149,10 +154,17 @@ implicit, and the result is reported as one number.
 
 This paper's position is not that such a number depends on those choices ---
 that is known, and Section~\ref{sec:related} says by whom --- but that the
-dependence is large enough, on real decisions, to change the sign of the
-answer; that the right object to report is therefore a surface over a
-\emph{declared} design space rather than a point; and that a surface admits
-estimation and inference of its own.
+dependence is large enough, on real decisions, that the number alone is not a
+report; that the right object is therefore a surface over a \emph{declared}
+design space; and that a surface admits estimation and inference of its own.
+Two things follow that a reader may not expect, and this version of the paper
+states both before it argues for anything. \textbf{A pooled specification
+surface overstates the case}: most of its variance here is resampling rather
+than analyst latitude, and the correction is exact
+(Section~\ref{sec:sobol}). And \textbf{the sign is the wrong thing to count}:
+where the data determine a sign, the conventional report is usually right
+about it and usually wrong about the magnitude, which is what
+Section~\ref{sec:results-regret} reports instead.
 
 \paragraph{The estimand}
 Write a specification $s$ for a complete assignment to every design axis, and
@@ -182,12 +194,14 @@ exchange rate, which is as close to economic value as this evidence gets.
 \centering
 \includegraphics[width=\linewidth]{figS1_speccurve.png}
 \caption{The specification curve for the configuration item on BPIC14, at the
-registered handover target. \textbf{(a)} Each point is one admissible
-specification --- a complete assignment to the pipeline, the baseline rung,
-the register-quality condition, the split and the metric --- sorted by the
-increment. \textbf{(b)} Which level of which axis each specification occupies.
-The intercept-only rung is excluded. Every point is a point estimate; the
-simultaneous bands that decide the region labels are in
+registered handover target: \nCellsFigOne\ admissible scalar cells,
+\nPipelineLevelsCase\ pipelines $\times$ \nRungsFigOne\ baseline rungs $\times$
+\nInstruments\ instruments $\times$ \nQualityFigOne\ register-quality
+conditions $\times$ \nSplits\ splits. \textbf{(a)} Each point is one
+admissible specification --- a complete assignment to those five axes ---
+sorted by the increment. \textbf{(b)} Which level of which axis each
+specification occupies. The intercept-only rung is excluded. Every point is a
+point estimate; the simultaneous bands that decide the region labels are in
 Table~\ref{tab:calbands}. \textbf{The five scalar instruments are plotted on
 one axis and their increments are not on a common scale}
 (Section~\ref{sec:regretdef}); what the panel supports is the \emph{sign}
@@ -200,31 +214,59 @@ the free field absorbs almost everything.}
 
 \paragraph{Contributions}
 \begin{enumerate}
-\item \textbf{An estimand and four reporting objects} (Table~\ref{tab:objects}):
-the surface over a declared design space, an exact functional-ANOVA
-decomposition of its variance, simultaneous max-$t$ bands from a
-pipeline-refitting bootstrap, \emph{resolution regions} with a robustness
-index $\rho$, and \emph{specification regret}.
-\item \textbf{What each is worth, measured rather than asserted.}
-Section~\ref{sec:simband} measures the band's family-wise coverage against a
-known answer and finds it short of nominal;
-Section~\ref{sec:sca} reports where a specification curve's verdict and a
-region label part company.
-\item \textbf{A registered multi-log benchmark.} The surface is computed
-through one frozen pipeline on every log--target pair a pre-registered
-protocol admits --- \nPairs\ of them, not only the ones where the answer
-resolves --- over an audited denominator, and every corpus statistic is
+\item \textbf{An estimand, a declared surface and an exact decomposition}
+(Table~\ref{tab:objects}). The surface over a design space the reader can
+enumerate; three \emph{denominators} distinguished and audited from the files,
+so that a claim's quantifier is a counted set rather than a phrase; and an
+exact functional-ANOVA decomposition of the surface's variance in which the
+split is an \emph{error stratum}, so that resampling is separated from the
+choices an analyst makes (Section~\ref{sec:sobol}).
+\item \textbf{Simultaneous inference whose coverage is measured, and the
+labels that rest on it.} Simultaneous max-$t$ bands over the whole family a
+claim ranges over, from a pipeline-refitting bootstrap; \emph{resolution
+regions} with a robustness index $\rho$ under a declared minimum resolved
+share; and, in Section~\ref{sec:simband}, the band's family-wise coverage
+measured against a known answer --- which is short of nominal everywhere in
+this corpus's configuration, so the labels are reported as descriptive
+diagnostics and not as guarantees.
+\item \textbf{A registered multi-log benchmark and a register at three
+decision times.} The surface is computed through one frozen pipeline on every
+log--target pair a pre-registered protocol admits --- \nPairs\ of them, not
+only the ones where the answer resolves --- and every corpus statistic is
 reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
-maintained one (Section~\ref{sec:family}).
-\item \textbf{A register at three decision times.} Section~\ref{sec:cmdb}
-shows that a decision time fixes which cases are in scope, what is known
-about them and which fields are admissible at once, reconciles the two values
-this log has been reported to give, and finds the difference is the
+maintained one (Section~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
+that a decision time fixes which cases are in scope, what is known about them
+and which fields are admissible at once, reconciles the two values the case
+study's log has been reported to give, and finds the difference is the
 \emph{target}: over the cohort $\times$ target design the target carries
 \shareTargetPct\ of the variance and the cohort \shareCohortPct.
 \end{enumerate}
 
+\noindent \emph{Specification regret} --- what choosing one specification
+costs against the best, on a scale a decision can use --- was a fourth
+reporting object through round twenty-five. Sections~\ref{sec:rules}
+and~\ref{sec:nbregret} report that the one-number rule's median excess regret
+is zero in every instrument, that the out-of-sample ordering reverses under
+rolling folds, and that the rules mostly tie in net benefit. It is retained,
+in full, as a \emph{robustness check} on the other two arguments
+(Section~\ref{sec:regretdef}), and it is not claimed as a contribution: an
+object that reports a null is a check and not a result.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figS8_overview.png}
+\caption{The method, once. A log is read into three \emph{roles} by declared
+rules; the roles are crossed over a declared \emph{design space}; the result
+is a \emph{surface}, one increment per cell. Every claim about that surface
+names which of three \emph{denominators} it quantifies over, and the reporting
+objects are computed from it. The schematic carries no result: the numbers are
+in the tables it names.}
+\label{fig:overview}
+\end{figure}
+
 \input{tables/objects}
+
+\input{tables/glossary}
 
 \paragraph{What this paper is not}
 This is a retrospective study on public benchmarks, offered as an evaluation
@@ -234,12 +276,20 @@ a deployed system; Section~\ref{sec:lim} says what each of those would have
 required.
 
 \paragraph{The supplementary document}
-The protocol and its amendments, the proofs, the constructions of the four
+The protocol and its amendments, the proofs, the constructions of the
 reporting objects, the correction register, the results this article
 summarises and the tables it does not print are in a supplementary document
 whose sections, tables and figures carry an \textsf{S}. A reference here to
-Section~S3 or Table~S12 is a reference to that document; the article is
-self-contained without it.
+Section~S3 or Table~S12 is a reference to that document. \textbf{The article
+states every claim it makes and prints the evidence for each}: which attribute
+plays the register on every pair and how many levels each axis carries
+(Table~\ref{tab:roles}), the master table (Table~\ref{tab:master}), what a
+region label rests on (Table~\ref{tab:triple}), the decomposition net of
+resampling (Table~\ref{tab:strata}), the decision-time ladder
+(Table~\ref{tab:tau}) and the band's measured coverage
+(Table~\ref{tab:bandcov}). The supplement carries the constructions, the
+proofs and the sensitivity analyses; a reader who wants to check an inference
+rather than read one will want it.
 
 \section{Related work}
 \label{sec:related}
@@ -253,7 +303,9 @@ nonparametric formulations of importance as a population quantity
 two decades that the increment in AUC from adding a predictor depends on the
 existing model \citep{pencina2008evaluating,cook2007roc}, is a poor guide to
 clinical usefulness \citep{cook2007roc,vickers2008decision} and is routinely
-misread \citep{kerr2011evaluating}. Decision-analytic evaluation supplies the
+misread \citep{kerr2011evaluating}; the same argument is made about
+effort-aware metrics in defect prediction \citep{carka2022effortaware}, where
+which metric is chosen changes which method wins. Decision-analytic evaluation supplies the
 exchange rate \citep{vickers2006dca,vickers2016net,vickers2019simple}.
 Multiverse and specification-curve analysis supply the sweep
 \citep{steegen2016increasing,simonsohn2020specification,patel2015assessment},
@@ -263,11 +315,30 @@ valuation a different question about a datum's worth
 \citep{ghorbani2019data,jia2019towards}. On event logs, outcome-oriented
 predictive monitoring supplies the task
 \citep{teinemaa2019outcome,verenich2019survey,senderovich2017intercase},
-encoding studies one axis \citep{liu2025encoding,carka2022effortaware}, and
+encoding studies one axis \citep{liu2025encoding}, and
 data-quality work the vocabulary for a degraded register
 \citep{suriadi2017imperfection,mohammed2025dataquality,comuzzi2025labels}.
 Leakage discipline is standard
 \citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}.
+
+Four further strands bear on the argument. \emph{Many-analysts studies} put
+one question and one dataset to independent teams and observe the spread
+directly \citep{silberzahn2018many,breznau2022observing}: they establish that
+analytic variability is large without supplying an estimand for it, which is
+what the surface is. \emph{Predictive multiplicity} and Rashomon sets study
+near-equally accurate models that disagree on individuals
+\citep{marx2020predictive,semenova2022existence} --- multiplicity at the level
+of a fitted model, where this paper's is at the level of the design that
+produced it. \emph{Benchmark-variance work in predictive process monitoring}
+reports how far results move with the pipeline and the protocol
+\citep{ramamaneiro2021deep}, which is the evidence this paper's decomposition
+partitions. And the \emph{sensitivity-analysis} tradition of bounding an
+unmeasured assumption \citep{vanderweele2017sensitivity} is the form
+Section~\ref{sec:quality}'s leakage tipping point takes. On the estate side,
+the accuracy of a configuration management database is itself a studied
+quantity \citep{suriadi2017imperfection,mohammed2025dataquality}, and the
+layered service models practitioners maintain are why
+Section~\ref{sec:programme} asks which \emph{layer} of a register pays.
 Supplement~\ref{app:related} sets out each strand and what this paper takes
 from it.
 
@@ -283,10 +354,21 @@ enumerated, a choice that moves the answer (Section~\ref{sec:sobol}).
 estimates and a permutation test on its median, which licenses no statement
 about a sub-region. \emph{Nothing measures what the conventional report
 costs}: the alternative to one number is offered as a display, not as a
-decision rule with a loss. Of the four objects that close these, the
-decomposition and the band are adaptations; \emph{resolution regions} with a
-robustness index and \emph{specification regret} are, as far as we are aware,
-new. Section~\ref{sec:sca} measures where a curve's verdict and a region
+decision rule with a loss.
+
+\textbf{What is new here is narrower than the objects' names suggest, and is
+stated precisely.} The decomposition is an adaptation of functional ANOVA over
+a configuration space \citep{hutter2014efficient}. \emph{Counting the share of
+specifications with an effect in a declared direction is already standard
+specification-curve practice} \citep{simonsohn2020specification}: the
+robustness index $\rho$ is that count, and this paper does not claim it. What
+is new is what the count is taken over and under --- a \emph{simultaneous}
+band over a declared family rather than a pointwise test, an \emph{audited}
+denominator rather than the cells that happened to be enumerated, and a
+minimum resolved share below which no direction is reported at all. The
+decomposition with the split as an error stratum, and the separation of
+analyst latitude from resampling that it makes exact, we have not seen
+elsewhere. Section~\ref{sec:sca} measures where a curve's verdict and a region
 label part company rather than asserting a difference.
 
 The contribution is deliberately \emph{not} ``people usually report one
@@ -303,6 +385,7 @@ this corpus it is far from constant.
 \subsection{The design space}
 
 \begin{definition}[Design space]
+\label{def:space}
 A \emph{design space} $\mathcal{S}$ for a feature-value claim is a finite set
 of specifications, each a complete assignment to the axes
 \[
@@ -331,7 +414,19 @@ the reason. Table~\ref{tab:axes} is that declaration for this study, and it is
 generated from the code that walks the space rather than typed beside it. A
 reader can multiply its level counts and obtain the cell counts reported in
 Section~\ref{sec:denominator}; that this multiplication works is the first
-check the verification harness runs.
+check the verification harness runs. \textbf{The \nAxes\ axes above are the
+estimand's arguments, and this study does not vary all of them.} The target
+$Y$ indexes the surfaces rather than being an axis \emph{of} one --- each
+log--target pair has its own surface --- and the decision time, the operating
+point and the cohort are varied on the case study's log alone.
+Table~\ref{tab:roles} states, per pair, which axes ran and at how many levels;
+the two tables are meant to be read together and
+Section~\ref{sec:lim} carries the gap between them.
+Table~\ref{tab:axes}'s \emph{measure} column names which of the three declared
+product measures over the axis levels a quantity is taken under ---
+\textsc{equal}, every level of every axis equally likely; \textsc{ref.}, half
+the mass on the reference level; \textsc{conc.}, four fifths on it --- and
+Section~\ref{sec:sobol} reports every decomposition under all three.
 
 The measure placed on the axis levels is a modelling choice and is declared
 rather than left implicit; Supplement~\ref{app:measurechoice} states it, and
@@ -354,7 +449,13 @@ Let the cases of a log be a sample from a population $P$, and let the
 specification $s$ fix the fitting procedure $A_s$, the cohort and eligibility
 rule, the split rule $\Pi$, the decision time, the register-quality mechanism,
 the baseline and the instrument. Write $A_s(P)$ for the limit of the fitted
-scoring rule as the sample grows under $P$ with $s$ held fixed. The
+scoring rule as the sample grows under $P$ with $s$ held fixed. \textbf{That
+limit needs an assumption, and it is stated here rather than where it is
+used}: the case sequence is stationary and mixing, so that a temporal split
+does not separate two different populations and the moving-block bootstrap of
+Section~\ref{sec:boot} resamples a dependence structure that persists. An
+event log is not guaranteed to have that property and this paper does not test
+it; Section~\ref{sec:lim} carries it as a threat. The
 \emph{estimand at $s$} is
 \[
 \vartheta_s(f) \;=\; m_\theta\bigl(A_s(P, B \cup \{f_q\}),\, P\bigr)
@@ -380,9 +481,13 @@ for $\vartheta_s$, not that the observed increment is nonzero.
 Given $\mathcal{S}$ and data $D$, the surface is the map $s \mapsto V_s(f)$
 of~\eqref{eq:estimand}, and a conventional report is one cell of it. The
 paper's claim is that a single cell is not a summary of the surface in any
-useful sense: Section~\ref{sec:multilog} shows that the sign of $V_s$
-disagrees across cells on most log--target pairs we study, and
-Section~\ref{sec:results-regret} measures how often. There is one state in
+useful sense. \textbf{The point estimates alone establish that}: on
+\nSignVaries\ of the \nPairs\ pairs, between a tenth and nine tenths of the
+admissible cells are positive, so the surface's sign is not settled by the
+data and the design together. Whether that unsettledness amounts to a
+\emph{misstatement} is a different and much harder question, and
+Section~\ref{sec:results-regret} answers it with three restrictions and a
+withdrawal rather than with a rate. There is one state in
 which a scalar is defensible: when the whole admissible surface lies on the
 same side of zero with simultaneous confidence, a positive number is a lower
 bound on a robust conclusion. Section~\ref{sec:regionsdef} makes that a
@@ -402,7 +507,7 @@ R_s(f) \;=\; 1 - \frac{V_s(f \mid B_1)}{V_s(f \mid B_0)}
 $D$ is an absolute difference in the metric's own units. $R$ is a ratio and
 inherits every pathology of one: the denominator can be small, zero or
 negative; $R$ is not comparable across metrics, because
-Proposition~\ref{prop:nonid} says the two are not functions of each other; and
+Remark~\ref{prop:nonid} says the two are not functions of each other; and
 $R$ can exceed $1$ or fall below $0$, so reading it as ``the share absorbed''
 is a category error whenever it leaves $[0,1]$.
 
@@ -426,89 +531,41 @@ interval reports a bounded one for every single one of them;
 metrics as though both lived on an unproblematic common scale.
 \end{enumerate}
 
-\subsection{Two propositions}
+\subsection{Two facts about the metric, and why they are remarks}
 \label{sec:props}
 
-Throughout, a \emph{configuration} is a quadruple of score vectors on a fixed
-labelled test set,
-$\mathcal{C} = (\sigma_{B_0}, \sigma_{B_0 \cup f}, \sigma_{B_1},
-\sigma_{B_1 \cup f})$ with $B_0 \subset B_1$, and $V_m(B)$,
-$R_m(\mathcal{C})$ are as in~\eqref{eq:estimand} and~\eqref{eq:reduction}. The
-metric conventions the constructions below depend on --- the tie rule for ROC
-AUC, the step-wise definition of average precision, the selection rule for net
-benefit --- are fixed and listed in
-\texttt{results/s07\_conventions.csv}.
+Two properties of the reduction are used later and are stated here as remarks
+rather than proved here; Supplement~\ref{app:props} carries both statements in
+full, their constructions, the richness assumption the second needs, and the
+witness that separates it from rank-basedness.
 
-\begin{proposition}[Metric non-identifiability of the reduction]
+\begin{remark}[The metric is an argument of the estimand]
 \label{prop:nonid}
-There is no function $\varphi : \mathbb{R} \to \mathbb{R}$ with
-$R_{\mathrm{AP}}(\mathcal{C}) =
-\varphi\bigl(R_{\mathrm{AUC}}(\mathcal{C})\bigr)$ for every configuration
-$\mathcal{C}$ whose denominators are positive under both metrics.
-Consequently the reduction is not identified by the data, the feature and the
-two baselines: the metric is an argument of the estimand.
-\end{proposition}
+No function carries the AUC reduction to the average-precision reduction: two
+configurations can share an AUC reduction to \propOneAucGap\ while their
+average-precision reductions differ by \propOneApGap. The reduction is
+therefore not identified by the data, the feature and the two baselines, which
+is why every table in this paper names its instrument and why the minimal
+practically important difference of Section~\ref{sec:results-regret} is
+declared in one instrument's units and applied there only.
+\end{remark}
 
-\noindent The construction is in Supplement~\ref{app:props}.
-
-
-It establishes non-identifiability and not unboundedness: $R$ is built over a
-bounded interval in any fixed configuration, so the reading is that no
-function carries one metric's reduction to another's. In the two
-configurations of \texttt{results/s29\_prop1.csv} the AUC reduction is
-identical to \propOneAucGap\ while the average-precision reduction differs by
-\propOneApGap.
-
-\begin{assumption}[Richness]
-\label{ass:rich}
-Every quadruple of score vectors on the fixed labelled test set is realisable
-as a configuration. This is the assumption that no restriction is placed on
-the model class; it is what makes ``for every configuration'' quantify over a
-set with more than three elements, and it fails only if the analyst commits in
-advance to a family of scoring rules narrow enough to constrain the four arms
-jointly.
-\end{assumption}
-
-\begin{proposition}[What survives a declared family of recalibrations]
+\begin{remark}[What survives a declared family of recalibrations]
 \label{prop:rank}
-Let $\Psi$ be a family of strictly increasing continuous maps containing the
-identity, each applied \emph{simultaneously} to all four score vectors of a
-configuration --- one recalibration of the scoring system, not a different one
-per arm. Call $m$ \emph{$\Psi$-invariant} if $m(\psi(\sigma), y) =
-m(\sigma, y)$ for every $\psi \in \Psi$ and every $(\sigma, y)$. Under
-Assumption~\ref{ass:rich}, the following are equivalent.
-\begin{enumerate}
-\item[(i)] $R_m(\psi\mathcal{C}) = R_m(\mathcal{C})$ for every configuration
-$\mathcal{C}$ with nonzero denominator and every $\psi \in \Psi$.
-\item[(ii)] For every $\psi \in \Psi$ there are constants $A(\psi) \neq 0$ and
-$B(\psi)$ with
-$m(\psi(\sigma), y) = A(\psi)\,m(\sigma, y) + B(\psi)$ for every $\sigma$.
-\end{enumerate}
-\end{proposition}
-
-\noindent Richness is used only for (i) $\Rightarrow$ (ii); the direction
-that matters in practice needs none. Taking $\Psi$ to be every strictly
-increasing continuous map recovers the unrestricted statement.
-
-\paragraph{Within a declared family, invariance is strictly weaker than
-rank-basedness}
-\label{sec:weaker}
-A rank-based instrument satisfies (ii) with $A \equiv 1$, $B \equiv 0$, hence
-(i); the converse fails for some $\Psi$. The class-mean gap is a witness: it
-is not rank-based, an affine recalibration moving it by up to
-\widerMChangeAffine, yet its reduction is invariant to \widerRShiftAffine\
-inside the affine family. \textbf{The separation is family-relative} --- over
-\nPsiFamiliesNonAffine\ non-affine families the same witness's reduction
-shifts by up to \widerRShiftNonAffine\ --- so an analyst declares the
-recalibrations they will consider and the proposition answers for those.
-\textbf{What it buys} is that a search becomes a proof: one $\psi$ and one
-triple violating \eqref{eq:ratiopres} is a \emph{certificate} that rules out
-invariance for every configuration, and
-\texttt{results/s29\_certificates.csv} carries \nCertificates\ of them, the
-smallest moving $R$ by \certificateMinShift, against
+For a family $\Psi$ of strictly increasing maps applied simultaneously to all
+four arms of a configuration, the reduction is $\Psi$-invariant exactly when
+the metric is \emph{affine} under $\Psi$. Rank-basedness is sufficient and not
+necessary, and the gap is family-relative: the class-mean gap --- the
+difference in mean score between the two outcome classes, which is not
+rank-based --- has a reduction invariant to \widerRShiftAffine\ inside the
+affine family and shifting by up to \widerRShiftNonAffine\ over
+\nPsiFamiliesNonAffine\ non-affine ones. What this buys is that a search
+becomes a proof: one map and one configuration violating the invariance rules
+it out everywhere, and \nCertificates\ such certificates are computed, the
+smallest moving the reduction by \certificateMinShift, against
 \nInvarianceChecks\ checks in which the two rank-based instruments hold to
-\invarianceMaxShift. Supplement~\ref{app:props} gives both propositions'
-constructions, the role of richness, and the witness in full.
+\invarianceMaxShift.
+\end{remark}
 % ---- paper/parts/20_inference.tex ----
 \section{Estimation and inference}
 \label{sec:inference}
@@ -533,7 +590,22 @@ a moving-block resample of the test half, with encoders, frequency tables,
 target encodings, register rankings and calibrators rebuilt inside the draw.
 On the simulation of Section~\ref{sec:sim} the fixed-model interval covers a
 median \coverageNaiveMedian\ and the nested basic interval
-\coverageNestedBasicMedian.
+\coverageNestedBasicMedian\ --- \textbf{a gap of about
+\nestedGainInSe\ Monte Carlo standard errors} at the \simMcSe\ standard
+error that design attains (Section~\ref{sec:simcoverage}), which is not a
+difference this evidence can resolve. The nested construction is retained because the
+variability it admits is variability the estimand contains and the fixed-model
+interval excludes by construction, not because it measures better here; and
+the price it charges is the subject of the next two paragraphs.
+Section~\ref{sec:lim} records that the comparison a reader would want ---
+against a \emph{weighted} bootstrap, which would remove that price at source
+--- is the first thing this design should be replaced by, and is not run here.
+
+\noindent Throughout, $K$ denotes the \textbf{cardinality of the register
+field} --- the number of distinct values $f$ takes on a pair, \cardFMedian\ at
+the median pair and \cardFMax\ at the largest (Table~\ref{tab:roles}) --- and
+$n$ the number of training cases. The ratio $K/n$ governs everything in this
+subsection and in Section~\ref{sec:regions}.
 
 \paragraph{Refitting inside the draw breaks the percentile interval}
 A bootstrap resample holds about $1 - e^{-1}$ of a high-cardinality
@@ -589,13 +661,25 @@ specification carrying bootstrap draws; it is smaller for one reason, that a
 draw refits the whole pipeline and its cost is the declared surface's
 multiplied by the draw count.
 
-The inference surface is declared before any draw is taken, by a rule that
-reads only a log's row count, and it is \emph{axis-complete}: every axis
-varies over at least two levels, so no axis is silently held fixed. It carries
-\nInferenceScalar\ scalar family members, a median
-\inferenceShareMedianPct\ of each pair's computational surface, and the share
-of cells with a positive increment differs between the two surfaces by a
-median \repGapMedian. Every quantity that does \emph{not} need a bootstrap ---
+\textbf{The rule that selects it, in full.} A pair falls into one of three
+size classes on its row count alone, and the class fixes the levels: the
+pipeline axis keeps all \nPipelineLevelsCase\ levels on the case study's log,
+the two differing
+in model \emph{family} on a medium log and the two differing in
+\emph{encoding} on the largest two, where a boosting fit refitted in every
+draw would cost more than the rest of the corpus together; the split axis
+keeps the two levels that bracket the declared six; the register-quality axis
+keeps as-recorded, a population failure and a discovery failure, dropping the
+third on the largest logs; the ladder and the \nInstruments\ instruments are
+kept entire. Nothing in the rule reads a result. It is \emph{axis-complete},
+so no axis is silently fixed --- but it is a \emph{corner} of the declared
+surface rather than a design, which is why the decomposition cannot be
+computed on it and why the positive-cell share differs between the two
+surfaces by a median \repGapMedian; Section~\ref{sec:lim} names the
+resolution-IV fractional factorial that would remove both objections.
+It carries \nInferenceScalar\ scalar family members, a median
+\inferenceShareMedianPct\ of each pair's computational surface.
+Every quantity that does \emph{not} need a bootstrap ---
 the decomposition, the sign-disagreement rate, the regret comparison --- is
 computed on the full declared surface; only the region labels are computed on
 the inference surface.
@@ -630,8 +714,9 @@ scale. The whole-surface family has a median \familySizeMedian\ members
 against five, and its median critical value is \maxTSurfaceMedian\ against
 \maxTWithinMedian\ and the pointwise $1.96$. Family control is per
 log--target pair; every cross-pair statement here is descriptive.
-Supplement~\ref{app:families} gives the four objects and the rule for
-dropping a replicate that leaves a cell without outcome variation.
+Supplement~\ref{app:families} gives these four \emph{interval} objects
+--- which are not the reporting objects of Table~\ref{tab:objects} --- and the
+rule for dropping a replicate that leaves a cell without outcome variation.
 
 \paragraph{Estimating the critical value without paying for it in refits}
 $q_{1-\alpha}$ is the upper quantile of a maximum over hundreds of correlated
@@ -649,81 +734,49 @@ from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
 register cardinality to training size; Section~\ref{sec:regions} calibrates
 $q$ at each pair's own ratio.
 
-\paragraph{Which of them is right, measured against a known answer}
-A disagreement between two estimators of one quantity says that one of them is
-wrong and cannot say which, so
-Section~\ref{sec:simband} measures the family-wise coverage each one attains
-over synthetic families whose size, draw count, cross-cell correlation and
-tail behaviour are matched to this corpus, and whose truth is known by
-construction. Three results govern how the bands in this paper should be
-read, and none of them is comfortable.
-
-\textbf{The multiplier band does not attain its nominal level anywhere in
-this corpus's configuration, and the shortfall is not a tail effect.} Under
-\emph{Gaussian} draws --- the case the multiplier is derived for --- its
-family-wise coverage has a median \covMultGaussMedian\ over the matched cells
-and a minimum \covMultGaussMin\ against a nominal $95\%$; under draws
-matched to this corpus's tails,
-\covMultHeavyMedian\ and \covMultHeavyMin. The construction is asymptotic and
-these draw counts are not asymptotic.
-
-\textbf{The safeguard the resolved flag uses buys almost nothing.} Resolving
-a cell only at the upper end of the critical value's Monte Carlo interval
-moves coverage from \covMultHeavyMedian\ to \covMultHiHeavyMedian, because
-that interval is narrow by design --- it is the precision the multiplier was
-adopted for. It controls the Monte Carlo error in $q$ and not the error in
-what $q$ estimates.
-
-\textbf{The best of the five candidates is the empirical quantile taken at
-the upper end of its own order-statistic interval, and it is still short.} It
-reaches a median \covEmpHiHeavyMedian\ and a minimum \covEmpHiHeavyMin\ on
-the matched cells, at \widthEmpHiOverMult\ times the width. A Rademacher wild
-multiplier, which reuses the observed draws with random signs instead of
-replacing them by Gaussians and which we expected to repair exactly this,
-does worse than the Gaussian one: \covRadHeavyMedian.
-Section~\ref{sec:simband} reports all five.
-
-The binding constraint is the number of draws, not the choice among
-estimators. At the modal surface family the multiplier band covers
-\covMultBootThirtyThree\ at \nBootThirtyThree\ draws,
-\covMultBootEighty\ at \nBootEighty, \covMultBootOneFifty\ at
-\nBootOneFifty\ and \covMultBootFourHundred\ at \nBootFourHundred; the
-per-cell interval it is built from moves \covPercellBootThirtyThree\ to
-\covPercellBootFourHundred\ over the same range. This corpus runs at
-\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ draws as declared and
-\nDrawsEffectiveMin\ to \nDrawsSurfaceMax\ effectively, and it is the
-effective count a band is built from. Every band, region label and $\rho$
-in this paper should be read as the anti-conservative statement that makes
-it, and Section~\ref{sec:lim} states what follows.
+\paragraph{What these bands cover, measured against a known answer}
+\textbf{They do not attain their nominal level anywhere in this corpus's
+configuration.} Section~\ref{sec:simband} measures family-wise coverage over
+synthetic families matched to this corpus in size, draw count, cross-cell
+correlation and tails, whose truth is known by construction and whose
+bootstrap is \emph{ideal}, so every coverage it reports is an upper bound on
+what the real procedure attains. The multiplier band's family-wise coverage
+there has a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\
+against a nominal $95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even
+under the Gaussian draws the construction is derived for. The binding
+constraint is the draw count and not the choice among estimators: at the modal
+surface family coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\
+draws and \covMultBootFourHundred\ at \nBootFourHundred, and this corpus runs
+at \nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ as declared,
+\nDrawsEffectiveMin\ to \nDrawsSurfaceMax\ effectively. Section~\ref{sec:simband}
+reports all five candidate critical values, the safeguard that buys almost
+nothing, and the shortfall in the units the calibration works in.
+\textbf{Every band, region label and $\rho$ in this paper is therefore an
+anti-conservative statement}: they are reported as descriptive diagnostics,
+they are not coverage guarantees, and Section~\ref{sec:lim} states what
+follows for each conclusion that rests on one.
 
 \subsection{Planned contrasts, and a $p$-value the design can produce}
 \label{sec:planned}
 
-Five contrasts on the primary log are \emph{planned for this analysis round}:
-that the register adds to the intake baseline (\textsf{PC1}); that it still
-adds once the free field is admitted (\textsf{PC2}); that it adds at the later
-decision time (\textsf{PC3}); that the absorption $D$ is positive
-(\textsf{PC4}); and that a half-empty register is worth less than a full one
-(\textsf{PC5}). Each is stated with its complete estimand --- log, cohort,
-target, learner, encoding, split, decision time, register quality, baseline
-and instrument --- in Table~\ref{tab:confirm}. They are not
-\emph{confirmatory}: they were fixed before this analysis round, not before
-the data were seen. The $p$-values are one-sided bootstrap $p$-values with a
-Holm step-down correction \citep{holm1979simple} at $\alpha = 0.05$, computed
-with the plus-one estimator $\hat p = (k+1)/(B+1)$, where $k$ counts draws on
-the null side; a $p$-value of zero is a number no finite bootstrap can
-produce. At \nDrawsPlanned\ draws the smallest attainable Holm-adjusted value
-over five tests is \pMinAttainableHolm, and \nPlannedReject\ of the five
-survive.
-
-A one-sided $p$-value and a two-sided basic interval are different
-statements about the same draws, and on \textsf{PC3} they disagree; \textbf{a
-contrast is called resolved only when the interval says so}, and
-\textsf{PC3} is not resolved on any of the four cohort-and-target
-combinations Section~\ref{sec:cohort} reports.
-Supplement~\ref{app:pcdetail} works the disagreement through. Every other
-comparison here is \emph{exploratory} and carries no multiplicity correction,
-because none would be meaningful over a surface enumerated in full.
+Five contrasts on the primary log are \emph{planned for this analysis round} ---
+that the register adds to the intake baseline, that it still adds once the free
+field is admitted, that it adds at the later decision time, that the absorption
+$D$ is positive, and that a half-empty register is worth less than a full one
+--- each stated with its complete estimand in Table~\ref{tab:confirm}.
+\textbf{They are not confirmatory}: they were fixed before this analysis round,
+not before the data were seen, so the Holm-adjusted one-sided bootstrap
+$p$-values \citep{holm1979simple} they carry are reported for legibility and
+not as a confirmatory test, and \nPlannedReject\ of them survive at
+$\alpha = 0.05$. Two details matter and are in
+Supplement~\ref{app:pcdetail}: at \nDrawsPlanned\ draws the smallest
+attainable Holm-adjusted value is \pMinAttainableHolm, because the plus-one
+estimator $\hat p = (k+1)/(B+1)$ is the only one a finite bootstrap can
+support; and on \textsf{PC3} the one-sided $p$-value and the two-sided basic
+interval disagree, where \textbf{a contrast is called resolved only when the
+interval says so}. Every other comparison in this paper is \emph{exploratory}
+and carries no multiplicity correction, because none would be meaningful over
+a surface enumerated in full.
 
 \subsection{The sensitivity decomposition}
 \label{sec:sobol}
@@ -743,7 +796,34 @@ performance over its \emph{configuration} space by the same device; what
 differs here is that the axes are analysis decisions rather than
 hyperparameters, that the components are exact over a complete factorial
 rather than estimated from a surrogate over a sampled design, and that the
-decomposition is one of four reporting objects rather than the conclusion.
+decomposition is one of three reporting objects rather than the conclusion.
+
+\paragraph{The split is an error stratum, and the primary decomposition treats
+it as one}
+Five of the split axis's six levels are expanding-origin folds on the same
+data. They are different \emph{samples}, not different analyses, and a
+decomposition that pools them reports sampling variability as specification
+sensitivity. Because the decomposition is exact and orthogonal, the repair is
+a partition rather than a model: every component either involves the split or
+does not, so
+\begin{equation}
+\label{eq:strata}
+1 \;=\; \underbrace{\textstyle\sum_{\emptyset \neq u \subseteq \mathcal{A}} S_u}_{\text{analyst choice}}
+\;+\; \underbrace{S_{\{\text{quality}\}}}_{\text{counterfactual}}
+\;+\; \underbrace{\textstyle\sum_{u \not\ni \text{split}} S_u - (\cdots)}_{\text{mixed}}
+\;+\; \underbrace{\textstyle\sum_{u \ni \text{split}} S_u}_{\text{resampling}},
+\end{equation}
+where $\mathcal{A} = \{\text{pipeline}, \text{rung}\}$ and the third term
+is what the split-free components carry beyond the first two,
+and the four terms are computed, not estimated (Table~\ref{tab:strata}); the
+identity holds to \stratumPartitionError. The first three are what survives
+fold-averaging, and they are decomposed again \emph{on} the fold-averaged
+surface, where each index is a share of the variance that fold-averaging
+leaves and the higher-order share is net of resampling.
+\textbf{Section~\ref{sec:axes2} reports that decomposition as the primary one}
+and the pooled decomposition beside it, because the pooled one is what a
+reader of the earlier specification-curve literature will expect and the
+difference between them is itself a result.
 
 The per-axis difference $S_{T_i} - S_i$ is the variance axis $i$ is
 \emph{involved} in beyond its main effect. These overlap --- a two-way
@@ -755,7 +835,10 @@ S_{\mathrm{int}} \;=\; 1 - \sum_i S_i ,
 \end{equation}
 which this paper computes together with every disjoint component, so the
 identity $\sum_u S_u = 1$ is asserted numerically --- it holds on all
-\nDecompositions\ decompositions --- rather than assumed. The other quantity
+\nDecompositions\ decompositions, which is the \nPairs\ pairs crossed with
+the \nInstruments\ instruments under each of the three declared product
+measures, plus one per pair on the pooled cross-instrument scale --- rather
+than assumed. The other quantity
 is retained as the \emph{largest per-axis interaction involvement}; the two
 differ substantially, at \largestInvolvementPct\ against
 \interactionTotalPct\ at the median pair.
@@ -776,12 +859,29 @@ $\mathcal{F}$ is beneficial; \emph{conditionally beneficial} if some are and
 none is harmful;
 \emph{uniformly harmful} and \emph{conditionally harmful} in mirror image;
 \emph{sign-changing} if there is at least one cell of each kind; and
-\emph{unresolved} if none is resolved. The \emph{robustness index} is
+\emph{unresolved} if none is resolved --- \textbf{or if fewer than
+\minResolvedSharePct\ of $\mathcal{F}$ is resolved at all}. The
+\emph{robustness index} is
 \[
 \rho \;=\; \frac{\#\{\text{beneficial}\} - \#\{\text{harmful}\}}
-{|\mathcal{F}|} \;\in\; [-1, 1].
+{|\mathcal{F}|} \;\in\; [-1, 1],
 \]
+and every directional label is reported with the counts of beneficial,
+harmful and unresolved cells it rests on.
 \end{definition}
+
+\noindent \textbf{The minimum resolved share is round twenty-six's, and it is
+not free.} Without it a surface earns a direction from as few as two resolved
+cells of a hundred and eighty: \emph{conditionally beneficial} then means
+``nothing resolved harmful'', which on a family the data barely touch is a
+statement about the band's width and not about the register.
+\nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs that carry a
+direction lose it under the condition (Table~\ref{tab:triple}), and $\rho$ is
+printed beside the triple everywhere because $\rho$ alone cannot distinguish
+two resolved cells from ninety. The threshold is a declared convention; the
+labels at \nLabelsLostMinOne\ and \nLabelsLostMinTen\ per cent are in
+Table~\ref{tab:triple}'s source file, so a reader who prefers another can see
+what it costs.
 
 \noindent \textbf{The label is relative to $\mathcal{F}$ and not to the whole
 admissible set, and the direction of that is not neutral.} A label computed on
@@ -805,10 +905,19 @@ measured against a model with no features is inflated by construction; the
 master surface file \emph{does} carry that rung, which is why the two counts
 in Table~\ref{tab:denominator} differ.
 
-\subsection{Specification regret}
+\subsection{Specification regret, as a robustness check}
 \label{sec:regretdef}
 
-The fourth object asks what choosing one specification costs against the best
+\textbf{This subsection defines a check and not a reporting object.} Through
+round twenty-five, \emph{specification regret} was the fourth object the
+introduction offered. What it reports is a null --- the one-number rule's
+median excess regret is zero in every instrument, the out-of-sample ordering
+reverses under rolling folds (Section~\ref{sec:rules}), and on calibrated net
+benefit the rules mostly tie (Section~\ref{sec:nbregret}) --- and a null is a
+check on the paper's other two arguments rather than a result of its own. It
+is kept in full, and demoted.
+
+The construction asks what choosing one specification costs against the best
 one, on a scale a decision can use. Three designs are declared and all three
 reported: \textbf{A}, metric-specific, so that no average crosses an
 instrument; \textbf{B}, on calibrated net benefit, which is a common
@@ -857,7 +966,13 @@ recur across the temporal split, so that a document number is not mistaken for
 a maintained entity.
 \item[The free field $g$.] A resource-like attribute, present on at least
 \minGPresent\ of cases, whose value varies within a case, so that it can carry
-information about routing.
+information about routing. \textbf{Only the \emph{first} value it takes on a
+case is used as a feature}, while the handover target is defined from the
+whole sequence of values --- so the feature is what is known when the case
+opens and the target is what happens afterwards, and the field cannot inform
+the model about its own future. The distinction is not cosmetic: the same
+attribute supplies both, and using the case-level set would put the answer in
+the features.
 \item[The intake block $B_0$.] Every remaining attribute of cardinality at
 most \maxCardBZero\ that is neither an outcome, nor a timestamp, nor a
 relabelling of the activity, nor a deterministic coarsening of $f$.
@@ -866,7 +981,26 @@ relabelling of the activity, nor a deterministic coarsening of $f$.
 Coarsenings of $f$ --- its type, its subtype, the service it belongs to ---
 are given their own role rather than being swept into $B_0$, because which
 \emph{layer} of a register pays is a separate question, answered in
-Supplement~\ref{app:layers}.
+Section~\ref{sec:programme}.
+
+\input{tables/roles}
+
+\textbf{Table~\ref{tab:roles} is what the rules found, and it is also the
+design space as it was actually varied.} It names, per pair, the attribute
+that plays each role and the number of levels each axis carries. Two things
+are visible there that Definition~\ref{def:space} and
+Table~\ref{tab:axes} do not say. The \emph{target} is not an axis of any
+surface: the surface is computed per log--target pair, so each of the two
+targets a log carries has a surface of its own, and the cohort $\times$ target
+design exists only in Section~\ref{sec:cohort}. And the per-pair factorial is
+\nPerPairAxes\ axes wide --- pipeline, split, register quality, baseline rung,
+instrument --- not the \nAxes\ of Definition~\ref{def:space}: the decision
+time varies only on the case study's log, the operating point only in the
+decision-curve family, and the cohort only in
+Section~\ref{sec:cohort}. Definition~\ref{def:space} declares what the
+estimand's arguments \emph{are}; Table~\ref{tab:roles} declares which of them
+this study \emph{varied}, and Section~\ref{sec:lim} carries the difference as
+a limitation rather than leaving a reader to find it.
 
 \subsection{Targets, splits and exclusions}
 \label{sec:targets}
@@ -882,6 +1016,21 @@ analysed and reported} --- running the surface only where the reduction
 resolves would condition the analysis on the outcome.
 Supplement~\ref{app:targets} gives the rules, the exclusion codes and the
 admission margin at the upper edge of the prevalence window.
+
+\textbf{Two exclusions a reader of Table~\ref{tab:roles} will ask about.}
+BPIC15\_2 is excluded under \textsc{small\_n} at \nBpicFifteenTwoRows\ cases
+while its four siblings are admitted --- the rule is a floor on the case count
+and nothing about the log's content --- and the further BPIC15 targets, the
+BPIC20 logs and BPIC12 are excluded under \textsc{no\_headroom} or
+\textsc{no\_g}, which are prevalence and role failures. \textbf{And the
+registered handover target on the case study's log sits at the upper edge of
+the admission window}: test prevalence \prevAdmittedMax\ against a
+window that closes at \prevHi, which excludes other logs at
+\prevExcludedAboveMin. That pair carries \nCellsBpicFourteen\ of the corpus's
+\nDeclaredAdmissibleScalar\ admissible cells, so a corpus statistic pooled
+over cells is partly a statement about it; Section~\ref{sec:family} reports
+every headline on the ITSM family separately for this reason, and
+Section~\ref{sec:lim} asks whether the window should be tightened.
 
 \subsection{What the corpus does and does not have in common}
 \label{sec:construct}
@@ -922,8 +1071,9 @@ populations in Section~\ref{sec:family}.
 \label{sec:multilog}
 
 \label{sec:denominator}
-Every point estimate in this section comes from one master surface,
-\texttt{results/s01\_surface.csv}, computed by one pass of one pipeline over
+Every point estimate in this section comes from one master surface ---
+one file, named in the code-availability statement --- computed by one pass of
+one pipeline over
 \nPairs\ log--target pairs, \nLearners\ learners, \nSplits\ splits, \nQuality\
 register-quality conditions, the nested baseline ladder and \nMetrics\
 instruments including the \nGrid-point decision-curve grid. Its
@@ -952,7 +1102,13 @@ holdout, the clean register, the intake block plus the free field as the
 baseline, ROC AUC --- and its region and $\rho$ columns are the
 coverage-calibrated ones of Section~\ref{sec:regions} while its
 sign-disagreement column is the all-cells rate of Table~\ref{tab:misreport}
-under the equal-level measure.
+under the equal-level measure. \textbf{The reference cell's sign and the
+region label need not agree, and on several pairs they do not}: a surface can
+be conditionally beneficial while the one cell an analyst would have stood on
+is negative, because the label ranges over the whole inference family and the
+reference cell is one member of it. Table~\ref{tab:triple} prints the counts
+each label rests on, and Table~\ref{tab:roles} which attribute plays the
+register on each row.
 
 \subsection{What the choices are worth}
 \label{sec:axes2}
@@ -988,20 +1144,58 @@ which is therefore not obtainable by taking a maximum across the four printed
 columns; and the corpus medians of the higher-order share. The per-instrument
 quantities the second is built from are in Table~\ref{tab:measures}.
 
-\textbf{No single axis dominates, and the largest is the one an evaluation
-paper is most likely to fix without comment.} Across the corpus the median
-first-order index is \sSplitPct\ for the split, \sRungPct\ for the baseline
-rung, \sQualityPct\ for the register-quality condition and \sLearnerPct\ for
-the pipeline. The split leads the other three by a wide margin and still
-explains well under a quarter of the variance. At the median pair the largest
-of the four, whichever it is, is \largestFirstOrderPct.
+\input{tables/strata}
 
-\textbf{Most of the variance belongs to no single axis.} The total
-higher-order share $1 - \sum_i S_i$ has median \interactionTotalPct\
-(\interactionTotalCI\ over pairs), ranging from \interactionMinPct\ to
-\interactionMaxPct; the largest per-axis \emph{involvement}
-$\max_i (S_{T_i} - S_i)$ is a different quantity and is
-\largestInvolvementPct\ at the median pair.
+\textbf{Most of what the pooled surface varies over is not specification at
+all.} Table~\ref{tab:strata} partitions the decomposition by
+\eqref{eq:strata}, exactly and on every decomposition separately. Taking each
+column's median across the corpus --- \emph{four medians, which do not add,
+and are not four parts of one pair} --- the components involving the split
+carry \shareResamplingStratumPct\ of the variance, against
+\shareAnalystStratumPct\ for the choices an analyst makes,
+\shareCounterfactualStratumPct\ for the register-quality counterfactual and
+\shareMixedStratumPct\ for the components that join them. Resampling is the
+largest of the four on \nResamplingLargest\ of the \nPairs\ pairs. Dropping
+the one split level that is a genuine analyst choice --- the single temporal
+holdout, leaving five folds of one rule --- moves that share only from
+\shareResamplingStratumPct\ to \shareResamplingRollingPct, so the stratum is
+not an artefact of mixing a rule with its folds. \textbf{The two exceptions
+are the case study's own pairs}, where the analyst axes carry the richest
+grids in the corpus --- \nPipelineLevelsCase\ pipelines and
+\nQualityFigOne\ register-quality conditions against two and six elsewhere
+(Table~\ref{tab:roles}) --- and the ordering reverses.
+
+\textbf{Net of resampling, no single axis dominates --- and this is a weaker
+statement than the pooled surface makes it look.} On the fold-averaged
+surface, which carries \foldVarRatioPct\ of the pooled variance, the median
+first-order index is \foldSRungPct\ for the baseline rung, \foldSQualityPct\
+for the register-quality condition and \foldSPipelinePct\ for the pipeline,
+and the largest of the three at the median pair is
+\foldLargestFirstOrderPct. \textbf{The total higher-order share is
+\foldInteractionTotalPct\ once resampling is removed, against
+\pooledInteractionMedianPct\ on the pooled surface, and it no longer exceeds
+the largest first-order index}: pooled, the interactions carry more than any
+main effect on \nPooledInteractionExceeds\ of \nPairs\ pairs; net of
+resampling, on \nFoldInteractionExceeds. \emph{Most of the variance belongs to
+no single axis} is a property of a surface that counts five folds as five
+specifications, and it does not survive treating them as what they are. What
+does survive is the weaker and still sufficient claim: which axis leads is a
+property of the pair --- the rung on \nFoldLeadPairsRung, the register-quality
+condition on \nFoldLeadPairsQuality\ and the pipeline on
+\nFoldLeadPairsPipeline\ --- so an analyst cannot learn from somebody else's
+paper which of their own choices their answer turns on.
+
+\textbf{The pooled decomposition, for comparison.} Across the corpus the
+median pooled first-order index is \sSplitPct\ for the split, \sRungPct\ for
+the baseline rung, \sQualityPct\ for the register-quality condition and
+\sLearnerPct\ for the pipeline; at the median pair the largest of the four is
+\largestFirstOrderPct, the total higher-order share is \interactionTotalPct\
+(\interactionTotalCI\ over pairs, \interactionMinPct\ to
+\interactionMaxPct), and the largest per-axis \emph{involvement}
+$\max_i (S_{T_i} - S_i)$, a different quantity, is \largestInvolvementPct.
+It is reported because it is what the specification-curve literature computes
+and because the difference between the two is this subsection's result, not
+because it answers the question as asked.
 
 \textbf{The measure is not neutral, and one conclusion does not survive it.}
 Across the three product measures the higher-order share moves by
@@ -1013,19 +1207,41 @@ than any main effect} is therefore a claim about a measure and not only about
 a surface. Supplement~\ref{app:measures} carries the target axis, which axis
 leads on which pair, and both invariance tests.
 
-\textbf{The baseline axis moves the answer by more than the answer.} Holding
+\textbf{The baseline axis moves the answer by more than the answer, on the
+pairs where an analyst has more than one baseline to choose between.} Holding
 the pipeline, the split, the register and the metric at the reference and
 varying only the baseline rung, the increment moves by \spreadMedian\ AUC at
 the median pair and \spreadMax\ at the widest --- larger than the increment
 itself at the reference cell on \nSpreadExceedsIncrement\ of the \nPairs\
-pairs. The index and the spread answer different questions, what share of the
-\emph{variance} an axis explains while every other axis is also varying
-against how far that one axis moves the answer on its own, and both are
+pairs. \textbf{That range is carried by the half-of-intake rung, and a reader
+is owed the spread without it.} Half of an intake block, taken in a
+deterministic order by cardinality, is admissible but impoverished in the same
+way the intercept-only rung this paper already excludes is impoverished.
+Excluding it too, the spread is \spreadRealisticMedian\ AUC at the median pair
+and \spreadRealisticMax\ at the widest, and exceeds the reference increment on
+\nSpreadExceedsRealistic\ pairs. The fall is not a correction of an error but
+a change of denominator with a plain explanation: on
+\nPairsTwoRealisticRungs\ of the \nPairs\ pairs only two rungs remain, so the
+spread over them \emph{is} the absorption $D$ of the free field, which
+Section~\ref{sec:absorption} reports as an object in its own right with its
+own interval. Only the case study's log carries a third
+(Table~\ref{tab:roles}), and its two pairs are where the corpus's widest
+realistic-rung spread sits, reaching \spreadRealisticMax. The
+index and the spread answer different questions --- what share of the
+\emph{variance} an axis explains while every other axis is also varying,
+against how far that one axis moves the answer on its own --- and both are
 reported because either alone misleads.
 
-\paragraph{The pipeline axis is two axes} Its levels are a model family
-together with an encoding and, in one case, a calibration, and on
-\nPairsTwoLearners\ of the \nPairs\ pairs only two of them run. Crossed on the
+\paragraph{The pipeline axis is two axes, and it does not run at full width
+everywhere} Its levels are a model family together with an encoding and, in
+one case, a calibration, and on \nPairsTwoLearners\ of the \nPairs\ pairs only
+two of them run. \textbf{The admission rule is a function of the log's row
+count and nothing else}, declared before any fit: the case study's log carries
+all \nPipelineLevelsCase, the two largest logs carry the two that differ in
+\emph{encoding} --- a boosting fit on a quarter of a million rows costs more
+than the rest of the corpus together --- and every other pair carries the two
+that differ in \emph{family}. Table~\ref{tab:roles} gives the count per pair.
+Crossed on the
 case study's log --- both families against all three encodings on both
 targets, \nPipelines\ complete factorial pipelines ---
 \textbf{the encoding is the larger of the two}, \sEncodingPct\ of the variance
@@ -1082,6 +1298,8 @@ stops containing the point estimate a widening would be about
 ladder, the two-covariate comparison and the admission rule;
 Section~\ref{sec:lim} carries what it leaves the corpus's largest pairs.
 
+\input{tables/triple}
+
 \textbf{Of the \nPairsResolvingAny\ pairs that resolve anything,
 \nCondBeneficialCal\ have no harmful cell and \nPairsResolveBothSigns\ resolve
 cells of both signs.} That is the informative reading of the region column,
@@ -1104,9 +1322,14 @@ conclusion here rests on the calibration being exactly right.
 A conventional report --- one pipeline, the clean register, the single
 holdout, ROC AUC --- disagrees in \emph{sign} with a median
 \misreportEqualPct\ of the other admissible specifications under the
-equal-level measure. Two things are wrong with reading that as \emph{what a
-one-number report exposes a reader to}, and both are corrected before the
-headline is stated.
+equal-level measure. \textbf{Three things are wrong with reading that as
+\emph{what a one-number report exposes a reader to}}, and this section
+corrects each of them, then all three at once: the axes are not all the same
+kind of thing, most cells are not cells whose sign the data determine, and a
+disagreement counted at any magnitude is not a disagreement worth acting on.
+The third is round twenty-six's; the first two were corrected separately in
+earlier versions and never jointly, which is a defect a referee named and this
+section no longer has.
 
 \textbf{The axes are not all the same kind of thing.} The design space mixes
 choices an analyst makes with things that are not choices at all, and
@@ -1135,7 +1358,9 @@ choice, so the second number is the one that answers the question as asked;
 the first is the one taken on the units the rest of Section~\ref{sec:multilog}
 uses. Neither is a corpus fact independent of the scale, which is the
 paper's own thesis applied to the paper. Restricted
-to the \nCellsLatitude\ analyst-latitude cells a pair carries, the
+to the \nCellsLatitude\ analyst-latitude cells a pair carries --- two
+pipelines by three admissible rungs by \nInstruments\ instruments, with the
+register clean and the split at the single holdout --- the
 disagreement rate is \misreportLatitudePct\ against the pooled
 \misreportEqualPct: the first is what a one-number report exposes a reader to,
 the second what a claim ranging also over degraded registers and resampled
@@ -1158,22 +1383,50 @@ carries, and sign agreement between two draws from a distribution centred near
 zero is one half by construction, so a rate computed over unresolved cells is
 partly measuring that.
 
-\textbf{On the cells the corpus can resolve, the rate is
-\misreportPooledResolvedPct.} Of the \nResolvedCorpus\ cells whose
-coverage-calibrated whole-surface band excludes zero, \nDisagreeResolved\
-disagree in sign with the reference cell. Every cell it counts is one where
-the data do determine a sign, and that sign contradicts the number a
-conventional paper would print.
+\textbf{And a sign flip between two increments that both round to zero is not
+a misstatement anybody would act on.} The rate counts a cell whenever its sign differs from
+the reference cell's, at any magnitude, and \nRefBelowMpid\ of the \nPairs\
+reference increments are themselves inside a hundredth of an AUC point. A
+\emph{minimal practically important difference} is therefore declared ---
+$\mathrm{MPID} = \mpidAuc$ AUC --- and a disagreement is counted only when the
+reference increment and the cell's own increment both exceed it. The MPID is
+declared in AUC and Remark~\ref{prop:nonid} forbids carrying it to
+another instrument, so the restriction is applied on the AUC sub-surface and
+the unrestricted AUC rate is reported beside it, in
+Table~\ref{tab:mpid}.
 
-\textbf{Applying both corrections at once gives
-\misreportPooledResolvedLatitudePct, which is the number this section's own
-argument asks for.} The two corrections above --- restrict to the axes an
-analyst chooses, and restrict to the cells the band resolves --- were made
-separately. Imposed together they leave \nResolvedLatitude\ cells, of which
-\nDisagreeLatitude\ disagree. That is larger than the resolved-cell rate and
-smaller than the analyst-latitude rate, and it is the rate that answers ``how
-often would a one-number report be wrong about a sign that the data determine,
-on a cell an analyst might actually have stood on''.
+\input{tables/mpid}
+
+\textbf{On the cells the corpus can resolve, the rate is
+\misreportPooledResolvedPct, and it is not an AUC statement.} Of the
+\nResolvedCorpus\ cells whose coverage-calibrated whole-surface band excludes
+zero, \nDisagreeResolved\ disagree in sign with the reference cell. Split by
+instrument that rate runs \misreportResolvedInstrumentMinPct\ on
+\instrumentLeastDisagreement\ to \misreportResolvedInstrumentMaxPct\ on
+\instrumentMostDisagreement: the pooled figure is carried by the instruments
+that are not the one the reference cell is read in, which is
+Remark~\ref{prop:nonid} showing up in the corpus.
+
+\textbf{Imposing every correction this section's own argument asks for leaves
+\nCellsFullyRestricted\ cells, and \nDisagreeFullyRestricted\ of them
+disagrees.} Restrict to the axes an analyst chooses, to the cells the band
+resolves, and to increments that clear the MPID at both ends, all on the AUC
+sub-surface: \nCellsFullyRestricted\ cells remain of \nCellsAuc, and the rate
+is \misreportFullyRestrictedPct. \textbf{We therefore withdraw the claim that
+a one-number report misstates a sign at a rate worth quoting as a headline.}
+On the corpus's own AUC surface, once a sign has to be determined \emph{and}
+worth acting on, disagreement is rare and the denominator is too small to
+carry a rate. Two corollaries follow and neither is comfortable for the
+conventional report. First, the reason so few cells remain is that
+\emph{the data resolve so little}: \nCellsResolvedAuc\ of \nCellsAuc\ AUC
+cells, and \nRefUnresolvedCell\ of the \nPairs\ pairs do not even resolve the
+cell a conventional paper would stand on. Second, \textbf{the surface still
+moves, and by a distance that dwarfs the MPID}: over the cells the band
+resolves, the mean distance from the reference increment is a median
+\madResolvedMedian\ AUC per pair, and \madFullyRestrictedMedian\ under the
+full restriction, both several multiples of the MPID. The one-number report is
+mostly not wrong about the \emph{sign}; it is wrong about the \emph{size}, and
+it does not say which.
 
 \subsection{Against specification-curve analysis as practised}
 \label{sec:sca}
@@ -1185,7 +1438,11 @@ Table~\ref{tab:sca} runs it unchanged on \emph{every} admitted pair ---
 \nScaPairs\ of them, \nScaPerms\ permutations of a declared
 \nScaCells-cell sub-surface --- beside the region label computed on the same
 cells, which makes ``how often do the two verdicts part company'' a
-measurement rather than an illustration. Two budgets are declared, the
+measurement rather than an illustration. \textbf{That budget floors the
+permutation $p$-value at \scaPFloor}, which is ample for the comparison made
+here --- the test either rejects decisively or does not, and no conclusion
+turns on a $p$-value near the floor --- but a reader wanting to quote a
+permutation $p$-value itself needs more permutations than this. Two budgets are declared, the
 sub-surface and a cap of \nScaMaxCases\ cases per pair that binds on
 \nScaCapped\ of them; Supplement~\ref{app:secondary} gives both.
 
@@ -1198,8 +1455,8 @@ hurts depends on choices nobody told them about. On \nScaAgreeNull\ pairs
 neither resolves and the cheaper instrument suffices; the rest are mixed.
 
 \textbf{And a specification curve is a statement about the cells it
-enumerates.} On \nScaSubSurfaceDisagree\ pairs every cell of the sub-surface
-has one sign while the \emph{full} surface is sign-changing or conditionally
+enumerates.} On \nScaSubSurfaceDisagree\ of the \nScaPairs\ pairs every
+cell of the sub-surface has one sign while the \emph{full} surface is sign-changing or conditionally
 harmful. Nothing is wrong with either --- they are claims about different
 sets --- which is the point: without a declared denominator and a
 simultaneous band, a curve cannot distinguish ``the sign holds'' from ``the
@@ -1273,27 +1530,27 @@ Reassignment to another group before resolution has prevalence
 \casePrevalence; handover between activity groups, under the registered rule,
 has prevalence \prevRegisteredHandover. They are not the same question and the
 register is not worth the same to them. Two further candidate explanations
-were checked and are not explanations: the fields reached by the two analyses
-agree on every row.
+were checked and neither is one: the two analyses reach the same attribute
+values on every row, so it is not a data-preparation difference; and they run
+the same pipeline at the same reference cell, so it is not a modelling
+difference.
 
 \textbf{An axis nobody declares, and this paper was standing on it.} Both
 analyses sort the log in time and split at seventy per cent of the row order,
-and \nTiedTimestamps\ incidents share their timestamp with another. How those
-ties are broken decides which cases fall either side of the split, and the
-sort the case study originally used was not stable, so its tie order was
-neither declared nor reproducible: it printed \VpublishedTauTwo\ where the two
+and \nTiedTimestamps\ incidents share their timestamp with another; the sort
+the case study originally used was not stable, so its tie order was neither
+declared nor reproducible, and it printed \VpublishedTauTwo\ where the two
 declared rules both give \VTtwoKnow. Over \nTiebreakDraws\ random tie-breaks
-the increment at the knowledge rung ranges over \tiebreakRange\ AUC with a
-standard deviation of \tiebreakSd, and it does not change sign
-(\nTiebreakPositive\ of \nTiebreakDraws\ draws are positive), so no conclusion
-here turns on it --- but it is a quarter of the point estimate's own
-magnitude, produced by a choice no reporting standard asks anyone to state.
-Every number in this section is computed under a declared tie-break, by
-incident identifier, on the estate's cohort and reassignment target, and every
-caption says so; the registered cohort's answers are in
-Section~\ref{sec:multilog} with the other \nPairs\ pairs. The decision-time
-result below is therefore a statement about a routing decision on this estate,
-not about handover in general.
+the increment ranges over \tiebreakRange\ AUC without changing sign
+(\nTiebreakPositive\ of \nTiebreakDraws\ draws positive), so no conclusion
+turns on it --- but it is a quarter of the point estimate's own magnitude,
+produced by a choice no reporting standard asks anyone to state, which is why
+Section~\ref{sec:standard} now asks. Every number in this section is computed
+under a declared tie-break, by incident identifier, on the estate's cohort and
+reassignment target; the registered cohort's answers are in
+Section~\ref{sec:multilog} with the other \nPairs\ pairs, so the decision-time
+result below is a statement about a routing decision on this estate and not
+about handover in general.
 
 \subsection{Three decision times}
 \label{sec:twodecision}
@@ -1301,8 +1558,14 @@ not about handover in general.
 A decision time fixes three things at once --- which cases are in scope, what
 is known about them, and which fields are admissible --- and the estate's
 surface is estimated at each of three moments.
+
+\input{tables/tau}
+
 \textbf{The register's worth turns on which one the analyst occupies}: at
-$\tau_0$ it is \VtauZero\ [\VtauZeroLo, \VtauZeroHi] over \nTauZero\ calls, at
+$\tau_0$ it is \VtauZero\ [\VtauZeroLo, \VtauZeroHi] over \nTauZero\
+\emph{interactions} --- calls to the desk, of which only a minority ever
+become incidents, which is why that population is far larger than the
+\nTauTwo\ incidents the later moments carry --- at
 $\tau_1$ \VtauOne\ [\VtauOneLo, \VtauOneHi], and at $\tau_2$ against the
 intake block plus the group it is \VTtwoGroup\ [\VTtwoGroupLo,
 \VTtwoGroupHi] while against the block, the group and the knowledge reference
@@ -1348,29 +1611,122 @@ severity integrals \integralTime, \integralContent\ and
 \integralPropensity\ against \integralMaskRare\ for the independent long-tail
 mechanism, which they bracket rather than track. A quality axis built only
 from independent coin flips measures one corner of the question.
+
+\textbf{Which halves are degraded, exactly.} A degraded register is a state of
+the world and not a training accident, so \textbf{the mechanism is applied to
+both halves of the data}: the same values are missing, stale, corrupted or
+split at fit time and at evaluation time, and the increment measures a model
+built on a degraded register and deployed against one. What is estimated from
+the \emph{training half alone} is the mechanism's \emph{parameters} --- which
+values fall in the long tail, which are common, the frequency table a
+corruption draws from, the set of identities a reconciliation failure splits
+--- so that no test outcome and no test-half content can reach the
+counterfactual. That property is executed rather than asserted: the test half
+is perturbed, the mechanism is re-applied, and the training half's degraded
+values are required to be identical, on every mechanism and level. The
+distinction matters because the two designs measure different things, and the
+earlier wording of this paragraph did not make clear which was in force: a
+mechanism applied to training alone would measure a train--test mismatch,
+which is not the question a register's owner is asking.
 Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every mechanism and
 level.
 
 \subsection{What this says to a configuration management programme}
+\label{sec:programme}
 
-The estate's own reading is in Supplement~\ref{app:programme}: what the
-register is worth here, at which decision time, under which target, and what
-a programme would have to change for that answer to move. It is a reading of
-one estate and is offered as one.
+This subsection is the reading a service-management audience will want, stated
+in the estate's own vocabulary. It is a reading of \emph{one} estate on
+\emph{one} public log and it is offered as one; Section~\ref{sec:lim} says
+what a second would need.
+
+\paragraph{Which field is which}
+The prediction is: \emph{will this case be reassigned to another group before
+it is resolved?} The \textbf{register} $f$ is the affected configuration
+item, \cardF\ distinct values. Its \textbf{coarsenings} are the item's type
+(\nLayerTypeLevels\ values) and subtype (\nLayerSubtypeLevels), each given its
+own role rather than swept into the baseline. The \textbf{free field} $g$ is
+the assignment group --- the routing queue, which is recorded without a
+configuration management database and is the field the register has to beat.
+The \textbf{intake block} $B_0$ is what the desk records when the case
+arrives: category, impact, urgency and priority. The \textbf{knowledge
+reference} is a pointer to a knowledge-base article, admitted as a further
+rung because whether it is available at the moment of decision is exactly the
+question Section~\ref{sec:quality} cannot settle.
+
+\paragraph{The three moments, in service-desk terms}
+$\tau_0$ is \emph{an interaction is logged}: somebody has contacted the desk,
+every call is in scope, and \nTauZero\ of them are.
+$\tau_1$ is the same moment restricted to the calls that will escalate ---
+the same information, a different population. $\tau_2$ is \emph{an incident
+record is created}: \nTauTwo\ cases, more known about each, and
+\nTauTwoUnmatched\ of them with no interaction record at all.
+Table~\ref{tab:tau} is the ladder. \textbf{Read down it and the register's
+worth falls from \VtauZero\ AUC to \VtauOne\ to \VTtwoGroup\ once the routing
+queue is in the baseline, and to \VTtwoKnow\ --- not resolvably different from
+zero --- once the knowledge reference is admitted too.} A programme that
+justifies the register on a first-touch number and then deploys the model at
+incident creation is quoting the top of a ladder and standing on the bottom of
+it; Section~\ref{sec:nbregret} prices that in cases per thousand:
+\promisedPerThousand\ true positives promised per thousand cases against
+\deliveredPerThousand\ delivered.
+
+\paragraph{Which layer of the register pays}
+A programme does not choose whether to have a configuration management
+database; it chooses how much of one to populate and maintain, and that is a
+choice among \emph{layers}. Over the same intake baseline on the reassignment
+question, the item's \emph{type} is worth \layerTypeHandover\ AUC, its
+\emph{subtype} \layerSubtypeHandover, and the item itself
+\layerItemHandover; with the subtype already in the model the item still adds
+\layerItemMarginalHandover. \textbf{On this estate and this question the
+coarse layers are not free, and the finest layer is not redundant}: about half
+of what the item is worth over the intake block is already reachable from a
+thirteen-value type field, and the item still adds \layerItemMarginalHandover\
+once the subtype is in the model. On the duration question the same ladder
+gives \layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration,
+with \layerItemMarginalDuration\ marginal --- there the coarse layers reach
+about a \emph{third} of the item's increment and the item carries the rest.
+\textbf{So the split between the layers is a property of the target and not of
+the register}: the same three fields on the same estate divide their worth one
+way for reassignment and another for duration.
+Supplement~\ref{app:layers} carries both, and two further logs on which every
+coarse layer is worth essentially nothing while the finest one is not. In the vocabulary of a layered service model
+--- technical service, application service, configuration item --- the finding
+is that the layers are not substitutes and that which one pays is a property
+of the question being asked, not of the estate. It is not a procurement
+conclusion: nothing here prices what a layer costs to populate or to keep
+accurate, and Section~\ref{sec:lim} says so.
+
+\paragraph{What would have to change for the answer to move}
+Three things, in the order a programme could act on them. \textbf{A
+timestamped field history.} The knowledge reference decides this estate's
+answer and its admissibility is settled here by probability rather than by
+evidence; a register that records when each field value was written turns
+Section~\ref{sec:quality}'s tipping-point analysis into a measurement.
+\textbf{A complete population at the decision time.} \nTauTwoUnmatched\ of the
+incidents have no interaction record, and the $\tau_1$-to-$\tau_2$ step is an
+information step only on the cases that have both; a desk that can identify
+its own cases across the two systems recovers that comparison. \textbf{A
+target the desk actually acts on.} The register's sign changes with the
+target on this log (Section~\ref{sec:cohort}), and reassignment is the
+question this desk routes on; a programme evaluating a register against a
+generic handover rule is answering a question nobody asked it.
 
 \subsection{The absorption, and why the ratio is secondary}
+\label{sec:absorption}
 
 The quantity a report of this kind usually leads with is the \emph{relative}
 reduction $R$: the share of the register's apparent value that a single free
 field absorbs. The absolute absorption $D = V(f \mid B_0) - V(f \mid B_1)$ is
 reported first, with its own interval, and $R$ second with a Fieller set and
 the set's kind. On this estate at the reference cell $D$ is \Dabs\ [\DabsLo,
-\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set;
-\nFiellerUnboundedCase\ of the \nFiellerCase\ reductions this ladder produces
-have a Fieller set that is not a bounded interval, and for those a percentile
-interval is not a summary of anything. Across the corpus the figure is
-\nFiellerUnbounded\ of \nFieller, and the full ladder is
-Table~\ref{tab:absorption}.
+\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set. This ladder is the
+favourable case: \nFiellerUnboundedCase\ of the \nFiellerCase\ reductions it
+produces have a Fieller set that is not a bounded interval, because the
+denominator is resolvably positive at every rung of it. Across the corpus that
+is not so --- \nFiellerUnbounded\ of \nFieller\ reductions have a non-bounded
+set, and a percentile interval reports a bounded one for every one of them ---
+which is why the ratio is secondary everywhere and not only here. The full
+ladder is Table~\ref{tab:absorption}.
 % ---- paper/parts/60_dca.tex ----
 
 \section{Decision-analytic evaluation}
@@ -1410,7 +1766,24 @@ are wrong is being read at a threshold it does not have. Every decision curve
 here is therefore computed on \emph{calibrated} scores, with the calibrator
 fitted inside the training half and rebuilt inside every bootstrap refit, and
 a registered rule excludes an arm whose calibration slope leaves
-$[0.5, 2]$. Supplement~\ref{app:dcadetail} gives the rule, what it removes and
+\calSlopeWindow.
+
+\textbf{Why that window, and why the exclusion is not repaired by
+recalibrating again.} A Cox calibration slope of $\gamma$ means a threshold
+$\theta$ selects the cases a well-calibrated model would select at a different
+threshold, and the discrepancy grows without bound as $\gamma$ leaves one; the
+window is the conventional band in which risks are neither compressed nor
+stretched beyond a factor the literature treats as readable, and it is a
+declared convention rather than a derived bound. Widening it to admit everything would not make the excluded thresholds
+readable as cost ratios; it would only stop saying so. \textbf{Recalibration
+is already an axis, which is why it cannot also be the remedy}: isotonic
+recalibration is a level of the pipeline axis, so an arm that fails the slope
+check has, on the pairs that carry it, a recalibrated sibling in the same
+surface. Applying isotonic recalibration to the failing arm before excluding
+it would silently replace one specification by another and report the result
+under the first one's name --- the exact substitution this paper's argument is
+against. The arm is excluded and its sibling is reported as itself.
+Supplement~\ref{app:dcadetail} gives the rule, what it removes and
 what the curves look like without it.
 
 \subsection{Simultaneous bands change what can be said}
@@ -1482,25 +1855,57 @@ sensitivity decomposition}, with the total higher-order share reported as
 $1 - \sum_i S_i$ and not as any per-axis difference; \textbf{the resolution
 region and $\rho$}, under a band whose family is the set the label ranges
 over; and \textbf{the ratio $R$ last if at all}, with a Fieller set and the
-set's kind, never where the denominator is not resolvably positive. Nothing
-in that list is expensive once the surface exists, and the surface is a
-factorial over declarations the analyst has already made implicitly.
+set's kind, never where the denominator is not resolvably positive.
+
+\textbf{Round twenty-six adds five items, each of which cost this paper a
+correction.} \emph{The tie-break rule} on the sort that produces the split:
+an undeclared one moved this study's own case-study increment by a quarter of
+its magnitude (Section~\ref{sec:cohort}). \emph{Which halves a quality
+counterfactual is applied to}, and which half its parameters are estimated
+from (Section~\ref{sec:quality}). \emph{A minimal practically important
+difference}, declared before any disagreement rate is computed and in the
+units of one named instrument (Section~\ref{sec:results-regret}).
+\emph{Which axes are resampling rather than analyst latitude}, so that a
+decomposition is not read as specification sensitivity when it is sampling
+variability (Section~\ref{sec:sobol}). And \emph{the draw count and the
+\emph{effective} draw count} behind every band, together with whatever is
+known about the coverage those draws buy --- because a band reported without
+them invites a reader to assume its nominal level, which
+Section~\ref{sec:simband} shows is not attained here. Nothing in the list is
+expensive once the surface exists, and the surface is a factorial over
+declarations the analyst has already made implicitly.
+
+\paragraph{Applying it to a field of your own, in six steps}
+\textbf{One}, name the roles: the field $f$ whose worth is in question, the
+cheap field $g$ it must beat, and the intake block $B_0$ available at the
+decision time. \textbf{Two}, declare the space: list every level of every
+axis you would have accepted \emph{before} seeing a result, and the measure
+over them. \textbf{Three}, compute the surface --- one call, one cell per
+specification --- and audit the denominator by multiplying the level counts
+and comparing with the row count. \textbf{Four}, decompose it with the
+resampling axes held as an error stratum, and report the analyst-choice shares
+as primary. \textbf{Five}, band it over the family your claim ranges over,
+not over one cell, and state the draw count and what coverage those draws
+attain. \textbf{Six}, report the region and $\rho$ with the triple of counts
+they rest on, and refuse a direction below your declared minimum resolved
+share. The package below performs steps three to six from a tidy frame.
 
 \subsection{\texttt{fieldvalue}}
 \label{sec:tool}
 
-The standard ships as \texttt{fieldvalue}, which computes the surface from a
+The standard ships as \texttt{fieldvalue} \citep{fieldvalue}, which computes the surface from a
 data frame, a feature name and a dictionary of baselines. Its notable
 property is a refusal: \texttt{Surface} raises rather than returning a
 scalar, \texttt{Surface.report()} emits the form above, and
 \texttt{Surface.at(...)} returns one cell only if the caller names every
-axis. Version \fvVersion\ adds the four objects of
-Sections~\ref{sec:sobol}--\ref{sec:regretdef} as functions of a surface ---
-\texttt{decompose}, \texttt{regions}, \texttt{robustness}, \texttt{regret}
---- each taking a tidy frame rather than this package's own object, so they
+axis. Version \fvVersion\ implements
+Sections~\ref{sec:sobol}--\ref{sec:regretdef} as four functions of a surface
+--- \texttt{decompose}, \texttt{regions}, \texttt{robustness} and, for the
+robustness check of Section~\ref{sec:regretdef}, \texttt{regret} --- each
+taking a tidy frame rather than this package's own object, so they
 apply to a surface computed by some other pipeline. It carries \nTests\ tests
 and is an \emph{independent implementation}: the analysis scripts and the
-package compute the same four objects from the same definitions in different
+package compute the same quantities from the same definitions in different
 code, neither written against the other, and on this corpus they agree on
 \nAgreeQuantities\ of \nAgreeQuantities\ quantities to \agreeTolerance.
 
@@ -1512,7 +1917,9 @@ Supplement~\ref{app:worked} runs it on UCI Adult, where the expensive field is
 \texttt{occupation} and the cheap ones come with the sampling frame: over
 \exCells\ cells the reduction runs \exRmin\ to \exRmax; the baseline and the
 metric carry the same share of the variance to three figures,
-\exSbaselinePct\ and \exSmetricPct, against \exSpopulationPct\ for the
+\exSbaselinePct\ and \exSmetricPct\ --- a coincidence rather than a copy
+error, as the fourth figure shows: \exSbaselineFine\ against \exSmetricFine\
+--- against \exSpopulationPct\ for the
 register population; and a one-number report misstates the sign for a mean
 \exMisreportPct\ of the other cells. \texttt{examples/worked\_example.py}
 produces all of it in \exampleLines\ statements against the package's public
@@ -1521,15 +1928,12 @@ interface.
 \paragraph{How the surface is reported today}
 \label{sec:practice}
 Whether the axes this paper varies are varied in published work deserves a
-systematic review, and we did not conduct one. A machine-assisted prevalence
-pilot was run on a convenience frame and is \emph{not} reported here: with one
-adjudicator, no independent human reliability study and a mechanical screen
-whose measured sensitivity is \auditSens, it can generate a hypothesis about
-practice and cannot test one. Its frame, sample, codes, adjudications and
-evidence dossiers are in the archive. The paper's argument does not need it:
-the case against one-number reporting is made by the decomposition and the
-sign disagreement, on data, and not by a count of how often other authors
-report one number.
+systematic review, and we did not conduct one: a machine-assisted prevalence
+pilot was run on a convenience frame, is \emph{not} reported here because one
+adjudicator and a screen of measured sensitivity \auditSens\ can generate a
+hypothesis about practice and cannot test one, and is in the archive with its
+frame, sample, codes and evidence dossiers. The paper's argument does not need
+it.
 % ---- paper/parts/75_simulation.tex ----
 \section{Simulation against a known answer}
 \label{sec:sim}
@@ -1629,7 +2033,7 @@ register by at least \blockSparseGapMin\ at all \nSimBlockLengths.
 \label{sec:simband}
 
 Everything above validates a \emph{pointwise} interval. Two of this paper's
-four reporting objects are functions of a \emph{simultaneous} band, and until
+three reporting objects are functions of a \emph{simultaneous} band, and until
 this section nothing measured what that band covers.
 
 \textbf{The design, and why its answer is an upper bound.} The truth is zero
@@ -1708,251 +2112,200 @@ split-position uncertainty is outside every interval reported here; and the
 drifting world shows what happens when the estimator is not consistent for the
 quantity a reader cares about.
 % ---- paper/parts/80_limits.tex ----
-\section{Limitations}
+\section{Threats to validity}
 \label{sec:lim}
 
-\paragraph{This is predictive performance, not value}
+Organised as threats rather than as a list. Nothing here is re-derived: every
+number is stated where it is computed and referenced from here.
+
+\paragraph{Construct --- this is predictive performance, not value}
 Nothing here measures what a register costs to acquire or maintain, whether
-acting on a prediction changes an outcome, or what a data programme is worth.
-The quantity is an increment in predictive performance, read at a declared
-exchange rate in Section~\ref{sec:dca}. A reader who converts
-Table~\ref{tab:master} into a procurement decision is doing something this
-evidence does not support.
+acting on a prediction changes an outcome, or what a data programme is worth;
+that includes Section~\ref{sec:programme}'s layer comparison, which prices no
+layer's upkeep. The corpus is also a family of related questions rather than
+replications --- the two registered targets label the same case identically on
+a median \targetAgreement\ of cases, and the registers run from a
+configuration item to a legal article --- so every corpus statistic is about
+\emph{sensitivity} and every one is reported on the \nItsmPairs\ ITSM pairs as
+well (Table~\ref{tab:family}); Table~\ref{tab:construct} names each pair's own
+construct threat. The registered handover target on the case study's log is
+close to degenerate at prevalence \prevAdmittedMax, it carries
+\nCellsBpicFourteen\ of \nDeclaredAdmissibleScalar\ cells, and
+Section~\ref{sec:cohort} shows the register's sign turns exactly there.
+Whether a generic handover rule is a meaningful target on ITSM logs, where
+reassignment is what a desk acts on, and whether the prevalence window should
+close below \prevHi, are open; we did not narrow the rule retrospectively,
+because doing so after seeing which pair it admits is what a registered
+protocol exists to prevent. The quality mechanisms are applied to both halves
+with their parameters estimated from training alone
+(Section~\ref{sec:quality}), so they are the operational counterfactual and
+not a train--test mismatch --- but they remain \emph{constructed}, and
+validating them against a genuinely incomplete register is the obvious next
+study.
 
-\paragraph{The design space is declared, not complete, and one omission is
-structural}
-$\mathcal{S}$ has \nAxes\ axes here. It could have more --- hyperparameter
-tuning protocol, missing-data treatment for the baseline fields, the horizon
-of the target, the label-noise model --- and the cohort rule is varied only on
-the case study's log, so the honest form of the claim is ``the increment moves
-this much over \emph{this} space''. The structural omission is that
-\textbf{prefix length, prefix bucketing and sequence encoding are not axes
-here and cannot be}, because this study predicts at one prediction point from
-creation-time attributes. Those are the axes predictive process monitoring
-varies most, so the corpus result measures sensitivity in a simpler adjacent
-setting on the same data rather than in that literature's own benchmark, and
-adding a prefix axis on at least one log is the clearest next study this paper
-implies.
+\paragraph{Internal --- the band does not attain its nominal level}
+This is the sharpest limitation in the paper. Section~\ref{sec:simband}
+measures family-wise coverage against a known answer over matched families
+whose bootstrap is \emph{ideal}, so every coverage there is an upper bound on
+what the procedure attains: median \covMultHeavyMedian\ and minimum
+\covMultHeavyMin\ against a nominal $95\%$, and a median
+\covMultGaussMedian\ even under the Gaussian draws the construction is
+derived for. The safeguard we
+called conservative moves coverage by less than a point, because it controls
+the Monte Carlo error in $q$ and not the error in what $q$ estimates. The
+repair is more draws --- \covMultBootThirtyThree\ at \nBootThirtyThree\
+against \covMultBootFourHundred\ at \nBootFourHundred\ --- and a draw refits
+the whole design space. \textbf{Every region label and every $\rho$ here is
+therefore a descriptive diagnostic and not a guarantee}, which the front
+matter now says. The two families are not equally exposed: the widening that
+would close the gap is \shortfallWholeMin\ to \shortfallWholeMax\ on the
+surface families, where the calibration already applies \calFactorMin\ to
+\calFactorMax\ --- fitted for \emph{pointwise} coverage, so its being of the
+right order is fortunate rather than by design --- and \shortfallDcaMin\ to
+\shortfallDcaMax\ on the decision-curve families, \textbf{which the
+calibration does not touch at all}. Those conclusions are the ones to
+distrust.
 
-\paragraph{The axes are not all the same kind of thing}
-Three of the nine are choices an analyst makes, one is a resampling scheme and
-one is a counterfactual state of the register, and a variance decomposition
-that pools them answers a question nobody asked.
-Section~\ref{sec:results-regret} partitions them and reports the
-sign-disagreement rate on the analyst-latitude sub-space
-(\misreportLatitudePct) beside the pooled one (\misreportEqualPct). The region
-labels and $\rho$ are \emph{not} partitioned, and are therefore conditional on
-the quality axis being averaged over: a surface is asked to be resolvably
-beneficial in cells where three quarters of the register has been deleted,
-which is part of why no surface here is uniformly beneficial.
+\paragraph{Internal --- the refitting bootstrap is the source of a bias, and
+the repair is not run here}
+A multinomial resample holds about $1 - e^{-1}$ of a high-cardinality
+register's levels, so the bootstrap distribution is displaced: the percentile
+interval becomes a correct interval for the wrong quantity, and the pivotal
+interval this paper uses can exclude its own point estimate, on
+\nCellsExcludingV\ of \nCellsWholeTotal\ cells. The displacement is a bias, so
+it worsens with $n$, and it leaves the coverage calibration's estimator
+undefined on \nPlaneCellsUndefined\ of \nPlaneCellsOffered\ plane cells. The
+design's own justification is weak: the nested interval beats the fixed-model
+interval by \nestedGainInSe\ Monte Carlo standard errors, and the
+seven-construction comparison that chose the pivotal interval ran at
+\simCoreNtrain\ training rows and at no other size --- below the regime where
+the defect appears. \textbf{The repair we would make first is a change of
+resampling scheme, not of interval}: drawing \emph{weights} --- Dirichlet or
+independent exponentials, applied per moving block so the temporal dependence
+survives --- gives every row positive weight in every draw, so every register
+level is present in every refit and the displacement disappears at source
+rather than being pivoted around. That is a change to one function and a
+re-run of the whole inference surface, it is not in this version, the
+comparison against the multinomial and $m$-out-of-$n$ resamples across the
+$(n,K)$ plane is not run, and no conclusion here should be read as evidence
+that the refit's cost was worth paying.
 
-\paragraph{The inference surface is smaller than the declared surface}
-Every point estimate comes from the full declared space; every \emph{band}
-comes from the inference surface, a median \inferenceShareMedianPct\ of each
-pair's computational surface, and the draw counts run \nDrawsSurfaceMin\ to
-\nDrawsSurfaceMax\ as declared. Supplement~\ref{app:budget} gives what that
-budget costs and where it binds.
+\paragraph{Internal --- further assumptions, named}
+The split point is fixed within a draw, so split-position uncertainty is
+outside every interval here. The moving-block construction needs stationarity
+and mixing that an event log is not guaranteed to have, and the same
+assumption is what makes Definition~\ref{def:estimand}'s population limit well
+defined under a temporal split; neither is tested. The band's family-wise
+coverage is asymptotic, as is the multiplier bootstrap estimating its critical
+value, and the block length is a convention, $\lceil n^{1/3}\rceil$, which
+moves coverage by up to \coverageBlockSpreadMax\ within a world. The coverage
+calibration is itself an assumption --- it corrects the studentised
+statistic's \emph{scale} and not the shape of the maximum's distribution, it
+is fitted pointwise and applied simultaneously, and it is measurably
+misspecified ($\log n$ enters at $t = \planeNdependenceT$) --- so a reader who
+rejects the transfer should rely on the objects that need no band: the point
+estimates, the decomposition, the disagreement rates and the regret
+comparison.
 
-\paragraph{Every weighted quantity depends on a measure that is a modelling
-choice}
-A decomposition, a robustness index and a regret are all taken with respect to
-a distribution over specifications, and there is no neutral one. Three product
-measures and an envelope over a fourth are reported
-(Table~\ref{tab:measures}); across the three the total higher-order share
-moves by \measureSpreadPct. \textbf{One qualitative conclusion does not
-survive all four}: under a measure concentrated on the reference
-specification, a single axis carries more variance than everything
-higher-order combined on \nConcentratedExceeds\ of \nPairs\ pairs, so ``the
-interactions dominate'' is a claim about a measure and not only about a
-surface. Two structural invariances, to duplicating a level and to refining a
-grid, are enforced and tested, so no number here can be moved by re-describing
-the same design space. Separately, the decomposition inherits the metric's
-scale (Proposition~\ref{prop:scale}), which is why the within-instrument
-decomposition is primary and the cross-instrument one is a sensitivity
-analysis.
+\paragraph{Conclusion --- two headlines this round withdrew}
+The pooled decomposition is mostly resampling. Net of it the higher-order
+share falls from \pooledInteractionMedianPct\ to \foldInteractionTotalPct\ and
+no longer exceeds the largest first-order index, so \emph{most of the variance
+belongs to no single axis} --- which earlier versions of this paper asserted
+--- holds on \nFoldInteractionExceeds\ of \nPairs\ pairs rather than
+\nPooledInteractionExceeds\ (Section~\ref{sec:axes2}). What survives is that
+\emph{which} axis leads is a property of the pair. And a sign disagreement is
+not a misstatement unless the sizes are worth acting on: under the three
+restrictions the argument implies, the corpus retains
+\nCellsFullyRestricted\ cells of which \nDisagreeFullyRestricted\ disagrees,
+so \textbf{the sign-disagreement rate is withdrawn as a headline}
+(Section~\ref{sec:results-regret}). What replaces it is a magnitude and a
+scarcity: resolved cells sit a median \madResolvedMedian\ AUC from the
+reference, and only \nCellsResolvedAuc\ of \nCellsAuc\ AUC cells resolve at
+all, with \nRefUnresolvedCell\ of \nPairs\ pairs failing to resolve even the
+cell a conventional report stands on. Both decompositions are reported under
+all three declared measures because there is no neutral measure --- across the
+three the higher-order share moves by \measureSpreadPct\ --- and the
+within-instrument decomposition is primary because the decomposition inherits
+the metric's scale (Proposition~\ref{prop:scale}). Region labels remain
+relative to an inference family of a median \inferenceShareMedianPct\ of a
+pair's cells, now under a minimum resolved share that withdraws the direction
+on \nLabelsLostToMinShare\ of \nDirectionalLabels\ pairs, and they are not
+partitioned by axis kind, so they stay conditional on the quality axis being
+averaged over. Specification regret reports a null and is retained as a
+robustness check rather than a contribution.
 
-\paragraph{One estate for the case study, and a heterogeneous corpus}
-The configuration management database analysis is one bank's estate, on one
-public log, and the availability question at its centre is settled by
-probability rather than by a timestamped field-value history; the strongest
-version of this study would have an organisational partner supplying
-timestamped field histories, a known prediction time, historical register
-population and accuracy, and operational review costs. The \nPairs\ pairs are
-also not replications of one another: across the \nLogs\ logs the two
-registered targets label the same case identically on a median
-\targetAgreement\ of cases. Every corpus-level statistic is therefore about
-\emph{sensitivity}, and every one is reported on the ITSM family as well as on
-the whole corpus (Table~\ref{tab:family}).
+\paragraph{External --- the design space is declared, not complete}
+$\mathcal{S}$ has \nAxes\ axes in Definition~\ref{def:space} and the per-pair
+factorial varies \nPerPairAxes\ of them (Table~\ref{tab:roles}); the decision
+time, the operating point and the cohort vary on the case study's log alone,
+and the target indexes surfaces rather than varying within one. It could have
+more --- tuning protocol, missing-data treatment, target horizon, label-noise
+model --- so the honest claim is ``the increment moves this much over
+\emph{this} space''. \textbf{The structural omission is that prefix length,
+prefix bucketing and sequence encoding are not axes here and cannot be},
+because this study predicts at one prediction point from creation-time
+attributes, and those are the axes predictive process monitoring varies most.
+\textbf{We therefore claim no result about that literature's own benchmark}:
+what is reported is case-level outcome prediction from event-log attributes,
+and adding a prefix axis on at least one log is the clearest next study this
+paper implies.
 
-\paragraph{The quality mechanisms are synthetic}
-Population loss, identity error, reconciliation failure and staleness are
-constructed from the training half, not observed. Three of them are
-\emph{dependent} --- on time, on the item's recorded type, and on a
-training-estimated propensity that correlates missingness with the outcome ---
-which is closer to how a register degrades than an independent coin flip, and
-every one is verified by execution to read no test outcome. But a constructed
-mechanism is not an observed one, and validating them against a genuinely
-incomplete register is the obvious next study.
-
-\paragraph{The coverage calibration is no longer an extrapolation in $n$, and
-what replaced that problem is worse}
-All \nPairsInsidePlaneN\ of the \nPairs\ pairs now lie inside the range the
-factor is identified on, \planeNtrainLo\ to \planeNtrainHi\ training rows.
-Two things took the place of the extrapolation.
-\textbf{The applied curve is misspecified, measurably}: $\log n$ enters the
-fit at $t = \planeNdependenceT$, the curve is a function of the ratio alone,
-and it sits below the measured factor's own lower confidence limit on
-\nCellsUnderApplied\ of the plane's cells, both at large $n$; a two-covariate
-fit does not repair it (Supplement~\ref{app:calibration}). \textbf{And on
-\nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\ cells the factor
-does not exist}, because past a crossing in $n$ the basic interval no longer
-contains the estimate a widening would be about. \textbf{This is not confined
-to the simulation}: on the corpus \nCellsExcludingV\ of the
-\nCellsWholeTotal\ whole-surface cells have a band that excludes their own
-point estimate, on \nPairsExcludingV\ pairs and reaching
-\shareExcludingVMaxPct\ of the cells on the worst. For those the calibrated
-band widens an interval the calibration's own estimator could not have been
-fitted on, and we do not know what it covers.
-
-\paragraph{The interval construction was chosen on evidence from one sample
-size, below the size at which it misbehaves}
-Section~\ref{sec:simcoverage} compares seven constructions and selects the
-basic one, and that comparison runs at \simCoreNtrain\ training rows and at
-no other size. Section~\ref{sec:boot} reports that the same construction
-produces a band excluding its own point estimate once the bootstrap
-displacement exceeds the band's half-width, which the plane places above
-\nStraddleAllMax\ rows at a ratio of \straddleRatio\ --- so the evidence
-that chose the construction was gathered below the regime in which the
-construction develops the defect. Whether the percentile, the bias-corrected
-or the $m$-out-of-$n$ interval behaves better up there is not known: none of
-them was priced above \simCoreNtrain\ rows either. Re-running that
-comparison across the plane's range in $n$ is the first thing we would do,
-and it is cheap relative to the surface.
-
-\paragraph{The band does not attain its nominal level, and this is the
-sharpest limitation in the paper}
-Section~\ref{sec:simband} measures family-wise coverage against a known
-answer over families matched to this corpus. The multiplier band covers a
-median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\ against a nominal
-$95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even under Gaussian
-draws, the case the construction is derived for --- and the bootstrap in that
-experiment is \emph{ideal}, so those are upper bounds on what the procedure
-attains here. The safeguard we described as conservative, resolving only at
-the upper end of the critical value's Monte Carlo interval, moves coverage by
-less than a point: it controls the Monte Carlo error in $q$, not the error in
-what $q$ estimates. \textbf{The repair is more draws, not a better critical
-value} --- coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\ draws
-and \covMultBootFourHundred\ at \nBootFourHundred\ --- and a draw refits the
-whole design space, which is why this version does not have them. We report
-the bands as computed rather than substituting a wider estimator that is also
-wrong and merely less visibly so.
-
-\textbf{What that leaves the two families is not the same.} The
-multiplicative widening that would have given nominal coverage is
-\shortfallWholeMin\ to \shortfallWholeMax\ on the surface families, and the
-calibration of Section~\ref{sec:regions} already applies
-\calFactorMin\ to \calFactorMax; it was fitted to restore \emph{pointwise}
-coverage and not this, so that it is of the right order is fortunate rather
-than by design, and we claim no more than the order. On the decision-curve
-families the widening needed is \shortfallDcaMin\ to \shortfallDcaMax, about
-a doubling, \textbf{and the calibration does not touch them at all}. Those
-conclusions are the ones to distrust. Neither statement is a coverage
-guarantee and this version does not have one.
-
-\textbf{Some of what the decision-curve comparison counts is arithmetic.}
-\nDegenerateCellsDca\ cells of those families are zero in at least nine draws
-of ten, because at those thresholds both arms treat every case alike, and
-they inflate $q_{\mathrm{emp}}$: excluding them moves the median ratio
-$q_{\mathrm{emp}}/q$ from \ratioDcaAll\ to \ratioDcaAdmissible. A reader who
-prefers the empirical critical value should therefore read
-Section~\ref{sec:simbands}'s second figure of each pair on the surface
-families and not on these.
-
-\paragraph{Inference still rests on further assumptions}
-\textbf{The split point is fixed within a draw}, so split-position uncertainty
-is outside every interval in this paper. \textbf{The moving-block construction
-needs stationarity and mixing} that an event log is not guaranteed to have;
-neither is tested here. \textbf{The max-$t$ band's family-wise coverage is
-asymptotic}, as is the multiplier bootstrap that estimates its critical value,
-and Section~\ref{sec:simband} shows what that asymptotics is worth at the
-\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ draws this corpus runs at.
-The block length is a convention, $\lceil n^{1/3}\rceil$;
-Section~\ref{sec:simsensitivity} varies it and the coverage of the reported
-interval does move with it, by up to \coverageBlockSpreadMax\ within a world,
-while the comparison the paper rests on does not.
-
-\paragraph{The band's coverage is calibrated, and the calibration is itself an
-assumption}
-The inflation factor of Section~\ref{sec:regions} corrects the \emph{scale} of
-the studentised statistic, which is the channel the $(n,K)$ plane identifies.
-It does not correct a change in the shape of the maximum's distribution; it is
-estimated on a pointwise interval and applied to a simultaneous band; and it
-assumes the simulated worlds' dependence on $K/n$ transfers. A reader who
-rejects the transfer should read the region labels and $\rho$ as illustrative
-and rely on the objects that need no band: the point estimates, the
-decomposition, the all-cells sign-disagreement rate and the regret comparison.
-
-\paragraph{The pipeline axis is crossed on one log only}
-Section~\ref{sec:axes2} separates the model family from the encoding on the
-case study's log and finds the \largerPipelineAxis\ axis the larger of the
-two. The other \nPairsOther\ pairs carry the two confounded, so their pipeline
-index remains a mixture, and whether the split found on one log transfers is
-not established here.
-
-\paragraph{We do not measure reporting practice}
-The prevalence of one-number reporting in the published literature would be
-worth knowing and this paper does not establish it. The pilot that attempted
-it is in the archive with its own sampling error, coder error and resolution;
-it is a hypothesis, not evidence, and nothing here depends on it.
+\paragraph{External --- three narrower limits, named}
+The \emph{inference surface} is a corner of the declared surface chosen by row
+count rather than a design: axis-complete but unbalanced, the decomposition
+cannot be computed on it, and its positive-cell share differs from the
+declared surface's by a median \repGapMedian; a resolution-IV fractional
+factorial of the same size would remove both objections and free budget for
+draws. The \emph{pipeline axis} is crossed on one log only, so the other
+\nPairsOther\ pairs carry family and encoding confounded. And the
+\emph{case study} is one bank's estate on one public log, with the
+availability question at its centre settled by probability rather than by a
+timestamped field-value history; Section~\ref{sec:programme} names the three
+changes that would move which answer. Finally, we do not measure reporting
+practice: the pilot that attempted it is in the archive, and it is a
+hypothesis rather than evidence.
 
 \section{Conclusion}
 \label{sec:conc}
 
 The incremental predictive performance of a recorded field is a functional of
 design choices, not a number. This paper made that operational: a declared
-design space, a surface over it, a decomposition of the surface's variance
-into the contribution of each choice, simultaneous confidence bands from a
-bootstrap that refits the model and whose critical value is calibrated for the
-register's cardinality, region labels that say when a sign is robust, and a
-decision-theoretic benchmark that measures what one number gets wrong.
+design space, a surface over it, an exact decomposition of the surface's
+variance that separates the choices an analyst makes from the resampling the
+design also contains, simultaneous bands whose coverage is measured rather
+than assumed, and region labels that say where a sign is determined and
+withhold a direction where too little of the surface resolves to support
+one.
 
 \textbf{On every pair, at least one admissible specification makes the
 register worth less than nothing.} That is a statement about point estimates
-and needs no band; what the bands add is where a sign is \emph{determined},
-and of the \nPairsResolvingAny\ pairs that resolve any sign at all,
-\nPairsResolveBothSigns\ resolve both. Four further results are worth carrying
-away.
+and needs no band. It is also nearly guaranteed by a space that includes
+three-quarters-deleted registers, so the version worth carrying is the
+restricted one: \textbf{on \nSpreadExceedsRealistic\ of \nPairs\ pairs the
+baseline alone --- among the baselines an analyst would actually build ---
+moves the increment further than the increment itself}. Four further results
+are worth carrying away.
 
-\textbf{The choices move the answer, and no one of them is the culprit.}
-Varying the baseline alone moves the increment by \spreadMedian\ AUC at the
-median log--target pair, but the largest first-order index at the median pair
-is \largestFirstOrderPct, the total higher-order share is
-\interactionTotalPct, and which axis leads is a property of the pair. An
-analyst cannot learn from somebody else's paper which of their own choices
-their answer turns on.
+\textbf{Most of a pooled specification surface is resampling, and what remains
+is not dominated by one choice.} The components involving the split carry a
+median \shareResamplingStratumPct\ of the variance. Net of them the largest
+first-order index at the median pair is \foldLargestFirstOrderPct\ and the
+higher-order share \foldInteractionTotalPct, and which axis leads is a
+property of the pair. An analyst cannot learn from somebody else's paper which
+of their own choices their answer turns on --- but neither should they read a
+pooled specification curve as evidence that everything matters.
 
-\textbf{The observed sign depends jointly on the data, the target and the
-specification.} On \nSignVaries\ of \nPairs\ pairs, between a tenth and nine
-tenths of the admissible cells are positive, and a conventional one-number
-report misstates the sign for a median \misreportEqualPct\ of the rest, and
-for \misreportPooledResolvedPct\ of the cells the corpus can resolve --- a
-pooled ratio, driven by the pairs Section~\ref{sec:construct} names as
-construct-validity threats, and \misreportPooledItsmPct\ on the
-\nItsmPairs\ pairs whose register is a maintained one. Only one of the three
-arguments is conventionally reported.
-
-\textbf{There is a defensible collapse, and choosing between collapses is not
-where the value is.} Lemma~\ref{prop:optimal} identifies the decision-optimal
-one --- the weighted mean increment under a declared measure --- but out of
-sample its advantage over the conventional report is small
-(\oosMeanAuc\ against \oosOneNumberAuc\ AUC of excess regret), it reverses
-under rolling folds, and on the calibrated operational utility of
-Section~\ref{sec:nbregret} the rules mostly tie. What the decision-analytic
-reading does establish is sharper: on \nModelsDcaExcluded\ of \nModelsDca\
-models a threshold cannot be read as a cost ratio at all, and a desk that
-adopted this register on its \emph{first-touch} number and deployed it at
-incident creation would be promised \promisedPerThousand\ true positives per
-thousand cases and receive \deliveredPerThousand.
+\textbf{A one-number report is usually right about the sign and usually silent
+about the size.} Once a sign has to be determined by the data \emph{and} worth
+acting on at \mpidAuc\ AUC, \nDisagreeFullyRestricted\ of
+\nCellsFullyRestricted\ admissible \emph{AUC} cells contradicts the
+conventional report --- the MPID is declared in AUC and
+Remark~\ref{prop:nonid} forbids carrying it further.
+What the conventional report does not say is that the cells it does not stand
+on lie a median \madResolvedMedian\ AUC away from the one it does, and that on
+\nRefUnresolvedCell\ of \nPairs\ pairs the data do not determine the sign of
+its own cell at all.
 
 \textbf{The decision time is an argument of the estimand, not a preliminary.}
 It fixes which cases are in scope, what is known about them, and which fields
@@ -1960,16 +2313,26 @@ are admissible. On the case study, moving the prediction from first touch to
 incident creation costs \deltaCohortAtTau\ AUC through the population, a
 further \deltaSnapshotAtTau\ through the information once the population is
 held fixed, and \deltaPopulationResidual\ more through the incidents that have
-no interaction record at all --- before any baseline
-changes; and the same log's answer changes sign when the target changes, with
-\shareTargetPct\ of the difference on the target and \shareCohortPct\ on the
-cohort.
+no interaction record at all --- before any baseline changes; and the same
+log's answer changes sign when the target changes, with \shareTargetPct\ of
+the difference on the target and \shareCohortPct\ on the cohort. A desk that
+adopted this register on its \emph{first-touch} number and deployed it at
+incident creation would be promised \promisedPerThousand\ true positives per
+thousand cases and receive \deliveredPerThousand.
+
+\textbf{And a threshold is not always a cost ratio.} On \nModelsDcaExcluded\
+of \nModelsDca\ fitted models the calibration slope falls outside
+\calSlopeWindow, so the threshold at which a decision curve is read cannot be
+interpreted as the cost ratio the decision-analytic argument requires
+(Section~\ref{sec:calibfirst}).
 
 The practical recommendation is narrow and cheap once the surface exists:
-report the surface, the decomposition, the region and $\rho$; state the
-decision time and the target as parts of the estimand; make the absolute
-increments primary; use a ratio last, with a Fieller set, and only where its
-denominator is resolvably positive.
+report the surface, the decomposition with the resampling stratum separated,
+the region and $\rho$ with the triple they rest on; state the decision time
+and the target as parts of the estimand; declare a minimal practically
+important difference before reporting any disagreement rate; make the absolute
+increments primary; and use a ratio last, with a Fieller set, and only where
+its denominator is resolvably positive.
 % ---- paper/parts/90_backmatter.tex ----
 
 \section*{CRediT authorship contribution statement}
@@ -1991,41 +2354,30 @@ mining software.
 This research received no specific grant from any funding agency in the
 public, commercial or not-for-profit sectors.
 
-\section*{Declaration of generative AI and AI-assisted technologies}
+%%  ROUND TWENTY-SIX.  Elsevier's required section title, verbatim.  It is on
+%%  ONE source line deliberately: texlint records each section's name and word
+%%  count into results/section_words.csv, and a title wrapped across two lines
+%%  put a newline inside a CSV field, which broke check_response_refs.
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
 
-During the preparation of this work the author used a large-language-model
-assistant, Anthropic Claude, for three purposes. The model identifier and the
-date of every session in which it was used are recorded in
-\texttt{AI-USE.md} in the archive, because a disclosure that names a product
-and not a version is not reproducible. The identifier for the final
-analysis and revision round is \texttt{\aiModelId} (\aiModelDate).
+During the preparation of this work the author used Anthropic Claude
+(\texttt{\aiModelId}, \aiModelDate) in order to draft and edit prose and to
+write analysis and verification code. After using this tool the author
+reviewed and edited the content as needed and takes full responsibility for
+the content of the publication.
 
-\begin{enumerate}
-\item \textbf{Software.} The analysis scripts, the \texttt{fieldvalue}
-package and the verification harness were written with the assistant's help.
-Every result in this paper is produced by that code, the code is public, and
-\texttt{REPRODUCE.md} regenerates every table and figure from the raw data by
-one command.
-\item \textbf{A use in a study that is in the archive and not in this paper.}
-A literature-prevalence pilot, described in Section~\ref{sec:practice} and
-reported nowhere in this paper or its supplement, was adjudicated by the
-author with the assistant's help from evidence dossiers extracted from full
-text. That is one machine-assisted adjudicator rather than two independent
-human raters, which is among the reasons the pilot carries no claim here. Its
-dossiers are in the archive; the model identifier used for that adjudication
-was not recorded at the time and is stated as unrecorded in
-\texttt{AI-USE.md}.
-\item \textbf{Writing.} The assistant was used to draft and edit prose,
-which is a use beyond the language-and-readability editing an author may make
-without further comment, and is disclosed here for that reason. The author
-directed the structure and the argument, verified every claim against the
-result files, and takes full responsibility for the content of the
-publication.
-\end{enumerate}
-
-No generative model produced, imputed, augmented or selected any datum, any
-result or any citation. The reference list was checked against the published
-records.
+\noindent This is a use beyond the language-and-readability editing an author
+may make without comment, which is why it is declared. Two further facts
+belong with it and are recorded rather than summarised: every session's model
+identifier and date are in \texttt{AI-USE.md} in the archive, because a
+disclosure naming a product and not a version is not reproducible; and
+\textbf{no generative model produced, imputed, augmented or selected any
+datum, any result or any citation}. Every result in this paper is produced by
+public code that \texttt{REPRODUCE.md} re-runs by one command, and the
+reference list was checked against the published records. The one use of the
+assistant \emph{inside} a study --- adjudicating the literature-prevalence
+pilot, which is in the archive and carries no claim in this paper --- is
+described where that pilot is, in Section~\ref{sec:practice}.
 
 \section*{Data availability}
 

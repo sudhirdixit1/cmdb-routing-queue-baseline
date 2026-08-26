@@ -1,20 +1,20 @@
 section,words
 "Highlights",8
-"Introduction",814
-"Related work",393
-"The specification surface",1338
-"Estimation and inference",2482
-"The registered benchmark design",826
-"Multi-log results",2648
-"Case study: a configuration management database",1244
-"Decision-analytic evaluation",679
-"A reporting standard, and software",602
+"Introduction",1232
+"Related work",681
+"The specification surface",1356
+"Estimation and inference",2981
+"The registered benchmark design",1233
+"Multi-log results",3757
+"Case study: a configuration management database",2249
+"Decision-analytic evaluation",869
+"A reporting standard, and software",925
 "Simulation against a known answer",1481
-"Limitations",1831
-"Conclusion",585
+"Threats to validity",1488
+"Conclusion",616
 "CRediT authorship contribution statement",29
 "Declaration of competing interest",54
 "Funding",19
-"Declaration of generative AI and AI-assisted technologies",309
+"Declaration of generative AI and AI-assisted technologies in the writing process",206
 "Data availability",186
 "Code availability",58

@@ -5,6 +5,7 @@
 \subsection{The design space}
 
 \begin{definition}[Design space]
+\label{def:space}
 A \emph{design space} $\mathcal{S}$ for a feature-value claim is a finite set
 of specifications, each a complete assignment to the axes
 \[
@@ -33,7 +34,19 @@ the reason. Table~\ref{tab:axes} is that declaration for this study, and it is
 generated from the code that walks the space rather than typed beside it. A
 reader can multiply its level counts and obtain the cell counts reported in
 Section~\ref{sec:denominator}; that this multiplication works is the first
-check the verification harness runs.
+check the verification harness runs. \textbf{The \nAxes\ axes above are the
+estimand's arguments, and this study does not vary all of them.} The target
+$Y$ indexes the surfaces rather than being an axis \emph{of} one --- each
+log--target pair has its own surface --- and the decision time, the operating
+point and the cohort are varied on the case study's log alone.
+Table~\ref{tab:roles} states, per pair, which axes ran and at how many levels;
+the two tables are meant to be read together and
+Section~\ref{sec:lim} carries the gap between them.
+Table~\ref{tab:axes}'s \emph{measure} column names which of the three declared
+product measures over the axis levels a quantity is taken under ---
+\textsc{equal}, every level of every axis equally likely; \textsc{ref.}, half
+the mass on the reference level; \textsc{conc.}, four fifths on it --- and
+Section~\ref{sec:sobol} reports every decomposition under all three.
 
 The measure placed on the axis levels is a modelling choice and is declared
 rather than left implicit; Supplement~\ref{app:measurechoice} states it, and
@@ -56,7 +69,13 @@ Let the cases of a log be a sample from a population $P$, and let the
 specification $s$ fix the fitting procedure $A_s$, the cohort and eligibility
 rule, the split rule $\Pi$, the decision time, the register-quality mechanism,
 the baseline and the instrument. Write $A_s(P)$ for the limit of the fitted
-scoring rule as the sample grows under $P$ with $s$ held fixed. The
+scoring rule as the sample grows under $P$ with $s$ held fixed. \textbf{That
+limit needs an assumption, and it is stated here rather than where it is
+used}: the case sequence is stationary and mixing, so that a temporal split
+does not separate two different populations and the moving-block bootstrap of
+Section~\ref{sec:boot} resamples a dependence structure that persists. An
+event log is not guaranteed to have that property and this paper does not test
+it; Section~\ref{sec:lim} carries it as a threat. The
 \emph{estimand at $s$} is
 \[
 \vartheta_s(f) \;=\; m_\theta\bigl(A_s(P, B \cup \{f_q\}),\, P\bigr)
@@ -82,9 +101,13 @@ for $\vartheta_s$, not that the observed increment is nonzero.
 Given $\mathcal{S}$ and data $D$, the surface is the map $s \mapsto V_s(f)$
 of~\eqref{eq:estimand}, and a conventional report is one cell of it. The
 paper's claim is that a single cell is not a summary of the surface in any
-useful sense: Section~\ref{sec:multilog} shows that the sign of $V_s$
-disagrees across cells on most log--target pairs we study, and
-Section~\ref{sec:results-regret} measures how often. There is one state in
+useful sense. \textbf{The point estimates alone establish that}: on
+\nSignVaries\ of the \nPairs\ pairs, between a tenth and nine tenths of the
+admissible cells are positive, so the surface's sign is not settled by the
+data and the design together. Whether that unsettledness amounts to a
+\emph{misstatement} is a different and much harder question, and
+Section~\ref{sec:results-regret} answers it with three restrictions and a
+withdrawal rather than with a rate. There is one state in
 which a scalar is defensible: when the whole admissible surface lies on the
 same side of zero with simultaneous confidence, a positive number is a lower
 bound on a robust conclusion. Section~\ref{sec:regionsdef} makes that a
@@ -104,7 +127,7 @@ R_s(f) \;=\; 1 - \frac{V_s(f \mid B_1)}{V_s(f \mid B_0)}
 $D$ is an absolute difference in the metric's own units. $R$ is a ratio and
 inherits every pathology of one: the denominator can be small, zero or
 negative; $R$ is not comparable across metrics, because
-Proposition~\ref{prop:nonid} says the two are not functions of each other; and
+Remark~\ref{prop:nonid} says the two are not functions of each other; and
 $R$ can exceed $1$ or fall below $0$, so reading it as ``the share absorbed''
 is a category error whenever it leaves $[0,1]$.
 
@@ -128,86 +151,38 @@ interval reports a bounded one for every single one of them;
 metrics as though both lived on an unproblematic common scale.
 \end{enumerate}
 
-\subsection{Two propositions}
+\subsection{Two facts about the metric, and why they are remarks}
 \label{sec:props}
 
-Throughout, a \emph{configuration} is a quadruple of score vectors on a fixed
-labelled test set,
-$\mathcal{C} = (\sigma_{B_0}, \sigma_{B_0 \cup f}, \sigma_{B_1},
-\sigma_{B_1 \cup f})$ with $B_0 \subset B_1$, and $V_m(B)$,
-$R_m(\mathcal{C})$ are as in~\eqref{eq:estimand} and~\eqref{eq:reduction}. The
-metric conventions the constructions below depend on --- the tie rule for ROC
-AUC, the step-wise definition of average precision, the selection rule for net
-benefit --- are fixed and listed in
-\texttt{results/s07\_conventions.csv}.
+Two properties of the reduction are used later and are stated here as remarks
+rather than proved here; Supplement~\ref{app:props} carries both statements in
+full, their constructions, the richness assumption the second needs, and the
+witness that separates it from rank-basedness.
 
-\begin{proposition}[Metric non-identifiability of the reduction]
+\begin{remark}[The metric is an argument of the estimand]
 \label{prop:nonid}
-There is no function $\varphi : \mathbb{R} \to \mathbb{R}$ with
-$R_{\mathrm{AP}}(\mathcal{C}) =
-\varphi\bigl(R_{\mathrm{AUC}}(\mathcal{C})\bigr)$ for every configuration
-$\mathcal{C}$ whose denominators are positive under both metrics.
-Consequently the reduction is not identified by the data, the feature and the
-two baselines: the metric is an argument of the estimand.
-\end{proposition}
+No function carries the AUC reduction to the average-precision reduction: two
+configurations can share an AUC reduction to \propOneAucGap\ while their
+average-precision reductions differ by \propOneApGap. The reduction is
+therefore not identified by the data, the feature and the two baselines, which
+is why every table in this paper names its instrument and why the minimal
+practically important difference of Section~\ref{sec:results-regret} is
+declared in one instrument's units and applied there only.
+\end{remark}
 
-\noindent The construction is in Supplement~\ref{app:props}.
-
-
-It establishes non-identifiability and not unboundedness: $R$ is built over a
-bounded interval in any fixed configuration, so the reading is that no
-function carries one metric's reduction to another's. In the two
-configurations of \texttt{results/s29\_prop1.csv} the AUC reduction is
-identical to \propOneAucGap\ while the average-precision reduction differs by
-\propOneApGap.
-
-\begin{assumption}[Richness]
-\label{ass:rich}
-Every quadruple of score vectors on the fixed labelled test set is realisable
-as a configuration. This is the assumption that no restriction is placed on
-the model class; it is what makes ``for every configuration'' quantify over a
-set with more than three elements, and it fails only if the analyst commits in
-advance to a family of scoring rules narrow enough to constrain the four arms
-jointly.
-\end{assumption}
-
-\begin{proposition}[What survives a declared family of recalibrations]
+\begin{remark}[What survives a declared family of recalibrations]
 \label{prop:rank}
-Let $\Psi$ be a family of strictly increasing continuous maps containing the
-identity, each applied \emph{simultaneously} to all four score vectors of a
-configuration --- one recalibration of the scoring system, not a different one
-per arm. Call $m$ \emph{$\Psi$-invariant} if $m(\psi(\sigma), y) =
-m(\sigma, y)$ for every $\psi \in \Psi$ and every $(\sigma, y)$. Under
-Assumption~\ref{ass:rich}, the following are equivalent.
-\begin{enumerate}
-\item[(i)] $R_m(\psi\mathcal{C}) = R_m(\mathcal{C})$ for every configuration
-$\mathcal{C}$ with nonzero denominator and every $\psi \in \Psi$.
-\item[(ii)] For every $\psi \in \Psi$ there are constants $A(\psi) \neq 0$ and
-$B(\psi)$ with
-$m(\psi(\sigma), y) = A(\psi)\,m(\sigma, y) + B(\psi)$ for every $\sigma$.
-\end{enumerate}
-\end{proposition}
-
-\noindent Richness is used only for (i) $\Rightarrow$ (ii); the direction
-that matters in practice needs none. Taking $\Psi$ to be every strictly
-increasing continuous map recovers the unrestricted statement.
-
-\paragraph{Within a declared family, invariance is strictly weaker than
-rank-basedness}
-\label{sec:weaker}
-A rank-based instrument satisfies (ii) with $A \equiv 1$, $B \equiv 0$, hence
-(i); the converse fails for some $\Psi$. The class-mean gap is a witness: it
-is not rank-based, an affine recalibration moving it by up to
-\widerMChangeAffine, yet its reduction is invariant to \widerRShiftAffine\
-inside the affine family. \textbf{The separation is family-relative} --- over
-\nPsiFamiliesNonAffine\ non-affine families the same witness's reduction
-shifts by up to \widerRShiftNonAffine\ --- so an analyst declares the
-recalibrations they will consider and the proposition answers for those.
-\textbf{What it buys} is that a search becomes a proof: one $\psi$ and one
-triple violating \eqref{eq:ratiopres} is a \emph{certificate} that rules out
-invariance for every configuration, and
-\texttt{results/s29\_certificates.csv} carries \nCertificates\ of them, the
-smallest moving $R$ by \certificateMinShift, against
+For a family $\Psi$ of strictly increasing maps applied simultaneously to all
+four arms of a configuration, the reduction is $\Psi$-invariant exactly when
+the metric is \emph{affine} under $\Psi$. Rank-basedness is sufficient and not
+necessary, and the gap is family-relative: the class-mean gap --- the
+difference in mean score between the two outcome classes, which is not
+rank-based --- has a reduction invariant to \widerRShiftAffine\ inside the
+affine family and shifting by up to \widerRShiftNonAffine\ over
+\nPsiFamiliesNonAffine\ non-affine ones. What this buys is that a search
+becomes a proof: one map and one configuration violating the invariance rules
+it out everywhere, and \nCertificates\ such certificates are computed, the
+smallest moving the reduction by \certificateMinShift, against
 \nInvarianceChecks\ checks in which the two rank-based instruments hold to
-\invarianceMaxShift. Supplement~\ref{app:props} gives both propositions'
-constructions, the role of richness, and the witness in full.
+\invarianceMaxShift.
+\end{remark}

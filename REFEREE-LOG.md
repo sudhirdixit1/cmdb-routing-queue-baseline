@@ -1795,3 +1795,294 @@ made here.
 **The real Zenodo DOI** is still reserved, and the archived release has not
 been confirmed to reproduce the submitted numbers. Both are in
 `submission/OWNER-ACTIONS.md` and neither can be done from here.
+
+---
+
+# Round twenty-six — a sixth referee, and two headlines withdrawn
+
+A sixth blind referee returned **major revision** with sixteen major comments,
+a section-by-section list, an arithmetic-consistency pass and a seven-phase
+revision plan. Like the three before it, the report is right about more than
+it claims. Two of this paper's headline findings do not survive it and are
+withdrawn; a third turns out to be a wording defect rather than a design
+defect; and one of the referee's own arithmetic checks reproduces exactly.
+
+**What this round did not do, and why.** Four of the report's Phase-A items —
+A1 the weighted bootstrap, A2 four hundred draws on a designed inference
+surface, A6 degradation applied to both halves as a *new run*, A7 a prefix
+axis — need the corpus refetched and every arm refitted. That is six to
+twenty hours of compute and it is not run here. Section 11 names each as the
+change it would make first, in order, and the response letter says so plainly
+rather than implying the version submitted has them.
+
+## R26.1 The split axis is an error stratum, and the decomposition's headline reverses. **CONCEDED — the most consequential finding of the round**
+
+Five of the split axis's six levels are expanding-origin folds on the same
+data. They are different *samples*, not different analyses, and a functional
+ANOVA that pools them reports sampling variability as specification
+sensitivity. The referee said the "56.0% higher-order" and "no single axis
+dominates" headlines are "inflated by construction". They are, and by more
+than the report guessed.
+
+Because the decomposition is exact and orthogonal, the repair is a partition
+rather than a model: every component either involves the split or does not.
+`scripts/s42_round26.py` computes the four-way partition of equation (7) and
+it sums to one to 4.4e-16. **At the median pair the components involving the
+split carry 71.7% of the variance**, against 13.3% for the choices an analyst
+makes, 4.2% for the register-quality counterfactual and 4.5% for the
+components that join them. Resampling is the largest of the four on **17 of
+19 pairs**; the two exceptions are the case study's own, which carry the
+richest analyst grids in the corpus (4 pipelines and 10 quality conditions
+against two and six elsewhere).
+
+Dropping the one split level that *is* an analyst choice — the single
+temporal holdout, leaving five folds of one rule — moves the share from
+**71.7% to 71.0%**, so the stratum is not an artefact of mixing a rule with
+its folds. That check was not asked for; it exists because "the split axis is
+resampling" is a claim that could have been an artefact of the axis's
+composition, and it is not.
+
+**The headline reverses.** On the fold-averaged surface — 28.3% of the pooled
+variance — the higher-order share is **26.3% against the pooled 56.0%**, and
+it no longer exceeds the largest first-order index (**38.8%** against the
+pooled **28.7%**). Pooled, the interactions carry more than any main effect on
+**13 of 19** pairs; net of resampling, on **7 of 19**. *Most of the variance belongs to no single axis*
+is a property of a surface that counts five folds as five specifications.
+Section 6.2 now reports the fold-averaged decomposition as primary, the
+pooled one beside it, and says which claim survives: **which** axis leads is a
+property of the pair.
+
+## R26.2 A sign flip between two increments that both round to zero is not a misstatement. **CONCEDED — the sign-disagreement headline is withdrawn**
+
+The referee's objection: the rate counts a disagreement at any magnitude, 8
+of 19 reference increments are inside ±0.01 AUC, and the paper's own decision
+analysis says the cost of one number is tiny. Every part of that reproduces.
+**8 of 19** reference increments are below a hundredth of an AUC point — the
+referee computed that from Table 3 and it is exact — and only **5 of 19**
+pairs resolve the sign of their own reference cell at all.
+
+A minimal practically important difference of **0.01 AUC** is now declared,
+in one place in the code, and applied on the AUC sub-surface because Remark 1
+forbids carrying it to another instrument. The rates, all on that
+sub-surface: **26.5%** over every admissible AUC cell; **13.2%** once both
+increments must clear the MPID; **2.5%** over the cells the band resolves;
+**0.5%** over cells that satisfy both. Imposing every restriction the paper's
+own §6.4 argument implies — analyst-latitude axes, resolved cells, both
+increments above the MPID — leaves **42 cells, of which 1 disagrees**.
+
+**We withdraw the claim that a one-number report misstates a sign at a rate
+worth quoting as a headline.** The abstract, the highlights, §6.4 and §12 all
+said it and none of them says it now.
+
+Two things emerged from the withdrawal that are worth more than what was
+withdrawn. First, **the 7.5% pooled rate is not an AUC statement**: split by
+instrument it runs 2.5% on ROC AUC to 11.2% on Nagelkerke $R^2$, which is
+Remark 1 showing up in the corpus rather than a claim about specifications.
+Second, **the magnitude survives every restriction the rate does not**: over
+the cells the band resolves, admissible specifications sit a median 0.0430
+AUC from the reference cell, and 0.0534 under the full restriction — four to
+five times the MPID. The corrected claim is that a one-number report is
+usually right about the sign and usually silent about the size, and that on
+14 of 19 pairs the data do not determine the sign of the cell it stands on.
+
+## R26.3 "Is the register degraded in training only?" **NOT CONCEDED — but the manuscript could not have told the referee so**
+
+The referee read §11's "constructed from the training half, not observed" as
+saying the degradation is applied to the training half alone, which would
+make the increment a train/test mismatch rather than an operational
+counterfactual. Reading `spec.degrade` settles it: every mechanism returns a
+degraded copy of the **whole column** — both halves — and what is estimated
+from the training half alone is the mechanism's *parameters* (which values
+are in the long tail, the frequency table a corruption draws from, the
+identities a reconciliation failure splits). `spec.assert_train_only`
+executes that: it perturbs the test half, re-degrades, and requires the
+training half's degraded values to be identical.
+
+So the design is the one the referee wanted and the sentence describing it
+was ambiguous in the direction that mattered. §7.3 now states which halves
+are degraded, which half the parameters come from, and why the distinction
+changes what the increment measures. The both-halves *variant* the referee
+asks for is what the paper already runs; there is nothing to add but the
+sentence.
+
+## R26.4 The baseline spread is carried by the half-of-intake rung. **CONCEDED**
+
+The abstract's "the baseline alone moves the increment by 0.073 AUC at the
+median pair" ranges over a rung that is half an intake block taken in
+cardinality order. The referee: that is the same argument used to exclude the
+intercept-only rung. It is. **Excluding it too, the median spread is 0.0055
+AUC** and it exceeds the reference increment on 7 of 19 pairs rather than 15.
+
+The fall has a plain explanation that makes the smaller number legible rather
+than embarrassing: on 17 of 19 pairs only two rungs remain, so the spread over
+them **is** the absorption $D$ of the free field, which the paper already
+reports as an object with its own interval. Only the case study's log carries
+a third, and there the realistic-rung spread is 0.2495. §6.2 reports both
+numbers and says which is which; the abstract no longer quotes either as a
+headline.
+
+## R26.5 Two headline numbers contradicted each other. **CONCEDED**
+
+Abstract and conclusion said 7.5%; §6.4 said "applying both corrections at
+once gives 12.9%, which is the number this section's own argument asks for".
+The referee is right that a paper states one headline. R26.2 settles it in a
+direction neither number anticipated: with the third restriction the argument
+also implies, the answer is 1 cell in 42, and the headline is withdrawn
+instead of chosen.
+
+## R26.6 The refit's justification is 1.3 Monte Carlo standard errors. **CONCEDED**
+
+§4.1 justified the nested bootstrap by 93.0% against 92.1% coverage. The
+referee measured that gap against the 0.7-point Monte Carlo standard error
+§10.2 states and got ~1.3 SE. The macro `nestedGainInSe` now computes it from
+the same file as both coverages, prints it in §4.1, and the sentence around
+it says the nested construction is retained because the variability it admits
+is variability the estimand contains — not because it measures better here.
+
+## R26.7 Five smaller things the referee was right about, each verified
+
+**The design-space declaration.** Definition 1 lists nine axes, Table 2 has
+no target row, and the per-pair factorial is five wide. Table 4 (`roles`) is
+new, in the main text, and states per pair which attribute plays each role and
+how many levels each axis carries. §3.1 and §5.2 now say that the target
+*indexes* surfaces rather than being an axis of one, and that the decision
+time, operating point and cohort vary on one log only.
+
+**A directional label on two cells of a hundred and eighty.** Definition 3
+now requires 5% of the inference family to resolve before any direction is
+reported, and Table 7 prints the (beneficial, harmful, unresolved) triple
+beside every label. The condition withdraws the direction on **4 of the 13**
+pairs that carried one — including BPIC15\_1/duration and UCI498/handover,
+the two the referee named.
+
+**Specification regret.** Demoted from a reporting object to a robustness
+check, in the contribution list, in §4.7's title and first paragraph, and in
+§11. The paper's own results say the rules mostly tie; an object that reports
+a null is a check.
+
+**Propositions 1 and 2** are Remarks 1 and 2, about a page shorter, with the
+Richness assumption and both constructions moved to Supplement B, and the
+three repository file paths gone from the body.
+
+**The UCI Adult coincidence.** The referee asked whether two indices printed
+as 25.9% and 25.9% were a copy error. They are not — 25.94% against 25.90% —
+and §9.3 now prints the fourth figure so a reader can see that for
+themselves rather than being told.
+
+## R26.8 A caption this round wrote was false, and now a gate says so
+
+Figure 1's caption was rewritten to state its own cell count and the product
+that gives it, because the referee had to reconstruct that arithmetic from
+five numbers in two sections. It reached for `nPipelines` — the **crossed**
+factorial of families, encodings and targets, three times the number of
+pipeline levels that pair runs — and printed a product that missed its stated
+total by a factor of three. Every macro in it was correct and the sentence was
+not, which is the failure mode this repository's macro discipline does not
+cover.
+
+`scripts/round26_verify.py` now multiplies a caption's stated factors and
+compares them with its stated total, checks that the four-way partition's
+residual is machine epsilon, and checks that the MPID, resolved and
+fully-restricted cell counts are nested. All three were exercised against
+injected errors before being accepted. The verifier reports 28 conditions.
+
+## R26.9 What the round added to the main text, and the tension it exposed
+
+Moved in or written new: the roles-and-levels table (was S11), the four-way
+partition table, the resolution-triple table, the MPID table, a glossary with
+the case study's own value for every term, an overview figure of the method,
+and **§7.4, which is now a real subsection** — the field-to-role map for
+BPIC14, the three decision times in service-desk terms, the register-layer
+result (type 0.134, subtype 0.163, item 0.257 AUC over intake, 0.109 marginal
+over subtype), and three named conditions under which the answer would move.
+
+**The report asks for two things that cannot both be had.** C3 asks for six
+more tables and figures in the main text; C6 asks for a target of ~30 pages.
+The article was 48 pages before this round and is 59 after, of which the body
+is 49. Everything added is something the report asked for. The response letter
+puts the arithmetic in front of the editor with a list of what can move back
+out, because which of the two the journal wants is a decision for the editor
+and not for the author.
+
+## R26.10 What this round did not do
+
+**The four refitting items** — A1 weighted bootstrap, A2 400 draws on a
+designed inference surface, A6 a both-halves *re-run*, A7 a prefix axis. A1
+and A2 are the ones that would let the paper keep the word
+"coverage-calibrated" in a headline; until they are run, §11 says the bands
+are descriptive diagnostics and the front matter no longer claims otherwise.
+
+**The affiliation.** The Guide for Authors wants a city and a country and the
+referee found neither. They are not derivable from any file in this
+repository, so `round26_numbers.AFFILIATION_CITY` and `_COUNTRY` are `None`
+and the title block prints the visible `??` marker — the same marker a
+missing result gets. The build is otherwise green; this is the only
+unresolved macro, and it is one line to fix. See
+`submission/OWNER-ACTIONS.md`.
+
+**The DOI**, still, and for the same reason as in round twenty-five.
+
+## R26.11 Reading the rendered pages, after the round was "done"
+
+Every gate was green and the round was written up when the sixty rendered
+pages were read end to end. Nine more defects, four of them false statements.
+The count is the point: this is the twenty-sixth pass over this manuscript,
+and a section rewritten in the same session still carried four claims that
+were wrong.
+
+**Two macros for one idea, differing.** Round twenty-six recomputed the pooled
+decomposition's medians in order to compare them with the fold-averaged ones,
+and grouped over a cell set that includes `ALL_SCALAR` --- the demoted
+cross-instrument headroom scale. The manuscript then carried **28.7% and 29.1%
+for "the pooled largest first-order index at the median pair"**, and **56.0%
+and 52.5% for the pooled higher-order share**, four sections apart, with the
+archive's own description quoting the second of each. The registry that exists
+for exactly this (`round21_verify.ESTIMANDS`) had no entry for them; it does
+now, and the negative test was run. On the canonical basis the count of pairs
+where the interactions exceed the largest main effect is **13 of 19, not 16**,
+which is what the log and the letter said an hour earlier.
+
+**The Figure 1 macro bug, twice more.** `\nPipelines` is the *crossed*
+factorial --- families $\times$ encodings $\times$ targets, twelve --- and the
+case study's pipeline axis runs four levels. Having found and fixed that in
+Figure 1's caption, the round had used the same wrong macro in two further
+sentences of section 6.2, including one that contrasts the case study's grid
+with the rest of the corpus. The macro is now named `nPipelineLevelsCase`,
+which is not a name anybody reaches for by accident.
+
+**Round twenty-four's defect, recurred.** Section 6.4 opened with "Two things
+are wrong with reading that as what a one-number report exposes a reader to,
+and both are corrected" --- while the section now makes **three** corrections,
+because this round added the MPID. Round twenty-four's minor 4 was that this
+section names its own defects and corrects them one at a time; adding a third
+and not updating the count reproduced it.
+
+**A layer claim that was false.** Section 7.4 said that on the duration target
+"the coarse layers are nearly free". They are not: the item's type is worth
+\layerTypeDuration\ against the item's own \layerItemDuration, which is about
+a third, not nothing. The sentence now says a third, and the contrast with
+handover --- where the type reaches about half --- is stated as the result it
+is: **which layer pays is a property of the target, not of the register.**
+
+**Five more, each a contradiction with the round's own decision.** Table 1's
+caption still called regret one of "the four reporting objects this paper
+supplies" two pages after the contribution list demoted it, and so did section
+4.5, section 10.4 and the supplement's abstract. The contribution paragraph
+cited section 6.4 for the regret results, which are in 6.6. Section 9.3's
+correction of the UCI Adult coincidence --- claimed in the response letter ---
+had silently not applied, because the replacement did not match the source and
+nothing re-read it. Section 12 said "1 of 42 admissible cells" without the AUC
+denominator, in a paper whose subject is denominator discipline. And section
+3.3's claim that the sign disagrees across cells needed restating once the
+disagreement *rate* was withdrawn: it now leads with the point-estimate fact
+that survives every restriction --- on \nSignVaries\ of \nPairs\ pairs,
+between a tenth and nine tenths of admissible cells are positive.
+
+**What this says about the length argument.** The referee asks for the body at
+about thirty pages and for six more objects moved into it. The body is
+forty-nine. Everything this round added is something the report asked for, and
+the cuts the report sanctioned --- section 4.3, section 4.4, the propositions,
+the tie-break paragraph, the threats section --- were taken. The rest is a
+decision about what an *Information Systems* reader should be able to check
+without a second document, and `submission/response_to_review26.md` puts it to
+the editor with a ranked list of what can move back out.

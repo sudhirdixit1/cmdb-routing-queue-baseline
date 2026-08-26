@@ -200,16 +200,36 @@ def main(argv=None):
         #  each entry: the phrase that must appear, built from the macro it
         #  is governed by.  Adding a number to the description means adding
         #  it here, which is the point.
+        #  ROUND TWENTY-SIX rewrote the description's evidence paragraph,
+        #  because round twenty-six withdrew two of the claims that were in
+        #  it: the pooled decomposition's headline and the sign-disagreement
+        #  rate.  An archive record that contradicts the manuscript on a
+        #  withdrawn claim is worse than one that contradicts it on a stale
+        #  number, because a reader cannot tell which document is the later
+        #  one.  The claim list moves with the description, which is the
+        #  point of its being a list.
         CLAIMS = [
-            ("moves the increment by %s AUC at the median pair" %
-             mac("spreadMedian"), "spreadMedian"),
-            ("and %s at the widest" % mac("spreadMax"), "spreadMax"),
-            ("first-order sensitivity index at the median pair is %s" %
-             mac("largestFirstOrderPct"), "largestFirstOrderPct"),
-            ("interactions between axes carry a median %s" %
-             mac("interactionTotalPct"), "interactionTotalPct"),
-            ("for a median %s of the other admissible specifications" %
-             mac("misreportEqualPct"), "misreportEqualPct"),
+            ("the split carry a median %s of the variance" %
+             mac("shareResamplingStratumPct"), "shareResamplingStratumPct"),
+            ("moves that to %s" % mac("shareResamplingRollingPct"),
+             "shareResamplingRollingPct"),
+            ("index at the median pair is %s" %
+             mac("foldLargestFirstOrderPct"), "foldLargestFirstOrderPct"),
+            ("the higher-order share %s" % mac("foldInteractionTotalPct"),
+             "foldInteractionTotalPct"),
+            ("against %s and %s on the pooled surface"
+             % (mac("pooledLargestFirstMedianPct"),
+                mac("pooledInteractionMedianPct")),
+             "pooledLargestFirstMedianPct"),
+            ("difference of %s AUC is declared" % mac("mpidAuc"), "mpidAuc"),
+            ("%s of %s admissible AUC cells"
+             % (mac("nDisagreeFullyRestricted"),
+                mac("nCellsFullyRestricted")), "nCellsFullyRestricted"),
+            ("a median %s AUC from the conventional report" %
+             mac("madResolvedMedian"), "madResolvedMedian"),
+            ("on %s of %s pairs the data do not determine"
+             % (mac("nRefUnresolvedCell"), mac("nPairs")),
+             "nRefUnresolvedCell"),
             ("%s tests." % mac("nTests"), "nTests"),
             ("%s log-target pairs" % mac("nPairs"), "nPairs"),
             ("from %s public event logs" % mac("nLogs"), "nLogs"),

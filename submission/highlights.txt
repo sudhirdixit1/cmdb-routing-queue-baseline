@@ -15,16 +15,16 @@ if one is wrong or over the limit.
 
 
 [73] A field's incremental predictive performance is a surface, not one number
-[74] An exact variance decomposition says which analyst choice moves the answer
-[72] Coverage-calibrated bands say where the sign of that surface is resolved
-[55] Sign misstated for 7.5% of resolved cells, 3.5% on ITSM
+[64] An exact decomposition separates analyst choices from resampling
+[73] Simultaneous bands over the whole declared family, with coverage measured
+[56] Resolved cells sit 0.0430 AUC from the one-number report
 [72] A register's worth turns on the decision time and on which target is set
 
 
 -- paste-ready, without the length prefixes --
 
 A field's incremental predictive performance is a surface, not one number
-An exact variance decomposition says which analyst choice moves the answer
-Coverage-calibrated bands say where the sign of that surface is resolved
-Sign misstated for 7.5% of resolved cells, 3.5% on ITSM
+An exact decomposition separates analyst choices from resampling
+Simultaneous bands over the whole declared family, with coverage measured
+Resolved cells sit 0.0430 AUC from the one-number report
 A register's worth turns on the decision time and on which target is set

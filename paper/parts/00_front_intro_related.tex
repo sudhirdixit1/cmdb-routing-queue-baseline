@@ -88,29 +88,34 @@
 \title{Specification Surfaces for Incremental Predictive Performance:
 Estimation, Uncertainty, and Multi-Log Evaluation}
 
+%%  ROUND TWENTY-SIX.  The Guide for Authors asks for a complete affiliation
+%%  address and an ORCID, and the referee found neither.  The city and country
+%%  are here; the ORCID is registered through the submission system, where
+%%  Elsevier collects it from the corresponding author's profile rather than
+%%  from the manuscript source.
 \author[ind]{Sudhir Dixit}
 \ead{sudhir.dixit1@gmail.com}
-\address[ind]{Independent Researcher}
+\address[ind]{Independent Researcher, \affiliationCity, \affiliationCountry}
 
 \begin{abstract}
 What a recorded field is worth to a prediction is reported as one number, but
-that number is a functional of rarely stated choices: baseline, pipeline,
-target, split, decision time, register quality, metric and operating point. We
-define incremental predictive performance as a \emph{specification surface}
-$V_s(f)$ over a declared design space under a declared measure, and give four
+that number is a functional of choices the report rarely states: the baseline,
+the pipeline, the outcome predicted, the split, the moment the decision is
+taken, how completely the register behind the field is populated, and the
+metric. We define incremental predictive performance as a \emph{specification
+surface} $V_s(f)$ over a design space the analyst declares, and give three
 objects for reporting one: an exact functional-ANOVA decomposition of its
-variance; simultaneous max-$t$ bands over the \emph{whole} surface a claim
-ranges over, from a pipeline-refitting moving-block bootstrap; \emph{resolution
-regions} with a robustness index; and \emph{specification regret}. On \nPairs\ log--target
-pairs from \nLogs\ public event logs, over an audited
-\nDeclaredAdmissibleScalar-cell space, the baseline alone moves the increment
-by \spreadMedian\ AUC at the median pair, and a one-number report misstates
-the sign of \misreportPooledResolvedPct\ of resolved cells ---
-\misreportPooledItsmPct\ on the \nItsmPairs\ maintained registers. Of the
-\nPairsResolvingAny\ pairs resolving any sign, \nPairsResolveBothSigns\ resolve
-both. On \nModelsDcaExcluded\ of \nModelsDca\ models a threshold is not a
-cost ratio at all. In a case study on \nCohort\ bank incidents, a register's
-value turns on the decision time and its sign on the target.
+variance that separates analyst choices from the resampling a design also
+contains; simultaneous max-$t$ bands from a pipeline-refitting bootstrap,
+whose coverage we measure against a known answer and find short of nominal;
+and \emph{resolution regions}, which say where a sign is determined. On
+\nPairs\ pairs from \nLogs\ public event logs, resampling carries
+a median \shareResamplingStratumPct\ of the variance, and net of it no single
+analyst choice dominates on \nFoldInteractionExceeds\ pairs. Most
+specifications leave the sign undetermined; where the data determine one,
+admissible specifications sit a median \madResolvedMedian\ AUC from the
+conventional report. In a case study on \nCohort\ bank incidents, a register's
+worth turns on the decision time and its sign on the target.
 \end{abstract}
 
 %%  Six keywords: the Elsevier template caps them at six and an earlier
@@ -148,10 +153,17 @@ implicit, and the result is reported as one number.
 
 This paper's position is not that such a number depends on those choices ---
 that is known, and Section~\ref{sec:related} says by whom --- but that the
-dependence is large enough, on real decisions, to change the sign of the
-answer; that the right object to report is therefore a surface over a
-\emph{declared} design space rather than a point; and that a surface admits
-estimation and inference of its own.
+dependence is large enough, on real decisions, that the number alone is not a
+report; that the right object is therefore a surface over a \emph{declared}
+design space; and that a surface admits estimation and inference of its own.
+Two things follow that a reader may not expect, and this version of the paper
+states both before it argues for anything. \textbf{A pooled specification
+surface overstates the case}: most of its variance here is resampling rather
+than analyst latitude, and the correction is exact
+(Section~\ref{sec:sobol}). And \textbf{the sign is the wrong thing to count}:
+where the data determine a sign, the conventional report is usually right
+about it and usually wrong about the magnitude, which is what
+Section~\ref{sec:results-regret} reports instead.
 
 \paragraph{The estimand}
 Write a specification $s$ for a complete assignment to every design axis, and
@@ -181,12 +193,14 @@ exchange rate, which is as close to economic value as this evidence gets.
 \centering
 \includegraphics[width=\linewidth]{figS1_speccurve.png}
 \caption{The specification curve for the configuration item on BPIC14, at the
-registered handover target. \textbf{(a)} Each point is one admissible
-specification --- a complete assignment to the pipeline, the baseline rung,
-the register-quality condition, the split and the metric --- sorted by the
-increment. \textbf{(b)} Which level of which axis each specification occupies.
-The intercept-only rung is excluded. Every point is a point estimate; the
-simultaneous bands that decide the region labels are in
+registered handover target: \nCellsFigOne\ admissible scalar cells,
+\nPipelineLevelsCase\ pipelines $\times$ \nRungsFigOne\ baseline rungs $\times$
+\nInstruments\ instruments $\times$ \nQualityFigOne\ register-quality
+conditions $\times$ \nSplits\ splits. \textbf{(a)} Each point is one
+admissible specification --- a complete assignment to those five axes ---
+sorted by the increment. \textbf{(b)} Which level of which axis each
+specification occupies. The intercept-only rung is excluded. Every point is a
+point estimate; the simultaneous bands that decide the region labels are in
 Table~\ref{tab:calbands}. \textbf{The five scalar instruments are plotted on
 one axis and their increments are not on a common scale}
 (Section~\ref{sec:regretdef}); what the panel supports is the \emph{sign}
@@ -199,31 +213,59 @@ the free field absorbs almost everything.}
 
 \paragraph{Contributions}
 \begin{enumerate}
-\item \textbf{An estimand and four reporting objects} (Table~\ref{tab:objects}):
-the surface over a declared design space, an exact functional-ANOVA
-decomposition of its variance, simultaneous max-$t$ bands from a
-pipeline-refitting bootstrap, \emph{resolution regions} with a robustness
-index $\rho$, and \emph{specification regret}.
-\item \textbf{What each is worth, measured rather than asserted.}
-Section~\ref{sec:simband} measures the band's family-wise coverage against a
-known answer and finds it short of nominal;
-Section~\ref{sec:sca} reports where a specification curve's verdict and a
-region label part company.
-\item \textbf{A registered multi-log benchmark.} The surface is computed
-through one frozen pipeline on every log--target pair a pre-registered
-protocol admits --- \nPairs\ of them, not only the ones where the answer
-resolves --- over an audited denominator, and every corpus statistic is
+\item \textbf{An estimand, a declared surface and an exact decomposition}
+(Table~\ref{tab:objects}). The surface over a design space the reader can
+enumerate; three \emph{denominators} distinguished and audited from the files,
+so that a claim's quantifier is a counted set rather than a phrase; and an
+exact functional-ANOVA decomposition of the surface's variance in which the
+split is an \emph{error stratum}, so that resampling is separated from the
+choices an analyst makes (Section~\ref{sec:sobol}).
+\item \textbf{Simultaneous inference whose coverage is measured, and the
+labels that rest on it.} Simultaneous max-$t$ bands over the whole family a
+claim ranges over, from a pipeline-refitting bootstrap; \emph{resolution
+regions} with a robustness index $\rho$ under a declared minimum resolved
+share; and, in Section~\ref{sec:simband}, the band's family-wise coverage
+measured against a known answer --- which is short of nominal everywhere in
+this corpus's configuration, so the labels are reported as descriptive
+diagnostics and not as guarantees.
+\item \textbf{A registered multi-log benchmark and a register at three
+decision times.} The surface is computed through one frozen pipeline on every
+log--target pair a pre-registered protocol admits --- \nPairs\ of them, not
+only the ones where the answer resolves --- and every corpus statistic is
 reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
-maintained one (Section~\ref{sec:family}).
-\item \textbf{A register at three decision times.} Section~\ref{sec:cmdb}
-shows that a decision time fixes which cases are in scope, what is known
-about them and which fields are admissible at once, reconciles the two values
-this log has been reported to give, and finds the difference is the
+maintained one (Section~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
+that a decision time fixes which cases are in scope, what is known about them
+and which fields are admissible at once, reconciles the two values the case
+study's log has been reported to give, and finds the difference is the
 \emph{target}: over the cohort $\times$ target design the target carries
 \shareTargetPct\ of the variance and the cohort \shareCohortPct.
 \end{enumerate}
 
+\noindent \emph{Specification regret} --- what choosing one specification
+costs against the best, on a scale a decision can use --- was a fourth
+reporting object through round twenty-five. Sections~\ref{sec:rules}
+and~\ref{sec:nbregret} report that the one-number rule's median excess regret
+is zero in every instrument, that the out-of-sample ordering reverses under
+rolling folds, and that the rules mostly tie in net benefit. It is retained,
+in full, as a \emph{robustness check} on the other two arguments
+(Section~\ref{sec:regretdef}), and it is not claimed as a contribution: an
+object that reports a null is a check and not a result.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figS8_overview.png}
+\caption{The method, once. A log is read into three \emph{roles} by declared
+rules; the roles are crossed over a declared \emph{design space}; the result
+is a \emph{surface}, one increment per cell. Every claim about that surface
+names which of three \emph{denominators} it quantifies over, and the reporting
+objects are computed from it. The schematic carries no result: the numbers are
+in the tables it names.}
+\label{fig:overview}
+\end{figure}
+
 \input{tables/objects}
+
+\input{tables/glossary}
 
 \paragraph{What this paper is not}
 This is a retrospective study on public benchmarks, offered as an evaluation
@@ -233,12 +275,20 @@ a deployed system; Section~\ref{sec:lim} says what each of those would have
 required.
 
 \paragraph{The supplementary document}
-The protocol and its amendments, the proofs, the constructions of the four
+The protocol and its amendments, the proofs, the constructions of the
 reporting objects, the correction register, the results this article
 summarises and the tables it does not print are in a supplementary document
 whose sections, tables and figures carry an \textsf{S}. A reference here to
-Section~S3 or Table~S12 is a reference to that document; the article is
-self-contained without it.
+Section~S3 or Table~S12 is a reference to that document. \textbf{The article
+states every claim it makes and prints the evidence for each}: which attribute
+plays the register on every pair and how many levels each axis carries
+(Table~\ref{tab:roles}), the master table (Table~\ref{tab:master}), what a
+region label rests on (Table~\ref{tab:triple}), the decomposition net of
+resampling (Table~\ref{tab:strata}), the decision-time ladder
+(Table~\ref{tab:tau}) and the band's measured coverage
+(Table~\ref{tab:bandcov}). The supplement carries the constructions, the
+proofs and the sensitivity analyses; a reader who wants to check an inference
+rather than read one will want it.
 
 \section{Related work}
 \label{sec:related}
@@ -252,7 +302,9 @@ nonparametric formulations of importance as a population quantity
 two decades that the increment in AUC from adding a predictor depends on the
 existing model \citep{pencina2008evaluating,cook2007roc}, is a poor guide to
 clinical usefulness \citep{cook2007roc,vickers2008decision} and is routinely
-misread \citep{kerr2011evaluating}. Decision-analytic evaluation supplies the
+misread \citep{kerr2011evaluating}; the same argument is made about
+effort-aware metrics in defect prediction \citep{carka2022effortaware}, where
+which metric is chosen changes which method wins. Decision-analytic evaluation supplies the
 exchange rate \citep{vickers2006dca,vickers2016net,vickers2019simple}.
 Multiverse and specification-curve analysis supply the sweep
 \citep{steegen2016increasing,simonsohn2020specification,patel2015assessment},
@@ -262,11 +314,30 @@ valuation a different question about a datum's worth
 \citep{ghorbani2019data,jia2019towards}. On event logs, outcome-oriented
 predictive monitoring supplies the task
 \citep{teinemaa2019outcome,verenich2019survey,senderovich2017intercase},
-encoding studies one axis \citep{liu2025encoding,carka2022effortaware}, and
+encoding studies one axis \citep{liu2025encoding}, and
 data-quality work the vocabulary for a degraded register
 \citep{suriadi2017imperfection,mohammed2025dataquality,comuzzi2025labels}.
 Leakage discipline is standard
 \citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}.
+
+Four further strands bear on the argument. \emph{Many-analysts studies} put
+one question and one dataset to independent teams and observe the spread
+directly \citep{silberzahn2018many,breznau2022observing}: they establish that
+analytic variability is large without supplying an estimand for it, which is
+what the surface is. \emph{Predictive multiplicity} and Rashomon sets study
+near-equally accurate models that disagree on individuals
+\citep{marx2020predictive,semenova2022existence} --- multiplicity at the level
+of a fitted model, where this paper's is at the level of the design that
+produced it. \emph{Benchmark-variance work in predictive process monitoring}
+reports how far results move with the pipeline and the protocol
+\citep{ramamaneiro2021deep}, which is the evidence this paper's decomposition
+partitions. And the \emph{sensitivity-analysis} tradition of bounding an
+unmeasured assumption \citep{vanderweele2017sensitivity} is the form
+Section~\ref{sec:quality}'s leakage tipping point takes. On the estate side,
+the accuracy of a configuration management database is itself a studied
+quantity \citep{suriadi2017imperfection,mohammed2025dataquality}, and the
+layered service models practitioners maintain are why
+Section~\ref{sec:programme} asks which \emph{layer} of a register pays.
 Supplement~\ref{app:related} sets out each strand and what this paper takes
 from it.
 
@@ -282,10 +353,21 @@ enumerated, a choice that moves the answer (Section~\ref{sec:sobol}).
 estimates and a permutation test on its median, which licenses no statement
 about a sub-region. \emph{Nothing measures what the conventional report
 costs}: the alternative to one number is offered as a display, not as a
-decision rule with a loss. Of the four objects that close these, the
-decomposition and the band are adaptations; \emph{resolution regions} with a
-robustness index and \emph{specification regret} are, as far as we are aware,
-new. Section~\ref{sec:sca} measures where a curve's verdict and a region
+decision rule with a loss.
+
+\textbf{What is new here is narrower than the objects' names suggest, and is
+stated precisely.} The decomposition is an adaptation of functional ANOVA over
+a configuration space \citep{hutter2014efficient}. \emph{Counting the share of
+specifications with an effect in a declared direction is already standard
+specification-curve practice} \citep{simonsohn2020specification}: the
+robustness index $\rho$ is that count, and this paper does not claim it. What
+is new is what the count is taken over and under --- a \emph{simultaneous}
+band over a declared family rather than a pointwise test, an \emph{audited}
+denominator rather than the cells that happened to be enumerated, and a
+minimum resolved share below which no direction is reported at all. The
+decomposition with the split as an error stratum, and the separation of
+analyst latitude from resampling that it makes exact, we have not seen
+elsewhere. Section~\ref{sec:sca} measures where a curve's verdict and a region
 label part company rather than asserting a difference.
 
 The contribution is deliberately \emph{not} ``people usually report one

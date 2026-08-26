@@ -18,41 +18,30 @@ mining software.
 This research received no specific grant from any funding agency in the
 public, commercial or not-for-profit sectors.
 
-\section*{Declaration of generative AI and AI-assisted technologies}
+%%  ROUND TWENTY-SIX.  Elsevier's required section title, verbatim.  It is on
+%%  ONE source line deliberately: texlint records each section's name and word
+%%  count into results/section_words.csv, and a title wrapped across two lines
+%%  put a newline inside a CSV field, which broke check_response_refs.
+\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
 
-During the preparation of this work the author used a large-language-model
-assistant, Anthropic Claude, for three purposes. The model identifier and the
-date of every session in which it was used are recorded in
-\texttt{AI-USE.md} in the archive, because a disclosure that names a product
-and not a version is not reproducible. The identifier for the final
-analysis and revision round is \texttt{\aiModelId} (\aiModelDate).
+During the preparation of this work the author used Anthropic Claude
+(\texttt{\aiModelId}, \aiModelDate) in order to draft and edit prose and to
+write analysis and verification code. After using this tool the author
+reviewed and edited the content as needed and takes full responsibility for
+the content of the publication.
 
-\begin{enumerate}
-\item \textbf{Software.} The analysis scripts, the \texttt{fieldvalue}
-package and the verification harness were written with the assistant's help.
-Every result in this paper is produced by that code, the code is public, and
-\texttt{REPRODUCE.md} regenerates every table and figure from the raw data by
-one command.
-\item \textbf{A use in a study that is in the archive and not in this paper.}
-A literature-prevalence pilot, described in Section~\ref{sec:practice} and
-reported nowhere in this paper or its supplement, was adjudicated by the
-author with the assistant's help from evidence dossiers extracted from full
-text. That is one machine-assisted adjudicator rather than two independent
-human raters, which is among the reasons the pilot carries no claim here. Its
-dossiers are in the archive; the model identifier used for that adjudication
-was not recorded at the time and is stated as unrecorded in
-\texttt{AI-USE.md}.
-\item \textbf{Writing.} The assistant was used to draft and edit prose,
-which is a use beyond the language-and-readability editing an author may make
-without further comment, and is disclosed here for that reason. The author
-directed the structure and the argument, verified every claim against the
-result files, and takes full responsibility for the content of the
-publication.
-\end{enumerate}
-
-No generative model produced, imputed, augmented or selected any datum, any
-result or any citation. The reference list was checked against the published
-records.
+\noindent This is a use beyond the language-and-readability editing an author
+may make without comment, which is why it is declared. Two further facts
+belong with it and are recorded rather than summarised: every session's model
+identifier and date are in \texttt{AI-USE.md} in the archive, because a
+disclosure naming a product and not a version is not reproducible; and
+\textbf{no generative model produced, imputed, augmented or selected any
+datum, any result or any citation}. Every result in this paper is produced by
+public code that \texttt{REPRODUCE.md} re-runs by one command, and the
+reference list was checked against the published records. The one use of the
+assistant \emph{inside} a study --- adjudicating the literature-prevalence
+pilot, which is in the archive and carries no claim in this paper --- is
+described where that pilot is, in Section~\ref{sec:practice}.
 
 \section*{Data availability}
 

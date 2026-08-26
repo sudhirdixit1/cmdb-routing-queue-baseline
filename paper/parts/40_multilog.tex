@@ -3,8 +3,9 @@
 \label{sec:multilog}
 
 \label{sec:denominator}
-Every point estimate in this section comes from one master surface,
-\texttt{results/s01\_surface.csv}, computed by one pass of one pipeline over
+Every point estimate in this section comes from one master surface ---
+one file, named in the code-availability statement --- computed by one pass of
+one pipeline over
 \nPairs\ log--target pairs, \nLearners\ learners, \nSplits\ splits, \nQuality\
 register-quality conditions, the nested baseline ladder and \nMetrics\
 instruments including the \nGrid-point decision-curve grid. Its
@@ -33,7 +34,13 @@ holdout, the clean register, the intake block plus the free field as the
 baseline, ROC AUC --- and its region and $\rho$ columns are the
 coverage-calibrated ones of Section~\ref{sec:regions} while its
 sign-disagreement column is the all-cells rate of Table~\ref{tab:misreport}
-under the equal-level measure.
+under the equal-level measure. \textbf{The reference cell's sign and the
+region label need not agree, and on several pairs they do not}: a surface can
+be conditionally beneficial while the one cell an analyst would have stood on
+is negative, because the label ranges over the whole inference family and the
+reference cell is one member of it. Table~\ref{tab:triple} prints the counts
+each label rests on, and Table~\ref{tab:roles} which attribute plays the
+register on each row.
 
 \subsection{What the choices are worth}
 \label{sec:axes2}
@@ -69,20 +76,58 @@ which is therefore not obtainable by taking a maximum across the four printed
 columns; and the corpus medians of the higher-order share. The per-instrument
 quantities the second is built from are in Table~\ref{tab:measures}.
 
-\textbf{No single axis dominates, and the largest is the one an evaluation
-paper is most likely to fix without comment.} Across the corpus the median
-first-order index is \sSplitPct\ for the split, \sRungPct\ for the baseline
-rung, \sQualityPct\ for the register-quality condition and \sLearnerPct\ for
-the pipeline. The split leads the other three by a wide margin and still
-explains well under a quarter of the variance. At the median pair the largest
-of the four, whichever it is, is \largestFirstOrderPct.
+\input{tables/strata}
 
-\textbf{Most of the variance belongs to no single axis.} The total
-higher-order share $1 - \sum_i S_i$ has median \interactionTotalPct\
-(\interactionTotalCI\ over pairs), ranging from \interactionMinPct\ to
-\interactionMaxPct; the largest per-axis \emph{involvement}
-$\max_i (S_{T_i} - S_i)$ is a different quantity and is
-\largestInvolvementPct\ at the median pair.
+\textbf{Most of what the pooled surface varies over is not specification at
+all.} Table~\ref{tab:strata} partitions the decomposition by
+\eqref{eq:strata}, exactly and on every decomposition separately. Taking each
+column's median across the corpus --- \emph{four medians, which do not add,
+and are not four parts of one pair} --- the components involving the split
+carry \shareResamplingStratumPct\ of the variance, against
+\shareAnalystStratumPct\ for the choices an analyst makes,
+\shareCounterfactualStratumPct\ for the register-quality counterfactual and
+\shareMixedStratumPct\ for the components that join them. Resampling is the
+largest of the four on \nResamplingLargest\ of the \nPairs\ pairs. Dropping
+the one split level that is a genuine analyst choice --- the single temporal
+holdout, leaving five folds of one rule --- moves that share only from
+\shareResamplingStratumPct\ to \shareResamplingRollingPct, so the stratum is
+not an artefact of mixing a rule with its folds. \textbf{The two exceptions
+are the case study's own pairs}, where the analyst axes carry the richest
+grids in the corpus --- \nPipelineLevelsCase\ pipelines and
+\nQualityFigOne\ register-quality conditions against two and six elsewhere
+(Table~\ref{tab:roles}) --- and the ordering reverses.
+
+\textbf{Net of resampling, no single axis dominates --- and this is a weaker
+statement than the pooled surface makes it look.} On the fold-averaged
+surface, which carries \foldVarRatioPct\ of the pooled variance, the median
+first-order index is \foldSRungPct\ for the baseline rung, \foldSQualityPct\
+for the register-quality condition and \foldSPipelinePct\ for the pipeline,
+and the largest of the three at the median pair is
+\foldLargestFirstOrderPct. \textbf{The total higher-order share is
+\foldInteractionTotalPct\ once resampling is removed, against
+\pooledInteractionMedianPct\ on the pooled surface, and it no longer exceeds
+the largest first-order index}: pooled, the interactions carry more than any
+main effect on \nPooledInteractionExceeds\ of \nPairs\ pairs; net of
+resampling, on \nFoldInteractionExceeds. \emph{Most of the variance belongs to
+no single axis} is a property of a surface that counts five folds as five
+specifications, and it does not survive treating them as what they are. What
+does survive is the weaker and still sufficient claim: which axis leads is a
+property of the pair --- the rung on \nFoldLeadPairsRung, the register-quality
+condition on \nFoldLeadPairsQuality\ and the pipeline on
+\nFoldLeadPairsPipeline\ --- so an analyst cannot learn from somebody else's
+paper which of their own choices their answer turns on.
+
+\textbf{The pooled decomposition, for comparison.} Across the corpus the
+median pooled first-order index is \sSplitPct\ for the split, \sRungPct\ for
+the baseline rung, \sQualityPct\ for the register-quality condition and
+\sLearnerPct\ for the pipeline; at the median pair the largest of the four is
+\largestFirstOrderPct, the total higher-order share is \interactionTotalPct\
+(\interactionTotalCI\ over pairs, \interactionMinPct\ to
+\interactionMaxPct), and the largest per-axis \emph{involvement}
+$\max_i (S_{T_i} - S_i)$, a different quantity, is \largestInvolvementPct.
+It is reported because it is what the specification-curve literature computes
+and because the difference between the two is this subsection's result, not
+because it answers the question as asked.
 
 \textbf{The measure is not neutral, and one conclusion does not survive it.}
 Across the three product measures the higher-order share moves by
@@ -94,19 +139,41 @@ than any main effect} is therefore a claim about a measure and not only about
 a surface. Supplement~\ref{app:measures} carries the target axis, which axis
 leads on which pair, and both invariance tests.
 
-\textbf{The baseline axis moves the answer by more than the answer.} Holding
+\textbf{The baseline axis moves the answer by more than the answer, on the
+pairs where an analyst has more than one baseline to choose between.} Holding
 the pipeline, the split, the register and the metric at the reference and
 varying only the baseline rung, the increment moves by \spreadMedian\ AUC at
 the median pair and \spreadMax\ at the widest --- larger than the increment
 itself at the reference cell on \nSpreadExceedsIncrement\ of the \nPairs\
-pairs. The index and the spread answer different questions, what share of the
-\emph{variance} an axis explains while every other axis is also varying
-against how far that one axis moves the answer on its own, and both are
+pairs. \textbf{That range is carried by the half-of-intake rung, and a reader
+is owed the spread without it.} Half of an intake block, taken in a
+deterministic order by cardinality, is admissible but impoverished in the same
+way the intercept-only rung this paper already excludes is impoverished.
+Excluding it too, the spread is \spreadRealisticMedian\ AUC at the median pair
+and \spreadRealisticMax\ at the widest, and exceeds the reference increment on
+\nSpreadExceedsRealistic\ pairs. The fall is not a correction of an error but
+a change of denominator with a plain explanation: on
+\nPairsTwoRealisticRungs\ of the \nPairs\ pairs only two rungs remain, so the
+spread over them \emph{is} the absorption $D$ of the free field, which
+Section~\ref{sec:absorption} reports as an object in its own right with its
+own interval. Only the case study's log carries a third
+(Table~\ref{tab:roles}), and its two pairs are where the corpus's widest
+realistic-rung spread sits, reaching \spreadRealisticMax. The
+index and the spread answer different questions --- what share of the
+\emph{variance} an axis explains while every other axis is also varying,
+against how far that one axis moves the answer on its own --- and both are
 reported because either alone misleads.
 
-\paragraph{The pipeline axis is two axes} Its levels are a model family
-together with an encoding and, in one case, a calibration, and on
-\nPairsTwoLearners\ of the \nPairs\ pairs only two of them run. Crossed on the
+\paragraph{The pipeline axis is two axes, and it does not run at full width
+everywhere} Its levels are a model family together with an encoding and, in
+one case, a calibration, and on \nPairsTwoLearners\ of the \nPairs\ pairs only
+two of them run. \textbf{The admission rule is a function of the log's row
+count and nothing else}, declared before any fit: the case study's log carries
+all \nPipelineLevelsCase, the two largest logs carry the two that differ in
+\emph{encoding} --- a boosting fit on a quarter of a million rows costs more
+than the rest of the corpus together --- and every other pair carries the two
+that differ in \emph{family}. Table~\ref{tab:roles} gives the count per pair.
+Crossed on the
 case study's log --- both families against all three encodings on both
 targets, \nPipelines\ complete factorial pipelines ---
 \textbf{the encoding is the larger of the two}, \sEncodingPct\ of the variance
@@ -163,6 +230,8 @@ stops containing the point estimate a widening would be about
 ladder, the two-covariate comparison and the admission rule;
 Section~\ref{sec:lim} carries what it leaves the corpus's largest pairs.
 
+\input{tables/triple}
+
 \textbf{Of the \nPairsResolvingAny\ pairs that resolve anything,
 \nCondBeneficialCal\ have no harmful cell and \nPairsResolveBothSigns\ resolve
 cells of both signs.} That is the informative reading of the region column,
@@ -185,9 +254,14 @@ conclusion here rests on the calibration being exactly right.
 A conventional report --- one pipeline, the clean register, the single
 holdout, ROC AUC --- disagrees in \emph{sign} with a median
 \misreportEqualPct\ of the other admissible specifications under the
-equal-level measure. Two things are wrong with reading that as \emph{what a
-one-number report exposes a reader to}, and both are corrected before the
-headline is stated.
+equal-level measure. \textbf{Three things are wrong with reading that as
+\emph{what a one-number report exposes a reader to}}, and this section
+corrects each of them, then all three at once: the axes are not all the same
+kind of thing, most cells are not cells whose sign the data determine, and a
+disagreement counted at any magnitude is not a disagreement worth acting on.
+The third is round twenty-six's; the first two were corrected separately in
+earlier versions and never jointly, which is a defect a referee named and this
+section no longer has.
 
 \textbf{The axes are not all the same kind of thing.} The design space mixes
 choices an analyst makes with things that are not choices at all, and
@@ -216,7 +290,9 @@ choice, so the second number is the one that answers the question as asked;
 the first is the one taken on the units the rest of Section~\ref{sec:multilog}
 uses. Neither is a corpus fact independent of the scale, which is the
 paper's own thesis applied to the paper. Restricted
-to the \nCellsLatitude\ analyst-latitude cells a pair carries, the
+to the \nCellsLatitude\ analyst-latitude cells a pair carries --- two
+pipelines by three admissible rungs by \nInstruments\ instruments, with the
+register clean and the split at the single holdout --- the
 disagreement rate is \misreportLatitudePct\ against the pooled
 \misreportEqualPct: the first is what a one-number report exposes a reader to,
 the second what a claim ranging also over degraded registers and resampled
@@ -239,22 +315,50 @@ carries, and sign agreement between two draws from a distribution centred near
 zero is one half by construction, so a rate computed over unresolved cells is
 partly measuring that.
 
-\textbf{On the cells the corpus can resolve, the rate is
-\misreportPooledResolvedPct.} Of the \nResolvedCorpus\ cells whose
-coverage-calibrated whole-surface band excludes zero, \nDisagreeResolved\
-disagree in sign with the reference cell. Every cell it counts is one where
-the data do determine a sign, and that sign contradicts the number a
-conventional paper would print.
+\textbf{And a sign flip between two increments that both round to zero is not
+a misstatement anybody would act on.} The rate counts a cell whenever its sign differs from
+the reference cell's, at any magnitude, and \nRefBelowMpid\ of the \nPairs\
+reference increments are themselves inside a hundredth of an AUC point. A
+\emph{minimal practically important difference} is therefore declared ---
+$\mathrm{MPID} = \mpidAuc$ AUC --- and a disagreement is counted only when the
+reference increment and the cell's own increment both exceed it. The MPID is
+declared in AUC and Remark~\ref{prop:nonid} forbids carrying it to
+another instrument, so the restriction is applied on the AUC sub-surface and
+the unrestricted AUC rate is reported beside it, in
+Table~\ref{tab:mpid}.
 
-\textbf{Applying both corrections at once gives
-\misreportPooledResolvedLatitudePct, which is the number this section's own
-argument asks for.} The two corrections above --- restrict to the axes an
-analyst chooses, and restrict to the cells the band resolves --- were made
-separately. Imposed together they leave \nResolvedLatitude\ cells, of which
-\nDisagreeLatitude\ disagree. That is larger than the resolved-cell rate and
-smaller than the analyst-latitude rate, and it is the rate that answers ``how
-often would a one-number report be wrong about a sign that the data determine,
-on a cell an analyst might actually have stood on''.
+\input{tables/mpid}
+
+\textbf{On the cells the corpus can resolve, the rate is
+\misreportPooledResolvedPct, and it is not an AUC statement.} Of the
+\nResolvedCorpus\ cells whose coverage-calibrated whole-surface band excludes
+zero, \nDisagreeResolved\ disagree in sign with the reference cell. Split by
+instrument that rate runs \misreportResolvedInstrumentMinPct\ on
+\instrumentLeastDisagreement\ to \misreportResolvedInstrumentMaxPct\ on
+\instrumentMostDisagreement: the pooled figure is carried by the instruments
+that are not the one the reference cell is read in, which is
+Remark~\ref{prop:nonid} showing up in the corpus.
+
+\textbf{Imposing every correction this section's own argument asks for leaves
+\nCellsFullyRestricted\ cells, and \nDisagreeFullyRestricted\ of them
+disagrees.} Restrict to the axes an analyst chooses, to the cells the band
+resolves, and to increments that clear the MPID at both ends, all on the AUC
+sub-surface: \nCellsFullyRestricted\ cells remain of \nCellsAuc, and the rate
+is \misreportFullyRestrictedPct. \textbf{We therefore withdraw the claim that
+a one-number report misstates a sign at a rate worth quoting as a headline.}
+On the corpus's own AUC surface, once a sign has to be determined \emph{and}
+worth acting on, disagreement is rare and the denominator is too small to
+carry a rate. Two corollaries follow and neither is comfortable for the
+conventional report. First, the reason so few cells remain is that
+\emph{the data resolve so little}: \nCellsResolvedAuc\ of \nCellsAuc\ AUC
+cells, and \nRefUnresolvedCell\ of the \nPairs\ pairs do not even resolve the
+cell a conventional paper would stand on. Second, \textbf{the surface still
+moves, and by a distance that dwarfs the MPID}: over the cells the band
+resolves, the mean distance from the reference increment is a median
+\madResolvedMedian\ AUC per pair, and \madFullyRestrictedMedian\ under the
+full restriction, both several multiples of the MPID. The one-number report is
+mostly not wrong about the \emph{sign}; it is wrong about the \emph{size}, and
+it does not say which.
 
 \subsection{Against specification-curve analysis as practised}
 \label{sec:sca}
@@ -266,7 +370,11 @@ Table~\ref{tab:sca} runs it unchanged on \emph{every} admitted pair ---
 \nScaPairs\ of them, \nScaPerms\ permutations of a declared
 \nScaCells-cell sub-surface --- beside the region label computed on the same
 cells, which makes ``how often do the two verdicts part company'' a
-measurement rather than an illustration. Two budgets are declared, the
+measurement rather than an illustration. \textbf{That budget floors the
+permutation $p$-value at \scaPFloor}, which is ample for the comparison made
+here --- the test either rejects decisively or does not, and no conclusion
+turns on a $p$-value near the floor --- but a reader wanting to quote a
+permutation $p$-value itself needs more permutations than this. Two budgets are declared, the
 sub-surface and a cap of \nScaMaxCases\ cases per pair that binds on
 \nScaCapped\ of them; Supplement~\ref{app:secondary} gives both.
 
@@ -279,8 +387,8 @@ hurts depends on choices nobody told them about. On \nScaAgreeNull\ pairs
 neither resolves and the cheaper instrument suffices; the rest are mixed.
 
 \textbf{And a specification curve is a statement about the cells it
-enumerates.} On \nScaSubSurfaceDisagree\ pairs every cell of the sub-surface
-has one sign while the \emph{full} surface is sign-changing or conditionally
+enumerates.} On \nScaSubSurfaceDisagree\ of the \nScaPairs\ pairs every
+cell of the sub-surface has one sign while the \emph{full} surface is sign-changing or conditionally
 harmful. Nothing is wrong with either --- they are claims about different
 sets --- which is the point: without a declared denominator and a
 simultaneous band, a curve cannot distinguish ``the sign holds'' from ``the

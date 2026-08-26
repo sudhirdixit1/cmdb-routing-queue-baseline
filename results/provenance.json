@@ -207,5 +207,15 @@
     "at": "2026-08-26T00:45:27Z",
     "note": "Round twenty-five: the shortfall factor is now the (1-alpha) quantile of t_max/q taken WITHIN the replicate, which is the widening that attains nominal coverage; the ratio of the two marginal quantiles that the first version used is not the same number, though on this experiment it rounds the same. Re-derived with --resummarise; no replicate recomputed.",
     "sha": "0b152283cf6de473"
+  },
+  "s42_round26.py": {
+    "at": "2026-08-26T02:35:32Z",
+    "note": "round 26: adds the fully-restricted rate and the per-instrument resolved breakdown",
+    "sha": "6ff2df4c48219779"
+  },
+  "s43_overview.py": {
+    "at": "2026-08-26T03:04:22Z",
+    "note": "round 26 item C1: the overview figure; a schematic, reads no result file",
+    "sha": "88ae80749d0660fb"
   }
 }

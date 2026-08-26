@@ -35,6 +35,8 @@
 \newcommand{\VtauZero}{$+0.2310$}
 \newcommand{\VtauZeroHi}{$+0.2618$}
 \newcommand{\VtauZeroLo}{$+0.2204$}
+\newcommand{\affiliationCity}{Apex}
+\newcommand{\affiliationCountry}{United States}
 \newcommand{\agreeTolerance}{$1.1 \times 10^{-16}$}
 \newcommand{\aiModelDate}{2026-08-24}
 \newcommand{\aiModelId}{claude-opus-5}
@@ -78,7 +80,10 @@
 \newcommand{\calMin}{1.18}
 \newcommand{\calSlope}{0.102}
 \newcommand{\calSlopeSe}{0.005}
+\newcommand{\calSlopeWindow}{$[0.5, 2]$}
 \newcommand{\cardF}{3{,}019}
+\newcommand{\cardFMax}{5{,}245}
+\newcommand{\cardFMedian}{337}
 \newcommand{\cardTauZero}{4{,}034}
 \newcommand{\casePrevalence}{0.400}
 \newcommand{\casePrevalenceTest}{0.372}
@@ -192,7 +197,9 @@
 \newcommand{\exRmax}{0.947}
 \newcommand{\exRmin}{0.200}
 \newcommand{\exRows}{30{,}162}
+\newcommand{\exSbaselineFine}{25.94\%}
 \newcommand{\exSbaselinePct}{25.9\%}
+\newcommand{\exSmetricFine}{25.90\%}
 \newcommand{\exSmetricPct}{25.9\%}
 \newcommand{\exSpopulationPct}{7.2\%}
 \newcommand{\exampleLines}{121}
@@ -209,16 +216,24 @@
 \newcommand{\flipQualityPct}{20.4\%}
 \newcommand{\flipRungPct}{22.2\%}
 \newcommand{\flipSplitPct}{33.5\%}
+\newcommand{\foldInteractionTotalPct}{26.3\%}
+\newcommand{\foldLargestFirstOrderPct}{38.8\%}
+\newcommand{\foldSPipelinePct}{15.2\%}
+\newcommand{\foldSQualityPct}{19.2\%}
+\newcommand{\foldSRungPct}{21.9\%}
+\newcommand{\foldVarRatioPct}{28.3\%}
 \newcommand{\fvVersion}{0.2.0}
 \newcommand{\gridHi}{0.80}
 \newcommand{\gridLo}{0.05}
 \newcommand{\gridShiftMax}{0.0175}
 \newcommand{\gridShiftMaxCase}{0.0114}
 \newcommand{\gridShiftMedian}{0.0111}
-\newcommand{\highlightMaxChars}{74}
-\newcommand{\highlightsList}{\item A field's incremental predictive performance is a surface, not one number \item An exact variance decomposition says which analyst choice moves the answer \item Coverage-calibrated bands say where the sign of that surface is resolved \item Sign misstated for 7.5\% of resolved cells, 3.5\% on ITSM \item A register's worth turns on the decision time and on which target is set}
+\newcommand{\highlightMaxChars}{73}
+\newcommand{\highlightsList}{\item A field's incremental predictive performance is a surface, not one number \item An exact decomposition separates analyst choices from resampling \item Simultaneous bands over the whole declared family, with coverage measured \item Resolved cells sit 0.0430 AUC from the one-number report \item A register's worth turns on the decision time and on which target is set}
 \newcommand{\identityMaxExcess}{exactly zero}
 \newcommand{\inferenceShareMedianPct}{12.5\%}
+\newcommand{\instrumentLeastDisagreement}{ROC AUC}
+\newcommand{\instrumentMostDisagreement}{Nagelkerke $R^2$}
 \newcommand{\instrumentsOosOrderingFails}{Brier skill}
 \newcommand{\instrumentsUniformNotWorst}{Nagelkerke $R^2$}
 \newcommand{\integralContent}{$+0.0486$}
@@ -266,6 +281,10 @@
 \newcommand{\limitNoisyBefore}{$+0.1135$}
 \newcommand{\logAdmittedMaxPrev}{BPIC14/handover}
 \newcommand{\logExcludedAboveMin}{BPIC15\_5/handover}
+\newcommand{\madAllMedian}{0.0303}
+\newcommand{\madFullyRestrictedMedian}{0.0534}
+\newcommand{\madResolvedMax}{0.1127}
+\newcommand{\madResolvedMedian}{0.0430}
 \newcommand{\maxCardBZero}{200}
 \newcommand{\maxExcessOneNumberDesk}{0.412}
 \newcommand{\maxKoverN}{0.324}
@@ -285,10 +304,16 @@
 \newcommand{\minDrawsComplete}{33}
 \newcommand{\minGPresent}{50\%}
 \newcommand{\minPerStratum}{25}
+\newcommand{\minResolvedSharePct}{5\%}
 \newcommand{\minReuseF}{two}
 \newcommand{\minTrainCoverage}{50\%}
+\newcommand{\misreportAucAllPct}{26.5\%}
+\newcommand{\misreportAucMpidPct}{13.2\%}
+\newcommand{\misreportAucResolvedMpidPct}{0.5\%}
+\newcommand{\misreportAucResolvedPct}{2.5\%}
 \newcommand{\misreportConcentratedPct}{13.4\%}
 \newcommand{\misreportEqualPct}{32.8\%}
+\newcommand{\misreportFullyRestrictedPct}{2.4\%}
 \newcommand{\misreportItsmPct}{27.1\%}
 \newcommand{\misreportLatitudePct}{20.0\%}
 \newcommand{\misreportMagnitudeItsmPct}{29.6\%}
@@ -303,8 +328,11 @@
 \newcommand{\misreportPooledResolvedNominalPct}{11.9\%}
 \newcommand{\misreportPooledResolvedPct}{7.5\%}
 \newcommand{\misreportReferencePct}{25.4\%}
+\newcommand{\misreportResolvedInstrumentMaxPct}{11.2\%}
+\newcommand{\misreportResolvedInstrumentMinPct}{2.5\%}
 \newcommand{\modalLeadingAxis}{the split}
 \newcommand{\modalLeadingSharePct}{51\%}
+\newcommand{\mpidAuc}{0.01}
 \newcommand{\nAgreeDisagree}{0}
 \newcommand{\nAgreeQuantities}{266}
 \newcommand{\nAnovaComponents}{4{,}864}
@@ -337,14 +365,22 @@
 \newcommand{\nBootOneFifty}{150}
 \newcommand{\nBootOneThousand}{1{,}000}
 \newcommand{\nBootThirtyThree}{33}
+\newcommand{\nBpicFifteenTwoRows}{832}
 \newcommand{\nCaseQualityPoints}{16}
 \newcommand{\nCaseSweepLevels}{11}
 \newcommand{\nCaseTest}{13{,}637}
 \newcommand{\nCaseTrain}{31{,}818}
+\newcommand{\nCellsAboveMpid}{3{,}291}
+\newcommand{\nCellsAuc}{5{,}808}
+\newcommand{\nCellsBpicFourteen}{9{,}600}
 \newcommand{\nCellsExcludingV}{74}
+\newcommand{\nCellsFigOne}{4{,}800}
+\newcommand{\nCellsFullyRestricted}{42}
 \newcommand{\nCellsLargestPair}{4{,}800}
 \newcommand{\nCellsLatitude}{30}
 \newcommand{\nCellsPerPairMedian}{180}
+\newcommand{\nCellsResolvedAuc}{197}
+\newcommand{\nCellsResolvedMpid}{185}
 \newcommand{\nCellsUnderApplied}{2}
 \newcommand{\nCellsWholeTotal}{3{,}900}
 \newcommand{\nCertificates}{18}
@@ -379,8 +415,14 @@
 \newcommand{\nDecompositions}{304}
 \newcommand{\nDegenerateCellsDca}{841}
 \newcommand{\nDegenerateCellsWhole}{0}
+\newcommand{\nDirectionalLabels}{13}
+\newcommand{\nDisagreeAuc}{1{,}538}
+\newcommand{\nDisagreeFullyRestricted}{1}
 \newcommand{\nDisagreeLatitude}{27}
+\newcommand{\nDisagreeMpid}{434}
 \newcommand{\nDisagreeResolved}{67}
+\newcommand{\nDisagreeResolvedAuc}{5}
+\newcommand{\nDisagreeResolvedMpid}{1}
 \newcommand{\nDisagreeTopThree}{65}
 \newcommand{\nDomains}{6}
 \newcommand{\nDrawRows}{1{,}791{,}720}
@@ -401,6 +443,11 @@
 \newcommand{\nFiellerCase}{30}
 \newcommand{\nFiellerUnbounded}{5{,}282}
 \newcommand{\nFiellerUnboundedCase}{0}
+\newcommand{\nFoldInteractionExceeds}{7}
+\newcommand{\nFoldLeadPairsPipeline}{6}
+\newcommand{\nFoldLeadPairsQuality}{5}
+\newcommand{\nFoldLeadPairsRung}{8}
+\newcommand{\nFoldPairs}{19}
 \newcommand{\nFolds}{five}
 \newcommand{\nGrid}{31}
 \newcommand{\nHarmfulPointwise}{0}
@@ -419,7 +466,12 @@
 \newcommand{\nInvariancePassed}{7}
 \newcommand{\nInvarianceTests}{7}
 \newcommand{\nItsmPairs}{8}
+\newcommand{\nLabelsLostMinOne}{0}
+\newcommand{\nLabelsLostMinTen}{6}
+\newcommand{\nLabelsLostToMinShare}{4}
 \newcommand{\nLayerRowsExcluded}{9}
+\newcommand{\nLayerSubtypeLevels}{65}
+\newcommand{\nLayerTypeLevels}{13}
 \newcommand{\nLearners}{4}
 \newcommand{\nLeaveOneOut}{79}
 \newcommand{\nLintChecks}{15}
@@ -446,20 +498,28 @@
 \newcommand{\nPairsBelowPlaneN}{0}
 \newcommand{\nPairsDcaExcluded}{3}
 \newcommand{\nPairsExcludingV}{3}
+\newcommand{\nPairsFourPipelines}{2}
+\newcommand{\nPairsFourRungs}{2}
 \newcommand{\nPairsInsidePlaneN}{19}
 \newcommand{\nPairsNoResolvedCell}{6}
 \newcommand{\nPairsNoResolvedDisagreement}{8}
 \newcommand{\nPairsOther}{15}
 \newcommand{\nPairsRatioAboveTenth}{10}
+\newcommand{\nPairsRefResolved}{5}
 \newcommand{\nPairsResamplingOverLatitude}{10}
 \newcommand{\nPairsResamplingOverLatitudeCross}{7}
 \newcommand{\nPairsResolveBothSigns}{3}
 \newcommand{\nPairsResolvingAny}{13}
 \newcommand{\nPairsSomeResolvedDisagreement}{5}
+\newcommand{\nPairsThreePipelines}{2}
+\newcommand{\nPairsThreeRealisticRungs}{2}
 \newcommand{\nPairsTwoLearners}{15}
+\newcommand{\nPairsTwoRealisticRungs}{17}
 \newcommand{\nPairsWithNegativeCell}{19}
 \newcommand{\nPenaltyDecades}{five}
+\newcommand{\nPerPairAxes}{5}
 \newcommand{\nPilotBoot}{20{,}000}
+\newcommand{\nPipelineLevelsCase}{4}
 \newcommand{\nPipelines}{12}
 \newcommand{\nPlaneCells}{29}
 \newcommand{\nPlaneCellsOffered}{33}
@@ -468,6 +528,7 @@
 \newcommand{\nPlaneReps}{500}
 \newcommand{\nPlannedContrasts}{5}
 \newcommand{\nPlannedReject}{5}
+\newcommand{\nPooledInteractionExceeds}{13}
 \newcommand{\nPropN}{600}
 \newcommand{\nPropP}{200}
 \newcommand{\nPsiFamilies}{6}
@@ -477,17 +538,21 @@
 \newcommand{\nQbelowEmpWhole}{15}
 \newcommand{\nQbelowEmpWholeAdmissible}{15}
 \newcommand{\nQuality}{10}
+\newcommand{\nQualityFigOne}{10}
 \newcommand{\nQualityKinds}{six}
 \newcommand{\nQualityLeakChecked}{16}
 \newcommand{\nQualityLeakPassed}{16}
 \newcommand{\nQualityLevels}{11}
 \newcommand{\nQualitySeeds}{20}
+\newcommand{\nRefBelowMpid}{8}
 \newcommand{\nRefSensVariants}{26}
+\newcommand{\nRefUnresolvedCell}{14}
 \newcommand{\nRegionChangedByFamily}{9}
 \newcommand{\nRegionChangedByMC}{0}
 \newcommand{\nRegionsChangedByCalibration}{4}
 \newcommand{\nRegisteredCohort}{46{,}606}
 \newcommand{\nRepsBlock}{250}
+\newcommand{\nResamplingLargest}{17}
 \newcommand{\nResolvedCellsCalibrated}{896}
 \newcommand{\nResolvedCellsNominal}{1{,}150}
 \newcommand{\nResolvedCorpus}{896}
@@ -506,6 +571,7 @@
 \newcommand{\nResolvedWithin}{1{,}510}
 \newcommand{\nResultEstates}{18}
 \newcommand{\nResultPairs}{12}
+\newcommand{\nRungsFigOne}{4}
 \newcommand{\nScaAgreeNull}{3}
 \newcommand{\nScaCapped}{7}
 \newcommand{\nScaCells}{24}
@@ -532,6 +598,7 @@
 \newcommand{\nSlopeOutRaw}{92}
 \newcommand{\nSplits}{6}
 \newcommand{\nSpreadExceedsIncrement}{15}
+\newcommand{\nSpreadExceedsRealistic}{7}
 \newcommand{\nStraddleAllMax}{8{,}000}
 \newcommand{\nStraddleHalfMin}{50{,}000}
 \newcommand{\nSurfaceRows}{273{,}024}
@@ -572,6 +639,7 @@
 \newcommand{\nbExcessMean}{0.00000}
 \newcommand{\nbExcessOneNumber}{0.00000}
 \newcommand{\nbExcessUniform}{0.00195}
+\newcommand{\nestedGainInSe}{1.3}
 \newcommand{\noisyGapFixed}{$+0.0025$}
 \newcommand{\noisyGapFixedLarge}{$-0.0007$}
 \newcommand{\noisyGapLarge}{$+0.0329$}
@@ -580,6 +648,7 @@
 \newcommand{\noisyGapTight}{$+0.0361$}
 \newcommand{\oosMajorityAuc}{0.00011}
 \newcommand{\oosMeanAuc}{0.00002}
+\newcommand{\oosMeanVsOneNumber}{0.00448}
 \newcommand{\oosOneNumberAuc}{0.00450}
 \newcommand{\oostMajority}{0.01922}
 \newcommand{\oostMean}{0.0191}
@@ -606,6 +675,8 @@
 \newcommand{\planeNdependenceT}{8.3}
 \newcommand{\planeNtrainHi}{180{,}000}
 \newcommand{\planeNtrainLo}{500}
+\newcommand{\pooledInteractionMedianPct}{56.0\%}
+\newcommand{\pooledLargestFirstMedianPct}{28.7\%}
 \newcommand{\prevAdmittedMax}{0.927}
 \newcommand{\prevExcludedAboveMin}{0.959}
 \newcommand{\prevHi}{0.95}
@@ -677,11 +748,14 @@
 \newcommand{\regretOneNumberExcessPct}{59.7\%}
 \newcommand{\regretOracle}{0.0232}
 \newcommand{\regretUniformRule}{0.0478}
-\newcommand{\releaseTag}{v25.0}
+\newcommand{\releaseTag}{v26.0}
 \newcommand{\repGapMax}{0.223}
 \newcommand{\repGapMedian}{0.067}
 \newcommand{\resolutionLostPct}{23.8\%}
 \newcommand{\resolutionLostToCalibrationPct}{22.1\%}
+\newcommand{\resolvedShareDirectionalMinPct}{1.1\%}
+\newcommand{\resolvedShareMaxPct}{69.2\%}
+\newcommand{\resolvedShareMedianPct}{4.4\%}
 \newcommand{\resultWitnessMax}{5}
 \newcommand{\resultWitnessMin}{0}
 \newcommand{\rhoMax}{0.702}
@@ -700,6 +774,7 @@
 \newcommand{\sRungPct}{5.5\%}
 \newcommand{\sSplitPct}{18.9\%}
 \newcommand{\scaDisagreePair}{BPIC13_incidents/handover}
+\newcommand{\scaPFloor}{0.010}
 \newcommand{\scaPmax}{1.000}
 \newcommand{\scaPmin}{0.010}
 \newcommand{\seedSdMax}{0.0356}
@@ -710,17 +785,24 @@
 \newcommand{\shQualityPct}{2.7\%}
 \newcommand{\shRungPct}{1.9\%}
 \newcommand{\shSplitPct}{9.4\%}
+\newcommand{\shareAnalystRollingPct}{12.9\%}
+\newcommand{\shareAnalystStratumPct}{13.3\%}
+\newcommand{\shareCellsAboveMpidPct}{56.7\%}
 \newcommand{\shareCellsExcludingVPct}{1.9\%}
 \newcommand{\shareCohortPct}{0.0\%}
 \newcommand{\shareCohortTargetPct}{0.7\%}
 \newcommand{\shareCounterfactualCrossPct}{2.7\%}
 \newcommand{\shareCounterfactualPct}{4.2\%}
+\newcommand{\shareCounterfactualStratumPct}{4.2\%}
 \newcommand{\shareDegenerateDcaMaxPct}{17.2\%}
 \newcommand{\shareExcludingVMaxPct}{21.1\%}
 \newcommand{\shareLatitudeCrossPct}{19.2\%}
 \newcommand{\shareLatitudePct}{11.1\%}
+\newcommand{\shareMixedStratumPct}{4.5\%}
 \newcommand{\shareResamplingCrossPct}{9.4\%}
 \newcommand{\shareResamplingPct}{18.9\%}
+\newcommand{\shareResamplingRollingPct}{71.0\%}
+\newcommand{\shareResamplingStratumPct}{71.7\%}
 \newcommand{\shareStraddleAtHalfPct}{1.6\%}
 \newcommand{\shareTargetPct}{99.3\%}
 \newcommand{\shiftMedian}{-0.0001}
@@ -760,6 +842,7 @@
 \newcommand{\simGridWorstN}{8{,}000}
 \newcommand{\simGridWorstRatio}{0.377}
 \newcommand{\simKMax}{3{,}019}
+\newcommand{\simMcSe}{0.7\%}
 \newcommand{\simNMax}{8{,}000}
 \newcommand{\simNoiseRate}{20\%}
 \newcommand{\simPrevalence}{0.02}
@@ -788,10 +871,13 @@
 \newcommand{\spreadHeadline}{0.073 AUC at the median pair and 0.252 at the widest}
 \newcommand{\spreadMax}{0.252}
 \newcommand{\spreadMedian}{0.073}
+\newcommand{\spreadRealisticMax}{0.2495}
+\newcommand{\spreadRealisticMedian}{0.0055}
 \newcommand{\straddleGapHi}{0.976}
 \newcommand{\straddleGapLo}{0.078}
 \newcommand{\straddleMin}{0.90}
 \newcommand{\straddleRatio}{0.125}
+\newcommand{\stratumPartitionError}{$4.4 \times 10^{-16}$}
 \newcommand{\targetAgreement}{51\%}
 \newcommand{\targetAgreementHi}{66\%}
 \newcommand{\targetAgreementLo}{43\%}

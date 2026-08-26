@@ -42,27 +42,27 @@ Reassignment to another group before resolution has prevalence
 \casePrevalence; handover between activity groups, under the registered rule,
 has prevalence \prevRegisteredHandover. They are not the same question and the
 register is not worth the same to them. Two further candidate explanations
-were checked and are not explanations: the fields reached by the two analyses
-agree on every row.
+were checked and neither is one: the two analyses reach the same attribute
+values on every row, so it is not a data-preparation difference; and they run
+the same pipeline at the same reference cell, so it is not a modelling
+difference.
 
 \textbf{An axis nobody declares, and this paper was standing on it.} Both
 analyses sort the log in time and split at seventy per cent of the row order,
-and \nTiedTimestamps\ incidents share their timestamp with another. How those
-ties are broken decides which cases fall either side of the split, and the
-sort the case study originally used was not stable, so its tie order was
-neither declared nor reproducible: it printed \VpublishedTauTwo\ where the two
+and \nTiedTimestamps\ incidents share their timestamp with another; the sort
+the case study originally used was not stable, so its tie order was neither
+declared nor reproducible, and it printed \VpublishedTauTwo\ where the two
 declared rules both give \VTtwoKnow. Over \nTiebreakDraws\ random tie-breaks
-the increment at the knowledge rung ranges over \tiebreakRange\ AUC with a
-standard deviation of \tiebreakSd, and it does not change sign
-(\nTiebreakPositive\ of \nTiebreakDraws\ draws are positive), so no conclusion
-here turns on it --- but it is a quarter of the point estimate's own
-magnitude, produced by a choice no reporting standard asks anyone to state.
-Every number in this section is computed under a declared tie-break, by
-incident identifier, on the estate's cohort and reassignment target, and every
-caption says so; the registered cohort's answers are in
-Section~\ref{sec:multilog} with the other \nPairs\ pairs. The decision-time
-result below is therefore a statement about a routing decision on this estate,
-not about handover in general.
+the increment ranges over \tiebreakRange\ AUC without changing sign
+(\nTiebreakPositive\ of \nTiebreakDraws\ draws positive), so no conclusion
+turns on it --- but it is a quarter of the point estimate's own magnitude,
+produced by a choice no reporting standard asks anyone to state, which is why
+Section~\ref{sec:standard} now asks. Every number in this section is computed
+under a declared tie-break, by incident identifier, on the estate's cohort and
+reassignment target; the registered cohort's answers are in
+Section~\ref{sec:multilog} with the other \nPairs\ pairs, so the decision-time
+result below is a statement about a routing decision on this estate and not
+about handover in general.
 
 \subsection{Three decision times}
 \label{sec:twodecision}
@@ -70,8 +70,14 @@ not about handover in general.
 A decision time fixes three things at once --- which cases are in scope, what
 is known about them, and which fields are admissible --- and the estate's
 surface is estimated at each of three moments.
+
+\input{tables/tau}
+
 \textbf{The register's worth turns on which one the analyst occupies}: at
-$\tau_0$ it is \VtauZero\ [\VtauZeroLo, \VtauZeroHi] over \nTauZero\ calls, at
+$\tau_0$ it is \VtauZero\ [\VtauZeroLo, \VtauZeroHi] over \nTauZero\
+\emph{interactions} --- calls to the desk, of which only a minority ever
+become incidents, which is why that population is far larger than the
+\nTauTwo\ incidents the later moments carry --- at
 $\tau_1$ \VtauOne\ [\VtauOneLo, \VtauOneHi], and at $\tau_2$ against the
 intake block plus the group it is \VTtwoGroup\ [\VTtwoGroupLo,
 \VTtwoGroupHi] while against the block, the group and the knowledge reference
@@ -117,26 +123,119 @@ severity integrals \integralTime, \integralContent\ and
 \integralPropensity\ against \integralMaskRare\ for the independent long-tail
 mechanism, which they bracket rather than track. A quality axis built only
 from independent coin flips measures one corner of the question.
+
+\textbf{Which halves are degraded, exactly.} A degraded register is a state of
+the world and not a training accident, so \textbf{the mechanism is applied to
+both halves of the data}: the same values are missing, stale, corrupted or
+split at fit time and at evaluation time, and the increment measures a model
+built on a degraded register and deployed against one. What is estimated from
+the \emph{training half alone} is the mechanism's \emph{parameters} --- which
+values fall in the long tail, which are common, the frequency table a
+corruption draws from, the set of identities a reconciliation failure splits
+--- so that no test outcome and no test-half content can reach the
+counterfactual. That property is executed rather than asserted: the test half
+is perturbed, the mechanism is re-applied, and the training half's degraded
+values are required to be identical, on every mechanism and level. The
+distinction matters because the two designs measure different things, and the
+earlier wording of this paragraph did not make clear which was in force: a
+mechanism applied to training alone would measure a train--test mismatch,
+which is not the question a register's owner is asking.
 Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every mechanism and
 level.
 
 \subsection{What this says to a configuration management programme}
+\label{sec:programme}
 
-The estate's own reading is in Supplement~\ref{app:programme}: what the
-register is worth here, at which decision time, under which target, and what
-a programme would have to change for that answer to move. It is a reading of
-one estate and is offered as one.
+This subsection is the reading a service-management audience will want, stated
+in the estate's own vocabulary. It is a reading of \emph{one} estate on
+\emph{one} public log and it is offered as one; Section~\ref{sec:lim} says
+what a second would need.
+
+\paragraph{Which field is which}
+The prediction is: \emph{will this case be reassigned to another group before
+it is resolved?} The \textbf{register} $f$ is the affected configuration
+item, \cardF\ distinct values. Its \textbf{coarsenings} are the item's type
+(\nLayerTypeLevels\ values) and subtype (\nLayerSubtypeLevels), each given its
+own role rather than swept into the baseline. The \textbf{free field} $g$ is
+the assignment group --- the routing queue, which is recorded without a
+configuration management database and is the field the register has to beat.
+The \textbf{intake block} $B_0$ is what the desk records when the case
+arrives: category, impact, urgency and priority. The \textbf{knowledge
+reference} is a pointer to a knowledge-base article, admitted as a further
+rung because whether it is available at the moment of decision is exactly the
+question Section~\ref{sec:quality} cannot settle.
+
+\paragraph{The three moments, in service-desk terms}
+$\tau_0$ is \emph{an interaction is logged}: somebody has contacted the desk,
+every call is in scope, and \nTauZero\ of them are.
+$\tau_1$ is the same moment restricted to the calls that will escalate ---
+the same information, a different population. $\tau_2$ is \emph{an incident
+record is created}: \nTauTwo\ cases, more known about each, and
+\nTauTwoUnmatched\ of them with no interaction record at all.
+Table~\ref{tab:tau} is the ladder. \textbf{Read down it and the register's
+worth falls from \VtauZero\ AUC to \VtauOne\ to \VTtwoGroup\ once the routing
+queue is in the baseline, and to \VTtwoKnow\ --- not resolvably different from
+zero --- once the knowledge reference is admitted too.} A programme that
+justifies the register on a first-touch number and then deploys the model at
+incident creation is quoting the top of a ladder and standing on the bottom of
+it; Section~\ref{sec:nbregret} prices that in cases per thousand:
+\promisedPerThousand\ true positives promised per thousand cases against
+\deliveredPerThousand\ delivered.
+
+\paragraph{Which layer of the register pays}
+A programme does not choose whether to have a configuration management
+database; it chooses how much of one to populate and maintain, and that is a
+choice among \emph{layers}. Over the same intake baseline on the reassignment
+question, the item's \emph{type} is worth \layerTypeHandover\ AUC, its
+\emph{subtype} \layerSubtypeHandover, and the item itself
+\layerItemHandover; with the subtype already in the model the item still adds
+\layerItemMarginalHandover. \textbf{On this estate and this question the
+coarse layers are not free, and the finest layer is not redundant}: about half
+of what the item is worth over the intake block is already reachable from a
+thirteen-value type field, and the item still adds \layerItemMarginalHandover\
+once the subtype is in the model. On the duration question the same ladder
+gives \layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration,
+with \layerItemMarginalDuration\ marginal --- there the coarse layers reach
+about a \emph{third} of the item's increment and the item carries the rest.
+\textbf{So the split between the layers is a property of the target and not of
+the register}: the same three fields on the same estate divide their worth one
+way for reassignment and another for duration.
+Supplement~\ref{app:layers} carries both, and two further logs on which every
+coarse layer is worth essentially nothing while the finest one is not. In the vocabulary of a layered service model
+--- technical service, application service, configuration item --- the finding
+is that the layers are not substitutes and that which one pays is a property
+of the question being asked, not of the estate. It is not a procurement
+conclusion: nothing here prices what a layer costs to populate or to keep
+accurate, and Section~\ref{sec:lim} says so.
+
+\paragraph{What would have to change for the answer to move}
+Three things, in the order a programme could act on them. \textbf{A
+timestamped field history.} The knowledge reference decides this estate's
+answer and its admissibility is settled here by probability rather than by
+evidence; a register that records when each field value was written turns
+Section~\ref{sec:quality}'s tipping-point analysis into a measurement.
+\textbf{A complete population at the decision time.} \nTauTwoUnmatched\ of the
+incidents have no interaction record, and the $\tau_1$-to-$\tau_2$ step is an
+information step only on the cases that have both; a desk that can identify
+its own cases across the two systems recovers that comparison. \textbf{A
+target the desk actually acts on.} The register's sign changes with the
+target on this log (Section~\ref{sec:cohort}), and reassignment is the
+question this desk routes on; a programme evaluating a register against a
+generic handover rule is answering a question nobody asked it.
 
 \subsection{The absorption, and why the ratio is secondary}
+\label{sec:absorption}
 
 The quantity a report of this kind usually leads with is the \emph{relative}
 reduction $R$: the share of the register's apparent value that a single free
 field absorbs. The absolute absorption $D = V(f \mid B_0) - V(f \mid B_1)$ is
 reported first, with its own interval, and $R$ second with a Fieller set and
 the set's kind. On this estate at the reference cell $D$ is \Dabs\ [\DabsLo,
-\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set;
-\nFiellerUnboundedCase\ of the \nFiellerCase\ reductions this ladder produces
-have a Fieller set that is not a bounded interval, and for those a percentile
-interval is not a summary of anything. Across the corpus the figure is
-\nFiellerUnbounded\ of \nFieller, and the full ladder is
-Table~\ref{tab:absorption}.
+\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set. This ladder is the
+favourable case: \nFiellerUnboundedCase\ of the \nFiellerCase\ reductions it
+produces have a Fieller set that is not a bounded interval, because the
+denominator is resolvably positive at every rung of it. Across the corpus that
+is not so --- \nFiellerUnbounded\ of \nFieller\ reductions have a non-bounded
+set, and a percentile interval reports a bounded one for every one of them ---
+which is why the ratio is secondary everywhere and not only here. The full
+ladder is Table~\ref{tab:absorption}.

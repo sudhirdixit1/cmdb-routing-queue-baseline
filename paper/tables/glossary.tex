@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering\footnotesize
+\setlength{\tabcolsep}{5pt}%
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.20\linewidth}>{\raggedright\arraybackslash}p{0.44\linewidth}>{\raggedright\arraybackslash}p{0.28\linewidth}}
+\toprule
+term & what it means & on the case study's log \\
+\midrule
+register $f$ & the recorded field whose worth is in question: high-cardinality, maintained, reused across cases & the affected configuration item \\[2pt]
+free field $g$ & a resource-like field that is recorded anyway and that the register has to beat & the assignment group \\[2pt]
+intake block $B_0$ & what is known when the case arrives, excluding the register and the free field & category, impact, urgency, priority \\[2pt]
+rung & one baseline in the nested ladder $B_0 \subset B_1 \subset \cdots$ the increment is measured against & intake $+$ group $+$ knowledge reference \\[2pt]
+instrument & the scalar metric an increment is read in; five are declared and they are not on a common scale & ROC AUC \\[2pt]
+cell & one complete assignment to every varied axis: a point of the surface & one-hot logistic, holdout, clean register, intake $+$ group, AUC \\[2pt]
+specification surface & the map from cells to increments over a declared design space & the \nCellsFigOne\ cells of Figure~1 \\[2pt]
+declared / computational / inference surface & what is admissible, what was computed, and what carries bootstrap draws --- three denominators, audited apart & \nDeclaredAdmissibleScalar, the same, and \nInferenceScalar \\[2pt]
+resolved & the cell's simultaneous band excludes zero, so the data determine the sign of that cell's increment & \nCellsResolvedAuc\ of \nCellsAuc\ AUC cells corpus-wide \\[2pt]
+family $\mathcal{F}$ & the set of cells a claim quantifies over, which is what a simultaneous band must cover & a median \familySizeMedian\ cells per pair \\[2pt]
+resolution region & the label a surface earns from its resolved cells: uniformly or conditionally beneficial or harmful, sign-changing, unresolved & sign-changing \\[2pt]
+robustness index $\rho$ & (beneficial $-$ harmful) $/\,|\mathcal{F}|$, always printed with the counts behind it & see Table~\ref{tab:triple} \\[2pt]
+MPID & the minimal practically important difference, declared before any disagreement is counted & \mpidAuc\ AUC \\[2pt]
+\bottomrule
+\end{tabular}
+\caption{THE VOCABULARY, IN ONE PLACE. Every term this paper uses in a sense a reader could not guess, with the case study's own value for it. The terms are defined again where they are first used; this table exists so that a reader who meets one in Section~\ref{sec:multilog} does not have to find that place.}
+\label{tab:glossary}
+\end{table}

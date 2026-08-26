@@ -67,7 +67,7 @@ four hours. Do not remove those lines.
 
 ---
 
-## 3. Where it stands: three blind referees, three times "major revision"
+## 3. Where it stands: FOUR blind referees, four times "major revision"
 
 The paper has been read by **three independent referees**, each blind to its
 history, each with repository access. **All three returned major revision.
@@ -82,6 +82,27 @@ The trend is the important part, and you should not talk yourself out of it:
 | round 22 | 6 | a region label ranged over cells the design space excludes |
 | round 23 (two referees) | 13 | the information step was overstated by ¾; the critical value is contradicted by its own second estimate |
 | round 24 | 7 | **a sentence about coverage that was false against this repo's own grid** |
+| round 26 | 16 | **two of the paper's own headlines do not survive the report** |
+
+**Round twenty-six is the one to read first.** Its referee found that the
+split axis is an error stratum — five of its six levels are folds on the same
+data — and that treating it as one reverses the decomposition's headline: the
+higher-order share falls from 52.5% to 26.3% and no longer exceeds the largest
+first-order index. It also found that the sign-disagreement rate counts flips
+between two increments that both round to zero; under the three restrictions
+the paper's own argument implies, the corpus retains 42 cells and one of them
+disagrees, and **the rate is withdrawn as a headline**. What replaced it is a
+magnitude: resolved cells sit a median 0.0430 AUC from the reference. Both
+withdrawals are in the abstract, the highlights, §6, §11 and §12. See
+`REFEREE-LOG.md` round 26 and `submission/response_to_review26.md`.
+
+**Four of that report's Phase-A items are not done and need the corpus**:
+A1 (a block-weighted bootstrap, which removes the refit's displacement at
+source), A2 (≥400 draws on a designed inference surface, which is what would
+let the bands carry a coverage claim), A6 (a both-halves degradation re-run —
+though see R26.3: the code already does this and only the sentence was wrong)
+and A7 (a prefix axis). A1 and A2 are the highest-value work left in the
+project.
 
 On the twenty-fourth pass a first-time reader still found a false statement.
 Assume more remain. **Read the rendered PDF pages, not just the source** —
@@ -428,6 +449,38 @@ and fails when they drift.
    down what set it ranges over.
 8. Bash heredocs here mangle backslashes — use the Write/Edit tools for
    anything containing LaTeX, and beware `\r`/`\n` inside Python strings.
+
+---
+
+## 7a. Round twenty-six's new files and gates
+
+New analysis: `scripts/s42_round26.py` (the four-way variance partition, the
+MPID rates, the axis inventory, the resolution triple, the realistic-rung
+baseline spread — all from committed results, ~1 second, no data needed) and
+`scripts/s43_overview.py` (the overview figure; a schematic, reads no result
+file). New macros and tables: `scripts/round26_numbers.py`, which writes
+`tables/roles.tex`, `tables/strata.tex`, `tables/mpid.tex`,
+`tables/triple.tex` and `tables/glossary.tex`.
+
+New gate: `scripts/round26_verify.py`, three conditions, called from
+`verify_numbers`. One of them exists because this round broke it: a caption
+that states a product must reach its own total. Writing Figure 1's caption we
+used the macro for the *crossed* pipeline factorial (12) where that pair runs
+four pipeline levels, and printed a product that missed its stated total
+threefold. Every macro was right and the sentence was not — the one failure
+mode the no-typed-numbers rule does not cover. All three conditions were
+exercised against injected errors before being accepted.
+
+`texlint` now collapses whitespace in the section names it writes to
+`results/section_words.csv`: a section title wrapped across two source lines
+put a newline inside a CSV field and killed `check_response_refs` with a
+`ValueError` rather than a diagnosis.
+
+The affiliation's city and country are declared at the top of
+`round26_numbers.py` (Apex, United States) because no result file carries
+them; setting either to `None` prints the visible `??` marker on page 1 and
+fails `verify_numbers`, which is the intended behaviour for a value the
+repository cannot derive. **There are no unresolved macros.**
 
 ---
 

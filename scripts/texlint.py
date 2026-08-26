@@ -678,9 +678,14 @@ def main(argv=None):
     #  table has a file to be checked against and cannot go stale silently.
     out = ROOT / "results" / "section_words.csv"
     if out.parent.exists():
+        #  A section title wrapped across two source lines carries a newline
+        #  into the field, which makes this file no longer a CSV and killed
+        #  check_response_refs with a ValueError rather than a diagnosis.
+        #  Whitespace is collapsed here so a title's line breaks cannot reach
+        #  a reader of this file.
         out.write_text("section,words\n" + "".join(
-            '"%s",%d\n' % (s.replace('"', "'"), n) for s, n in rows),
-            encoding="utf-8")
+            '"%s",%d\n' % (" ".join(s.replace('"', "'").split()), n)
+            for s, n in rows), encoding="utf-8")
     if a.sections:
         print("  -- words per section --")
         for s, n in rows:

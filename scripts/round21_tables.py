@@ -703,11 +703,14 @@ def write_round25(mn):
         (r"Resolution region and $\rho$",
          "which way the surface points where the data settle it, and how "
          "much of it they settle",
-         r"\ref{sec:regionsdef}", r"\ref{tab:master}",
+         r"\ref{sec:regionsdef}", r"\ref{tab:triple}",
          r"a function of the band; no further refit"),
-        ("Specification regret",
+        #  ROUND TWENTY-SIX.  Regret is a robustness check and not a
+        #  reporting object; the contribution list says so two pages earlier
+        #  and this table contradicted it in its own caption.
+        (r"Specification regret \emph{(a check, not an object)}",
          "what choosing one specification costs against the best one, on a "
-         "scale a decision can use",
+         "scale a decision can use --- it returns a null on this corpus",
          r"\ref{sec:regretdef}", r"\ref{tab:regret}",
          r"exact; no refit, on the surface already computed"),
     ]
@@ -736,7 +739,8 @@ def write_round25(mn):
         "what it costs \\\\\n\\midrule\n"
         + body +
         "\n\\bottomrule\n\\end{tabular}\n"
-        "\\caption{The four reporting objects this paper supplies, what each "
+        "\\caption{THE REPORTING OBJECTS. The three this paper supplies and "
+        "the fourth it retains as a robustness check, what each "
         "is for, where it is defined, where it is reported on this corpus, "
         "and what it costs; the two middle columns are the section it is "
         "defined in and the table that reports it. Only the second costs "
