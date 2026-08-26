@@ -157,46 +157,20 @@ value goes from \maxTSurfaceMedian\ to \qCalibratedMedian; the corpus resolves
 quoted in this paper is the calibrated one}; Table~\ref{tab:calbands} prints
 the nominal columns beside them.
 
-\textbf{The factor's reach in $n$, and the two things widening the plane
-found.} The plane is fitted at training sizes \planeNtrainLo\ to
-\planeNtrainHi\ and this corpus runs \corpusNtrainLo\ to \corpusNtrainHi, so
-all \nPairsInsidePlaneN\ of the \nPairs\ pairs lie inside the range the
-factor is identified on. That is the arrangement a calibration needs, and it
-is not the end of the matter.
-
-\textbf{$K/n$ is not sufficient, and a plane wide enough in $n$ can now show
-it.} Adding $\log n$ to the fit gives a coefficient of
-\planeNdependenceBeta\ at $t = \planeNdependenceT$: at a fixed ratio the
-widening a pair needs grows with its sample size. The design that isolates it
-is the ladder, three ratios held fixed while $n$ moves over two orders of
-magnitude, and along it the measured factor moves by \ladderSpreadMax\ ---
-\ladderSpreadSE\ combined Monte Carlo standard errors --- while coverage
-itself moves by \ladderCoverageSpreadPct. The applied curve is a function of
-the ratio alone, so it carries that dependence as a residual: it sits below
-the measured factor's own lower confidence limit on \nCellsUnderApplied\ of
-the plane's cells, by at most \maxShortfallApplied, and both are large-$n$
-cells. A two-covariate fit in $\log(K/n)$ and $\log n$ does not repair it
---- it is worse than the monotone curve on every cell-weighted criterion
-(Supplement~\ref{app:calibration}) --- so the residual is reported rather
-than fitted away.
-
-\textbf{And on \nPlaneCellsUndefined\ of the \nPlaneCellsOffered\ cells the
-factor does not exist at all.} The inflation factor is a widening \emph{about
-the point estimate}, and Section~\ref{sec:boot} shows that past a crossing in
-$n$ the basic interval stops containing the point estimate. Where it does,
-there is no widening about $\hat{V}$ that attains nominal coverage and the
-quantity this calibration estimates is undefined. All
-\nPlaneCellsUndefined\ such cells are at \nStraddleHalfMin\ training rows or
-more. The admission rule --- a cell enters the plane when the interval
-straddles its estimate in at least \straddleMin\ of replicates --- decides
-nothing: the rejected cells reach \straddleGapLo\ and the admitted ones start
-at \straddleGapHi, so any threshold between those two gives this plane.
-Section~\ref{sec:lim} carries what that leaves the corpus's largest pairs.
-
-Under the calibrated band the region counts are: conditionally beneficial,
-\nCondBeneficialCal; sign-changing, \nSignChangingCal; conditionally harmful,
-\nCondHarmfulCal; unresolved, \nUnresolvedCalibrated; and the median
-robustness index is \rhoMedianCalibrated.
+\textbf{The factor's reach, and what widening the plane in $n$ found.} It is
+fitted at training sizes \planeNtrainLo\ to \planeNtrainHi\ against a corpus
+running \corpusNtrainLo\ to \corpusNtrainHi, so all \nPairsInsidePlaneN\ of
+the \nPairs\ pairs lie inside the range that identifies it. Two things took
+the place of the extrapolation that used to sit here. \textbf{$K/n$ is not
+sufficient}: $\log n$ enters the fit at $t = \planeNdependenceT$, and the
+applied curve, a function of the ratio alone, sits below the measured
+factor's own lower confidence limit on \nCellsUnderApplied\ of the plane's
+cells. \textbf{And on \nPlaneCellsUndefined\ of \nPlaneCellsOffered\ cells
+the factor does not exist}, because past a crossing in $n$ the basic interval
+stops containing the point estimate a widening would be about
+(Section~\ref{sec:boot}). Supplement~\ref{app:calibration} carries the
+ladder, the two-covariate comparison and the admission rule;
+Section~\ref{sec:lim} carries what it leaves the corpus's largest pairs.
 
 \textbf{Of the \nPairsResolvingAny\ pairs that resolve anything,
 \nCondBeneficialCal\ have no harmful cell and \nPairsResolveBothSigns\ resolve

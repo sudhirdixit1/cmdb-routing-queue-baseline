@@ -70,34 +70,19 @@ levels --- the cardinality of the case study's own register --- and the block
 length is varied around its rule of thumb.
 
 \textbf{The ratio $K/n$ captures most of the dependence, and not all of it.}
-Across the plane the basic interval covers a median \coverageGridMedian\ and a
-minimum \coverageGridMin, the last at a ratio of \simGridWorstRatio. Below
-$K/n = \simGridRatioSafe$ its coverage lies between \coverageGridSafeMin\ and
-\coverageGridSafeMax\ --- short of nominal everywhere, by about one Monte
-Carlo standard error at \nPlaneGridReps\ replicates --- and it has fallen
-below three quarters by \simGridRatioBad. The ratio is the right first-order
-summary --- the mechanism of Section~\ref{sec:boot} is why, and
-varying $n$ alone would not have exposed the regime the corpus occupies ---
-but it is not sufficient, and the plane says so in two places. The two cells
-closest to each other in ratio --- a register of \simGridSameRatioKa\ levels
-at \simGridSameRatioNa\ training rows, and one of \simGridSameRatioKb\ at
-\simGridSameRatioNb\ --- cover \simGridSameRatioCovA\ and
-\simGridSameRatioCovB, a gap of \simGridSameRatioGapSE\ combined Monte Carlo
-standard errors; and holding the register at \simGridFixedK\ levels while
-moving the training half from \simGridFixedNa\ rows to \simGridFixedNb\ moves
-coverage from \simGridFixedCovA\ to \simGridFixedCovB, so $n$ carries signal
-of its own. The calibration of Section~\ref{sec:regions} is a function of the ratio
-alone and therefore inherits this residual, which
-Section~\ref{sec:lim} states.
-
-\textbf{Where this corpus sits, and what is done about it.} The median
-log--target pair here has $K/n = \corpusRatioMedian$, the range runs
-\corpusRatioMin\ to \corpusRatioMax, and \nPairsRatioAboveTenth\ of \nPairs\
-pairs are above a tenth. Most of this corpus therefore sits at or beyond the
-ratio at which coverage starts to fall, and a nominal band on those pairs is
-\emph{narrower} than a $95\%$ interval should be --- the anti-conservative
-direction, which inflates the count of resolved cells. The plane is dense
-enough to calibrate against, and Section~\ref{sec:regions} does.
+Across the plane the basic interval covers a median \coverageGridMedian\ and
+a minimum \coverageGridMin, the last at a ratio of \simGridWorstRatio, and it
+is short of nominal everywhere. It is not sufficient: two cells at nearly the
+same ratio cover \simGridSameRatioCovA\ and \simGridSameRatioCovB, a gap of
+\simGridSameRatioGapSE\ combined Monte Carlo standard errors, and holding the
+register fixed while moving the training half from \simGridFixedNa\ rows to
+\simGridFixedNb\ moves coverage from \simGridFixedCovA\ to
+\simGridFixedCovB. \textbf{This corpus sits in the regime where that
+matters}: its median pair has $K/n = \corpusRatioMedian$ and
+\nPairsRatioAboveTenth\ of \nPairs\ pairs are above a tenth, so a nominal
+band on them is \emph{narrower} than a $95\%$ interval should be.
+Section~\ref{sec:regions} calibrates against the plane and
+Supplement~\ref{app:calibration} gives it in full.
 
 \textbf{Where the interval stops containing its own estimate.} The denser
 plane the coverage calibration of Section~\ref{sec:regions} is fitted on ---

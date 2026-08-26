@@ -384,50 +384,10 @@ reader can multiply its level counts and obtain the cell counts reported in
 Section~\ref{sec:denominator}; that this multiplication works is the first
 check the verification harness runs.
 
-\paragraph{On the measure}
-A design space is a set; a decomposition, a weighted mean or a robustness
-index needs a \emph{distribution} on it, and ``uniform over the cells I
-enumerated'' is not neutral --- it moves if a level is duplicated, if five
-folds are written as five levels rather than one, or if a grid is refined.
-This paper separates the weight on an axis from the weights within it,
-declares three product measures and an envelope over a fourth
-(Section~\ref{sec:sobol}), and reports every weighted quantity under all of
-them.
-
-Two of these axes deserve comment because they are usually not treated as
-design choices at all.
-
-The \textbf{decision time} $\tau$ fixes which fields exist when the prediction
-is made. It is not the same as the split rule and it is not a data-cleaning
-detail: moving $\tau$ later in a process admits fields written in between, and
-Section~\ref{sec:cmdb} is a case in which that single move takes a field's
-increment from resolvably positive to indistinguishable from zero.
-
-The \textbf{register quality} $q$ acts on $f$ rather than on the comparison. A
-field that is a lookup into a maintained register --- a configuration item, a
-customer master record, a product catalogue --- inherits that register's
-completeness and accuracy. We implement \nQualityKinds\ mechanisms besides the
-clean field, each parameterised by the training half alone: population loss
-with the long tail absent, with the core absent, and at random; identity
-error, in which a share of rows carry a wrong value drawn from the training
-alphabet; reconciliation failure, in which a share of identities exist twice;
-and staleness, in which an identity is present only if the register had
-already seen it by the split point. The first three model coverage, the next
-two accuracy, the last discovery; the taxonomy follows the event-log
-imperfection patterns of \citet{suriadi2017imperfection} where they apply.
-
-Real registers do not fail at random, so three \emph{further} mechanisms make
-the missingness depend on something: on \emph{time}, where a row's probability
-of carrying an identity rises with its position in the log; on \emph{content},
-where coverage depends on the item's recorded type through a map estimated on
-the training half; and on a \emph{propensity} built from the intake block,
-which makes missingness correlated with the outcome without ever reading a
-test outcome. Every mechanism is swept over \nQualityLevels\ severities and
-every stochastic one repeated over \nQualitySeeds\ seeds, and each is verified
-by execution to be a function of the training half alone --- perturbing the
-test half and re-degrading must leave the training half's degraded values
-identical, which \texttt{results/s01\_trainonly.csv} records over \nTrainOnly\
-checks.
+The measure placed on the axis levels is a modelling choice and is declared
+rather than left implicit; Supplement~\ref{app:measurechoice} states it, and
+says why the decision time and the register's quality are axes of the
+estimand rather than preliminaries to it.
 
 \subsection{What the surface estimates}
 \label{sec:estimand}
@@ -843,23 +803,14 @@ produce. At \nDrawsPlanned\ draws the smallest attainable Holm-adjusted value
 over five tests is \pMinAttainableHolm, and \nPlannedReject\ of the five
 survive.
 
-\paragraph{A one-sided $p$-value and a two-sided basic interval disagree on
-\textsf{PC3}, and the interval decides}
-\textsf{PC3}'s one-sided $p$ is \pcThreePraw\ (Holm-adjusted
-\pcThreePholm) and its two-sided basic interval, [\pcThreeLo, \pcThreeHi],
-contains zero. Both come from the same \nDrawsPcThree\ draws. The $p$-value
-says where those draws lie --- their central ninety-five per cent runs
-\pcThreeQlo\ to \pcThreeQhi, entirely above zero --- while the interval says
-where the \emph{estimand} lies, obtained by pivoting that distribution about
-the estimate; the draws sit \pcThreeShift\ AUC \emph{above} the estimate, the
-upward shift Section~\ref{sec:boot} diagnoses, so pivoting moves the interval
-down by twice that shift and its lower limit crosses zero even though almost
-no draw does. \textbf{A contrast is called resolved only when the interval
-says so}, and \textsf{PC3} is not resolved on any of the four
-cohort-and-target combinations Section~\ref{sec:cohort} reports. Every other
-comparison here is \emph{exploratory}, labelled as such where it appears, and
-carries no multiplicity correction, because none would be meaningful over a
-surface enumerated in full.
+A one-sided $p$-value and a two-sided basic interval are different
+statements about the same draws, and on \textsf{PC3} they disagree; \textbf{a
+contrast is called resolved only when the interval says so}, and
+\textsf{PC3} is not resolved on any of the four cohort-and-target
+combinations Section~\ref{sec:cohort} reports.
+Supplement~\ref{app:pcdetail} works the disagreement through. Every other
+comparison here is \emph{exploratory} and carries no multiplicity correction,
+because none would be meaningful over a surface enumerated in full.
 
 \subsection{The sensitivity decomposition}
 \label{sec:sobol}
@@ -1274,46 +1225,20 @@ value goes from \maxTSurfaceMedian\ to \qCalibratedMedian; the corpus resolves
 quoted in this paper is the calibrated one}; Table~\ref{tab:calbands} prints
 the nominal columns beside them.
 
-\textbf{The factor's reach in $n$, and the two things widening the plane
-found.} The plane is fitted at training sizes \planeNtrainLo\ to
-\planeNtrainHi\ and this corpus runs \corpusNtrainLo\ to \corpusNtrainHi, so
-all \nPairsInsidePlaneN\ of the \nPairs\ pairs lie inside the range the
-factor is identified on. That is the arrangement a calibration needs, and it
-is not the end of the matter.
-
-\textbf{$K/n$ is not sufficient, and a plane wide enough in $n$ can now show
-it.} Adding $\log n$ to the fit gives a coefficient of
-\planeNdependenceBeta\ at $t = \planeNdependenceT$: at a fixed ratio the
-widening a pair needs grows with its sample size. The design that isolates it
-is the ladder, three ratios held fixed while $n$ moves over two orders of
-magnitude, and along it the measured factor moves by \ladderSpreadMax\ ---
-\ladderSpreadSE\ combined Monte Carlo standard errors --- while coverage
-itself moves by \ladderCoverageSpreadPct. The applied curve is a function of
-the ratio alone, so it carries that dependence as a residual: it sits below
-the measured factor's own lower confidence limit on \nCellsUnderApplied\ of
-the plane's cells, by at most \maxShortfallApplied, and both are large-$n$
-cells. A two-covariate fit in $\log(K/n)$ and $\log n$ does not repair it
---- it is worse than the monotone curve on every cell-weighted criterion
-(Supplement~\ref{app:calibration}) --- so the residual is reported rather
-than fitted away.
-
-\textbf{And on \nPlaneCellsUndefined\ of the \nPlaneCellsOffered\ cells the
-factor does not exist at all.} The inflation factor is a widening \emph{about
-the point estimate}, and Section~\ref{sec:boot} shows that past a crossing in
-$n$ the basic interval stops containing the point estimate. Where it does,
-there is no widening about $\hat{V}$ that attains nominal coverage and the
-quantity this calibration estimates is undefined. All
-\nPlaneCellsUndefined\ such cells are at \nStraddleHalfMin\ training rows or
-more. The admission rule --- a cell enters the plane when the interval
-straddles its estimate in at least \straddleMin\ of replicates --- decides
-nothing: the rejected cells reach \straddleGapLo\ and the admitted ones start
-at \straddleGapHi, so any threshold between those two gives this plane.
-Section~\ref{sec:lim} carries what that leaves the corpus's largest pairs.
-
-Under the calibrated band the region counts are: conditionally beneficial,
-\nCondBeneficialCal; sign-changing, \nSignChangingCal; conditionally harmful,
-\nCondHarmfulCal; unresolved, \nUnresolvedCalibrated; and the median
-robustness index is \rhoMedianCalibrated.
+\textbf{The factor's reach, and what widening the plane in $n$ found.} It is
+fitted at training sizes \planeNtrainLo\ to \planeNtrainHi\ against a corpus
+running \corpusNtrainLo\ to \corpusNtrainHi, so all \nPairsInsidePlaneN\ of
+the \nPairs\ pairs lie inside the range that identifies it. Two things took
+the place of the extrapolation that used to sit here. \textbf{$K/n$ is not
+sufficient}: $\log n$ enters the fit at $t = \planeNdependenceT$, and the
+applied curve, a function of the ratio alone, sits below the measured
+factor's own lower confidence limit on \nCellsUnderApplied\ of the plane's
+cells. \textbf{And on \nPlaneCellsUndefined\ of \nPlaneCellsOffered\ cells
+the factor does not exist}, because past a crossing in $n$ the basic interval
+stops containing the point estimate a widening would be about
+(Section~\ref{sec:boot}). Supplement~\ref{app:calibration} carries the
+ladder, the two-covariate comparison and the admission rule;
+Section~\ref{sec:lim} carries what it leaves the corpus's largest pairs.
 
 \textbf{Of the \nPairsResolvingAny\ pairs that resolve anything,
 \nCondBeneficialCal\ have no harmful cell and \nPairsResolveBothSigns\ resolve
@@ -1966,34 +1891,19 @@ levels --- the cardinality of the case study's own register --- and the block
 length is varied around its rule of thumb.
 
 \textbf{The ratio $K/n$ captures most of the dependence, and not all of it.}
-Across the plane the basic interval covers a median \coverageGridMedian\ and a
-minimum \coverageGridMin, the last at a ratio of \simGridWorstRatio. Below
-$K/n = \simGridRatioSafe$ its coverage lies between \coverageGridSafeMin\ and
-\coverageGridSafeMax\ --- short of nominal everywhere, by about one Monte
-Carlo standard error at \nPlaneGridReps\ replicates --- and it has fallen
-below three quarters by \simGridRatioBad. The ratio is the right first-order
-summary --- the mechanism of Section~\ref{sec:boot} is why, and
-varying $n$ alone would not have exposed the regime the corpus occupies ---
-but it is not sufficient, and the plane says so in two places. The two cells
-closest to each other in ratio --- a register of \simGridSameRatioKa\ levels
-at \simGridSameRatioNa\ training rows, and one of \simGridSameRatioKb\ at
-\simGridSameRatioNb\ --- cover \simGridSameRatioCovA\ and
-\simGridSameRatioCovB, a gap of \simGridSameRatioGapSE\ combined Monte Carlo
-standard errors; and holding the register at \simGridFixedK\ levels while
-moving the training half from \simGridFixedNa\ rows to \simGridFixedNb\ moves
-coverage from \simGridFixedCovA\ to \simGridFixedCovB, so $n$ carries signal
-of its own. The calibration of Section~\ref{sec:regions} is a function of the ratio
-alone and therefore inherits this residual, which
-Section~\ref{sec:lim} states.
-
-\textbf{Where this corpus sits, and what is done about it.} The median
-log--target pair here has $K/n = \corpusRatioMedian$, the range runs
-\corpusRatioMin\ to \corpusRatioMax, and \nPairsRatioAboveTenth\ of \nPairs\
-pairs are above a tenth. Most of this corpus therefore sits at or beyond the
-ratio at which coverage starts to fall, and a nominal band on those pairs is
-\emph{narrower} than a $95\%$ interval should be --- the anti-conservative
-direction, which inflates the count of resolved cells. The plane is dense
-enough to calibrate against, and Section~\ref{sec:regions} does.
+Across the plane the basic interval covers a median \coverageGridMedian\ and
+a minimum \coverageGridMin, the last at a ratio of \simGridWorstRatio, and it
+is short of nominal everywhere. It is not sufficient: two cells at nearly the
+same ratio cover \simGridSameRatioCovA\ and \simGridSameRatioCovB, a gap of
+\simGridSameRatioGapSE\ combined Monte Carlo standard errors, and holding the
+register fixed while moving the training half from \simGridFixedNa\ rows to
+\simGridFixedNb\ moves coverage from \simGridFixedCovA\ to
+\simGridFixedCovB. \textbf{This corpus sits in the regime where that
+matters}: its median pair has $K/n = \corpusRatioMedian$ and
+\nPairsRatioAboveTenth\ of \nPairs\ pairs are above a tenth, so a nominal
+band on them is \emph{narrower} than a $95\%$ interval should be.
+Section~\ref{sec:regions} calibrates against the plane and
+Supplement~\ref{app:calibration} gives it in full.
 
 \textbf{Where the interval stops containing its own estimate.} The denser
 plane the coverage calibration of Section~\ref{sec:regions} is fitted on ---

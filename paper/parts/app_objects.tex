@@ -295,3 +295,26 @@ its cells without outcome variation, because a maximum over a moving set is
 not a maximum; \texttt{results/s21\_incomplete.csv} names the
 \nIncompleteFamilies\ families where that happens.
 
+\subsection{The planned contrasts, and where a p-value and an interval disagree}
+\label{app:pcdetail}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+\paragraph{A one-sided $p$-value and a two-sided basic interval disagree on
+\textsf{PC3}, and the interval decides}
+\textsf{PC3}'s one-sided $p$ is \pcThreePraw\ (Holm-adjusted
+\pcThreePholm) and its two-sided basic interval, [\pcThreeLo, \pcThreeHi],
+contains zero. Both come from the same \nDrawsPcThree\ draws. The $p$-value
+says where those draws lie --- their central ninety-five per cent runs
+\pcThreeQlo\ to \pcThreeQhi, entirely above zero --- while the interval says
+where the \emph{estimand} lies, obtained by pivoting that distribution about
+the estimate; the draws sit \pcThreeShift\ AUC \emph{above} the estimate, the
+upward shift Section~\ref{sec:boot} diagnoses, so pivoting moves the interval
+down by twice that shift and its lower limit crosses zero even though almost
+no draw does. \textbf{A contrast is called resolved only when the interval
+says so}, and \textsf{PC3} is not resolved on any of the four
+cohort-and-target combinations Section~\ref{sec:cohort} reports. Every other
+comparison here is \emph{exploratory}, labelled as such where it appears, and
+carries no multiplicity correction, because none would be meaningful over a
+surface enumerated in full.
+

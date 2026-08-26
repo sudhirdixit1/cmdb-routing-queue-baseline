@@ -240,23 +240,14 @@ produce. At \nDrawsPlanned\ draws the smallest attainable Holm-adjusted value
 over five tests is \pMinAttainableHolm, and \nPlannedReject\ of the five
 survive.
 
-\paragraph{A one-sided $p$-value and a two-sided basic interval disagree on
-\textsf{PC3}, and the interval decides}
-\textsf{PC3}'s one-sided $p$ is \pcThreePraw\ (Holm-adjusted
-\pcThreePholm) and its two-sided basic interval, [\pcThreeLo, \pcThreeHi],
-contains zero. Both come from the same \nDrawsPcThree\ draws. The $p$-value
-says where those draws lie --- their central ninety-five per cent runs
-\pcThreeQlo\ to \pcThreeQhi, entirely above zero --- while the interval says
-where the \emph{estimand} lies, obtained by pivoting that distribution about
-the estimate; the draws sit \pcThreeShift\ AUC \emph{above} the estimate, the
-upward shift Section~\ref{sec:boot} diagnoses, so pivoting moves the interval
-down by twice that shift and its lower limit crosses zero even though almost
-no draw does. \textbf{A contrast is called resolved only when the interval
-says so}, and \textsf{PC3} is not resolved on any of the four
-cohort-and-target combinations Section~\ref{sec:cohort} reports. Every other
-comparison here is \emph{exploratory}, labelled as such where it appears, and
-carries no multiplicity correction, because none would be meaningful over a
-surface enumerated in full.
+A one-sided $p$-value and a two-sided basic interval are different
+statements about the same draws, and on \textsf{PC3} they disagree; \textbf{a
+contrast is called resolved only when the interval says so}, and
+\textsf{PC3} is not resolved on any of the four cohort-and-target
+combinations Section~\ref{sec:cohort} reports.
+Supplement~\ref{app:pcdetail} works the disagreement through. Every other
+comparison here is \emph{exploratory} and carries no multiplicity correction,
+because none would be meaningful over a surface enumerated in full.
 
 \subsection{The sensitivity decomposition}
 \label{sec:sobol}

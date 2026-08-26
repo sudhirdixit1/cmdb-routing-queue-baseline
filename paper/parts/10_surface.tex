@@ -35,50 +35,10 @@ reader can multiply its level counts and obtain the cell counts reported in
 Section~\ref{sec:denominator}; that this multiplication works is the first
 check the verification harness runs.
 
-\paragraph{On the measure}
-A design space is a set; a decomposition, a weighted mean or a robustness
-index needs a \emph{distribution} on it, and ``uniform over the cells I
-enumerated'' is not neutral --- it moves if a level is duplicated, if five
-folds are written as five levels rather than one, or if a grid is refined.
-This paper separates the weight on an axis from the weights within it,
-declares three product measures and an envelope over a fourth
-(Section~\ref{sec:sobol}), and reports every weighted quantity under all of
-them.
-
-Two of these axes deserve comment because they are usually not treated as
-design choices at all.
-
-The \textbf{decision time} $\tau$ fixes which fields exist when the prediction
-is made. It is not the same as the split rule and it is not a data-cleaning
-detail: moving $\tau$ later in a process admits fields written in between, and
-Section~\ref{sec:cmdb} is a case in which that single move takes a field's
-increment from resolvably positive to indistinguishable from zero.
-
-The \textbf{register quality} $q$ acts on $f$ rather than on the comparison. A
-field that is a lookup into a maintained register --- a configuration item, a
-customer master record, a product catalogue --- inherits that register's
-completeness and accuracy. We implement \nQualityKinds\ mechanisms besides the
-clean field, each parameterised by the training half alone: population loss
-with the long tail absent, with the core absent, and at random; identity
-error, in which a share of rows carry a wrong value drawn from the training
-alphabet; reconciliation failure, in which a share of identities exist twice;
-and staleness, in which an identity is present only if the register had
-already seen it by the split point. The first three model coverage, the next
-two accuracy, the last discovery; the taxonomy follows the event-log
-imperfection patterns of \citet{suriadi2017imperfection} where they apply.
-
-Real registers do not fail at random, so three \emph{further} mechanisms make
-the missingness depend on something: on \emph{time}, where a row's probability
-of carrying an identity rises with its position in the log; on \emph{content},
-where coverage depends on the item's recorded type through a map estimated on
-the training half; and on a \emph{propensity} built from the intake block,
-which makes missingness correlated with the outcome without ever reading a
-test outcome. Every mechanism is swept over \nQualityLevels\ severities and
-every stochastic one repeated over \nQualitySeeds\ seeds, and each is verified
-by execution to be a function of the training half alone --- perturbing the
-test half and re-degrading must leave the training half's degraded values
-identical, which \texttt{results/s01\_trainonly.csv} records over \nTrainOnly\
-checks.
+The measure placed on the axis levels is a modelling choice and is declared
+rather than left implicit; Supplement~\ref{app:measurechoice} states it, and
+says why the decision time and the register's quality are axes of the
+estimand rather than preliminaries to it.
 
 \subsection{What the surface estimates}
 \label{sec:estimand}
