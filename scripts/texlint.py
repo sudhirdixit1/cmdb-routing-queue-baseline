@@ -115,6 +115,40 @@ MATH_LITERALS_ALLOWED = {
     r"$63\%$": "1 - 1/e, the share of distinct levels a resample holds",
 }
 
+#  ROUND TWENTY-FIVE, the same hole one step further out.  Check 6 reads
+#  DIGITS, so a result written as a word is invisible to it too: "moves
+#  coverage by sixteen points" sat in Section 10.3 beside the three coverages
+#  that were hiding inside math.  As with those, a blanket ban is wrong --- a
+#  nominal level, a declared split proportion and a count of things listed are
+#  all legitimately words --- so this is an allowlist of the phrases that are
+#  not results, each with its reason.
+WORD_MAGNITUDES_ALLOWED = {
+    "ninety-five per cent": "the nominal confidence level, a convention",
+    "seventy per cent": "the registered split proportion",
+    "five folds": "an illustration of re-describing an axis, not a result",
+    "five levels": "the same illustration",
+    "one level": "the same illustration -- five folds written as five levels "
+                 "rather than one",
+    "two levels": "the axis-completeness rule, a declaration of the design",
+    "six levels": "the split axis's declared level count",
+    "four levels": "the pipeline axis's declared level count on the case "
+                   "study's log",
+    "three points": "a count of the operating points named next, not a "
+                    "magnitude",
+}
+#  the tens must come first and carry an optional hyphenated unit, or
+#  "ninety-five per cent" is matched as "five per cent" and an allowlist
+#  entry for the whole phrase never fires
+_UNITS_W = (r"one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|"
+            r"thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen")
+_TENS_W = r"twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety"
+_WORD_NUM = r"(?:(?:%s)(?:-(?:%s))?|%s|hundred)" % (_TENS_W, _UNITS_W,
+                                                    _UNITS_W)
+#  longest alternative first, or "folds" matches as "fold" and the allowlist
+#  entry for the whole phrase never fires
+_WORD_UNIT = (r"(?:percentage points?|points?|per cent|percent|times|folds?|"
+              r"orders? of magnitude|levels?)")
+
 #  The checks this file performs, as a list rather than as a number in a
 #  sentence.  The manuscript quotes the count (Appendix H), so the list is
 #  where that number comes from and adding a check updates the paper.
@@ -370,6 +404,18 @@ def main(argv=None):
                      "cannot see (make each a macro, or add it to "
                      "MATH_LITERALS_ALLOWED with a reason): %s"
                      % ", ".join(sorted(set(bad_math))[:8]))
+
+    # 6c the same rule for a magnitude written as a WORD
+    bad_words = []
+    for m in re.finditer(_WORD_NUM + r"[- ]" + _WORD_UNIT, body, re.I):
+        phrase = m.group(0).lower()
+        if phrase not in WORD_MAGNITUDES_ALLOWED:
+            bad_words.append(phrase)
+    if bad_words:
+        FAILS.append("magnitudes spelled as words, which check 6 cannot see "
+                     "(make each a macro, or add it to "
+                     "WORD_MAGNITUDES_ALLOWED with a reason): %s"
+                     % ", ".join(sorted(set(bad_words))[:8]))
 
     # 7 rhetorical openers
     for pat in BANNED_OPENERS:

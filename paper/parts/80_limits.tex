@@ -95,19 +95,54 @@ every one is verified by execution to read no test outcome. But a constructed
 mechanism is not an observed one, and validating them against a genuinely
 incomplete register is the obvious next study.
 
-\paragraph{The coverage calibration is an extrapolation in $n$ on most of this
-corpus}
+\paragraph{The coverage calibration is no longer an extrapolation in $n$, and
+what replaced that problem is worse}
 The plane that identifies the inflation factor is estimated at training sizes
-\planeNtrainLo\ to \planeNtrainHi. This corpus runs \corpusNtrainLo\ to
-\corpusNtrainHi, so \nPairsInsidePlaneN\ of \nPairs\ pairs lie inside that
-range and the rest are read off the curve outside it ---
-\nPairsBelowPlaneN\ below and \nPairsAbovePlaneN\ above. If $K/n$ determined
-coverage this would not matter, and Section~\ref{sec:simsensitivity} shows it
-does not. Every calibrated region label, every $\rho$ and the resolved-cell
-denominator behind Section~\ref{sec:results-regret}'s headline therefore rest
-on an extrapolation whose reach is stated in Section~\ref{sec:regions} and
-whose residual is unmeasured. Widening the plane in $n$ is cheap relative to
-the rest of this study and is the first thing we would add.
+\planeNtrainLo\ to \planeNtrainHi\ against a corpus running \corpusNtrainLo\
+to \corpusNtrainHi, so every one of the \nPairs\ pairs now lies inside the
+range the factor is identified on. Two things took the place of the
+extrapolation.
+
+\textbf{The applied curve is misspecified, measurably.} $\log n$ enters the
+fit at $t = \planeNdependenceT$ (Section~\ref{sec:regions}): at a fixed ratio
+the widening a pair needs grows with its sample size, which
+Section~\ref{sec:simsensitivity} could assert before and can now measure. The
+curve the corpus is calibrated with is a function of the ratio alone and
+therefore carries that dependence as a residual --- it sits below the measured
+factor's own lower confidence limit on \nCellsUnderApplied\ of the plane's
+cells, by at most \maxShortfallApplied, both of them at large $n$. Putting
+$\log n$ into a parametric curve does not repair it and makes the object
+worse on the criterion the monotone curve was chosen under
+(Supplement~\ref{app:calibration}). Every calibrated region label and every
+$\rho$ on a large pair is therefore corrected by slightly less than the plane
+says it needs.
+
+\textbf{On \nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\ cells
+the factor does not exist.} The inflation factor widens an interval about its
+point estimate, and past a crossing in $n$ the basic interval no longer
+contains that estimate (Section~\ref{sec:boot}), so there is nothing to
+widen about. All \nPlaneCellsUndefined\ are at \nStraddleHalfMin\ training
+rows or more. \textbf{This is not confined to the simulation}: on the corpus
+itself \nCellsExcludingV\ of the \nCellsWholeTotal\ whole-surface cells have
+a band that excludes their own point estimate, on \nPairsExcludingV\ pairs
+and reaching \shareExcludingVMaxPct\ of the cells on the worst. For those
+cells the calibrated band is a widening of an interval the calibration's own
+estimator could not have been fitted on, and we do not know what it covers.
+
+\paragraph{The interval construction was chosen on evidence from one sample
+size, below the size at which it misbehaves}
+Section~\ref{sec:simcoverage} compares seven constructions and selects the
+basic one, and that comparison runs at \simCoreNtrain\ training rows and at
+no other size. Section~\ref{sec:boot} reports that the same construction
+produces a band excluding its own point estimate once the bootstrap
+displacement exceeds the band's half-width, which the plane places above
+\nStraddleAllMax\ rows at a ratio of \straddleRatio\ --- so the evidence
+that chose the construction was gathered below the regime in which the
+construction develops the defect. Whether the percentile, the bias-corrected
+or the $m$-out-of-$n$ interval behaves better up there is not known: none of
+them was priced above \simCoreNtrain\ rows either. Re-running that
+comparison across the plane's range in $n$ is the first thing we would do,
+and it is cheap relative to the surface.
 
 \paragraph{The band's critical value is estimated twice and the two estimates
 disagree}

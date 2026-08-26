@@ -757,6 +757,30 @@ displacement out; simultaneous bands are recentred by the same shift, which is
 a property of the draws and so corrects a whole family at once
 (Table~\ref{tab:sim31}, and Supplement~\ref{app:noisy} for the diagnosis).
 
+\paragraph{A pivoted interval need not contain the estimate it is built from,
+and on this corpus \nCellsExcludingV\ cells do not}
+Pivoting moves the interval by twice the displacement. Where the displacement
+exceeds the interval's own half-width, both endpoints land on the same side of
+$\hat{V}$ and the band excludes it. That is a property of a pivotal interval
+under bias rather than an error, but it is not what a reader expects of a
+band, so it is counted: \nCellsExcludingV\ of the \nCellsWholeTotal\
+whole-surface cells --- \shareCellsExcludingVPct\ --- on
+\nPairsExcludingV\ of the \nPairs\ pairs, reaching
+\shareExcludingVMaxPct\ of the cells on the worst of them. The ratio of
+displacement to half-width has a median \dispOverHalfwidthMedian\ across
+pairs and \dispOverHalfwidthWorst\ on that pair.
+
+\textbf{It gets worse with the sample size, not better}, and that is the
+uncomfortable part. The displacement is a bias --- a resample holds about
+$1 - e^{-1}$ of the distinct levels however many rows it has --- so at a fixed
+ratio of cardinality to sample size it does not shrink with $n$, while the
+half-width shrinks like $n^{-1/2}$. Section~\ref{sec:simsensitivity} locates
+the crossing: at a fixed ratio of \straddleRatio\ the interval straddles its
+own estimate in every replicate up to \nStraddleAllMax\ training rows and in
+only \shareStraddleAtHalfPct\ of them by \nStraddleHalfMin. The three pairs above are the corpus's pairs
+nearest that crossing, and Section~\ref{sec:regions} reports what it costs the
+coverage calibration.
+
 \subsection{Three surfaces, and which one a claim may quantify over}
 \label{sec:threesurfaces}
 
@@ -860,10 +884,11 @@ $q_{\mathrm{emp}}/q$ is \qRatioWholeMedian\ on the surface families and
 band built on the smaller value resolves cells the observed maxima do not ---
 and the mechanism is visible in the draws. A Gaussian multiplier reproduces
 the empirical \emph{covariance} of the standardised draws and therefore only
-the excursions a Gaussian process makes; these draws are heavy-tailed, and the
-asymptotics the construction rests on are asked to hold at
-\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ draws over families of several
-hundred cells.
+the excursions a Gaussian process makes. These draws are heavy-tailed ---
+Section~\ref{sec:simband} measures how, and finds that the word covers two
+different mechanisms on the two families --- and the asymptotics the
+construction rests on are asked to hold at \nDrawsSurfaceMin\ to
+\nDrawsSurfaceMax\ draws over families of several hundred cells.
 
 We therefore report what each estimator resolves rather than asserting one of
 them. Over the whole-surface families the multiplier band resolves
@@ -915,7 +940,9 @@ estimators. At the modal surface family the multiplier band covers
 \nBootOneFifty\ and \covMultBootFourHundred\ at \nBootFourHundred; the
 per-cell interval it is built from moves \covPercellBootThirtyThree\ to
 \covPercellBootFourHundred\ over the same range. This corpus runs at
-\nDrawsSurfaceMin\ to \nDrawsSurfaceMax. Every band, region label and $\rho$
+\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ draws as declared and
+\nDrawsEffectiveMin\ to \nDrawsSurfaceMax\ effectively, and it is the
+effective count a band is built from. Every band, region label and $\rho$
 in this paper should be read as the anti-conservative statement that makes
 it, and Section~\ref{sec:lim} states what follows.
 
@@ -1448,21 +1475,41 @@ value goes from \maxTSurfaceMedian\ to \qCalibratedMedian; the corpus resolves
 quoted in this paper is the calibrated one}; Table~\ref{tab:calbands} prints
 the nominal columns beside them.
 
-\textbf{The factor is an extrapolation in $n$, and that belongs here rather
-than only in the limitations.} The plane is estimated at training sizes
-\planeNtrainLo\ to \planeNtrainHi. This corpus runs from \corpusNtrainLo\ to
-\corpusNtrainHi\ training rows, so only \nPairsInsidePlaneN\ of the \nPairs\
-pairs lie inside the range the factor was fitted on ---
-\nPairsBelowPlaneN\ are below it and \nPairsAbovePlaneN\ above. That would be
-a small matter if the ratio determined coverage, and
-Section~\ref{sec:simsensitivity} shows it does not: holding $K$ fixed and
-moving $n$ over the plane's own range moves coverage by sixteen points. A
-factor that is a function of the ratio alone is therefore being read outside
-the region that identifies it on most of this corpus. It is the weakest link
-in the region labels, in $\rho$ and in the resolved-cell denominator behind
-Section~\ref{sec:results-regret}'s headline, which is why the counts below are
-reported at four settings rather than one and why Section~\ref{sec:lim} names
-widening the plane in $n$ as the first thing to do with more compute.
+\textbf{The factor's reach in $n$, and the two things widening the plane
+found.} The plane is fitted at training sizes \planeNtrainLo\ to
+\planeNtrainHi\ and this corpus runs \corpusNtrainLo\ to \corpusNtrainHi, so
+all \nPairsInsidePlaneN\ of the \nPairs\ pairs lie inside the range the
+factor is identified on. That is the arrangement a calibration needs, and it
+is not the end of the matter.
+
+\textbf{$K/n$ is not sufficient, and a plane wide enough in $n$ can now show
+it.} Adding $\log n$ to the fit gives a coefficient of
+\planeNdependenceBeta\ at $t = \planeNdependenceT$: at a fixed ratio the
+widening a pair needs grows with its sample size. The design that isolates it
+is the ladder, three ratios held fixed while $n$ moves over two orders of
+magnitude, and along it the measured factor moves by \ladderSpreadMax\ ---
+\ladderSpreadSE\ combined Monte Carlo standard errors --- while coverage
+itself moves by \ladderCoverageSpreadPct. The applied curve is a function of
+the ratio alone, so it carries that dependence as a residual: it sits below
+the measured factor's own lower confidence limit on \nCellsUnderApplied\ of
+the plane's cells, by at most \maxShortfallApplied, and both are large-$n$
+cells. A two-covariate fit in $\log(K/n)$ and $\log n$ does not repair it
+--- it is worse than the monotone curve on every cell-weighted criterion
+(Supplement~\ref{app:calibration}) --- so the residual is reported rather
+than fitted away.
+
+\textbf{And on \nPlaneCellsUndefined\ of the \nPlaneCellsOffered\ cells the
+factor does not exist at all.} The inflation factor is a widening \emph{about
+the point estimate}, and Section~\ref{sec:boot} shows that past a crossing in
+$n$ the basic interval stops containing the point estimate. Where it does,
+there is no widening about $\hat{V}$ that attains nominal coverage and the
+quantity this calibration estimates is undefined. All
+\nPlaneCellsUndefined\ such cells are at \nStraddleHalfMin\ training rows or
+more. The admission rule --- a cell enters the plane when the interval
+straddles its estimate in at least \straddleMin\ of replicates --- decides
+nothing: the rejected cells reach \straddleGapLo\ and the admitted ones start
+at \straddleGapHi, so any threshold between those two gives this plane.
+Section~\ref{sec:lim} carries what that leaves the corpus's largest pairs.
 
 Under the calibrated band the region counts are: conditionally beneficial,
 \nCondBeneficialCal; sign-changing, \nSignChangingCal; conditionally harmful,
@@ -2585,19 +2632,54 @@ every one is verified by execution to read no test outcome. But a constructed
 mechanism is not an observed one, and validating them against a genuinely
 incomplete register is the obvious next study.
 
-\paragraph{The coverage calibration is an extrapolation in $n$ on most of this
-corpus}
+\paragraph{The coverage calibration is no longer an extrapolation in $n$, and
+what replaced that problem is worse}
 The plane that identifies the inflation factor is estimated at training sizes
-\planeNtrainLo\ to \planeNtrainHi. This corpus runs \corpusNtrainLo\ to
-\corpusNtrainHi, so \nPairsInsidePlaneN\ of \nPairs\ pairs lie inside that
-range and the rest are read off the curve outside it ---
-\nPairsBelowPlaneN\ below and \nPairsAbovePlaneN\ above. If $K/n$ determined
-coverage this would not matter, and Section~\ref{sec:simsensitivity} shows it
-does not. Every calibrated region label, every $\rho$ and the resolved-cell
-denominator behind Section~\ref{sec:results-regret}'s headline therefore rest
-on an extrapolation whose reach is stated in Section~\ref{sec:regions} and
-whose residual is unmeasured. Widening the plane in $n$ is cheap relative to
-the rest of this study and is the first thing we would add.
+\planeNtrainLo\ to \planeNtrainHi\ against a corpus running \corpusNtrainLo\
+to \corpusNtrainHi, so every one of the \nPairs\ pairs now lies inside the
+range the factor is identified on. Two things took the place of the
+extrapolation.
+
+\textbf{The applied curve is misspecified, measurably.} $\log n$ enters the
+fit at $t = \planeNdependenceT$ (Section~\ref{sec:regions}): at a fixed ratio
+the widening a pair needs grows with its sample size, which
+Section~\ref{sec:simsensitivity} could assert before and can now measure. The
+curve the corpus is calibrated with is a function of the ratio alone and
+therefore carries that dependence as a residual --- it sits below the measured
+factor's own lower confidence limit on \nCellsUnderApplied\ of the plane's
+cells, by at most \maxShortfallApplied, both of them at large $n$. Putting
+$\log n$ into a parametric curve does not repair it and makes the object
+worse on the criterion the monotone curve was chosen under
+(Supplement~\ref{app:calibration}). Every calibrated region label and every
+$\rho$ on a large pair is therefore corrected by slightly less than the plane
+says it needs.
+
+\textbf{On \nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\ cells
+the factor does not exist.} The inflation factor widens an interval about its
+point estimate, and past a crossing in $n$ the basic interval no longer
+contains that estimate (Section~\ref{sec:boot}), so there is nothing to
+widen about. All \nPlaneCellsUndefined\ are at \nStraddleHalfMin\ training
+rows or more. \textbf{This is not confined to the simulation}: on the corpus
+itself \nCellsExcludingV\ of the \nCellsWholeTotal\ whole-surface cells have
+a band that excludes their own point estimate, on \nPairsExcludingV\ pairs
+and reaching \shareExcludingVMaxPct\ of the cells on the worst. For those
+cells the calibrated band is a widening of an interval the calibration's own
+estimator could not have been fitted on, and we do not know what it covers.
+
+\paragraph{The interval construction was chosen on evidence from one sample
+size, below the size at which it misbehaves}
+Section~\ref{sec:simcoverage} compares seven constructions and selects the
+basic one, and that comparison runs at \simCoreNtrain\ training rows and at
+no other size. Section~\ref{sec:boot} reports that the same construction
+produces a band excluding its own point estimate once the bootstrap
+displacement exceeds the band's half-width, which the plane places above
+\nStraddleAllMax\ rows at a ratio of \straddleRatio\ --- so the evidence
+that chose the construction was gathered below the regime in which the
+construction develops the defect. Whether the percentile, the bias-corrected
+or the $m$-out-of-$n$ interval behaves better up there is not known: none of
+them was priced above \simCoreNtrain\ rows either. Re-running that
+comparison across the plane's range in $n$ is the first thing we would do,
+and it is cheap relative to the surface.
 
 \paragraph{The band's critical value is estimated twice and the two estimates
 disagree}

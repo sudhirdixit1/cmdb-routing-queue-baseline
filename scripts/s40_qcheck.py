@@ -78,6 +78,36 @@ def main():
     D = pd.DataFrame(rows)
     D.to_csv(RESULTS / "s40_qcheck.csv", index=False)
 
+    #  ROUND TWENTY-FIVE.  A THIRD CHECK ON THE BAND AGAINST ITSELF: does it
+    #  contain the point estimate it is a band for?
+    #
+    #  It need not.  The basic construction pivots the bootstrap's
+    #  displacement out, and when that displacement exceeds the band's own
+    #  half-width both endpoints land on the same side of the estimate.  That
+    #  is a property of a pivotal interval under bias and not an error.  But
+    #  Section 4.1 adopts the construction precisely to pivot the
+    #  displacement out and never says the result can exclude the estimate,
+    #  and s33's plane shows why it matters: the displacement is a bias that
+    #  does NOT shrink with the sample size at a fixed K/n, while the
+    #  half-width shrinks like one over its square root, so the ratio grows
+    #  with n and crosses one somewhere above eight thousand training rows.
+    #  The corpus's larger pairs sit around that crossing.
+    W = B[B.family == "whole-surface"].copy()
+    W["excludes_V"] = ((W.V < W.centre - W.q_hi * W.se)
+                       | (W.V > W.centre + W.q_hi * W.se))
+    W["disp_over_halfwidth"] = ((W.centre - W.V).abs()
+                                / (W.q_hi * W.se).replace(0, np.nan))
+    E = W.groupby(["log", "target"]).agg(
+        n_cells=("excludes_V", "size"),
+        n_excludes_V=("excludes_V", "sum"),
+        share_excludes_V=("excludes_V", "mean"),
+        disp_over_halfwidth_median=("disp_over_halfwidth", "median"),
+        disp_over_halfwidth_max=("disp_over_halfwidth", "max"),
+    ).reset_index().sort_values("share_excludes_V", ascending=False)
+    E.to_csv(RESULTS / "s40_excludes.csv", index=False)
+    print("\nDOES THE BAND CONTAIN ITS OWN POINT ESTIMATE?")
+    print(E.to_string(index=False, float_format=lambda x: "%.4f" % x))
+
     def by(fam, col):
         s = D[D.family == fam]
         return s[col]
@@ -97,6 +127,14 @@ def main():
         resolved_dca_mult=int(dc.resolved_mult.sum()),
         resolved_dca_emp=int(dc.resolved_emp.sum()),
         n_draws_min=int(D.n_draws.min()), n_draws_max=int(D.n_draws.max()),
+        n_cells_excluding_V=int(E.n_excludes_V.sum()),
+        n_cells_whole=int(E.n_cells.sum()),
+        share_cells_excluding_V=float(E.n_excludes_V.sum()
+                                      / max(1, E.n_cells.sum())),
+        n_pairs_excluding_V=int((E.n_excludes_V > 0).sum()),
+        share_excludes_V_max=float(E.share_excludes_V.max()),
+        disp_over_halfwidth_median=float(E.disp_over_halfwidth_median.median()),
+        disp_over_halfwidth_worst=float(E.disp_over_halfwidth_median.max()),
         runtime_s=round(time.time() - t0, 1))
     pd.DataFrame([facts]).to_csv(RESULTS / "s40_facts.csv", index=False)
     print(D.to_string(index=False))

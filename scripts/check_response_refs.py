@@ -33,12 +33,21 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
+PAPER = ROOT / "paper"
 MANUSCRIPT = ROOT / "paper" / "specification_surfaces.tex"
 SUPPLEMENT = ROOT / "paper" / "supplement.tex"
 DOCS = [ROOT / "submission" / "response_to_referee.md",
         ROOT / "submission" / "response_to_blueprint.md",
         ROOT / "submission" / "response_to_review21.md",
-        ROOT / "submission" / "cover_letter.md"]
+        ROOT / "submission" / "cover_letter.md",
+        #  ROUND TWENTY-FIVE.  These four are the documents Elsevier
+        #  publishes or the editor reads, and none of them was checked.  The
+        #  data availability statement sent a reader to the design-space
+        #  table for the list of exclusions.
+        ROOT / "submission" / "data_availability.md",
+        ROOT / "submission" / "credit_statement.md",
+        ROOT / "submission" / "declaration_of_interests.md",
+        ROOT / "submission" / "response_to_review23.md"]
 
 HEADING = re.compile(r"\\(appendix|section|subsection)(\*?)(?:\{([^}]*)\})?")
 #  A reference is a section sign followed by a number, or the word Appendix
@@ -84,6 +93,43 @@ def numbering(text):
     return out
 
 
+TABLE_REF = re.compile(r"\bTable~?\s?(S?)([0-9]+)\b")
+
+
+def table_numbering(text, prefix=""):
+    """Map every table's printed number to its label, LaTeX's way: floats are
+    numbered in the order their environments OPEN.
+
+    ROUND TWENTY-FIVE.  This file checked section references and not table
+    ones, and the difference showed the moment a table was added near the
+    front: every article table's number moved by one and four references in
+    the submission material silently came to name a different table.  Two of
+    them had been wrong before that as well --- the data availability
+    statement, which is published, sent a reader to the design-space table
+    for the list of exclusions --- so nothing had ever checked these.
+    """
+    body = text.split("\\begin{document}", 1)[-1]
+    #  the assembled document keeps \input{tables/...}, so the float
+    #  environments are in the included files and counting them here found
+    #  nothing.  They are expanded in place, once, in document order.
+    #  the supplement inputs its section files, which in turn input the
+    #  table files, so one pass of expansion finds no supplement table at all
+    def _expand(mm):
+        f = PAPER / (mm.group(1) + ".tex")
+        return f.read_text(encoding="utf-8") if f.exists() else ""
+    for _ in range(4):
+        body, n_sub = re.subn(r"\\input\{([^}]*)\}", _expand, body)
+        if not n_sub:
+            break
+    out, n = {}, 0
+    for m in re.finditer(r"\\begin\{table\*?\}", body):
+        n += 1
+        chunk = body[m.end():m.end() + 4000]
+        lab = re.search(r"\\label\{(tab:[^}]+)\}", chunk)
+        out[prefix + str(n)] = lab.group(1) if lab else "(no label)"
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--map", action="store_true")
@@ -119,7 +165,13 @@ def main(argv=None):
             print("  %-7s %s" % (k, N[k]))
         return 0
 
+    #  the float numbering of both documents, for the table check below
+    T = table_numbering(MANUSCRIPT.read_text(encoding="utf-8"))
+    if SUPPLEMENT.exists():
+        T.update(table_numbering(SUPPLEMENT.read_text(encoding="utf-8"), "S"))
+
     bad, checked = [], 0
+    n_tables = 0
     for doc in DOCS:
         if not doc.exists():
             continue
@@ -134,6 +186,15 @@ def main(argv=None):
                 else:
                     bad.append("%s:%d  %s names no heading in the manuscript"
                                % (doc.name, i, ref))
+            for m in TABLE_REF.finditer(line):
+                ref = m.group(1) + m.group(2)
+                n_tables += 1
+                if ref in T:
+                    print("  %-28s Table %-4s %s"
+                          % (doc.name + ":" + str(i), ref, T[ref]))
+                else:
+                    bad.append("%s:%d  Table %s is not a table in either "
+                               "document" % (doc.name, i, ref))
 
     #  The response's structure table quotes a word count per section.  Those
     #  are the only numbers in the submission package that are not macros, so
@@ -182,8 +243,9 @@ def main(argv=None):
             print("  synced %d word counts in %s" % (changed, resp.name))
 
     print()
-    print("check_response_refs: %d references checked, %d section word counts "
-          "checked, %d unresolved" % (checked, n_words, len(bad)))
+    print("check_response_refs: %d section and %d table references checked, "
+          "%d section word counts checked, %d unresolved"
+          % (checked, n_tables, n_words, len(bad)))
     for b in bad:
         print("  FAIL  " + b)
     return 1 if bad else 0

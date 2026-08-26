@@ -69,15 +69,15 @@
 \newcommand{\biasNoisyBefore}{$-0.0353$}
 \newcommand{\biasOracleMax}{0.0161}
 \newcommand{\blockSparseGapMin}{46.4\%}
-\newcommand{\calAtMedianPair}{1.37}
+\newcommand{\calAtMedianPair}{1.34}
 \newcommand{\calFactorMax}{1.88}
-\newcommand{\calFactorMedian}{1.26}
+\newcommand{\calFactorMedian}{1.29}
 \newcommand{\calFactorMin}{1.09}
-\newcommand{\calIntercept}{1.922}
-\newcommand{\calMax}{1.82}
-\newcommand{\calMin}{1.15}
-\newcommand{\calSlope}{0.122}
-\newcommand{\calSlopeSe}{0.006}
+\newcommand{\calIntercept}{1.815}
+\newcommand{\calMax}{1.77}
+\newcommand{\calMin}{1.18}
+\newcommand{\calSlope}{0.102}
+\newcommand{\calSlopeSe}{0.005}
 \newcommand{\cardF}{3{,}019}
 \newcommand{\cardTauZero}{4{,}034}
 \newcommand{\casePrevalence}{0.400}
@@ -181,6 +181,8 @@
 \newcommand{\deskQhi}{0.36}
 \newcommand{\deskQlo}{0.08}
 \newcommand{\deskQmid}{0.19}
+\newcommand{\dispOverHalfwidthMedian}{0.09}
+\newcommand{\dispOverHalfwidthWorst}{0.45}
 \newcommand{\doiBPICfourteen}{\url{https://doi.org/10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35}}
 \newcommand{\doiBPICthirteen}{\url{https://doi.org/10.4121/uuid:500573e6-accc-4b0c-9576-aa5468b10cee}}
 \newcommand{\eceIsoMedian}{0.089}
@@ -201,6 +203,7 @@
 \newcommand{\excessUniformDesk}{0.048}
 \newcommand{\familySizeMedian}{180}
 \newcommand{\fieldAgreement}{1.000}
+\newcommand{\fixedKcoverageSpreadPct}{19.5\%}
 \newcommand{\flipLearnerPct}{31.3\%}
 \newcommand{\flipMetricPct}{19.7\%}
 \newcommand{\flipQualityPct}{20.4\%}
@@ -213,7 +216,7 @@
 \newcommand{\gridShiftMaxCase}{0.0114}
 \newcommand{\gridShiftMedian}{0.0111}
 \newcommand{\highlightMaxChars}{74}
-\newcommand{\highlightsList}{\item A field's incremental predictive performance is a surface, not one number \item An exact variance decomposition says which analyst choice moves the answer \item Coverage-calibrated bands say where the sign of that surface is resolved \item Sign misstated for 7.5\% of resolved cells, 3.6\% on ITSM \item A register's worth turns on the decision time and on which target is set}
+\newcommand{\highlightsList}{\item A field's incremental predictive performance is a surface, not one number \item An exact variance decomposition says which analyst choice moves the answer \item Coverage-calibrated bands say where the sign of that surface is resolved \item Sign misstated for 7.5\% of resolved cells, 3.5\% on ITSM \item A register's worth turns on the decision time and on which target is set}
 \newcommand{\identityMaxExcess}{exactly zero}
 \newcommand{\inferenceShareMedianPct}{12.5\%}
 \newcommand{\instrumentsOosOrderingFails}{Brier skill}
@@ -242,6 +245,9 @@
 \newcommand{\itsmSpread}{0.070}
 \newcommand{\kmBaseAuc}{0.648}
 \newcommand{\kmOrphanPopulated}{100\%}
+\newcommand{\ladderCoverageSpreadPct}{21.7\%}
+\newcommand{\ladderSpreadMax}{0.22}
+\newcommand{\ladderSpreadSE}{2.8}
 \newcommand{\lambdaHalf}{0.64}
 \newcommand{\lambdaHalfPct}{64\%}
 \newcommand{\largerPipelineAxis}{encoding}
@@ -263,6 +269,7 @@
 \newcommand{\maxCardBZero}{200}
 \newcommand{\maxExcessOneNumberDesk}{0.412}
 \newcommand{\maxKoverN}{0.324}
+\newcommand{\maxShortfallApplied}{0.18}
 \newcommand{\maxTMedian}{4.03}
 \newcommand{\maxTMedianRatio}{2.06}
 \newcommand{\maxTSurfaceMax}{3.57}
@@ -290,7 +297,7 @@
 \newcommand{\misreportMeasureSpreadPct}{19.4\%}
 \newcommand{\misreportMedianPct}{32.8\%}
 \newcommand{\misreportMinPct}{5.6\%}
-\newcommand{\misreportPooledItsmPct}{3.6\%}
+\newcommand{\misreportPooledItsmPct}{3.5\%}
 \newcommand{\misreportPooledOtherPct}{22.2\%}
 \newcommand{\misreportPooledResolvedLatitudePct}{12.9\%}
 \newcommand{\misreportPooledResolvedNominalPct}{11.9\%}
@@ -334,9 +341,12 @@
 \newcommand{\nCaseSweepLevels}{11}
 \newcommand{\nCaseTest}{13{,}637}
 \newcommand{\nCaseTrain}{31{,}818}
+\newcommand{\nCellsExcludingV}{74}
 \newcommand{\nCellsLargestPair}{4{,}800}
 \newcommand{\nCellsLatitude}{30}
 \newcommand{\nCellsPerPairMedian}{180}
+\newcommand{\nCellsUnderApplied}{2}
+\newcommand{\nCellsWholeTotal}{3{,}900}
 \newcommand{\nCertificates}{18}
 \newcommand{\nClosedBefore}{5}
 \newcommand{\nCohort}{45{,}455}
@@ -430,12 +440,13 @@
 \newcommand{\nOneNumberWorstDesk}{10}
 \newcommand{\nOrphans}{94{,}250}
 \newcommand{\nPairs}{19}
-\newcommand{\nPairsAbovePlaneN}{7}
+\newcommand{\nPairsAbovePlaneN}{0}
 \newcommand{\nPairsAboveTenth}{10}
 \newcommand{\nPairsBanded}{19}
-\newcommand{\nPairsBelowPlaneN}{9}
+\newcommand{\nPairsBelowPlaneN}{0}
 \newcommand{\nPairsDcaExcluded}{3}
-\newcommand{\nPairsInsidePlaneN}{3}
+\newcommand{\nPairsExcludingV}{3}
+\newcommand{\nPairsInsidePlaneN}{19}
 \newcommand{\nPairsNoResolvedCell}{6}
 \newcommand{\nPairsNoResolvedDisagreement}{8}
 \newcommand{\nPairsOther}{15}
@@ -450,7 +461,9 @@
 \newcommand{\nPenaltyDecades}{five}
 \newcommand{\nPilotBoot}{20{,}000}
 \newcommand{\nPipelines}{12}
-\newcommand{\nPlaneCells}{20}
+\newcommand{\nPlaneCells}{29}
+\newcommand{\nPlaneCellsOffered}{33}
+\newcommand{\nPlaneCellsUndefined}{4}
 \newcommand{\nPlaneGridReps}{150}
 \newcommand{\nPlaneReps}{500}
 \newcommand{\nPlannedContrasts}{5}
@@ -475,18 +488,18 @@
 \newcommand{\nRegionsChangedByCalibration}{4}
 \newcommand{\nRegisteredCohort}{46{,}606}
 \newcommand{\nRepsBlock}{250}
-\newcommand{\nResolvedCellsCalibrated}{892}
+\newcommand{\nResolvedCellsCalibrated}{896}
 \newcommand{\nResolvedCellsNominal}{1{,}150}
-\newcommand{\nResolvedCorpus}{892}
+\newcommand{\nResolvedCorpus}{896}
 \newcommand{\nResolvedCorpusNominal}{1{,}150}
 \newcommand{\nResolvedDcaEmp}{613}
 \newcommand{\nResolvedDcaMult}{3{,}066}
 \newcommand{\nResolvedLatitude}{210}
 \newcommand{\nResolvedMax}{332}
 \newcommand{\nResolvedMedian}{8}
-\newcommand{\nResolvedSensCalibrated}{892}
+\newcommand{\nResolvedSensCalibrated}{896}
 \newcommand{\nResolvedSensNominal}{1{,}150}
-\newcommand{\nResolvedSensUpper}{825}
+\newcommand{\nResolvedSensUpper}{833}
 \newcommand{\nResolvedWhole}{1{,}150}
 \newcommand{\nResolvedWholeEmp}{995}
 \newcommand{\nResolvedWholeMult}{1{,}150}
@@ -519,6 +532,8 @@
 \newcommand{\nSlopeOutRaw}{92}
 \newcommand{\nSplits}{6}
 \newcommand{\nSpreadExceedsIncrement}{15}
+\newcommand{\nStraddleAllMax}{8{,}000}
+\newcommand{\nStraddleHalfMin}{50{,}000}
 \newcommand{\nSurfaceRows}{273{,}024}
 \newcommand{\nTauDraws}{300}
 \newcommand{\nTauOne}{44{,}513}
@@ -533,6 +548,9 @@
 \newcommand{\nTippingSeeds}{5}
 \newcommand{\nTrainOnly}{122}
 \newcommand{\nTrainOnlyPassed}{122}
+\newcommand{\nUnderIsotonic}{2}
+\newcommand{\nUnderRatioOnly}{8}
+\newcommand{\nUnderWithN}{8}
 \newcommand{\nUnifBenSensCalibrated}{0}
 \newcommand{\nUnifBenSensNominal}{0}
 \newcommand{\nUnifBenSensUpper}{0}
@@ -583,9 +601,11 @@
 \newcommand{\pcThreeQlo}{$+0.00327$}
 \newcommand{\pcThreeShift}{0.00193}
 \newcommand{\planeKnMax}{0.500}
-\newcommand{\planeKnMin}{0.0025}
-\newcommand{\planeNtrainHi}{8{,}000}
-\newcommand{\planeNtrainLo}{2{,}000}
+\newcommand{\planeKnMin}{0.0011}
+\newcommand{\planeNdependenceBeta}{0.067}
+\newcommand{\planeNdependenceT}{8.3}
+\newcommand{\planeNtrainHi}{180{,}000}
+\newcommand{\planeNtrainLo}{500}
 \newcommand{\prevAdmittedMax}{0.927}
 \newcommand{\prevExcludedAboveMin}{0.959}
 \newcommand{\prevHi}{0.95}
@@ -606,7 +626,7 @@
 \newcommand{\propTwoCancelShift}{machine precision}
 \newcommand{\propTwoNonRankShift}{11.696}
 \newcommand{\propTwoRankShift}{exactly zero}
-\newcommand{\qCalibratedMedian}{4.62}
+\newcommand{\qCalibratedMedian}{4.54}
 \newcommand{\qClean}{$+0.1034$}
 \newcommand{\qCleanCorpus}{$+0.1673$}
 \newcommand{\qCommonHalf}{$+0.0708$}
@@ -661,17 +681,17 @@
 \newcommand{\repGapMax}{0.223}
 \newcommand{\repGapMedian}{0.067}
 \newcommand{\resolutionLostPct}{23.8\%}
-\newcommand{\resolutionLostToCalibrationPct}{22.4\%}
+\newcommand{\resolutionLostToCalibrationPct}{22.1\%}
 \newcommand{\resultWitnessMax}{5}
 \newcommand{\resultWitnessMin}{0}
 \newcommand{\rhoMax}{0.702}
 \newcommand{\rhoMedian}{0.117}
 \newcommand{\rhoMedianCalibrated}{0.017}
 \newcommand{\rhoMin}{-0.117}
-\newcommand{\rhoScaDisagree}{0.400}
+\newcommand{\rhoScaDisagree}{0.422}
 \newcommand{\rhoSensCalibrated}{0.017}
 \newcommand{\rhoSensNominal}{0.117}
-\newcommand{\rhoSensUpper}{0.006}
+\newcommand{\rhoSensUpper}{0.011}
 \newcommand{\sEncodingPct}{10.1\%}
 \newcommand{\sFamilyEncodingPct}{9.7\%}
 \newcommand{\sFamilyPct}{5.2\%}
@@ -690,15 +710,18 @@
 \newcommand{\shQualityPct}{2.7\%}
 \newcommand{\shRungPct}{1.9\%}
 \newcommand{\shSplitPct}{9.4\%}
+\newcommand{\shareCellsExcludingVPct}{1.9\%}
 \newcommand{\shareCohortPct}{0.0\%}
 \newcommand{\shareCohortTargetPct}{0.7\%}
 \newcommand{\shareCounterfactualCrossPct}{2.7\%}
 \newcommand{\shareCounterfactualPct}{4.2\%}
 \newcommand{\shareDegenerateDcaMaxPct}{17.2\%}
+\newcommand{\shareExcludingVMaxPct}{21.1\%}
 \newcommand{\shareLatitudeCrossPct}{19.2\%}
 \newcommand{\shareLatitudePct}{11.1\%}
 \newcommand{\shareResamplingCrossPct}{9.4\%}
 \newcommand{\shareResamplingPct}{18.9\%}
+\newcommand{\shareStraddleAtHalfPct}{1.6\%}
 \newcommand{\shareTargetPct}{99.3\%}
 \newcommand{\shiftMedian}{-0.0001}
 \newcommand{\shiftNegativePct}{56\%}
@@ -707,6 +730,7 @@
 \newcommand{\shortfallPerThousand}{1.70}
 \newcommand{\shortfallWholeMax}{1.24}
 \newcommand{\shortfallWholeMin}{1.05}
+\newcommand{\simCoreNtrain}{4{,}000}
 \newcommand{\simCoreReps}{1{,}000}
 \newcommand{\simCoverageHalfWidth}{1.4}
 \newcommand{\simCoverageSE}{0.7}
@@ -764,6 +788,10 @@
 \newcommand{\spreadHeadline}{0.073 AUC at the median pair and 0.252 at the widest}
 \newcommand{\spreadMax}{0.252}
 \newcommand{\spreadMedian}{0.073}
+\newcommand{\straddleGapHi}{0.976}
+\newcommand{\straddleGapLo}{0.078}
+\newcommand{\straddleMin}{0.90}
+\newcommand{\straddleRatio}{0.125}
 \newcommand{\targetAgreement}{51\%}
 \newcommand{\targetAgreementHi}{66\%}
 \newcommand{\targetAgreementLo}{43\%}
@@ -784,4 +812,7 @@
 \newcommand{\widerRShiftNonAffineMedian}{0.059}
 \newcommand{\widthEmpHiOverMult}{1.52}
 \newcommand{\widthNoisyBefore}{0.0367}
+\newcommand{\wrssIsotonic}{52}
+\newcommand{\wrssRatioOnly}{253}
+\newcommand{\wrssWithN}{185}
 \newcommand{\zenodoDOI}{the archived release cited in the data-availability statement (DOI reserved, inserted at proof)}

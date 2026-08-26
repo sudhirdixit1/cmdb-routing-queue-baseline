@@ -36,6 +36,20 @@ through the measured factors, which is monotone by construction and
 interpolates the measurements rather than smoothing through them.
 Table~\ref{tab:plane} prints the two curves side by side.
 
+\paragraph{Three candidate curves, on the criterion the monotone one was
+adopted under} Round twenty-five's widened plane makes $\log n$ a significant
+term (Section~\ref{sec:regions}), so the obvious repair is a two-covariate
+parametric fit in $\log(K/n)$ and $\log n$. It is not one. On the plane's
+fitted cells the weighted residual sum of squares is \wrssRatioOnly\ for the
+ratio-only fit, \wrssWithN\ with $\log n$ added, and \wrssIsotonic\ for the
+monotone curve; and on the criterion that matters --- how many cells the
+curve sits below their own measured factor's lower confidence limit, which is
+the anti-conservative direction --- the two parametric fits are alike at
+\nUnderRatioOnly\ and \nUnderWithN\ cells against the monotone curve's
+\nUnderIsotonic. Adding $n$ to a parametric curve improves the fit and does
+not improve the object. The monotone curve is retained and its residual in
+$n$ is reported as a limitation rather than fitted away.
+
 \subsection{What the calibration does and does not correct}
 
 The factor is estimated on a \emph{pointwise} interval in a simulation and

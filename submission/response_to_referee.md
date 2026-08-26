@@ -49,9 +49,9 @@ the strong form.
 What is done:
 
 1. **The intercept-only rung is excluded from every admissible set, by
-   definition** (§4.7). It remains a point of the surface and is never a
+   definition** (§4.6). It remains a point of the surface and is never a
    comparator.
-2. **One master table** (Table 1) is computed from one frozen specification by
+2. **One master table** (Table 3) is computed from one frozen specification by
    one pass of one pipeline, and every claim in the abstract, the introduction
    and the conclusion is read off it.
 3. **Every number in the manuscript is a generated macro.**
@@ -80,15 +80,15 @@ an estimator and a use:
    point.
 2. **An exact functional-ANOVA (Sobol) decomposition** of
    $\operatorname{Var}_s[V_s(f)]$ into first-order and total sensitivity
-   indices per axis (§4.6), on two scales, so "which choice matters" is a
+   indices per axis (§4.5), on two scales, so "which choice matters" is a
    measurement rather than a claim.
-3. **Resolution regions and the robustness index $\rho$** (§4.7): a surface is
+3. **Resolution regions and the robustness index $\rho$** (§4.6): a surface is
    uniformly beneficial, conditionally beneficial, sign-changing or
    unresolved, under *simultaneous* bands. $\rho = 1$ is named as the only
    state in which a scalar is a safe summary — which concedes the referee's
    point that a grid is not always necessary, and makes the concession
    measurable.
-4. **Specification regret** (§4.8, §6.5): a decision-theoretic benchmark of
+4. **Specification regret** (§4.7, §6.5): a decision-theoretic benchmark of
    one-number reporting against the surface, over every eligible log--target
    pair. This is the benchmark the referee asked for and the previous version
    did not attempt.
@@ -227,11 +227,11 @@ it.
 **Granted.** Three changes:
 
 1. The **absolute increments and the absolute absorption
-   $D = V(f\mid B_0) - V(f\mid B_1)$ are primary** everywhere (§3.3, Table 8).
+   $D = V(f\mid B_0) - V(f\mid B_1)$ are primary** everywhere (§3.3, Table S26).
 2. $R$ is secondary, is reported only where the denominator is resolvably
    positive *under the simultaneous band*, and carries a **Fieller set** whose
    *kind* — bounded, unbounded, or the complement of an interval — is printed
-   beside it (§4.5). The manuscript reports how many of its reductions have a
+   beside it (§3.4). The manuscript reports how many of its reductions have a
    non-bounded set; a percentile interval reports a bounded interval for every
    one of them, which is the referee's objection made concrete.
 3. The magnitude of $R$ is nowhere compared with the spread of $R$ across

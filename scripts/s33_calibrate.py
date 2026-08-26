@@ -79,12 +79,62 @@ from common import RESULTS  # noqa: E402
 
 ALPHA = 0.05
 SEED = 20260825
+
+#: A cell is admitted to the plane only if the basic interval straddles its
+#: own point estimate in at least this share of replicates.
+#:
+#: The guard used to be a COUNT --- at least thirty usable replicates --- and
+#: that is the wrong shape of guard, for the reason the handoff's seventh rule
+#: gives: the survivors of a filter are a SELECTED subset.  Where only seven
+#: replicates in a hundred straddle, the ones that do are the ones whose
+#: displacement happened to be small, and the factor computed on them is a
+#: factor for a sample conditioned on the answer.  Two cells passed the count
+#: guard on 34 and 39 replicates and returned c = 3074.7 and c = 0.86, one
+#: absurd and one below one, and both would have entered the fit.
+#:
+#: The threshold is not load-bearing and the file prints why: the shares are
+#: bimodal, every cell sitting either above 0.97 or below 0.08, so anything
+#: between those two numbers admits and rejects the same cells.
+STRADDLE_MIN = 0.90
 REPS = 500
 N_BOOT = 50
 
 #  (world, n_train, K).  K/n spans 0.0025 to 0.500, which brackets every pair
 #  in the corpus (0.001 to 0.324) with points inside the range rather than
 #  three points and an extrapolation.
+#
+#  ROUND TWENTY-FIVE.  It bracketed the corpus in the RATIO and not in n.
+#  Every cell ran at 2,000, 4,000 or 8,000 training rows while the corpus's
+#  training halves run from about 500 to about 123,000, so three pairs of
+#  nineteen sat inside the range the factor was measured on and sixteen were
+#  extrapolations in n -- and Section 10.3 proves, in the same document, that
+#  K/n alone does not determine coverage.  Every region label, every rho and
+#  the headline inherit that.  Two blocks are added.
+#
+#  THE LADDER.  Three ratios held FIXED while n moves over two orders of
+#  magnitude.  This is the design that identifies n-dependence at a fixed
+#  ratio, which is the thing in doubt; the original plane could not, because
+#  n and K/n moved together in it.
+LADDER_RATIOS = (0.0125, 0.05, 0.125)
+LADDER_N = (750, 2000, 8000, 50000)
+#  THE ENDS.  Cells at and below the smallest training half in the corpus and
+#  at the largest, so the applied factor is an interpolation in n for every
+#  pair rather than an extrapolation for sixteen of them.
+#  ROUND TWENTY-FIVE.  120,000 left ONE pair of the nineteen above the plane
+#  -- BPIC19/duration, whose training half is 176,213 rows -- and one pair
+#  outside is the same objection at one nineteenth the size.  The top cell is
+#  above every pair in the corpus, so the factor is an interpolation in n for
+#  all of them.
+#  Two cells above every training half in the corpus, at the two ratio
+#  regimes its two largest pairs occupy.  The first is defined and the second
+#  is not, and that is the point: the estimator this file is built on needs
+#  the basic interval to straddle its own point estimate, and past a crossing
+#  in n it stops doing so.  Reporting the second as a measured absence is
+#  worth more than leaving the plane silent above 50,000 rows.
+ENDS = (("linear", 500, 50), ("linear", 500, 200),
+        ("linear", 120000, 6000),
+        ("linear", 180000, 200), ("linear", 180000, 2250))
+
 PLANE = tuple(
     [("linear", n, k) for (n, k) in
      [(8000, 20), (4000, 20), (2000, 20),
@@ -94,7 +144,13 @@ PLANE = tuple(
       (8000, 1000), (4000, 1000), (2000, 1000),
       (8000, 3019)]]
     + [("sparse", n, k) for (n, k) in
-       [(8000, 100), (4000, 200), (2000, 200), (4000, 1000)]])
+       [(8000, 100), (4000, 200), (2000, 200), (4000, 1000)]]
+    + [("linear", n, max(10, int(round(r * n))))
+       for r in LADDER_RATIOS for n in LADDER_N]
+    + list(ENDS))
+#  the ladder repeats cells the original plane already carries, and a repeated
+#  cell would be averaged with itself rather than replicated
+PLANE = tuple(dict.fromkeys(PLANE))
 
 INTERVAL = "nested_basic"
 
@@ -164,15 +220,27 @@ def factor(R, truth, alpha=ALPHA, n_boot=2000, seed=0):
     U = (R.hi - R.V).values
     ok = (L > 1e-12) & (U > 1e-12) & np.isfinite(L) & np.isfinite(U)
     L, U, V = L[ok], U[ok], R.V.values[ok]
-    if len(V) < 30:
-        return None
+    if len(V) < 30 or ok.mean() < STRADDLE_MIN:
+        return dict(n=len(V), n_offered=int(len(ok)),
+                    share_straddling=float(ok.mean()), c=np.nan,
+                    c_lo=np.nan, c_hi=np.nan, coverage_nominal=np.nan,
+                    coverage_nominal_se=np.nan, median_r=np.nan)
+    #  ROUND TWENTY-FIVE.  This guard used to drop a cell in silence.  It
+    #  fires when the basic interval does not STRADDLE its own point estimate
+    #  --- when the bootstrap displacement exceeds the interval's half-width,
+    #  so that pivoting carries both endpoints to the same side of V --- and
+    #  the widening this file estimates is a widening ABOUT V, which is not
+    #  defined there.  The plane lost two of thirty-one cells to it, both at
+    #  the top end in n, and the facts said only that there were twenty-nine.
+    #  The share is now returned so that the loss is a measurement.
     r = np.maximum((V - truth) / L, (truth - V) / U)
     c = float(np.quantile(r, 1 - alpha))
     rng = np.random.default_rng(seed)
     bs = [float(np.quantile(r[rng.integers(0, len(r), len(r))], 1 - alpha))
           for _ in range(n_boot)]
     cov_nominal = float(np.mean(r <= 1.0))
-    return dict(n=len(r), c=c, c_lo=float(np.quantile(bs, 0.025)),
+    return dict(n=len(r), n_offered=int(len(ok)), share_straddling=float(
+        ok.mean()), c=c, c_lo=float(np.quantile(bs, 0.025)),
                 c_hi=float(np.quantile(bs, 0.975)),
                 coverage_nominal=cov_nominal,
                 coverage_nominal_se=float(
@@ -223,7 +291,47 @@ def fit_curve(C):
             np.log(np.maximum(kn, 1e-6)))))
         return out if out.size > 1 else float(out[0])
 
-    return beta, se, resid, c_of
+    #  ROUND TWENTY-FIVE.  Does n carry anything once K/n is in the fit?
+    #  Section 10.3 says K/n is not sufficient and the plane could not test it
+    #  until the ladder existed, because n and K/n moved together.  A second
+    #  weighted fit adds log n; its coefficient, standard error and the change
+    #  in weighted residual sum of squares are reported so that the answer is
+    #  a measurement rather than a sentence.
+    ln = np.log(C.n_train.values.astype(float))
+    X2 = np.column_stack([np.ones_like(x), x, ln])
+    WX2 = X2 * w[:, None]
+    try:
+        beta2 = np.linalg.solve(X2.T @ WX2, WX2.T @ y)
+        se2 = np.sqrt(np.diag(np.linalg.inv(X2.T @ WX2)))
+        r1 = float(np.sum(w * (y - X @ beta) ** 2))
+        r2 = float(np.sum(w * (y - X2 @ beta2) ** 2))
+        #  and what the two-covariate fit would be worth AS AN APPLIED
+        #  CURVE, which is the question section 6.4 asks: not whether log n
+        #  belongs in a fit, but whether putting it there gives a better
+        #  object to widen the corpus's bands with.  The criterion is the one
+        #  the isotonic curve was adopted under -- how often the curve sits
+        #  below a cell's own measured factor, which is the
+        #  anti-conservative direction.
+        riso = float(np.sum(w * (iso.predict(x) - y) ** 2))
+        c1 = np.maximum(1.0, np.exp(X @ beta))
+        c2c = np.maximum(1.0, np.exp(X2 @ beta2))
+        ciso = np.maximum(1.0, np.exp(iso.predict(x)))
+        lo_c = C.c_lo.values
+        ndep = dict(beta_logn=float(beta2[2]), se_logn=float(se2[2]),
+                    t_logn=float(beta2[2] / se2[2]) if se2[2] else np.nan,
+                    wrss_ratio=r2 / r1 if r1 else np.nan,
+                    beta_logkn_with_n=float(beta2[1]),
+                    wrss_ratio_only=r1, wrss_with_n=r2, wrss_isotonic=riso,
+                    under_ratio_only=int((c1 < lo_c - 1e-9).sum()),
+                    under_with_n=int((c2c < lo_c - 1e-9).sum()),
+                    under_isotonic=int((ciso < lo_c - 1e-9).sum()))
+    except np.linalg.LinAlgError:
+        ndep = dict(beta_logn=np.nan, se_logn=np.nan, t_logn=np.nan,
+                    wrss_ratio=np.nan, beta_logkn_with_n=np.nan,
+                    wrss_ratio_only=np.nan, wrss_with_n=np.nan,
+                    wrss_isotonic=np.nan, under_ratio_only=0,
+                    under_with_n=0, under_isotonic=0)
+    return beta, se, resid, c_of, ndep
 
 
 # --------------------------------------------------------------------------
@@ -276,6 +384,9 @@ def main(argv=None):
     ap.add_argument("--reps", type=int, default=REPS)
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--reuse", action="store_true")
+    ap.add_argument("--resume", action="store_true",
+                    help="keep the replicates already on disk and simulate "
+                         "only the cells the plane has gained since")
     ap.add_argument("--serial", action="store_true")
     a = ap.parse_args(argv)
     t0 = time.time()
@@ -296,7 +407,24 @@ def main(argv=None):
         R = pd.read_csv(path)
         print("  reusing %d replicates" % len(R))
     else:
-        tasks = [(w, n, K, r) for (w, n, K) in cells for r in range(a.reps)]
+        #  ROUND TWENTY-FIVE.  Widening the plane in n is the whole point of
+        #  this round's item B, and a plane that gains one cell should cost
+        #  one cell and not the forty-five minutes the other thirty take.
+        #  A cell counts as done when it already carries the full replicate
+        #  count; anything short is redone, so a run interrupted inside a
+        #  cell cannot leave a half-measured factor behind.
+        have, keep = {}, None
+        if a.resume and path.exists():
+            keep = pd.read_csv(path)
+            have = {k: int(v) for k, v in
+                    keep.groupby(["world", "n_train", "K"]).size().items()}
+        todo = [c for c in cells if have.get(c, 0) < a.reps]
+        if a.resume:
+            print("  resuming: %d of %d cells already complete, %d to run"
+                  % (len(cells) - len(todo), len(cells), len(todo)))
+            for c in todo:
+                print("     to run   %-8s n=%-6d K=%-5d" % c)
+        tasks = [(w, n, K, r) for (w, n, K) in todo for r in range(a.reps)]
         out = []
         if a.serial:
             for t in tasks:
@@ -317,6 +445,11 @@ def main(argv=None):
                                                     time.time() - t0),
                               flush=True)
         R = pd.DataFrame(out)
+        if keep is not None and len(keep):
+            done_cells = {c for c in cells if have.get(c, 0) >= a.reps}
+            kept = keep[[(w, n, K) in done_cells for w, n, K
+                         in zip(keep.world, keep.n_train, keep.K)]]
+            R = pd.concat([kept, R], ignore_index=True) if len(R) else kept
         R.to_csv(path, index=False, compression="gzip")
     print("  %d replicates in %.0fs" % (len(R), time.time() - t0), flush=True)
 
@@ -330,9 +463,41 @@ def main(argv=None):
                          truth=LIM[(w, n, K)], **f))
     C = pd.DataFrame(rows).sort_values("Kn")
     C.to_csv(RESULTS / "s33_cells.csv", index=False)
+    #  the cells where the factor is not defined, named rather than absent
+    UND = C[~np.isfinite(C.c)]
+    if len(UND):
+        print("\n  THE FACTOR IS NOT DEFINED ON %d OF %d CELLS: the basic "
+              "interval does not straddle its own point estimate there"
+              % (len(UND), len(C)))
+        print(UND[["world", "n_train", "K", "Kn", "share_straddling"]]
+              .to_string(index=False, float_format=lambda x: "%.4f" % x))
+    #  the threshold's own sensitivity, printed rather than asserted: the
+    #  largest share among the rejected cells and the smallest among the
+    #  admitted ones.  Any threshold between them gives the same plane.
+    lo_gap = float(UND.share_straddling.max()) if len(UND) else float("nan")
+    hi_gap = float(C[np.isfinite(C.c)].share_straddling.min())
+    print("  admission at %.2f is not load-bearing: the rejected cells reach "
+          "%.3f and the admitted ones start at %.3f"
+          % (STRADDLE_MIN, lo_gap, hi_gap))
+    C = C[np.isfinite(C.c)].copy()
     print("\n" + C.to_string(index=False))
 
-    beta, se, resid, c_of = fit_curve(C)
+    ALL = pd.DataFrame(rows)
+    ALL["Kn"] = ALL.K / ALL.n_train.astype(float)
+    #  the crossing, along whichever ladder ratio carries the most sample
+    #  sizes and actually crosses
+    STRAD = None
+    for r_ in sorted(LADDER_RATIOS, reverse=True):
+        s_ = ALL[(ALL.world == "linear")
+                 & (np.abs(np.log(ALL.Kn / r_)) < 0.06)].sort_values("n_train")
+        below = s_[s_.share_straddling < 0.5]
+        full = s_[s_.share_straddling >= 0.99]
+        if len(below) and len(full):
+            STRAD = dict(ratio=r_, n_all=int(full.n_train.max()),
+                         n_half=int(below.n_train.min()),
+                         share_at_half=float(below.share_straddling.iloc[0]))
+            break
+    beta, se, resid, c_of, ndep = fit_curve(C)
     C = C.sort_values("Kn")
     C = C.assign(c_applied=c_of(C.Kn.values),
                  c_loglinear=np.maximum(1.0, np.exp(
@@ -342,9 +507,11 @@ def main(argv=None):
     #  more than that factor's Monte Carlo error, or the calibration is
     #  under-correcting the cell it was measured on
     under = int((C.c_applied < C.c_lo - 1e-9).sum())
+    shortfall = float(np.max(C.c - C.c_applied))
     if under:
         print("  WARNING: %d cells where the applied curve is below the "
-              "measured factor's lower confidence limit" % under)
+              "measured factor's lower confidence limit, worst shortfall "
+              "%+.3f" % (under, shortfall))
     C.to_csv(RESULTS / "s33_fit.csv", index=False)
     print("\n  log c = %.4f + %.4f log(K/n)   (se %.4f, %.4f)"
           % (beta[0], beta[1], se[0], se[1]))
@@ -355,6 +522,42 @@ def main(argv=None):
     print("  mean residual  linear %+.4f   sparse %+.4f   gap %+.4f"
           % (lin.resid_log.mean(),
              spa.resid_log.mean() if len(spa) else np.nan, world_gap))
+    print("  adding log n:  coefficient %+.4f (se %.4f, t %+.1f), weighted "
+          "residual sum of squares x%.3f"
+          % (ndep["beta_logn"], ndep["se_logn"], ndep["t_logn"],
+             ndep["wrss_ratio"]))
+
+    #  THE LADDER, read directly: at each ratio the plane holds fixed, how far
+    #  apart are the measured factors across n, and how far apart are they in
+    #  units of their own Monte Carlo error?  A fit can hide a spread; this
+    #  cannot.
+    lad = []
+    for r_ in LADDER_RATIOS:
+        s_ = C[(C.world == "linear")
+               & (np.abs(np.log(C.Kn / r_)) < 0.06)].sort_values("n_train")
+        if len(s_) < 2:
+            continue
+        lo_, hi_ = s_.iloc[0], s_.iloc[-1]
+        sd_ = np.sqrt(((lo_.c_hi - lo_.c_lo) / (2 * 1.959964)) ** 2
+                      + ((hi_.c_hi - hi_.c_lo) / (2 * 1.959964)) ** 2)
+        lad.append(dict(ratio=r_, n_lo=int(lo_.n_train), n_hi=int(hi_.n_train),
+                        c_lo_n=float(lo_.c), c_hi_n=float(hi_.c),
+                        n_cells=int(len(s_)),
+                        spread=float(hi_.c - lo_.c),
+                        spread_se=float((hi_.c - lo_.c) / sd_) if sd_ else
+                        np.nan,
+                        #  the same comparison in the units section 10.3
+                        #  states it in: what holding the ratio fixed and
+                        #  moving n does to COVERAGE, not to the factor
+                        cov_lo_n=float(lo_.coverage_nominal),
+                        cov_hi_n=float(hi_.coverage_nominal),
+                        cov_spread=float(abs(hi_.coverage_nominal
+                                             - lo_.coverage_nominal))))
+    LAD = pd.DataFrame(lad)
+    LAD.to_csv(RESULTS / "s33_ladder_n.csv", index=False)
+    if len(LAD):
+        print("\n  THE LADDER: the same ratio, n moved over two orders")
+        print(LAD.to_string(index=False))
 
     G = apply_to_corpus(c_of)
     G.to_csv(RESULTS / "s33_regions.csv", index=False)
@@ -392,6 +595,45 @@ def main(argv=None):
         c_intercept=float(np.exp(beta[0])), c_slope=float(beta[1]),
         c_slope_se=float(se[1]),
         world_residual_gap=world_gap,
+        n_train_min=int(C.n_train.min()), n_train_max=int(C.n_train.max()),
+        beta_logn=ndep["beta_logn"], se_logn=ndep["se_logn"],
+        t_logn=ndep["t_logn"], wrss_ratio=ndep["wrss_ratio"],
+        wrss_ratio_only=ndep["wrss_ratio_only"],
+        wrss_with_n=ndep["wrss_with_n"], wrss_isotonic=ndep["wrss_isotonic"],
+        under_ratio_only=ndep["under_ratio_only"],
+        under_with_n=ndep["under_with_n"],
+        under_isotonic=ndep["under_isotonic"],
+        n_ladder_ratios=int(len(LAD)),
+        ladder_spread_max=float(LAD.spread.abs().max()) if len(LAD) else
+        np.nan,
+        ladder_spread_se_max=float(LAD.spread_se.abs().max()) if len(LAD)
+        else np.nan,
+        ladder_coverage_spread_max=float(LAD.cov_spread.max()) if len(LAD)
+        else np.nan,
+        n_cells_undefined=int(len(UND)), n_cells_offered=int(len(UND) + len(C)),
+        straddle_min=STRADDLE_MIN,
+        #  what the APPLIED curve, a function of the ratio alone, leaves on
+        #  the table now that the plane has the leverage in n to see it
+        n_cells_under_applied=under, max_shortfall_applied=shortfall,
+        straddle_gap_lo=lo_gap, straddle_gap_hi=hi_gap,
+        #  THE CROSSING, AT A FIXED RATIO.  The largest n at which the basic
+        #  interval still straddles its own point estimate in every replicate,
+        #  and the smallest at which it does in fewer than half.  Both are
+        #  taken ALONG ONE LADDER RATIO and not over the whole plane: the
+        #  straddling depends on n and on K/n together, so a maximum over the
+        #  plane would be attained at whatever cell happens to carry the
+        #  smallest ratio and would say nothing about n.  The ratio is the
+        #  one the ladder runs at the most sample sizes.
+        straddle_ratio=float(STRAD["ratio"]) if STRAD else np.nan,
+        n_straddle_all_max=int(STRAD["n_all"]) if STRAD else 0,
+        n_straddle_half_min=int(STRAD["n_half"]) if STRAD else 0,
+        share_straddle_at_half=float(STRAD["share_at_half"]) if STRAD
+        else np.nan,
+        #  the same thing over the whole plane at a FIXED K, which is the
+        #  comparison section 10.3 makes and states as a spelled-out number
+        fixedk_coverage_spread=float(
+            C.groupby("K").coverage_nominal.agg(lambda v: v.max() - v.min())
+            .max()) if len(C) else np.nan,
         coverage_nominal_median=float(C.coverage_nominal.median()),
         n_regions_changed=int(G.changed.sum()),
         n_uniformly_beneficial_nominal=int(

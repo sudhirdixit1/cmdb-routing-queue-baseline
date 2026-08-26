@@ -108,6 +108,21 @@ def emit(mn):
     # ================================================================
     F40 = load("s40_facts.csv")
     put("nQbelowEmpWhole", thousands(first(F40, "n_below_whole")))
+    #  ROUND TWENTY-FIVE.  Does the band contain the point estimate it is a
+    #  band for?  RANGES OVER: every cell of every WHOLE-SURFACE family, all
+    #  19 pairs; the `Pair' macros count pairs and not cells, and the
+    #  displacement ratio is a median over cells within a pair and then over
+    #  pairs, so the `Worst' one is the worst PAIR's median and not the worst
+    #  cell.
+    put("nCellsExcludingV", thousands(first(F40, "n_cells_excluding_V")))
+    put("nCellsWholeTotal", thousands(first(F40, "n_cells_whole")))
+    put("shareCellsExcludingVPct", pct(first(F40, "share_cells_excluding_V")))
+    put("nPairsExcludingV", thousands(first(F40, "n_pairs_excluding_V")))
+    put("shareExcludingVMaxPct", pct(first(F40, "share_excludes_V_max")))
+    put("dispOverHalfwidthMedian",
+        num(first(F40, "disp_over_halfwidth_median"), 2))
+    put("dispOverHalfwidthWorst",
+        num(first(F40, "disp_over_halfwidth_worst"), 2))
     put("nQbelowEmpDca", thousands(first(F40, "n_below_dca")))
     put("nFamiliesWhole", thousands(first(F40, "n_families_whole")))
     put("nFamiliesDca", thousands(first(F40, "n_families_dca")))
@@ -131,7 +146,14 @@ def emit(mn):
     SUR33 = load("s01_surface.csv.gz")
     if (C33 is not None and len(C33) and SUR33 is not None and len(SUR33)
             and "n_train" in C33.columns):
-        lo, hi = int(C33.n_train.min()), int(C33.n_train.max())
+        #  ROUND TWENTY-FIVE.  s33_cells.csv now carries the cells where the
+        #  factor is NOT DEFINED as well, so that their absence is a
+        #  measurement rather than a gap.  The plane's reach is the reach of
+        #  the cells the curve is actually FITTED on, which is the finite
+        #  ones; counting the others here would claim a reach the factor
+        #  does not have.
+        _fit33 = C33[np.isfinite(C33.c)] if "c" in C33.columns else C33
+        lo, hi = int(_fit33.n_train.min()), int(_fit33.n_train.max())
         per = (SUR33.groupby(["log", "target"])[["n", "n_test"]]
                .first().reset_index())
         per["n_train"] = per.n - per.n_test
@@ -311,6 +333,36 @@ def emit(mn):
         put("calFactorMin", num(float(C33.c.min()), 2))
         put("calFactorMax", num(float(C33.c.max()), 2))
         put("calFactorMedian", num(float(C33.c.median()), 2))
+        #  ROUND TWENTY-FIVE.  Where the basic interval stops straddling its own
+        #  point estimate, which is where this file's estimator stops existing.
+        #  Both range over the PLANE's cells and not over the corpus.
+        put("straddleRatio", num(first(F33, "straddle_ratio"), 3))
+        put("nStraddleAllMax", thousands(first(F33, "n_straddle_all_max")))
+        put("nStraddleHalfMin", thousands(first(F33, "n_straddle_half_min")))
+        put("shareStraddleAtHalfPct", pct(first(F33, "share_straddle_at_half")))
+        put("nPlaneCellsUndefined", thousands(first(F33, "n_cells_undefined")))
+        put("nPlaneCellsOffered", thousands(first(F33, "n_cells_offered")))
+        put("planeNdependenceT", num(first(F33, "t_logn"), 1))
+        put("nCellsUnderApplied", thousands(first(F33, "n_cells_under_applied")))
+        put("maxShortfallApplied", num(first(F33, "max_shortfall_applied"), 2))
+        put("straddleGapLo", num(first(F33, "straddle_gap_lo"), 3))
+        put("straddleGapHi", num(first(F33, "straddle_gap_hi"), 3))
+        put("straddleMin", num(first(F33, "straddle_min"), 2))
+        put("planeNdependenceBeta", num(first(F33, "beta_logn"), 3))
+        #  the three candidate curves compared on the criterion the monotone
+        #  one was adopted under.  RANGES OVER: the plane's 29 fitted cells.
+        put("wrssRatioOnly", num(first(F33, "wrss_ratio_only"), 0))
+        put("wrssWithN", num(first(F33, "wrss_with_n"), 0))
+        put("wrssIsotonic", num(first(F33, "wrss_isotonic"), 0))
+        put("nUnderRatioOnly", thousands(first(F33, "under_ratio_only")))
+        put("nUnderWithN", thousands(first(F33, "under_with_n")))
+        put("nUnderIsotonic", thousands(first(F33, "under_isotonic")))
+        put("ladderSpreadMax", num(first(F33, "ladder_spread_max"), 2))
+        put("ladderSpreadSE", num(first(F33, "ladder_spread_se_max"), 1))
+        put("fixedKcoverageSpreadPct",
+            pct(first(F33, "fixedk_coverage_spread")))
+        put("ladderCoverageSpreadPct",
+            pct(first(F33, "ladder_coverage_spread_max")))
     else:
         for k in ("calFactorMin", "calFactorMax", "calFactorMedian"):
             put(k, None)
@@ -877,6 +929,13 @@ def emit_round25(mn):
             put("simGridSEMax", num(float(gr.coverage_se.max()) * 100.0, 1))
             put("simGridSERatio", num(gse / cse, 1) if cse else None)
             put("simCoreReps", thousands(int(co.n.max())))
+            #  ROUND TWENTY-FIVE.  The core experiment is the one that CHOSE
+            #  the basic construction over the percentile, the
+            #  bias-corrected and m-out-of-n, and it ran at ONE sample size.
+            #  Section 11 needs to say which, because the pathology section
+            #  4.1 now reports appears above it.
+            put("simCoreNtrain", thousands(int(co.n_train.max()))
+                if "n_train" in co.columns else None)
         else:
             for k in ("simGridReps", "simGridSEMedian", "simGridSEMax",
                       "simGridSERatio", "simCoreReps"):

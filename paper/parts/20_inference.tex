@@ -61,6 +61,30 @@ displacement out; simultaneous bands are recentred by the same shift, which is
 a property of the draws and so corrects a whole family at once
 (Table~\ref{tab:sim31}, and Supplement~\ref{app:noisy} for the diagnosis).
 
+\paragraph{A pivoted interval need not contain the estimate it is built from,
+and on this corpus \nCellsExcludingV\ cells do not}
+Pivoting moves the interval by twice the displacement. Where the displacement
+exceeds the interval's own half-width, both endpoints land on the same side of
+$\hat{V}$ and the band excludes it. That is a property of a pivotal interval
+under bias rather than an error, but it is not what a reader expects of a
+band, so it is counted: \nCellsExcludingV\ of the \nCellsWholeTotal\
+whole-surface cells --- \shareCellsExcludingVPct\ --- on
+\nPairsExcludingV\ of the \nPairs\ pairs, reaching
+\shareExcludingVMaxPct\ of the cells on the worst of them. The ratio of
+displacement to half-width has a median \dispOverHalfwidthMedian\ across
+pairs and \dispOverHalfwidthWorst\ on that pair.
+
+\textbf{It gets worse with the sample size, not better}, and that is the
+uncomfortable part. The displacement is a bias --- a resample holds about
+$1 - e^{-1}$ of the distinct levels however many rows it has --- so at a fixed
+ratio of cardinality to sample size it does not shrink with $n$, while the
+half-width shrinks like $n^{-1/2}$. Section~\ref{sec:simsensitivity} locates
+the crossing: at a fixed ratio of \straddleRatio\ the interval straddles its
+own estimate in every replicate up to \nStraddleAllMax\ training rows and in
+only \shareStraddleAtHalfPct\ of them by \nStraddleHalfMin. The three pairs above are the corpus's pairs
+nearest that crossing, and Section~\ref{sec:regions} reports what it costs the
+coverage calibration.
+
 \subsection{Three surfaces, and which one a claim may quantify over}
 \label{sec:threesurfaces}
 
@@ -164,10 +188,11 @@ $q_{\mathrm{emp}}/q$ is \qRatioWholeMedian\ on the surface families and
 band built on the smaller value resolves cells the observed maxima do not ---
 and the mechanism is visible in the draws. A Gaussian multiplier reproduces
 the empirical \emph{covariance} of the standardised draws and therefore only
-the excursions a Gaussian process makes; these draws are heavy-tailed, and the
-asymptotics the construction rests on are asked to hold at
-\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ draws over families of several
-hundred cells.
+the excursions a Gaussian process makes. These draws are heavy-tailed ---
+Section~\ref{sec:simband} measures how, and finds that the word covers two
+different mechanisms on the two families --- and the asymptotics the
+construction rests on are asked to hold at \nDrawsSurfaceMin\ to
+\nDrawsSurfaceMax\ draws over families of several hundred cells.
 
 We therefore report what each estimator resolves rather than asserting one of
 them. Over the whole-surface families the multiplier band resolves
@@ -219,7 +244,9 @@ estimators. At the modal surface family the multiplier band covers
 \nBootOneFifty\ and \covMultBootFourHundred\ at \nBootFourHundred; the
 per-cell interval it is built from moves \covPercellBootThirtyThree\ to
 \covPercellBootFourHundred\ over the same range. This corpus runs at
-\nDrawsSurfaceMin\ to \nDrawsSurfaceMax. Every band, region label and $\rho$
+\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ draws as declared and
+\nDrawsEffectiveMin\ to \nDrawsSurfaceMax\ effectively, and it is the
+effective count a band is built from. Every band, region label and $\rho$
 in this paper should be read as the anti-conservative statement that makes
 it, and Section~\ref{sec:lim} states what follows.
 

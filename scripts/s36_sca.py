@@ -245,6 +245,10 @@ def main(argv=None):
     ap.add_argument("--perms", type=int, default=N_PERM)
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--serial", action="store_true")
+    ap.add_argument("--reuse", action="store_true",
+                    help="keep the permutation null and the observed curves "
+                         "already on disk and rebuild only the verdicts, "
+                         "which is what changes when s33 is re-estimated")
     ap.add_argument("--pairs", default="",
                     help="comma-separated log/target list; default is every "
                          "admitted pair")
@@ -267,6 +271,19 @@ def main(argv=None):
             print("     %s / %s" % (lg, tg))
         return
 
+    #  ROUND TWENTY-FIVE.  This file's verdicts table carries two columns
+    #  that are not computed here at all -- the region label and rho, merged
+    #  in from s33 -- so re-estimating the calibration makes them stale while
+    #  everything this file DOES compute is unchanged.  Recomputing the
+    #  permutation null to refresh a merge would cost the raw logs and hours;
+    #  --reuse rebuilds the verdicts from the null and the curves on disk.
+    if a.reuse:
+        D = pd.read_csv(RESULTS / "s36_null.csv")
+        CU = pd.read_csv(RESULTS / "s36_curve.csv")
+        print("  reusing %d null rows and %d curve rows already on disk"
+              % (len(D), len(CU)))
+        return _verdicts(D, CU, t0, a.perms, n_cells)
+
     tasks = [(lg, tg, p) for (lg, tg) in PAIRS
              for p in [-1] + list(range(a.perms))]
     out = []
@@ -288,6 +305,21 @@ def main(argv=None):
                     print("    %d/%d  %.0fs" % (done, len(tasks),
                                                 time.time() - t0), flush=True)
     D = pd.DataFrame(out)
+    #  ROUND TWENTY-FIVE.  `task` catches its own exceptions and returns an
+    #  error row, so a run with no data under it completes "successfully"
+    #  with nineteen hundred error rows -- and this line then overwrote a
+    #  good permutation null with them.  It did, on the machine this round
+    #  was done on, and the file had to come back out of git.  A run that
+    #  produced no usable replicate does not get to write.
+    if "median" not in D.columns or not D.median.notna().any():
+        n_err = int(D.error.notna().sum()) if "error" in D.columns else len(D)
+        raise SystemExit(
+            "s36: %d tasks and not one usable replicate (%d carried an "
+            "error); refusing to overwrite results/s36_null.csv.  The first "
+            "error was:\n  %s" % (len(D), n_err,
+                                  (D.error.dropna().iloc[0]
+                                   if "error" in D.columns
+                                   and D.error.notna().any() else "unknown")))
     D.to_csv(RESULTS / "s36_null.csv", index=False)
 
     #  the observed sub-surface of each pair, kept for the figure
@@ -303,7 +335,10 @@ def main(argv=None):
                       .assign(rank=lambda x: np.arange(1, len(x) + 1)))
     CU = pd.concat(curves, ignore_index=True) if curves else pd.DataFrame()
     CU.to_csv(RESULTS / "s36_curve.csv", index=False)
+    return _verdicts(D, CU, t0, a.perms, n_cells)
 
+
+def _verdicts(D, CU, t0, n_perms, n_cells):
     #  the calibrated regions are the ones the article quotes
     #  ROUND TWENTY-TWO.  `s33_regions.csv` carries BOTH the nominal `rho'
     #  and `region' and the calibrated ones, so renaming the calibrated pair
@@ -361,7 +396,7 @@ def main(argv=None):
     full_both = (VD.region_full_surface.isin(
         ["sign-changing", "conditionally harmful"]) if len(VD) else None)
     facts = dict(
-        n_pairs=len(VD), n_perms=a.perms, n_cells=n_cells,
+        n_pairs=len(VD), n_perms=n_perms, n_cells=n_cells,
         n_max_cases=N_MAX_CASES,
         n_capped=int(VD.capped.sum()) if len(VD) and "capped" in VD else 0,
         n_sca_nonnull=int((VD.p_median <= ALPHA).sum()) if len(VD) else 0,

@@ -142,7 +142,7 @@ both the absence of intervals and the sums.
 
 ### I. $\tau_1$ and $\tau_2$ are not the same cases
 
-**Conceded, and this changed a headline number.** Table 7's caption said the
+**Conceded, and this changed a headline number.** Table 8's caption said the
 two differ "only in what is known about the same cases"; its own columns said
 44,513 against 45,455, because 942 incidents have no interaction record. The
 clean population/information separation is the operational contribution of
@@ -165,7 +165,7 @@ $\tau_1$'s case count.
 ### J. The same contrast was printed with two intervals
 
 **Conceded.** `PC3` appeared as $[-0.00161, +0.01217]$ in Section 4.4 and
-$[-0.00059, +0.01210]$ in Table S15. Both were right about their own file —
+$[-0.00059, +0.01210]$ in Table S8. Both were right about their own file —
 400 draws and 2,000 draws — and the point estimate agrees to seven figures.
 What was wrong is that the article quoted the 400-draw interval in the same
 paragraph as the 2,000-draw budget, beside a table printing the other, under a

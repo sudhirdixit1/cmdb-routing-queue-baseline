@@ -137,8 +137,8 @@
     "sha": "87e16a598d49c7d9"
   },
   "s28_figures.py": {
-    "at": "2026-08-25T22:43:51Z",
-    "note": "Round twenty-five: figure 2 replaced. It was a stacked bar per pair whose segments were medians over the five instruments, which do not add, so the bars did not sum to one and the caption had to forbid the addition the picture invites. It is now one pair's exact decomposition beside the corpus as points and ranges.",
+    "at": "2026-08-26T00:45:19Z",
+    "note": "Round twenty-five: figures regenerated after s33's plane was widened.",
     "sha": "9ecea18eea3d0bc6"
   },
   "s29_props.py": {
@@ -164,13 +164,13 @@
     "sha": "f007dbdfeb480547"
   },
   "s33_calibrate.py": {
-    "at": "2026-08-25T01:56:47Z",
-    "note": "round twenty-two: the declared surface carries the pipelines the inference surface uses, and everything that reads it was recomputed",
-    "sha": "c2ec82d9e4bb040c"
+    "at": "2026-08-26T00:45:19Z",
+    "note": "Round twenty-five, item B: the plane widened in n from three sizes to eleven, 500 to 180,000 training rows, with three constant-ratio ladders that isolate n at a fixed K/n; --resume added so a plane that gains a cell costs a cell; the admission guard moved from a replicate COUNT to the SHARE of replicates whose basic interval straddles its own point estimate, after two cells passed the count guard on 34 and 39 selected replicates and returned c = 3074.7 and c = 0.86. Full run of 25 August 2026, 33 cells at 500 replicates, four of which have no factor and are recorded as such.",
+    "sha": "710d010b04865ff5"
   },
   "s34_reporting.py": {
-    "at": "2026-08-25T22:43:51Z",
-    "note": "Round twenty-five: the axis-kind partition under both declared scales, and the reference-specification sensitivity of round 24's minor comment 2. Re-run on the same inputs.",
+    "at": "2026-08-26T00:45:19Z",
+    "note": "Round twenty-five: re-run after s33's plane was widened, since it reads s33_regions.csv for the calibrated resolution.",
     "sha": "6f81fbc95adae970"
   },
   "s35_utility.py": {
@@ -179,9 +179,9 @@
     "sha": "266b0394cb39170e"
   },
   "s36_sca.py": {
-    "at": "2026-08-25T10:53:45Z",
-    "note": "round twenty-two: all 19 admitted pairs at 100 permutations on the 24-cell sub-surface, under the declared 20,000-case cap",
-    "sha": "c40bb7b7de174a87"
+    "at": "2026-08-26T00:45:19Z",
+    "note": "Round twenty-five: --reuse added, which rebuilds the verdicts from the permutation null and the curves on disk. The two columns this file merges in from s33 went stale when the plane was widened and nothing else it computes changed; recomputing the null to refresh a merge would have cost the raw logs. Also a guard that refuses to overwrite the null when no replicate is usable, after a failed run wrote 1,919 error rows over it.",
+    "sha": "e438cdc32bd0a325"
   },
   "s37_axes.py": {
     "at": "2026-08-24T23:51:14Z",
@@ -199,13 +199,13 @@
     "sha": "0a47be052d85ba7b"
   },
   "s40_qcheck.py": {
-    "at": "2026-08-25T11:41:42Z",
-    "note": "round twenty-two: the multiplier critical value against the empirical quantile of the same observed maxima",
-    "sha": "00f5c5098e94ea02"
+    "at": "2026-08-26T00:45:19Z",
+    "note": "Round twenty-five: a third check on the band against itself -- whether it contains the point estimate it is a band for. 74 of 3,900 whole-surface cells do not, on the three pairs nearest the crossing in n that s33's plane locates.",
+    "sha": "b5b93625f79d4ba9"
   },
   "s41_bandcoverage.py": {
-    "at": "2026-08-25T22:57:14Z",
-    "note": "Round twenty-five: the shortfall factor -- the multiplicative widening that would have given nominal family-wise coverage on each cell -- added to the summary and the facts, and the grid selector corrected to name the nominal family size. Re-derived with --resummarise from the 46,000 replicates already on disk; no replicate was recomputed.",
-    "sha": "60fb91baee67ffb3"
+    "at": "2026-08-26T00:45:27Z",
+    "note": "Round twenty-five: the shortfall factor is now the (1-alpha) quantile of t_max/q taken WITHIN the replicate, which is the widening that attains nominal coverage; the ratio of the two marginal quantiles that the first version used is not the same number, though on this experiment it rounds the same. Re-derived with --resummarise; no replicate recomputed.",
+    "sha": "0b152283cf6de473"
   }
 }

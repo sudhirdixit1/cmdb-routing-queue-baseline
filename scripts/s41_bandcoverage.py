@@ -636,17 +636,23 @@ def summarise(R):
                 mean_width=float(sub["width_" + c].mean()),
                 q_median=float(sub[c].median()),
                 q_oracle=float(sub.t_max.quantile(1 - ALPHA)),
-                #  THE FACTOR THE BAND IS SHORT BY.  The oracle critical
-                #  value divided by the one the candidate supplies: the
-                #  multiplicative widening that WOULD have given nominal
-                #  family-wise coverage on this cell.  It is the quantity to
-                #  compare the coverage calibration of Section 6.4 against,
-                #  because that calibration is a multiplicative widening of
-                #  exactly this critical value -- fitted to restore POINTWISE
-                #  coverage, and therefore not fitted to this.
-                shortfall_factor=float(sub.t_max.quantile(1 - ALPHA)
-                                       / sub[c].median())
-                if float(sub[c].median()) else np.nan,
+                #  THE FACTOR THE BAND IS SHORT BY: the multiplicative
+                #  widening that WOULD have given nominal family-wise
+                #  coverage on this cell.  It is the quantity to compare the
+                #  coverage calibration of Section 6.4 against, because that
+                #  calibration is a multiplicative widening of exactly this
+                #  critical value -- fitted to restore POINTWISE coverage,
+                #  and therefore not fitted to this.
+                #
+                #  Widening by f covers when f*q >= t_max, so the f attaining
+                #  nominal is the (1-alpha) quantile of t_max/q taken WITHIN
+                #  the replicate.  The ratio of the two marginal quantiles is
+                #  not the same number: q and t_max are estimated from the
+                #  same draws and move together, and the first version of
+                #  this line used the ratio.
+                shortfall_factor=float(
+                    (sub.t_max / sub[c].replace(0, np.nan)).quantile(
+                        1 - ALPHA)),
                 mean_false_cells=float(sub["n_false_" + c].mean()),
                 kurt_med=float(sub.kurt_med.median()),
                 kurt_p90=float(sub.kurt_p90.median()),

@@ -308,10 +308,10 @@ limitation.
 
 Each of the five, in order.
 
-1. **28.7% against Table 7's 0.263.** Both are right and they are different
+1. **28.7% against Table 4's 0.263.** Both are right and they are different
    aggregations: the table printed, per axis, the median over instruments of
    that axis's index, so its row maximum is a maximum of medians; the headline
-   is the median over instruments of the maximum over axes. Table 7 now
+   is the median over instruments of the maximum over axes. Table 4 now
    carries the headline's own per-pair quantity as its last column, so the
    printed table reproduces the printed number. The caption says which is
    which.
@@ -459,12 +459,12 @@ silently resolve it.
 | comment | disposition |
 |---|---|
 | abstract's hedging final clause | removed; the abstract is 194 words and states the estimand, the four objects, three numbers and the case study's cohort-and-target dependence |
-| Table 12's row order | every per-pair table is now sorted by (log, target); the caption says so |
+| the per-pair table's row order | every per-pair table is now sorted by (log, target); the caption says so |
 | Tables 4 and 17 running together; Tables 13 and 2 overflowing | wide text tables no longer use `\resizebox`, which scales glyphs and leading together; they use ragged-right `p{}` columns at the body font, with hyphenation made cheap for tokens like `case:RequestedAmount` |
 | BPIC15_4 and BPIC19 uninterpretable after recalibration | a registered exclusion rule now removes them from the decision-analytic reading and names what it removed (M5) |
 | Figures 1 and 6 lack subpanel labels; Figure 6's dip | Figure 1's panels are labelled (a) and (b) and the caption refers to them; Figure 6's caption now carries the resolved/unresolved counts for the dip |
 | "PC" vs "C" numbering explained in the body | removed; the contrasts are simply `PC1`–`PC5` |
-| Table 12's BPIC14 row mixes cohorts | the caption states that every row is on the registered cohort and target, and points at Section 7.1 for the case study's |
+| the per-pair table's BPIC14 row mixes cohorts | the caption states that every row is on the registered cohort and target, and points at Section 7.1 for the case study's |
 | Proposition 2's Assumption 1 | a paragraph now says which direction of the equivalence needs richness (one), and what a reader inside a restricted model class should conclude |
 | "nothing here is new" in Appendix C | removed |
 | the archived release must match the submitted numbers | see below |
