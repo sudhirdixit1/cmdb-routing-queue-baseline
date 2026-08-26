@@ -115,6 +115,8 @@ python scripts/claim_registry.py      # 0 unresolved
 python scripts/check_response_refs.py --sync
 python scripts/provenance.py          # 38/38 accepted
 python scripts/fill_response21.py     # page counts into the letters
+python scripts/verify_release.py      # a clean checkout reproduces every
+                                      # number byte for byte, with no data/
 ```
 
 **Trap:** `verify_numbers` and `texlint` read the *assembled* file. If you edit
@@ -340,7 +342,19 @@ for the record:
    corpus medians as points with intervals, instead of stacked medians that
    invite an addition the caption then forbids.
 
-### E. Owner-only, cannot be automated — **prepared, round 25**
+### E. The DOI — **the reproduction half is DONE and verified; minting is not**
+
+Item E has two clauses. *Confirm the archived release reproduces the
+submitted numbers to the digit* is done: `scripts/verify_release.py` exports
+the tree with `git archive` --- exactly what a tag snapshots and what Zenodo
+would take --- and runs the manuscript out of it. A checkout carrying only
+what is committed regenerates `paper/numbers.tex` **byte for byte** and all
+**52** generated tables with none differing, builds both documents at 0
+errors and 0 undefined references, and needs **no file under `data/`** beyond
+the three the repository tracks. Verified to fail when a number drifts.
+
+*Mint the DOI* cannot be done from here: it needs the depositing account and
+it publishes a release. What round twenty-five could do around it, it did.
 See `submission/OWNER-ACTIONS.md`. Minting the DOI needs the depositing
 account and a published release, so it is still owner-only. What round
 twenty-five could do, it did: the instructions there named the wrong tag,
