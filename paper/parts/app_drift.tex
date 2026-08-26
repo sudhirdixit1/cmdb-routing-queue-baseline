@@ -1,0 +1,53 @@
+Section~\ref{sec:lim} names two assumptions and says neither is tested: the
+moving-block construction needs stationarity and mixing that an event log is
+not guaranteed to have, and the same assumption is what makes
+Definition~\ref{def:estimand}'s population limit well defined under a temporal
+split. This section tests the first of them, on every pair, and reports the
+answer whichever way it comes out.
+
+\paragraph{The diagnostic, and the null it is read against}
+At the reference cell the model is fitted \emph{once} on the training half and
+then evaluated on the test half cut into \nDriftBlocks\ consecutive blocks in
+time. Under a stationary process the per-block increment should differ only by
+sampling error. A block is a fifth of the test half, so it carries more
+sampling error than the whole and \emph{some} spread is guaranteed; comparing
+the spread with the pair's own interval, which is a whole-sample object, would
+therefore call ordinary noise drift. The reference is instead a
+\textbf{stationarity null}: the same test rows re-partitioned at random into
+blocks of the same sizes, \nDriftPerm\ times, which destroys the time order
+and nothing else. The observed spread is reported as a percentile of that
+reference.
+
+\input{tables/drift}
+
+\paragraph{What it shows}
+\textbf{On \nDrifts\ of \nDriftPairs\ pairs the increment is not stationary
+across the test half} --- the time-ordered spread sits in the upper tail of
+the null at the declared level $\alpha = 0.05$ --- and on
+\nDriftAboveNullMedian\ it sits above the null's median. The median observed spread is \driftSpreadMedian\ AUC,
+\driftOverNullMedian\ times the null's median, and on the worst pair it is
+\driftOverNullMax\ times. On \nDriftSignVaries\ of \nDriftPairs\ pairs the
+\emph{sign} of the increment varies between blocks of the same test half.
+
+\textbf{It is heterogeneity rather than trend.} Only \nDriftTrend\ of
+\nDriftPairs\ pairs shows a Spearman correlation between the increment and the
+block index that reaches conventional significance, so what the diagnostic
+finds is not a register decaying smoothly with time: it is a test half whose
+periods are not exchangeable. Two candidate mechanisms are in the table.
+Prevalence moves by a median \driftPrevSpreadMedian\ between the first and
+last block, and by \driftPrevSpreadMax\ on the worst pair; and the share of
+test rows whose register value was never seen in training rises from a median
+\driftUnseenFirstPct\ in the first block to \driftUnseenLastPct\ in the last.
+
+\paragraph{What follows}
+Two things, and neither is a correction. First, a pair that fails this test is
+not a pair whose number is wrong: it is a pair whose estimand is a moving
+target, which is a fact a reader should be given rather than an error to be
+repaired --- and it is the paper's own thesis applied to time, which
+$\mathcal{S}$ does not contain as an axis. Second, the interval and the band
+do not cover it. Both are computed under an assumption this diagnostic finds
+violated on \nDrifts\ pairs, so on those pairs the interval understates what a
+reader would see on a different stretch of the same log, and the direction of
+the understatement is not signed. Adding time as a declared axis --- an
+evaluation period, with the increment reported per period --- is the change
+this measurement implies, and it is not made here.

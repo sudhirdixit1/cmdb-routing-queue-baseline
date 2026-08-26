@@ -1,0 +1,2 @@
+log,n_prefixes,draws,prefix_min,prefix_max,v_at_creation,v_at_deepest,n_at_creation,n_at_deepest,v_min,v_max,v_range,share_of_creation_retained,n_resolved,n_prefixes_positive,base_auc_at_creation,base_auc_at_deepest,runtime_s
+BPIC14,6,300,0,8,0.2571802060482109,0.06914764448761535,46606,857,0.01747908338154147,0.2571802060482109,0.23970112266666943,0.2688684543422947,4,6,0.641127051868453,0.672292374939291,184.8

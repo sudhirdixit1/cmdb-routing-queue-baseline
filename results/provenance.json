@@ -217,5 +217,15 @@
     "at": "2026-08-26T03:04:22Z",
     "note": "round 26 item C1: the overview figure; a schematic, reads no result file",
     "sha": "88ae80749d0660fb"
+  },
+  "s45_prefix.py": {
+    "at": "2026-08-26T21:26:31Z",
+    "note": "Round twenty-seven: new. A prefix axis on one log -- the axis Section 11 says this study cannot vary. Run at 300 weighted-block draws; results/s45_prefix.csv, results/s45_facts.csv.",
+    "sha": "50dcb3550a787e0c"
+  },
+  "s46_drift.py": {
+    "at": "2026-08-26T21:26:31Z",
+    "note": "Round twenty-seven: new. The stationarity assumption Section 11 names as untested, measured against a permutation null that re-partitions the same test rows at random. 400 permutations; results/s46_drift.csv, s46_summary.csv, s46_facts.csv.",
+    "sha": "de368e6909e65b9d"
   }
 }

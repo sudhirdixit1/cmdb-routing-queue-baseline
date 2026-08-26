@@ -76,12 +76,25 @@ and $m$-out-of-$n$ resamples across the $(n,K)$ plane is not run, and no
 conclusion here should be read as evidence that the refit's cost was worth
 paying.
 
-\paragraph{Internal --- further assumptions, named}
+\paragraph{Internal --- further assumptions, named, and one of them
+measured}
 The split point is fixed within a draw, so split-position uncertainty is
 outside every interval here. The moving-block construction needs stationarity
 and mixing that an event log is not guaranteed to have, and the same
 assumption is what makes Definition~\ref{def:estimand}'s population limit well
-defined under a temporal split; neither is tested. The band's family-wise
+defined under a temporal split. \textbf{Stationarity is now measured and it
+does not hold everywhere}: cutting each pair's test half into \nDriftBlocks\
+consecutive blocks and reading the observed spread of the increment against a
+null that re-partitions the same rows at random, \nDrifts\ of \nDriftPairs\
+pairs sit in the upper tail of that null at the declared level
+$\alpha = 0.05$, and
+\nDriftSignVaries\ carry both signs between blocks of one test half
+(Supplement~\ref{app:drift}). Only \nDriftTrend\ pair shows a monotone
+trend, so this is heterogeneity and not decay. \textbf{On those pairs the
+interval and the band understate what a reader would see on a different
+stretch of the same log}, by an amount this design cannot sign; time is not a
+declared axis of $\mathcal{S}$ and adding one is the change the measurement
+implies. Mixing is still not tested. The band's family-wise
 coverage is asymptotic, as is the multiplier bootstrap estimating its critical
 value, and the block length is a convention, $\lceil n^{1/3}\rceil$, which
 moves coverage by up to \coverageBlockSpreadMax\ within a world. The coverage
@@ -134,9 +147,20 @@ prefix bucketing and sequence encoding are not axes here and cannot be},
 because this study predicts at one prediction point from creation-time
 attributes, and those are the axes predictive process monitoring varies most.
 \textbf{We therefore claim no result about that literature's own benchmark}:
-what is reported is case-level outcome prediction from event-log attributes,
-and adding a prefix axis on at least one log is the clearest next study this
-paper implies.
+what is reported is case-level outcome prediction from event-log attributes.
+A prefix axis is nonetheless run on one log, because the obvious question is
+whether this paper's central claim is a property of that literature's axis too
+(Supplement~\ref{app:prefix}). It is. Holding the register and the estate
+fixed and moving only the prefix, the increment falls from \VPrefixZero\
+[\VPrefixZeroLo, \VPrefixZeroHi] AUC at case creation to \VPrefixTwo\ two
+events later and \prefixRetainedPct\ of its creation-time value at the
+deepest prefix measured, and on \nPrefixUnresolved\ of \nPrefixLevels\
+prefixes the data no longer determine its sign. \textbf{Case creation --- the
+point every other result here occupies --- is the most favourable prefix for a
+creation-time register}, and two studies of this field reporting from the two
+ends of that axis would differ by a factor of \prefixDropFactor\ without
+either being wrong. One log, one register and no sequence encoder is a pilot,
+and the structural omission stands.
 
 \paragraph{External --- three narrower limits, named}
 The \emph{inference surface} is a corner of the declared surface chosen by row

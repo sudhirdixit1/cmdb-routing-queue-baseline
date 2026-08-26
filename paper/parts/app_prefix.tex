@@ -1,0 +1,63 @@
+The article predicts at one moment --- case creation --- from the attributes
+recorded there, and Section~\ref{sec:lim} states plainly that prefix length,
+prefix bucketing and sequence encoding are therefore not axes of
+$\mathcal{S}$ and cannot be. That limitation stands. What it leaves open is
+the question a reader from predictive process monitoring will ask next:
+whether the paper's central claim --- that the moment of prediction is an
+\emph{argument} of the estimand rather than a preliminary to it --- is a
+property of that literature's own axis as well, or an artefact of predicting
+at creation. This section answers that on one log.
+
+\paragraph{The construction, declared before it was run}
+The log is \prefixLog, the case study's own, and the register is the affected
+configuration item. At prefix $k$ the analyst stands after the case's $k$-th
+assignment event. Three things follow from $k$ and are not chosen
+separately. The \textbf{population} is the cases still at risk: more than $k$
+events, and no change of assignment group in the first $k$, because a case
+whose outcome is already determined by $k$ is not a prediction problem. The
+\textbf{target} is whether a change of group occurs \emph{after} event $k$,
+which is the registered handover rule of Section~\ref{sec:design} restricted
+to the remaining suffix, so nothing already observed is predicted. The
+\textbf{baseline} is the intake block plus what the prefix has revealed ---
+the group the case sits in now and how many distinct groups it has seen ---
+which is the prefix-aware baseline that literature builds, and giving the
+prefix to the baseline and not to the register is the comparison that can
+embarrass the register. The split is the same fixed temporal holdout under
+the same declared tie-break, and every interval is the pointwise basic
+construction under the block-weighted bootstrap at \nPrefixDraws\ draws.
+$k = 0$ is case creation, which is the prediction point every other result in
+this paper occupies.
+
+\input{tables/prefix}
+
+\paragraph{What it shows}
+\textbf{The register's worth collapses once anything has happened.} At case
+creation it is \VPrefixZero\ [\VPrefixZeroLo, \VPrefixZeroHi] AUC over the
+intake block on \nPrefixZero\ cases; two events later it is \VPrefixTwo\
+[\VPrefixTwoLo, \VPrefixTwoHi] on \nPrefixTwo, and at the deepest prefix
+measured it retains \prefixRetainedPct\ of its creation-time value. Across
+the \nPrefixLevels\ prefixes it ranges over \prefixVmin\ to \prefixVmax, and
+on \nPrefixUnresolved\ of them the interval does not exclude zero --- the
+register's sign is not determined by the data at those prefixes at all,
+though it is determined, and large, at creation.
+
+\textbf{Two of the three mechanisms are visible in the table.} The baseline
+rises as the prefix reveals the routing history, from \basePrefixZero\ at
+creation; the population shrinks and its prevalence falls as the cases that
+were going to be handed over early leave it; and the register's own
+cardinality falls with the population. None of this is drift in the register:
+it is the same field, on the same estate, worth a different amount because the
+question changed underneath it.
+
+\paragraph{What this does and does not license}
+It does not make this a predictive-process-monitoring paper, and no claim
+about that literature's benchmarks is made here: one log, one register, one
+encoding, no prefix bucketing and no sequence encoder is a pilot and is
+offered as one. What it does establish is that the prediction point is an
+argument of the estimand on that literature's own axis and not only on the
+service-desk one of Section~\ref{sec:twodecision}, and that case creation ---
+the point this paper occupies throughout --- is the \emph{most favourable}
+point for a creation-time register. A study that reported this register's
+worth from a prefix-based benchmark and a study that reported it from case
+creation would disagree by a factor of \prefixDropFactor, and neither would
+be wrong.

@@ -64,6 +64,10 @@ CONDITIONS = (
     "pair's and not its log's",
     "the layer ladder's cell is the cell the prose names, and its increment "
     "over the intake block is not confused with the decision-time table's",
+    "the prefix pilot at case creation reproduces the layer ladder's finest "
+    "rung, on the same cases, to the sixth decimal",
+    "every drift percentile is a percentile, and the drift flag is exactly "
+    "the upper-tail rule it is defined from",
 )
 
 _ORD = ("first", "second", "third", "fourth", "fifth", "sixth",
@@ -239,6 +243,52 @@ def check(vn, M):
             vn.FAILS.append(
                 "round-27 condition: one pair of BPIC14 is credited with at "
                 "least as many cells as the log that contains it")
+
+    # --- 6.  the prefix pilot's anchor is the layer ladder's own cell ----
+    #  The prefix axis at k = 0 IS case creation on the registered cohort and
+    #  the registered handover rule against the intake block, which is exactly
+    #  the layer ladder's finest rung.  Two files, two authors' worth of code,
+    #  one number: if they ever disagree, one of them has silently changed the
+    #  cell it is on, and this is the condition that says so.
+    PX = _read(results, "s45_prefix.csv")
+    R34x = _read(results, "r34_layers.csv")
+    if PX is not None and len(PX) and R34x is not None and len(R34x):
+        z = PX[PX.prefix == 0]
+        lay = R34x[(R34x.log == "BPIC14") & (R34x.target == "handover")
+                   & (R34x.level == "CI Name (aff)")]
+        if len(z) and len(lay):
+            a, b = float(z.V.iloc[0]), float(lay.gain_over_b0.iloc[0])
+            if abs(a - b) > 1e-6:
+                vn.FAILS.append(
+                    "round-27 condition: the prefix pilot at case creation "
+                    "gives %+.6f and the layer ladder's finest rung gives "
+                    "%+.6f; they are the same cell and must agree" % (a, b))
+            na, nb = int(z.n.iloc[0]), int(lay.n.iloc[0])
+            if na != nb:
+                vn.FAILS.append(
+                    "round-27 condition: the prefix pilot's anchor runs on %d "
+                    "cases and the layer ladder on %d" % (na, nb))
+
+    # --- 7.  the stationarity null is a null and not a second statistic --
+    DR = _read(results, "s46_summary.csv")
+    if DR is not None and len(DR):
+        bad = DR[(DR.spread_percentile < 0) | (DR.spread_percentile > 1)]
+        if len(bad):
+            vn.FAILS.append(
+                "round-27 condition: %d drift percentile(s) outside [0, 1]"
+                % len(bad))
+        #  `drifts` must be exactly the upper-tail flag, not a second rule
+        want = DR.spread_percentile >= 0.95
+        if not bool((DR.drifts.astype(bool) == want).all()):
+            vn.FAILS.append(
+                "round-27 condition: the drift flag no longer agrees with the "
+                "percentile it is defined from")
+        n_flag = int(DR.drifts.astype(bool).sum())
+        got = _num(M.get("nDrifts"))
+        if got is not None and abs(got - n_flag) > 0.5:
+            vn.FAILS.append(
+                "round-27 condition: \\nDrifts is %s and %d pairs carry the "
+                "flag" % (M["nDrifts"], n_flag))
 
     # --- 5.  the layer ladder's cell -------------------------------------
     R34 = _read(results, "r34_layers.csv")
