@@ -1527,3 +1527,271 @@ one. Both are fixed. The one thing none of them could check, and that all
 three would want, is still outstanding and still stated: **nothing in this
 paper measures the simultaneous band's family-wise coverage against a known
 answer.**
+
+# Round twenty-five — the outstanding item closed, and four defects found closing it
+
+This round works the handoff's priority list: item A (the band's family-wise
+coverage), item B (the coverage calibration's reach in $n$), item C (length)
+and item D (round twenty-four's undone minor comments). It found four things
+nobody had asked about, three of them because a gate could not see them.
+
+## R25.0 The environment the reader is told to build did not build
+
+Three defects in the setup, all of which only a second machine could find.
+
+`requirements.lock` never carried **jinja2**. pandas routes
+`DataFrame.to_latex` through its Styler, which imports it, so a reader who
+followed `REPRODUCE.md` exactly got an `ImportError` out of the first gate and
+no table at all. It never carried **pytest**, **requests** or **pymupdf**
+either, though `requirements.txt` has pinned all three since round eighteen.
+
+pytest's absence was not loud. `make_numbers.count_tests` fell back to
+counting `def test_` lines when pytest would not collect, and wrote **42**
+into section 9 where the suite collects **108** — past every gate, because no
+verifier re-derives that macro. Its own docstring called that fallback "the
+kind of number this paper exists to complain about". The fallback is gone; a
+number this file cannot compute is now an error. Its cache is keyed on the
+test files' content rather than their modification times, which a fresh clone
+rewrites.
+
+`provenance.py` hashed raw bytes, so a checkout whose line endings differed
+from the accepting machine's reported every script as stale: a fresh clone on
+Unix reported **twenty of thirty-seven** out of date and not one had changed
+by a character. A guard that fires on a checkout artefact teaches its reader
+to ignore it. The hash is now taken over content with line endings
+normalised, and `--renormalise` migrated the twenty entries one at a time.
+
+## R25.1 The band's family-wise coverage, measured. **ITEM A — CLOSED**
+
+Section 4.3 ended by saying nothing in this paper measured it.
+`scripts/s41_bandcoverage.py` measures it, and the band does not attain its
+nominal level anywhere in this corpus's configuration.
+
+The design is deliberately the most favourable case the band can be given: the
+truth is zero at every cell, and the point estimate and the bootstrap draws
+come from the *same* distribution, so the bootstrap is not an approximation of
+the sampling distribution but is it. Every way a resampling scheme can be
+wrong is switched off. What remains is the object under test — a standard
+error and a critical value estimated from the same handful of draws — so every
+coverage below is an **upper bound** on what the real procedure attains.
+
+| | multiplier (what the bands use) | best of five | control: per-cell |
+|---|---|---|---|
+| Gaussian draws | 87.3% median, 74.8% min | 92.1% | 90–94% |
+| the corpus's tails | 84.6% median, 76.1% min | 92.2% | 90–94% |
+
+Three things follow that the paper did not know.
+
+**The safeguard is not one.** Resolving a cell only at the upper end of the
+critical value's Monte Carlo interval — which section 4.3 describes as the
+conservative choice — moves coverage by less than a point. It controls the
+Monte Carlo error in $q$ and not the error in what $q$ estimates.
+
+**The binding constraint is the draw count, not the estimator.** 82.0% at 33
+draws, 95.8% at 400. And the per-cell interval underneath the band is itself
+only 90.3% at 33 draws: part of what the band loses it loses before any
+critical value is chosen, and section 10.2 validated that construction at a
+refit count this corpus does not reach on most pairs.
+
+**A Rademacher wild multiplier, which preserves the observed draws'
+magnitudes instead of replacing them by Gaussians and is the natural repair
+for a tail problem, is worse than the Gaussian one.** Reported as the
+negative result it is.
+
+We did not switch the reported bands to a wider estimator. The one that helps
+is the empirical quantile at the upper end of its order-statistic interval,
+not the Monte Carlo upper end the paper already calls conservative — and it
+reaches 92.2% at 1.52 times the width and still falls to 86.5% on the
+smallest family. Substituting an estimator that is also wrong, and less
+visibly so, is worse than reporting the bands as computed and saying what
+they are worth. Section 11 says what they are worth.
+
+## R25.2 "These draws are heavy-tailed" was two different things under one word
+
+Section 4.3 asserted it with no number behind it. The draws are in the
+repository, so the sentence is checkable.
+
+On the **surface** families the tail is real and statistical: a Nagelkerke
+cell whose eighty draws run between $-2.5$ and $1.4$ with one draw at $-24$,
+which is one refit that came apart on an instrument unbounded below. No
+instrument dominates the family maximum.
+
+On the **decision-curve** families it is largely **degenerate cells**. At a
+threshold where both arms treat every case alike the net-benefit difference is
+zero *by arithmetic*, and **841** cells of the corpus's curve families are
+exactly `0.0` in at least nine draws of ten — 276 of BPIC14/handover's 2,853,
+up to 17.2% of a single family, against **zero** such cells anywhere in the
+surface families. `s21.critical` admits any cell whose spread exceeds a floor
+stated in absolute units, so such a cell survives, and standardising it by
+that spread sends its studentised value to the algebraic ceiling.
+
+Excluding them moves the median $q_{\mathrm{emp}}/q$ on those families from
+2.09 to 1.80 — and does **not** overturn R23's finding: $q$ still lies below
+the empirical interval on 19 of 19 curve families and 15 of 19 surface ones.
+Section 6.4's count of what $q_{\mathrm{emp}}$ resolves is, on those families,
+partly a count of arithmetic, and the paper now says so.
+
+## R25.3 Table S13 did not contain the axis its caption claimed. **FOUND WHILE ANSWERING R24's MINOR 4**
+
+The minor comment asked which scale the axis-kind partition is taken under.
+Answering it found the caption wrong and the sentence resting on it
+reversible.
+
+`s34` computes the partition on the primary scale, `raw-within-metric`, which
+decomposes separately *inside* each of the five instruments and takes the
+median across them. The instrument is a stratum there and cannot be an axis,
+so the `analyst latitude` column held the pipeline and the baseline rung
+alone — while `s34`'s own docstring, the table's caption and section 6.5 each
+described it as "the pipeline, the baseline rung **and the instrument**". The
+instrument's contribution was in no column of the table that claimed it.
+
+It is not a labelling slip. The only scale on which the instrument *is* an
+axis is the headroom rescaling, and on that scale the ordering reverses:
+analyst latitude 19.2% against resampling 9.4%, where the primary scale gives
+11.1% against 18.9%. Section 6.5 stated **in bold** that the split moves the
+increment more than all three analytic axes together. Under the definition of
+the column that its own paragraph gave, that is false.
+
+Both scales are now computed, both are in Table S13, the caption says what
+each is and why there are two, and section 6.5 reports both orderings with the
+count of pairs each holds on — 10 of 19 and 7 of 19 — instead of the one that
+read better.
+
+## R25.4 The no-typed-numbers rule had a hole, and three results were in it
+
+`texlint`'s check that every number in the prose is a macro reads `body_of`,
+and `body_of` strips inline math before it looks. `$0.780$` was therefore
+invisible to it, and section 10.3's argument that $K/n$ is not sufficient
+quoted three coverages of the $(n,K)$ plane as literals — 0.780, 0.613 and
+0.453 — along with four grid coordinates and a gap stated as "about three and
+a half" standard errors, which is 3.2.
+
+The hole is closed by an allowlist rather than a ban: a level, a nominal rate,
+the standard normal quantile and the registered split all belong inside math
+and are not results, so each is listed with its reason and anything else
+fails. The new check caught a space-swallowing macro in the same edit that
+added it. The two cells section 10.3 compares are now selected *by rule*, so
+re-running `s31` on a different grid moves the sentence with it.
+
+## R25.5 A float taller than its page is not an overfull hbox
+
+`build_journal` reported both documents' overfull boxes — round twenty-two's
+fix — and could not see a table running off the bottom of its page, because
+that is a different LaTeX warning. Making Table S13 carry both scales doubled
+it to 38 rows and it ran **650pt** off the bottom of its page with the page
+number printed through it, and the build said "0 overfull hboxes".
+
+Both documents are now scanned for oversized floats as well, which
+immediately found a **pre-existing** one: Table S18's 33 operating points have
+been 3.9pt taller than their page since before this round, with LaTeX
+absorbing the difference by squeezing glue. Both documents are back to zero on
+both counts.
+
+## R25.6 Round twenty-four's minor comments, all eight
+
+1. **Two missing citations.** Hutter, Hoos and Leyton-Brown decompose an
+   algorithm's performance over its configuration space by the same device
+   section 4.6 uses and were uncited; the paragraph now says what differs.
+   Davison and Hinkley carry the pivotal interval in section 4.1.
+2. **Reference-specification sensitivity.** The referee's arithmetic
+   reproduces exactly: the corpus median moves 0.328 to 0.353 if the
+   reference pipeline becomes target-encoded boosting, and runs 0.328 to
+   0.382 across the five instruments; over all 26 one-axis variants, 0.328 to
+   0.384. Table S14, and the headline is not an artefact of which cell we
+   called conventional.
+3. **Table S30's replicate count.** Added, with a per-cell Monte Carlo
+   standard error: its cells run at 150 replicates against the core's 1,000
+   and their coverages are nowhere near nominal, so the error is a median 3.0
+   percentage points and reaches 4.1 — 3.7 times the 0.7 the manuscript
+   quotes for the core, and computed at each cell's own observed rate.
+4. **Table S13's scale and measure.** See R25.3.
+5. **Table S1's unglossed columns.** Glossed, and `gain over b0` renamed
+   `gain over base`, because on the marginal row it was the gain over $B_0$
+   plus the second-finest layer, which is a different baseline.
+6. **Section 5.1's "pre-registration".** It now says plainly that this is a
+   file in a repository the authors control and not a timestamped
+   third-party registration, and that any claim of prior commitment is no
+   stronger than the repository.
+7. **Section 5.4's admission margin.** BPIC14/handover has the highest
+   prevalence of any admitted pair, 0.927 against a bound of 0.95, while the
+   nearest pair excluded above the bound is at 0.959 — and it is the largest
+   single contributor to the corpus, 4,800 of the 29,040 admissible scalar
+   cells.
+8. **Figure 2.** It was a stacked bar per pair whose segments were medians
+   over five instruments. Medians do not add, so the bars did not sum to one
+   and the caption had to forbid the addition a stacked bar promises. It is
+   now one pair's exact decomposition beside the corpus as a median, a middle
+   half and a full range, with nothing stacked.
+
+## R25.7 The calibration plane, widened in $n$. **ITEM B — CLOSED, AND IT FOUND MORE**
+
+The plane ran at 2,000, 4,000 and 8,000 training rows against a corpus
+running 735 to 176,213, so 3 of 19 pairs were inside it. It now runs 500 to
+180,000 across 33 cells, including three **constant-ratio ladders** --- $K/n$
+held fixed while $n$ moves over two orders of magnitude, which is the design
+that isolates $n$ and which the old plane, where the two moved together,
+could not be. All 19 pairs are inside it.
+
+**$K/n$ is not sufficient, and now it is measured.** $\log n$ enters the fit
+at $t = 8.3$, and at $t = 5.2$ excluding every cell above 8,000 rows, so it
+is not one point. The old plane gave $t = 1.45$: it had no leverage in $n$.
+Along a ladder the measured factor moves by 0.22, which is 2.8 combined Monte
+Carlo standard errors, and coverage itself by 21.7 points. The applied curve
+is a function of the ratio alone and carries that as a residual; adding
+$\log n$ to a parametric curve does not repair it and is worse than the
+monotone curve on the criterion the monotone curve was adopted under, so the
+residual is reported rather than fitted away.
+
+**And past a crossing in $n$ the estimator stops existing.** The factor
+widens an interval *about its point estimate*, and the basic interval does
+not always contain its point estimate: pivoting moves it by twice the
+bootstrap displacement, and where the displacement exceeds the half-width
+both endpoints land on the same side. The displacement is a **bias that does
+not shrink with $n$** --- a resample holds about $1 - e^{-1}$ of the distinct
+levels however many rows it has --- while the half-width shrinks like
+$n^{-1/2}$, so the ratio grows with $n$: at $K/n = 0.05$ it runs 0.17, 0.31,
+0.53, 1.26, 1.76 across $n = 750$ to 120,000. Four of the plane's 33 cells
+have no factor for this reason, all at 50,000 rows or more.
+
+**It is not confined to the simulation.** 74 of the corpus's 3,900
+whole-surface cells have a band that excludes their own point estimate, on
+the three pairs nearest the crossing --- 21% of UCI498/duration's cells.
+Section 4.1 reports it, and Section 11 says that the interval construction
+was chosen on evidence from one sample size, 4,000, below the regime in which
+it develops the defect.
+
+**No region label changed** under the re-estimated plane and the
+resolved-cell count moved 892 to 896, so the headline survives a calibration
+re-fitted on a plane six times wider in $n$.
+
+## R25.8 Two guards, both earned during the round
+
+The plane's admission rule was a replicate **count** --- at least thirty
+usable. Two cells passed it on 34 and 39 **selected** replicates, the ones
+whose displacement happened to be small, and returned $c = 3074.7$ and
+$c = 0.86$; both would have entered the fit. It is now a **share**, and the
+shares are bimodal --- rejected cells reach 0.078 and admitted ones start at
+0.976 --- so the threshold decides nothing and the file prints that.
+
+`s36`'s permutation task catches its own exceptions and returns an error row,
+so a run with no data under it completes "successfully" and overwrote a good
+permutation null with 1,919 error rows. It did, during this round, and the
+file came back out of git. A run that produces no usable replicate now
+refuses to write.
+
+## R25.9 What this round did not do
+
+**Length.** The five cuts the referees named --- halve S9.1--9.2, compress
+S4.4's $p$-versus-interval passage, fold Remarks 1--3 and Corollary 1 into
+the text, halve S6.8, consolidate the relative-reduction material --- are all
+done, and the summary table of the four reporting objects they asked for
+three times is Table 1. They are worth about 170 words against a main text of
+23,000, and the article is 70 pages. The body would have to go from 58 pages
+to about 32, and every remaining candidate --- the case study, the
+limitations, the article's eight tables, Section 6's per-pair detail --- is
+something a referee also asked for. That decision is the author's and is not
+made here.
+
+**The real Zenodo DOI** is still reserved, and the archived release has not
+been confirmed to reproduce the submitted numbers. Both are in
+`submission/OWNER-ACTIONS.md` and neither can be done from here.
