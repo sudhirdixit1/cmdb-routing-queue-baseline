@@ -15,24 +15,25 @@ Zenodo DOI. There is nothing to cite yet, so the macro currently renders as
 *"the archived release cited in the data-availability statement (DOI reserved,
 inserted at proof)"* rather than as the `??` marker — a number that does not
 exist yet is a different thing from a number that is missing, and the
-manuscript says which. `.zenodo.json` already carries `"version": "v21.0"`.
+manuscript says which. `.zenodo.json` carries `"version": "v25.0"`, and its numeric claims are
+checked against `paper/numbers.tex` by `check_response_refs.py` --- seven
+of them had gone stale before round twenty-five added that check.
 
 1. Log in at <https://zenodo.org> with the GitHub account that owns
    `sudhirdixit1/cmdb-routing-queue-baseline`.
 2. **Settings → GitHub**, and switch the repository **on**. Zenodo will then
    archive every future release.
-3. **Tag the round-twenty-one commit as `v21.0`** and push it. It must point at
-   the commit this manuscript was built from, and its message should record
-   the gate results at that commit:
+3. **Tag the commit this manuscript was built from as `v25.0`** and push it.
+   Its message should record the gate results at that commit:
 
    ```bash
-   git tag -a v21.0 -m "round twenty-one: the developmental review's twelve major comments"
-   git push origin v21.0
+   git tag -a v25.0 -m "round twenty-five: the band's family-wise coverage, and the calibration plane widened in n"
+   git push origin v25.0
    git ls-remote --tags origin
    ```
 
 4. On GitHub, **Releases → Draft a new release**, choose the tag
-   `v21.0`, title it
+   `v25.0`, title it
    *Specification Surfaces for Incremental Predictive Performance*, and
    publish. Zenodo mints the DOI within a minute or two.
 5. Put the DOI into `.zenodo.json` as `"doi": "10.5281/zenodo.XXXXXXX"`, then:
@@ -54,9 +55,10 @@ is done; this needs the depositing account.
 
 ### 1.2 Decide what to do about the branch
 
-The work is on `round-nineteen-specification-surfaces`. Merge it to the
-default branch before tagging if the release should sit on the mainline; the
-archive is a snapshot of whatever the tag points at.
+The work is on `round25-coverage`, which branches from `main`. Merge it to
+the default branch before tagging if the release should sit on the mainline;
+the archive is a snapshot of whatever the tag points at. Nothing under
+`data/` is committed on it.
 
 ### 1.3 Read the three statements
 

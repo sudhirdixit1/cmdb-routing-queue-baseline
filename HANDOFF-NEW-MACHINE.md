@@ -273,14 +273,26 @@ comparison across the plane's range is the clearest next step.
 
 No region label changed and the resolved count moved 892 to 896.
 
-### C. Length — **the named cuts are done; the target is not met**
-64 + 46 pages. Referees have asked for **32–40** three times, and it went *up*
-last round because corrections are disclosure. Concrete cuts they named:
-halve §9.1–9.2; compress §4.4's p-versus-interval passage to a paragraph;
-fold Remarks 1–3 and Corollary 1 into §3.4's text; halve §6.8; consolidate the
-relative-reduction material now spread across §3.3, §4.5 and §7.6. They also
-asked for **one summary table, early**, listing the four reporting objects —
-what each is for, where defined, which table reports it, what it costs.
+### C. Length — **reduced 70 to 65 pp; the 32–40 target is not met**
+
+Everything item C names is done: the five cuts the referees listed, and the
+summary table of the four reporting objects they asked for three times, which
+is Table 1. Beyond that, round twenty-five moved five of the article's eight
+tables to the supplement, moved sections 7.3, 7.4 and 8.2 there verbatim with
+a summary left behind, folded 6.3 into 6.2, and compressed 2, 4.3, 4.5 and
+6.7 in place. Article 70 → 65 pages, supplement 48 → 53, nothing deleted,
+every reference resolving.
+
+**What is left, and why it stopped here.** The body is 55 pages against a
+32–40 page article. Removing 25 more means rewriting about 11,000 words of
+claims, each calibrated to a macro and to evidence. The one aggressive
+compression attempted in round twenty-five — summarising the leakage tipping
+point in fresh words — produced a statement that was **false in the opposite
+direction** from the source, caught only by going back to it. That is the
+measured risk, not a reluctance. What remains in sections 4, 6, 7 and 11 is
+evidence and disclosure the referees themselves demanded, and 11 grew this
+round because items A and B found things. Reaching 40 means deciding what the
+paper stops claiming, which is the author's decision.
 
 ### D. Minor comments from round 24 — **all eight DONE, round 25**
 Three of them were not minor. Minor 4 found that Table S13's caption
@@ -318,10 +330,20 @@ for the record:
    corpus medians as points with intervals, instead of stacked medians that
    invite an addition the caption then forbids.
 
-### E. Owner-only, cannot be automated
-See `submission/OWNER-ACTIONS.md`. Chiefly: mint the **real Zenodo DOI**
-(the manuscript currently says *reserved*) and confirm the archived release
-reproduces the submitted numbers to the digit.
+### E. Owner-only, cannot be automated — **prepared, round 25**
+See `submission/OWNER-ACTIONS.md`. Minting the DOI needs the depositing
+account and a published release, so it is still owner-only. What round
+twenty-five could do, it did: the instructions there named the wrong tag,
+the wrong version and a branch that no longer exists, and would have had the
+owner archive the wrong commit. `.zenodo.json` is at `v25.0`, and **seven of
+the nine numbers in its description were stale** — 107 tests where the suite
+collects 108, a baseline spread of 0.091 against 0.073, a first-order index
+of 10.1% against 28.7%, an interaction share of 30.0% against 56.0%, a
+sign-disagreement rate of 35.3% against 32.8%, and two linter limits the
+linter had since tightened. The archive record is the first thing a reader of
+the DOI sees, and it contradicted the manuscript on its headline numbers.
+`check_response_refs.py` now checks those claims against `paper/numbers.tex`
+and fails when they drift.
 
 ---
 

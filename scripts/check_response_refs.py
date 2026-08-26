@@ -172,6 +172,57 @@ def main(argv=None):
 
     bad, checked = [], 0
     n_tables = 0
+
+    #  ROUND TWENTY-FIVE.  `.zenodo.json` is the archive's public metadata ---
+    #  the first thing a reader of the DOI sees --- and its description
+    #  carried NINE hand-typed numbers, outside the macro discipline
+    #  entirely.  Seven of them had gone stale: 107 tests where the suite
+    #  collects 108, a median baseline spread of 0.091 where the manuscript
+    #  says 0.073, a largest first-order index of 10.1% against 28.7%, an
+    #  interaction share of 30.0% against 56.0%, a sign-disagreement rate of
+    #  35.3% against 32.8%, and two linter limits the linter had since
+    #  tightened.  A paper whose subject is that one number cannot be trusted
+    #  should not contradict itself in its own archive record.
+    zen = ROOT / ".zenodo.json"
+    n_zen = 0
+    if zen.exists():
+        import json
+        zt = json.loads(zen.read_text(encoding="utf-8")).get("description", "")
+        macros = dict(re.findall(
+            r"\\newcommand\{\\([a-zA-Z]+)\}\{(.*)\}\s*$",
+            (PAPER / "numbers.tex").read_text(encoding="utf-8"), re.M))
+
+        def mac(k):
+            return (macros.get(k, "\u0000")
+                    .replace("{,}", ",").replace("\\%", "%")
+                    .replace("$", "").strip())
+
+        #  each entry: the phrase that must appear, built from the macro it
+        #  is governed by.  Adding a number to the description means adding
+        #  it here, which is the point.
+        CLAIMS = [
+            ("moves the increment by %s AUC at the median pair" %
+             mac("spreadMedian"), "spreadMedian"),
+            ("and %s at the widest" % mac("spreadMax"), "spreadMax"),
+            ("first-order sensitivity index at the median pair is %s" %
+             mac("largestFirstOrderPct"), "largestFirstOrderPct"),
+            ("interactions between axes carry a median %s" %
+             mac("interactionTotalPct"), "interactionTotalPct"),
+            ("for a median %s of the other admissible specifications" %
+             mac("misreportEqualPct"), "misreportEqualPct"),
+            ("%s tests." % mac("nTests"), "nTests"),
+            ("%s log-target pairs" % mac("nPairs"), "nPairs"),
+            ("from %s public event logs" % mac("nLogs"), "nLogs"),
+        ]
+        for phrase, macname in CLAIMS:
+            n_zen += 1
+            if phrase in zt:
+                print("  %-28s %s" % (".zenodo.json", phrase[:56]))
+            else:
+                bad.append(".zenodo.json  the description does not carry "
+                           "%r, which is what \\%s renders to"
+                           % (phrase, macname))
+
     for doc in DOCS:
         if not doc.exists():
             continue
@@ -244,8 +295,8 @@ def main(argv=None):
 
     print()
     print("check_response_refs: %d section and %d table references checked, "
-          "%d section word counts checked, %d unresolved"
-          % (checked, n_tables, n_words, len(bad)))
+          "%d archive-metadata claims, %d section word counts checked, "
+          "%d unresolved" % (checked, n_tables, n_zen, n_words, len(bad)))
     for b in bad:
         print("  FAIL  " + b)
     return 1 if bad else 0

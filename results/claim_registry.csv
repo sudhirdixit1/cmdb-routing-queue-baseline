@@ -676,7 +676,7 @@ K674,regretOneNumberAdj,0.0236,0,,,make_numbers.py,357,s38_facts.csv,False,False
 K675,regretOneNumberExcessPct,59.7\%,0,,,make_numbers.py,368,s38_facts.csv,False,False,False
 K676,regretOracle,0.0232,0,,,make_numbers.py,364,s38_facts.csv,False,False,False
 K677,regretUniformRule,0.0478,0,,,make_numbers.py,355,s38_facts.csv,False,False,False
-K678,releaseTag,v20.0,1,90_backmatter.tex:80,Code availability,make_numbers.py,806,s16_facts.csv,False,False,False
+K678,releaseTag,v25.0,1,90_backmatter.tex:80,Code availability,make_numbers.py,806,s16_facts.csv,False,False,False
 K679,repGapMax,0.223,0,,,round20_numbers.py,61,s25_representative.csv,True,False,False
 K680,repGapMedian,0.067,2,20_inference.tex:112; 80_limits.tex:45,"Limitations; Three surfaces, and which one a claim may quantify over",round20_numbers.py,60,s25_representative.csv,True,False,True
 K681,resolutionLostPct,23.8\%,0,,,round20_numbers.py,127,s21_incomplete.csv,False,False,False
