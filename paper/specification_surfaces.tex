@@ -386,29 +386,29 @@ rather than a mistake.
 
 
 \paragraph{The novelty gap, precisely}
-Every component used here is established and none is claimed. What none of it
-supplies is the object this paper reports, and the gap is in four places.
-\emph{The estimand is not declared completely}: the axes are discussed one at
-a time, and the decision time and the register's quality are treated as
-preliminaries rather than as arguments. \emph{The measure is left implicit}: a
-specification curve is summarised uniformly over whatever cells were
-enumerated, which is a choice that moves the answer
-(Section~\ref{sec:sobol}). \emph{Inference is pointwise or absent}: a
-specification curve is a distribution of point estimates and a permutation
-test on its median, which does not license a statement about a sub-region.
-\emph{Nothing measures what the conventional report costs}: the alternative to
-one number is stated as a display, not as a decision rule with a loss. Of the
-objects that close those four, the variance decomposition and the simultaneous
-band are adaptations, while \emph{resolution regions} with a robustness index
-and \emph{specification regret} are, as far as we are aware, new, and
-Section~\ref{sec:sca} reports where a specification curve's verdict and a
-region label part company so that the difference is measured rather than
-asserted.
+Every component used here is established and none is claimed. What none of
+them supplies is the object this paper reports, and the gap is in four
+places. \emph{The estimand is not declared completely}: the axes are
+discussed one at a time, and the decision time and the register's quality as
+preliminaries rather than as arguments. \emph{The measure is left implicit}:
+a specification curve is summarised uniformly over whatever cells were
+enumerated, a choice that moves the answer (Section~\ref{sec:sobol}).
+\emph{Inference is pointwise or absent}: a curve is a distribution of point
+estimates and a permutation test on its median, which licenses no statement
+about a sub-region. \emph{Nothing measures what the conventional report
+costs}: the alternative to one number is offered as a display, not as a
+decision rule with a loss. Of the four objects that close these, the
+decomposition and the band are adaptations; \emph{resolution regions} with a
+robustness index and \emph{specification regret} are, as far as we are aware,
+new. Section~\ref{sec:sca} measures where a curve's verdict and a region
+label part company rather than asserting a difference.
 
-The contribution is deliberately \emph{not} stated as ``people usually report
-one number''. It is stated as: a claim of this form is a functional of a
-design, the functional can be estimated and its uncertainty quantified, and on
+The contribution is deliberately \emph{not} ``people usually report one
+number''. It is that a claim of this form is a functional of a design, that
+the functional can be estimated and its uncertainty quantified, and that on
 this corpus it is far from constant.
+
+
 % ---- paper/parts/10_surface.tex ----
 
 \section{The specification surface}
@@ -853,23 +853,19 @@ not a maximum; \texttt{results/s21\_incomplete.csv} names the
 
 \paragraph{Estimating the critical value without paying for it in refits}
 $q_{1-\alpha}$ is the upper quantile of a maximum over hundreds of correlated
-cells, and the empirical quantile of the $B$ observed maxima estimates it
-badly, while the fitting budget cannot be raised without multiplying the cost
-of the whole design space by $B$. Standardising the draws to
-$Z_{b,c} = (V^{(b)}_c - \bar V_c)/\hat\sigma_c$ and multiplying them by
-independent standard normals gives a statistic with the empirical covariance
-of $Z$, which can be generated \nMultiplier\ times for the cost of matrix
-arithmetic \citep{chernozhukov2013gaussian};
-Supplement~\ref{app:objects} gives the construction. The fitting budget
-therefore fixes $B$ and not the precision of $q$: the empirical quantile has a
-median order-statistic interval of width \qEmpWidth\ at these draw counts, the
-multiplier quantile one of width \qMultWidth, and the residual Monte Carlo
-interval is carried through, so that a cell counts as \emph{resolved} only if
-it resolves at the \emph{upper} end of it. Finally, a max-$t$ band inherits
-the coverage of the interval it is built from, which
-Section~\ref{sec:simsensitivity} shows is governed by the ratio of register
-cardinality to training size; Section~\ref{sec:regions} calibrates $q$ at each
-pair's own ratio.
+cells and the empirical quantile of $B$ observed maxima estimates it badly,
+while raising $B$ multiplies the cost of the whole design space. Standardising
+the draws and multiplying them by independent standard normals gives a
+statistic with their empirical covariance, generated \nMultiplier\ times for
+the cost of matrix arithmetic \citep{chernozhukov2013gaussian};
+Supplement~\ref{app:objects} gives the construction. The budget therefore
+fixes $B$ and not the precision of $q$ --- order-statistic widths of
+\qEmpWidth\ against \qMultWidth\ --- and the residual Monte Carlo interval is
+carried through, so a cell counts as \emph{resolved} only at its \emph{upper}
+end. A max-$t$ band also inherits the coverage of the interval it is built
+from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
+register cardinality to training size; Section~\ref{sec:regions} calibrates
+$q$ at each pair's own ratio.
 
 \paragraph{And the two estimates of the same critical value disagree, in the
 direction that matters}
@@ -989,30 +985,25 @@ surface enumerated in full.
 
 Because the surface is a complete factorial over its axes --- the audit of
 Section~\ref{sec:threesurfaces} establishes that it is, cell for cell --- the
-variance of $V_s$ across specifications admits an exact and \emph{orthogonal}
-functional-ANOVA decomposition \citep{sobol2001global,saltelli2010variance}
-under a product measure $\mathbb{P} = \bigotimes_i w_i$ over the axes. The
-closest precedent is \citet{hutter2014efficient}, who decompose an
-algorithm's performance over its \emph{configuration} space by the same
-device and read the first-order and interaction terms as hyperparameter
-importance. What differs here is the object and what is done with it: the
-axes are analysis decisions rather than hyperparameters, the components are
-computed exactly over a complete factorial rather than estimated from a
-regression-tree surrogate over a sampled design, and the decomposition is one
-of four reporting objects rather than the conclusion. Every
-subset $u$ of axes has a component $g_u$, given by a M\"obius sum over the
-conditional means and computed exactly rather than estimated
-(Supplement~\ref{app:objects}); the components are mutually orthogonal, so
-their variances $D_u$ satisfy $\sum_{u \neq \emptyset} D_u =
-\operatorname{Var}(V)$ exactly. Writing $S_u = D_u / \operatorname{Var}(V)$,
-the first-order and total indices are $S_i = S_{\{i\}}$ and $S_{T_i} =
-\sum_{u \ni i} S_u$.
+variance of $V_s$ admits an exact and \emph{orthogonal} functional-ANOVA
+decomposition \citep{sobol2001global,saltelli2010variance} under a product
+measure $\mathbb{P} = \bigotimes_i w_i$. Every subset $u$ of axes has a
+component $g_u$, a M\"obius sum over the conditional means computed exactly
+rather than estimated (Supplement~\ref{app:objects}); the components are
+orthogonal, so $\sum_{u \neq \emptyset} D_u = \operatorname{Var}(V)$ exactly,
+and with $S_u = D_u/\operatorname{Var}(V)$ the first-order and total indices
+are $S_i = S_{\{i\}}$ and $S_{T_i} = \sum_{u \ni i} S_u$. The closest
+precedent is \citet{hutter2014efficient}, who decompose an algorithm's
+performance over its \emph{configuration} space by the same device; what
+differs here is that the axes are analysis decisions rather than
+hyperparameters, that the components are exact over a complete factorial
+rather than estimated from a surrogate over a sampled design, and that the
+decomposition is one of four reporting objects rather than the conclusion.
 
-The per-axis difference $S_{T_i} - S_i$ is the variance in which axis $i$ is
-\emph{involved} beyond its own main effect. Those quantities overlap across
-axes, because a two-way component appears in the total effect of both of its
-axes, so their largest member is not the share of variance carried by
-interactions. That share is
+The per-axis difference $S_{T_i} - S_i$ is the variance axis $i$ is
+\emph{involved} in beyond its main effect. These overlap --- a two-way
+component appears in both its axes' total effects --- so their largest member
+is not the share carried by interactions. That share is
 \begin{equation}
 \label{eq:inttotal}
 S_{\mathrm{int}} \;=\; 1 - \sum_i S_i ,
@@ -1330,8 +1321,8 @@ sign-disagreement column is the all-cells rate of Table~\ref{tab:misreport}
 under the equal-level measure.
 
 \subsection{What the choices are worth}
+\label{sec:axes2}
 
-\input{tables/sobol}
 
 \begin{figure}[t]
 \centering
@@ -1417,26 +1408,21 @@ pairs. The index and the spread answer different questions, what share of the
 against how far that one axis moves the answer on its own, and both are
 reported because either alone misleads.
 
-\subsection{The pipeline axis is two axes}
-\label{sec:axes2}
-
-Table~\ref{tab:sobol}'s ``learner'' column is not a learner axis. Its levels
-are pipelines: a model family together with an encoding and, in one case, a
-calibration, and on \nPairsTwoLearners\ of the \nPairs\ pairs only two of them
-run. On the case study's log the budget allows the two to be crossed --- both
-families against all three encodings on both targets, \nPipelines\ complete
-factorial pipelines --- and the crossed decomposition separates them
-(Supplement~\ref{app:secondary}, Table~\ref{tab:axes2}). \textbf{The encoding
-is the larger of the two}, at \sEncodingPct\ of the variance against the
-family's \sFamilyPct, and their interaction, \sFamilyEncodingPct, is as large
-as either main effect. The fused index is therefore not the sum of two
-indices. The crossing has not been re-run on the other \nPairsOther\ pairs,
-and Section~\ref{sec:lim} carries that as a limitation.
+\paragraph{The pipeline axis is two axes} Its levels are a model family
+together with an encoding and, in one case, a calibration, and on
+\nPairsTwoLearners\ of the \nPairs\ pairs only two of them run. Crossed on the
+case study's log --- both families against all three encodings on both
+targets, \nPipelines\ complete factorial pipelines ---
+\textbf{the encoding is the larger of the two}, \sEncodingPct\ of the variance
+against the family's \sFamilyPct, with an interaction, \sFamilyEncodingPct,
+as large as either main effect: the fused index is not the sum of two indices.
+Supplement~\ref{app:secondary} carries the crossed decomposition. It has not
+been re-run on the other \nPairsOther\ pairs, which Section~\ref{sec:lim}
+records.
 
 \subsection{Resolution regions, and the coverage they have}
 \label{sec:regions}
 
-\input{tables/calbands}
 
 \begin{figure}[t]
 \centering
@@ -1558,7 +1544,6 @@ assumptions, and Section~\ref{sec:lim} carries them as limitations.
 \subsection{What one number costs}
 \label{sec:results-regret}
 
-\input{tables/misreport}
 
 A conventional report --- one pipeline, the clean register, the single
 holdout, ROC AUC --- disagrees in \emph{sign} with a median
@@ -1702,53 +1687,38 @@ weaker case for the apparatus, not the stronger one.
 \subsection{Against specification-curve analysis as practised}
 \label{sec:sca}
 
-
-
-The closest existing practice to what this paper proposes is
-specification-curve analysis \citep{simonsohn2020specification}: enumerate the
-reasonable specifications, plot the curve, and test it against a sharp null by
-permutation using the median estimate and the share of the dominant sign.
-Table~\ref{tab:sca} runs that procedure unchanged on \emph{every} admitted
-pair --- \nScaPairs\ of them --- over \nScaPerms\ permutations of a declared
-\nScaCells-cell sub-surface, beside the region label computed on the same
+The closest existing practice is specification-curve analysis
+\citep{simonsohn2020specification}: enumerate the reasonable specifications,
+plot the curve, and test it against a sharp null by permutation.
+Table~\ref{tab:sca} runs it unchanged on \emph{every} admitted pair ---
+\nScaPairs\ of them, \nScaPerms\ permutations of a declared
+\nScaCells-cell sub-surface --- beside the region label computed on the same
 cells, which makes ``how often do the two verdicts part company'' a
-measurement. A permutation replicate refits every cell of every pair, so the
-experiment carries two declared budgets rather than one: the sub-surface
-bounds the cells, and a cap of \nScaMaxCases\ cases per pair --- a seeded
-sample, drawn once and restored to time order, so that the observed surface
-and its null are computed on the same cases --- bounds the rows each fit
-sees. The cap binds on \nScaCapped\ of the \nScaPairs\ pairs and is recorded
-per pair in \texttt{results/s36\_verdicts.csv}. The region labels this
-verdict is set beside are the ones of Section~\ref{sec:regions}, computed on
-the full data.
+measurement rather than an illustration. Two budgets are declared, the
+sub-surface and a cap of \nScaMaxCases\ cases per pair that binds on
+\nScaCapped\ of them; Supplement~\ref{app:secondary} gives both.
 
-\textbf{They part company on \nScaDisagree\ of the \nScaPairs\ pairs}, which
-is close to half of them: the permutation test rejects the sharp null --- the
-surface is decisively unlike one with no signal in it --- and the same cells
-contain increments of \emph{both} signs. A reader given only the permutation
-test on those pairs would conclude that the register matters and would have no
-way to learn that whether it helps or hurts depends on choices nobody told
-them about. On \nScaAgreeNull\ of them the test does not reject and the region
-is unresolved: both instruments say the same thing and the cheaper one
-suffices. The rest are the mixed cases, where one instrument resolves and the
-other does not, and Table~\ref{tab:sca} prints all of them rather than the
-three that make the cleanest illustration.
+\textbf{They part company on \nScaDisagree\ of the \nScaPairs\ pairs}, close
+to half. The permutation test rejects the sharp null --- the surface is
+decisively unlike one with no signal --- and the same cells contain
+increments of \emph{both} signs. A reader given only the test would conclude
+that the register matters and have no way to learn that whether it helps or
+hurts depends on choices nobody told them about. On \nScaAgreeNull\ pairs
+neither resolves and the cheaper instrument suffices; the rest are mixed.
 
 \textbf{And a specification curve is a statement about the cells it
-enumerates.} On \nScaSubSurfaceDisagree\ of the \nScaPairs\ pairs every cell
-of the declared \nScaCells-cell sub-surface has one sign while the \emph{full}
-surface for the same pair is sign-changing or conditionally harmful
-(Table~\ref{tab:calbands}). Nothing is wrong with either --- they are claims
-about different sets --- but it is a concrete demonstration that a
-specification curve without a declared denominator and a simultaneous band
-cannot distinguish ``the sign holds'' from ``the sign holds on the cells I
-drew''.
+enumerates.} On \nScaSubSurfaceDisagree\ pairs every cell of the sub-surface
+has one sign while the \emph{full} surface is sign-changing or conditionally
+harmful. Nothing is wrong with either --- they are claims about different
+sets --- which is the point: without a declared denominator and a
+simultaneous band, a curve cannot distinguish ``the sign holds'' from ``the
+sign holds on the cells I drew''.
 
-Neither procedure subsumes the other. The permutation test answers ``is there
-anything here at all'', costs one refit per permutation per cell, and needs no
-band; the region answers ``may I quote a sign'', costs a nested bootstrap, and
-is what a reader deciding whether to act on a number needs. This paper's
-contribution is the second, and the first should be reported beside it.
+Neither subsumes the other. The permutation test answers \emph{is there
+anything here}, costs one refit per permutation per cell and needs no band;
+the region answers \emph{may I quote a sign}, costs a nested bootstrap, and is
+what a reader deciding whether to act needs. This paper's contribution is the
+second, and the first should be reported beside it.
 
 \subsection{Decision rules, in sample and out}
 \label{sec:rules}
@@ -1794,7 +1764,6 @@ prediction is made --- decides the answer.
 \subsection{One log, two published answers, and what separates them}
 \label{sec:cohort}
 
-\input{tables/cohort}
 
 This log appears twice in this paper. Section~\ref{sec:multilog} applies the
 registered generic rules of Section~\ref{sec:design}, which admit
@@ -1847,7 +1816,6 @@ not about handover in general.
 \subsection{Three decision times}
 \label{sec:twodecision}
 
-\input{tables/tau}
 
 An incident in this estate does not begin as an incident. A caller reaches the
 service desk, an \emph{interaction} is opened, the desk works it, and if it
@@ -1904,115 +1872,41 @@ at $\tau_0$ looks at \nTauZero\ calls a year at a prevalence of \prevTauZero;
 a desk screening at $\tau_2$ looks at \nTauTwo\ incidents at \prevTauTwo, and
 Section~\ref{sec:nbregret} prices the difference.
 
-\subsection{The leakage tipping point}
-
-The knowledge reference is load-bearing: it is the field that takes the
-register's increment to indistinguishable from zero, so the evidence that it
-was available at $\tau_2$ is stated exactly, and it is weaker than proof. The
-interaction detail file establishes that the field is written by the
-service-desk process and not by the incident process --- \nOrphans\
-interactions in it never became incidents, and \kmOrphanPopulated\ of them
-carry a knowledge reference --- but not \emph{when}, for a given incident, the
-value was written. Table~\ref{tab:availability} lists each piece of evidence
-beside what it does and does not establish. Availability at $\tau_2$ is
-probable and unproven, and the disposition of an unprovable admissibility
-assumption is a sensitivity analysis rather than a headline.
-
-
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.82\linewidth]{figS5_tipping.png}
-\caption{The register's increment at $\tau_2$ on the estate's cohort and
-reassignment target, as a function of $\lambda$, the share of
-knowledge-article references assumed to have been written after the incident
-existed. A reader who has a belief about $\lambda$ can read their own answer
-off the curve.}
-\label{fig:tipping}
-\end{figure}
-
-Because availability is probable rather than proven, the increment is reported
-in Figure~\ref{fig:tipping} as a function of $\lambda$, the share of knowledge
-references assumed to have been written after the incident existed and
-therefore inadmissible. Masking a
-random $\lambda$ share of the field and re-estimating traces a curve from the
-permissive end ($\lambda = 0$, the field fully admissible) to the conservative
-end ($\lambda = 1$, equivalent to $\tau_2$ without the field at all). The
-masking is stochastic, so each point is a mean over \nTippingSeeds\ seeds with
-the spread across them printed beside it, and the curve is a sensitivity
-display rather than an estimate the paper quotes a number from.
-
-At $\lambda = 0$ the register is worth \VTtwoKnow\ [\VTtwoKnowLo,
-\VTtwoKnowHi], which is not resolvably different from zero, and it reaches
-half of its knowledge-free value at $\lambda = \lambdaHalf$: a reader who
-believes that more than \lambdaHalfPct\ of knowledge references are written
-\emph{after} the incident exists should read this estate's register as worth
-at least half of \VTtwoGroup\ AUC, and one who believes almost none are should
-read it as worth almost nothing. We have no way to measure $\lambda$ and do
-not claim one; the curve makes the assumption explicit and continuous rather
-than binary and made on the reader's behalf.
-
-\subsection{Register quality}
+\subsection{The leakage tipping point, and register quality}
 \label{sec:quality}
 
-Masking a complete field is a sensitivity experiment, not a model of a real
-register, so Table~\ref{tab:quality2} reports the \nQualityKinds\ mechanisms
-of Section~\ref{sec:surface} plus a discovery lag, and sweeps the accuracy and
-reconciliation mechanisms rather than reporting one level of each. Everything
-here is on the estate's cohort and reassignment target;
-Table~\ref{tab:quality3} carries the severity curves, over \nCaseSweepLevels\
-severities and \nQualitySeeds\ seeds per stochastic mechanism, and
-Table~\ref{tab:quality2corpus} the same mechanisms on the registered cohort.
-Four things follow, and two of them are nulls we did not expect.
+Two further experiments on this estate are in Supplement~\ref{app:casedetail}
+and summarised here.
 
-\textbf{Coverage is the expensive failure, and losing the long tail is not the
-worst way to lose it.} At half population the register is worth \qRareHalf\ if
-its long tail is absent and \qCommonHalf\ if its core is, against \qClean\
-complete. Losing the core costs more than losing the tail, which is the
-opposite of the usual intuition that the rare identities carry the
-information: on this estate the frequent items are the ones the model has
-enough cases to learn from. Loss at random is worse than either
-(\qRandomHalf), because it fragments every identity rather than removing some
-cleanly.
+\textbf{A field that looks like leakage has a tipping point, and where it
+sits is what a reader has to judge.} The knowledge reference is the field
+that takes the register's increment to indistinguishable from zero, and
+whether it was available at $\tau_2$ is probable but unproven. Writing
+$\lambda$ for the share of its values assumed written \emph{after} the
+incident --- so that a larger $\lambda$ makes more of the field inadmissible
+--- the register is worth \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] at
+$\lambda = 0$, not resolvably different from zero, and reaches half of its
+knowledge-free value at $\lambda = \lambdaHalf$. A reader who believes more
+than \lambdaHalfPct\ of references are written after the incident should read
+this estate's register as worth at least half of \VTtwoGroup\ AUC, and one
+who believes almost none are should read it as worth almost nothing. We
+cannot measure $\lambda$, so the disposition of an unprovable admissibility
+assumption is reported as a sensitivity analysis and not as a headline
+(Figure~\ref{fig:tipping}, Table~\ref{tab:tipping}).
 
-\textbf{Accuracy costs about what coverage costs.} Corrupting three tenths of
-the identities --- the register is complete, and wrong --- leaves it worth
-\qCorruptThirty, a loss of \qCorruptThirtyDelta, about what losing a third of
-its population costs. A maturity assessment that counts populated rows and
-does not sample them for correctness is measuring one of the two and reporting
-it as the whole.
-
-\textbf{Reconciliation failure is nearly free.} Splitting \emph{every}
-identity into two records moves the increment by \qDuplicateAllDelta: with
-thousands of cases per identity, halving the evidence behind each still leaves
-enough.
-
-\textbf{Staleness is exactly zero, and the reason is the encoder.} Removing
-identities the register had not seen by the split point moves the increment by
-\qStaleDelta. That is not a bug in the mechanism: a one-hot encoder fitted on
-the training half already ignores levels it has never seen, so a test row
-carrying an undiscovered identity contributes an all-zero encoding either way.
-Under an encoder that keeps missingness as an explicit indicator the effect is
-non-zero; Supplement~\ref{app:tables} measures that on the registered cohort.
-A \emph{discovery lag} --- identities first used in the last half of the
-training window absent everywhere, leaving \qLagHalfPopulated\ of rows
-populated --- moves it by \qLagHalfDelta. Whether a data-quality defect is
-visible is therefore an interaction between the quality axis and the encoding
-axis, and an analyst who varies one without the other will conclude that the
-defect does not matter.
-
-\textbf{And which rows go missing matters as much as how many.} The three
-\emph{dependent} mechanisms of Section~\ref{sec:surface} carry severity
-integrals \integralTime, \integralContent\ and \integralPropensity, against
-\integralMaskRare\ for the independent long-tail mechanism, which the
-dependent ones bracket rather than track: the identity of the missing rows
-changes what the loss costs by up to half again, so a quality axis built only
-from independent coin flips is measuring one corner of the question. The
-summary is an integral against a uniform measure on severity, and coarsening
-the sweep from \nCaseSweepLevels\ severities to five moves it by at most
-\gridShiftMaxCase\ AUC. Every mechanism is verified by execution to be a
-function of the training half alone --- \nQualityLeakChecked\ checks run and
-\nQualityLeakPassed\ pass.
+\textbf{Register quality is an axis, not a caveat, and which rows go missing
+matters as much as how many.} Under \nQualityKinds\ declared degradation
+mechanisms the increment at the reference cell moves from \qClean\ on a clean
+register to \qRareHalf\ when half the population is lost from its long tail
+and \qCommonHalf\ when half is lost from its core. Three of the mechanisms
+are \emph{dependent} --- on time, on content, and on a training-estimated
+propensity that correlates missingness with the outcome --- and they carry
+severity integrals \integralTime, \integralContent\ and
+\integralPropensity\ against \integralMaskRare\ for the independent long-tail
+mechanism, which they bracket rather than track. A quality axis built only
+from independent coin flips measures one corner of the question.
+Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every mechanism and
+level.
 
 \subsection{What this says to a configuration management programme}
 \label{sec:csdm}
@@ -2101,32 +1995,13 @@ rather than a point on it.
 \subsection{Calibration comes first, or the threshold means nothing}
 \label{sec:calibfirst}
 
-The identity above reads $\theta$ as a probability threshold, and everything
-that follows from it requires the score to be a probability. A threshold of
-\thetaBase\ applied to a score whose calibration slope is \slopeWorstRaw\ is
-not a statement about a cost ratio of \ratioBase\ false nominations per true
-one; it is a statement about a number that happens to lie at \thetaBase\ on an
-arbitrary scale. Every model contributing to a decision-curve conclusion in
-this paper is therefore refitted under a \textbf{training-only} calibration:
-isotonic and Platt scaling, each cross-validated \emph{inside} the training
-half, so no test outcome touches the calibrator, and the calibration is
-rebuilt inside every resampling iteration. Table~\ref{tab:calib2} gives the
-diagnostics for the raw and the calibrated scores on every pair.
-
-The correction bites. Across the corpus the median calibration slope is
-\slopeRawMedian\ on raw scores and \slopeIsoMedian\ after isotonic
-calibration; the median expected calibration error falls from \eceRawMedian\
-to \eceIsoMedian; and the number of arms whose slope lies outside $[0.5, 2]$
-falls from \nSlopeOutRaw\ to \nSlopeOutIso. It also changes conclusions: the
-sign of the net-benefit increment differs between the raw and the calibrated
-curve at a mean \dcaSignChangePct\ of thresholds.
-
-\textbf{What may and may not be read as a decision curve.} Curves computed on
-calibrated probabilities carry the probability-threshold interpretation and
-are what Section~\ref{sec:dcabands} and the case study read. Curves on raw
-scores are reported as \emph{score-threshold sensitivity analyses} and are
-labelled so in every table; they say how a conclusion moves as a selection
-rule tightens, and they do not say what cost ratio that rule encodes.
+A threshold is a statement about probability, so a model whose probabilities
+are wrong is being read at a threshold it does not have. Every decision curve
+here is therefore computed on \emph{calibrated} scores, with the calibrator
+fitted inside the training half and rebuilt inside every bootstrap refit, and
+a registered rule excludes an arm whose calibration slope leaves
+$[0.5, 2]$. Supplement~\ref{app:dcadetail} gives the rule, what it removes and
+what the curves look like without it.
 
 \subsection{Simultaneous bands change what can be said}
 \label{sec:dcabands}

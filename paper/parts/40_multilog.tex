@@ -36,8 +36,8 @@ sign-disagreement column is the all-cells rate of Table~\ref{tab:misreport}
 under the equal-level measure.
 
 \subsection{What the choices are worth}
+\label{sec:axes2}
 
-\input{tables/sobol}
 
 \begin{figure}[t]
 \centering
@@ -123,26 +123,21 @@ pairs. The index and the spread answer different questions, what share of the
 against how far that one axis moves the answer on its own, and both are
 reported because either alone misleads.
 
-\subsection{The pipeline axis is two axes}
-\label{sec:axes2}
-
-Table~\ref{tab:sobol}'s ``learner'' column is not a learner axis. Its levels
-are pipelines: a model family together with an encoding and, in one case, a
-calibration, and on \nPairsTwoLearners\ of the \nPairs\ pairs only two of them
-run. On the case study's log the budget allows the two to be crossed --- both
-families against all three encodings on both targets, \nPipelines\ complete
-factorial pipelines --- and the crossed decomposition separates them
-(Supplement~\ref{app:secondary}, Table~\ref{tab:axes2}). \textbf{The encoding
-is the larger of the two}, at \sEncodingPct\ of the variance against the
-family's \sFamilyPct, and their interaction, \sFamilyEncodingPct, is as large
-as either main effect. The fused index is therefore not the sum of two
-indices. The crossing has not been re-run on the other \nPairsOther\ pairs,
-and Section~\ref{sec:lim} carries that as a limitation.
+\paragraph{The pipeline axis is two axes} Its levels are a model family
+together with an encoding and, in one case, a calibration, and on
+\nPairsTwoLearners\ of the \nPairs\ pairs only two of them run. Crossed on the
+case study's log --- both families against all three encodings on both
+targets, \nPipelines\ complete factorial pipelines ---
+\textbf{the encoding is the larger of the two}, \sEncodingPct\ of the variance
+against the family's \sFamilyPct, with an interaction, \sFamilyEncodingPct,
+as large as either main effect: the fused index is not the sum of two indices.
+Supplement~\ref{app:secondary} carries the crossed decomposition. It has not
+been re-run on the other \nPairsOther\ pairs, which Section~\ref{sec:lim}
+records.
 
 \subsection{Resolution regions, and the coverage they have}
 \label{sec:regions}
 
-\input{tables/calbands}
 
 \begin{figure}[t]
 \centering
@@ -264,7 +259,6 @@ assumptions, and Section~\ref{sec:lim} carries them as limitations.
 \subsection{What one number costs}
 \label{sec:results-regret}
 
-\input{tables/misreport}
 
 A conventional report --- one pipeline, the clean register, the single
 holdout, ROC AUC --- disagrees in \emph{sign} with a median
@@ -408,53 +402,38 @@ weaker case for the apparatus, not the stronger one.
 \subsection{Against specification-curve analysis as practised}
 \label{sec:sca}
 
-
-
-The closest existing practice to what this paper proposes is
-specification-curve analysis \citep{simonsohn2020specification}: enumerate the
-reasonable specifications, plot the curve, and test it against a sharp null by
-permutation using the median estimate and the share of the dominant sign.
-Table~\ref{tab:sca} runs that procedure unchanged on \emph{every} admitted
-pair --- \nScaPairs\ of them --- over \nScaPerms\ permutations of a declared
-\nScaCells-cell sub-surface, beside the region label computed on the same
+The closest existing practice is specification-curve analysis
+\citep{simonsohn2020specification}: enumerate the reasonable specifications,
+plot the curve, and test it against a sharp null by permutation.
+Table~\ref{tab:sca} runs it unchanged on \emph{every} admitted pair ---
+\nScaPairs\ of them, \nScaPerms\ permutations of a declared
+\nScaCells-cell sub-surface --- beside the region label computed on the same
 cells, which makes ``how often do the two verdicts part company'' a
-measurement. A permutation replicate refits every cell of every pair, so the
-experiment carries two declared budgets rather than one: the sub-surface
-bounds the cells, and a cap of \nScaMaxCases\ cases per pair --- a seeded
-sample, drawn once and restored to time order, so that the observed surface
-and its null are computed on the same cases --- bounds the rows each fit
-sees. The cap binds on \nScaCapped\ of the \nScaPairs\ pairs and is recorded
-per pair in \texttt{results/s36\_verdicts.csv}. The region labels this
-verdict is set beside are the ones of Section~\ref{sec:regions}, computed on
-the full data.
+measurement rather than an illustration. Two budgets are declared, the
+sub-surface and a cap of \nScaMaxCases\ cases per pair that binds on
+\nScaCapped\ of them; Supplement~\ref{app:secondary} gives both.
 
-\textbf{They part company on \nScaDisagree\ of the \nScaPairs\ pairs}, which
-is close to half of them: the permutation test rejects the sharp null --- the
-surface is decisively unlike one with no signal in it --- and the same cells
-contain increments of \emph{both} signs. A reader given only the permutation
-test on those pairs would conclude that the register matters and would have no
-way to learn that whether it helps or hurts depends on choices nobody told
-them about. On \nScaAgreeNull\ of them the test does not reject and the region
-is unresolved: both instruments say the same thing and the cheaper one
-suffices. The rest are the mixed cases, where one instrument resolves and the
-other does not, and Table~\ref{tab:sca} prints all of them rather than the
-three that make the cleanest illustration.
+\textbf{They part company on \nScaDisagree\ of the \nScaPairs\ pairs}, close
+to half. The permutation test rejects the sharp null --- the surface is
+decisively unlike one with no signal --- and the same cells contain
+increments of \emph{both} signs. A reader given only the test would conclude
+that the register matters and have no way to learn that whether it helps or
+hurts depends on choices nobody told them about. On \nScaAgreeNull\ pairs
+neither resolves and the cheaper instrument suffices; the rest are mixed.
 
 \textbf{And a specification curve is a statement about the cells it
-enumerates.} On \nScaSubSurfaceDisagree\ of the \nScaPairs\ pairs every cell
-of the declared \nScaCells-cell sub-surface has one sign while the \emph{full}
-surface for the same pair is sign-changing or conditionally harmful
-(Table~\ref{tab:calbands}). Nothing is wrong with either --- they are claims
-about different sets --- but it is a concrete demonstration that a
-specification curve without a declared denominator and a simultaneous band
-cannot distinguish ``the sign holds'' from ``the sign holds on the cells I
-drew''.
+enumerates.} On \nScaSubSurfaceDisagree\ pairs every cell of the sub-surface
+has one sign while the \emph{full} surface is sign-changing or conditionally
+harmful. Nothing is wrong with either --- they are claims about different
+sets --- which is the point: without a declared denominator and a
+simultaneous band, a curve cannot distinguish ``the sign holds'' from ``the
+sign holds on the cells I drew''.
 
-Neither procedure subsumes the other. The permutation test answers ``is there
-anything here at all'', costs one refit per permutation per cell, and needs no
-band; the region answers ``may I quote a sign'', costs a nested bootstrap, and
-is what a reader deciding whether to act on a number needs. This paper's
-contribution is the second, and the first should be reported beside it.
+Neither subsumes the other. The permutation test answers \emph{is there
+anything here}, costs one refit per permutation per cell and needs no band;
+the region answers \emph{may I quote a sign}, costs a nested bootstrap, and is
+what a reader deciding whether to act needs. This paper's contribution is the
+second, and the first should be reported beside it.
 
 \subsection{Decision rules, in sample and out}
 \label{sec:rules}

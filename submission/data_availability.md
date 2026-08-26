@@ -3,7 +3,7 @@
 All twenty-four event-log files this study fetches are public and none is
 redistributed by the author. The registered admission rules of Section 5 admit
 thirteen of them, giving nineteen log--target pairs; the eleven that are
-excluded are listed with their exclusion code in Table S5 of the supplement, so
+excluded are listed with their exclusion code in Table S10 of the supplement, so
 a reader can see what was screened out as well as what was kept. The analysis code, the pre-registered protocol,
 the intermediate result files, the figures and the checker that recomputes
 every quantity printed in the paper are available in the repository cited in

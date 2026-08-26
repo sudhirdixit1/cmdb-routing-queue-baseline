@@ -157,23 +157,19 @@ not a maximum; \texttt{results/s21\_incomplete.csv} names the
 
 \paragraph{Estimating the critical value without paying for it in refits}
 $q_{1-\alpha}$ is the upper quantile of a maximum over hundreds of correlated
-cells, and the empirical quantile of the $B$ observed maxima estimates it
-badly, while the fitting budget cannot be raised without multiplying the cost
-of the whole design space by $B$. Standardising the draws to
-$Z_{b,c} = (V^{(b)}_c - \bar V_c)/\hat\sigma_c$ and multiplying them by
-independent standard normals gives a statistic with the empirical covariance
-of $Z$, which can be generated \nMultiplier\ times for the cost of matrix
-arithmetic \citep{chernozhukov2013gaussian};
-Supplement~\ref{app:objects} gives the construction. The fitting budget
-therefore fixes $B$ and not the precision of $q$: the empirical quantile has a
-median order-statistic interval of width \qEmpWidth\ at these draw counts, the
-multiplier quantile one of width \qMultWidth, and the residual Monte Carlo
-interval is carried through, so that a cell counts as \emph{resolved} only if
-it resolves at the \emph{upper} end of it. Finally, a max-$t$ band inherits
-the coverage of the interval it is built from, which
-Section~\ref{sec:simsensitivity} shows is governed by the ratio of register
-cardinality to training size; Section~\ref{sec:regions} calibrates $q$ at each
-pair's own ratio.
+cells and the empirical quantile of $B$ observed maxima estimates it badly,
+while raising $B$ multiplies the cost of the whole design space. Standardising
+the draws and multiplying them by independent standard normals gives a
+statistic with their empirical covariance, generated \nMultiplier\ times for
+the cost of matrix arithmetic \citep{chernozhukov2013gaussian};
+Supplement~\ref{app:objects} gives the construction. The budget therefore
+fixes $B$ and not the precision of $q$ --- order-statistic widths of
+\qEmpWidth\ against \qMultWidth\ --- and the residual Monte Carlo interval is
+carried through, so a cell counts as \emph{resolved} only at its \emph{upper}
+end. A max-$t$ band also inherits the coverage of the interval it is built
+from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
+register cardinality to training size; Section~\ref{sec:regions} calibrates
+$q$ at each pair's own ratio.
 
 \paragraph{And the two estimates of the same critical value disagree, in the
 direction that matters}
@@ -293,30 +289,25 @@ surface enumerated in full.
 
 Because the surface is a complete factorial over its axes --- the audit of
 Section~\ref{sec:threesurfaces} establishes that it is, cell for cell --- the
-variance of $V_s$ across specifications admits an exact and \emph{orthogonal}
-functional-ANOVA decomposition \citep{sobol2001global,saltelli2010variance}
-under a product measure $\mathbb{P} = \bigotimes_i w_i$ over the axes. The
-closest precedent is \citet{hutter2014efficient}, who decompose an
-algorithm's performance over its \emph{configuration} space by the same
-device and read the first-order and interaction terms as hyperparameter
-importance. What differs here is the object and what is done with it: the
-axes are analysis decisions rather than hyperparameters, the components are
-computed exactly over a complete factorial rather than estimated from a
-regression-tree surrogate over a sampled design, and the decomposition is one
-of four reporting objects rather than the conclusion. Every
-subset $u$ of axes has a component $g_u$, given by a M\"obius sum over the
-conditional means and computed exactly rather than estimated
-(Supplement~\ref{app:objects}); the components are mutually orthogonal, so
-their variances $D_u$ satisfy $\sum_{u \neq \emptyset} D_u =
-\operatorname{Var}(V)$ exactly. Writing $S_u = D_u / \operatorname{Var}(V)$,
-the first-order and total indices are $S_i = S_{\{i\}}$ and $S_{T_i} =
-\sum_{u \ni i} S_u$.
+variance of $V_s$ admits an exact and \emph{orthogonal} functional-ANOVA
+decomposition \citep{sobol2001global,saltelli2010variance} under a product
+measure $\mathbb{P} = \bigotimes_i w_i$. Every subset $u$ of axes has a
+component $g_u$, a M\"obius sum over the conditional means computed exactly
+rather than estimated (Supplement~\ref{app:objects}); the components are
+orthogonal, so $\sum_{u \neq \emptyset} D_u = \operatorname{Var}(V)$ exactly,
+and with $S_u = D_u/\operatorname{Var}(V)$ the first-order and total indices
+are $S_i = S_{\{i\}}$ and $S_{T_i} = \sum_{u \ni i} S_u$. The closest
+precedent is \citet{hutter2014efficient}, who decompose an algorithm's
+performance over its \emph{configuration} space by the same device; what
+differs here is that the axes are analysis decisions rather than
+hyperparameters, that the components are exact over a complete factorial
+rather than estimated from a surrogate over a sampled design, and that the
+decomposition is one of four reporting objects rather than the conclusion.
 
-The per-axis difference $S_{T_i} - S_i$ is the variance in which axis $i$ is
-\emph{involved} beyond its own main effect. Those quantities overlap across
-axes, because a two-way component appears in the total effect of both of its
-axes, so their largest member is not the share of variance carried by
-interactions. That share is
+The per-axis difference $S_{T_i} - S_i$ is the variance axis $i$ is
+\emph{involved} in beyond its main effect. These overlap --- a two-way
+component appears in both its axes' total effects --- so their largest member
+is not the share carried by interactions. That share is
 \begin{equation}
 \label{eq:inttotal}
 S_{\mathrm{int}} \;=\; 1 - \sum_i S_i ,

@@ -15,7 +15,6 @@ prediction is made --- decides the answer.
 \subsection{One log, two published answers, and what separates them}
 \label{sec:cohort}
 
-\input{tables/cohort}
 
 This log appears twice in this paper. Section~\ref{sec:multilog} applies the
 registered generic rules of Section~\ref{sec:design}, which admit
@@ -68,7 +67,6 @@ not about handover in general.
 \subsection{Three decision times}
 \label{sec:twodecision}
 
-\input{tables/tau}
 
 An incident in this estate does not begin as an incident. A caller reaches the
 service desk, an \emph{interaction} is opened, the desk works it, and if it
@@ -125,115 +123,41 @@ at $\tau_0$ looks at \nTauZero\ calls a year at a prevalence of \prevTauZero;
 a desk screening at $\tau_2$ looks at \nTauTwo\ incidents at \prevTauTwo, and
 Section~\ref{sec:nbregret} prices the difference.
 
-\subsection{The leakage tipping point}
-
-The knowledge reference is load-bearing: it is the field that takes the
-register's increment to indistinguishable from zero, so the evidence that it
-was available at $\tau_2$ is stated exactly, and it is weaker than proof. The
-interaction detail file establishes that the field is written by the
-service-desk process and not by the incident process --- \nOrphans\
-interactions in it never became incidents, and \kmOrphanPopulated\ of them
-carry a knowledge reference --- but not \emph{when}, for a given incident, the
-value was written. Table~\ref{tab:availability} lists each piece of evidence
-beside what it does and does not establish. Availability at $\tau_2$ is
-probable and unproven, and the disposition of an unprovable admissibility
-assumption is a sensitivity analysis rather than a headline.
-
-
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.82\linewidth]{figS5_tipping.png}
-\caption{The register's increment at $\tau_2$ on the estate's cohort and
-reassignment target, as a function of $\lambda$, the share of
-knowledge-article references assumed to have been written after the incident
-existed. A reader who has a belief about $\lambda$ can read their own answer
-off the curve.}
-\label{fig:tipping}
-\end{figure}
-
-Because availability is probable rather than proven, the increment is reported
-in Figure~\ref{fig:tipping} as a function of $\lambda$, the share of knowledge
-references assumed to have been written after the incident existed and
-therefore inadmissible. Masking a
-random $\lambda$ share of the field and re-estimating traces a curve from the
-permissive end ($\lambda = 0$, the field fully admissible) to the conservative
-end ($\lambda = 1$, equivalent to $\tau_2$ without the field at all). The
-masking is stochastic, so each point is a mean over \nTippingSeeds\ seeds with
-the spread across them printed beside it, and the curve is a sensitivity
-display rather than an estimate the paper quotes a number from.
-
-At $\lambda = 0$ the register is worth \VTtwoKnow\ [\VTtwoKnowLo,
-\VTtwoKnowHi], which is not resolvably different from zero, and it reaches
-half of its knowledge-free value at $\lambda = \lambdaHalf$: a reader who
-believes that more than \lambdaHalfPct\ of knowledge references are written
-\emph{after} the incident exists should read this estate's register as worth
-at least half of \VTtwoGroup\ AUC, and one who believes almost none are should
-read it as worth almost nothing. We have no way to measure $\lambda$ and do
-not claim one; the curve makes the assumption explicit and continuous rather
-than binary and made on the reader's behalf.
-
-\subsection{Register quality}
+\subsection{The leakage tipping point, and register quality}
 \label{sec:quality}
 
-Masking a complete field is a sensitivity experiment, not a model of a real
-register, so Table~\ref{tab:quality2} reports the \nQualityKinds\ mechanisms
-of Section~\ref{sec:surface} plus a discovery lag, and sweeps the accuracy and
-reconciliation mechanisms rather than reporting one level of each. Everything
-here is on the estate's cohort and reassignment target;
-Table~\ref{tab:quality3} carries the severity curves, over \nCaseSweepLevels\
-severities and \nQualitySeeds\ seeds per stochastic mechanism, and
-Table~\ref{tab:quality2corpus} the same mechanisms on the registered cohort.
-Four things follow, and two of them are nulls we did not expect.
+Two further experiments on this estate are in Supplement~\ref{app:casedetail}
+and summarised here.
 
-\textbf{Coverage is the expensive failure, and losing the long tail is not the
-worst way to lose it.} At half population the register is worth \qRareHalf\ if
-its long tail is absent and \qCommonHalf\ if its core is, against \qClean\
-complete. Losing the core costs more than losing the tail, which is the
-opposite of the usual intuition that the rare identities carry the
-information: on this estate the frequent items are the ones the model has
-enough cases to learn from. Loss at random is worse than either
-(\qRandomHalf), because it fragments every identity rather than removing some
-cleanly.
+\textbf{A field that looks like leakage has a tipping point, and where it
+sits is what a reader has to judge.} The knowledge reference is the field
+that takes the register's increment to indistinguishable from zero, and
+whether it was available at $\tau_2$ is probable but unproven. Writing
+$\lambda$ for the share of its values assumed written \emph{after} the
+incident --- so that a larger $\lambda$ makes more of the field inadmissible
+--- the register is worth \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] at
+$\lambda = 0$, not resolvably different from zero, and reaches half of its
+knowledge-free value at $\lambda = \lambdaHalf$. A reader who believes more
+than \lambdaHalfPct\ of references are written after the incident should read
+this estate's register as worth at least half of \VTtwoGroup\ AUC, and one
+who believes almost none are should read it as worth almost nothing. We
+cannot measure $\lambda$, so the disposition of an unprovable admissibility
+assumption is reported as a sensitivity analysis and not as a headline
+(Figure~\ref{fig:tipping}, Table~\ref{tab:tipping}).
 
-\textbf{Accuracy costs about what coverage costs.} Corrupting three tenths of
-the identities --- the register is complete, and wrong --- leaves it worth
-\qCorruptThirty, a loss of \qCorruptThirtyDelta, about what losing a third of
-its population costs. A maturity assessment that counts populated rows and
-does not sample them for correctness is measuring one of the two and reporting
-it as the whole.
-
-\textbf{Reconciliation failure is nearly free.} Splitting \emph{every}
-identity into two records moves the increment by \qDuplicateAllDelta: with
-thousands of cases per identity, halving the evidence behind each still leaves
-enough.
-
-\textbf{Staleness is exactly zero, and the reason is the encoder.} Removing
-identities the register had not seen by the split point moves the increment by
-\qStaleDelta. That is not a bug in the mechanism: a one-hot encoder fitted on
-the training half already ignores levels it has never seen, so a test row
-carrying an undiscovered identity contributes an all-zero encoding either way.
-Under an encoder that keeps missingness as an explicit indicator the effect is
-non-zero; Supplement~\ref{app:tables} measures that on the registered cohort.
-A \emph{discovery lag} --- identities first used in the last half of the
-training window absent everywhere, leaving \qLagHalfPopulated\ of rows
-populated --- moves it by \qLagHalfDelta. Whether a data-quality defect is
-visible is therefore an interaction between the quality axis and the encoding
-axis, and an analyst who varies one without the other will conclude that the
-defect does not matter.
-
-\textbf{And which rows go missing matters as much as how many.} The three
-\emph{dependent} mechanisms of Section~\ref{sec:surface} carry severity
-integrals \integralTime, \integralContent\ and \integralPropensity, against
-\integralMaskRare\ for the independent long-tail mechanism, which the
-dependent ones bracket rather than track: the identity of the missing rows
-changes what the loss costs by up to half again, so a quality axis built only
-from independent coin flips is measuring one corner of the question. The
-summary is an integral against a uniform measure on severity, and coarsening
-the sweep from \nCaseSweepLevels\ severities to five moves it by at most
-\gridShiftMaxCase\ AUC. Every mechanism is verified by execution to be a
-function of the training half alone --- \nQualityLeakChecked\ checks run and
-\nQualityLeakPassed\ pass.
+\textbf{Register quality is an axis, not a caveat, and which rows go missing
+matters as much as how many.} Under \nQualityKinds\ declared degradation
+mechanisms the increment at the reference cell moves from \qClean\ on a clean
+register to \qRareHalf\ when half the population is lost from its long tail
+and \qCommonHalf\ when half is lost from its core. Three of the mechanisms
+are \emph{dependent} --- on time, on content, and on a training-estimated
+propensity that correlates missingness with the outcome --- and they carry
+severity integrals \integralTime, \integralContent\ and
+\integralPropensity\ against \integralMaskRare\ for the independent long-tail
+mechanism, which they bracket rather than track. A quality axis built only
+from independent coin flips measures one corner of the question.
+Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every mechanism and
+level.
 
 \subsection{What this says to a configuration management programme}
 \label{sec:csdm}

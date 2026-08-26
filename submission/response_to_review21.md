@@ -308,10 +308,10 @@ limitation.
 
 Each of the five, in order.
 
-1. **28.7% against Table 4's 0.263.** Both are right and they are different
+1. **28.7% against Table S5's 0.263.** Both are right and they are different
    aggregations: the table printed, per axis, the median over instruments of
    that axis's index, so its row maximum is a maximum of medians; the headline
-   is the median over instruments of the maximum over axes. Table 4 now
+   is the median over instruments of the maximum over axes. Table S5 now
    carries the headline's own per-pair quantity as its last column, so the
    printed table reproduces the printed number. The caption says which is
    which.

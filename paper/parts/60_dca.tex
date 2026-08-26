@@ -31,32 +31,13 @@ rather than a point on it.
 \subsection{Calibration comes first, or the threshold means nothing}
 \label{sec:calibfirst}
 
-The identity above reads $\theta$ as a probability threshold, and everything
-that follows from it requires the score to be a probability. A threshold of
-\thetaBase\ applied to a score whose calibration slope is \slopeWorstRaw\ is
-not a statement about a cost ratio of \ratioBase\ false nominations per true
-one; it is a statement about a number that happens to lie at \thetaBase\ on an
-arbitrary scale. Every model contributing to a decision-curve conclusion in
-this paper is therefore refitted under a \textbf{training-only} calibration:
-isotonic and Platt scaling, each cross-validated \emph{inside} the training
-half, so no test outcome touches the calibrator, and the calibration is
-rebuilt inside every resampling iteration. Table~\ref{tab:calib2} gives the
-diagnostics for the raw and the calibrated scores on every pair.
-
-The correction bites. Across the corpus the median calibration slope is
-\slopeRawMedian\ on raw scores and \slopeIsoMedian\ after isotonic
-calibration; the median expected calibration error falls from \eceRawMedian\
-to \eceIsoMedian; and the number of arms whose slope lies outside $[0.5, 2]$
-falls from \nSlopeOutRaw\ to \nSlopeOutIso. It also changes conclusions: the
-sign of the net-benefit increment differs between the raw and the calibrated
-curve at a mean \dcaSignChangePct\ of thresholds.
-
-\textbf{What may and may not be read as a decision curve.} Curves computed on
-calibrated probabilities carry the probability-threshold interpretation and
-are what Section~\ref{sec:dcabands} and the case study read. Curves on raw
-scores are reported as \emph{score-threshold sensitivity analyses} and are
-labelled so in every table; they say how a conclusion moves as a selection
-rule tightens, and they do not say what cost ratio that rule encodes.
+A threshold is a statement about probability, so a model whose probabilities
+are wrong is being read at a threshold it does not have. Every decision curve
+here is therefore computed on \emph{calibrated} scores, with the calibrator
+fitted inside the training half and rebuilt inside every bootstrap refit, and
+a registered rule excludes an arm whose calibration slope leaves
+$[0.5, 2]$. Supplement~\ref{app:dcadetail} gives the rule, what it removes and
+what the curves look like without it.
 
 \subsection{Simultaneous bands change what can be said}
 \label{sec:dcabands}

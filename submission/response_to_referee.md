@@ -227,7 +227,7 @@ it.
 **Granted.** Three changes:
 
 1. The **absolute increments and the absolute absorption
-   $D = V(f\mid B_0) - V(f\mid B_1)$ are primary** everywhere (§3.3, Table S26).
+   $D = V(f\mid B_0) - V(f\mid B_1)$ are primary** everywhere (§3.3, Table S31).
 2. $R$ is secondary, is reported only where the denominator is resolvably
    positive *under the simultaneous band*, and carries a **Fieller set** whose
    *kind* — bounded, unbounded, or the complement of an interval — is printed
