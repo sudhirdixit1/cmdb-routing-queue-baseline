@@ -7,6 +7,24 @@ without the coarsenings contaminating the intake block.
 
 \input{tables/layers}
 
+\paragraph{Which cell the ladder is on, and why it does not reconcile with the
+decision-time table}
+Section~\ref{sec:programme} reports the item as worth \layerItemHandover\ AUC
+over the intake block and Table~\ref{tab:tau} reports \VtauTwo\ over the same
+block, and a reader who tries to reconcile the two cannot, because they are
+different cells. This ladder is computed on the \emph{registered} cohort of
+Section~\ref{sec:design} --- \layerLadderN\ cases, \layerLadderNTest\ in
+test --- under the registered handover rule, one-hot logistic regression at the
+fixed temporal holdout, against the intake block at base AUC
+\layerBaseHandover\ on the reassignment question and \layerBaseDuration\ on
+duration. Table~\ref{tab:tau} is on the estate's own cohort and its
+reassignment target. Section~\ref{sec:cohort} is the reason the two differ:
+they are the two analyses whose answers about this register disagree, and
+neither number is the other one mismeasured. What the ladder compares is
+layers \emph{against each other} at one cell, which is the comparison a
+programme is choosing among, and that comparison is unaffected by which of the
+two cohorts it is made on.
+
 Table~\ref{tab:layers} reports the increment of each layer over the same
 baseline, and of the item over each layer. \textbf{Which layer pays is a
 property of the target and of the log, and not of the register.} On the case

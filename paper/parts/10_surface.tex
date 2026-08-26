@@ -29,29 +29,24 @@ feature is \emph{well posed} only relative to a declared $\mathcal{S}$.
 \input{tables/axes}
 
 Declaring a design space means writing down every axis, its levels, the
-measure over those levels, and every level that is deliberately excluded with
-the reason. Table~\ref{tab:axes} is that declaration for this study, and it is
-generated from the code that walks the space rather than typed beside it. A
-reader can multiply its level counts and obtain the cell counts reported in
-Section~\ref{sec:denominator}; that this multiplication works is the first
-check the verification harness runs. \textbf{The \nAxes\ axes above are the
-estimand's arguments, and this study does not vary all of them.} The target
-$Y$ indexes the surfaces rather than being an axis \emph{of} one --- each
-log--target pair has its own surface --- and the decision time, the operating
-point and the cohort are varied on the case study's log alone.
-Table~\ref{tab:roles} states, per pair, which axes ran and at how many levels;
-the two tables are meant to be read together and
-Section~\ref{sec:lim} carries the gap between them.
-Table~\ref{tab:axes}'s \emph{measure} column names which of the three declared
-product measures over the axis levels a quantity is taken under ---
-\textsc{equal}, every level of every axis equally likely; \textsc{ref.}, half
-the mass on the reference level; \textsc{conc.}, four fifths on it --- and
-Section~\ref{sec:sobol} reports every decomposition under all three.
-
-The measure placed on the axis levels is a modelling choice and is declared
-rather than left implicit; Supplement~\ref{app:measurechoice} states it, and
-says why the decision time and the register's quality are axes of the
-estimand rather than preliminaries to it.
+measure over those levels, and every level deliberately excluded with the
+reason. Table~\ref{tab:axes} is that declaration, generated from the code that
+walks the space; multiplying its level counts gives the cell counts of
+Section~\ref{sec:denominator}, and that multiplication is the first check the
+verification harness runs. \textbf{The \nAxes\ axes above are the estimand's
+arguments, and this study does not vary all of them.} The target $Y$ indexes
+the surfaces rather than being an axis \emph{of} one, and the decision time,
+the operating point and the cohort vary on the case study's log alone;
+Table~\ref{tab:roles} states per pair which axes ran and at how many levels,
+and Section~\ref{sec:lim} carries the gap between the two tables. The
+\emph{measure} column names which of the three declared product measures a
+quantity is taken under --- \textsc{equal}, \textsc{ref.} and \textsc{conc.},
+placing equal, half and four fifths of the mass on the reference level ---
+and Section~\ref{sec:sobol} reports every decomposition under all three.
+The measure is a modelling choice, declared rather than left implicit;
+Supplement~\ref{app:measurechoice} states it, and says why the decision time
+and the register's quality are axes of the estimand rather than preliminaries
+to it.
 
 \subsection{What the surface estimates}
 \label{sec:estimand}

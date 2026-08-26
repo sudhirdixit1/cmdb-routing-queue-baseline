@@ -321,26 +321,19 @@ data-quality work the vocabulary for a degraded register
 Leakage discipline is standard
 \citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}.
 
-Four further strands bear on the argument. \emph{Many-analysts studies} put
-one question and one dataset to independent teams and observe the spread
-directly \citep{silberzahn2018many,breznau2022observing}: they establish that
-analytic variability is large without supplying an estimand for it, which is
-what the surface is. \emph{Predictive multiplicity} and Rashomon sets study
-near-equally accurate models that disagree on individuals
-\citep{marx2020predictive,semenova2022existence} --- multiplicity at the level
-of a fitted model, where this paper's is at the level of the design that
-produced it. \emph{Benchmark-variance work in predictive process monitoring}
-reports how far results move with the pipeline and the protocol
-\citep{ramamaneiro2021deep}, which is the evidence this paper's decomposition
-partitions. And the \emph{sensitivity-analysis} tradition of bounding an
-unmeasured assumption \citep{vanderweele2017sensitivity} is the form
-Section~\ref{sec:quality}'s leakage tipping point takes. On the estate side,
-the accuracy of a configuration management database is itself a studied
-quantity \citep{suriadi2017imperfection,mohammed2025dataquality}, and the
-layered service models practitioners maintain are why
-Section~\ref{sec:programme} asks which \emph{layer} of a register pays.
-Supplement~\ref{app:related} sets out each strand and what this paper takes
-from it.
+Four further strands bear on the argument and are set out in
+Supplement~\ref{app:related} with what this paper takes from each:
+\emph{many-analysts studies} \citep{silberzahn2018many,breznau2022observing},
+which establish that analytic variability is large without supplying an
+estimand for it; \emph{predictive multiplicity} and Rashomon sets
+\citep{marx2020predictive,semenova2022existence}, which are multiplicity at
+the level of a fitted model where this paper's is at the level of the design
+that produced it; \emph{benchmark-variance work in predictive process
+monitoring} \citep{ramamaneiro2021deep}, which is the evidence this paper's
+decomposition partitions; and the \emph{sensitivity-analysis} tradition of
+bounding an unmeasured assumption \citep{vanderweele2017sensitivity}, which is
+the form Section~\ref{sec:quality}'s leakage tipping point takes.
+
 
 \paragraph{The novelty gap, precisely}
 Every component used here is established and none is claimed. What none of
@@ -409,29 +402,24 @@ feature is \emph{well posed} only relative to a declared $\mathcal{S}$.
 \input{tables/axes}
 
 Declaring a design space means writing down every axis, its levels, the
-measure over those levels, and every level that is deliberately excluded with
-the reason. Table~\ref{tab:axes} is that declaration for this study, and it is
-generated from the code that walks the space rather than typed beside it. A
-reader can multiply its level counts and obtain the cell counts reported in
-Section~\ref{sec:denominator}; that this multiplication works is the first
-check the verification harness runs. \textbf{The \nAxes\ axes above are the
-estimand's arguments, and this study does not vary all of them.} The target
-$Y$ indexes the surfaces rather than being an axis \emph{of} one --- each
-log--target pair has its own surface --- and the decision time, the operating
-point and the cohort are varied on the case study's log alone.
-Table~\ref{tab:roles} states, per pair, which axes ran and at how many levels;
-the two tables are meant to be read together and
-Section~\ref{sec:lim} carries the gap between them.
-Table~\ref{tab:axes}'s \emph{measure} column names which of the three declared
-product measures over the axis levels a quantity is taken under ---
-\textsc{equal}, every level of every axis equally likely; \textsc{ref.}, half
-the mass on the reference level; \textsc{conc.}, four fifths on it --- and
-Section~\ref{sec:sobol} reports every decomposition under all three.
-
-The measure placed on the axis levels is a modelling choice and is declared
-rather than left implicit; Supplement~\ref{app:measurechoice} states it, and
-says why the decision time and the register's quality are axes of the
-estimand rather than preliminaries to it.
+measure over those levels, and every level deliberately excluded with the
+reason. Table~\ref{tab:axes} is that declaration, generated from the code that
+walks the space; multiplying its level counts gives the cell counts of
+Section~\ref{sec:denominator}, and that multiplication is the first check the
+verification harness runs. \textbf{The \nAxes\ axes above are the estimand's
+arguments, and this study does not vary all of them.} The target $Y$ indexes
+the surfaces rather than being an axis \emph{of} one, and the decision time,
+the operating point and the cohort vary on the case study's log alone;
+Table~\ref{tab:roles} states per pair which axes ran and at how many levels,
+and Section~\ref{sec:lim} carries the gap between the two tables. The
+\emph{measure} column names which of the three declared product measures a
+quantity is taken under --- \textsc{equal}, \textsc{ref.} and \textsc{conc.},
+placing equal, half and four fifths of the mass on the reference level ---
+and Section~\ref{sec:sobol} reports every decomposition under all three.
+The measure is a modelling choice, declared rather than left implicit;
+Supplement~\ref{app:measurechoice} states it, and says why the decision time
+and the register's quality are axes of the estimand rather than preliminaries
+to it.
 
 \subsection{What the surface estimates}
 \label{sec:estimand}
@@ -1658,42 +1646,31 @@ it; Section~\ref{sec:nbregret} prices that in cases per thousand:
 \paragraph{Which layer of the register pays}
 A programme does not choose whether to have a configuration management
 database; it chooses how much of one to populate and maintain, and that is a
-choice among \emph{layers}. \textbf{The ladder is not
-Table~\ref{tab:tau}'s cell and does not reconcile with it arithmetically}:
-it is computed on the \emph{registered} cohort of Section~\ref{sec:design}
---- \layerLadderN\ cases, \layerLadderNTest\ in test --- under the
-registered handover rule, one-hot logistic regression at the fixed temporal
-holdout, against the intake block at base AUC \layerBaseHandover, whereas
-Table~\ref{tab:tau} is on the estate's own cohort and its reassignment
-target. Section~\ref{sec:cohort} is the reason the two differ: those are the
-two analyses whose answers about this register disagree, so the register's
-increment over intake is \layerItemHandover\ here and \VtauTwo\ there, and
-neither number is the other one mismeasured. What the ladder compares is
-layers \emph{against each other} at one cell, which is the comparison a
-programme is choosing among. On it the item's \emph{type} is worth
-\layerTypeHandover\ AUC over intake, its \emph{subtype}
-\layerSubtypeHandover, and the item itself \layerItemHandover; with the
-subtype already in the model the item still adds
-\layerItemMarginalHandover. \textbf{On this estate and this question the
-coarse layers are not free, and the finest layer is not redundant}: about half
-of what the item is worth over the intake block is already reachable from a
-thirteen-value type field, and the item still adds \layerItemMarginalHandover\
-once the subtype is in the model. On the duration question --- the registered
-duration rule on the same cohort, base AUC \layerBaseDuration\ --- the same
-ladder gives \layerTypeDuration, \layerSubtypeDuration\ and
-\layerItemDuration,
-with \layerItemMarginalDuration\ marginal --- there the coarse layers reach
-about a \emph{third} of the item's increment and the item carries the rest.
-\textbf{So the split between the layers is a property of the target and not of
-the register}: the same three fields on the same estate divide their worth one
-way for reassignment and another for duration.
-Supplement~\ref{app:layers} carries both, and two further logs on which every
-coarse layer is worth essentially nothing while the finest one is not. In the vocabulary of a layered service model
---- technical service, application service, configuration item --- the finding
-is that the layers are not substitutes and that which one pays is a property
-of the question being asked, not of the estate. It is not a procurement
-conclusion: nothing here prices what a layer costs to populate or to keep
-accurate, and Section~\ref{sec:lim} says so.
+choice among \emph{layers}. On the \emph{registered} cohort of
+Section~\ref{sec:design} --- \layerLadderN\ cases, one-hot logistic
+regression at the fixed temporal holdout, against the intake block at base AUC
+\layerBaseHandover\ --- the item's \emph{type} is worth \layerTypeHandover\
+AUC over intake, its \emph{subtype} \layerSubtypeHandover, and the item itself
+\layerItemHandover; with the subtype already in the model the item still adds
+\layerItemMarginalHandover. \textbf{That ladder is not
+Table~\ref{tab:tau}'s cell and does not reconcile with it arithmetically},
+because the table is on the estate's own cohort and its reassignment target
+--- the pair Section~\ref{sec:cohort} shows disagree about this register ---
+so the increment over intake is \layerItemHandover\ here and \VtauTwo\ there
+and neither is the other one mismeasured (Supplement~\ref{app:layers}).
+\textbf{On this estate and this question the coarse layers are not free, and
+the finest layer is not redundant}: \layerTypeSharePctHandover\ of what the
+item is worth over the intake block is already reachable from a thirteen-value
+type field, and the item still adds \layerItemMarginalHandover\ once the
+subtype is in the model. On the duration question the same ladder gives
+\layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration, with
+\layerItemMarginalDuration\ marginal, and the type reaches
+\layerTypeSharePctDuration. \textbf{So the split between the layers is a
+property of the target and not of the register}, and
+Supplement~\ref{app:layers} carries two further logs on which every coarse
+layer is worth essentially nothing while the finest one is not. It is not a
+procurement conclusion: nothing here prices what a layer costs to populate or
+to keep accurate, and Section~\ref{sec:lim} says so.
 
 \paragraph{What would have to change for the answer to move}
 Three things, in the order a programme could act on them. \textbf{A

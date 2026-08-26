@@ -180,42 +180,31 @@ it; Section~\ref{sec:nbregret} prices that in cases per thousand:
 \paragraph{Which layer of the register pays}
 A programme does not choose whether to have a configuration management
 database; it chooses how much of one to populate and maintain, and that is a
-choice among \emph{layers}. \textbf{The ladder is not
-Table~\ref{tab:tau}'s cell and does not reconcile with it arithmetically}:
-it is computed on the \emph{registered} cohort of Section~\ref{sec:design}
---- \layerLadderN\ cases, \layerLadderNTest\ in test --- under the
-registered handover rule, one-hot logistic regression at the fixed temporal
-holdout, against the intake block at base AUC \layerBaseHandover, whereas
-Table~\ref{tab:tau} is on the estate's own cohort and its reassignment
-target. Section~\ref{sec:cohort} is the reason the two differ: those are the
-two analyses whose answers about this register disagree, so the register's
-increment over intake is \layerItemHandover\ here and \VtauTwo\ there, and
-neither number is the other one mismeasured. What the ladder compares is
-layers \emph{against each other} at one cell, which is the comparison a
-programme is choosing among. On it the item's \emph{type} is worth
-\layerTypeHandover\ AUC over intake, its \emph{subtype}
-\layerSubtypeHandover, and the item itself \layerItemHandover; with the
-subtype already in the model the item still adds
-\layerItemMarginalHandover. \textbf{On this estate and this question the
-coarse layers are not free, and the finest layer is not redundant}: about half
-of what the item is worth over the intake block is already reachable from a
-thirteen-value type field, and the item still adds \layerItemMarginalHandover\
-once the subtype is in the model. On the duration question --- the registered
-duration rule on the same cohort, base AUC \layerBaseDuration\ --- the same
-ladder gives \layerTypeDuration, \layerSubtypeDuration\ and
-\layerItemDuration,
-with \layerItemMarginalDuration\ marginal --- there the coarse layers reach
-about a \emph{third} of the item's increment and the item carries the rest.
-\textbf{So the split between the layers is a property of the target and not of
-the register}: the same three fields on the same estate divide their worth one
-way for reassignment and another for duration.
-Supplement~\ref{app:layers} carries both, and two further logs on which every
-coarse layer is worth essentially nothing while the finest one is not. In the vocabulary of a layered service model
---- technical service, application service, configuration item --- the finding
-is that the layers are not substitutes and that which one pays is a property
-of the question being asked, not of the estate. It is not a procurement
-conclusion: nothing here prices what a layer costs to populate or to keep
-accurate, and Section~\ref{sec:lim} says so.
+choice among \emph{layers}. On the \emph{registered} cohort of
+Section~\ref{sec:design} --- \layerLadderN\ cases, one-hot logistic
+regression at the fixed temporal holdout, against the intake block at base AUC
+\layerBaseHandover\ --- the item's \emph{type} is worth \layerTypeHandover\
+AUC over intake, its \emph{subtype} \layerSubtypeHandover, and the item itself
+\layerItemHandover; with the subtype already in the model the item still adds
+\layerItemMarginalHandover. \textbf{That ladder is not
+Table~\ref{tab:tau}'s cell and does not reconcile with it arithmetically},
+because the table is on the estate's own cohort and its reassignment target
+--- the pair Section~\ref{sec:cohort} shows disagree about this register ---
+so the increment over intake is \layerItemHandover\ here and \VtauTwo\ there
+and neither is the other one mismeasured (Supplement~\ref{app:layers}).
+\textbf{On this estate and this question the coarse layers are not free, and
+the finest layer is not redundant}: \layerTypeSharePctHandover\ of what the
+item is worth over the intake block is already reachable from a thirteen-value
+type field, and the item still adds \layerItemMarginalHandover\ once the
+subtype is in the model. On the duration question the same ladder gives
+\layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration, with
+\layerItemMarginalDuration\ marginal, and the type reaches
+\layerTypeSharePctDuration. \textbf{So the split between the layers is a
+property of the target and not of the register}, and
+Supplement~\ref{app:layers} carries two further logs on which every coarse
+layer is worth essentially nothing while the finest one is not. It is not a
+procurement conclusion: nothing here prices what a layer costs to populate or
+to keep accurate, and Section~\ref{sec:lim} says so.
 
 \paragraph{What would have to change for the answer to move}
 Three things, in the order a programme could act on them. \textbf{A
