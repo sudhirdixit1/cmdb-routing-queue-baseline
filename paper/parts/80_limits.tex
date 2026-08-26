@@ -144,74 +144,44 @@ them was priced above \simCoreNtrain\ rows either. Re-running that
 comparison across the plane's range in $n$ is the first thing we would do,
 and it is cheap relative to the surface.
 
-\paragraph{The band's critical value is estimated twice and the two estimates
-disagree}
-This is the sharpest limitation in the paper and it is not one the calibration
-of Section~\ref{sec:regions} addresses. The multiplier bootstrap's value lies
-below the entire order-statistic interval of the empirical quantile of the
-same observed maxima on \nQbelowEmpWhole\ of \nFamiliesWhole\ surface families
-and on every one of the \nFamiliesDca\ decision-curve families, in the
-anti-conservative direction, because the draws are heavier-tailed than the
-Gaussian process the multiplier simulates. Section~\ref{sec:simbands} reports
-what each estimator resolves --- \nResolvedWholeMult\ surface cells against
-\nResolvedWholeEmp, and \nResolvedDcaMult\ decision-curve cells against
-\nResolvedDcaEmp. A reader who prefers the empirical value should read the
-second of each pair on the \emph{surface} families and not on the
-decision-curve ones, where Section~\ref{sec:simband} shows that
-$q_{\mathrm{emp}}$ is inflated by cells whose value is zero by arithmetic.
-
-\textbf{The band does not attain its nominal level, and we now know by how
-much.} Section~\ref{sec:simband} measures family-wise coverage against a
-known answer over families matched to this corpus, and the multiplier band
-covers a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\ against
-a nominal $95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even under
-Gaussian draws, which is the case the construction is derived for. The
-bootstrap in that experiment is \emph{ideal}, so those are upper bounds on
-what the procedure attains here.
-
-\textbf{What that leaves the two families is not the same, and the difference
-is the calibration.} Section~\ref{sec:simband} also reports the
-multiplicative widening that \emph{would} have given nominal coverage on each
-matched cell, which is directly comparable with the inflation factor of
-Section~\ref{sec:regions} because both widen the same critical value. On the
-surface families that widening is \shortfallWholeMin\ to
-\shortfallWholeMax; the calibration already applies \calFactorMin\ to
-\calFactorMax, a median \calFactorMedian, so on those families it is of the
-right order and may already absorb the shortfall --- it was fitted to restore
-\emph{pointwise} coverage and not this, so that it does is fortunate and not
-by design, and we claim no more than the order. On the decision-curve
-families the widening needed is \shortfallDcaMin\ to \shortfallDcaMax\ ---
-about a doubling --- \textbf{and the calibration does not touch them at all}.
-The decision-curve conclusions of Section~\ref{sec:dcabands} are therefore
-the ones to distrust, by roughly a factor of two in the critical value, and
-the surface conclusions are the ones the calibration may already have
-covered. Neither statement is a coverage guarantee, and this version does not
-have one.
-
-The safeguard we described as conservative
---- resolving only at the upper end of the critical value's Monte Carlo
-interval --- moves coverage by less than a point, because it controls the
-Monte Carlo error in $q$ and not the error in what $q$ estimates. And no
-estimator among the five tested reaches nominal at this corpus's draw counts;
-the best, the empirical quantile at the upper end of its order-statistic
-interval, reaches \covEmpHiHeavyMedian\ at \widthEmpHiOverMult\ times the
-width. \textbf{The repair is more draws, not a better critical value}: at the
-modal surface family coverage runs \covMultBootThirtyThree\ at
-\nBootThirtyThree\ draws and \covMultBootFourHundred\ at
-\nBootFourHundred, and a draw refits the whole design space, which is why
-this version does not have them. We report the bands as computed and say
-what they are worth rather than substituting a wider estimator that is also
+\paragraph{The band does not attain its nominal level, and this is the
+sharpest limitation in the paper}
+Section~\ref{sec:simband} measures family-wise coverage against a known
+answer over families matched to this corpus. The multiplier band covers a
+median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\ against a nominal
+$95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even under Gaussian
+draws, the case the construction is derived for --- and the bootstrap in that
+experiment is \emph{ideal}, so those are upper bounds on what the procedure
+attains here. The safeguard we described as conservative, resolving only at
+the upper end of the critical value's Monte Carlo interval, moves coverage by
+less than a point: it controls the Monte Carlo error in $q$, not the error in
+what $q$ estimates. \textbf{The repair is more draws, not a better critical
+value} --- coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\ draws
+and \covMultBootFourHundred\ at \nBootFourHundred\ --- and a draw refits the
+whole design space, which is why this version does not have them. We report
+the bands as computed rather than substituting a wider estimator that is also
 wrong and merely less visibly so.
 
+\textbf{What that leaves the two families is not the same.} The
+multiplicative widening that would have given nominal coverage is
+\shortfallWholeMin\ to \shortfallWholeMax\ on the surface families, and the
+calibration of Section~\ref{sec:regions} already applies
+\calFactorMin\ to \calFactorMax; it was fitted to restore \emph{pointwise}
+coverage and not this, so that it is of the right order is fortunate rather
+than by design, and we claim no more than the order. On the decision-curve
+families the widening needed is \shortfallDcaMin\ to \shortfallDcaMax, about
+a doubling, \textbf{and the calibration does not touch them at all}. Those
+conclusions are the ones to distrust. Neither statement is a coverage
+guarantee and this version does not have one.
+
 \textbf{Some of what the decision-curve comparison counts is arithmetic.}
-\nDegenerateCellsDca\ cells of the corpus's curve families take the value
-zero in at least nine draws of ten, because at those thresholds both arms
-treat every case alike and the difference is zero by construction rather than
-by estimation. They pass the band's admission rule, which is stated in
-absolute units, and they inflate $q_{\mathrm{emp}}$: excluding them moves the
-median ratio $q_{\mathrm{emp}}/q$ on those families from \ratioDcaAll\ to
-\ratioDcaAdmissible. The decision-curve family inherits every problem above
-undiluted, because the coverage calibration does not touch it.
+\nDegenerateCellsDca\ cells of those families are zero in at least nine draws
+of ten, because at those thresholds both arms treat every case alike, and
+they inflate $q_{\mathrm{emp}}$: excluding them moves the median ratio
+$q_{\mathrm{emp}}/q$ from \ratioDcaAll\ to \ratioDcaAdmissible. A reader who
+prefers the empirical critical value should therefore read
+Section~\ref{sec:simbands}'s second figure of each pair on the surface
+families and not on these.
 
 \paragraph{Inference still rests on further assumptions}
 \textbf{The split point is fixed within a draw}, so split-position uncertainty

@@ -117,25 +117,17 @@ coverage over $\mathcal{F}$ asymptotically, and over nothing larger.
 \paragraph{The family must be the family}
 Within-cell bands, each covering five members, do not cover the several
 hundred cells a surface-level label ranges over. Four interval objects are
-therefore declared, and every table says which it prints: \textsc{pointwise},
-the per-cell interval, with no multiplicity control; \textsc{within-instrument},
-max-$t$ over the scalar instruments at one cell, reported only so that the
-cost of the wider family is visible; \textsc{whole-surface}, max-$t$ over
-\emph{every} admissible scalar cell of the pair, which is the only family a
-surface-level claim may use; and \textsc{decision-curve}, max-$t$ over every
-admissible net-benefit cell of the pair, declared separately because net
-benefit and a scalar instrument are not the same scale. The last two are the
-pre-registered families. The whole-surface family has a median
-\familySizeMedian\ members against the five of the within-instrument family,
-and its median critical value is \maxTSurfaceMedian\ against
-\maxTWithinMedian\ and the pointwise $1.96$.
-
-Family control is \textbf{per log--target pair}: every cross-pair statement in
-this paper is descriptive, and none is a simultaneous inferential claim over
-the corpus. A replicate is dropped from a family when a resample leaves one of
-its cells without outcome variation, because a maximum over a moving set is
-not a maximum; \texttt{results/s21\_incomplete.csv} names the
-\nIncompleteFamilies\ families where that happens.
+declared and every table says which it prints: \textsc{pointwise},
+\textsc{within-instrument}, \textsc{whole-surface} --- max-$t$ over
+\emph{every} admissible scalar cell of the pair, the only family a
+surface-level claim may use --- and \textsc{decision-curve}, declared
+separately because net benefit and a scalar instrument are not the same
+scale. The whole-surface family has a median \familySizeMedian\ members
+against five, and its median critical value is \maxTSurfaceMedian\ against
+\maxTWithinMedian\ and the pointwise $1.96$. Family control is per
+log--target pair; every cross-pair statement here is descriptive.
+Supplement~\ref{app:families} gives the four objects and the rule for
+dropping a replicate that leaves a cell without outcome variation.
 
 \paragraph{Estimating the critical value without paying for it in refits}
 $q_{1-\alpha}$ is the upper quantile of a maximum over hundreds of correlated

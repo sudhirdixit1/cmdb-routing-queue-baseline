@@ -483,16 +483,16 @@ than counted by hand.
 | § | section | words | requested | |
 |---|---|---:|---|---|
 | 1 | Introduction | 1,292 | 1,200–1,500 | ✓ |
-| 2 | Related work | 975 | 1,200–1,500 | under |
+| 2 | Related work | 393 | 1,200–1,500 | under |
 | 3 | The specification surface | 1,739 | ~1,500 | ✓ |
-| 4 | Estimation and inference | 3,357 | 2,000–2,500 | **over** |
+| 4 | Estimation and inference | 3,273 | 2,000–2,500 | **over** |
 | 5 | The registered benchmark design | 1,056 | 1,200–1,500 | under |
-| 6 | Multi-log results | 3,644 | 2,000–2,500 | **over** |
+| 6 | Multi-log results | 3,471 | 2,000–2,500 | **over** |
 | 7 | Case study: a configuration management database | 1,943 | 1,500–2,000 | just over |
 | 8 | Decision-analytic evaluation | 679 | — | added |
 | 9 | A reporting standard, and software | 602 | — | added |
 | 10 | Simulation | 1,870 | 1,000–1,500 | just over |
-| 11 | Limitations | 2,372 | 1,200–1,500 | just over |
+| 11 | Limitations | 2,093 | 1,200–1,500 | just over |
 | 12 | Conclusion | 585 | 400–600 | ✓ |
 
 **The body is about 19,700 words against the 13,000–15,000 requested, and we

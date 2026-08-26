@@ -56,3 +56,99 @@ taken; and the two-stratum design of the practice pilot, including the
 decision to adjudicate a sample of the papers the screen \emph{rejected}. The
 commit that fixed them adds \texttt{scripts/spec.py} and
 \texttt{PLAN-ROUND19.md} and no result file.
+
+\subsection{Related work, strand by strand}
+\label{app:related}
+
+%%  ROUND TWENTY-FIVE.  Moved from Section 2 for length, unchanged.
+
+\paragraph{Variable importance and incremental value}
+That a feature's apparent importance depends on what else is in the model is
+the standard motivation for conditional and permutation-based importance
+\citep{strobl2008conditional,fisher2019models}, for Shapley-value attributions
+\citep{lundberg2017unified,covert2020sage}, and for nonparametric formulations
+of importance as a population quantity \citep{williamson2021vimp}, which
+average over subsets precisely because a single conditioning set is arbitrary.
+The clinical-prediction literature has made the same point about the
+\emph{incremental} value of a marker for two decades: the increase in the area
+under the ROC curve from adding a predictor depends on how good the existing
+model is \citep{pencina2008evaluating,cook2007roc}, is a poor guide to
+clinical usefulness \citep{cook2007roc,vickers2008decision}, and is routinely
+misread \citep{kerr2011evaluating}. What that literature establishes, and what
+we take as given, is that the baseline and the metric are choices. What it
+does not supply is an object that reports the whole dependence, an estimator
+for it, or inference over it.
+
+\paragraph{Decision-analytic evaluation}
+Decision curve analysis \citep{vickers2006dca,vickers2016net} makes the
+operating point explicit by reading net benefit across an exchange rate, and
+is the reason the operating point is an axis here rather than a footnote.
+Guidance on reading such a curve is well developed \citep{vickers2019simple};
+what is less settled is what a claim about a \emph{band} of thresholds
+requires, which is why the bands in Section~\ref{sec:dca} are simultaneous
+rather than pointwise.
+
+\paragraph{Specification sensitivity}
+That analytic conclusions move with defensible analytic choices is the subject
+of multiverse analysis \citep{steegen2016increasing}, specification-curve
+analysis \citep{simonsohn2020specification}, vibration of effects
+\citep{patel2015assessment} and, in machine learning evaluation, of work on
+underspecification \citep{damour2022underspecification} and on the fragility
+of benchmark rankings \citep{bouthillier2021variance}. Our design space and
+our figures are recognisably in that tradition. What this paper adds to it is
+a decomposition of the surface's variance into axis contributions,
+simultaneous inference over the surface rather than a distribution of point
+estimates, region labels with an explicit decision rule, and a regret
+benchmark against the conventional report. Specification-curve analysis, as
+usually practised, displays the curve and applies a permutation test to its
+median; it does not tell a reader which sub-region of the design space
+supports a sign.
+
+\paragraph{Data valuation}
+Shapley-based data valuation \citep{ghorbani2019data,jia2019towards} values
+\emph{instances} against a fixed learner and metric; the axes we vary are
+exactly the ones held fixed there. The two are complementary: a data value is
+itself a point on a specification surface.
+
+\paragraph{Which axis a study varies}
+Some studies do vary one axis deliberately: the metric axis in effort-aware
+defect prediction \citep{carka2022effortaware}, the encoding axis in
+remaining-time prediction \citep{liu2025encoding}, the inter-case feature
+block in predictive process monitoring \citep{senderovich2017intercase}. What
+is missing is an object that holds several axes at once and says what their
+joint variation implies for a sign.
+
+\paragraph{Prediction on incident event logs}
+The empirical setting is predictive process monitoring, surveyed and
+benchmarked across real logs
+\citep{teinemaa2019outcome,verenich2019survey} on data of the kind process
+mining formalises \citep{vanderaalst2016process}. We predict at case creation
+from creation-time attributes with no prefix, which is tabular classification
+on a process log rather than prefix-based monitoring, and that difference
+bounds what the corpus result transfers to. The benchmark protocols in that
+literature fix a learner, an encoding and a metric per experiment, and this
+paper measures the sensitivity of a conclusion to \emph{those} fixings. It
+does not measure sensitivity to \textbf{prefix length, prefix bucketing or
+sequence encoding}, which are the axes that literature varies most, because
+none of them exists at a single prediction point; Section~\ref{sec:lim}
+carries the transfer as an assumption rather than a result. Configuration
+management databases and their data quality are treated in the IT service
+management literature as an operational problem \citep{marrone2011itil}; we
+are not aware of an evaluation of one against a named prediction task with the
+design space held open.
+
+\paragraph{Data quality as an axis}
+The effect of data quality on model performance has been studied directly on
+tabular data \citep{mohammed2025dataquality} and, in process mining, for
+low-quality activity labels \citep{comuzzi2025labels}. Those studies vary
+quality with the feature set fixed; we vary quality \emph{as one axis of the
+same surface} on which the feature set and the encoding are others, which is
+what makes the interaction between them visible ---
+Section~\ref{sec:quality} reports a quality defect that is exactly invisible
+under one encoder and not under another. Leakage, which is availability
+misspecified, has its own literature
+\citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}, and the
+decision time of Section~\ref{sec:twodecision} makes it a declared choice
+rather than a mistake.
+
+

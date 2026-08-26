@@ -295,95 +295,32 @@ self-contained without it.
 \section{Related work}
 \label{sec:related}
 
-\paragraph{Variable importance and incremental value}
-That a feature's apparent importance depends on what else is in the model is
-the standard motivation for conditional and permutation-based importance
-\citep{strobl2008conditional,fisher2019models}, for Shapley-value attributions
-\citep{lundberg2017unified,covert2020sage}, and for nonparametric formulations
-of importance as a population quantity \citep{williamson2021vimp}, which
-average over subsets precisely because a single conditioning set is arbitrary.
-The clinical-prediction literature has made the same point about the
-\emph{incremental} value of a marker for two decades: the increase in the area
-under the ROC curve from adding a predictor depends on how good the existing
-model is \citep{pencina2008evaluating,cook2007roc}, is a poor guide to
-clinical usefulness \citep{cook2007roc,vickers2008decision}, and is routinely
-misread \citep{kerr2011evaluating}. What that literature establishes, and what
-we take as given, is that the baseline and the metric are choices. What it
-does not supply is an object that reports the whole dependence, an estimator
-for it, or inference over it.
-
-\paragraph{Decision-analytic evaluation}
-Decision curve analysis \citep{vickers2006dca,vickers2016net} makes the
-operating point explicit by reading net benefit across an exchange rate, and
-is the reason the operating point is an axis here rather than a footnote.
-Guidance on reading such a curve is well developed \citep{vickers2019simple};
-what is less settled is what a claim about a \emph{band} of thresholds
-requires, which is why the bands in Section~\ref{sec:dca} are simultaneous
-rather than pointwise.
-
-\paragraph{Specification sensitivity}
-That analytic conclusions move with defensible analytic choices is the subject
-of multiverse analysis \citep{steegen2016increasing}, specification-curve
-analysis \citep{simonsohn2020specification}, vibration of effects
-\citep{patel2015assessment} and, in machine learning evaluation, of work on
-underspecification \citep{damour2022underspecification} and on the fragility
-of benchmark rankings \citep{bouthillier2021variance}. Our design space and
-our figures are recognisably in that tradition. What this paper adds to it is
-a decomposition of the surface's variance into axis contributions,
-simultaneous inference over the surface rather than a distribution of point
-estimates, region labels with an explicit decision rule, and a regret
-benchmark against the conventional report. Specification-curve analysis, as
-usually practised, displays the curve and applies a permutation test to its
-median; it does not tell a reader which sub-region of the design space
-supports a sign.
-
-\paragraph{Data valuation}
-Shapley-based data valuation \citep{ghorbani2019data,jia2019towards} values
-\emph{instances} against a fixed learner and metric; the axes we vary are
-exactly the ones held fixed there. The two are complementary: a data value is
-itself a point on a specification surface.
-
-\paragraph{Which axis a study varies}
-Some studies do vary one axis deliberately: the metric axis in effort-aware
-defect prediction \citep{carka2022effortaware}, the encoding axis in
-remaining-time prediction \citep{liu2025encoding}, the inter-case feature
-block in predictive process monitoring \citep{senderovich2017intercase}. What
-is missing is an object that holds several axes at once and says what their
-joint variation implies for a sign.
-
-\paragraph{Prediction on incident event logs}
-The empirical setting is predictive process monitoring, surveyed and
-benchmarked across real logs
-\citep{teinemaa2019outcome,verenich2019survey} on data of the kind process
-mining formalises \citep{vanderaalst2016process}. We predict at case creation
-from creation-time attributes with no prefix, which is tabular classification
-on a process log rather than prefix-based monitoring, and that difference
-bounds what the corpus result transfers to. The benchmark protocols in that
-literature fix a learner, an encoding and a metric per experiment, and this
-paper measures the sensitivity of a conclusion to \emph{those} fixings. It
-does not measure sensitivity to \textbf{prefix length, prefix bucketing or
-sequence encoding}, which are the axes that literature varies most, because
-none of them exists at a single prediction point; Section~\ref{sec:lim}
-carries the transfer as an assumption rather than a result. Configuration
-management databases and their data quality are treated in the IT service
-management literature as an operational problem \citep{marrone2011itil}; we
-are not aware of an evaluation of one against a named prediction task with the
-design space held open.
-
-\paragraph{Data quality as an axis}
-The effect of data quality on model performance has been studied directly on
-tabular data \citep{mohammed2025dataquality} and, in process mining, for
-low-quality activity labels \citep{comuzzi2025labels}. Those studies vary
-quality with the feature set fixed; we vary quality \emph{as one axis of the
-same surface} on which the feature set and the encoding are others, which is
-what makes the interaction between them visible ---
-Section~\ref{sec:quality} reports a quality defect that is exactly invisible
-under one encoder and not under another. Leakage, which is availability
-misspecified, has its own literature
-\citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}, and the
-decision time of Section~\ref{sec:twodecision} makes it a declared choice
-rather than a mistake.
-
+Every component used here is established. That a feature's apparent
+importance depends on what else is in the model motivates conditional and
+permutation importance \citep{strobl2008conditional,fisher2019models},
+Shapley attributions \citep{lundberg2017unified,covert2020sage} and
+nonparametric formulations of importance as a population quantity
+\citep{williamson2021vimp}; the clinical-prediction literature has said for
+two decades that the increment in AUC from adding a predictor depends on the
+existing model \citep{pencina2008evaluating,cook2007roc}, is a poor guide to
+clinical usefulness \citep{cook2007roc,vickers2008decision} and is routinely
+misread \citep{kerr2011evaluating}. Decision-analytic evaluation supplies the
+exchange rate \citep{vickers2006dca,vickers2016net,vickers2019simple}.
+Multiverse and specification-curve analysis supply the sweep
+\citep{steegen2016increasing,simonsohn2020specification,patel2015assessment},
+underspecification and variance studies the observation that pipelines differ
+\citep{damour2022underspecification,bouthillier2021variance}, and data
+valuation a different question about a datum's worth
+\citep{ghorbani2019data,jia2019towards}. On event logs, outcome-oriented
+predictive monitoring supplies the task
+\citep{teinemaa2019outcome,verenich2019survey,senderovich2017intercase},
+encoding studies one axis \citep{liu2025encoding,carka2022effortaware}, and
+data-quality work the vocabulary for a degraded register
+\citep{suriadi2017imperfection,mohammed2025dataquality,comuzzi2025labels}.
+Leakage discipline is standard
+\citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}.
+Supplement~\ref{app:related} sets out each strand and what this paper takes
+from it.
 
 \paragraph{The novelty gap, precisely}
 Every component used here is established and none is claimed. What none of
@@ -783,25 +720,17 @@ coverage over $\mathcal{F}$ asymptotically, and over nothing larger.
 \paragraph{The family must be the family}
 Within-cell bands, each covering five members, do not cover the several
 hundred cells a surface-level label ranges over. Four interval objects are
-therefore declared, and every table says which it prints: \textsc{pointwise},
-the per-cell interval, with no multiplicity control; \textsc{within-instrument},
-max-$t$ over the scalar instruments at one cell, reported only so that the
-cost of the wider family is visible; \textsc{whole-surface}, max-$t$ over
-\emph{every} admissible scalar cell of the pair, which is the only family a
-surface-level claim may use; and \textsc{decision-curve}, max-$t$ over every
-admissible net-benefit cell of the pair, declared separately because net
-benefit and a scalar instrument are not the same scale. The last two are the
-pre-registered families. The whole-surface family has a median
-\familySizeMedian\ members against the five of the within-instrument family,
-and its median critical value is \maxTSurfaceMedian\ against
-\maxTWithinMedian\ and the pointwise $1.96$.
-
-Family control is \textbf{per log--target pair}: every cross-pair statement in
-this paper is descriptive, and none is a simultaneous inferential claim over
-the corpus. A replicate is dropped from a family when a resample leaves one of
-its cells without outcome variation, because a maximum over a moving set is
-not a maximum; \texttt{results/s21\_incomplete.csv} names the
-\nIncompleteFamilies\ families where that happens.
+declared and every table says which it prints: \textsc{pointwise},
+\textsc{within-instrument}, \textsc{whole-surface} --- max-$t$ over
+\emph{every} admissible scalar cell of the pair, the only family a
+surface-level claim may use --- and \textsc{decision-curve}, declared
+separately because net benefit and a scalar instrument are not the same
+scale. The whole-surface family has a median \familySizeMedian\ members
+against five, and its median critical value is \maxTSurfaceMedian\ against
+\maxTWithinMedian\ and the pointwise $1.96$. Family control is per
+log--target pair; every cross-pair statement here is descriptive.
+Supplement~\ref{app:families} gives the four objects and the rule for
+dropping a replicate that leaves a cell without outcome variation.
 
 \paragraph{Estimating the critical value without paying for it in refits}
 $q_{1-\alpha}$ is the upper quantile of a maximum over hundreds of correlated
@@ -1492,23 +1421,6 @@ coverage-calibrated whole-surface band excludes zero, \nDisagreeResolved\
 disagree in sign with the reference cell. Every cell it counts is one where
 the data do determine a sign, and that sign contradicts the number a
 conventional paper would print.
-
-\textbf{It is a pooled ratio, it depends on which band resolves the cells, and
-both facts belong beside it.} The denominator is a sum over pairs whose
-resolved-cell counts run from zero to \nResolvedMax, not an average of
-per-pair rates, and it depends on which band decides what ``resolved'' means:
-the same quantity over the cells the \emph{nominal} multiplier band resolves
-is \misreportPooledResolvedNominalPct. The calibrated figure this paper quotes
-is the smaller of the two, so the choice is the conservative one --- but it is
-a choice, and a reader is entitled to both. Under the empirical critical value
-of Section~\ref{sec:simbands} the denominator is smaller again,
-\nResolvedWholeEmp\ cells against \nResolvedWholeMult. \textbf{And the disagreements are concentrated}: of the
-\nDisagreeResolved\ cells, \nDisagreeTopThree\ come from three logs, and only
-\nLogsDisagree\ of the \nLogs\ logs contribute any at all. Two of the three
-are also the pairs with the smallest bootstrap budget
-(Section~\ref{sec:lim}). On \nPairsNoResolvedDisagreement\ pairs no resolved
-cell contradicts the reference, on \nPairsSomeResolvedDisagreement\ some do,
-and on \nPairsNoResolvedCell\ nothing resolves.
 
 \textbf{Applying both corrections at once gives
 \misreportPooledResolvedLatitudePct, which is the number this section's own
@@ -2345,74 +2257,44 @@ them was priced above \simCoreNtrain\ rows either. Re-running that
 comparison across the plane's range in $n$ is the first thing we would do,
 and it is cheap relative to the surface.
 
-\paragraph{The band's critical value is estimated twice and the two estimates
-disagree}
-This is the sharpest limitation in the paper and it is not one the calibration
-of Section~\ref{sec:regions} addresses. The multiplier bootstrap's value lies
-below the entire order-statistic interval of the empirical quantile of the
-same observed maxima on \nQbelowEmpWhole\ of \nFamiliesWhole\ surface families
-and on every one of the \nFamiliesDca\ decision-curve families, in the
-anti-conservative direction, because the draws are heavier-tailed than the
-Gaussian process the multiplier simulates. Section~\ref{sec:simbands} reports
-what each estimator resolves --- \nResolvedWholeMult\ surface cells against
-\nResolvedWholeEmp, and \nResolvedDcaMult\ decision-curve cells against
-\nResolvedDcaEmp. A reader who prefers the empirical value should read the
-second of each pair on the \emph{surface} families and not on the
-decision-curve ones, where Section~\ref{sec:simband} shows that
-$q_{\mathrm{emp}}$ is inflated by cells whose value is zero by arithmetic.
-
-\textbf{The band does not attain its nominal level, and we now know by how
-much.} Section~\ref{sec:simband} measures family-wise coverage against a
-known answer over families matched to this corpus, and the multiplier band
-covers a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\ against
-a nominal $95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even under
-Gaussian draws, which is the case the construction is derived for. The
-bootstrap in that experiment is \emph{ideal}, so those are upper bounds on
-what the procedure attains here.
-
-\textbf{What that leaves the two families is not the same, and the difference
-is the calibration.} Section~\ref{sec:simband} also reports the
-multiplicative widening that \emph{would} have given nominal coverage on each
-matched cell, which is directly comparable with the inflation factor of
-Section~\ref{sec:regions} because both widen the same critical value. On the
-surface families that widening is \shortfallWholeMin\ to
-\shortfallWholeMax; the calibration already applies \calFactorMin\ to
-\calFactorMax, a median \calFactorMedian, so on those families it is of the
-right order and may already absorb the shortfall --- it was fitted to restore
-\emph{pointwise} coverage and not this, so that it does is fortunate and not
-by design, and we claim no more than the order. On the decision-curve
-families the widening needed is \shortfallDcaMin\ to \shortfallDcaMax\ ---
-about a doubling --- \textbf{and the calibration does not touch them at all}.
-The decision-curve conclusions of Section~\ref{sec:dcabands} are therefore
-the ones to distrust, by roughly a factor of two in the critical value, and
-the surface conclusions are the ones the calibration may already have
-covered. Neither statement is a coverage guarantee, and this version does not
-have one.
-
-The safeguard we described as conservative
---- resolving only at the upper end of the critical value's Monte Carlo
-interval --- moves coverage by less than a point, because it controls the
-Monte Carlo error in $q$ and not the error in what $q$ estimates. And no
-estimator among the five tested reaches nominal at this corpus's draw counts;
-the best, the empirical quantile at the upper end of its order-statistic
-interval, reaches \covEmpHiHeavyMedian\ at \widthEmpHiOverMult\ times the
-width. \textbf{The repair is more draws, not a better critical value}: at the
-modal surface family coverage runs \covMultBootThirtyThree\ at
-\nBootThirtyThree\ draws and \covMultBootFourHundred\ at
-\nBootFourHundred, and a draw refits the whole design space, which is why
-this version does not have them. We report the bands as computed and say
-what they are worth rather than substituting a wider estimator that is also
+\paragraph{The band does not attain its nominal level, and this is the
+sharpest limitation in the paper}
+Section~\ref{sec:simband} measures family-wise coverage against a known
+answer over families matched to this corpus. The multiplier band covers a
+median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\ against a nominal
+$95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even under Gaussian
+draws, the case the construction is derived for --- and the bootstrap in that
+experiment is \emph{ideal}, so those are upper bounds on what the procedure
+attains here. The safeguard we described as conservative, resolving only at
+the upper end of the critical value's Monte Carlo interval, moves coverage by
+less than a point: it controls the Monte Carlo error in $q$, not the error in
+what $q$ estimates. \textbf{The repair is more draws, not a better critical
+value} --- coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\ draws
+and \covMultBootFourHundred\ at \nBootFourHundred\ --- and a draw refits the
+whole design space, which is why this version does not have them. We report
+the bands as computed rather than substituting a wider estimator that is also
 wrong and merely less visibly so.
 
+\textbf{What that leaves the two families is not the same.} The
+multiplicative widening that would have given nominal coverage is
+\shortfallWholeMin\ to \shortfallWholeMax\ on the surface families, and the
+calibration of Section~\ref{sec:regions} already applies
+\calFactorMin\ to \calFactorMax; it was fitted to restore \emph{pointwise}
+coverage and not this, so that it is of the right order is fortunate rather
+than by design, and we claim no more than the order. On the decision-curve
+families the widening needed is \shortfallDcaMin\ to \shortfallDcaMax, about
+a doubling, \textbf{and the calibration does not touch them at all}. Those
+conclusions are the ones to distrust. Neither statement is a coverage
+guarantee and this version does not have one.
+
 \textbf{Some of what the decision-curve comparison counts is arithmetic.}
-\nDegenerateCellsDca\ cells of the corpus's curve families take the value
-zero in at least nine draws of ten, because at those thresholds both arms
-treat every case alike and the difference is zero by construction rather than
-by estimation. They pass the band's admission rule, which is stated in
-absolute units, and they inflate $q_{\mathrm{emp}}$: excluding them moves the
-median ratio $q_{\mathrm{emp}}/q$ on those families from \ratioDcaAll\ to
-\ratioDcaAdmissible. The decision-curve family inherits every problem above
-undiluted, because the coverage calibration does not touch it.
+\nDegenerateCellsDca\ cells of those families are zero in at least nine draws
+of ten, because at those thresholds both arms treat every case alike, and
+they inflate $q_{\mathrm{emp}}$: excluding them moves the median ratio
+$q_{\mathrm{emp}}/q$ from \ratioDcaAll\ to \ratioDcaAdmissible. A reader who
+prefers the empirical critical value should therefore read
+Section~\ref{sec:simbands}'s second figure of each pair on the surface
+families and not on these.
 
 \paragraph{Inference still rests on further assumptions}
 \textbf{The split point is fixed within a draw}, so split-position uncertainty

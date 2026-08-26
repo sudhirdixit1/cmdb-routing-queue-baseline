@@ -500,3 +500,25 @@ and the most frequent leader is \modalLeadingAxis, on
 \modalLeadingSharePct\ of pair--instrument combinations. An analyst can guess
 the leader and be right about half the time.
 
+\subsection{What the pooled resolved rate is a ratio of}
+\label{app:pooled}
+
+%%  ROUND TWENTY-FIVE.  Moved from Section 6.5 for length, unchanged.
+
+\textbf{It is a pooled ratio, it depends on which band resolves the cells, and
+both facts belong beside it.} The denominator is a sum over pairs whose
+resolved-cell counts run from zero to \nResolvedMax, not an average of
+per-pair rates, and it depends on which band decides what ``resolved'' means:
+the same quantity over the cells the \emph{nominal} multiplier band resolves
+is \misreportPooledResolvedNominalPct. The calibrated figure this paper quotes
+is the smaller of the two, so the choice is the conservative one --- but it is
+a choice, and a reader is entitled to both. Under the empirical critical value
+of Section~\ref{sec:simbands} the denominator is smaller again,
+\nResolvedWholeEmp\ cells against \nResolvedWholeMult. \textbf{And the disagreements are concentrated}: of the
+\nDisagreeResolved\ cells, \nDisagreeTopThree\ come from three logs, and only
+\nLogsDisagree\ of the \nLogs\ logs contribute any at all. Two of the three
+are also the pairs with the smallest bootstrap budget
+(Section~\ref{sec:lim}). On \nPairsNoResolvedDisagreement\ pairs no resolved
+cell contradicts the reference, on \nPairsSomeResolvedDisagreement\ some do,
+and on \nPairsNoResolvedCell\ nothing resolves.
+
