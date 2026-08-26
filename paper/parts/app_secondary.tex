@@ -246,6 +246,24 @@ function of the training half alone --- \nQualityLeakChecked\ checks run and
 \subsection{Calibration before the decision curve}
 \label{app:dcadetail}
 
+\textbf{Why that window, and why the exclusion is not repaired by
+recalibrating again.} A Cox calibration slope of $\gamma$ means a threshold
+$\theta$ selects the cases a well-calibrated model would select at a different
+threshold, and the discrepancy grows without bound as $\gamma$ leaves one; the
+window is the conventional band in which risks are neither compressed nor
+stretched beyond a factor the literature treats as readable, and it is a
+declared convention rather than a derived bound. Widening it to admit everything would not make the excluded thresholds
+readable as cost ratios; it would only stop saying so. \textbf{Recalibration
+is already an axis, which is why it cannot also be the remedy}: isotonic
+recalibration is a level of the pipeline axis, so an arm that fails the slope
+check has, on the pairs that carry it, a recalibrated sibling in the same
+surface. Applying isotonic recalibration to the failing arm before excluding
+it would silently replace one specification by another and report the result
+under the first one's name --- the exact substitution this paper's argument is
+against. The arm is excluded and its sibling is reported as itself.
+The rule, what it removes and what the curves look like without it are
+below.
+
 %%  ROUND TWENTY-FIVE.  Moved here from Section 8 unchanged.
 
 \paragraph{Calibration comes first, or the threshold means nothing}

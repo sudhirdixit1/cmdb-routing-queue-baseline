@@ -38,23 +38,12 @@ fitted inside the training half and rebuilt inside every bootstrap refit, and
 a registered rule excludes an arm whose calibration slope leaves
 \calSlopeWindow.
 
-\textbf{Why that window, and why the exclusion is not repaired by
-recalibrating again.} A Cox calibration slope of $\gamma$ means a threshold
-$\theta$ selects the cases a well-calibrated model would select at a different
-threshold, and the discrepancy grows without bound as $\gamma$ leaves one; the
-window is the conventional band in which risks are neither compressed nor
-stretched beyond a factor the literature treats as readable, and it is a
-declared convention rather than a derived bound. Widening it to admit everything would not make the excluded thresholds
-readable as cost ratios; it would only stop saying so. \textbf{Recalibration
-is already an axis, which is why it cannot also be the remedy}: isotonic
-recalibration is a level of the pipeline axis, so an arm that fails the slope
-check has, on the pairs that carry it, a recalibrated sibling in the same
-surface. Applying isotonic recalibration to the failing arm before excluding
-it would silently replace one specification by another and report the result
-under the first one's name --- the exact substitution this paper's argument is
-against. The arm is excluded and its sibling is reported as itself.
-Supplement~\ref{app:dcadetail} gives the rule, what it removes and
-what the curves look like without it.
+The window is a declared convention and not a derived bound, and the exclusion
+is deliberately not repaired by recalibrating the failing arm: recalibration is
+already a level of the pipeline axis, so repairing an arm with it would replace
+one specification by another and report the result under the first one's name.
+Supplement~\ref{app:dcadetail} gives the argument, the rule, what it removes
+and what the curves look like without it.
 
 \subsection{Simultaneous bands change what can be said}
 \label{sec:dcabands}

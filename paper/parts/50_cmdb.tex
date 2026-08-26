@@ -131,22 +131,12 @@ from independent coin flips measures one corner of the question.
 
 \textbf{Which halves are degraded, exactly.} A degraded register is a state of
 the world and not a training accident, so \textbf{the mechanism is applied to
-both halves of the data}: the same values are missing, stale, corrupted or
-split at fit time and at evaluation time, and the increment measures a model
-built on a degraded register and deployed against one. What is estimated from
-the \emph{training half alone} is the mechanism's \emph{parameters} --- which
-values fall in the long tail, which are common, the frequency table a
-corruption draws from, the set of identities a reconciliation failure splits
---- so that no test outcome and no test-half content can reach the
-counterfactual. That property is executed rather than asserted: the test half
-is perturbed, the mechanism is re-applied, and the training half's degraded
-values are required to be identical, on every mechanism and level. The
-distinction matters because the two designs measure different things, and the
-earlier wording of this paragraph did not make clear which was in force: a
-mechanism applied to training alone would measure a train--test mismatch,
-which is not the question a register's owner is asking.
-Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every mechanism and
-level.
+both halves of the data} while its \emph{parameters} are estimated from the
+training half alone, and the repository executes that property rather than
+asserting it. Supplement~\ref{app:degrade} gives the construction, the
+executed check and why a mechanism applied to training alone would measure a
+different thing; Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every
+mechanism and level.
 
 \subsection{What this says to a configuration management programme}
 \label{sec:programme}

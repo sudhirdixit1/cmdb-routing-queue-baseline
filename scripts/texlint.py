@@ -87,6 +87,13 @@ REVISION_NARRATIVE = [
      r"\b(?:a|the|this|our|its) referees?\b|\breferees\b|"
      r"\bthe (?:report|review)(?:'s)? (?:asks|asked|names|named|"
      r"wants|wanted|requires|required)\b"),
+    ("a sentence about the manuscript's own editing",
+     r"\bthe earlier wording\b|\bthis (?:paragraph|section|sentence) "
+     r"(?:used to|previously|formerly|originally)\b|"
+     #  NOT "as it stands", which is ordinarily said of an equation or a
+     #  definition and was a false positive on Section 3.2's first line.
+     r"\bdid not make clear which\b|"
+     r"\bthe wording (?:above|below|here) (?:was|has been)\b"),
     ("a reference to this draft as one of several",
      r"\bthis version of the (?:paper|manuscript|article)\b|"
      r"\b(?:not|absent) in this version\b|\bin this version\b|"

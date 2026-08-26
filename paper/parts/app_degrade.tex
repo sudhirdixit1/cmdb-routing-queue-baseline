@@ -1,0 +1,24 @@
+A degraded register is a state of the world and not a training accident, so
+\textbf{the mechanism is applied to both halves of the data}: the same values
+are missing, stale, corrupted or split at fit time and at evaluation time, and
+the increment measures a model built on a degraded register and deployed
+against one. What is estimated from the \emph{training half alone} is the
+mechanism's \emph{parameters} --- which values fall in the long tail, which are
+common, the frequency table a corruption draws from, the set of identities a
+reconciliation failure splits --- so that no test outcome and no test-half
+content can reach the counterfactual.
+
+That property is executed rather than asserted: the test half is perturbed,
+the mechanism is re-applied, and the training half's degraded values are
+required to be identical, on every mechanism and level. The check runs on
+every mechanism and every level in the design space and is one of the
+conditions \texttt{verify\_numbers} enforces
+(Supplement~\ref{app:verifier}).
+
+The distinction matters because the two designs measure different things. A
+mechanism applied to the training half alone would degrade the model's inputs
+and leave the evaluation clean, which measures a train--test mismatch: how
+much a model built on a bad register loses when deployed against a good one.
+That is not the question a register's owner is asking. The owner's register is
+bad at both moments, and the counterfactual that answers the question degrades
+both.

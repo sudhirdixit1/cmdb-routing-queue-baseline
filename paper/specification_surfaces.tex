@@ -266,8 +266,6 @@ in the tables it names.}
 
 \input{tables/objects}
 
-\input{tables/glossary}
-
 \paragraph{What this paper is not}
 This is a retrospective study on public benchmarks, offered as an evaluation
 methodology. It is not a procurement conclusion about configuration management
@@ -289,7 +287,9 @@ resampling (Table~\ref{tab:strata}), the decision-time ladder
 (Table~\ref{tab:tau}) and the band's measured coverage
 (Table~\ref{tab:bandcov}). The supplement carries the constructions, the
 proofs and the sensitivity analyses; a reader who wants to check an inference
-rather than read one will want it.
+rather than read one will want it, and
+Supplement~\ref{app:glossary} is a glossary of every term used here in a
+technical sense, with the case study's own value for each.
 
 \section{Related work}
 \label{sec:related}
@@ -1619,22 +1619,12 @@ from independent coin flips measures one corner of the question.
 
 \textbf{Which halves are degraded, exactly.} A degraded register is a state of
 the world and not a training accident, so \textbf{the mechanism is applied to
-both halves of the data}: the same values are missing, stale, corrupted or
-split at fit time and at evaluation time, and the increment measures a model
-built on a degraded register and deployed against one. What is estimated from
-the \emph{training half alone} is the mechanism's \emph{parameters} --- which
-values fall in the long tail, which are common, the frequency table a
-corruption draws from, the set of identities a reconciliation failure splits
---- so that no test outcome and no test-half content can reach the
-counterfactual. That property is executed rather than asserted: the test half
-is perturbed, the mechanism is re-applied, and the training half's degraded
-values are required to be identical, on every mechanism and level. The
-distinction matters because the two designs measure different things, and the
-earlier wording of this paragraph did not make clear which was in force: a
-mechanism applied to training alone would measure a train--test mismatch,
-which is not the question a register's owner is asking.
-Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every mechanism and
-level.
+both halves of the data} while its \emph{parameters} are estimated from the
+training half alone, and the repository executes that property rather than
+asserting it. Supplement~\ref{app:degrade} gives the construction, the
+executed check and why a mechanism applied to training alone would measure a
+different thing; Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every
+mechanism and level.
 
 \subsection{What this says to a configuration management programme}
 \label{sec:programme}
@@ -1787,23 +1777,12 @@ fitted inside the training half and rebuilt inside every bootstrap refit, and
 a registered rule excludes an arm whose calibration slope leaves
 \calSlopeWindow.
 
-\textbf{Why that window, and why the exclusion is not repaired by
-recalibrating again.} A Cox calibration slope of $\gamma$ means a threshold
-$\theta$ selects the cases a well-calibrated model would select at a different
-threshold, and the discrepancy grows without bound as $\gamma$ leaves one; the
-window is the conventional band in which risks are neither compressed nor
-stretched beyond a factor the literature treats as readable, and it is a
-declared convention rather than a derived bound. Widening it to admit everything would not make the excluded thresholds
-readable as cost ratios; it would only stop saying so. \textbf{Recalibration
-is already an axis, which is why it cannot also be the remedy}: isotonic
-recalibration is a level of the pipeline axis, so an arm that fails the slope
-check has, on the pairs that carry it, a recalibrated sibling in the same
-surface. Applying isotonic recalibration to the failing arm before excluding
-it would silently replace one specification by another and report the result
-under the first one's name --- the exact substitution this paper's argument is
-against. The arm is excluded and its sibling is reported as itself.
-Supplement~\ref{app:dcadetail} gives the rule, what it removes and
-what the curves look like without it.
+The window is a declared convention and not a derived bound, and the exclusion
+is deliberately not repaired by recalibrating the failing arm: recalibration is
+already a level of the pipeline axis, so repairing an arm with it would replace
+one specification by another and report the result under the first one's name.
+Supplement~\ref{app:dcadetail} gives the argument, the rule, what it removes
+and what the curves look like without it.
 
 \subsection{Simultaneous bands change what can be said}
 \label{sec:dcabands}
