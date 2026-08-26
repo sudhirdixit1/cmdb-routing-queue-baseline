@@ -97,37 +97,23 @@ incomplete register is the obvious next study.
 
 \paragraph{The coverage calibration is no longer an extrapolation in $n$, and
 what replaced that problem is worse}
-The plane that identifies the inflation factor is estimated at training sizes
-\planeNtrainLo\ to \planeNtrainHi\ against a corpus running \corpusNtrainLo\
-to \corpusNtrainHi, so every one of the \nPairs\ pairs now lies inside the
-range the factor is identified on. Two things took the place of the
-extrapolation.
-
-\textbf{The applied curve is misspecified, measurably.} $\log n$ enters the
-fit at $t = \planeNdependenceT$ (Section~\ref{sec:regions}): at a fixed ratio
-the widening a pair needs grows with its sample size, which
-Section~\ref{sec:simsensitivity} could assert before and can now measure. The
-curve the corpus is calibrated with is a function of the ratio alone and
-therefore carries that dependence as a residual --- it sits below the measured
-factor's own lower confidence limit on \nCellsUnderApplied\ of the plane's
-cells, by at most \maxShortfallApplied, both of them at large $n$. Putting
-$\log n$ into a parametric curve does not repair it and makes the object
-worse on the criterion the monotone curve was chosen under
-(Supplement~\ref{app:calibration}). Every calibrated region label and every
-$\rho$ on a large pair is therefore corrected by slightly less than the plane
-says it needs.
-
-\textbf{On \nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\ cells
-the factor does not exist.} The inflation factor widens an interval about its
-point estimate, and past a crossing in $n$ the basic interval no longer
-contains that estimate (Section~\ref{sec:boot}), so there is nothing to
-widen about. All \nPlaneCellsUndefined\ are at \nStraddleHalfMin\ training
-rows or more. \textbf{This is not confined to the simulation}: on the corpus
-itself \nCellsExcludingV\ of the \nCellsWholeTotal\ whole-surface cells have
-a band that excludes their own point estimate, on \nPairsExcludingV\ pairs
-and reaching \shareExcludingVMaxPct\ of the cells on the worst. For those
-cells the calibrated band is a widening of an interval the calibration's own
-estimator could not have been fitted on, and we do not know what it covers.
+All \nPairsInsidePlaneN\ of the \nPairs\ pairs now lie inside the range the
+factor is identified on, \planeNtrainLo\ to \planeNtrainHi\ training rows.
+Two things took the place of the extrapolation.
+\textbf{The applied curve is misspecified, measurably}: $\log n$ enters the
+fit at $t = \planeNdependenceT$, the curve is a function of the ratio alone,
+and it sits below the measured factor's own lower confidence limit on
+\nCellsUnderApplied\ of the plane's cells, both at large $n$; a two-covariate
+fit does not repair it (Supplement~\ref{app:calibration}). \textbf{And on
+\nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\ cells the factor
+does not exist}, because past a crossing in $n$ the basic interval no longer
+contains the estimate a widening would be about. \textbf{This is not confined
+to the simulation}: on the corpus \nCellsExcludingV\ of the
+\nCellsWholeTotal\ whole-surface cells have a band that excludes their own
+point estimate, on \nPairsExcludingV\ pairs and reaching
+\shareExcludingVMaxPct\ of the cells on the worst. For those the calibrated
+band widens an interval the calibration's own estimator could not have been
+fitted on, and we do not know what it covers.
 
 \paragraph{The interval construction was chosen on evidence from one sample
 size, below the size at which it misbehaves}

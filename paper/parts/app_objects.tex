@@ -351,3 +351,48 @@ Section~\ref{sec:regions} does not touch. Section~\ref{sec:regions} carries
 the surface counts under both and Section~\ref{sec:dcabands} the
 decision-curve ones.
 
+\subsection{The measure the decomposition is taken under}
+\label{app:decompmeasure}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+\paragraph{The measure the decomposition is taken under}
+A variance decomposition is taken with respect to a distribution over
+specifications, and \emph{uniform over the cells I happened to enumerate} is a
+choice rather than a neutral default: it moves if an analyst adds a pipeline,
+writes five folds as five levels, or refines a threshold grid. Axis weights
+are therefore separated from within-axis level weights and every quantity is
+reported under declared measures (Table~\ref{tab:measures}):
+\textsc{equal-level}, every level of every axis equally likely;
+\textsc{reference}, half the mass on the reference level of each axis;
+\textsc{concentrated}, four fifths on it; and an \textsc{envelope} over
+Dirichlet draws of the level weights. Two invariance properties are executed
+rather than asserted: duplicating a level with its weight split leaves every
+component unchanged, to \invarianceDuplicateShift, and refining the
+operating-point grid under the same underlying continuous measure moves the
+threshold index by \invarianceGridShift.
+
+Indices are estimated quantities: the whole decomposition is recomputed inside
+every draw the inference surface supplies, corpus-level medians are
+bootstrapped with the pair as the resampling unit, and no axis is called
+dominant where the intervals overlap. They are computed within each
+instrument, in its own units, which is the primary analysis, and on the
+\emph{headroom} scale $V_s / (1 - m(B))$, which is comparable across
+instruments and lets the metric enter as an axis. The second is a sensitivity
+analysis rather than a uniquely meaningful decomposition, because of the
+following.
+
+\begin{proposition}[The decomposition inherits the metric's scale]
+\label{prop:scale}
+Let $\phi$ be strictly increasing with $\phi(0) = 0$. The first-order
+sensitivity indices of $V$ and of $\phi(V)$ over the same design need not
+agree, and there exist designs and $\phi$ under which one axis has the larger
+index on one scale and a different axis on the other.
+\end{proposition}
+
+\noindent The $3\times 3$ construction is in Supplement~\ref{app:props}. This
+is the same phenomenon as Proposition~\ref{prop:nonid} one level up: just as
+the reduction is not identified without the metric, ``which choice matters
+most'' is not identified without the scale on which the increment is
+expressed, so the manuscript never says an axis dominates without naming it.
+

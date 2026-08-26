@@ -626,3 +626,64 @@ depends on where in their own process they intend to predict. A desk screening
 at $\tau_0$ looks at \nTauZero\ calls a year at a prevalence of \prevTauZero;
 a desk screening at $\tau_2$ looks at \nTauTwo\ incidents at \prevTauTwo, and
 Section~\ref{sec:nbregret} prices the difference.
+
+\subsection{Magnitude weighting, and the rate under each measure}
+\label{app:magnitude}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+\textbf{Weighting by magnitude does not rescue the conventional report, and
+the rate depends on the measure.} Weighting each cell by $|V|$ as well as by
+the measure gives a median \misreportMagnitudePct, \emph{higher} than the
+unweighted rate: the cells that disagree are not the negligible ones. The
+median is \misreportEqualPct\ under the equal-level measure,
+\misreportReferencePct\ under the reference-weighted and
+\misreportConcentratedPct\ under the concentrated, falling as the measure
+concentrates on the reference specification, which is what it should do. A
+sign comparison is unit-free, which is why this one quantity may be pooled
+across instruments where an expected loss may not.
+
+Table~\ref{tab:regret} attributes the disagreement to axes. Holding everything
+else fixed and changing one axis, the sign of the increment flips for a median
+\flipSplitPct\ of same-everything-else pairs of cells under the split,
+\flipLearnerPct\ under the pipeline, \flipRungPct\ under the baseline rung,
+\flipQualityPct\ under the register-quality condition and \flipMetricPct\
+under the metric. The two axes an evaluation paper is most likely to hold
+fixed without comment --- which split, which pipeline --- are the two that
+flip the sign most often.
+
+\subsection{The eight pairs where the construct is what this paper is about}
+\label{sec:family}
+
+Every corpus statistic is reported on the \nItsmPairs\ ITSM-like pairs as
+well as on all \nPairs\ (Table~\ref{tab:family}), because the register there
+is a maintained one and the construct is what the paper is about.
+\textbf{The headline is lower on the population this paper is about}: the
+sign-disagreement rate is \misreportItsmPct\ against \misreportEqualPct\ over
+the corpus, and on resolved cells \misreportPooledItsmPct\ against
+\misreportPooledOtherPct\ on the rest. The decomposition barely moves ---
+higher-order \itsmHigherOrderPct\ against \interactionTotalPct, largest
+first-order \itsmLargestFirstOrderPct\ against \largestFirstOrderPct.
+Supplement~\ref{app:itsmfamily} carries every statistic on both populations.
+
+\subsection{Why no surface is uniformly beneficial, and what that is worth}
+\label{app:uniformly}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+\textbf{No surface in this corpus is uniformly beneficial, and that statement
+is weaker than it looks.} It holds under the calibrated band, the nominal one
+and the empirical one --- but \emph{uniformly beneficial} requires every
+admissible cell's lower band to be above zero, and a cell whose point estimate
+is negative can never qualify at any critical value. Every one of the \nPairs\
+pairs contains at least one such cell, so the label is unreachable here before
+any band, bootstrap or calibration is applied, and the count of zero is not an
+inferential finding. The statement that carries content needs none of the
+apparatus: on every pair at least one admissible specification has a negative
+increment, which is visible from the all-cells column of
+Table~\ref{tab:misreport}. What the apparatus earns is $\rho$ and the resolved
+counts, not this. For the same reason $\rho = 1$ is not an attainable state
+for any pair in this design, and Section~\ref{sec:regionsdef}'s remark that it
+is the only safe state for a single number should be read as a definition
+rather than as a hypothesis this corpus tests.
+

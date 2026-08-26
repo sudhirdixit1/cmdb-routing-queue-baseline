@@ -199,81 +199,30 @@ the free field absorbs almost everything.}
 \end{figure}
 
 \paragraph{Contributions}
-Multiverse and specification-curve analysis, functional-ANOVA and Sobol
-indices, the moving-block bootstrap, max-$t$ and multiplier bootstraps,
-decision curve analysis, calibration assessment, and feature and data
-valuation are all established, and none of them is invented here;
-Section~\ref{sec:related} attributes each and states the gap they leave. What
-follows is what this paper adds.
-
 \begin{enumerate}
-\item \textbf{A new formalisation: the specification surface and a complete
-estimand.} Section~\ref{sec:surface} defines $\mathcal{S}$, $V_s$, and the
-relative reduction $R$, states the conditions under which $R$ is a quantity at
-all, and proves two results. $R$ is \emph{not identified} by the data, the
-feature and the baselines: there is no function carrying the reduction under
-one metric to the reduction under another (Proposition~\ref{prop:nonid}). And,
-relative to a \emph{declared family} of recalibrations, $R$ survives every
-member of that family exactly when each member acts \emph{affinely} on the
-instrument (Proposition~\ref{prop:rank}) --- which within the affine family is
-strictly weaker than rank-basedness, and outside it is not
-(Section~\ref{sec:weaker}). The proposition also converts
-a search into a proof: one violating triple settles an instrument for the
-family it was found in.
-
-\item \textbf{New reporting objects: two adaptations and two new.}
-Section~\ref{sec:inference} supplies the estimation and inference layer. Four
-constructions are taken from the literature and two of them are
-\emph{adapted}: (i) an exact, orthogonal functional-ANOVA decomposition of
-$\operatorname{Var}_s[V_s(f)]$ into first-order and total indices per axis,
-taken here under a \emph{declared measure} over specifications rather than
-under whichever cells happened to be enumerated; (ii) a moving-block bootstrap
-that resamples the training half, \emph{refits the entire pipeline}, and
-evaluates on a resampled test half, so the interval contains training-sample,
-model-selection, encoder and calibrator variability; (iii) simultaneous
-max-$t$ bands whose family, for a surface-level claim, is the \emph{whole
-surface} that claim ranges over and not a cell of it, with the critical value
-estimated by a multiplier bootstrap so that its precision is not limited by
-the refitting budget; and (iv) Fieller intervals for $R$, which report an
-unbounded or exclusive confidence set when the denominator is weak instead of
-a bounded interval that is not one.
-
-Two further objects are new as far as we are aware. A cell is
-\emph{beneficial}, \emph{harmful} or \emph{unresolved} under the simultaneous
-band, a surface carries one of six \emph{resolution region} labels, and the
-robustness index $\rho \in [-1,1]$ summarises it; $\rho = 1$ is the only state
-in which one positive number is a safe summary. And \emph{specification
-regret} measures what one-number reporting costs --- the share of admissible
-specifications whose sign disagrees with the reported cell, and the
-performance forgone or destroyed by acting on it, computed \emph{inside one
-instrument at a time}. Lemma~\ref{prop:optimal} identifies the
-decision-optimal collapse, the weighted mean increment, and
-Section~\ref{sec:rules} measures four rules against it \emph{out of sample},
-on held-out specifications, held-out time and held-out logs.
-
-\item \textbf{New empirical evidence: a registered multi-log benchmark.} The
-surface is computed through one frozen pipeline on \emph{every} log--target
-pair a pre-registered protocol admits --- \nPairs\ of them, not only the ones
-where the answer resolves --- over an audited denominator, with calibration,
-unseen-category rates and rolling-origin validation reported for each, and
-every corpus statistic is reported twice: on all \nPairs\ pairs and on the
-\nItsmPairs\ where the register is a maintained one and the construct is what
-the paper is about (Section~\ref{sec:family}). Section~\ref{sec:sca} runs
-specification-curve analysis as practised on the same surfaces and reports
-where its verdict and the region label part company, which is the concrete
-statement of what the extra machinery buys.
-
-\item \textbf{A new operational case: a register at three decision times.}
-Section~\ref{sec:cmdb} shows that a decision time fixes three things at once
---- which cases are in scope, what is known about them, and which fields are
-admissible --- estimates a surface at each of three moments in the
-service-desk process, and separates the three mechanisms. It also reconciles
-the two values this log has been reported to give, and finds that the
-difference is the \emph{target}: over the cohort $\times$ target design the
-target carries \shareTargetPct\ of the variance and the cohort
-\shareCohortPct.
+\item \textbf{An estimand and four reporting objects} (Table~\ref{tab:objects}):
+the surface over a declared design space, an exact functional-ANOVA
+decomposition of its variance, simultaneous max-$t$ bands from a
+pipeline-refitting bootstrap, \emph{resolution regions} with a robustness
+index $\rho$, and \emph{specification regret}.
+\item \textbf{What each is worth, measured rather than asserted.}
+Section~\ref{sec:simband} measures the band's family-wise coverage against a
+known answer and finds it short of nominal;
+Section~\ref{sec:sca} reports where a specification curve's verdict and a
+region label part company.
+\item \textbf{A registered multi-log benchmark.} The surface is computed
+through one frozen pipeline on every log--target pair a pre-registered
+protocol admits --- \nPairs\ of them, not only the ones where the answer
+resolves --- over an audited denominator, and every corpus statistic is
+reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
+maintained one (Section~\ref{sec:family}).
+\item \textbf{A register at three decision times.} Section~\ref{sec:cmdb}
+shows that a decision time fixes which cases are in scope, what is known
+about them and which fields are admissible at once, reconciles the two values
+this log has been reported to give, and finds the difference is the
+\emph{target}: over the cohort $\times$ target design the target carries
+\shareTargetPct\ of the variance and the cohort \shareCohortPct.
 \end{enumerate}
-
 
 \input{tables/objects}
 
@@ -819,46 +768,6 @@ is retained as the \emph{largest per-axis interaction involvement}; the two
 differ substantially, at \largestInvolvementPct\ against
 \interactionTotalPct\ at the median pair.
 
-\paragraph{The measure the decomposition is taken under}
-A variance decomposition is taken with respect to a distribution over
-specifications, and \emph{uniform over the cells I happened to enumerate} is a
-choice rather than a neutral default: it moves if an analyst adds a pipeline,
-writes five folds as five levels, or refines a threshold grid. Axis weights
-are therefore separated from within-axis level weights and every quantity is
-reported under declared measures (Table~\ref{tab:measures}):
-\textsc{equal-level}, every level of every axis equally likely;
-\textsc{reference}, half the mass on the reference level of each axis;
-\textsc{concentrated}, four fifths on it; and an \textsc{envelope} over
-Dirichlet draws of the level weights. Two invariance properties are executed
-rather than asserted: duplicating a level with its weight split leaves every
-component unchanged, to \invarianceDuplicateShift, and refining the
-operating-point grid under the same underlying continuous measure moves the
-threshold index by \invarianceGridShift.
-
-Indices are estimated quantities: the whole decomposition is recomputed inside
-every draw the inference surface supplies, corpus-level medians are
-bootstrapped with the pair as the resampling unit, and no axis is called
-dominant where the intervals overlap. They are computed within each
-instrument, in its own units, which is the primary analysis, and on the
-\emph{headroom} scale $V_s / (1 - m(B))$, which is comparable across
-instruments and lets the metric enter as an axis. The second is a sensitivity
-analysis rather than a uniquely meaningful decomposition, because of the
-following.
-
-\begin{proposition}[The decomposition inherits the metric's scale]
-\label{prop:scale}
-Let $\phi$ be strictly increasing with $\phi(0) = 0$. The first-order
-sensitivity indices of $V$ and of $\phi(V)$ over the same design need not
-agree, and there exist designs and $\phi$ under which one axis has the larger
-index on one scale and a different axis on the other.
-\end{proposition}
-
-\noindent The $3\times 3$ construction is in Supplement~\ref{app:props}. This
-is the same phenomenon as Proposition~\ref{prop:nonid} one level up: just as
-the reduction is not identified without the metric, ``which choice matters
-most'' is not identified without the scale on which the increment is
-expressed, so the manuscript never says an axis dominates without naming it.
-
 \subsection{Resolution regions and the robustness index}
 \label{sec:regionsdef}
 
@@ -1220,22 +1129,10 @@ determine any sign at all, every sign they determine points the same way; on
 the remaining third they do not.
 
 \textbf{No surface in this corpus is uniformly beneficial, and that statement
-is weaker than it looks.} It holds under the calibrated band, the nominal one
-and the empirical one --- but \emph{uniformly beneficial} requires every
-admissible cell's lower band to be above zero, and a cell whose point estimate
-is negative can never qualify at any critical value. Every one of the \nPairs\
-pairs contains at least one such cell, so the label is unreachable here before
-any band, bootstrap or calibration is applied, and the count of zero is not an
-inferential finding. The statement that carries content needs none of the
-apparatus: on every pair at least one admissible specification has a negative
-increment, which is visible from the all-cells column of
-Table~\ref{tab:misreport}. What the apparatus earns is $\rho$ and the resolved
-counts, not this. For the same reason $\rho = 1$ is not an attainable state
-for any pair in this design, and Section~\ref{sec:regionsdef}'s remark that it
-is the only safe state for a single number should be read as a definition
-rather than as a hypothesis this corpus tests.
-
-The counts are reported at four calibration settings and the ordering is
+is weaker than it looks} --- the label requires every admissible cell to
+resolve beneficial, and a cell with a negative point estimate can never do
+so at any critical value (Supplement~\ref{app:uniformly}). The counts are
+reported at four calibration settings and the ordering is
 stable across all of them (Supplement~\ref{app:foursettings}), so no
 conclusion here rests on the calibration being exactly right.
 
@@ -1316,40 +1213,6 @@ separately. Imposed together they leave \nResolvedLatitude\ cells, of which
 smaller than the analyst-latitude rate, and it is the rate that answers ``how
 often would a one-number report be wrong about a sign that the data determine,
 on a cell an analyst might actually have stood on''.
-
-\textbf{Weighting by magnitude does not rescue the conventional report, and
-the rate depends on the measure.} Weighting each cell by $|V|$ as well as by
-the measure gives a median \misreportMagnitudePct, \emph{higher} than the
-unweighted rate: the cells that disagree are not the negligible ones. The
-median is \misreportEqualPct\ under the equal-level measure,
-\misreportReferencePct\ under the reference-weighted and
-\misreportConcentratedPct\ under the concentrated, falling as the measure
-concentrates on the reference specification, which is what it should do. A
-sign comparison is unit-free, which is why this one quantity may be pooled
-across instruments where an expected loss may not.
-
-Table~\ref{tab:regret} attributes the disagreement to axes. Holding everything
-else fixed and changing one axis, the sign of the increment flips for a median
-\flipSplitPct\ of same-everything-else pairs of cells under the split,
-\flipLearnerPct\ under the pipeline, \flipRungPct\ under the baseline rung,
-\flipQualityPct\ under the register-quality condition and \flipMetricPct\
-under the metric. The two axes an evaluation paper is most likely to hold
-fixed without comment --- which split, which pipeline --- are the two that
-flip the sign most often.
-
-\subsection{The eight pairs where the construct is what this paper is about}
-\label{sec:family}
-
-Every corpus statistic is reported on the \nItsmPairs\ ITSM-like pairs as
-well as on all \nPairs\ (Table~\ref{tab:family}), because the register there
-is a maintained one and the construct is what the paper is about.
-\textbf{The headline is lower on the population this paper is about}: the
-sign-disagreement rate is \misreportItsmPct\ against \misreportEqualPct\ over
-the corpus, and on resolved cells \misreportPooledItsmPct\ against
-\misreportPooledOtherPct\ on the rest. The decomposition barely moves ---
-higher-order \itsmHigherOrderPct\ against \interactionTotalPct, largest
-first-order \itsmLargestFirstOrderPct\ against \largestFirstOrderPct.
-Supplement~\ref{app:itsmfamily} carries every statistic on both populations.
 
 \subsection{Against specification-curve analysis as practised}
 \label{sec:sca}
@@ -1998,37 +1861,23 @@ incomplete register is the obvious next study.
 
 \paragraph{The coverage calibration is no longer an extrapolation in $n$, and
 what replaced that problem is worse}
-The plane that identifies the inflation factor is estimated at training sizes
-\planeNtrainLo\ to \planeNtrainHi\ against a corpus running \corpusNtrainLo\
-to \corpusNtrainHi, so every one of the \nPairs\ pairs now lies inside the
-range the factor is identified on. Two things took the place of the
-extrapolation.
-
-\textbf{The applied curve is misspecified, measurably.} $\log n$ enters the
-fit at $t = \planeNdependenceT$ (Section~\ref{sec:regions}): at a fixed ratio
-the widening a pair needs grows with its sample size, which
-Section~\ref{sec:simsensitivity} could assert before and can now measure. The
-curve the corpus is calibrated with is a function of the ratio alone and
-therefore carries that dependence as a residual --- it sits below the measured
-factor's own lower confidence limit on \nCellsUnderApplied\ of the plane's
-cells, by at most \maxShortfallApplied, both of them at large $n$. Putting
-$\log n$ into a parametric curve does not repair it and makes the object
-worse on the criterion the monotone curve was chosen under
-(Supplement~\ref{app:calibration}). Every calibrated region label and every
-$\rho$ on a large pair is therefore corrected by slightly less than the plane
-says it needs.
-
-\textbf{On \nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\ cells
-the factor does not exist.} The inflation factor widens an interval about its
-point estimate, and past a crossing in $n$ the basic interval no longer
-contains that estimate (Section~\ref{sec:boot}), so there is nothing to
-widen about. All \nPlaneCellsUndefined\ are at \nStraddleHalfMin\ training
-rows or more. \textbf{This is not confined to the simulation}: on the corpus
-itself \nCellsExcludingV\ of the \nCellsWholeTotal\ whole-surface cells have
-a band that excludes their own point estimate, on \nPairsExcludingV\ pairs
-and reaching \shareExcludingVMaxPct\ of the cells on the worst. For those
-cells the calibrated band is a widening of an interval the calibration's own
-estimator could not have been fitted on, and we do not know what it covers.
+All \nPairsInsidePlaneN\ of the \nPairs\ pairs now lie inside the range the
+factor is identified on, \planeNtrainLo\ to \planeNtrainHi\ training rows.
+Two things took the place of the extrapolation.
+\textbf{The applied curve is misspecified, measurably}: $\log n$ enters the
+fit at $t = \planeNdependenceT$, the curve is a function of the ratio alone,
+and it sits below the measured factor's own lower confidence limit on
+\nCellsUnderApplied\ of the plane's cells, both at large $n$; a two-covariate
+fit does not repair it (Supplement~\ref{app:calibration}). \textbf{And on
+\nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\ cells the factor
+does not exist}, because past a crossing in $n$ the basic interval no longer
+contains the estimate a widening would be about. \textbf{This is not confined
+to the simulation}: on the corpus \nCellsExcludingV\ of the
+\nCellsWholeTotal\ whole-surface cells have a band that excludes their own
+point estimate, on \nPairsExcludingV\ pairs and reaching
+\shareExcludingVMaxPct\ of the cells on the worst. For those the calibrated
+band widens an interval the calibration's own estimator could not have been
+fitted on, and we do not know what it covers.
 
 \paragraph{The interval construction was chosen on evidence from one sample
 size, below the size at which it misbehaves}

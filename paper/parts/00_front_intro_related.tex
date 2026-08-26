@@ -198,81 +198,30 @@ the free field absorbs almost everything.}
 \end{figure}
 
 \paragraph{Contributions}
-Multiverse and specification-curve analysis, functional-ANOVA and Sobol
-indices, the moving-block bootstrap, max-$t$ and multiplier bootstraps,
-decision curve analysis, calibration assessment, and feature and data
-valuation are all established, and none of them is invented here;
-Section~\ref{sec:related} attributes each and states the gap they leave. What
-follows is what this paper adds.
-
 \begin{enumerate}
-\item \textbf{A new formalisation: the specification surface and a complete
-estimand.} Section~\ref{sec:surface} defines $\mathcal{S}$, $V_s$, and the
-relative reduction $R$, states the conditions under which $R$ is a quantity at
-all, and proves two results. $R$ is \emph{not identified} by the data, the
-feature and the baselines: there is no function carrying the reduction under
-one metric to the reduction under another (Proposition~\ref{prop:nonid}). And,
-relative to a \emph{declared family} of recalibrations, $R$ survives every
-member of that family exactly when each member acts \emph{affinely} on the
-instrument (Proposition~\ref{prop:rank}) --- which within the affine family is
-strictly weaker than rank-basedness, and outside it is not
-(Section~\ref{sec:weaker}). The proposition also converts
-a search into a proof: one violating triple settles an instrument for the
-family it was found in.
-
-\item \textbf{New reporting objects: two adaptations and two new.}
-Section~\ref{sec:inference} supplies the estimation and inference layer. Four
-constructions are taken from the literature and two of them are
-\emph{adapted}: (i) an exact, orthogonal functional-ANOVA decomposition of
-$\operatorname{Var}_s[V_s(f)]$ into first-order and total indices per axis,
-taken here under a \emph{declared measure} over specifications rather than
-under whichever cells happened to be enumerated; (ii) a moving-block bootstrap
-that resamples the training half, \emph{refits the entire pipeline}, and
-evaluates on a resampled test half, so the interval contains training-sample,
-model-selection, encoder and calibrator variability; (iii) simultaneous
-max-$t$ bands whose family, for a surface-level claim, is the \emph{whole
-surface} that claim ranges over and not a cell of it, with the critical value
-estimated by a multiplier bootstrap so that its precision is not limited by
-the refitting budget; and (iv) Fieller intervals for $R$, which report an
-unbounded or exclusive confidence set when the denominator is weak instead of
-a bounded interval that is not one.
-
-Two further objects are new as far as we are aware. A cell is
-\emph{beneficial}, \emph{harmful} or \emph{unresolved} under the simultaneous
-band, a surface carries one of six \emph{resolution region} labels, and the
-robustness index $\rho \in [-1,1]$ summarises it; $\rho = 1$ is the only state
-in which one positive number is a safe summary. And \emph{specification
-regret} measures what one-number reporting costs --- the share of admissible
-specifications whose sign disagrees with the reported cell, and the
-performance forgone or destroyed by acting on it, computed \emph{inside one
-instrument at a time}. Lemma~\ref{prop:optimal} identifies the
-decision-optimal collapse, the weighted mean increment, and
-Section~\ref{sec:rules} measures four rules against it \emph{out of sample},
-on held-out specifications, held-out time and held-out logs.
-
-\item \textbf{New empirical evidence: a registered multi-log benchmark.} The
-surface is computed through one frozen pipeline on \emph{every} log--target
-pair a pre-registered protocol admits --- \nPairs\ of them, not only the ones
-where the answer resolves --- over an audited denominator, with calibration,
-unseen-category rates and rolling-origin validation reported for each, and
-every corpus statistic is reported twice: on all \nPairs\ pairs and on the
-\nItsmPairs\ where the register is a maintained one and the construct is what
-the paper is about (Section~\ref{sec:family}). Section~\ref{sec:sca} runs
-specification-curve analysis as practised on the same surfaces and reports
-where its verdict and the region label part company, which is the concrete
-statement of what the extra machinery buys.
-
-\item \textbf{A new operational case: a register at three decision times.}
-Section~\ref{sec:cmdb} shows that a decision time fixes three things at once
---- which cases are in scope, what is known about them, and which fields are
-admissible --- estimates a surface at each of three moments in the
-service-desk process, and separates the three mechanisms. It also reconciles
-the two values this log has been reported to give, and finds that the
-difference is the \emph{target}: over the cohort $\times$ target design the
-target carries \shareTargetPct\ of the variance and the cohort
-\shareCohortPct.
+\item \textbf{An estimand and four reporting objects} (Table~\ref{tab:objects}):
+the surface over a declared design space, an exact functional-ANOVA
+decomposition of its variance, simultaneous max-$t$ bands from a
+pipeline-refitting bootstrap, \emph{resolution regions} with a robustness
+index $\rho$, and \emph{specification regret}.
+\item \textbf{What each is worth, measured rather than asserted.}
+Section~\ref{sec:simband} measures the band's family-wise coverage against a
+known answer and finds it short of nominal;
+Section~\ref{sec:sca} reports where a specification curve's verdict and a
+region label part company.
+\item \textbf{A registered multi-log benchmark.} The surface is computed
+through one frozen pipeline on every log--target pair a pre-registered
+protocol admits --- \nPairs\ of them, not only the ones where the answer
+resolves --- over an audited denominator, and every corpus statistic is
+reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
+maintained one (Section~\ref{sec:family}).
+\item \textbf{A register at three decision times.} Section~\ref{sec:cmdb}
+shows that a decision time fixes which cases are in scope, what is known
+about them and which fields are admissible at once, reconciles the two values
+this log has been reported to give, and finds the difference is the
+\emph{target}: over the cohort $\times$ target design the target carries
+\shareTargetPct\ of the variance and the cohort \shareCohortPct.
 \end{enumerate}
-
 
 \input{tables/objects}
 
