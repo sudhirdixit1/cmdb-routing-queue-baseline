@@ -200,7 +200,29 @@ def emit(mn):
             s = b[(b.target == target) & (b.level == level)]
             return float(s.gain_over_b0.iloc[0]) if len(s) else None
 
+        #  WHICH CELL THE LADDER IS ON.  Section~\\ref{sec:programme} prints
+        #  \\layerItemHandover\\ over the intake block and
+        #  Table~\\ref{tab:tau} prints \\VtauTwo\\ over the same block, and
+        #  a reader who tries to reconcile them cannot, because they are two
+        #  different cells: this ladder runs on the REGISTERED cohort and the
+        #  REGISTERED handover rule of Section~\\ref{sec:design}, the table
+        #  on the estate's own cohort and its reassignment target -- the two
+        #  Section~\\ref{sec:cohort} shows disagree about this register.  The
+        #  cell is now named in the prose, and these are its coordinates.
+        def _base(target):
+            s = b[(b.target == target) & (b.level == "CI Type (aff)")]
+            return float(s.base_auc.iloc[0]) if len(s) else None
+
+        def _n(target):
+            s = b[b.target == target]
+            return int(s.n.iloc[0]) if len(s) else None
+
+        put("layerLadderN", thousands(_n("handover")))
+        put("layerLadderNTest",
+            thousands(int(b[b.target == "handover"].n_test.iloc[0]))
+            if len(b[b.target == "handover"]) else None)
         for tg, nm in (("handover", "Handover"), ("duration", "Duration")):
+            put("layerBase" + nm, num(_base(tg), 3))
             put("layerType" + nm, sig(_lay(tg, "CI Type (aff)"), 3))
             put("layerSubtype" + nm, sig(_lay(tg, "CI Subtype (aff)"), 3))
             put("layerItem" + nm, sig(_lay(tg, "CI Name (aff)"), 3))
@@ -209,9 +231,11 @@ def emit(mn):
             put("layerItemMarginal" + nm,
                 sig(float(s.gain_over_b0.iloc[0]), 3) if len(s) else None)
     else:
+        put("layerLadderN", None)
+        put("layerLadderNTest", None)
         for nm in ("Handover", "Duration"):
             for k in ("layerType", "layerSubtype", "layerItem",
-                      "layerItemMarginal"):
+                      "layerItemMarginal", "layerBase"):
                 put(k + nm, None)
 
     B21 = load("s21_bands.csv.gz")
@@ -804,8 +828,42 @@ def emit(mn):
                  & (L38.rung == "B_intake")]
         put("VtauOneLo", sig(float(r2.lo.iloc[0]), 4) if len(r2) else None)
         put("VtauOneHi", sig(float(r2.hi.iloc[0]), 4) if len(r2) else None)
+        #  ONE LADDER, ONE SOURCE.  Section 7.2 reads down Table~\ref{tab:tau}
+        #  and quotes each rung's interval as it goes.  Two of the four rungs
+        #  it quoted came from `s08_facts.csv' -- an older, separate run of
+        #  the same cells whose point estimates agree to the digit and whose
+        #  INTERVALS do not, because it draws 400 times where the ladder draws
+        #  \nTauDraws.  The visible symptom was the intake-plus-group rung:
+        #  the prose printed [+0.0763, +0.1115] beside a table printing
+        #  [+0.095, +0.130] for one cell.  Every endpoint the case study
+        #  quotes from that ladder now comes from the ladder, so the prose and
+        #  the table cannot disagree; `verify_numbers' asserts it.
+        #  The body text points at one row of Table~\\ref{tab:tau} by
+        #  ordinal, and said "the fourth" of a row that is the sixth.  The
+        #  ordinal is a property of the ladder, so it is a macro.
+        _ORD = ("first", "second", "third", "fourth", "fifth", "sixth",
+                "seventh", "eighth", "ninth", "tenth")
+
+        def _ordinal_of(mask):
+            w = [i for i, v in enumerate(list(mask)) if v]
+            return _ORD[w[0]] if w and w[0] < len(_ORD) else None
+
+        put("tauMatchedRow", _ordinal_of(L38.decision_time == "t2_matched"))
+        put("tauPlainRow",
+            _ordinal_of((L38.decision_time == "t2_incident_creation")
+                        & (L38.rung == "B_intake")))
+        for _dt, _rg, _nm in (
+                ("t2_incident_creation", "B_intake_g", "VTtwoGroup"),
+                ("t2_incident_creation", "B_intake_g_km", "VTtwoKnow")):
+            _r = L38[(L38.decision_time == _dt) & (L38.rung == _rg)]
+            put(_nm, sig(float(_r.V.iloc[0]), 4) if len(_r) else None)
+            put(_nm + "Lo", sig(float(_r.lo.iloc[0]), 4) if len(_r) else None)
+            put(_nm + "Hi", sig(float(_r.hi.iloc[0]), 4) if len(_r) else None)
     else:
-        for k in ("VtauZeroLo", "VtauZeroHi", "VtauOneLo", "VtauOneHi"):
+        for k in ("VtauZeroLo", "VtauZeroHi", "VtauOneLo", "VtauOneHi",
+                  "VTtwoGroup", "VTtwoGroupLo", "VTtwoGroupHi",
+                  "VTtwoKnow", "VTtwoKnowLo", "VTtwoKnowHi",
+                  "tauMatchedRow", "tauPlainRow"):
             put(k, None)
 
 

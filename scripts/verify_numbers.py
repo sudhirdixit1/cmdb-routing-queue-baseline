@@ -574,6 +574,14 @@ def main(argv=None):
     #  Three conditions this round earned, one of them by breaking it.
     import round26_verify  # noqa: E402
     round26_verify.check(sys.modules[__name__], M)
+    #  ---- round twenty-seven ---------------------------------------------
+    #  Five conditions that hold BETWEEN objects: a table against a
+    #  definition, a caption's ordinal against its own frame, a prose interval
+    #  against the table it is read from, a pair's cell count against its
+    #  log's, and a ladder against the cell the prose says it is on.  Each was
+    #  a live contradiction that every per-macro check passed.
+    import round27_verify  # noqa: E402
+    round27_verify.check(sys.modules[__name__], M)
 
     # ---- the manuscript itself -------------------------------------------
     if MANUSCRIPT.exists():
@@ -603,7 +611,8 @@ def main(argv=None):
 
     print("verify_numbers: %d macros re-derived independently, "
           "%d consistency conditions enforced, %d failures"
-          % (CHECKED, len(CONDITIONS) + len(round26_verify.CONDITIONS),
+          % (CHECKED, len(CONDITIONS) + len(round26_verify.CONDITIONS)
+             + len(round27_verify.CONDITIONS),
              len(FAILS)))
     for f in FAILS:
         print("  FAIL  " + f)

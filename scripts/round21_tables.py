@@ -96,6 +96,23 @@ def write(mn):
         d = d[["decision time", "baseline", "n", "prevalence",
                "card_register", "base_auc", "with_auc", "V", "interval",
                "resolved"]]
+        #  THE CAPTION MUST NOT COUNT ROWS BY HAND.  It called the matched
+        #  population "the fourth row" when the ladder had gained two rows and
+        #  made it the sixth, and Section~\ref{sec:twodecision} repeated the
+        #  wrong ordinal.  Both ordinals are computed from the frame the table
+        #  is printed from, so a ladder that gains a rung renumbers its own
+        #  prose.  \tauMatchedRow and \tauPlainRow carry the same two words
+        #  into the body text.
+        _ORD = ("first", "second", "third", "fourth", "fifth", "sixth",
+                "seventh", "eighth", "ninth", "tenth")
+
+        def _ordinal_of(mask):
+            w = [i for i, v in enumerate(list(mask)) if v]
+            return _ORD[w[0]] if w and w[0] < len(_ORD) else "??"
+
+        _matched = _ordinal_of(L.decision_time == "t2_matched")
+        _plain = _ordinal_of((L.decision_time == "t2_incident_creation")
+                             & (L.rung == "B_intake"))
         (TABLES / "tau.tex").write_text(
             tex_table(d, "The decision time implemented as an axis. Each "
                          "moment carries its own population, its own "
@@ -104,17 +121,17 @@ def write(mn):
                          "$\\tau_0$ and $\\tau_1$ differ only in which "
                          "cases are in scope. $\\tau_1$ and $\\tau_2$ "
                          "differ in what is known AND in which cases "
-                         "are in scope, because 942 incidents have no "
-                         "interaction record; the fourth row is "
+                         "are in scope, because \\nTauTwoUnmatched\\ incidents have no "
+                         "interaction record; the %s row is "
                          "$\\tau_2$ restricted to $\\tau_1$'s own "
                          "population, and it is that row, not the "
-                         "third, that makes the "
+                         "%s, that makes the "
                          "$\\tau_1$-to-$\\tau_2$ step an information "
                          "step alone. Every row is on the estate's own "
                          "cohort and the reassignment target, under a "
                          "declared tie-break, and every interval is "
                          "the pointwise basic construction at "
-                         "\\nTauDraws\\ draws.",
+                         "\\nTauDraws\\ draws." % (_matched, _plain),
                       "tab:tau",
                       colnames={"card_register": "register levels",
                                 "base_auc": "base auc",

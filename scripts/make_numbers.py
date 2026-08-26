@@ -544,12 +544,13 @@ def main(argv=None):
     put("VTone", sig(first(S8, "V_T1")))
     put("VToneLo", sig(first(S8, "V_T1_lo")))
     put("VTonehi", sig(first(S8, "V_T1_hi")))
-    put("VTtwoGroup", sig(first(S8, "V_T2_group")))
-    put("VTtwoGroupLo", sig(first(S8, "V_T2_group_lo")))
-    put("VTtwoGroupHi", sig(first(S8, "V_T2_group_hi")))
-    put("VTtwoKnow", sig(first(S8, "V_T2_knowledge")))
-    put("VTtwoKnowLo", sig(first(S8, "V_T2_knowledge_lo")))
-    put("VTtwoKnowHi", sig(first(S8, "V_T2_knowledge_hi")))
+    #  \VTtwoGroup{,Lo,Hi} and \VTtwoKnow{,Lo,Hi} are NOT defined here.
+    #  They are rungs of Table~\ref{tab:tau} and the case study quotes them
+    #  while reading down that table, so they are defined once, in
+    #  `round21_numbers', from the ladder the table itself is printed from.
+    #  Defining them here from `s08_facts.csv' -- a separate run at a
+    #  different draw count -- put a prose interval beside a table interval
+    #  that disagreed with it.
     lh = first(S8, "lambda_half")
     put("lambdaHalf", num(lh, 2))
     put("lambdaHalfPct", pct(lh, 0))
@@ -1125,6 +1126,31 @@ def write_tables(D):
         elif REG is not None and len(REG):
             m = m.merge(REG[["log", "target", "region", "rho"]],
                         on=["log", "target"], how="left")
+        #  DEFINITION 3 IS THE DEFINITION, AND THIS TABLE HAS TO OBEY IT.
+        #  The region label is not `whichever signs the band resolved': it is
+        #  that label WITH the minimum resolved share applied, which withdraws
+        #  a direction on four pairs.  Table~\ref{tab:triple} applied the rule
+        #  and this table did not, so the master table printed
+        #  `conditionally beneficial' on pairs whose direction the paper's own
+        #  definition withdraws -- the single worst kind of defect a paper
+        #  about auditability can carry, because the master table is the one a
+        #  reader quotes.  The applied label is now the `region' column and
+        #  the resolved share it rests on is printed beside it, so the two
+        #  tables cannot disagree again without the share disagreeing too.
+        MINSH = load("s42_regions.csv")
+        if MINSH is not None and len(MINSH) and "region_min05" in MINSH.columns:
+            m = m.merge(
+                MINSH[["log", "target", "region_min05", "share_resolved"]]
+                .rename(columns={"region_min05": "region_applied"}),
+                on=["log", "target"], how="left")
+            if "region" in m.columns:
+                m["region"] = m.region_applied.combine_first(m.region)
+            else:
+                m["region"] = m.region_applied
+            m["resolved share"] = [
+                ("%.1f" % (100 * v)) if pd.notna(v) else "--"
+                for v in m.share_resolved]
+            m = m.drop(columns=["region_applied", "share_resolved"])
         #  and the sign-disagreement column came from s04, a round-nineteen
         #  file whose values differ from the round-twenty-one ones on ten of
         #  nineteen pairs under a caption that describes them identically.
@@ -1150,7 +1176,9 @@ def write_tables(D):
                                   for a, b in zip(ms["sim lo"], ms["sim hi"])]
             keep = [c for c in ms.columns
                     if c not in ("lo", "hi", "sim lo", "sim hi")]
-            order = ["log", "target", "V", "pointwise", "simultaneous"]
+            order = ["log", "target", "V", "pointwise", "simultaneous",
+                     "region", "resolved share", "rho"]
+            order = [c for c in order if c in ms.columns]
             ms = ms[order + [c for c in keep if c not in order]]
         (TABLES / "master.tex").write_text(
             tex_table(ms,
@@ -1165,7 +1193,7 @@ def write_tables(D):
                       "robustness index $\\rho$, both under the "
                       "COVERAGE-CALIBRATED critical value of "
                       "Section~\\ref{sec:regions} --- the nominal ones are in "
-                      "Table~\\ref{tab:calbands} --- and the share of "
+                      "Table~\\ref{tab:calbands}. THE REGION IS THE LABEL Definition~\\ref{def:regions} YIELDS, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one (Table~\\ref{tab:triple} prints the counts underneath). Last, the share of "
                       "admissible specifications whose sign disagrees with a "
                       "conventional one-number report, under the equal-level "
                       "measure, which is the `all-cells rate' column of "

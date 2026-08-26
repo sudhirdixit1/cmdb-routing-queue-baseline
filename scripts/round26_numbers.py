@@ -331,6 +331,14 @@ def emit(mn):
         b14 = cells[(AX.log == "BPIC14")]
         if len(b14):
             put("nCellsBpicFourteen", thousands(int(b14.sum())))
+        #  ONE PAIR IS NOT ONE LOG.  Section~\\ref{sec:design} and
+        #  Section~\\ref{sec:lim} both say "that pair carries N of the
+        #  corpus's admissible cells" about the REGISTERED HANDOVER TARGET,
+        #  and both printed the log's total -- the sum over its two targets,
+        #  which is twice the pair's.  The pair's own count is its own macro.
+        b14h = cells[(AX.log == "BPIC14") & (AX.target == "handover")]
+        put("nCellsBpicFourteenHandover",
+            thousands(int(b14h.sum())) if len(b14h) else None)
         put("nPairsFourPipelines", int((AX.n_pipeline == 4).sum()))
         put("nPairsThreePipelines", int((AX.n_pipeline == 3).sum()))
         put("nPairsFourRungs", int((AX.n_rung >= 4).sum()))

@@ -1026,8 +1026,9 @@ BPIC20 logs and BPIC12 are excluded under \textsc{no\_headroom} or
 registered handover target on the case study's log sits at the upper edge of
 the admission window}: test prevalence \prevAdmittedMax\ against a
 window that closes at \prevHi, which excludes other logs at
-\prevExcludedAboveMin. That pair carries \nCellsBpicFourteen\ of the corpus's
-\nDeclaredAdmissibleScalar\ admissible cells, so a corpus statistic pooled
+\prevExcludedAboveMin. That pair carries \nCellsBpicFourteenHandover\ of the
+corpus's \nDeclaredAdmissibleScalar\ admissible cells --- the log carries
+\nCellsBpicFourteen\ across its two targets --- so a corpus statistic pooled
 over cells is partly a statement about it; Section~\ref{sec:family} reports
 every headline on the ITSM family separately for this reason, and
 Section~\ref{sec:lim} asks whether the window should be tightened.
@@ -1572,9 +1573,9 @@ intake block plus the group it is \VTtwoGroup\ [\VTtwoGroupLo,
 it is \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] --- not resolvably different
 from zero. \textbf{The step from $\tau_1$ to $\tau_2$ is an information step
 only on the matched population}: \nTauTwoUnmatched\ of the \nTauTwo\
-incidents have no interaction record, so the fourth row of
+incidents have no interaction record, so the \tauMatchedRow\ row of
 Table~\ref{tab:tau} restricts $\tau_2$ to $\tau_1$'s own cases and it is that
-row, not the third, that isolates the information.
+row, not the \tauPlainRow, that isolates the information.
 Supplement~\ref{app:taudetail} gives each moment's population, register and
 admissible set.
 
@@ -1673,16 +1674,30 @@ it; Section~\ref{sec:nbregret} prices that in cases per thousand:
 \paragraph{Which layer of the register pays}
 A programme does not choose whether to have a configuration management
 database; it chooses how much of one to populate and maintain, and that is a
-choice among \emph{layers}. Over the same intake baseline on the reassignment
-question, the item's \emph{type} is worth \layerTypeHandover\ AUC, its
-\emph{subtype} \layerSubtypeHandover, and the item itself
-\layerItemHandover; with the subtype already in the model the item still adds
+choice among \emph{layers}. \textbf{The ladder is not
+Table~\ref{tab:tau}'s cell and does not reconcile with it arithmetically}:
+it is computed on the \emph{registered} cohort of Section~\ref{sec:design}
+--- \layerLadderN\ cases, \layerLadderNTest\ in test --- under the
+registered handover rule, one-hot logistic regression at the fixed temporal
+holdout, against the intake block at base AUC \layerBaseHandover, whereas
+Table~\ref{tab:tau} is on the estate's own cohort and its reassignment
+target. Section~\ref{sec:cohort} is the reason the two differ: those are the
+two analyses whose answers about this register disagree, so the register's
+increment over intake is \layerItemHandover\ here and \VtauTwo\ there, and
+neither number is the other one mismeasured. What the ladder compares is
+layers \emph{against each other} at one cell, which is the comparison a
+programme is choosing among. On it the item's \emph{type} is worth
+\layerTypeHandover\ AUC over intake, its \emph{subtype}
+\layerSubtypeHandover, and the item itself \layerItemHandover; with the
+subtype already in the model the item still adds
 \layerItemMarginalHandover. \textbf{On this estate and this question the
 coarse layers are not free, and the finest layer is not redundant}: about half
 of what the item is worth over the intake block is already reachable from a
 thirteen-value type field, and the item still adds \layerItemMarginalHandover\
-once the subtype is in the model. On the duration question the same ladder
-gives \layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration,
+once the subtype is in the model. On the duration question --- the registered
+duration rule on the same cohort, base AUC \layerBaseDuration\ --- the same
+ladder gives \layerTypeDuration, \layerSubtypeDuration\ and
+\layerItemDuration,
 with \layerItemMarginalDuration\ marginal --- there the coarse layers reach
 about a \emph{third} of the item's increment and the item carries the rest.
 \textbf{So the split between the layers is a property of the target and not of
@@ -2130,7 +2145,7 @@ configuration item to a legal article --- so every corpus statistic is about
 well (Table~\ref{tab:family}); Table~\ref{tab:construct} names each pair's own
 construct threat. The registered handover target on the case study's log is
 close to degenerate at prevalence \prevAdmittedMax, it carries
-\nCellsBpicFourteen\ of \nDeclaredAdmissibleScalar\ cells, and
+\nCellsBpicFourteenHandover\ of \nDeclaredAdmissibleScalar\ cells, and
 Section~\ref{sec:cohort} shows the register's sign turns exactly there.
 Whether a generic handover rule is a meaningful target on ITSM logs, where
 reassignment is what a desk acts on, and whether the prevalence window should
