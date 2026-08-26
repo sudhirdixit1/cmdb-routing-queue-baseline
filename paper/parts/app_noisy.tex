@@ -101,3 +101,32 @@ experiments that refuted every finite-sample explanation for that apparent
 bias and thereby sent us to look at the target. The marginalisation is checked
 against a Monte Carlo sample, on standardised residuals, at the start of every
 simulation run.
+
+\subsection{The six simulated worlds and the two estimands}
+\label{app:worlds}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+A simulation that fits a logistic data-generating process with logistic
+regression tests an unusually favourable arrangement. This one uses \nWorlds\
+worlds --- four of them misspecified for the estimator --- at \nSimReps\
+replicates each. The covariate space is finite, so the joint distribution of
+cell and outcome is enumerated and the population AUC of any scoring rule is
+computed in closed form rather than simulated. The worlds are a logistic
+surface, a nonlinear one with an interaction and a threshold the logistic
+model cannot see, a drifting one, a sparse register with \nSimSparse\ levels,
+an imbalanced outcome at prevalence \simPrevalence, and a noisy register in
+which a share of values are wrong.
+
+Two estimands are separated because under misspecification they differ.
+$V_{\mathrm{oracle}}$ is the increment between the two Bayes-optimal scoring
+rules --- what the register is worth in the world. $V_{\mathrm{limit}}$ is the
+increment between the two fitted pipelines' limits --- what the estimator
+estimates. A resampling interval can only cover the second, and reporting its
+coverage of the first as though it were the estimator's coverage is a category
+error. Both are reported in Table~\ref{tab:sim31}. Where a register value is
+corrupted the cells the generator writes down are not the cells the estimator
+observes, so the truth has to be marginalised over the corruption; the two
+experiments that found that and the check that guards it are in
+Supplement~\ref{app:noisy}.
+

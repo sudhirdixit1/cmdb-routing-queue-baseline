@@ -417,6 +417,36 @@ def main(argv=None):
                      "WORD_MAGNITUDES_ALLOWED with a reason): %s"
                      % ", ".join(sorted(set(bad_words))[:8]))
 
+    # 6d every macro that LOOKS like one of numbers.tex's is one
+    #
+    #  ROUND TWENTY-FIVE.  Compressing a section means writing a summary, and
+    #  a summary needs the numbers the passage carried.  Twice while doing
+    #  that I wrote a macro name that does not exist --- \nDcaResolvedSim,
+    #  \tippingPoint --- and every check here passed, because none of them
+    #  reads numbers.tex.  The build then died on an undefined control
+    #  sequence several files away from the mistake.
+    #
+    #  numbers.tex's macros are the only control words in this manuscript
+    #  that start lowercase and contain a capital, which makes them
+    #  recognisable without a list.  The handful of package commands sharing
+    #  that shape are named here.
+    NOT_NUMBERS = {"externalDocument", "arraybackslash", "raggedright"}
+    defined = set(re.findall(r"\\newcommand\{\\([a-zA-Z]+)\}",
+                             (PAPER / "numbers.tex").read_text(
+                                 encoding="utf-8")))
+    unknown = {}
+    for f in sorted((PAPER / "parts").glob("*.tex")):
+        src = strip_comments(f.read_text(encoding="utf-8"))
+        for name in set(re.findall(r"\\([a-z][a-zA-Z]*[A-Z][a-zA-Z]*)", src)):
+            if name in defined or name in NOT_NUMBERS:
+                continue
+            unknown.setdefault(name, f.name)
+    if unknown:
+        FAILS.append("macros used in the manuscript that numbers.tex does "
+                     "not define: %s"
+                     % ", ".join("\\%s (%s)" % (k, v)
+                                 for k, v in sorted(unknown.items())[:8]))
+
     # 7 rhetorical openers
     for pat in BANNED_OPENERS:
         if re.search(pat, t):

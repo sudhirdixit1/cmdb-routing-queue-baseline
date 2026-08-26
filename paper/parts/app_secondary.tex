@@ -278,3 +278,225 @@ scores are reported as \emph{score-threshold sensitivity analyses} and are
 labelled so in every table; they say how a conclusion moves as a selection
 rule tightens, and they do not say what cost ratio that rule encodes.
 
+\subsection{Simultaneous bands on the decision curve}
+\label{app:dcabandsfull}
+
+%%  ROUND TWENTY-FIVE.  Moved here from the article for length, unchanged.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\linewidth]{figS4_dca.png}
+\caption{The register's net-benefit increment across the operating range at
+the reference cell, with the pointwise interval and the simultaneous max-$t$
+band. The simultaneous band is what a claim about a \emph{range} of thresholds
+has to be read against. The curve dips near $\theta = \dcaDipTheta$, where the
+simultaneous band's lower edge reaches \dcaDipValue: \nHarmfulPointwise\ of
+the \nDcGrid\ operating points resolve as harmful pointwise and
+\nHarmfulSimultaneous\ under the simultaneous band, so the dip a reader can
+see is not a harm the evidence resolves.}
+\label{fig:dca}
+\end{figure}
+
+Figure~\ref{fig:dca} draws the register's net-benefit increment across the
+grid at the reference cell on \emph{calibrated} probabilities, with the
+pointwise interval and the simultaneous max-$t$ band. The band's family is
+declared separately from the scalar family and spans every admissible
+net-benefit cell of the pair --- \nDcaFamily\ members, critical value
+\dcaQ\ --- and the difference from a pointwise reading is not cosmetic. Its
+median width is \dcBandWidth\ against the pointwise interval's
+\dcPointWidth, and across the \nDcGrid\ operating points of this estate's
+decision curve the pointwise interval declares the increment resolvably
+positive at \nBeneficialPointwise\ of them while the simultaneous band
+declares it at \nBeneficialSimultaneous. Both are built from the same draws,
+so the only thing that differs is the family: those points are the price of a
+statement about a \emph{range} of thresholds rather than about each threshold
+separately, and a paper that reads a decision curve across its range and
+prices it pointwise has claimed the first while paying for the second.
+
+The curve dips near $\theta = \dcaDipTheta$, where the simultaneous band's
+lower edge reaches \dcaDipValue, so the count of points that resolve as
+\emph{harmful} is reported rather than left to the eye:
+\nHarmfulPointwise\ of the \nDcGrid\ points pointwise and
+\nHarmfulSimultaneous\ under the simultaneous band. The second can only be
+smaller than or equal to the first --- the wider family gives the wider
+interval at every point, which \texttt{verify\_numbers} checks --- so a dip a
+reader can see is not a harm the evidence resolves. Over the \nDcaRows\
+decision-curve cells the corpus carries, the same counts are
+\dcaHarmfulPointwise\ and \dcaHarmfulSimultaneous; Table~\ref{tab:dca} prints
+this pair's own curve, operating point by operating point, and its caption
+names the cell it is computed at.
+
+\textbf{And this family is the one most exposed to how the critical value was
+estimated.} The decision-curve bands are \emph{not} coverage-calibrated: the
+$(n,K)$ calibration of Section~\ref{sec:regions} is estimated for the scalar
+instruments and is not applied here. On every one of the \nFamiliesDca\
+decision-curve families the multiplier critical value lies below the whole
+order-statistic interval of the empirical quantile
+(Section~\ref{sec:simbands}), by a median factor of \qRatioDcaMedian, and
+across the corpus's decision-curve cells the multiplier band resolves
+\nResolvedDcaMult\ against the empirical band's \nResolvedDcaEmp. A reader who
+takes the empirical value should read this section's counts as upper bounds.
+Section~\ref{sec:lim} states why we do not choose between the two.
+
+\subsection{The ITSM family, statistic by statistic}
+\label{app:itsmfamily}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+Eight of the \nPairs\ pairs are IT service management, where the register is a
+maintained configuration or customer register and a data-quality mechanism has
+an operational referent. The other eleven include a loan amount treated as a
+high-cardinality categorical, a case-type reference nobody curates and an
+article of law, which Section~\ref{sec:construct} names as threats to
+construct validity. Table~\ref{tab:family} reports every headline statistic on
+all nineteen pairs, on the eight, and on the eleven that remain, each with a
+cluster-bootstrap interval taking the \emph{log} as the resampling unit ---
+two targets on the same log share a cohort and are not two independent
+observations.
+
+The higher-order share is \itsmHigherOrderPct\ on the ITSM family against
+\interactionTotalPct\ on the whole corpus, the largest first-order index
+\itsmLargestFirstOrderPct\ against \largestFirstOrderPct, and the all-cells
+sign-disagreement rate \misreportItsmPct\ against \misreportEqualPct. One
+difference runs against the paper. \textbf{The headline is lower on the
+population this paper is about}: of the resolved cells,
+\misreportPooledItsmPct\ disagree in sign on the ITSM family against
+\misreportPooledOtherPct\ on the other eleven and
+\misreportPooledResolvedPct\ pooled. The corpus-wide figure is therefore
+driven by the pairs Section~\ref{sec:construct} names as carrying
+construct-validity threats, and a reader who takes this paper to be about
+maintained registers should read the ITSM column and should read it as the
+weaker case for the apparatus, not the stronger one.
+
+\subsection{The decision rules in full}
+\label{app:rulesdetail}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+The four rules of Section~\ref{sec:regretdef} --- \emph{one-number},
+\emph{uniform}, \emph{majority} and \emph{weighted mean} --- are compared
+under the loss defined there, inside one instrument at a time and in that
+instrument's own units. Table~\ref{tab:rules} and
+Supplement~\ref{app:secondary} carry it in full. The weighted mean is optimal
+in sample by construction, so what matters is out of sample: choosing on a
+random half of the admissible cells and paying on the other half, the
+one-number rule costs \oosOneNumberAuc\ AUC of expected excess regret against
+\oosMajorityAuc\ for the majority rule and \oosMeanAuc\ for the weighted
+mean, and is worse than the majority rule in
+\nInstrumentsOneNumberWorse\ instruments of \nInstruments.
+
+\textbf{Three results run against the surface's advocate, and we report them
+rather than the comparison alone.} The conservative rule is the worst of the
+four in \nInstrumentsUniformWorst\ instruments, declining so often that the
+performance it forgoes exceeds the performance the one-number rule destroys;
+the median excess regret of the one-number rule is \emph{zero} in every
+instrument, because on most pairs every rule picks the same action; and under
+rolling-origin folds the ordering does not hold, at \oostOneNumber\ against
+\oostMajority. We therefore do not conclude that a surface report is a better
+decision rule than a number. The case for reporting the surface rests on the
+decomposition and on the sign disagreement; this comparison is a check on
+those and not a result in its own right.
+
+\subsection{The desk's decision, in net benefit per thousand}
+\label{app:deskfull}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+Because net benefit is a single cardinal utility, the decision-rule comparison
+of Section~\ref{sec:rules} can be run on it without the unit problem that
+forces that section to work instrument by instrument. Three things have to be
+settled first, and each is settled by a declared rule rather than a default.
+
+\textbf{Which models may enter.} A threshold is a cost ratio only if the score
+is a probability, so a model whose recalibrated slope lies outside
+$[\slopeLo, \slopeHi]$ is excluded from the decision-analytic reading by a
+registered rule applied at the level of the (pair, pipeline, baseline) triple
+and requiring both arms to pass. A \emph{model} here is one such triple,
+not one fitted classifier. The rule removes \nModelsDcaExcluded\ of
+\nModelsDca\ of them and leaves \nPairsDcaExcluded\ of \nPairs\ pairs
+with none. \textbf{That count is itself the strongest operational finding in this
+section}: on a third of the models a published evaluation would fit here, no
+threshold can be read as a cost ratio at all.
+
+\textbf{Which thresholds.} A uniform measure over an operating range from
+$0.05$ to $0.80$ is not a desk's belief. For a decision about pre-empting a
+reassignment the false positive costs a specialist's few minutes and the false
+negative costs a re-triage, a second queue wait and the service-level exposure
+that goes with it; ratios between three and ten to one put the indifference
+threshold between \deskQlo\ and \deskQhi, with a median of \deskQmid. A Beta
+distribution with that support is declared as the \emph{desk distribution},
+and single exchange rates are reported beside it.
+
+\textbf{Which unit.} Net benefit per case is a rate near zero, and three
+decimal places of it look like a tie, so Table~\ref{tab:desk} reports it per
+thousand cases.
+
+\textbf{And the rules still mostly tie.} Under the desk distribution the
+one-number rule, the majority rule and the weighted mean all carry a median
+excess regret of \excessOneNumberDesk\ per thousand cases; only the
+conservative rule loses, at \excessUniformDesk. The four rules do not all
+choose the same action on \nSeparatingDesk\ pairs, and where they differ the
+one-number rule is the worst on \nOneNumberWorstDesk\ of them, at a maximum of
+\maxExcessOneNumberDesk\ per thousand --- a real ordering and a small
+quantity. \textbf{The case against a one-number report does not rest on this
+design.} It rests on the decomposition of Section~\ref{sec:sobol} and on the
+sign disagreement of Section~\ref{sec:results-regret}, which is unit-free.
+
+\textbf{What does separate, in this unit, is the decision time.} The register
+is worth \promisedPerThousand\ true positives per thousand cases against the
+intake block. Against intake plus group plus the knowledge reference --- the
+same estate, the same register, a later moment in the same process --- it is
+worth \deliveredPerThousand. A desk that read the first number and deployed
+where the second applies is short \shortfallPerThousand\ per thousand cases.
+That is the operational content of Section~\ref{sec:twodecision}, and it is
+larger than every difference between the four collapse rules put together.
+It is also conditional on the knowledge reference being admissible at
+$\tau_2$, which Section~\ref{sec:cmdb} shows is probable and unproven: the
+second figure is the $\lambda = 0$ end of Figure~\ref{fig:tipping}, and a reader
+who believes a share $\lambda$ of those references are written after the incident
+exists should read their own figure off that curve.
+
+\paragraph{What the operational statement does not say} Net benefit converts a
+discrimination increment into units the desk recognises. It does not convert
+it into money, and three gaps remain, each needing data this study does not
+have: nominating a case for review is not the same as preventing a
+reassignment, and whether acting on a nomination changes the outcome is an
+interventional question on observational evidence; the exchange rate is
+declared rather than measured, which is why the whole curve is reported; and
+the cost of the register itself --- discovery tooling, reconciliation effort,
+the staff who keep it current --- is nowhere in this evidence.
+
+\subsection{The measure, the target axis, and which axis leads}
+\label{app:measures}
+
+%%  ROUND TWENTY-FIVE.  Moved from Section 6.2 for length, unchanged.
+
+\textbf{The measure is not neutral, and one conclusion does not survive it.}
+Under the reference-weighted measure the median higher-order share is
+\interactionTotalReferencePct\ and under the concentrated measure
+\interactionTotalConcentratedPct\ (Table~\ref{tab:measures}). That second
+number is smaller than the largest first-order index under the same measure,
+\concentratedFirstOrderPct, and on \nConcentratedExceeds\ of \nPairs\ pairs
+some single axis carries more variance than everything higher-order combined
+--- against \nEqualExceeds\ pairs under the equal-level measure. The statement
+\emph{the interactions carry more than any main effect} is therefore true
+under the two measures that let a reader roam and false under the one that
+keeps them near the reference cell. Both invariance tests pass, to
+\invarianceDuplicateShift\ and \invarianceGridShift.
+
+\textbf{The target is an axis too, and it is a small one within a pair.} Every
+index above is computed \emph{within} a log--target pair. On the
+\nLogsBothTargets\ logs carrying both registered targets the target axis can
+be added, on the headroom scale, and it carries a median \sobolTargetPct. The
+two targets are different questions, agreeing on a median \targetAgreement\ of
+cases, so the reading is not that the target hardly matters --- on the case
+study it decides the sign (Section~\ref{sec:cohort}) --- but that once it is
+fixed, the remaining choices move the answer by more than switching it does.
+
+\textbf{Which axis leads is a property of the pair.} The largest single
+first-order index anywhere on the corpus is \topIndexPct, carried by
+\topIndexAxis\ on \topIndexPair; \nAxesLeading\ different axes lead somewhere,
+and the most frequent leader is \modalLeadingAxis, on
+\modalLeadingSharePct\ of pair--instrument combinations. An analyst can guess
+the leader and be right about half the time.
+

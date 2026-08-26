@@ -85,33 +85,14 @@ $\max_i (S_{T_i} - S_i)$ is a different quantity and is
 \largestInvolvementPct\ at the median pair.
 
 \textbf{The measure is not neutral, and one conclusion does not survive it.}
-Under the reference-weighted measure the median higher-order share is
-\interactionTotalReferencePct\ and under the concentrated measure
-\interactionTotalConcentratedPct\ (Table~\ref{tab:measures}). That second
-number is smaller than the largest first-order index under the same measure,
-\concentratedFirstOrderPct, and on \nConcentratedExceeds\ of \nPairs\ pairs
-some single axis carries more variance than everything higher-order combined
---- against \nEqualExceeds\ pairs under the equal-level measure. The statement
-\emph{the interactions carry more than any main effect} is therefore true
-under the two measures that let a reader roam and false under the one that
-keeps them near the reference cell. Both invariance tests pass, to
-\invarianceDuplicateShift\ and \invarianceGridShift.
-
-\textbf{The target is an axis too, and it is a small one within a pair.} Every
-index above is computed \emph{within} a log--target pair. On the
-\nLogsBothTargets\ logs carrying both registered targets the target axis can
-be added, on the headroom scale, and it carries a median \sobolTargetPct. The
-two targets are different questions, agreeing on a median \targetAgreement\ of
-cases, so the reading is not that the target hardly matters --- on the case
-study it decides the sign (Section~\ref{sec:cohort}) --- but that once it is
-fixed, the remaining choices move the answer by more than switching it does.
-
-\textbf{Which axis leads is a property of the pair.} The largest single
-first-order index anywhere on the corpus is \topIndexPct, carried by
-\topIndexAxis\ on \topIndexPair; \nAxesLeading\ different axes lead somewhere,
-and the most frequent leader is \modalLeadingAxis, on
-\modalLeadingSharePct\ of pair--instrument combinations. An analyst can guess
-the leader and be right about half the time.
+Across the three product measures the higher-order share moves by
+\measureSpreadPct, and under the measure concentrated on the reference cell
+it is \interactionTotalConcentratedPct\ --- smaller than the largest
+first-order index under the same measure, \concentratedFirstOrderPct, on
+\nConcentratedExceeds\ of \nPairs\ pairs. \emph{The interactions carry more
+than any main effect} is therefore a claim about a measure and not only about
+a surface. Supplement~\ref{app:measures} carries the target axis, which axis
+leads on which pair, and both invariance tests.
 
 \textbf{The baseline axis moves the answer by more than the answer.} Holding
 the pipeline, the split, the register and the metric at the reference and
@@ -374,30 +355,16 @@ flip the sign most often.
 \subsection{The eight pairs where the construct is what this paper is about}
 \label{sec:family}
 
-Eight of the \nPairs\ pairs are IT service management, where the register is a
-maintained configuration or customer register and a data-quality mechanism has
-an operational referent. The other eleven include a loan amount treated as a
-high-cardinality categorical, a case-type reference nobody curates and an
-article of law, which Section~\ref{sec:construct} names as threats to
-construct validity. Table~\ref{tab:family} reports every headline statistic on
-all nineteen pairs, on the eight, and on the eleven that remain, each with a
-cluster-bootstrap interval taking the \emph{log} as the resampling unit ---
-two targets on the same log share a cohort and are not two independent
-observations.
-
-The higher-order share is \itsmHigherOrderPct\ on the ITSM family against
-\interactionTotalPct\ on the whole corpus, the largest first-order index
-\itsmLargestFirstOrderPct\ against \largestFirstOrderPct, and the all-cells
-sign-disagreement rate \misreportItsmPct\ against \misreportEqualPct. One
-difference runs against the paper. \textbf{The headline is lower on the
-population this paper is about}: of the resolved cells,
-\misreportPooledItsmPct\ disagree in sign on the ITSM family against
-\misreportPooledOtherPct\ on the other eleven and
-\misreportPooledResolvedPct\ pooled. The corpus-wide figure is therefore
-driven by the pairs Section~\ref{sec:construct} names as carrying
-construct-validity threats, and a reader who takes this paper to be about
-maintained registers should read the ITSM column and should read it as the
-weaker case for the apparatus, not the stronger one.
+Every corpus statistic is reported on the \nItsmPairs\ ITSM-like pairs as
+well as on all \nPairs\ (Table~\ref{tab:family}), because the register there
+is a maintained one and the construct is what the paper is about.
+\textbf{The headline is lower on the population this paper is about}: the
+sign-disagreement rate is \misreportItsmPct\ against \misreportEqualPct\ over
+the corpus, and on resolved cells \misreportPooledItsmPct\ against
+\misreportPooledOtherPct\ on the rest. The decomposition barely moves ---
+higher-order \itsmHigherOrderPct\ against \interactionTotalPct, largest
+first-order \itsmLargestFirstOrderPct\ against \largestFirstOrderPct.
+Supplement~\ref{app:itsmfamily} carries every statistic on both populations.
 
 \subsection{Against specification-curve analysis as practised}
 \label{sec:sca}
@@ -438,26 +405,17 @@ second, and the first should be reported beside it.
 \subsection{Decision rules, in sample and out}
 \label{sec:rules}
 
-The four rules of Section~\ref{sec:regretdef} --- \emph{one-number},
-\emph{uniform}, \emph{majority} and \emph{weighted mean} --- are compared
-under the loss defined there, inside one instrument at a time and in that
-instrument's own units. Table~\ref{tab:rules} and
-Supplement~\ref{app:secondary} carry it in full. The weighted mean is optimal
-in sample by construction, so what matters is out of sample: choosing on a
-random half of the admissible cells and paying on the other half, the
+The four rules of Section~\ref{sec:regretdef} are compared under the loss
+defined there, inside one instrument at a time. Out of sample --- choosing on
+a random half of the admissible cells and paying on the other half --- the
 one-number rule costs \oosOneNumberAuc\ AUC of expected excess regret against
 \oosMajorityAuc\ for the majority rule and \oosMeanAuc\ for the weighted
-mean, and is worse than the majority rule in
-\nInstrumentsOneNumberWorse\ instruments of \nInstruments.
-
-\textbf{Three results run against the surface's advocate, and we report them
-rather than the comparison alone.} The conservative rule is the worst of the
-four in \nInstrumentsUniformWorst\ instruments, declining so often that the
-performance it forgoes exceeds the performance the one-number rule destroys;
-the median excess regret of the one-number rule is \emph{zero} in every
-instrument, because on most pairs every rule picks the same action; and under
-rolling-origin folds the ordering does not hold, at \oostOneNumber\ against
-\oostMajority. We therefore do not conclude that a surface report is a better
-decision rule than a number. The case for reporting the surface rests on the
-decomposition and on the sign disagreement; this comparison is a check on
-those and not a result in its own right.
+mean. \textbf{Three results run against the surface's advocate and we report
+them}: the conservative rule is worst in \nInstrumentsUniformWorst\
+instruments of \nInstruments, the one-number rule's median excess regret is
+\emph{zero} in every instrument, and under rolling-origin folds the ordering
+does not hold, at \oostOneNumber\ against \oostMajority. We therefore do not
+conclude that a surface report is a better decision rule than a number; the
+case rests on the decomposition and the sign disagreement, and this is a
+check on those. Table~\ref{tab:rules} and Supplement~\ref{app:rulesdetail}
+carry it.

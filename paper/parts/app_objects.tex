@@ -160,3 +160,110 @@ than a point; corpus-level medians are bootstrapped with the log--target pair
 as the resampling unit, because pairs and not cells are the independent
 objects. No axis is called dominant anywhere in this paper where those
 intervals overlap.
+
+\subsection{Specification regret: the three designs}
+\label{app:regretfull}
+
+%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+A reader of a one-number claim decides whether to adopt the field, and the
+rule the number supports is \emph{adopt iff $V_s > 0$}. If the specification
+the reader will actually run is drawn from the same admissible set under the
+declared measure, two quantities follow. The \emph{misreport rate}
+$M(s) = \Pr_{s'}[\operatorname{sign} V_{s'} \neq \operatorname{sign} V_{s}]$
+is the probability that the reader's own cell disagrees in sign with the
+reported one. The \emph{regret}
+\[
+G(s) \;=\;
+\mathbb{E}_{s'}\bigl[\max(0, -V_{s'})\bigr]\,\mathbf{1}\{V_s > 0\}
+\;+\;
+\mathbb{E}_{s'}\bigl[\max(0, V_{s'})\bigr]\,\mathbf{1}\{V_s \leq 0\}
+\]
+is the performance destroyed by adopting when the reader's cell is harmful
+plus the performance forgone by declining when it is beneficial.
+
+$G(s)$ carries the units of the instrument its increments were measured in, so
+an average across five scalar instruments has no units at all. Three designs
+are therefore reported, each constructed in Supplement~\ref{app:objects}:
+\textbf{A, metric-specific}, inside one instrument at a time, which is what
+the headline uses; \textbf{B, common operational utility}, on calibrated net
+benefit (Section~\ref{sec:nbregret}); and \textbf{C, partial identification},
+over five declared monotone utility maps fixing zero. The misreport rate has a
+second difficulty, which Section~\ref{sec:results-regret} answers rather than
+notes: a cell whose sign the data do not resolve contributes a coin flip to
+it. The rate is therefore reported over all cells, over the cells the
+calibrated band resolves, and weighted by $|V|$, and the article's headline is
+the second.
+
+Saying that a surface report asserts a sign only where the region is uniform,
+and therefore misreports nothing, is a definitional win and not a measured
+one, so the paper compares explicit \emph{decision rules} under the loss
+above.
+
+\begin{lemma}[The decision-optimal collapse]
+\label{prop:optimal}
+Let the reader's specification be drawn from the admissible set $\mathcal{S}$
+under a weighting $w$, and let a rule choose one action for all readers.
+Writing $A = \mathbb{E}_w[\max(0,-V_s)]$ for the harm mass and
+$B = \mathbb{E}_w[\max(0,V_s)]$ for the benefit mass, expected loss is $A$
+under \textnormal{\textsc{adopt}} and $B$ under \textnormal{\textsc{decline}}, and
+$B - A = \mathbb{E}_w[V_s]$. Hence expected loss is minimised by adopting
+exactly when $\mathbb{E}_w[V_s] > 0$: the decision-optimal summary of a
+specification surface is the \emph{weighted mean increment}, not the sign at
+any one cell and not the count of positive cells.
+\end{lemma}
+
+\noindent Its assumptions are strong --- one action for every reader, a loss
+linear in a common utility, and a known reader distribution $w$ --- and what
+is scientifically difficult is specifying the utility and the weighting, not
+proving the identity. The paper therefore reports the identity as a check ---
+the mean rule's in-sample excess regret is \identityMaxExcess\ across every
+pair and instrument, as it must be --- and measures the rules \emph{out of
+sample} instead (Section~\ref{sec:rules}). Two things follow: the conservative
+rule is wrong, not merely cautious, whenever the harm mass is smaller than the
+benefit mass it forgoes; and a one-number report is optimal exactly when the
+sign of its cell agrees with the sign of the mean, which is a coincidence
+rather than a property of the cell.
+
+\subsection{The pipeline, and what the estimator holds fixed}
+\label{app:pipeline}
+
+%%  ROUND TWENTY-FIVE.  Moved from Section 4.1 for length, unchanged.
+
+The pipeline is frozen and identical on every log. Attributes are assigned to
+roles by the pre-registered rules of Section~\ref{sec:design}; cases are
+ordered by their first timestamp; and the split is temporal. The
+\emph{pipeline} axis spans encodings as well as model families: one-hot
+logistic regression, frequency-encoded logistic regression, cross-fitted
+target-encoded \citep{micci2001preprocessing} histogram gradient boosting, and
+the same boosting wrapped in isotonic calibration. All four run on the case
+study's log; the other pairs carry two or three by a rule declared on row
+count. Because those levels move two things at once,
+Section~\ref{sec:axes2} crosses the family with the encoding where the budget
+allows it, and the axis is called a pipeline rather than a learner throughout.
+Registers here run to \cardF\ levels, above the cardinality cap of the
+boosting implementation's native categorical support, which is why the tree
+learner is target-encoded, cross-fitted inside the training half so that no
+training row sees its own outcome in its own encoding.
+
+The usual interval for such an increment resamples test rows with the fitted
+models held fixed. It excludes training-sample variability, model-selection
+variability, encoder variability, split uncertainty and the temporal
+dependence between cases, and a design sweep is not a substitute for it:
+specification sensitivity and sampling uncertainty answer different questions.
+
+Every interval in this paper is instead a \emph{nested moving-block
+bootstrap}. One draw resamples the training half by moving blocks
+\citep{kunsch1989jackknife} of length $\lceil n^{1/3} \rceil$, refits every
+arm of every rung under every learner and every quality mechanism on that
+resample, and evaluates on a moving-block resample of the test half. Encoders,
+frequency tables, target encodings, register frequency rankings and
+calibrators are rebuilt inside the draw. On the simulation of
+Section~\ref{sec:sim}, where the truth is known by enumeration, the
+fixed-model interval covers its own estimand a median
+\coverageNaiveMedian\ of the time across the worlds and the nested basic
+interval \coverageNestedBasicMedian. Every log is also reported under
+rolling-origin validation --- \nFolds\ expanding-window folds --- beside the
+single temporal holdout, and the split is an axis of the decomposition rather
+than a robustness paragraph.
+

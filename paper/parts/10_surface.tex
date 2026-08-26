@@ -201,13 +201,6 @@ configurations of \texttt{results/s29\_prop1.csv} the AUC reduction is
 identical to \propOneAucGap\ while the average-precision reduction differs by
 \propOneApGap.
 
-The second proposition concerns what a monotone recalibration of the scoring
-system does to the reduction. It is stated \emph{relative to a declared family
-of recalibrations}, which is both what its proof reaches and what an analyst
-can act on: nobody recalibrates by an arbitrary monotone map, and a reader who
-has declared that they will consider Platt scaling, or isotonic regression, or
-any affine rescaling, is asking about that family and not about all of them.
-
 \begin{assumption}[Richness]
 \label{ass:rich}
 Every quadruple of score vectors on the fixed labelled test set is realisable
@@ -217,15 +210,6 @@ set with more than three elements, and it fails only if the analyst commits in
 advance to a family of scoring rules narrow enough to constrain the four arms
 jointly.
 \end{assumption}
-
-Richness is used only in the direction (i) $\Rightarrow$ (ii), so under a model
-class too narrow to realise the separating configuration an instrument can be
-invariant on \emph{that class} without acting affinely; the direction that
-matters for practice, (ii) $\Rightarrow$ (i), needs no richness at all. A
-reader working inside a restricted family should therefore read the
-proposition as a sufficient condition and establish non-invariance on their
-own class by exhibiting a configuration in it, which is what the
-certificates below do.
 
 \begin{proposition}[What survives a declared family of recalibrations]
 \label{prop:rank}
@@ -244,40 +228,26 @@ $m(\psi(\sigma), y) = A(\psi)\,m(\sigma, y) + B(\psi)$ for every $\sigma$.
 \end{enumerate}
 \end{proposition}
 
-\noindent The proof is in Supplement~\ref{app:props}; it is three lines and is
-moved only for length. Taking $\Psi$ to be every strictly increasing
-continuous map recovers the unrestricted statement, and taking it to be the
-recalibrations an analyst has declared is the version that can be checked.
+\noindent Richness is used only for (i) $\Rightarrow$ (ii); the direction
+that matters in practice needs none. Taking $\Psi$ to be every strictly
+increasing continuous map recovers the unrestricted statement.
 
 \paragraph{Within a declared family, invariance is strictly weaker than
 rank-basedness}
 \label{sec:weaker}
-A rank-based instrument satisfies (ii) with $A \equiv 1$, $B \equiv 0$ for
-every $\Psi$, hence satisfies (i); the converse fails for some $\Psi$. Let
-$\Psi_{\mathrm{aff}}$ be the affine rescalings and $m$ the gap between the
-mean score on the positives and the mean score on the negatives. It is not
-rank-based --- an affine recalibration changes it, by up to
-\widerMChangeAffine\ over the configurations in
-\texttt{results/s29\_wider.csv} --- yet $\psi$ acts affinely on it with
-$A(\psi)$ the slope, so its reduction is $\Psi_{\mathrm{aff}}$-invariant to
-\widerRShiftAffine.
-
-\textbf{The separation is family-relative.} The same witness does \emph{not}
-separate at $\Psi = $ all monotone maps: over \nPsiFamiliesNonAffine\
-non-affine recalibration families the class-mean gap's reduction shifts by up
-to \widerRShiftNonAffine, against \widerRShiftAffine\ inside
-$\Psi_{\mathrm{aff}}$. Whether any instrument satisfies (i) unrestrictedly
-without being rank-based is a question this paper does not settle and does
-not need to: an analyst declares the recalibrations they will consider, and
-the proposition answers for those.
-
-\textbf{What this buys} is that a search becomes a proof. To show that an
-instrument's reduction is \emph{not} invariant it suffices to exhibit one
-$\psi$ and one triple $(a,b,c)$ violating \eqref{eq:ratiopres} --- a
-\emph{certificate} that $\psi$ does not act affinely on $m$ --- because the
-proposition then rules out invariance for every configuration.
-\texttt{results/s29\_certificates.csv} carries \nCertificates\ of them, one
-for each of the three non-rank-based instruments under each of \nPsiFamilies\
-recalibration families, the smallest moving $R$ by \certificateMinShift; the
-two rank-based instruments are invariant across \nInvarianceChecks\ checks to
-\invarianceMaxShift.
+A rank-based instrument satisfies (ii) with $A \equiv 1$, $B \equiv 0$, hence
+(i); the converse fails for some $\Psi$. The class-mean gap is a witness: it
+is not rank-based, an affine recalibration moving it by up to
+\widerMChangeAffine, yet its reduction is invariant to \widerRShiftAffine\
+inside the affine family. \textbf{The separation is family-relative} --- over
+\nPsiFamiliesNonAffine\ non-affine families the same witness's reduction
+shifts by up to \widerRShiftNonAffine\ --- so an analyst declares the
+recalibrations they will consider and the proposition answers for those.
+\textbf{What it buys} is that a search becomes a proof: one $\psi$ and one
+triple violating \eqref{eq:ratiopres} is a \emph{certificate} that rules out
+invariance for every configuration, and
+\texttt{results/s29\_certificates.csv} carries \nCertificates\ of them, the
+smallest moving $R$ by \certificateMinShift, against
+\nInvarianceChecks\ checks in which the two rank-based instruments hold to
+\invarianceMaxShift. Supplement~\ref{app:props} gives both propositions'
+constructions, the role of richness, and the witness in full.
