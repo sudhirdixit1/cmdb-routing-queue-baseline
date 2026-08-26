@@ -145,34 +145,6 @@ from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
 register cardinality to training size; Section~\ref{sec:regions} calibrates
 $q$ at each pair's own ratio.
 
-\paragraph{And the two estimates of the same critical value disagree, in the
-direction that matters}
-The precision argument above is an argument about variance, and the two
-estimators differ by more than variance. On \nQbelowEmpWhole\ of the
-\nFamiliesWhole\ whole-surface families, and on \emph{every} one of the
-\nFamiliesDca\ decision-curve families, the multiplier value lies below the
-entire order-statistic interval of the empirical quantile: the median ratio
-$q_{\mathrm{emp}}/q$ is \qRatioWholeMedian\ on the surface families and
-\qRatioDcaMedian\ on the decision-curve ones, whose medians are
-\qDcaMedian\ against \qEmpDcaMedian. The direction is anti-conservative --- a
-band built on the smaller value resolves cells the observed maxima do not ---
-and the mechanism is visible in the draws. A Gaussian multiplier reproduces
-the empirical \emph{covariance} of the standardised draws and therefore only
-the excursions a Gaussian process makes. These draws are heavy-tailed ---
-Section~\ref{sec:simband} measures how, and finds that the word covers two
-different mechanisms on the two families --- and the asymptotics the
-construction rests on are asked to hold at \nDrawsSurfaceMin\ to
-\nDrawsSurfaceMax\ draws over families of several hundred cells.
-
-We therefore report what each estimator resolves rather than asserting one of
-them. Over the whole-surface families the multiplier band resolves
-\nResolvedWholeMult\ cells and the empirical band \nResolvedWholeEmp; over the
-decision-curve families, \nResolvedDcaMult\ against \nResolvedDcaEmp, which is
-the larger exposure and belongs to the one family the coverage calibration of
-Section~\ref{sec:regions} does not touch. Section~\ref{sec:regions} carries
-the surface counts under both and Section~\ref{sec:dcabands} the
-decision-curve ones.
-
 \paragraph{Which of them is right, measured against a known answer}
 A disagreement between two estimators of one quantity says that one of them is
 wrong and cannot say which, so

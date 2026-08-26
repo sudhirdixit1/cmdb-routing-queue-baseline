@@ -708,34 +708,6 @@ from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
 register cardinality to training size; Section~\ref{sec:regions} calibrates
 $q$ at each pair's own ratio.
 
-\paragraph{And the two estimates of the same critical value disagree, in the
-direction that matters}
-The precision argument above is an argument about variance, and the two
-estimators differ by more than variance. On \nQbelowEmpWhole\ of the
-\nFamiliesWhole\ whole-surface families, and on \emph{every} one of the
-\nFamiliesDca\ decision-curve families, the multiplier value lies below the
-entire order-statistic interval of the empirical quantile: the median ratio
-$q_{\mathrm{emp}}/q$ is \qRatioWholeMedian\ on the surface families and
-\qRatioDcaMedian\ on the decision-curve ones, whose medians are
-\qDcaMedian\ against \qEmpDcaMedian. The direction is anti-conservative --- a
-band built on the smaller value resolves cells the observed maxima do not ---
-and the mechanism is visible in the draws. A Gaussian multiplier reproduces
-the empirical \emph{covariance} of the standardised draws and therefore only
-the excursions a Gaussian process makes. These draws are heavy-tailed ---
-Section~\ref{sec:simband} measures how, and finds that the word covers two
-different mechanisms on the two families --- and the asymptotics the
-construction rests on are asked to hold at \nDrawsSurfaceMin\ to
-\nDrawsSurfaceMax\ draws over families of several hundred cells.
-
-We therefore report what each estimator resolves rather than asserting one of
-them. Over the whole-surface families the multiplier band resolves
-\nResolvedWholeMult\ cells and the empirical band \nResolvedWholeEmp; over the
-decision-curve families, \nResolvedDcaMult\ against \nResolvedDcaEmp, which is
-the larger exposure and belongs to the one family the coverage calibration of
-Section~\ref{sec:regions} does not touch. Section~\ref{sec:regions} carries
-the surface counts under both and Section~\ref{sec:dcabands} the
-decision-curve ones.
-
 \paragraph{Which of them is right, measured against a known answer}
 A disagreement between two estimators of one quantity says that one of them is
 wrong and cannot say which, so
@@ -1263,21 +1235,9 @@ for any pair in this design, and Section~\ref{sec:regionsdef}'s remark that it
 is the only safe state for a single number should be read as a definition
 rather than as a hypothesis this corpus tests.
 
-\textbf{The counts are reported at four settings, and the ordering is stable
-across all of them.} At $c = 1$ --- the nominal band, no calibration at all
---- the corpus resolves \nResolvedSensNominal\ cells at a median $\rho$ of
-\rhoSensNominal; under the calibrated factors, \nResolvedSensCalibrated\ cells
-at \rhoSensCalibrated; pushing every factor to the upper end of its own Monte
-Carlo interval, \nResolvedSensUpper\ at \rhoSensUpper; and under the
-\emph{empirical} critical value of Section~\ref{sec:simbands} rather than the
-multiplier one, \nResolvedWholeEmp\ against the multiplier's
-\nResolvedWholeMult. That last comparison is not a calibration setting but a
-different estimator of the same quantity, and it moves the resolution by more
-than the calibration does. What moves across all four is how much resolution
-the corpus has; what does not move is that no pair reaches $\rho = 1$. The
-transfer from a pointwise interval in a simulation to a simultaneous band on
-real logs, and the choice between the two critical-value estimators, are both
-assumptions, and Section~\ref{sec:lim} carries them as limitations.
+The counts are reported at four calibration settings and the ordering is
+stable across all of them (Supplement~\ref{app:foursettings}), so no
+conclusion here rests on the calibration being exactly right.
 
 \subsection{What one number costs}
 \label{sec:results-regret}
@@ -1514,61 +1474,22 @@ not about handover in general.
 \subsection{Three decision times}
 \label{sec:twodecision}
 
-
-An incident in this estate does not begin as an incident. A caller reaches the
-service desk, an \emph{interaction} is opened, the desk works it, and if it
-cannot be closed there an incident is created and routed. Three moments at
-which a prediction could be made are estimated, and what changes between them
-is not only which fields are admissible (Table~\ref{tab:tau}).
-
-\begin{description}
-\item[$\tau_0$, first touch, every call.] The desk has just picked up the
-call and does not yet know whether it will escalate. The population is every
-interaction --- \nTauZero\ of them --- the register is the interaction's own
-affected item, with \cardTauZero\ values, and the admissible baseline is the
-interaction's intake block. Against it the register is worth \VtauZero\
-[\VtauZeroLo, \VtauZeroHi].
-\item[$\tau_1$, first touch, the calls that escalate.] The same moment and
-the same fields, restricted to the \nTauOne\ calls that did become incidents.
-The register is worth \VtauOne\ [\VtauOneLo, \VtauOneHi].
-\item[$\tau_2$, incident creation.] The desk has worked the interaction and
-escalated it. The population is the \nTauTwo\ incidents; the group that logged
-the incident is known, and so --- probably --- is the knowledge-article
-reference the desk consulted. Against the intake block the register is worth
-\VtauTwo; against intake plus group, \VTtwoGroup\ [\VTtwoGroupLo,
-\VTtwoGroupHi]; against intake plus group plus the knowledge reference,
-\VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] --- the one rung of the five that
-does not resolve.
-\end{description}
-
-The pairwise differences separate the mechanisms that a baseline ladder alone
-conflates, and separating them properly requires one more row than the three
-moments give. $\tau_1$ and $\tau_2$ are \emph{not} the same cases:
-\nTauTwoUnmatched\ incidents have no interaction record, so $\tau_2$ carries
-\nTauTwo\ cases against $\tau_1$'s \nTauOne. Table~\ref{tab:tau} therefore
-also reports $\tau_2$ restricted to $\tau_1$'s own population --- the same
-\nTauTwoMatched\ cases at the same prevalence \prevTauOne\ --- which is the
-row that makes the information step an information step.
-
-Restricting the population from every call to the calls that escalate, holding
-the information fixed, moves the increment by \deltaCohortAtTau\ AUC. Moving
-from first touch to incident creation \emph{on the matched cases}, changing
-what is known and nothing else, moves it a further \deltaSnapshotAtTau. The
-remaining \deltaPopulationResidual\ is what the \nTauTwoUnmatched\ incidents
-with no interaction record are worth, and it is a population difference rather
-than an information one: the unadjusted $\tau_1$-to-$\tau_2$ step,
-\deltaSnapshotUnmatched, is the sum of the two and attributing all of it to
-information would overstate the information channel by three quarters.
-Admitting the group and then the knowledge reference takes the increment the
-rest of the way to zero. A decision time is therefore an argument of the
-estimand in its own right: it fixes the population, the feature snapshot and
-the admissible set, and only the third of those is a baseline.
-
-Neither $\tau_0$ nor $\tau_2$ is ``the'' answer: which one a reader wants
-depends on where in their own process they intend to predict. A desk screening
-at $\tau_0$ looks at \nTauZero\ calls a year at a prevalence of \prevTauZero;
-a desk screening at $\tau_2$ looks at \nTauTwo\ incidents at \prevTauTwo, and
-Section~\ref{sec:nbregret} prices the difference.
+A decision time fixes three things at once --- which cases are in scope, what
+is known about them, and which fields are admissible --- and the estate's
+surface is estimated at each of three moments.
+\textbf{The register's worth turns on which one the analyst occupies}: at
+$\tau_0$ it is \VtauZero\ [\VtauZeroLo, \VtauZeroHi] over \nTauZero\ calls, at
+$\tau_1$ \VtauOne\ [\VtauOneLo, \VtauOneHi], and at $\tau_2$ against the
+intake block plus the group it is \VTtwoGroup\ [\VTtwoGroupLo,
+\VTtwoGroupHi] while against the block, the group and the knowledge reference
+it is \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] --- not resolvably different
+from zero. \textbf{The step from $\tau_1$ to $\tau_2$ is an information step
+only on the matched population}: \nTauTwoUnmatched\ of the \nTauTwo\
+incidents have no interaction record, so the fourth row of
+Table~\ref{tab:tau} restricts $\tau_2$ to $\tau_1$'s own cases and it is that
+row, not the third, that isolates the information.
+Supplement~\ref{app:taudetail} gives each moment's population, register and
+admissible set.
 
 \subsection{The leakage tipping point, and register quality}
 \label{sec:quality}
@@ -1607,44 +1528,11 @@ Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every mechanism and
 level.
 
 \subsection{What this says to a configuration management programme}
-\label{sec:csdm}
 
-The register in this log is layered, and the layers are the ones a common
-service data model uses: an item belongs to a class, a class to a subtype, and
-a subtype rolls up to a service component. Supplement~\ref{app:layers}
-estimates the increment at each layer against the intake block, on the
-registered targets. The coarse layers are \emph{not} free --- on the handover
-target the item's type alone is worth \layerTypeHandover\ and its subtype
-\layerSubtypeHandover, against \layerItemHandover\ for the item itself, and on
-duration \layerTypeDuration\ against \layerItemDuration\ --- so knowing that a
-case concerns \emph{a laptop} is worth between a third and two thirds of
-knowing which one. What the item adds \emph{on top of} the subtype is the
-quantity a populated hierarchy does not buy, and it is
-\layerItemMarginalHandover\ on handover and \layerItemMarginalDuration\ on
-duration. A programme that populates the class hierarchy and stops has bought
-a real part of the value and left the larger marginal part on the table; it
-has not bought nothing. These figures are on the registered targets rather
-than this section's reassignment target, and Supplement~\ref{app:layers} says
-so.
-
-The three dependent quality mechanisms map onto how a configuration management
-database actually decays, which is why they are in the design space rather
-than independent coin flips. \emph{Discovery lag} is the interval between a
-service going live and the discovery tooling finding its items, which is why a
-new service's cases carry an empty affected item for weeks. \emph{Unreconciled
-duplicates} arise when two discovery sources write the same physical item
-under two identifiers. \emph{Propensity-dependent missingness} arises when the
-affected item is populated by the desk rather than by discovery: the unusual
-case, which is the one worth predicting, is the one the desk is least likely
-to classify correctly under time pressure. The measured costs above say which
-of the three is worth spending on: on this estate, coverage and accuracy at
-the item level, and not reconciliation.
-
-Two disclaimers. This is predictive performance on one estate for one
-decision, not procurement advice, and a register that pays nothing here may be
-bought for change control, audit or impact analysis, none of which this
-measures; and the ranking of the mechanisms is a property of this cohort's
-cardinality and volume.
+The estate's own reading is in Supplement~\ref{app:programme}: what the
+register is worth here, at which decision time, under which target, and what
+a programme would have to change for that answer to move. It is a reading of
+one estate and is offered as one.
 
 \subsection{The absorption, and why the ratio is secondary}
 
@@ -1966,23 +1854,13 @@ regime, which adds the degenerate cells described below, they are
 
 \textbf{What is wrong with the decision-curve families is not a tail.} At a
 threshold where both arms treat every case alike the net-benefit difference
-is zero by arithmetic rather than by estimation, and \nDegenerateCellsDca\
-cells of the corpus's curve families are exactly zero in at least nine draws
-of ten --- up to \shareDegenerateDcaMaxPct\ of a single family, against
-\nDegenerateCellsWhole\ such cells anywhere in the surface families. The
-admission rule keeps any cell whose spread exceeds a floor in absolute units,
-so such a cell survives and standardising it by that spread sends its
-studentised value to the largest value a deviate standardised over $B$ points
-can take. They are what makes $q_{\mathrm{emp}}$ large on those families:
-excluding them moves the median ratio $q_{\mathrm{emp}}/q$ from
-\ratioDcaAll\ to \ratioDcaAdmissible. It does \emph{not} dissolve the
-disagreement --- $q$ still lies below the empirical interval on
-\nQbelowEmpDcaAdmissible\ of the \nFamiliesDca\ curve families and
-\nQbelowEmpWholeAdmissible\ of the \nFamiliesWhole\ surface ones once they
-are gone --- and Table~\ref{tab:bandcov} reports the regime with and without
-them because Section~\ref{sec:simbands}'s count of what
-$q_{\mathrm{emp}}$ resolves is, on those families, partly a count of
-arithmetic.
+is zero by arithmetic, and \nDegenerateCellsDca\ cells of the corpus's curve
+families are exactly zero in at least nine draws of ten, against
+\nDegenerateCellsWhole\ anywhere in the surface families. They are what makes
+$q_{\mathrm{emp}}$ large there; excluding them moves the median ratio
+$q_{\mathrm{emp}}/q$ from \ratioDcaAll\ to \ratioDcaAdmissible\ and does not
+dissolve the disagreement. Supplement~\ref{app:degencells} carries the
+mechanism and Table~\ref{tab:bandcov} the regime with and without them.
 
 \textbf{How far short, in the units the calibration works in.} A critical
 value is widened multiplicatively, so the useful summary of the shortfall is
