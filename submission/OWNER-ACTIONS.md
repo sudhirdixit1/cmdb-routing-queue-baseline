@@ -315,7 +315,20 @@ United States"* — a city and a country, not a postal address. This is queried
 at technical check for unaffiliated authors specifically. Set the full
 address in `scripts/round26_numbers.py` beside `AFFILIATION_CITY`.
 
-### 4.5 The archive DOI is now a placeholder inside the reference list  *(owner — still the blocking item)*
+### 4.5 The archive DOI is now a placeholder inside the reference list  *(owner — the circularity is fixed; the DOI itself is still yours)*
+
+> **The loop is gone.** Reference [11] used to read *"the archived release
+> cited in the data-availability statement (DOI reserved, inserted at
+> proof)"* — and that statement carried the same macro, so a desk check
+> following the reference arrived back where it started. The entry now carries
+> its own resolvable `url` to the repository the release is cut from, and the
+> note states the DOI's status in one clause. An editorial assistant checking
+> that the reference list resolves now gets a live link.
+>
+> **What is still yours**: mint the DOI. Adding a `doi` key to `.zenodo.json`
+> replaces the placeholder everywhere it appears — the statement, the
+> reference and the archive metadata — with no other edit.
+
 
 Already §1.1 above, with one thing that section did not know: the placeholder
 does not only appear in the code-availability statement. It is **reference

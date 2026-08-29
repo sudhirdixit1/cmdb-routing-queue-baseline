@@ -974,8 +974,16 @@ def read_release(what):
         d = j.get("doi") or ""
         if d:
             return r"\url{https://doi.org/%s}" % d
-        return ("the archived release cited in the data-availability "
-                "statement (DOI reserved, inserted at proof)")
+        #  ROUND TWENTY-SEVEN, LATER.  The old text forwarded the reader to
+        #  the data-availability statement, which carries THIS SAME MACRO --
+        #  so a reference resolved to a statement that resolved back to it,
+        #  and an editorial assistant checking that the reference list
+        #  resolves lands in a loop.  The replacement is self-contained and
+        #  names something that resolves TODAY: the repository the release is
+        #  cut from.  A reference a desk check can follow is worth more than
+        #  one that is merely honest about being incomplete.
+        return ("a Zenodo deposit whose DOI is reserved and is inserted at "
+                "proof")
     if what == "image_digest":
         #  ROUND TWENTY-SEVEN.  Same problem, same treatment.  The code
         #  availability statement claims bit-exactness INSIDE the container,

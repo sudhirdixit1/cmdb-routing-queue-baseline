@@ -5,9 +5,9 @@
     "sha": "231b67d34417ac04"
   },
   "make_numbers.py": {
-    "at": "2026-08-29T09:21:01Z",
-    "note": "round 27: the container sentence reads the base digest out of the Dockerfile",
-    "sha": "a873767e79529384"
+    "at": "2026-08-29T09:22:24Z",
+    "note": "round 27: the software reference resolves instead of forwarding to itself",
+    "sha": "498636979c983774"
   },
   "round20_numbers.py": {
     "at": "2026-08-29T08:53:54Z",
