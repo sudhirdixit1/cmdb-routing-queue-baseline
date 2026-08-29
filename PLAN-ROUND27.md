@@ -1100,6 +1100,58 @@ multinomial bands are expected to be defective — that is the finding. The
 remaining steps run manually. The gate stays as it is; it is right, and the
 chain is what needs to know that one arm is allowed to fail.
 
+### 2026-08-29, 03:45 — THE COVERAGE MEASUREMENT: the repair does not deliver, and round 25's diagnosis was wrong too
+
+`s41_bandcoverage.py --draws-dir s44_weighted`, families matched to the **new**
+surface. **This decides the round, and the answer is no.**
+
+| | round 25 (matched to the old surface) | round 27 (matched to the new one) |
+|---|---|---|
+| coverage at 150 draws | 0.944 | **0.912** |
+| coverage at 400 draws | **0.958** | **0.916** |
+| coverage at 1,000 draws | 0.966 | **0.913** |
+| heavy-tail regime, median | 0.846 | 0.837 |
+| non-zero-truth regime, median | *(not run)* | **0.843** |
+| widening needed, surface families | 1.05–1.24 | **1.36–1.88** |
+| widening needed, decision-curve | 1.90–2.05 | **2.20–2.61** |
+
+**Three things follow and none of them is the hoped-for one.**
+
+1. **400 draws does not attain the level.** 0.916, not the 0.958 round 25
+   predicted. Phase 1's done-when — measured family-wise coverage ≥ 93% —
+   is **not met**.
+2. **The draw count is not the binding constraint.** 150 → 0.912, 400 →
+   0.916, 1,000 → 0.913. It **plateaus**. Round 25 wrote that "the binding
+   constraint is the draw count and not the choice among estimators", and
+   that is now refuted by a measurement on the surface the paper reports.
+3. **The needed widening got larger, not smaller** — 1.36–1.88 against
+   1.05–1.24 — because the designed surface's families have heavier tails
+   (per-cell excess kurtosis 0.45 median, 8.88 at the ninetieth percentile,
+   against the old 0.32 and 3.64).
+
+**So the rewrite goes the other way from the draft in §1.4a.** Region labels
+and ρ **stay descriptive diagnostics**; contribution 2 does **not** claim
+inference; the abstract's *"whose coverage we measure against a known answer
+and find short of nominal"* **stays as written**; and §6.3's K/n calibration
+is **not retired** — if anything it is under-sized, and the paper must say
+that the widening its own measurement now asks for is larger than the one it
+applies.
+
+**And this is the round's second retired diagnosis.** Level loss was offered
+as the cause of the displacement and is not. More draws were offered as the
+cure for the coverage and are not. Both were stated in Section 11 as the
+repair the paper would make first; both were made; neither worked. **That is
+the paper's most valuable contribution to its own subject** — it is a
+specification surface's author discovering that two of his own named
+mechanisms do not survive being run — and §11 should say so in those terms
+rather than reporting two null results separately.
+
+**What the round did buy, and it is not nothing.** Level coverage 80.8% → 100%.
+Unbandable cells 150 → 0. Excludes-own-estimate 3.9% → 1.3%. A balanced
+factorial that makes the decomposition computable on the inference surface and
+retires the "corner, not a design" concession. Those are real and they stand.
+What does not stand is the claim that the band, after all of it, covers.
+
 ### 2026-08-29, 03:35 — THE SCHEME COMPARISON, complete, and it is not the story Section 11 predicted
 
 `s47_schemes.py`, both schemes over one design at 400 draws with one set of
