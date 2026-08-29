@@ -15,7 +15,8 @@ a referee for this journal recommended rejecting as submitted. The report was
 unusually specific and I treated it as a design document rather than a list of
 revisions; `response_to_referee.md` answers its ten major comments one by one.
 
-The manuscript has since had **two further developmental reviews**. The first
+The manuscript has since had **six further developmental reviews**, each
+answered point by point in the response letter named for it. The first
 recommended reject-and-resubmit and listed eight submission-blocking problems;
 `response_to_blueprint.md` answers those. The second read the resulting
 ninety-seven-page manuscript, recommended **major revision**, and noted that a
@@ -23,6 +24,16 @@ strict reviewer would recommend reject-and-resubmit on two of its comments
 alone. `response_to_review21.md` answers its twelve major comments and its
 eleven minor ones. Three of the twelve mattered more than the rest and I want
 to say what they were before saying what the paper contributes.
+
+The three most recent reviews are answered in `response_to_review23.md`,
+`response_to_review26.md` and `response_to_review27.md`. The last of them is
+the one I would ask an editor to read first, because it records two things
+this paper had been getting wrong for several rounds and now does not: a
+central inferential object that its own validation showed did not attain its
+nominal level, and a reproduction claim that was true only on the machine that
+produced the results. Both are now measured rather than asserted, and where
+the measurement is unflattering the manuscript says so in the sentence that
+would otherwise have made the claim.
 
 - **The case study's headline number appeared twice with two values and two
   signs**, one of them Holm-rejected. It is the class of error the
