@@ -2549,3 +2549,36 @@ stopped being true, and the response letter still listed both items as
 unsupportable claims. Both corrected. **A repair is not finished until every
 document that described the defect stops describing it** --- which is this
 round's oldest lesson, arriving for the last time.
+
+## R27.14 The submission package pointed at the wrong documents
+
+Three defects in the instructions the owner would follow, none of them in the
+manuscript, all of them capable of shipping the wrong package.
+
+**The upload list omitted the letter that answers the current report.** Both
+`submission/README.md` and `OWNER-ACTIONS.md` §1.4 listed responses up to the
+second developmental review, and the README told the owner to upload
+`response_to_blueprint.md` "if the system takes a single response document"
+--- a letter four reviews old. Three further letters had been written since
+and none was listed. Following the instructions would have submitted this
+version with a reply to a report it does not answer. All six are now listed,
+the round-27 letter first and marked as the one to upload, and the package
+check went from 15 entries to 19 --- the four it had never been watching.
+
+**The DOI instructions told the owner to tag `v27.0` and then to draft the
+release from `v25.0`.** Two steps apart, in a numbered list whose whole
+purpose is to be followed literally. The tag message named round twenty-six.
+
+**And the branch item named `round25-coverage`**, which the work left two
+rounds ago; it is on `round27-inference`.
+
+The pattern is the round's own: **a document that describes a state is a claim
+about that state, and it goes stale exactly like a number does.** These three
+had no macro behind them and no gate watching them, which is why they survived
+while every number in the manuscript was re-derived from its source. The
+package manifest now covers the response letters, so at least that class
+cannot recur silently.
+
+Separately: `verify_release.py` passes --- a checkout carrying only what is
+committed regenerates every macro and all 58 generated tables byte for byte
+and builds both documents without any file under `data/`.
