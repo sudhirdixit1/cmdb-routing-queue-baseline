@@ -1187,3 +1187,49 @@ def check(vn, M):
                     % (_lab, int(_tot), int(_np),
                        ", ".join("%s=%s" % (n, M[n])
                                  for n in _names)))
+
+    # --- 17.  the coverage quoted is the coverage of the reported design --
+    #
+    #  The manuscript quoted a median pooled over every matched family --
+    #  decision-curve with surface, draw counts from 33 to 1000, family sizes
+    #  from 120 to 2966 -- as "this corpus's" coverage, two sentences from the
+    #  400-draw figure, which it contradicted.  The corpus runs one design.
+    #  The coverage it is entitled to quote is that design's, and it is
+    #  re-derived here from the corpus's own cell and draw counts rather than
+    #  from a number typed beside them.
+    CVv = _read(results, "s41_coverage.csv")
+    Bw = _read(results, "s48w_bands.csv.gz")
+    Gd = _read(results, "s44_grid.csv")
+    _got = _num(M.get("covHeavyWholeAtDesign"))
+    if (CVv is not None and Bw is not None and Gd is not None
+            and _got is not None):
+        _bw = Bw[Bw.family == "whole-surface"]
+        _fam = int(_bw.groupby(["log", "target"]).size().median())
+        _b = int(Gd.draws.max())
+        _row = CVv[(CVv.regime == "heavy") & (CVv.candidate == "q_mult")
+                   & (CVv.family == "whole-surface")
+                   & (CVv.K_nom == _fam) & (CVv.B == _b)]
+        if not len(_row):
+            vn.FAILS.append(
+                "round-27 condition: the corpus runs %d cells at %d draws and "
+                "the band-coverage design has no matched family there, so the "
+                "coverage the manuscript quotes is measured on another design"
+                % (_fam, _b))
+        else:
+            _want = 100.0 * float(_row.coverage.iloc[0])
+            if abs(_got - _want) > 0.06:
+                vn.FAILS.append(
+                    "round-27 condition: \\covHeavyWholeAtDesign is %s and the "
+                    "family matched to this corpus's design (%d cells, %d "
+                    "draws) covers %.1f%%"
+                    % (M["covHeavyWholeAtDesign"], _fam, _b, _want))
+            #  the limitations call the shortfall more than five standard
+            #  errors; a directional word is a claim.
+            _se = _num(M.get("covHeavyWholeAtDesignSE"))
+            if _se and _se > 0 and (95.0 - _got) / _se <= 5.0:
+                vn.FAILS.append(
+                    "round-27 condition: Section 11 calls the shortfall more "
+                    "than five Monte Carlo standard errors, and %s against a "
+                    "nominal 95%% at an error of %s is %.1f"
+                    % (M["covHeavyWholeAtDesign"],
+                       M["covHeavyWholeAtDesignSE"], (95.0 - _got) / _se))

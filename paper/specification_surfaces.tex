@@ -811,11 +811,16 @@ configuration.} Section~\ref{sec:simband} measures family-wise coverage over
 synthetic families matched to this corpus in size, draw count, cross-cell
 correlation and tails, whose truth is known by construction and whose
 bootstrap is \emph{ideal}, so every coverage it reports is an upper bound on
-what the real procedure attains. The multiplier band's family-wise coverage
-there has a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\
-against a nominal $95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even
+what the real procedure attains. On the family matched to the design this
+paper reports --- this corpus's cell count, its draw count and its tails ---
+the multiplier band's family-wise coverage is \covHeavyWholeAtDesign\
+against a nominal $95\%$, at a Monte Carlo standard error of
+\covHeavyWholeAtDesignSE. Across the \nBandCovWholeCells\ surface families,
+which move the cell count and the draw count around it, it falls to
+\covHeavyWholeMin; on the decision-curve families it is a median
+\covHeavyDcaMedian\ and a minimum \covHeavyDcaMin. It is
+\covMultGaussMedian\ even
 under the Gaussian draws the construction is derived for. \textbf{The binding
-constraint is not the draw count}, which an asymptotic argument would suggest
 and this design's own measurement refutes: at the modal surface family
 coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\ draws and then
 \emph{plateaus} --- \covMultBootOneFifty\ at \nBootOneFifty,
@@ -2258,8 +2263,13 @@ name two different things.} Under \emph{Gaussian} draws the multiplier's
 family-wise coverage is a median \covMultGaussMedian\ and a minimum
 \covMultGaussMin. Under draws carrying this corpus's tails, whose median
 cell has an excess kurtosis of \corpusKurtMedWhole\ on the surface families
-and whose ninetieth percentile is \corpusKurtNinetyWhole, the median is
-\covMultHeavyMedian\ and the minimum \covMultHeavyMin. Under the third
+and whose ninetieth percentile is \corpusKurtNinetyWhole, the family
+matched to the reported design covers \covHeavyWholeAtDesign\ and the
+\nBandCovWholeCells\ surface families run \covHeavyWholeMin\ to
+\covHeavyWholeMax\ as the cell count and the draw count move around it;
+the decision-curve families cover a median \covHeavyDcaMedian\ and a
+minimum \covHeavyDcaMin, and are reported apart from the surface ones
+throughout, because the widening each needs is different. Under the third
 regime, which adds the degenerate cells described below, they are
 \covMultDegenMedian\ and \covMultDegenMin.
 
@@ -2359,10 +2369,14 @@ study.
 This is the sharpest limitation in the paper. Section~\ref{sec:simband}
 measures family-wise coverage against a known answer over matched families
 whose bootstrap is \emph{ideal}, so every coverage there is an upper bound on
-what the procedure attains: median \covMultHeavyMedian\ and minimum
-\covMultHeavyMin\ against a nominal $95\%$, and a median
-\covMultGaussMedian\ even under the Gaussian draws the construction is
-derived for. The safeguard we
+what the procedure attains. On the family matched to the design this paper
+reports it is \covHeavyWholeAtDesign\ against a nominal $95\%$, at a Monte
+Carlo standard error of \covHeavyWholeAtDesignSE\ --- short by more than
+five of them, so the shortfall is not a resolution artefact. It falls to
+\covHeavyWholeMin\ across the surface families as the cell count and the
+draw count move, is a median \covHeavyDcaMedian\ on the decision-curve
+families, and is \covMultGaussMedian\ even under the Gaussian draws the
+construction is derived for. The safeguard we
 called conservative moves coverage by less than a point, because it controls
 the Monte Carlo error in $q$ and not the error in what $q$ estimates. More draws
 were the repair this suggested, and the paragraph below reports what they
@@ -2411,9 +2425,9 @@ asymptotics would suggest and this design's own measurement refutes. On families
 at \nBootFourHundred\ and \covMultBootOneThousand\ at
 \nBootOneThousand: \textbf{it plateaus}. This corpus runs at
 \nDrawsSurface\ draws throughout and the band still does not attain its
-level --- a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\
-under this corpus's tails, and \covMultNonzeroMedian\ under a non-zero truth,
-against a nominal $95\%$. The widening that would close it is
+level --- \covHeavyWholeAtDesign\ on the family matched to that design
+under this corpus's tails, and \covMultNonzeroMedian\ under a non-zero
+truth, against a nominal $95\%$. The widening that would close it is
 \shortfallWholeMin\ to \shortfallWholeMax\ on the surface families, which
 is \emph{larger} than the \calMin\ to \calMax\ the only calibration this
 paper has fitted would supply --- which is why that calibration is reported

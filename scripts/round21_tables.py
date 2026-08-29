@@ -685,6 +685,20 @@ def write_round25(mn):
     #  are reported in the prose, not here; the table is the matched cells.
     import s41_bandcoverage as S41
     grid = {(K, B) for (K, B, _f, _w) in S41.GRID}
+    #  ROUND TWENTY-SEVEN.  The matched grid was built when the corpus ran a
+    #  range of draw counts.  It now runs ONE -- 400 on every pair, over 180
+    #  cells -- and that cell is a draw-count sensitivity row rather than a
+    #  grid row, so the table of "families matched to this corpus" omitted
+    #  the only family that matches it, and a reader could not find the
+    #  coverage the text quotes anywhere in it.  It is added here.
+    try:
+        _bw = load("s48w_bands.csv.gz")
+        _bw = _bw[_bw.family == "whole-surface"]
+        _fam = int(_bw.groupby(["log", "target"]).size().median())
+        _b = int(load("s44_grid.csv").draws.max())
+        grid.add((_fam, _b))
+    except Exception:  # noqa: BLE001
+        pass
     d = C[[(k, b) in grid for k, b in zip(C.K_nom, C.B)]].copy()
     #  ROUND TWENTY-FIVE.  As one row per (cell, candidate) this is ninety
     #  rows: it ran off the bottom of its page and the page number printed
@@ -711,8 +725,16 @@ def write_round25(mn):
     (TABLES / "bandcov.tex").write_text(
         tex_table(d, "Family-wise coverage of the max-$t$ band against a "
                      "known answer, over synthetic families matched to this "
-                     "corpus in size, draw count, cross-cell correlation and "
-                     "per-cell excess kurtosis. Nominal is $0.95$; the five "
+                     "corpus in size, cross-cell correlation and per-cell "
+                     "excess kurtosis, and spanning draw counts around the "
+                     "one it runs. THE ROW MATCHED TO THE REPORTED DESIGN is "
+                     "the whole-surface heavy row at $K = "
+                     "\\nCellsPerPairMedian$ and \\nDrawsSurface\\ draws: "
+                     "every pair in this corpus carries that many cells at "
+                     "that many draws, and the coverage the text quotes is "
+                     "that row's. The others move the family size and the "
+                     "draw count around it and are a sensitivity, not the "
+                     "corpus. Nominal is $0.95$; the five "
                      "middle columns are the five candidate critical values "
                      "and the last is the control. "
                      "\\emph{The bootstrap here is ideal} --- the draws come "

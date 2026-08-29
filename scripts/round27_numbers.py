@@ -252,6 +252,56 @@ def emit(mn):
         put("nUnbandableSameDesignOf", None)
 
     # ================================================================
+    #  THE BAND'S COVERAGE, SEPARATED BY FAMILY AND BY DESIGN.
+    #
+    #  The manuscript quoted one median over ALL matched families, pooling
+    #  the decision-curve ones with the surface ones -- two sets whose
+    #  measured shortfalls it reports SEPARATELY, at 1.36-1.88 and 2.20-2.61,
+    #  precisely because they are not the same object.  The pooled median
+    #  also spanned draw counts from 33 to 1000 and family sizes from 120 to
+    #  2966, while the reported corpus is 180 cells at 400 draws on every
+    #  pair -- so the number offered as "this corpus's coverage" was measured
+    #  mostly on designs this corpus does not have, and sat two sentences
+    #  from the 400-draw figure, disagreeing with it.
+    #
+    #  Three quantities, because three different questions get asked: the
+    #  cell MATCHED TO THE REPORTED DESIGN, the spread across the sensitivity
+    #  in size and draw count, and the decision-curve families on their own.
+    #  The correction RAISES the headline coverage, which is why it is
+    #  reported with its neighbours rather than alone.
+    CV = load("s41_coverage.csv")
+    _cov = ("covHeavyWholeAtDesign", "covHeavyWholeMin", "covHeavyWholeMax",
+            "covHeavyDcaMedian", "covHeavyDcaMin", "nBandCovWholeCells",
+            "covHeavyWholeAtDesignSE")
+    if CV is not None and len(CV) and {"regime", "candidate",
+                                       "family"} <= set(CV.columns):
+        H = CV[(CV.regime == "heavy") & (CV.candidate == "q_mult")]
+        W = H[H.family == "whole-surface"]
+        D = H[H.family == "decision-curve"]
+        #  the reported design: the corpus's own family size and draw count
+        _fam = int(pd.read_csv(mn.RESULTS / "s48w_bands.csv.gz")
+                   .query("family == 'whole-surface'")
+                   .groupby(["log", "target"]).size().median())
+        _b = int(pd.read_csv(mn.RESULTS / "s44_grid.csv").draws.max())
+        M180 = W[(W.K_nom == _fam) & (W.B == _b)]
+        put("covHeavyWholeAtDesign",
+            pct(float(M180.coverage.iloc[0]), 1) if len(M180) else None)
+        put("covHeavyWholeAtDesignSE",
+            pct(float(M180.coverage_se.iloc[0]), 1) if len(M180) else None)
+        put("covHeavyWholeMin",
+            pct(float(W.coverage.min()), 1) if len(W) else None)
+        put("covHeavyWholeMax",
+            pct(float(W.coverage.max()), 1) if len(W) else None)
+        put("nBandCovWholeCells", int(len(W)))
+        put("covHeavyDcaMedian",
+            pct(float(D.coverage.median()), 1) if len(D) else None)
+        put("covHeavyDcaMin",
+            pct(float(D.coverage.min()), 1) if len(D) else None)
+    else:
+        for k in _cov:
+            put(k, None)
+
+    # ================================================================
     #  THE DENOMINATOR OF THE ONE UNIFORMLY BENEFICIAL SURFACE.
     #
     #  Section 6.3 quotes the admissible cell count of the pair that attains

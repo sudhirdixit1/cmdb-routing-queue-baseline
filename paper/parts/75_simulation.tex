@@ -128,8 +128,13 @@ name two different things.} Under \emph{Gaussian} draws the multiplier's
 family-wise coverage is a median \covMultGaussMedian\ and a minimum
 \covMultGaussMin. Under draws carrying this corpus's tails, whose median
 cell has an excess kurtosis of \corpusKurtMedWhole\ on the surface families
-and whose ninetieth percentile is \corpusKurtNinetyWhole, the median is
-\covMultHeavyMedian\ and the minimum \covMultHeavyMin. Under the third
+and whose ninetieth percentile is \corpusKurtNinetyWhole, the family
+matched to the reported design covers \covHeavyWholeAtDesign\ and the
+\nBandCovWholeCells\ surface families run \covHeavyWholeMin\ to
+\covHeavyWholeMax\ as the cell count and the draw count move around it;
+the decision-curve families cover a median \covHeavyDcaMedian\ and a
+minimum \covHeavyDcaMin, and are reported apart from the surface ones
+throughout, because the widening each needs is different. Under the third
 regime, which adds the degenerate cells described below, they are
 \covMultDegenMedian\ and \covMultDegenMin.
 

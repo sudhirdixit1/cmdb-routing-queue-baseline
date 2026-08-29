@@ -242,11 +242,16 @@ configuration.} Section~\ref{sec:simband} measures family-wise coverage over
 synthetic families matched to this corpus in size, draw count, cross-cell
 correlation and tails, whose truth is known by construction and whose
 bootstrap is \emph{ideal}, so every coverage it reports is an upper bound on
-what the real procedure attains. The multiplier band's family-wise coverage
-there has a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\
-against a nominal $95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even
+what the real procedure attains. On the family matched to the design this
+paper reports --- this corpus's cell count, its draw count and its tails ---
+the multiplier band's family-wise coverage is \covHeavyWholeAtDesign\
+against a nominal $95\%$, at a Monte Carlo standard error of
+\covHeavyWholeAtDesignSE. Across the \nBandCovWholeCells\ surface families,
+which move the cell count and the draw count around it, it falls to
+\covHeavyWholeMin; on the decision-curve families it is a median
+\covHeavyDcaMedian\ and a minimum \covHeavyDcaMin. It is
+\covMultGaussMedian\ even
 under the Gaussian draws the construction is derived for. \textbf{The binding
-constraint is not the draw count}, which an asymptotic argument would suggest
 and this design's own measurement refutes: at the modal surface family
 coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\ draws and then
 \emph{plateaus} --- \covMultBootOneFifty\ at \nBootOneFifty,

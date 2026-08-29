@@ -10,9 +10,9 @@
     "sha": "6133f510cca94d59"
   },
   "round21_tables.py": {
-    "at": "2026-08-29T08:36:41Z",
-    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
-    "sha": "9f61cb581247ec56"
+    "at": "2026-08-29T08:40:36Z",
+    "note": "round 27: coverage is quoted for the design the corpus runs, and the two family types are reported apart",
+    "sha": "ded7faeec4c9e8cc"
   },
   "round21_verify.py": {
     "at": "2026-08-29T08:36:41Z",
@@ -25,14 +25,14 @@
     "sha": "9caf7c97be3f35d0"
   },
   "round27_numbers.py": {
-    "at": "2026-08-29T08:36:41Z",
-    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
-    "sha": "b97716eed97cf647"
+    "at": "2026-08-29T08:40:36Z",
+    "note": "round 27: coverage is quoted for the design the corpus runs, and the two family types are reported apart",
+    "sha": "4b14ab189641a82f"
   },
   "round27_verify.py": {
-    "at": "2026-08-29T08:36:41Z",
-    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
-    "sha": "634b034cd4167d9e"
+    "at": "2026-08-29T08:40:36Z",
+    "note": "round 27: coverage is quoted for the design the corpus runs, and the two family types are reported apart",
+    "sha": "1e237199d86536f1"
   },
   "s01_surface.py": {
     "at": "2026-08-25T01:56:46Z",
