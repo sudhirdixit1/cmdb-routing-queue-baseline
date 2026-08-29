@@ -1100,6 +1100,49 @@ multinomial bands are expected to be defective — that is the finding. The
 remaining steps run manually. The gate stays as it is; it is right, and the
 chain is what needs to know that one arm is allowed to fail.
 
+### 2026-08-29, 03:35 — THE SCHEME COMPARISON, complete, and it is not the story Section 11 predicted
+
+`s47_schemes.py`, both schemes over one design at 400 draws with one set of
+seeds, 24,624 cells. **This is the comparison Section 11 said was owed, and
+its result is more interesting than the repair working.**
+
+| | multinomial | weighted |
+|---|---|---|
+| register levels present per draw | **80.8%** (min 60.2%) | **100%** by construction |
+| cells that cannot be banded at all | 150 of 3,900 on the old surface | **0** |
+| interval excludes its own estimate | 965 / 24,624 = **3.9%** | 322 = **1.3%** |
+| displacement, median | 0.00497 | 0.00406 |
+| displacement, **max** | 13.17 | **14.27** |
+| band width, median | 0.0598 | 0.0604 (ratio 1.011) |
+| cells resolved | 8,122 | 7,611 |
+
+**The mechanism is removed completely and the symptom is not.** Level coverage
+goes from 80.8% to 100% — the thing Section 11 named is gone, by construction,
+with nothing left to argue about. And the pathology it was blamed for falls by
+two thirds but survives on 322 cells; the displacement's **median barely moves**
+(0.0050 → 0.0041) and its **maximum is slightly worse under weights**.
+
+**So the diagnosis in Section 11 was wrong, and the round's honest headline is
+that we found out.** Level loss was offered as the explanation of the
+displacement. Removing level loss entirely leaves most of the displacement
+standing. Therefore level loss was not its main cause, and the paper does not
+know what is. That is a better contribution than a repair that worked: it
+retires a mechanism the manuscript asserted, on evidence the manuscript
+generated, and it is the kind of thing only running the comparison could show.
+
+**What §4.1 must now say, in order.** The comparison was owed and is run. Level
+coverage is 100% against 80.8%. The starkest consequence — cells with no band
+at all — goes from 150 to 0. The displacement falls by a third at the median
+and not at all at the maximum, and the excludes-own-estimate rate by two
+thirds. **And then the sentence the round exists to earn:** the mechanism this
+paper named does not account for the phenomenon it named it for.
+
+**Two cautions.** The weighted scheme resolves *fewer* cells (7,611 against
+8,122) at essentially identical width — it is more conservative, and that is
+worth one clause rather than being buried. And `displacement_max` above 13 in
+both arms says the maximum is a tail artefact of some degenerate cell, not a
+quantity to quote; use the median and say so.
+
 ### 2026-08-29, 03:25 — the old surface had the same defect, and its numbers carry it
 
 Asked of round 25's own bands, because a defect found in one arm should be
