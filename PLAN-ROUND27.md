@@ -21,10 +21,10 @@ Append progress to §9 of THIS file after every phase.
 | 2b | within-cell noise bound on the analyst-choice share | queued — needs Phase 1's draws |
 | 2c | crossed family × encoding on the 8 ITSM pairs | **script ready**, run queued behind Phase 1 |
 | 3 | the inference-share denominator, plus a generalised sweep | **done** — two macros, and a condition that re-multiplies every quoted count from the axis declaration |
-| 3b | scikit-learn citation; §9.3's euphemism | 3b.1 **done**; 3b.2 queued |
+| 3b | scikit-learn citation; §9.3's euphemism | **both done** |
 | — | **internal red team, pass 1** | 18 findings (8 blocking) — **all repaired**, built, verified, committed |
 | — | **internal red team, pass 2** | 14 findings (3 blocking) over the files pass 1 could not read — **all repaired** |
-| 4 | length | **measured**: 58 pp, and 42 is *not* reachable — target renegotiated to 46. Cut list written and executable. Execution waits for Phase 1. |
+| 4 | length | **measured**: was 58 pp, now **63** — the 32 repairs added five pages of denominators and qualifiers, and that was the right trade. 42 was never reachable; the target is 46 and the arithmetic is in §4.0b. Cut list written and executable; execution waits for Phase 1. |
 | 4.2 | voice | **decided: keep the editorial "we"**, with the reason recorded |
 | 5 | claims regenerated against the new numbers | register written; execution waits for Phase 1 |
 | 6 | the `hgb` cross-machine reproduction gap | **done — and it was worse than recorded.** Platform, not threading; the divergence tracks register **cardinality**, not the learner; `logit` diverges up to 0.094 and boosting to 0.851, against the 5e-10 and 0.14 the repo had written down. Disclosed with six measured tolerances, gated, and the gate has its own corruption suite. |
