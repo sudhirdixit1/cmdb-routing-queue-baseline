@@ -95,7 +95,7 @@ def emit(mn):
         #  maximum over a moving set is not a maximum, and two families
         #  retain 33 of 40.  A referee asked for the effective range and was
         #  right that it is the number a reader needs.
-        INC = load("s21_incomplete.csv")
+        INC = load("s48w_incomplete.csv")
         if INC is not None and len(INC) and "n_draws_complete" in INC.columns:
             put("nDrawsEffectiveMin",
                 thousands(int(min(int(dr.min()),

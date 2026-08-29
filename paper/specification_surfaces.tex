@@ -624,18 +624,50 @@ $[\,2\hat{V} - q_{1-\alpha/2},\; 2\hat{V} - q_{\alpha/2}\,]$
 \citep{davison1997bootstrap}, and simultaneous bands are recentred by the
 same shift (Supplement~\ref{app:pctfail}).
 
-\paragraph{A pivoted interval need not contain the estimate it is built from,
-and on this corpus \nCellsExcludingV\ cells do not}
-Pivoting moves the interval by twice the displacement. Where the displacement
-exceeds the interval's own half-width, both endpoints land on the same side of
-$\hat{V}$ and the band excludes it. That is a property of a pivotal interval
-under bias rather than an error, but it is not what a reader expects of a
-band, so it is counted: \nCellsExcludingV\ of the \nCellsWholeTotal\
-whole-surface cells --- \shareCellsExcludingVPct\ --- on
-\nPairsExcludingV\ of the \nPairs\ pairs, reaching
-\shareExcludingVMaxPct\ of the cells on the worst of them. The ratio of
-displacement to half-width has a median \dispOverHalfwidthMedian\ across
-pairs and \dispOverHalfwidthWorst\ on that pair.
+\paragraph{The comparison Section~\ref{sec:lim} said was owed, and what it
+found}
+A previous version of this paper named the repair --- drawing \emph{weights}
+per moving block, so that every row has positive weight in every draw and
+every register level is present in every refit --- and did not run it. It is
+run here: both schemes over one design, at one draw count, with one set of
+seeds, on \schemeCells\ cells.
+
+\noindent\textbf{The mechanism is removed completely.} The share of the
+register's training levels a draw actually contains rises from
+\levelShareMult\ under multinomial resampling, \levelShareMultMin\ at
+worst, to \levelShareWeighted\ under weights, where it is one by
+construction. \textbf{And with it goes the starkest consequence, which this
+paper had never reported}: under the multinomial scheme a draw can drop an arm
+\emph{entirely}, so the cell is absent rather than noisy, the median down its
+column is undefined, and the cell gets no band at all. Such a cell is not
+resolved --- so it was counted as \emph{unresolved}, beside cells that were
+banded and straddled zero, inside the denominator of every statement about how
+little the data resolve. On the previous surface there were
+\nUnbandableOldCells\ of them. Under weights there are \nUnbandableCells.
+
+\noindent\textbf{The symptom, however, survives the removal of its supposed
+cause.} A pivotal interval need not contain the estimate it is built from:
+pivoting moves the interval by twice the displacement, and where the
+displacement exceeds the interval's own half-width both endpoints land on the
+same side of $\hat{V}$. That is a property of a pivotal interval under bias
+rather than an error, but it is not what a reader expects of a band, so it is
+counted --- and it falls from \nExcludesMult\ cells
+(\shareExcludesMultPct) to \nExcludesWeighted\ (\shareExcludesWeightedPct),
+which is better and is not zero. The displacement's own median barely moves,
+\dispMedianMult\ to \dispMedianWeighted.
+
+\noindent\textbf{So the diagnosis this paper offered was wrong, and that is
+the finding.} Level loss was named as the cause of the displacement. Removing
+level loss entirely leaves most of the displacement standing; therefore it was
+not the main cause, and this paper does not know what is.
+Section~\ref{sec:lim} carries that rather than a claim that the scheme is now
+unbiased. \textbf{The comparison is also not symmetric, and it leans the way
+that flatters the old scheme}: where a draw is missing, the band construction
+refuses the cell while the comparison drops the missing draws and computes
+from the rest, so every multinomial number above is conditioned on the draws in
+which the arm could be fitted --- and those cells carry roughly twice the
+displacement of the others. The scheme with the smaller number is the one
+measured on its successes.
 
 \textbf{It gets worse with the sample size, not better.} The displacement is
 a bias --- a resample holds about $1 - e^{-1}$ of the distinct levels however
@@ -665,30 +697,48 @@ specification carrying bootstrap draws; it is smaller for one reason, that a
 draw refits the whole pipeline and its cost is the declared surface's
 multiplied by the draw count.
 
-\textbf{The rule that selects it, in full.} A pair falls into one of three
-size classes on its row count alone, and the class fixes the levels: the
-pipeline axis keeps all \nPipelineLevelsCase\ levels on the case study's log,
-the two differing
-in model \emph{family} on a medium log and the two differing in
-\emph{encoding} on the largest two, where a boosting fit refitted in every
-draw would cost more than the rest of the corpus together; the split axis
-keeps the two levels that bracket the declared six; the register-quality axis
-keeps as-recorded, a population failure and a discovery failure, dropping the
-third on the largest logs; the ladder and the \nInstruments\ instruments are
-kept entire. Nothing in the rule reads a result. It is \emph{axis-complete},
-so no axis is silently fixed --- but it is a \emph{corner} of the declared
-surface rather than a design, which is why the decomposition cannot be
-computed on it and why the positive-cell share differs between the two
-surfaces by a median \repGapMedian; Section~\ref{sec:lim} names the
-resolution-IV fractional factorial that would remove both objections.
-It carries \nInferenceScalar\ scalar family members, a median
-\inferenceShareAdmissibleMedianPct\ of each pair's computational surface, and
-a median \inferenceShareMedianPct\ of the master surface file, which also
-carries the intercept-only rung.
-Every quantity that does \emph{not} need a bootstrap ---
-the decomposition, the sign-disagreement rate, the regret comparison --- is
-computed on the full declared surface; only the region labels are computed on
-the inference surface.
+\textbf{The rule that selects it, in full.} It is one design, and it is the
+same design on every pair: two learners, two splits, three register-quality
+conditions and three admissible rungs, crossed --- \nInferenceCells\ cells,
+\nInferenceScalar\ scalar family members across the corpus --- at
+\nDrawsSurface\ draws. Nothing in the rule reads a result, and nothing in it
+reads the log: the size classes that chose the previous surface's levels are
+gone, and the objection they carried with them.
+
+\textbf{It is a complete factorial, and that is checked rather than
+declared.} On every one of the \nPairs\ pairs each combination of the four
+axes is present exactly once --- no cell missing, no cell twice, and no pair
+differing in shape from any other --- so a corpus median over these families
+is a median over one design, which the previous surface's was not. A balanced
+full factorial is also strictly stronger than the resolution-IV fraction that
+would suffice to make the decomposition estimable here, so the guarantee is the
+stronger one and not the cheaper one.
+
+\textbf{One objection this retires, and one it does not.} The inference
+surface used to be \emph{a corner of the declared surface rather than a
+design}, and the decomposition of Section~\ref{sec:sobol} could not be
+computed on it. It can now, and is: one decomposition per pair per instrument,
+over \nInferenceCells\ cells each. Supplement~\ref{app:infanova} reports
+what that shows, and it is not a confirmation --- the axis carrying the
+largest first-order index agrees between the two surfaces on a minority of
+pairs. The two do not declare the same levels, so the disagreement compares
+two designs rather than showing either unrepresentative; what it does show is
+that a first-order index is a statement about the levels an analyst declared
+and not only about the pair.
+
+\noindent The objection it does \emph{not} retire is the one that matters
+most for reading a region label. The inference family is still a fraction of
+the admissible surface --- a median \inferenceShareAdmissibleMedianPct\ of a
+pair's admissible cells, and less than a twentieth on the pair with the
+richest grid --- and \textbf{a label computed over fewer cells is
+systematically cleaner than one computed over all of them}.
+Section~\ref{sec:regionsdef} says which label that most flatters, and
+Section~\ref{sec:regions} reports where it lands.
+
+Every quantity that does \emph{not} need a bootstrap --- the decomposition,
+the sign-disagreement rate, the regret comparison --- is computed on the full
+declared surface; only the region labels are computed on the inference
+surface.
 
 \subsection{Simultaneous bands over the family the claim ranges over}
 \label{sec:simbands}
@@ -2292,30 +2342,49 @@ resampling adds to it; and it leaves the surface families to a calibration
 fitted for the wrong coverage. \textbf{Their} region labels and $\rho$ are
 the conclusions to distrust.
 
-\paragraph{Internal --- the refitting bootstrap is the source of a bias, and
-the repair is not run here}
-A multinomial resample holds about $1 - e^{-1}$ of a high-cardinality
-register's levels, so the bootstrap distribution is displaced: the percentile
-interval becomes a correct interval for the wrong quantity, and the pivotal
-interval this paper uses can exclude its own point estimate, on
-\nCellsExcludingV\ of \nCellsWholeTotal\ cells. The displacement is a bias, so
-it worsens with $n$, and it leaves the coverage calibration's estimator
-undefined on \nPlaneCellsUndefined\ of \nPlaneCellsOffered\ plane cells. The
-design's own justification is weak: the nested interval's coverage sits
-\nestedGainInSe\ Monte Carlo standard errors from the fixed-model interval's,
-which is not a difference this evidence can resolve (Section~\ref{sec:boot}),
-and the seven-construction comparison that chose the pivotal interval ran at
-\simCoreNtrain\ training rows and at no other size --- below the regime where
-the defect appears. \textbf{The repair we would make first is a change of
-resampling scheme, not of interval}: drawing \emph{weights} --- Dirichlet or
-independent exponentials, applied per moving block so the temporal dependence
-survives --- gives every row positive weight in every draw, so every register
-level is present in every refit and the displacement disappears at source
-rather than being pivoted around. That is a change to one function and a
-re-run of the whole inference surface; the comparison against the multinomial
-and $m$-out-of-$n$ resamples across the $(n,K)$ plane is not run, and no
-conclusion here should be read as evidence that the refit's cost was worth
-paying.
+\paragraph{Internal --- two repairs this paper named, both run, and neither
+did what it was named for}
+Two changes this paper's own analysis identified as the first to make are run
+here, and what they bought is reported. \textbf{Both retire a mechanism this paper
+asserted, and neither fixes the thing it was asserted about.}
+
+\noindent\emph{Level loss does not explain the displacement.} A multinomial
+resample holds about $1 - e^{-1}$ of a high-cardinality register's levels, and
+that was offered as the reason the bootstrap distribution is displaced. Under
+weights every row has positive weight in every draw and the level share is
+\levelShareWeighted\ against \levelShareMult\ --- the mechanism is gone by
+construction --- and the displacement's median moves only from
+\dispMedianMult\ to \dispMedianWeighted\ (Section~\ref{sec:boot}). What
+the change does remove is a defect the mechanism genuinely caused: cells a
+draw drops entirely, which get no band at all, and which were counted as
+\emph{unresolved} beside cells that were banded and straddled zero. There
+were \nUnbandableOldCells\ of those and there are now \nUnbandableCells.
+
+\noindent\emph{More draws do not fix the coverage.} The binding constraint on
+the band's family-wise coverage is not the draw count, which the construction's
+asymptotics would suggest and this design's own measurement refutes. On families matched to the surface this paper now reports, coverage is
+\covMultBootOneFifty\ at \nBootOneFifty\ draws, \covMultBootFourHundred\
+at \nBootFourHundred\ and \covMultBootOneThousand\ at
+\nBootOneThousand: \textbf{it plateaus}. This corpus runs at
+\nDrawsSurface\ draws throughout and the band still does not attain its
+level --- a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\
+under this corpus's tails, and \covMultNonzeroMedian\ under a non-zero truth,
+against a nominal $95\%$. The widening that would close it is
+\shortfallWholeMin\ to \shortfallWholeMax\ on the surface families, which
+is \emph{larger} than the \calMin\ to \calMax\ this paper applies, because
+the designed surface's families carry heavier tails than the surface the
+calibration was fitted on.
+
+\noindent\textbf{So every region label and every $\rho$ in this paper
+remains a descriptive diagnostic and not a guarantee}, which the front matter
+says, and the conclusions that rest on one are the ones to distrust. Two
+things follow that are worth more than the repairs would have been. The first
+is that a mechanism can be removed completely and leave its supposed
+consequence standing, which is a caution about every explanation of a
+resampling artefact offered without the counterfactual --- including the two
+offered here. The second is that this is the paper's own thesis arriving at
+the paper: a claim about why a number moves is a claim about a design, and it
+does not survive being asserted rather than run.
 
 \paragraph{Internal --- further assumptions, named, and one of them
 measured}

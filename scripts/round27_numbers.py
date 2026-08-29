@@ -131,6 +131,65 @@ def emit(mn):
             put("nPrefix" + nm, None)
 
     # ================================================================
+    # s41 -- THE NON-ZERO-TRUTH REGIME
+    # ================================================================
+    #  Round twenty-seven added a fourth coverage regime, and it is the one
+    #  that speaks to a region label.  Under a zero truth every rejection is an
+    #  error, so coverage there cannot distinguish a band that resolves
+    #  CORRECTLY from one that never resolves at all.  With a heterogeneous
+    #  non-zero truth a cell can be correctly resolved, and the family-wise
+    #  coverage is then the quantity the label actually depends on.
+    F41 = load("s41_facts.csv")
+    if F41 is not None and len(F41) and "cov_q_mult_nonzero_median" in F41.columns:
+        put("covMultNonzeroMedian", pct(first(F41, "cov_q_mult_nonzero_median"), 1))
+        put("covMultNonzeroMin", pct(first(F41, "cov_q_mult_nonzero_min"), 1))
+    else:
+        put("covMultNonzeroMedian", None)
+        put("covMultNonzeroMin", None)
+
+    # ================================================================
+    # s47 -- THE TWO RESAMPLING SCHEMES, COMPARED ON ONE DESIGN
+    # ================================================================
+    #  Section 11 named this comparison as owed and did not run it.  It is run
+    #  now, and the macros are emitted in PAIRS so that no sentence can quote
+    #  one scheme's number without its partner being available.
+    #
+    #  The comparison is not symmetric and the manuscript must say so.  When a
+    #  draw produces no value for a cell, `s21_bands' refuses the cell and
+    #  `s47' drops the missing draws and computes from what remains.  So every
+    #  multinomial statistic below is conditioned on the draws in which the arm
+    #  could be FITTED --- and those are not a random subset: the cells short
+    #  of a full draw count carry roughly twice the displacement of the rest.
+    #  The old scheme's numbers are therefore the flattered ones, which makes
+    #  the smallness of the displacement difference more striking and not less.
+    F47 = load("s47_facts.csv")
+    if F47 is not None and len(F47):
+        put("schemeCells", thousands(int(first(F47, "n_cells"))))
+        put("levelShareMult", pct(first(F47, "level_share_multinomial"), 1))
+        put("levelShareMultMin",
+            pct(first(F47, "level_share_multinomial_min"), 1))
+        put("levelShareWeighted", pct(first(F47, "level_share_weighted"), 0))
+        put("nExcludesMult", thousands(int(first(F47, "n_excludes_multinomial"))))
+        put("nExcludesWeighted", thousands(int(first(F47, "n_excludes_weighted"))))
+        put("shareExcludesMultPct",
+            pct(first(F47, "share_excludes_multinomial"), 1))
+        put("shareExcludesWeightedPct",
+            pct(first(F47, "share_excludes_weighted"), 1))
+        put("dispMedianMult", num(first(F47, "displacement_median_multinomial"), 4))
+        put("dispMedianWeighted", num(first(F47, "displacement_median_weighted"), 4))
+        put("nResolvedSchemeMult", thousands(int(first(F47, "n_resolved_multinomial"))))
+        put("nResolvedSchemeWeighted", thousands(int(first(F47, "n_resolved_weighted"))))
+        put("schemeWidthRatio", num(first(F47, "width_ratio"), 3))
+    else:
+        for k in ("schemeCells", "levelShareMult", "levelShareMultMin",
+                  "levelShareWeighted", "nExcludesMult", "nExcludesWeighted",
+                  "shareExcludesMultPct", "shareExcludesWeightedPct",
+                  "dispMedianMult", "dispMedianWeighted",
+                  "nResolvedSchemeMult", "nResolvedSchemeWeighted",
+                  "schemeWidthRatio"):
+            put(k, None)
+
+    # ================================================================
     # CELLS THAT CANNOT BE BANDED AT ALL
     # ================================================================
     #  Found in round twenty-seven by a gate written for another purpose.  A
@@ -155,12 +214,23 @@ def emit(mn):
         _w = _b[_b.family == "whole-surface"]
         _n = int(_w.sim_lo.isna().sum())
         put("nUnbandableCells", thousands(_n))
+        #  the PREVIOUS surface's count, so Section 4.1 can quote both ends of
+        #  the comparison without either being typed.  It is read from the old
+        #  bands file, which the archive still carries.
+        _old = mn.RESULTS / "s21_bands.csv.gz"
+        if _old.exists():
+            _ob = pd.read_csv(_old)
+            _ow = _ob[_ob.family == "whole-surface"]
+            put("nUnbandableOldCells", thousands(int(_ow.sim_lo.isna().sum())))
+        else:
+            put("nUnbandableOldCells", None)
         put("nUnbandablePairs",
             thousands(int(_w[_w.sim_lo.isna()]
                           .groupby(["log", "target"]).ngroups)))
     else:
         put("nUnbandableCells", None)
         put("nUnbandablePairs", None)
+        put("nUnbandableOldCells", None)
 
     # ================================================================
     # s37 --itsm -- DOES `THE ENCODING BEATS THE FAMILY' TRAVEL?

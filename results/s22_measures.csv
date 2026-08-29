@@ -1,5 +1,5 @@
 measure,description,interaction_total_median,interaction_total_min,interaction_total_max,largest_first_order_median,n_pairs_first_order_exceeds,n_pairs
-equal-level,every level of every axis equally likely,0.5599687766933723,0.2326212865669145,0.7927453503798446,0.2867836040347122,6.0,19.0
-reference,half the mass on the reference level of each axis,0.49642252485701555,0.15669438246883272,0.7090252640078336,0.29943421115569324,6.0,19.0
-concentrated,eighty per cent on the reference level,0.3168591035758692,0.06486105297960942,0.6381826735384577,0.391707758729187,12.0,19.0
-envelope,"200 Dirichlet draws of the level weights, primary pair",0.18054919983983847,0.09770601534146994,0.3474209620958393,,,
+equal-level,every level of every axis equally likely,0.5599687766933723,0.2326212865669144,0.7927453503798446,0.28678360403471226,6.0,19.0
+reference,half the mass on the reference level of each axis,0.49642252485701543,0.15669438246883294,0.7090252640078336,0.29943421115569324,6.0,19.0
+concentrated,eighty per cent on the reference level,0.3168591035758693,0.06486105297960942,0.6381826735384577,0.3917077587291871,12.0,19.0
+envelope,"200 Dirichlet draws of the level weights, primary pair",0.18054919983983858,0.09770601534147005,0.34742096209583906,,,

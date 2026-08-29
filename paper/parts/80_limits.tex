@@ -62,30 +62,49 @@ resampling adds to it; and it leaves the surface families to a calibration
 fitted for the wrong coverage. \textbf{Their} region labels and $\rho$ are
 the conclusions to distrust.
 
-\paragraph{Internal --- the refitting bootstrap is the source of a bias, and
-the repair is not run here}
-A multinomial resample holds about $1 - e^{-1}$ of a high-cardinality
-register's levels, so the bootstrap distribution is displaced: the percentile
-interval becomes a correct interval for the wrong quantity, and the pivotal
-interval this paper uses can exclude its own point estimate, on
-\nCellsExcludingV\ of \nCellsWholeTotal\ cells. The displacement is a bias, so
-it worsens with $n$, and it leaves the coverage calibration's estimator
-undefined on \nPlaneCellsUndefined\ of \nPlaneCellsOffered\ plane cells. The
-design's own justification is weak: the nested interval's coverage sits
-\nestedGainInSe\ Monte Carlo standard errors from the fixed-model interval's,
-which is not a difference this evidence can resolve (Section~\ref{sec:boot}),
-and the seven-construction comparison that chose the pivotal interval ran at
-\simCoreNtrain\ training rows and at no other size --- below the regime where
-the defect appears. \textbf{The repair we would make first is a change of
-resampling scheme, not of interval}: drawing \emph{weights} --- Dirichlet or
-independent exponentials, applied per moving block so the temporal dependence
-survives --- gives every row positive weight in every draw, so every register
-level is present in every refit and the displacement disappears at source
-rather than being pivoted around. That is a change to one function and a
-re-run of the whole inference surface; the comparison against the multinomial
-and $m$-out-of-$n$ resamples across the $(n,K)$ plane is not run, and no
-conclusion here should be read as evidence that the refit's cost was worth
-paying.
+\paragraph{Internal --- two repairs this paper named, both run, and neither
+did what it was named for}
+Two changes this paper's own analysis identified as the first to make are run
+here, and what they bought is reported. \textbf{Both retire a mechanism this paper
+asserted, and neither fixes the thing it was asserted about.}
+
+\noindent\emph{Level loss does not explain the displacement.} A multinomial
+resample holds about $1 - e^{-1}$ of a high-cardinality register's levels, and
+that was offered as the reason the bootstrap distribution is displaced. Under
+weights every row has positive weight in every draw and the level share is
+\levelShareWeighted\ against \levelShareMult\ --- the mechanism is gone by
+construction --- and the displacement's median moves only from
+\dispMedianMult\ to \dispMedianWeighted\ (Section~\ref{sec:boot}). What
+the change does remove is a defect the mechanism genuinely caused: cells a
+draw drops entirely, which get no band at all, and which were counted as
+\emph{unresolved} beside cells that were banded and straddled zero. There
+were \nUnbandableOldCells\ of those and there are now \nUnbandableCells.
+
+\noindent\emph{More draws do not fix the coverage.} The binding constraint on
+the band's family-wise coverage is not the draw count, which the construction's
+asymptotics would suggest and this design's own measurement refutes. On families matched to the surface this paper now reports, coverage is
+\covMultBootOneFifty\ at \nBootOneFifty\ draws, \covMultBootFourHundred\
+at \nBootFourHundred\ and \covMultBootOneThousand\ at
+\nBootOneThousand: \textbf{it plateaus}. This corpus runs at
+\nDrawsSurface\ draws throughout and the band still does not attain its
+level --- a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\
+under this corpus's tails, and \covMultNonzeroMedian\ under a non-zero truth,
+against a nominal $95\%$. The widening that would close it is
+\shortfallWholeMin\ to \shortfallWholeMax\ on the surface families, which
+is \emph{larger} than the \calMin\ to \calMax\ this paper applies, because
+the designed surface's families carry heavier tails than the surface the
+calibration was fitted on.
+
+\noindent\textbf{So every region label and every $\rho$ in this paper
+remains a descriptive diagnostic and not a guarantee}, which the front matter
+says, and the conclusions that rest on one are the ones to distrust. Two
+things follow that are worth more than the repairs would have been. The first
+is that a mechanism can be removed completely and leave its supposed
+consequence standing, which is a caution about every explanation of a
+resampling artefact offered without the counterfactual --- including the two
+offered here. The second is that this is the paper's own thesis arriving at
+the paper: a claim about why a number moves is a claim about a design, and it
+does not survive being asserted rather than run.
 
 \paragraph{Internal --- further assumptions, named, and one of them
 measured}

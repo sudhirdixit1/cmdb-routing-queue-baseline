@@ -1,8 +1,8 @@
 test,axis,max_abs_change,passed
-duplicate-level,learner,5.551115123125783e-17,True
+duplicate-level,learner,0.0,True
 duplicate-level,split,1.3877787807814457e-17,True
-duplicate-level,quality_level,5.551115123125783e-17,True
-duplicate-level,rung,5.551115123125783e-17,True
-grid-refinement,threshold:fine,0.24633758009217704,True
+duplicate-level,quality_level,1.1102230246251565e-16,True
+duplicate-level,rung,1.3877787807814457e-17,True
+grid-refinement,threshold:fine,0.24633758009217713,True
 grid-refinement,threshold:coarse,0.25023750786360804,True
-grid-refinement,threshold:delta,0.003899927771431,True
+grid-refinement,threshold:delta,0.0038999277714309166,True

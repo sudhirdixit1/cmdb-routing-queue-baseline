@@ -141,6 +141,8 @@
 \newcommand{\covMultHiGaussMin}{76.5\%}
 \newcommand{\covMultHiHeavyMedian}{84.1\%}
 \newcommand{\covMultHiHeavyMin}{74.8\%}
+\newcommand{\covMultNonzeroMedian}{84.3\%}
+\newcommand{\covMultNonzeroMin}{74.4\%}
 \newcommand{\covPercellBootEighty}{92.7\%}
 \newcommand{\covPercellBootFourHundred}{94.5\%}
 \newcommand{\covPercellBootOneFifty}{93.8\%}
@@ -205,6 +207,8 @@
 \newcommand{\deskQhi}{0.36}
 \newcommand{\deskQlo}{0.08}
 \newcommand{\deskQmid}{0.19}
+\newcommand{\dispMedianMult}{0.0050}
+\newcommand{\dispMedianWeighted}{0.0041}
 \newcommand{\dispOverHalfwidthMedian}{0.09}
 \newcommand{\dispOverHalfwidthWorst}{0.45}
 \newcommand{\doiBPICfourteen}{\url{https://doi.org/10.4121/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35}}
@@ -285,7 +289,7 @@
 \newcommand{\interactionTotalEnvelopePct}{18.1\%}
 \newcommand{\interactionTotalPct}{56.0\%}
 \newcommand{\interactionTotalReferencePct}{49.6\%}
-\newcommand{\invarianceDuplicateShift}{$5.6 \times 10^{-17}$}
+\newcommand{\invarianceDuplicateShift}{$1.1 \times 10^{-16}$}
 \newcommand{\invarianceGridShift}{0.004}
 \newcommand{\invarianceMaxShift}{exactly zero}
 \newcommand{\itsmHigherOrderPct}{36.5\%}
@@ -321,6 +325,9 @@
 \newcommand{\layerTypeSharePctDuration}{35\%}
 \newcommand{\layerTypeSharePctHandover}{52\%}
 \newcommand{\leaveOneOutAgreePct}{57\%}
+\newcommand{\levelShareMult}{80.8\%}
+\newcommand{\levelShareMultMin}{60.2\%}
+\newcommand{\levelShareWeighted}{100\%}
 \newcommand{\limitNoisyAfter}{$+0.0804$}
 \newcommand{\limitNoisyBefore}{$+0.1135$}
 \newcommand{\logAdmittedMaxPrev}{BPIC14/handover}
@@ -483,12 +490,12 @@
 \newcommand{\nDisagreeTopThree}{65}
 \newcommand{\nDomains}{6}
 \newcommand{\nDrawRows}{1{,}791{,}720}
-\newcommand{\nDrawsEffectiveMin}{33}
+\newcommand{\nDrawsEffectiveMin}{400}
 \newcommand{\nDrawsPcThree}{2{,}000}
 \newcommand{\nDrawsPlanned}{2{,}000}
-\newcommand{\nDrawsSurface}{80}
-\newcommand{\nDrawsSurfaceMax}{150}
-\newcommand{\nDrawsSurfaceMin}{40}
+\newcommand{\nDrawsSurface}{400}
+\newcommand{\nDrawsSurfaceMax}{400}
+\newcommand{\nDrawsSurfaceMin}{400}
 \newcommand{\nDriftAboveNullMedian}{13}
 \newcommand{\nDriftBlocks}{5}
 \newcommand{\nDriftPairs}{19}
@@ -500,6 +507,8 @@
 \newcommand{\nEncodingLargerItsm}{6}
 \newcommand{\nEqualExceeds}{6}
 \newcommand{\nExcludedAbove}{5}
+\newcommand{\nExcludesMult}{965}
+\newcommand{\nExcludesWeighted}{322}
 \newcommand{\nExclusionRows}{0}
 \newcommand{\nExtraCases}{1{,}151}
 \newcommand{\nFamiliesDca}{19}
@@ -648,6 +657,8 @@
 \newcommand{\nResolvedLatitude}{210}
 \newcommand{\nResolvedMax}{332}
 \newcommand{\nResolvedMedian}{8}
+\newcommand{\nResolvedSchemeMult}{8{,}122}
+\newcommand{\nResolvedSchemeWeighted}{7{,}611}
 \newcommand{\nResolvedSensCalibrated}{896}
 \newcommand{\nResolvedSensNominal}{1{,}150}
 \newcommand{\nResolvedSensUpper}{833}
@@ -703,6 +714,7 @@
 \newcommand{\nTrainOnly}{122}
 \newcommand{\nTrainOnlyPassed}{122}
 \newcommand{\nUnbandableCells}{0}
+\newcommand{\nUnbandableOldCells}{150}
 \newcommand{\nUnbandablePairs}{0}
 \newcommand{\nUnderIsotonic}{2}
 \newcommand{\nUnderRatioOnly}{8}
@@ -845,8 +857,8 @@
 \newcommand{\regretOracle}{0.0232}
 \newcommand{\regretUniformRule}{0.0478}
 \newcommand{\releaseTag}{v27.0}
-\newcommand{\repGapMax}{0.223}
-\newcommand{\repGapMedian}{0.067}
+\newcommand{\repGapMax}{0.323}
+\newcommand{\repGapMedian}{0.060}
 \newcommand{\resolutionLostPct}{21.6\%}
 \newcommand{\resolutionLostToCalibrationPct}{22.1\%}
 \newcommand{\resolvedShareDirectionalMinPct}{1.1\%}
@@ -873,6 +885,8 @@
 \newcommand{\scaPFloor}{0.010}
 \newcommand{\scaPmax}{1.000}
 \newcommand{\scaPmin}{0.010}
+\newcommand{\schemeCells}{24{,}624}
+\newcommand{\schemeWidthRatio}{1.011}
 \newcommand{\seedSdMax}{0.0356}
 \newcommand{\seedSdMedian}{0.0034}
 \newcommand{\seedSdMedianCase}{0.0008}
@@ -891,6 +905,8 @@
 \newcommand{\shareCounterfactualPct}{4.2\%}
 \newcommand{\shareCounterfactualStratumPct}{4.2\%}
 \newcommand{\shareDegenerateDcaMaxPct}{14.3\%}
+\newcommand{\shareExcludesMultPct}{3.9\%}
+\newcommand{\shareExcludesWeightedPct}{1.3\%}
 \newcommand{\shareExcludingVMaxPct}{21.1\%}
 \newcommand{\shareLatitudeCrossPct}{19.2\%}
 \newcommand{\shareLatitudePct}{11.1\%}

@@ -53,6 +53,33 @@ more. Section~\ref{sec:axes2} reports what the same crossing found on the
 \nPairsOther\ pairs are not crossed, and Section~\ref{sec:lim} carries that
 as a limitation rather than assuming the case study's split transfers.
 
+\subsection{The decomposition on the inference surface}
+\label{app:infanova}
+
+The inference surface is a balanced full factorial, so the exact functional
+ANOVA of Section~\ref{sec:sobol} applies to it unchanged. It is applied: one
+decomposition per pair per instrument, over \nInferenceCells\ cells each,
+with no failures. That retires the objection that the surface bands are
+computed on is a corner rather than a design.
+
+\textbf{It does not, however, confirm the declared surface's decomposition,
+and it is not evidence that either is unrepresentative.} The axis carrying the
+largest first-order index agrees between the two on a minority of pairs, and
+the corpus medians differ. The reason is structural rather than substantive:
+\emph{the two surfaces do not declare the same levels}. The inference surface
+carries two splits, three register-quality conditions and three rungs against
+the declared surface's six, six to ten, and three to four, and an axis cannot
+show the same variance share at three levels as at ten. So the comparison is
+between two designs and not a check of one against the other.
+
+What survives it is worth stating, because it is this paper's own argument
+turning on one of its own objects: \textbf{a first-order index is a statement
+about the levels an analyst declared, and not only about the pair.} The corpus
+claim of Section~\ref{sec:sobol} --- that which axis leads is a property of
+the pair --- is qualified by that and not refuted: it holds across the pairs
+of one declared design, and a reader who declares a different one should
+expect a different ordering.
+
 \subsection{Decision rules, in sample and out}
 \label{app:rulesfull}
 

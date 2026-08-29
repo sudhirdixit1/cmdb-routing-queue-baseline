@@ -1,2 +1,2 @@
 n_pairs,declared_cells_total,declared_scalar_total,declared_admissible_total,declared_admissible_scalar_total,declared_admissible_dc_total,computational_cells_total,computational_rows_total,duplicates_total,missing_total,inference_cells_total,inference_share_median,declared_cells_min,declared_cells_max,n_exclusions,rep_max_gap,rep_median_gap,rep_n_pairs,runtime_s
-19,7584,37920,5808,29040,180048,7584,273024,0,0,780,0.125,288,1200,0,0.22345679012345682,0.06666666666666665,19,341.3
+19,7584,37920,5808,29040,180048,7584,273024,0,0,684,0.125,288,1200,0,0.32345679012345685,0.06018518518518512,19,14.2
