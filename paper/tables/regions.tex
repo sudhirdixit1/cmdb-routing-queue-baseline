@@ -6,28 +6,28 @@
 \toprule
 log & target & cells & beneficial & harmful & unresolved & rho & region & q & label under the narrow family \\
 \midrule
-BPIC13\_closed & handover & 180 & 0 & 1 & 179 & -0.006 & conditionally harmful & 3.338 & sign-changing \\
-BPIC13\_incidents & duration & 180 & 21 & 0 & 159 & 0.117 & conditionally beneficial & 3.354 & sign-changing \\
-BPIC13\_incidents & handover & 180 & 97 & 0 & 83 & 0.539 & conditionally beneficial & 3.330 & conditionally beneficial \\
-BPIC14 & duration & 480 & 337 & 0 & 143 & 0.702 & conditionally beneficial & 3.492 & conditionally beneficial \\
-BPIC14 & handover & 480 & 279 & 2 & 199 & 0.577 & sign-changing & 3.569 & sign-changing \\
-BPIC15\_1 & duration & 180 & 6 & 0 & 174 & 0.033 & conditionally beneficial & 3.339 & conditionally beneficial \\
-BPIC15\_1 & handover & 180 & 2 & 0 & 178 & 0.011 & conditionally beneficial & 3.358 & sign-changing \\
-BPIC15\_3 & duration & 180 & 40 & 0 & 140 & 0.222 & conditionally beneficial & 3.335 & sign-changing \\
-BPIC15\_3 & handover & 180 & 2 & 0 & 178 & 0.011 & conditionally beneficial & 3.318 & sign-changing \\
-BPIC15\_4 & duration & 180 & 0 & 0 & 180 & 0.000 & unresolved & 3.380 & sign-changing \\
-BPIC15\_4 & handover & 180 & 0 & 0 & 180 & 0.000 & unresolved & 3.425 & sign-changing \\
-BPIC15\_5 & duration & 180 & 4 & 3 & 173 & 0.006 & sign-changing & 3.395 & sign-changing \\
-BPIC17 & duration & 180 & 35 & 0 & 145 & 0.194 & conditionally beneficial & 3.252 & conditionally beneficial \\
-BPIC19 & duration & 120 & 14 & 28 & 78 & -0.117 & sign-changing & 3.317 & sign-changing \\
-Helpdesk & duration & 180 & 0 & 8 & 172 & -0.044 & conditionally harmful & 3.312 & sign-changing \\
-RoadFines & duration & 120 & 47 & 20 & 53 & 0.225 & sign-changing & 3.140 & sign-changing \\
-Sepsis & duration & 180 & 106 & 0 & 74 & 0.589 & conditionally beneficial & 3.320 & conditionally beneficial \\
-UCI498 & duration & 180 & 58 & 0 & 122 & 0.322 & conditionally beneficial & 3.257 & conditionally beneficial \\
-UCI498 & handover & 180 & 40 & 0 & 140 & 0.222 & conditionally beneficial & 3.329 & sign-changing \\
+BPIC13\_closed & handover & 180 & 0 & 0 & 180 & 0.000 & unresolved & 3.380 & conditionally harmful \\
+BPIC13\_incidents & duration & 180 & 19 & 0 & 161 & 0.106 & conditionally beneficial & 3.372 & conditionally beneficial \\
+BPIC13\_incidents & handover & 180 & 86 & 0 & 94 & 0.478 & conditionally beneficial & 3.356 & conditionally beneficial \\
+BPIC14 & duration & 180 & 180 & 0 & 0 & 1.000 & uniformly beneficial & 3.214 & uniformly beneficial \\
+BPIC14 & handover & 180 & 179 & 0 & 1 & 0.994 & conditionally beneficial & 3.266 & uniformly beneficial \\
+BPIC15\_1 & duration & 180 & 5 & 0 & 175 & 0.028 & conditionally beneficial & 3.362 & conditionally beneficial \\
+BPIC15\_1 & handover & 180 & 2 & 0 & 178 & 0.011 & conditionally beneficial & 3.377 & sign-changing \\
+BPIC15\_3 & duration & 180 & 27 & 0 & 153 & 0.150 & conditionally beneficial & 3.362 & sign-changing \\
+BPIC15\_3 & handover & 180 & 2 & 6 & 172 & -0.022 & sign-changing & 3.345 & sign-changing \\
+BPIC15\_4 & duration & 180 & 0 & 0 & 180 & 0.000 & unresolved & 3.409 & sign-changing \\
+BPIC15\_4 & handover & 180 & 2 & 5 & 173 & -0.017 & sign-changing & 3.430 & sign-changing \\
+BPIC15\_5 & duration & 180 & 3 & 0 & 177 & 0.017 & conditionally beneficial & 3.407 & sign-changing \\
+BPIC17 & duration & 180 & 16 & 6 & 158 & 0.056 & sign-changing & 3.276 & sign-changing \\
+BPIC19 & duration & 180 & 21 & 94 & 65 & -0.406 & sign-changing & 3.380 & sign-changing \\
+Helpdesk & duration & 180 & 0 & 4 & 176 & -0.022 & conditionally harmful & 3.325 & sign-changing \\
+RoadFines & duration & 180 & 82 & 10 & 88 & 0.400 & sign-changing & 3.298 & sign-changing \\
+Sepsis & duration & 180 & 112 & 0 & 68 & 0.622 & conditionally beneficial & 3.319 & conditionally beneficial \\
+UCI498 & duration & 180 & 22 & 0 & 158 & 0.122 & conditionally beneficial & 3.296 & conditionally beneficial \\
+UCI498 & handover & 180 & 7 & 0 & 173 & 0.039 & conditionally beneficial & 3.339 & sign-changing \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Resolution regions from the WHOLE-SURFACE simultaneous band at its NOMINAL critical value, with that value $q$ and, for comparison, the label a narrower within-instrument family would have given the same draws. \textbf{These are not the labels the article quotes}: the article's regions and $\rho$ are computed under the coverage-calibrated critical value and are in Table~\ref{tab:calbands}. This table is printed so that the cost of the wider FAMILY is visible separately from the cost of the CALIBRATION.}
+\caption{Resolution regions from the whole-surface simultaneous band, with its critical value $q$ and, for comparison, the label a narrower within-instrument family would have given the same draws. THESE ARE THE LABELS THE ARTICLE QUOTES. No coverage calibration is applied to them: the $(n,K)$ factor was fitted to restore POINTWISE coverage on a plane built around a different inference surface, and Section~\ref{sec:simband} measures the family-wise widening these families need as LARGER than that factor supplies. This table therefore isolates the cost of the wider FAMILY, and Table~\ref{tab:calbands} prints the same labels beside the widening that would be needed to earn them.}
 \label{tab:regions}
 \end{table}

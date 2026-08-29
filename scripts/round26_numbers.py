@@ -572,7 +572,7 @@ def _tables(mn, AX, P, M, RG):
                       "cell: over every admissible AUC cell; over those where "
                       "the reference increment and the cell's own increment "
                       "both exceed the MPID of \\mpidAuc\\ AUC; over those "
-                      "the coverage-calibrated whole-surface band resolves; "
+                      "the whole-surface band resolves; "
                       "and over cells that satisfy both restrictions. A dash "
                       "is not a zero --- it is a restriction that leaves no "
                       "cell to compute a rate on. The last column is a "
@@ -601,7 +601,7 @@ def _tables(mn, AX, P, M, RG):
             tex_table(t[cols].sort_values(["log", "target"]),
                       "WHAT A REGION LABEL RESTS ON. $|\\mathcal{F}|$ is the "
                       "inference family's size; the triple counts its cells "
-                      "the coverage-calibrated whole-surface band calls "
+                      "the whole-surface band calls "
                       "beneficial, harmful and unresolved. A directional "
                       "label follows from as few as two resolved cells, and "
                       "the last column applies the minimum resolved share of "

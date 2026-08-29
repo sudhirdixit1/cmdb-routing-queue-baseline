@@ -373,23 +373,28 @@ def write(mn):
             encoding="utf-8")
 
     # ------------------------------------------------------------- regions
-    R21 = load("s21_regions.csv")
+    R21 = load("s48w_regions.csv")
     if R21 is not None and len(R21):
         d = R21[["log", "target", "n_cells", "n_beneficial", "n_harmful",
                  "n_unresolved", "rho", "region", "q",
                  "region_within_instrument"]].copy()
         (TABLES / "regions.tex").write_text(
             tex_table(d.sort_values(["log", "target"]),
-                      "Resolution regions from the WHOLE-SURFACE "
-                      "simultaneous band at its NOMINAL critical value, with "
-                      "that value $q$ and, for comparison, the label a "
-                      "narrower within-instrument family would have given the "
-                      "same draws. \\textbf{These are not the labels the "
-                      "article quotes}: the article's regions and $\\rho$ are "
-                      "computed under the coverage-calibrated critical value "
-                      "and are in Table~\\ref{tab:calbands}. This table is "
-                      "printed so that the cost of the wider FAMILY is "
-                      "visible separately from the cost of the CALIBRATION.",
+                      "Resolution regions from the whole-surface "
+                      "simultaneous band, with its critical value $q$ and, "
+                      "for comparison, the label a narrower "
+                      "within-instrument family would have given the same "
+                      "draws. THESE ARE THE LABELS THE ARTICLE QUOTES. No "
+                      "coverage calibration is applied to them: the "
+                      "$(n,K)$ factor was fitted to restore POINTWISE "
+                      "coverage on a plane built around a different "
+                      "inference surface, and Section~\\ref{sec:simband} "
+                      "measures the family-wise widening these families "
+                      "need as LARGER than that factor supplies. This "
+                      "table therefore isolates the cost of the wider "
+                      "FAMILY, and Table~\\ref{tab:calbands} prints the "
+                      "same labels beside the widening that would be "
+                      "needed to earn them.",
                       "tab:regions",
                       colnames={"n_cells": "cells",
                                 "n_beneficial": "beneficial",
