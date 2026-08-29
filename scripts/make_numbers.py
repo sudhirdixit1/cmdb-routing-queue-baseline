@@ -213,7 +213,6 @@ def main(argv=None):
     S6P = load("s06_proportions.csv")
     S7 = load("s07_facts.csv")
     S8 = load("s08_facts.csv")
-    S8L = load("s08_ladder.csv")
     S8T = load("s08_tipping.csv")
     S10 = load("s10_facts.csv")
     S10C = load("s10_coverage.csv")
@@ -848,7 +847,7 @@ def main(argv=None):
                   for k, v in sorted(_SOURCE.items())]).to_csv(
         RESULTS / "macro_sources.csv", index=False)
     write_tables(dict(SUR=SUR, FIT=FIT, REG=REG, SOB=SOB, RU=RU, AX=AX,
-                      CF=CF, FIE=FIE, S6P=S6P, S8L=S8L, S8T=S8T, S10C=S10C,
+                      CF=CF, FIE=FIE, S6P=S6P, S8T=S8T, S10C=S10C,
                       CE=CE, BN=BN, S9M=S9M, DR=load("s04_decision_rules.csv")))
     round20_tables.write(sys.modules[__name__])
     round21_tables.write(sys.modules[__name__])
@@ -1076,8 +1075,8 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
 def write_tables(D):
     import spec as S
     SUR, REG, SOB, RU, AX = D["SUR"], D["REG"], D["SOB"], D["RU"], D["AX"]
-    CE, CF, S8L, S8T, S10C, FIT = (D["CE"], D["CF"], D["S8L"], D["S8T"],
-                                   D["S10C"], D["FIT"])
+    CE, CF, S8T, S10C, FIT = (D["CE"], D["CF"], D["S8T"],
+                              D["S10C"], D["FIT"])
 
     def blank(name, caption, label):
         (TABLES / (name + ".tex")).write_text(
@@ -1354,13 +1353,25 @@ def write_tables(D):
     else:
         blank("confirm", "Confirmatory contrasts.", "tab:confirm")
 
-    # ---- decision time ---------------------------------------------------
-    if S8L is not None and len(S8L):
-        (TABLES / "decisiontime.tex").write_text(
-            tex_table(S8L, "The register's increment at two decision times.",
-                      "tab:decisiontime"), encoding="utf-8")
-    else:
-        blank("decisiontime", "Two decision times.", "tab:decisiontime")
+    #  ---- decision time: NOT GENERATED, and the reason is the point -------
+    #
+    #  ROUND TWENTY-SEVEN.  `decisiontime.tex' was written on every run and
+    #  `\input' by no part of either document, so the label `tab:decisiontime'
+    #  existed and resolved to nothing: any \ref to it would have printed
+    #  `??'.  An agent writing a new cross-reference nearly used it, which is
+    #  how it was found.
+    #
+    #  It is not restored, because the object it printed is superseded.  Its
+    #  caption said "two decision times" and the ladder has carried THREE
+    #  since the decision time became an axis; Table~\ref{tab:tau} is that
+    #  ladder, it is in the main text, and Section~7.2 reads down it.  A
+    #  second table of the same object at an earlier stage of the argument is
+    #  a place for the two to disagree, which is this round's whole subject.
+    #
+    #  The generator is removed rather than commented into silence so that
+    #  nothing writes the file again.  `s08_ladder.csv' itself is still read --
+    #  by `verify_numbers' and by `s12_figures' -- so the RESULT is live and
+    #  only this module's now-unused handle on it is removed.
 
     EV = load("s08_evidence.csv")
     if EV is not None and len(EV):
