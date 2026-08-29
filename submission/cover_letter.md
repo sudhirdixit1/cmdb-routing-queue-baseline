@@ -254,12 +254,20 @@ axis this paper adds.
 surface on which bands are computed is smaller than the surface on which point
 estimates are computed. The coverage calibration is estimated on a pointwise
 interval in a simulation and applied to a simultaneous band on real logs. The
-model family and the encoding are crossed on one log only, where the result is
-that the encoding matters about twice as much as the family and their
-interaction is the largest two-way term --- which is a reason to want the
-crossing everywhere and not evidence that it transfers. The stationarity and
-mixing the moving-block bootstrap needs are assumed rather than tested, and
-the split point is fixed within a draw. The practice pilot still has one
+model family and the encoding are crossed on one log only, where the encoding
+carries the larger share and their interaction is the largest two-way term
+while lying between the two main effects --- which is a reason to want the
+crossing everywhere and not evidence that it transfers. Of the two assumptions
+the moving-block bootstrap needs, **stationarity is now measured and does not
+hold everywhere**: on several pairs the increment's spread across blocks of one
+test half sits in the upper tail of a null that re-partitions the same rows at
+random, so there the intervals understate what a reader would see on a
+different stretch of the same log. Mixing is still not tested, and the split
+point is fixed within a draw. **And the results are not bit-reproducible across
+processor architectures** --- the divergence tracks the register's cardinality
+rather than the learner, and the manuscript now claims bit-exactness inside the
+shipped container and states measured tolerances outside it, because a
+reproduction claim that holds only on the author's machine is not one. The practice pilot still has one
 machine-assisted adjudicator and is now in supplementary material with no
 claim resting on it. And there is still no organisational partner with
 timestamped field histories, so the configuration-management case remains a
