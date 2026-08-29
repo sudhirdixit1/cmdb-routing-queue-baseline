@@ -22,8 +22,8 @@ Append progress to §9 of THIS file after every phase.
 | 2c | crossed family × encoding on the 8 ITSM pairs | **script ready**, run queued behind Phase 1 |
 | 3 | the inference-share denominator, plus a generalised sweep | **done** — two macros, and a condition that re-multiplies every quoted count from the axis declaration |
 | 3b | scikit-learn citation; §9.3's euphemism | 3b.1 **done**; 3b.2 queued |
-| — | **internal red team, pass 1** | 18 findings (8 blocking) — **3 of 4 repair agents done**; §6 and the supplement's crossed section still in flight |
-| — | **internal red team, pass 2** | running, over the files pass 1 could not read |
+| — | **internal red team, pass 1** | 18 findings (8 blocking) — **all repaired**, built, verified, committed |
+| — | **internal red team, pass 2** | 14 findings (3 blocking) over the files pass 1 could not read — **all repaired** |
 | 4 | length | **measured**: 58 pp, and 42 is *not* reachable — target renegotiated to 46. Cut list written and executable. Execution waits for Phase 1. |
 | 4.2 | voice | **decided: keep the editorial "we"**, with the reason recorded |
 | 5 | claims regenerated against the new numbers | register written; execution waits for Phase 1 |
@@ -767,6 +767,47 @@ pivotal interval excludes its own point estimate — the last being the
 headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
+
+### 2026-08-29, overnight — the second red team, and a headline that did not survive
+
+Fourteen more findings over the files the first pass could not read, three
+blocking, all repaired. The pattern held: **the defects are in prose that
+describes tables, not in the tables.** Two are worth carrying.
+
+**A paragraph whose own headline was one of its defects.** §8.4 said "And the
+rules mostly tie", and then: the four rules separate "on only 11 of 19 pairs",
+where the count was taken over the 16 pairs carrying a calibrated model — two
+sentences after the same paragraph says the calibration rule excludes 3 of the
+19. Eleven of sixteen is 69%, a majority. So "only" goes, and "mostly tie"
+goes with it: the rules tie on 5 and separate on 11.
+
+The same paragraph said the one-number rule is "worst on 10". That came from
+`idxmax`, which returns the *first* maximum, and one-number is the first row of
+every group. It is strictly worst on **3**, tied for worst on 2, and on **5 of
+the 10 all four rules are identical at exactly zero** — so on half of them
+nothing is worst. And "expected excess" was a cross-pair *median*: the means
+are 0.056 against the conservative rule's 6.092, a 128-fold understatement in
+the sentence arguing the rules tie.
+
+**The paragraph's conclusion survives and is better supported than before.**
+"The case against one-number reporting does not rest on this design" now rests
+on numbers that hold — strictly worst on 3 of 16, worst-pair cost 0.412 per
+thousand, mean excess 108× smaller than the conservative rule's. The
+correction cuts *against* the paper's own advocate, which is why it is
+reported rather than left as a median.
+
+**The Conclusion asserted what §11 withdraws.** §12 opened "what remains is
+not dominated by one choice" while §11, under a heading saying this evidence
+does not support it, had withdrawn exactly that — and §12's own next sentence
+gave a largest first-order index of 38.8% against a higher-order share of
+26.3%. Net of resampling the interactions lead on **7 of 19** pairs, so on 12
+a single axis carries more than every interaction combined. Both §12 and the
+abstract now carry the claim that survives: *which* axis leads is a property
+of the pair — rung on 8, pipeline on 6, quality on 5.
+
+The abstract sits at exactly `texlint`'s 200-word limit, so that replacement
+had to be word-neutral and was paid for with two lossless trims in the same
+paragraph.
 
 ### 2026-08-28, overnight — an early read on Phase 1, and a warning about it
 
