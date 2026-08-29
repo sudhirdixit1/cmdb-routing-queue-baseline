@@ -224,7 +224,7 @@ def main(argv=None):
     #  s17's bands carry the same q_maxt as s02's -- the recentring shifts
     #  the band, not the quantile -- so either file verifies this, and the
     #  one the manuscript quotes is preferred.
-    BN = load("s17_bands.csv")
+    BN = load("s17_bands.csv")  # retired-ok: fallback: either band verifies this quantity, per the note above
     if BN is None or not len(BN):
         BN = load("s02_bands.csv")
     if BN is not None and len(BN):

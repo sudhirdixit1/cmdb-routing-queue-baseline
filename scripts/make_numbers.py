@@ -209,7 +209,7 @@ def main(argv=None):
     #  started, and the fallback chain costs nothing.
     REG = load("s48w_regions.csv")
     if REG is None or not len(REG):
-        REG = load("s21_regions.csv")
+        REG = load("s21_regions.csv")  # retired-ok: fallback so a partial tree still builds a document
     if REG is None or not len(REG):
         REG = load("s03_regions.csv")
     SOB = load("s03_sobol.csv")
@@ -671,7 +671,7 @@ def main(argv=None):
     #  files are the fallback so a build before s17 has run still produces a
     #  number, and it is then the percentile one, which the simulation
     #  rejected.  A build that used the fallback says so in the log.
-    BN = load("s17_bands.csv")
+    BN = load("s17_bands.csv")  # retired-ok: fallback: this reference-cell band predates the inference surface and is superseded only when s48w exists
     if BN is None or not len(BN):
         BN = load("s02_bands.csv")
     #  ROUND TWENTY-SEVEN.  The master table's reference cell was read from
@@ -681,9 +681,9 @@ def main(argv=None):
     #  and the older files only as a partial-build fallback.
     CE = load("s48w_cells.csv")
     if CE is None or not len(CE):
-        CE = load("s21_cells.csv")
+        CE = load("s21_cells.csv")  # retired-ok: fallback so a partial tree still builds a document
     if CE is None or not len(CE):
-        CE = load("s17_cells.csv")
+        CE = load("s17_cells.csv")  # retired-ok: second fallback, older still
     if CE is None or not len(CE):
         CE = load("s02_cells.csv")
     if BN is not None and len(BN):
@@ -1135,7 +1135,7 @@ def write_tables(D):
         #  surface-level table has to print beside a surface-level label.
         BS = load("s48w_bands.csv")
         if BS is None or not len(BS):
-            BS = load("s21_bands.csv")
+            BS = load("s21_bands.csv")  # retired-ok: fallback so a partial tree still builds a document
         if (BS is not None and len(BS) and "metric" in BS.columns
                 and "family" in BS.columns):
             w = BS[(BS.family == "whole-surface") & (BS.metric == "auc")

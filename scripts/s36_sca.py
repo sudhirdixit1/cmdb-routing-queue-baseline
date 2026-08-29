@@ -361,7 +361,7 @@ def _verdicts(D, CU, t0, n_perms, n_cells):
             columns={"region_calibrated": "region",
                      "rho_calibrated": "rho"})
     else:
-        REG = pd.read_csv(RESULTS / "s21_regions.csv")
+        REG = pd.read_csv(RESULTS / "s21_regions.csv")  # retired-ok: last fallback in the chain; the reported surface is read first
     rows = []
     for (lg, tg), sub in D.groupby(["log", "target"]):
         obs = sub[sub.perm < 0]

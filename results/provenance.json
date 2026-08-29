@@ -1,8 +1,13 @@
 {
+  "check_sources.py": {
+    "at": "2026-08-29T08:57:13Z",
+    "note": "round 27: the recurring defect becomes a gate -- no generator may read a retired surface by name without a stated reason",
+    "sha": "231b67d34417ac04"
+  },
   "make_numbers.py": {
-    "at": "2026-08-29T08:54:28Z",
-    "note": "round 27: the region variable binds to the reported surface first",
-    "sha": "cbb249a8e4aa2b8b"
+    "at": "2026-08-29T08:57:13Z",
+    "note": "round 27: retired-surface reads marked or re-pointed",
+    "sha": "2eb052c42277ff6c"
   },
   "round20_numbers.py": {
     "at": "2026-08-29T08:53:54Z",
@@ -15,9 +20,9 @@
     "sha": "2deec89c358860e6"
   },
   "round21_numbers.py": {
-    "at": "2026-08-29T08:36:41Z",
-    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
-    "sha": "6133f510cca94d59"
+    "at": "2026-08-29T08:57:13Z",
+    "note": "round 27: retired-surface reads marked or re-pointed",
+    "sha": "50f3f1a7cb44c20b"
   },
   "round21_tables.py": {
     "at": "2026-08-29T08:42:37Z",
@@ -25,9 +30,9 @@
     "sha": "d6b3a57ed5cc30f9"
   },
   "round21_verify.py": {
-    "at": "2026-08-29T08:36:41Z",
-    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
-    "sha": "ea5eab01f62d4188"
+    "at": "2026-08-29T08:57:13Z",
+    "note": "round 27: retired-surface reads marked or re-pointed",
+    "sha": "66778e1bad7c1530"
   },
   "round26_numbers.py": {
     "at": "2026-08-29T08:20:32Z",
@@ -224,9 +229,9 @@
     "sha": "266b0394cb39170e"
   },
   "s36_sca.py": {
-    "at": "2026-08-29T08:36:42Z",
-    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
-    "sha": "03b489af8bd6b928"
+    "at": "2026-08-29T08:57:13Z",
+    "note": "round 27: retired-surface reads marked or re-pointed",
+    "sha": "c3d34a3bb76108cd"
   },
   "s37_axes.py": {
     "at": "2026-08-29T04:34:28Z",
@@ -282,5 +287,10 @@
     "at": "2026-08-29T05:30:03Z",
     "note": "Round twenty-seven: the exact functional ANOVA applied to the designed inference surface, which the old unbalanced surface made impossible. Reports the leading-axis comparison with the declared surface as a comparison between designs, not as a check of one against the other.",
     "sha": "1bb45bdf0f7ced1e"
+  },
+  "verify_numbers.py": {
+    "at": "2026-08-29T08:57:13Z",
+    "note": "round 27: retired-surface reads marked or re-pointed",
+    "sha": "9367c864b3b6348f"
   }
 }

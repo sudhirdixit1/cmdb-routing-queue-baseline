@@ -172,6 +172,11 @@ python scripts/verify_numbers.py          # re-derives each macro independently
 python scripts/texlint.py                 # abstract, keywords, highlights,
                                           # statements, no numeric literals
 python scripts/check_highlights.py        # the highlight character counts
+python scripts/check_sources.py           # no generator reads a RETIRED
+                                          # surface by name -- round 27's
+                                          # recurring defect, now a gate
+python scripts/check_bands.py --prefix s48w   # the bands file's own five
+                                          # internal consistency conditions
 python scripts/check_response_refs.py     # every section the cover letter
                                           # cites exists, and what it lands on
 python scripts/provenance.py              # which script version produced

@@ -157,9 +157,16 @@ def check(vn, M):
     # caught it.
     # ================================================================
     import spec as _S
-    B21 = load("s21_bands.csv.gz")
+    #  ROUND TWENTY-SEVEN.  This is the cell-for-cell identity check, and
+    #  its own comment above calls it "the only version that would have
+    #  caught it" -- while it ran on the surface the article no longer
+    #  reports.  A verifier checking a retired object is worse than no
+    #  verifier, because it reports success.
+    B21 = load("s48w_bands.csv.gz")
+    if B21 is None or not len(B21):
+        B21 = load("s21_bands.csv.gz")  # retired-ok: fallback for a partial tree
     if B21 is None:
-        B21 = load("s21_bands.csv")
+        B21 = load("s21_bands.csv")  # retired-ok: fallback for a partial tree
     SUR0 = load("s01_surface.csv")
     if B21 is not None and len(B21) and SUR0 is not None and len(SUR0):
         W = B21[B21.family == "whole-surface"]
