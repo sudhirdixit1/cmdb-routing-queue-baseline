@@ -379,6 +379,57 @@ changed macro against §5.1a's register; then `s28_figures.py` to redraw
 `figS3_regions.png`; then `verify_numbers.py`, which will fail loudly if the
 tree is half-migrated; then `assemble_paper.py` and the build.
 
+### 1.4e The framing for ρ = 1, decided before the number is written up
+
+This is the round's largest interpretive change and it touches the paper's
+**argument**, not only a count. Settling it now, because the tempting framings
+are available in both directions and the right one is neither.
+
+**What the paper currently sets up.** §4.6 (`20_inference.tex:343-345`):
+*"$\rho = 1$ is the only state in which one positive number is a safe summary
+of a surface, and the empirical question this paper answers is how often it
+obtains."* The figure caption at `app_secondary.tex:763-764` says the same.
+The old answer was **never**, on 0 of 19 pairs. The new answer is **once**.
+
+**The framing to avoid, in each direction.**
+
+*Do not bury it.* "One pair reaches it" reported as a footnote to an
+unchanged argument would be the paper declining to answer the question it
+posed. It asked how often the state obtains; the answer changed from a
+degenerate one to a real one, and a real answer is the better paper.
+
+*Do not sell it.* "We found a uniformly beneficial surface" invites the
+family-size objection immediately, and the objection is in the paper's own
+§4.6 two paragraphs earlier.
+
+**The framing that is true and is stronger than either.** The state is
+attainable, and what it took to attain it is the finding: the pair with the
+richest declared grid in the corpus, over an inference family that is
+**3.8%** of that pair's admissible cells — a *smaller* share than the old
+surface's 10.0%. So the one case where a single number is safe is a case
+where the claim ranges over a fortieth of the specifications an analyst could
+have chosen. **The exception is a statement about the denominator, which is
+this paper's subject.** It does not weaken the thesis; it is the thesis
+arriving in the one place that looked like a counterexample.
+
+That framing also survives the sensitivity check: the label holds at every
+widening to 1.5×, so it cannot be argued away by calibration and does not need
+to be.
+
+**Three consequences for the write-up.**
+
+1. §4.6's sentence stays exactly as it is. It set up a question and the
+   question now has an answer; rewriting the setup because the answer changed
+   would be the wrong repair.
+2. §6.3 reports the answer with the denominator in the same sentence, not in
+   a following one. "On one pair of nineteen, over a family that is 3.8% of
+   its admissible cells" is one clause, and splitting it is what would make it
+   quotable out of context.
+3. **The abstract does not gain this.** It is a per-pair fact about the
+   corpus's largest grid, and the abstract's job is the corpus. Adding it
+   there would trade a general claim for a particular one, which is the
+   trade the paper spends §3.3 arguing against.
+
 **Done when:**
 - the displacement statistic on the weighted scheme is ≈ 0 and the count of
   cells whose band excludes its own point estimate is 0 (or reported ≤ 0.1%);
