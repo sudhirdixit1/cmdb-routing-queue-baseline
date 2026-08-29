@@ -307,6 +307,35 @@ def check(vn, M):
             vn.FAILS.append(
                 "round-27 condition: the master table's region label is not "
                 "the one Definition 3 yields -- " + "; ".join(bad[:6]))
+    #  A CELL THAT CANNOT BE BANDED IS NOT A CELL THAT DID NOT RESOLVE.
+    #
+    #  A multinomial resample can drop an arm from a draw entirely, so the
+    #  cell is absent rather than noisy, the median down its column is
+    #  undefined, and it gets no band.  It is then not resolved -- and was
+    #  counted as UNRESOLVED, beside cells that were banded and straddled
+    #  zero.  A paper about denominators cannot have unassessable cells inside
+    #  the set it quotes resolution against without saying how many.
+    #
+    #  So the condition is not that the count be zero.  It is that the count
+    #  be REPORTED: whatever the bands file contains, `nUnbandableCells' must
+    #  equal it.  A future surface with none will carry a zero, which is also
+    #  worth printing.
+    BF = Path(results) / "s21_bands.csv.gz"
+    if BF.exists():
+        try:
+            _b = pd.read_csv(BF)
+            _w = _b[_b.family == "whole-surface"]
+            _n = int(_w.sim_lo.isna().sum())
+            _m = _num(M.get("nUnbandableCells"))
+            if _m is None or int(_m) != _n:
+                vn.FAILS.append(
+                    "round-27 condition: the bands file carries %d cell(s) "
+                    "with no band, and the manuscript reports %s -- a cell "
+                    "that could not be banded is being counted as one the "
+                    "data did not resolve" % (_n, M.get("nUnbandableCells")))
+        except (KeyError, ValueError, AttributeError):
+            pass
+
     #  THE CELL COUNTS AND THE REGION LABELS DESCRIBE ONE SURFACE.
     #
     #  Round twenty-seven replaced the inference surface, and found FOUR

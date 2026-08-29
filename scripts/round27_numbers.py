@@ -131,6 +131,38 @@ def emit(mn):
             put("nPrefix" + nm, None)
 
     # ================================================================
+    # CELLS THAT CANNOT BE BANDED AT ALL
+    # ================================================================
+    #  Found in round twenty-seven by a gate written for another purpose.  A
+    #  multinomial resample can lose enough register levels that an arm cannot
+    #  be fitted in a draw at all, so the cell is ABSENT from that draw rather
+    #  than merely noisy; the median down its column is then undefined and the
+    #  cell gets no centre and no band.
+    #
+    #  Such a cell is not resolved, so every table counted it as UNRESOLVED --
+    #  indistinguishable from a cell that was banded and straddled zero.  That
+    #  put cells the data were never given a chance to resolve inside the
+    #  denominator of every `the data resolve so little' statement.  The count
+    #  is small and the paper's subject is denominators, which is exactly why
+    #  it has to be a number in the manuscript rather than a silent zero.
+    _bandfile = None
+    for _cand in ("s21_bands.csv.gz",):
+        if (mn.RESULTS / _cand).exists():
+            _bandfile = _cand
+            break
+    if _bandfile:
+        _b = pd.read_csv(mn.RESULTS / _bandfile)
+        _w = _b[_b.family == "whole-surface"]
+        _n = int(_w.sim_lo.isna().sum())
+        put("nUnbandableCells", thousands(_n))
+        put("nUnbandablePairs",
+            thousands(int(_w[_w.sim_lo.isna()]
+                          .groupby(["log", "target"]).ngroups)))
+    else:
+        put("nUnbandableCells", None)
+        put("nUnbandablePairs", None)
+
+    # ================================================================
     # s37 --itsm -- DOES `THE ENCODING BEATS THE FAMILY' TRAVEL?
     # ================================================================
     #  Section 11 conceded that the crossing runs on the case study's log
