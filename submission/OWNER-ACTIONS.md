@@ -121,8 +121,14 @@ file named `round25-coverage` for two rounds after the work had moved off it;
 the branch is checked here rather than remembered.) Merge it to the default
 branch before tagging if the release should sit on the mainline; the archive
 is a snapshot of whatever the tag points at. Nothing under `data/` is
-committed on it. The merge is left to you because it changes what the default
-branch is, which is not an agent's call to make unasked.
+committed on it.
+
+> **Done locally, and reversible.** `main` was an ancestor of
+> `round27-inference`, so the merge was a clean fast-forward with no conflict
+> to resolve: `main` now points at the same commit. **Nothing was pushed** ---
+> that is outward-facing and yours. To undo the local move:
+> `git branch -f main 4acd5ba`. The push and the tag belong with the release
+> in §1.1, since the archive snapshots whatever the tag points at.
 
 ### 1.3 Read the three statements
 
