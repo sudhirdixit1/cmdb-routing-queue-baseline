@@ -27,7 +27,6 @@ ORDER = [
     "40_multilog.tex",
     "50_cmdb.tex",
     "60_dca.tex",
-    "70_standard.tex",
     "75_simulation.tex",
     "80_limits.tex",
     "90_backmatter.tex",
