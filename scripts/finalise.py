@@ -1,10 +1,10 @@
 """finalise -- WHAT IS STILL OWED BEFORE THIS CAN BE SUBMITTED, AND ONE
 COMMAND TO DISCHARGE EACH.
 
-Round twenty-seven ended with four items that need the depositing account or
+Round twenty-seven ended with five items that need the depositing account or
 the author's own knowledge and cannot be done from inside the repository: the
 archive DOI, the built container's digest, the suggested reviewers' e-mail
-addresses, and a push.  Every one of them is a small edit, and every one of
+addresses, the author's full postal address, and a push.  Every one of them is a small edit, and every one of
 them has to reach several files at once --- the DOI alone appears in the
 data-availability statement, the code-availability statement, reference [11]
 and the archive metadata.
@@ -24,9 +24,10 @@ documents and re-run the verifiers -- so the answer to "did that reach
 everything it needed to reach?" is the gate output rather than a memory.
 
 WHAT THIS FILE WILL NOT DO.  It will not mint the DOI, build or push the
-image, invent an e-mail address, or push a branch.  Three of those need
-credentials this repository does not have and should not have; the fourth
-needs facts about real people that nobody should guess.  It tells you what is
+image, invent an e-mail address or a postal address, or push a branch.  Two
+of those need credentials this repository does not have and should not have;
+the others need facts about real people --- including the author --- that
+nobody should guess.  It tells you what is
 outstanding and it makes the discharge one command.  The judgement stays with
 the author, which is the whole argument of the manuscript it is finalising.
 """
@@ -89,6 +90,22 @@ def status() -> list[str]:
             "which the submission system requires (§4.2).  These are real "
             "people's contact details; nobody should guess them, so this file "
             "does not.")
+
+    #  Elsevier's guide asks for the FULL POSTAL ADDRESS of each affiliation
+    #  and queries it at technical check for unaffiliated authors
+    #  specifically.  A city and a country is not one.  This is the author's
+    #  own address; a repository has no business guessing it.
+    nums = (ROOT / "paper" / "numbers.tex")
+    if nums.exists():
+        _n = nums.read_text(encoding="utf-8")
+        _street = re.search(r"newcommand\{\\affiliationStreet\}\{([^}]*)\}", _n)
+        if not (_street and _street.group(1).strip()):
+            out.append(
+                "THE AFFILIATION IS A CITY AND A COUNTRY, not a full postal "
+                "address, which the guide asks for and queries at technical "
+                "check for unaffiliated authors specifically (§4.4).  Set it "
+                "beside AFFILIATION_CITY in scripts/round26_numbers.py.  It "
+                "is your address; this file does not guess it.")
 
     #  the push is a fact about the remote, not about the tree
     try:

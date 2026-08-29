@@ -15,9 +15,9 @@
     "sha": "231b67d34417ac04"
   },
   "finalise.py": {
-    "at": "2026-08-29T10:05:26Z",
-    "note": "round 27: the outstanding owner items, and one command to discharge each",
-    "sha": "3f934ac34839a20b"
+    "at": "2026-08-29T10:06:54Z",
+    "note": "round 27: the readiness check counts the postal address too",
+    "sha": "bb270eb8ba32b3f1"
   },
   "make_numbers.py": {
     "at": "2026-08-29T09:22:24Z",
