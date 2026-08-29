@@ -345,8 +345,24 @@ reproducibility cannot ask a referee to take the artefact on trust.⟩
 
 Stated here so that nothing above implies otherwise.
 
-- ⟨PENDING: the crossed family × encoding decomposition beyond the case
-  study's log, if Phase 2c does not run.⟩
+- The crossed family × encoding decomposition now runs on the eight ITSM
+  pairs rather than the case study's log alone, so that limitation is
+  narrowed — but the pairs outside that family are still confounded, and we
+  do not claim otherwise.
+
+  We report the outcome here because it is not the one we wanted. **The
+  finding partially replicates**: the encoding is the larger first-order axis
+  on six of the eight pairs, and on the other two the family is, decisively —
+  on the more extreme, the encoding carries four hundredths of what the family
+  does. So the case study's ordering is the common case and not a corpus fact,
+  and Section 6.2 says so.
+
+  We think this is a better result than a clean replication would have been.
+  The crossing exists to separate two axes that a fused index confounds, and
+  what it finds on new pairs is this paper's own central claim arriving where
+  it was not sent: which axis leads is a property of the pair. A finding that
+  survives its generalisation test by turning into the thesis is worth more
+  than one that survives by repeating.
 - The corpus is still a family of related prediction problems rather than
   replications of one finding, and every corpus statistic is still about
   sensitivity rather than about a universal register value.
