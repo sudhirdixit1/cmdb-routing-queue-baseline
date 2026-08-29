@@ -199,7 +199,11 @@ def write(mn):
                       "master surface carries so that the surface is "
                       "complete and which no admissible set contains. Then "
                       "duplicates, missing combinations, the size and draw "
-                      "count of the inference surface, the register's "
+                      "count of the inference surface --- COUNTED PER "
+                      "INSTRUMENT here, so that it multiplies by the "
+                      "\\nInstruments\\ instruments to the "
+                      "\\nCellsPerPairMedian\\ scalar members every "
+                      "other table prints --- the register's "
                       "cardinality and its ratio to the training row count, "
                       "which Section~\\ref{sec:simsensitivity} shows is what "
                       "governs whether the bands cover at their nominal "
@@ -215,7 +219,7 @@ def write(mn):
                                 "computed_admissible_scalar":
                                     "computed scalar",
                                 "computational_cells": "model fits",
-                                "inference_cells_observed": "inference cells",
+                                "inference_cells_observed": "inference cells / instrument",
                                 "inference_draws": "draws",
                                 "card_f": "register levels K",
                                 "K_over_n": "K / n train"}),

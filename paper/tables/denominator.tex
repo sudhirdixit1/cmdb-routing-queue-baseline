@@ -4,7 +4,7 @@
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lllllllllllllllr}
 \toprule
-log & target & learners & splits & quality & rungs & metrics & declared scalar & computed scalar & model fits & duplicates & missing & inference cells & draws & register levels K & K / n train \\
+log & target & learners & splits & quality & rungs & metrics & declared scalar & computed scalar & model fits & duplicates & missing & inference cells / instrument & draws & register levels K & K / n train \\
 \midrule
 BPIC13\_closed & handover & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 400 & 337 & 0.324 \\
 BPIC13\_incidents & duration & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 400 & 704 & 0.133 \\
@@ -28,6 +28,6 @@ UCI498 & handover & 2 & 6 & 6 & 3 & 5 & 1080 & 1080 & 288 & 0 & 0 & 36 & 400 & 5
 \bottomrule
 \end{tabular}%
 }
-\caption{The surface denominator audit. For every log--target pair: the declared level count on each axis, then two counts \emph{on the same basis} --- the admissible scalar cells the declaration multiplies out, and the same cells counted in the surface file --- which are equal on every pair. `model fits' is a different quantity and is printed separately: it counts fitted arms before the expansion over instruments and \emph{includes} the intercept-only rung, which the master surface carries so that the surface is complete and which no admissible set contains. Then duplicates, missing combinations, the size and draw count of the inference surface, the register's cardinality and its ratio to the training row count, which Section~\ref{sec:simsensitivity} shows is what governs whether the bands cover at their nominal level.}
+\caption{The surface denominator audit. For every log--target pair: the declared level count on each axis, then two counts \emph{on the same basis} --- the admissible scalar cells the declaration multiplies out, and the same cells counted in the surface file --- which are equal on every pair. `model fits' is a different quantity and is printed separately: it counts fitted arms before the expansion over instruments and \emph{includes} the intercept-only rung, which the master surface carries so that the surface is complete and which no admissible set contains. Then duplicates, missing combinations, the size and draw count of the inference surface --- COUNTED PER INSTRUMENT here, so that it multiplies by the \nInstruments\ instruments to the \nCellsPerPairMedian\ scalar members every other table prints --- the register's cardinality and its ratio to the training row count, which Section~\ref{sec:simsensitivity} shows is what governs whether the bands cover at their nominal level.}
 \label{tab:denominator}
 \end{table}

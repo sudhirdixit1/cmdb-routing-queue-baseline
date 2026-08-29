@@ -1251,3 +1251,36 @@ def check(vn, M):
             "\\nLabelsLostToMinShare is %s"
             % (M["nMarkedBelowMinShare"], M["nSignChangingBelowMinShare"],
                int(_mk - _sc), M["nLabelsLostToMinShare"]))
+
+    # --- 19.  the rho = 1 pair survives the widening, and is the same pair -
+    #
+    #  The appendix claims the widening moves how much the corpus resolves
+    #  but not which pair reaches rho = 1.  That is a robustness claim a
+    #  referee will test, and until now it was asserted.  Both halves are
+    #  checked: the count, and the IDENTITY -- a count that stays at one
+    #  while the pair moves would satisfy the sentence and refute the claim.
+    G33c = _read(results, "s33_regions.csv")
+    if (G33c is not None and len(G33c)
+            and {"region", "region_calibrated"} <= set(G33c.columns)):
+        _n = G33c[G33c.region == "uniformly beneficial"][["log", "target"]]
+        _c = G33c[G33c.region_calibrated
+                  == "uniformly beneficial"][["log", "target"]]
+        _ns = set(map(tuple, _n.values))
+        _cs = set(map(tuple, _c.values))
+        if _ns != _cs:
+            vn.FAILS.append(
+                "round-27 condition: the appendix says the widening does not "
+                "change which pair reaches rho = 1; nominally it is %s and "
+                "under the widening %s"
+                % (sorted(_ns) or "none", sorted(_cs) or "none"))
+        _chg = G33c[G33c.region != G33c.region_calibrated]
+        _gotc = _num(M.get("nRegionsChangedByCalibration"))
+        if _gotc is not None and int(_gotc) != len(_chg):
+            vn.FAILS.append(
+                "round-27 condition: \\nRegionsChangedByCalibration is %s and "
+                "%d label(s) differ under the widening"
+                % (M["nRegionsChangedByCalibration"], len(_chg)))
+        if _ns & set(map(tuple, _chg[["log", "target"]].values)):
+            vn.FAILS.append(
+                "round-27 condition: the appendix says the rho = 1 pair is "
+                "not among the labels the widening changes, and it is")
