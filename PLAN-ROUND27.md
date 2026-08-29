@@ -785,7 +785,18 @@ the paper's own macros. In a manuscript whose subject is auditability, and
 whose defence throughout is "we counted it rather than asserting it", this is
 the single cheapest shot a referee has.
 
-- [ ] 4.0a Either make it true (Tier B below does most of that) or delete it.
+- [x] **4.0a DISCHARGED.** Re-measured: 55 of the 94 macros §11 uses are also
+  printed elsewhere in the body, so the *old* sentence ("Nothing here is
+  re-derived") would still be false. It is no longer the sentence in the file.
+  The current opening says "No result is computed here: every number this
+  section quotes is the same macro, from the same result file, as the section
+  that establishes it --- **but many are quoted twice**, and a reader who wants
+  the argument rather than the summary should read them where they are
+  established." Every clause of that is true, including the concession. No
+  action; do not re-cut §11's restatements on the strength of a claim it no
+  longer makes.
+
+  ~~Either make it true (Tier B below does most of that) or delete it.~~
   Do **not** leave it standing. Prefer making it true: after Tier B the claim
   is nearly accurate and it is worth having.
 
