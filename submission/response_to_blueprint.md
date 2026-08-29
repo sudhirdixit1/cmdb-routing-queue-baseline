@@ -327,7 +327,7 @@ cannot. The nine required items, one by one:
 | 2 | Monte Carlo standard errors for coverage, bias and width | every row of `results/s31_coverage.csv` carries all three; §10's table prints the bias and the reported interval's width beside the coverages, and the manuscript quotes the coverage resolution wherever it compares two constructions |
 | 3 | sparse world expanded toward the observed 3,019-level regime | the `(n, K)` grid reaches K = 3,019, the case study's own register cardinality |
 | 4 | sample size and cardinality varied **jointly** | a 10-cell `(n, K)` plane, n ∈ {2,000; 4,000; 8,000}, K ∈ {20; 200; 1,000} plus (8,000; 3,019) — because it is the *ratio* K/n that governs the bootstrap shift, and varying either alone shows neither |
-| 5 | at least three block lengths around n^(1/3) | three — half the rule of thumb, the rule, and twice it — on the world where the construction is well behaved and on the one where it is not. The coverage **does** move with the block length, by a couple of points within a world, and §10.3 says so rather than claiming invariance; what does not move is the comparison the paper rests on, which holds at every length |
+| 5 | at least three block lengths around n^(1/3) | three — half the rule of thumb, the rule, and twice it — on the world where the construction is well behaved and on the one where it is not. The coverage **does** move with the block length, by a couple of points within a world, and §9.3 says so rather than claiming invariance; what does not move is the comparison the paper rests on, which holds at every length |
 | 6 | six constructions compared, including m-out-of-n in the sparse regime | seven: fixed-model percentile/basic/bias-corrected, nested percentile/basic/bias-corrected, and nested **m-out-of-n** at m = n^(2/3) with the deviations rescaled by √(m/n) |
 | 7 | coverage for both the fitted-pipeline limit and the oracle target | both, in every table, with the manuscript stating that only the first is estimable by resampling |
 | 8 | stationarity/mixing assumptions stated | §11, and again in the simulation section's closing paragraph |
@@ -351,7 +351,7 @@ the case study is at 0.093. **So the bands this paper reports are narrower
 than their nominal level on most of its own pairs**, which is the
 anti-conservative direction: it inflates the count of cells called *resolved*.
 
-We report this in §10.3, again in §11 as the study's sharpest limitation, and
+We report this in §9.3, again in §11 as the study's sharpest limitation, and
 as a `K/n` column in the denominator table so a reader can see which pairs are
 affected. Nothing in the paper's point estimates or its
 specification-sensitivity conclusions rests on the bands — the decomposition,
@@ -482,23 +482,22 @@ than counted by hand.
 
 | § | section | words | requested | |
 |---|---|---:|---|---|
-| 1 | Introduction | 1,245 | 1,200–1,500 | ✓ |
+| 1 | Introduction | 1,186 | 1,200–1,500 | just under |
 | 2 | Related work | 612 | 1,200–1,500 | under |
-| 3 | The specification surface | 1,384 | ~1,500 | ✓ |
-| 4 | Estimation and inference | 3,903 | 2,000–2,500 | **over** |
-| 5 | The registered benchmark design | 1,243 | 1,200–1,500 | ✓ |
-| 6 | Multi-log results | 4,498 | 2,000–2,500 | **over** |
-| 7 | Case study: a configuration management database | 2,235 | 1,500–2,000 | over |
-| 8 | Decision-analytic evaluation | 1,086 | — | added |
-| 9 | A reporting standard, and software | 1,037 | — | added |
-| 10 | Simulation | 1,706 | 1,000–1,500 | over |
-| 11 | Threats to validity | 2,452 | 1,200–1,500 | **over** |
-| 12 | Conclusion | 691 | 400–600 | over |
+| 3 | The specification surface | 1,352 | ~1,500 | ✓ |
+| 4 | Estimation and inference | 3,870 | 2,000–2,500 | **over** |
+| 5 | The registered benchmark design | 1,209 | 1,200–1,500 | ✓ |
+| 6 | Multi-log results | 4,164 | 2,000–2,500 | **over** |
+| 7 | Case study: a configuration management database | 1,918 | 1,500–2,000 | ✓ |
+| 8 | Decision-analytic evaluation | 1,045 | — | added |
+| 9 | Simulation against a known answer | 1,706 | 1,000–1,500 | just over |
+| 10 | Threats to validity | 2,132 | 1,200–1,500 | **over** |
+| 11 | Conclusion | 691 | 400–600 | just over |
 
-**The body is about 22,100 words against the 13,000–15,000 requested, and we
+**The body is about 19,900 words against the 13,000–15,000 requested, and we
 are not going to pretend that is inside the band.** In pages, in the
-`preprint,12pt` layout Elsevier asks for at review: **57 pages of main text
-within a 66-page article, and 93 of supplement**, against the review's count
+`preprint,12pt` layout Elsevier asks for at review: **53 pages of main text
+within a 62-page article, and 107 of supplement**, against the review's count
 of 69 pages for the whole of the round-nineteen manuscript. The body has grown
 since that count and the reason is on the record: the last three rounds of
 review found, repeatedly, that a sentence named one set while its number was
@@ -532,7 +531,7 @@ What we did instead of cutting the content:
   of the main text entirely.
 
 The manuscript also grew after the structure table was first written, by
-about a thousand words, and all of it is §10.3 and §11: the `(n, K)` plane
+about a thousand words, and all of it is §9.3 and §11: the `(n, K)` plane
 returned a result against the paper and reporting it properly took the space
 it took. We would rather submit over length than either remove an object the
 review asked to have made precise or bury the limitation the review's own
