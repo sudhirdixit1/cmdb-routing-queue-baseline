@@ -96,8 +96,7 @@ where $\Pr(j \mid f) = (1 - r)\mathbf{1}\{j = f\} + r/K$. Enumerating the
 \emph{true} cells instead scores the estimator against a population it never
 samples from, and the first version of this simulation did exactly that: it
 reported a coverage of \coverageNoisyBefore\ on the noisy world and a bias of
-\biasNoisyBefore\ that did not exist. \ref{app:noisy} gives the two
-experiments that refuted every finite-sample explanation for that apparent
+\biasNoisyBefore\ that did not exist. The two experiments below refuted every finite-sample explanation for that apparent
 bias and thereby sent us to look at the target. The marginalisation is checked
 against a Monte Carlo sample, on standardised residuals, at the start of every
 simulation run.
@@ -127,8 +126,8 @@ coverage of the first as though it were the estimator's coverage is a category
 error. Both are reported in Table~\ref{tab:sim31}. Where a register value is
 corrupted the cells the generator writes down are not the cells the estimator
 observes, so the truth has to be marginalised over the corruption; the two
-experiments that found that and the check that guards it are in
-Supplement~\ref{app:noisy}.
+experiments that found that, and the check that guards it, are the subject of
+this section.
 
 \subsection{Where the refit helps, and where the percentile interval fails}
 \label{app:refit}
