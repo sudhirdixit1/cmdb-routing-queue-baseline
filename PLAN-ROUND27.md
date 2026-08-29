@@ -19,7 +19,7 @@ Append progress to §9 of THIS file after every phase.
 | 1 | weighted bootstrap, designed surface, 400 draws | **running** — 14/19 weighted at 00:24. BPIC19 took **86 min**, not the ~58 the resume note implied, so budget ~5 h more: ~50 min for the remaining 5 weighted, then ~4 h for all 19 multinomial. Output validated (see below). Everything downstream is written and waiting; `scripts/round27_chain.sh` runs it in one command. |
 | 2 | decision-curve band widened by its measured shortfall | **done** — `s49_dcaband.py`. Costs 10 of 31 resolved thresholds; the per-thousand headline was checked and is untouched. |
 | 2b | within-cell noise bound on the analyst-choice share | queued — needs Phase 1's draws |
-| 2c | crossed family × encoding on the 8 ITSM pairs | **script ready**, run queued behind Phase 1 |
+| 2c | crossed family × encoding on the 8 ITSM pairs | **done** — 3,456 fits in 5 min, run nice'd beside Phase 1 on idle cores. **Partially replicates**: encoding leads on 6 of 8, family on the other 2 and not narrowly (0.04× on the worst). Written into §6.2 and §11's limitation narrowed. |
 | 3 | the inference-share denominator, plus a generalised sweep | **done** — two macros, and a condition that re-multiplies every quoted count from the axis declaration |
 | 3b | scikit-learn citation; §9.3's euphemism | **both done** |
 | — | **internal red team, pass 1** | 18 findings (8 blocking) — **all repaired**, built, verified, committed |
