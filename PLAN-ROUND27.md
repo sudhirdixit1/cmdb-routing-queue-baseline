@@ -16,7 +16,7 @@ Append progress to §9 of THIS file after every phase.
 
 | phase | what | state |
 |---|---|---|
-| 1 | weighted bootstrap, designed surface, 400 draws | **running** — `s44_designed.py`, 13/19 weighted done at restart, on BPIC19 (the ~1 h pair); multinomial arm after it. Everything downstream is written and waiting. |
+| 1 | weighted bootstrap, designed surface, 400 draws | **running** — 14/19 weighted at 00:24. BPIC19 took **86 min**, not the ~58 the resume note implied, so budget ~5 h more: ~50 min for the remaining 5 weighted, then ~4 h for all 19 multinomial. Output validated (see below). Everything downstream is written and waiting; `scripts/round27_chain.sh` runs it in one command. |
 | 2 | decision-curve band widened by its measured shortfall | **done** — `s49_dcaband.py`. Costs 10 of 31 resolved thresholds; the per-thousand headline was checked and is untouched. |
 | 2b | within-cell noise bound on the analyst-choice share | queued — needs Phase 1's draws |
 | 2c | crossed family × encoding on the 8 ITSM pairs | **script ready**, run queued behind Phase 1 |
@@ -767,6 +767,26 @@ pivotal interval excludes its own point estimate — the last being the
 headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
+
+### 2026-08-29, 00:24 — the first new pair, validated rather than assumed
+
+BPIC19's weighted draw file was checked structurally before the run was left
+to continue, because a malformed output discovered four hours later is four
+hours lost:
+
+- 519,696 rows = 401 draws × 1,296, where 401 is the point estimate at
+  `draw = -1` plus 400 bootstrap draws, and 1,296 is 36 cells × 36 metrics
+  (the 5 scalar instruments plus the 31-point decision-curve grid);
+- 2 learners, 2 splits, 3 rungs — the declared balanced factorial, with no
+  level missing;
+- **180 scalar point-estimate cells**, which is what the design says a pair
+  carries;
+- zero NaN increments.
+
+So the design in `s44_grid.csv` is the design being run, and the resume did
+not silently drop an axis. Note the wall-clock: **86 minutes for one pair**
+against the ~58 implied by the resume note's "about 70s a draw", so every
+downstream estimate in this file was optimistic by about half.
 
 ### 2026-08-29, overnight — the second red team, and a headline that did not survive
 
