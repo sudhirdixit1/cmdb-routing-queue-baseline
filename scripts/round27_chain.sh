@@ -50,6 +50,12 @@ for arg in "s44_weighted s48w" "s44_multinomial s48m"; do
   echo "-- s21_bands.py --draws-dir $1 --prefix $2"
   $PY s21_bands.py --draws-dir "$1" --prefix "$2" > "../logs/${2}_r27.log" 2>&1
   tail -2 "../logs/${2}_r27.log"
+  #  Validate the bands on their own terms before anything quotes them.  The
+  #  condition that earns this is that the region labels are counted at the
+  #  CONSERVATIVE edge: a band built from one edge with labels counted from
+  #  another agrees on most pairs and differs on a few, which looks like a
+  #  rounding difference until somebody checks a pair by hand.
+  $PY check_bands.py --prefix "$2"
 done
 
 #  The comparison that decides whether the repair was worth making.  Its
