@@ -840,6 +840,39 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-29, 01:20 — every place that still describes the OLD inference surface
+
+Found by grepping for the trap the audit had just caught twice. **The
+inference-surface macros in the manuscript are still the round-25 ones**, and
+they will silently stay that way through a rebuild unless each site below is
+re-pointed. This is the concrete work list for §5.1b's "account for every
+changed macro" — with the sites that will *not* change on their own.
+
+| site | what it feeds | needs |
+|---|---|---|
+| `round20_numbers.py:69` `load("s20_grid.csv")` | `\nInferenceCells` (780), `\nInferenceScalar` (3,900) | `s44_grid.csv`: 19 × 36 = 684 cells, 19 × 180 = **3,420** scalar |
+| `round20_numbers.py` (same block) `s21_facts` / `s21_regions` / `s21_critical` | every band, region, ρ and critical-value macro | the `s48w_*` files just written |
+| `round21_numbers.py:900` `load("s20_grid.csv")` | second reader of the same grid | as above |
+| `s25_denominator.py:96,148` | the denominator audit's inference column, and its per-pair draw check | `s44_grid.csv` and `results/s44_weighted/` |
+| `s22_anova.py:327` globs `RESULTS/"s20"` | the **bootstrapped** decomposition indices and their intervals (Table S5) | `s44_weighted` — and note the design changed, so these intervals are not comparable to the old ones cell for cell |
+| `s41_bandcoverage.py` | family-wise coverage | **done** — `--draws-dir` added, running against `s44_weighted` |
+| `s21_bands.py` | the bands themselves | **done** — already had `--draws-dir` |
+
+**Two of these are traps rather than chores.** `s25_denominator` computes the
+audit that the manuscript's whole denominator discipline rests on; if it keeps
+auditing the old surface while the text describes the new one, the paper's
+most-defended claim becomes its most wrong. And `s22_anova`'s bootstrapped
+indices are the only thing that would silently produce *plausible* numbers
+from the wrong surface — the others would produce obviously stale counts.
+
+**The pattern is now three-for-three.** Every check in this repository that
+reads a fixed filename failed the moment the analysis moved: `round21_numbers`
+counting crossed pairs, `s41` profiling families, and these. The generalisable
+fix is not to re-point them one at a time but to make the surface an argument
+with no default — a script that must be *told* which surface it describes
+cannot describe the wrong one silently. Worth doing if a later round replaces
+the surface again; recorded here because the reason will not be obvious then.
+
 ### 2026-08-29, 01:10 — THE WEIGHTED ARM IS COMPLETE, and it changes a headline
 
 `s21_bands.py --draws-dir s44_weighted --prefix s48w` has run on all 19 pairs.
