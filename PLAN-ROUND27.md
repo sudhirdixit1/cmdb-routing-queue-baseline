@@ -1058,6 +1058,48 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-29, 03:15 — THE SCHEME COMPARISON'S REAL HEADLINE, found by the gate written three hours earlier
+
+`check_bands` failed the multinomial arm and the chain stopped, which is both
+gates behaving correctly. What it found is **stronger than the displacement
+result** and should lead §4.1.
+
+**Under the multinomial scheme, 270 of 3,420 cells cannot be given a band at
+all — 7.9%. Under the weighted scheme the count is 0.**
+
+The mechanism, traced rather than inferred. On BPIC19's rolling folds every
+one of the 18 cells appears in **311 of 400 draws**: 89 draws produced no
+value for the cell at all, because the resample lost enough register levels
+that the arm could not be fitted. `s21_bands` takes the median down each
+member's draw column with `np.median`, so a column with holes yields NaN, and
+the cell gets no centre and therefore no band. Under weights every row has
+positive weight in every draw, so every cell appears in all 400 and there are
+no holes. The three affected pairs are BPIC15_4/duration, BPIC15_5/duration
+and BPIC19/duration, and it is the **rolling folds** that fail — the smaller
+training halves, which is exactly where level loss should bite hardest.
+
+**Why this is the better headline.** "The displacement halves" is a
+quantitative improvement in a statistic a reader must take on trust.
+"Three-quarters of the rolling-fold cells on three pairs cannot be banded at
+all under the old scheme, and all of them can under the new one" is a
+qualitative difference a reader can check, and it is the *same mechanism*
+Section 11 named — level loss — showing up as an outright failure rather than
+as a bias.
+
+**And it exposes a defect in how the old surface counted.** A cell with a NaN
+band is not resolved, so it was counted as **unresolved** — indistinguishable
+in every table from a cell that was banded and straddled zero. That is a
+denominator carrying items that were never assessable, in a paper whose
+subject is denominators. Whether the old inference surface had such cells is
+now a question worth asking of round 25's numbers, and §4.1 should say what
+the count was rather than leaving it.
+
+**Consequence for the chain.** `set -e` stopped it at `check_bands s48m`, and
+that is the wrong response *for the comparison arm specifically*: the
+multinomial bands are expected to be defective — that is the finding. The
+remaining steps run manually. The gate stays as it is; it is right, and the
+chain is what needs to know that one arm is allowed to fail.
+
 ### 2026-08-29, 03:05 — a duplicate chain, started because I misread `ps`
 
 Recorded because the misdiagnosis is the reusable part.
