@@ -5,7 +5,11 @@
 \label{sec:boot}
 
 The pipeline is frozen and identical on every log, and the \emph{pipeline}
-axis spans encodings as well as model families. Attributes are assigned to
+axis spans encodings as well as model families. Every learner, encoder and
+calibrator is the \texttt{scikit-learn} implementation
+\citep{pedregosa2011scikit} at the version \texttt{requirements.lock} pins,
+so the pipeline axis varies what this paper declares and nothing underneath
+it. Attributes are assigned to
 roles by the pre-registered rules of Section~\ref{sec:design}, cases are
 ordered by their first timestamp, and the split is temporal;
 Supplement~\ref{app:pipeline} lists the levels and why the tree learner is

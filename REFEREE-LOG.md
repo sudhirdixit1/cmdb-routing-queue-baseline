@@ -2188,3 +2188,78 @@ Section 11 states that prefix length, bucketing and sequence encoding are not
 axes of this design space and cannot be; the prefix pilot says of itself that
 it does not make this a predictive-process-monitoring paper. A keyword is a
 claim of topical membership and the body disclaims it.
+
+## R27.6 An internal adversarial pass found eighteen more, eight of them blocking. **CONCEDED, every one**
+
+After the seventh referee's report was answered, the same class of defect it
+named — *a macro is right, a table is right, and the pair contradicts* — was
+hunted deliberately rather than waited for. Eighteen findings, none of them
+previously known, in sections no referee has yet complained about.
+
+The eight blocking ones, because a paper about denominator discipline cannot
+have these and be believed:
+
+1. **The subset relation between the two cohorts is stated backwards.** The
+   registered cohort is 46,606 and the estate's is 45,455, and Section 7 said
+   the first was a strict subset of the second. Its own next clause proves the
+   opposite: the 1,151 extra cases are the ones *the estate* excludes.
+2. **A table caption asserted the conclusion the body withdrew**, and the
+   table's own rows refute it: under the concentrated measure the largest
+   first-order index is 0.392 against a higher-order remainder of 0.317, and
+   the caption said no first-order index approaches the remainder.
+3. **The resolution denominator was the admissible surface, not the
+   inference family** — "197 of 5,808 AUC cells", where 5,028 of those cells
+   carry no draws at all and so are neither resolved nor unresolved. The
+   honest figure is 197 of 780. The error understates the corpus's resolution
+   by a factor of seven, in the sentence whose purpose is to say the data
+   resolve little, and forty lines away the same section uses the correct
+   denominator for the same notion.
+4. **The specification-curve table printed region labels Definition 3
+   retracts** — the identical defect repaired in the master table a week
+   earlier, left standing in a second table, which now disagreed with the
+   first about the same four pairs.
+5. **The supplement asserted one conditionally harmful surface exists** while
+   the article's master table shows none: 9/3/1/6 against the post-minimum-
+   share 6/3/0/10.
+6. **"Uniformly beneficial" was restated over the admissible surface** rather
+   than over the inference family the definition uses — on the one label the
+   paper had already identified as the most flattered by that substitution.
+7. **"The two largest logs carry two pipelines"** where both tables say three,
+   and where the declared cell count of 1,620 depends on the three.
+8. **"The other 15 pairs"**, where two plus fifteen is not nineteen: the macro
+   counted pairs with at most two pipeline levels rather than the pairs the
+   sentence names, understating a limitation by two pairs.
+
+Ten further findings are serious: a per-pair count true only of the modal
+pair and used as a headline denominator; a directional claim ("that range is
+carried by the half-of-intake rung") true at the median and false at the
+maximum the same sentence quotes; an interaction called "as large as either
+main effect" while being strictly smaller than one of them; the crossed
+decomposition quoting an aggregation the section itself insists must be named;
+the calibration's *applied* range quoted from the simulation plane rather than
+from the corpus; a register cardinality attributed to the wrong cohort in two
+places; the layer ladder labelled with the target Section 7.1 exists to prove
+it is not; an accounting that omits the one pair resolving only harmful cells
+and then misclassifies it; and a rate whose denominator counts sign-changing
+pairs among "pairs that carry a direction".
+
+**One finding is worse than the rest and is recorded separately.** The
+paper's advertised *first* auditability check — "multiplying Table 3's level
+counts gives the cell counts of Section 6, and that multiplication is the
+first check the verification harness runs" — **does not work.** Three of the
+nine rows break the product: encoding is already fused into the learner row,
+the decision time is not a factor of any surface, and the baseline appears
+twice. The naive product for a modal pair is 267,840 against a declared 1,080.
+A reader following the paper's own instruction to check its denominator gets a
+number six times too large. That is not a typo; it is the one check the
+manuscript invites the reader to run.
+
+**What the pass also established.** Verified clean, and recorded so a later
+round does not re-check: the whole denominator table multiplies exactly, cell
+for cell, to 29,040 and 273,024; the master, triple and calibrated-band tables
+reconcile on all nineteen rows for every resolved share and every rho; the
+decomposition tables reproduce all four corpus medians and the higher-order
+interval; the decision-time ladder's six increments, intervals and ordinals
+are right; and roughly thirty further identities hold to the printed
+precision. The defects are concentrated in *prose that describes* tables, not
+in the tables.

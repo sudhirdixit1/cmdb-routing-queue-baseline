@@ -270,7 +270,13 @@ reintroduced.
 
 ## 3b. Phase 3b — Small items found this session (apply when the owning agent releases the file)
 
-- [ ] **3b.1 scikit-learn is never cited.** `references.bib` carries
+- [x] **3b.1 scikit-learn is never cited.** — **DONE.** Cited at §4.1 where
+  the pipeline is introduced, with the clause that earns it: every learner,
+  encoder and calibrator is that implementation at the version
+  `requirements.lock` pins, "so the pipeline axis varies what this paper
+  declares and nothing underneath it". Re-checked afterwards: every bib entry
+  is now cited and every citation resolves.
+  *(original finding below)* `references.bib` carries
   `pedregosa2011scikit` and nothing cites it — verified by resolving every
   `\cite` key across parts, tables and both documents. This matters more than
   a normal missing citation because the paper *itself* argues for software
@@ -584,6 +590,40 @@ pivotal interval excludes its own point estimate — the last being the
 headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
+
+### 2026-08-28, later — an internal red team, and what it changes about this plan
+
+An adversarial pass over the sections no referee has complained about
+returned **eighteen findings, eight blocking**, all verified against
+`results/*.csv` or against the generator. They are enumerated in
+`REFEREE-LOG.md` under R27.6 and are being repaired now.
+
+**The one that matters most is not on any referee's list.** The paper's
+advertised *first* auditability check — "multiplying Table 3's level counts
+gives the cell counts of Section 6, and that multiplication is the first
+check the verification harness runs" — **does not work.** Three of Table 3's
+nine rows break the product: encoding is already fused into the learner row,
+the decision time is not a factor of any surface, and the baseline is printed
+twice. The naive product for a modal pair is 267,840 against a declared
+1,080. A reader who follows the paper's own instruction to check its
+denominator gets a number six times too large.
+
+That is worse than any single wrong number, because the whole argument of
+this paper is that a reader should be able to reproduce a denominator. **It
+must be made to work rather than deleted** — the claim is the right claim and
+the table has to earn it.
+
+**What the pass also bought, and what it costs.** It verified roughly thirty
+identities clean, cell for cell, including the entire denominator table, all
+nineteen rows of the master/triple/calibrated-band tables, every corpus
+median of the decomposition, and the decision-time ladder's increments,
+intervals and ordinals. The defects are concentrated **in prose that
+describes tables, not in the tables** — which is worth knowing, because it
+says the generators are sound and the writing is where the risk lives. That
+is also the argument for the Phase 4 length pass being a correctness measure
+and not only a presentation one: every restatement of a number in prose is
+another place for the prose and the table to drift apart, and this paper
+restates 55 of the 73 macros in §11 alone.
 
 ### 2026-08-28, later — Phase 4.5/4.6 complete
 
