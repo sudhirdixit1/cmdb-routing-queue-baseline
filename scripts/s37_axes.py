@@ -59,6 +59,34 @@ import s01_surface as S01  # noqa: E402
 from common import RESULTS  # noqa: E402
 
 PAIRS = (("BPIC14", "handover"), ("BPIC14", "duration"))
+
+#  ROUND TWENTY-SEVEN.  Section 11 conceded that the crossing runs on the case
+#  study's log alone, so the other pairs carry family and encoding confounded,
+#  and an internal audit then found the concession understated by two pairs.
+#  The crossing needs POINT ESTIMATES ONLY --- a decomposition takes no
+#  bootstrap and no band --- so extending it to the ITSM family costs six
+#  pipelines on six further logs, which is a small fraction of what one
+#  bootstrap pair costs.  The eight ITSM pairs are the population Section
+#  S10.16 already reports every headline on separately, which is why they are
+#  the extension rather than an arbitrary six.
+#
+#  This is a claim the paper LIKES, run on new pairs for the first time, so
+#  rule 2 of PLAN-STRONG-ACCEPT applies with force: the prior is that
+#  `encoding beats family' does not fully replicate, and if it does not, the
+#  paper narrows the claim to the case study rather than the other way round.
+ITSM_PAIRS = (("BPIC13_closed", "handover"),
+              ("BPIC13_incidents", "duration"),
+              ("BPIC13_incidents", "handover"),
+              ("BPIC14", "duration"),
+              ("BPIC14", "handover"),
+              ("Helpdesk", "duration"),
+              ("UCI498", "duration"),
+              ("UCI498", "handover"))
+
+PAIR_SETS = {"case": PAIRS, "itsm": ITSM_PAIRS}
+#: appended to every output name so a wider run cannot overwrite the
+#: case-study results the manuscript's macros are computed from.
+SUFFIX = ""
 FAMILIES = ("logistic", "gradient boosting")
 ENCODINGS = ("one-hot", "frequency", "cross-fitted target")
 QUALITY = (("clean", 1.00), ("mask_rare", 0.50), ("corrupt", 0.15))
@@ -211,9 +239,19 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--serial", action="store_true")
+    ap.add_argument("--pairs", choices=sorted(PAIR_SETS), default="case",
+                    help="which pair set to cross: `case' is the case study's "
+                         "two pairs, `itsm' the eight ITSM pairs Section "
+                         "S10.16 reports on separately")
+    ap.add_argument("--procs", type=int, default=None,
+                    help="pool size; lower it when another run holds the "
+                         "machine")
     a = ap.parse_args(argv)
+    global SUFFIX
+    pairs = PAIR_SETS[a.pairs]
+    SUFFIX = "" if a.pairs == "case" else "_" + a.pairs
     t0 = time.time()
-    tasks = [(lg, tg, fam, enc) for (lg, tg) in PAIRS
+    tasks = [(lg, tg, fam, enc) for (lg, tg) in pairs
              for fam in FAMILIES for enc in ENCODINGS]
     n_cells = (1 + N_ROLLING_KEPT) * len(QUALITY) * len(RUNGS)
     print("=" * 92)
@@ -232,15 +270,16 @@ def main(argv=None):
                 X.append(err)
     else:
         import multiprocessing as mp
-        with mp.Pool(processes=min(12,
-                                   max(1, (os.cpu_count() or 4) - 2))) as pool:
+        with mp.Pool(processes=(a.procs if a.procs
+                                else min(12,
+                                         max(1, (os.cpu_count() or 4) - 2)))) as pool:
             for rows, err in pool.imap_unordered(one, tasks):
                 R += rows
                 if err:
                     X.append(err)
                     print("  FAILED %s" % err, flush=True)
     C = pd.DataFrame(R)
-    C.to_csv(RESULTS / "s37_cells.csv", index=False)
+    C.to_csv(RESULTS / ("s37_cells%s.csv" % SUFFIX), index=False)
     if not len(C):
         raise SystemExit("s37 produced no cells")
 
@@ -253,7 +292,7 @@ def main(argv=None):
         out.append(D.assign(log=lg, target=tg, metric=metric,
                             total_variance=tot))
     IDX = pd.concat(out, ignore_index=True) if out else pd.DataFrame()
-    IDX.to_csv(RESULTS / "s37_indices.csv", index=False)
+    IDX.to_csv(RESULTS / ("s37_indices%s.csv" % SUFFIX), index=False)
 
     first = IDX[IDX.order == 1]
     piv = first.pivot_table(index=["log", "target"], columns="term",
@@ -279,7 +318,8 @@ def main(argv=None):
             .median()),
         larger_axis="encoding" if enc > fam else "family",
         runtime_s=round(time.time() - t0, 1))
-    pd.DataFrame([facts]).to_csv(RESULTS / "s37_facts.csv", index=False)
+    pd.DataFrame([facts]).to_csv(RESULTS / ("s37_facts%s.csv" % SUFFIX),
+                                 index=False)
     print("\n" + pd.Series(facts).to_string())
     print("\nwrote s37_*.csv in %.0fs" % (time.time() - t0))
 

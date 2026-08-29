@@ -176,6 +176,51 @@ reaching a referee.
 
 ---
 
+## 3a. What we went looking for once you had named the class
+
+Your three findings were instances of one thing: *a macro is right, a table is
+right, and the pair contradicts when a reader holds them together*. Six of
+that class had already been repaired in `a03b560`; yours was a seventh. That
+is enough instances to stop treating them as a proofreading problem.
+
+So we hunted the class deliberately, in the sections no referee has yet
+complained about, and found **eighteen more — eight of them blocking**. All
+are repaired and enumerated in `REFEREE-LOG.md` under R27.6. A sample, so the
+severity is not taken on trust: the two cohorts' subset relation was stated
+backwards, in a paragraph whose own next clause proves the direction; a
+resolution rate was quoted as "197 of 5,808 cells" where 5,028 of those cells
+carry no bootstrap draws and are therefore neither resolved nor unresolved,
+understating the corpus's resolution sevenfold *in the sentence claiming the
+data resolve little*; a table printed region labels that Definition 3
+retracts — the same defect repaired in the master table a week earlier and
+left standing in a second table; and the supplement asserted that one
+conditionally harmful surface exists while the article's master table shows
+none.
+
+**One of the eighteen deserves its own paragraph, because it is worse than a
+wrong number.** Section 3 tells the reader that multiplying Table 3's level
+counts reproduces the cell counts of Section 6, and calls that "the first
+check the verification harness runs". Three of Table 3's nine rows are not
+factors of that product: the encoding is already fused into the learner row,
+the decision time is not a factor of any surface, and the baseline appears
+twice. A reader who follows our own instruction to audit our denominator gets
+267,840 where the declaration says 1,080. The check the harness runs is the
+right one; the table a reader was pointed at could not reproduce it. We have
+made the table earn the claim rather than deleting the claim, because a reader
+reproducing a denominator is the argument of this paper.
+
+Two things are worth saying about the eighteen as a set. The pass also
+verified about thirty identities **clean** — the whole denominator table cell
+for cell, all nineteen rows of the master, triple and calibrated-band tables,
+every corpus median of the decomposition, the decision-time ladder's
+increments and intervals and ordinals. And the defects are concentrated in
+*prose that describes tables*, not in the tables: the generators are sound and
+the writing is where the risk lives. That is the strongest argument we have
+for the length reduction below being a correctness measure rather than a
+cosmetic one. Every restatement of a number in prose is another place for the
+prose and the table to drift, and Section 11 alone restates 55 of the 73
+macros it uses.
+
 ## 4. Reproducibility: a discrepancy we found ourselves and are disclosing
 
 ⟨PENDING: the `hgb` cross-machine finding and its disposition.⟩

@@ -206,10 +206,29 @@ into a demand. A decomposition needs **point estimates only** — no bootstrap,
 no bands — so the cost is 2 families × 3 encodings = 6 pipelines refitted on
 the 8 ITSM pairs, which is a small fraction of what one bootstrap pair costs.
 
-- [ ] 2c.1 Run the crossed family × encoding decomposition on the 8 ITSM
-  pairs (the family closest to the case study, which is the population §11
-  already reports every headline on separately). Extend to the full 19 only
-  if it is cheap once running.
+- [x] **2c.0 The script is ready** — `s37_axes.py` gained `--pairs case|itsm`,
+  `--procs`, and an output suffix, so the ITSM run writes
+  `results/s37_*_itsm.csv` and **cannot overwrite the case-study results the
+  manuscript's macros are computed from**. Verified by `--plan`: the case set
+  is 12 pipelines × 36 cells × 2 arms = 864 fits; the ITSM set is 48 × 36 × 2
+  = **3,456 fits**. BPIC14's two pairs are in both sets and are the expensive
+  ones, so the marginal cost is six small logs.
+- [ ] 2c.1 Run it once `s44_designed.py` is done:
+
+  ```bash
+  python scripts/s37_axes.py --pairs itsm --procs 8
+  ```
+
+  **Do not start it before then** — the machine is thermally constrained and
+  Phase 1 is on the critical path.
+- [ ] 2c.1a Then decide how the macros read it. `\sEncodingPct`,
+  `\sFamilyPct`, `\sFamilyEncodingPct` and `\crossedHigherOrderPct` are
+  currently computed from `s37_indices.csv` for BPIC14 — and an internal audit
+  found they are the median over the **pooled** target × instrument
+  combinations while the table beside them prints **per-target** medians, an
+  aggregation §6.2 itself insists must be named where it appears. Fix that
+  first, then extend; do not add ITSM numbers on top of an aggregation that is
+  already mis-stated.
 - [ ] 2c.2 Report whether "encoding beats family" holds beyond BPIC14. **Rule
   1 applies with force here**: this is a finding the paper likes, run on new
   pairs for the first time, so the prior should be that it does not fully
