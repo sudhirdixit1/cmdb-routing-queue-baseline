@@ -12,38 +12,47 @@ Append progress to §9 of THIS file after every phase.
 
 ---
 
-## STATUS AT A GLANCE — updated 2026-08-29, 00:30 (overnight session)
+## STATUS AT A GLANCE — updated 2026-08-29, 03:00 (overnight session)
 
-| phase | what | state |
-|---|---|---|
-| 1 | weighted bootstrap, designed surface, 400 draws | **running** — 14/19 weighted at 00:24. BPIC19 took **86 min**, not the ~58 the resume note implied, so budget ~5 h more: ~50 min for the remaining 5 weighted, then ~4 h for all 19 multinomial. Output validated (see below). Everything downstream is written and waiting; `scripts/round27_chain.sh` runs it in one command. |
-| 2 | decision-curve band widened by its measured shortfall | **done** — `s49_dcaband.py`. Costs 10 of 31 resolved thresholds; the per-thousand headline was checked and is untouched. |
-| 2b | within-cell noise bound on the analyst-choice share | queued — needs Phase 1's draws |
-| 2c | crossed family × encoding on the 8 ITSM pairs | **done** — 3,456 fits in 5 min, run nice'd beside Phase 1 on idle cores. **Partially replicates**: encoding leads on 6 of 8, family on the other 2 and not narrowly (0.04× on the worst). Written into §6.2 and §11's limitation narrowed. |
-| 3 | the inference-share denominator, plus a generalised sweep | **done** — two macros, and a condition that re-multiplies every quoted count from the axis declaration |
-| 3b | scikit-learn citation; §9.3's euphemism | **both done** |
-| — | **internal red team, pass 1** | 18 findings (8 blocking) — **all repaired**, built, verified, committed |
-| — | **internal red team, pass 2** | 14 findings (3 blocking) over the files pass 1 could not read — **all repaired** |
-| 4 | length | **measured**: was 58 pp, now **63** — the 32 repairs added five pages of denominators and qualifiers, and that was the right trade. 42 was never reachable; the target is 46 and the arithmetic is in §4.0b. Cut list written and executable; execution waits for Phase 1. |
-| 4.2 | voice | **decided: keep the editorial "we"**, with the reason recorded |
-| 5 | claims regenerated against the new numbers | register written; execution waits for Phase 1 |
-| 6 | the `hgb` cross-machine reproduction gap | **done — and it was worse than recorded.** Platform, not threading; the divergence tracks register **cardinality**, not the learner; `logit` diverges up to 0.094 and boosting to 0.851, against the 5e-10 and 0.14 the repo had written down. Disclosed with six measured tolerances, gated, and the gate has its own corruption suite. |
-| 7 | compliance | audited against the journal's own guide; agent-fixable items **done**; owner items in `submission/OWNER-ACTIONS.md` §4 |
-| 8 | pre-submission red team | **gates green**: `attack_verifier` 255 caught / 0 missed, the new `attack_reproduction` 6 / 0 unnoticed, `verify_numbers` 166 macros + 38 conditions / 0 failures, `texlint` 0, `check_package` 15 / 0, `check_highlights` 5 / 0. Build: **63 pp, 0 errors, 0 undefined references, 0 overfull boxes.** Remaining: the fresh-context read of the built PDF, which waits for the Phase 1 rewrite. |
+**Everything not gated on the designed-surface run is done.** 55 commits on
+`round27-inference`. Every gate green: `verify_numbers` 166 macros / 38
+conditions, `texlint`, `check_package`, `check_highlights`, `check_bands`,
+`check_reproduction`, `attack_verifier` 255 caught / 0 missed,
+`attack_reproduction` 6 / 0. The manuscript builds at **63 pp, 0 errors, 0
+undefined references, 0 overfull boxes**.
 
-**A second thing that now needs the owner, created by this round's own
-disclosure:** the code-availability statement claims bit-exactness *inside the
-container, whose image digest the archive records* — and **no such digest
-exists**. The `Dockerfile` pins its base by mutable tag. Until it is minted
-and recorded, the manuscript makes a claim the archive cannot support, which
-is the one category of defect this project treats as unshippable.
-`submission/OWNER-ACTIONS.md` §4.7.
+| phase | state |
+|---|---|
+| 1 · weighted bootstrap on a designed surface | **weighted arm complete and validated five ways.** The repair **halves** the interval pathology (36/3,420 = 1.05% against 1.90%) rather than removing it. Multinomial arm nearly done; `round27_chain.sh` is armed and waiting to run the whole downstream. |
+| 2 · decision-curve band widened | **done** — costs 10 of 31 resolved thresholds; the per-thousand headline checked and untouched |
+| 2b · within-cell noise bound | **closed as ill-posed**, reason recorded; nothing from it enters the paper |
+| 2c · crossed family × encoding | **done** — partially replicates: encoding leads on 6 of 8 ITSM pairs, family on 2 and not narrowly |
+| 3 · inference-share denominator + sweep | **done** |
+| 3b · scikit-learn citation; §9.3 euphemism | **done** |
+| red team, three passes | **40 findings, 11 blocking — all repaired.** Pass 3 audited the repairs themselves and found 8 defects the repairs created |
+| 4 · length | measured 63 pp; 42 unreachable, target 46; cut list executable, execution waits on Phase 1 |
+| 5 · claims regenerated | register written; **eight-edit migration diff exact and ready** |
+| 6 · `hgb` reproduction gap | **done** — worse than recorded; disclosed, gated, corruption-suited |
+| 7 · compliance | agent-fixable **done**; owner items in `submission/OWNER-ACTIONS.md` §4 |
+| 8 · pre-submission red team | gates green; the fresh-context PDF read waits on the rewrite |
 
-**The one thing that cannot be done without the owner:** mint the archive DOI.
-It is not merely a missing statement — it is **reference [11]** in the printed
-bibliography, rendering as a placeholder that forwards the reader to a
-statement which does not carry the DOI either. That is the single most likely
-cause of a desk return. See `submission/OWNER-ACTIONS.md` §4.5.
+**Prepared and waiting for the run**, so the post-run work is paste-and-check
+rather than think-and-derive: ready-to-paste drafts for **§4.2** (§1.4b) and
+**§11's bootstrap paragraph** (§1.4c); the **exact eight-edit re-pointing
+diff** (§1.4d); the **ρ = 1 framing decision** (§1.4e); the
+paragraph-by-paragraph rewrite spec (§1.4a); the claims-at-risk register
+(§5.1a).
+
+**Two findings the rewrite must not soften.** The repair halves the pathology
+and does not remove it. And one surface reaches **uniformly beneficial** — on
+a family that is 3.8% of its admissible cells, *smaller* than the old
+surface's 10%, and robust to widening out to 1.5×, so the family-size caveat
+is the only thing between it and a headline.
+
+**Owner, two items, both blocking submission:** mint the archive DOI (it is
+reference [11], currently a placeholder), and mint the **Docker image digest**
+the code-availability statement now depends on. `submission/OWNER-ACTIONS.md`
+§4.5 and §4.7.
 
 ## 0. The review this plan answers
 
