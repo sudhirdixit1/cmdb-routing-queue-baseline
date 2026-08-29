@@ -828,6 +828,37 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-29, 01:00 — the repairs audited, and why that was worth doing
+
+The 32 repairs rewrote a lot of prose and nobody had read the rewrites. A
+third pass over **tonight's diff only** found **eight more defects, one
+blocking** — every one of them created by a repair.
+
+**The blocking one is the class this round keeps finding.** §8.4's headline
+was reversed and **three other statements of the withdrawn claim were left
+standing**, all citing the section whose headline now says the opposite. That
+is the master-table defect again, committed by the round that was fixing it.
+
+**And a safeguard failed the first time it was tested.** The macro behind
+"the crossing has not been re-run on the other N pairs" carries a comment
+saying it reads the crossing's own output *"so a crossing extended to a second
+log moves the sentences with it"* — and it read **one filename**. So the macro
+was corrected 15 → 17 in the same round that made 17 wrong; it is 11. A check
+that reads a fixed filename cannot notice a second file. It now reads every
+file the analysis writes, and counts pairs rather than logs.
+
+**The lesson for the Phase 1 rewrite, which is the biggest rewrite left.**
+Every repair is a new claim and inherits no credibility from the defect it
+replaced. The rewrite of §4, §6, §10 and §11 must be audited the same way
+before it is believed — budget that pass rather than discovering it is needed.
+
+Two of the eight are worth carrying as method notes. `texlint` caught a
+spelled-out magnitude in *my own* replacement sentence, which is the gate
+doing exactly its job on the person maintaining it. And the Data availability
+statement claimed a container digest that does not exist; it is now a macro
+that states the deposit's status the way the DOI macro does, so the manuscript
+cannot assert an artefact into existence.
+
 ### 2026-08-29, 00:24 — the first new pair, validated rather than assumed
 
 BPIC19's weighted draw file was checked structurally before the run was left
