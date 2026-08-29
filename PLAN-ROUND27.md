@@ -225,14 +225,44 @@ contributes roughly $\overline{\hat\sigma^2}(1-\bar\rho)$. That is a
 computable bound on how much of the surface's variance is estimation error
 rather than either analyst choice or resampling.
 
-- [ ] 2b.1 Compute it per pair from the Phase-1 draw files; report the
-  implied ceiling on the noise share of `analyst choice`.
-- [ ] 2b.2 One sentence in §6.2 and one paragraph in the supplement. Do NOT
-  promote it to a fourth reporting object — the project's own rule is that a
-  check is not a contribution. It is a bound that makes an existing number
-  honest, and it should read that way.
-- [ ] 2b.3 If the bound turns out to be large enough that `analyst choice`
-  is mostly noise, rule 1 applies and §6.2's claim changes.
+- [x] **2b.1 Computed, and the bound as posed is WRONG — do not use it.**
+  `scripts/s50_noise.py`, run against the 13 pairs that already carry 400
+  weighted draws. Its noise share **exceeds one on 7 of the 13**, which is
+  impossible for a share of a variance and is the computation reporting its
+  own ill-posedness.
+
+  **The reason is worth more than the number would have been.** $\hat\sigma$
+  comes from the nested bootstrap, which resamples the **training** half as
+  well as the test half, because this paper's estimand deliberately contains
+  training-sample variability (§4.1). The cross-cell variance the
+  decomposition partitions is computed at **fixed training data** — it is the
+  spread across specifications on one dataset. The two are not commensurable
+  and their ratio is not a noise share. Answering the original question needs
+  a **fixed-training** standard error, which is a different scheme and a
+  separate run.
+
+  Rule 4 applies: print only what the output supports. **No macro reads
+  `s50_facts.csv`, and nothing from it goes in the paper as a share.** The
+  script's header now says so before it says anything else.
+
+- [ ] **2b.2 What the run does support, and is worth one sentence.** The
+  comparison that needs no decomposition model: a cell's own standard error
+  against the standard deviation across cells, both in the metric's own units.
+  On AUC the mean per-cell standard error runs 0.007 on the two largest pairs
+  to 0.078 on BPIC15_5, against cross-cell standard deviations of 0.011 to
+  0.053 — so **on the small logs a single specification's uncertainty is
+  larger than the entire spread across specifications**.
+
+  That corroborates from a second direction what §6.3 already reports as
+  scarcity of resolved cells, and it is the more honest framing of this
+  paper's own thesis: on most of this corpus, *which* specification you choose
+  moves the answer less than not knowing the answer does. Decide during the
+  Phase 1 write-up whether §11 takes one sentence of it. It is a limitation on
+  how the decomposition may be read, and stating it pre-empts the attack
+  better than a bad number would have.
+
+- [ ] 2b.3 If a fixed-training standard error is ever run, revisit — but not
+  in this round, and not as a fourth reporting object.
 
 ## 2c. Phase 2c — Close the crossed-pipeline limitation (queue after Phase 1's compute)
 

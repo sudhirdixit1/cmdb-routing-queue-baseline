@@ -1,0 +1,2 @@
+n_pairs,n_rows,draws_dir,share_correlated_median,share_correlated_max,share_correlated_min,share_independent_median,rho_median,rho_min,n_above_tenth,n_above_quarter,runtime_s
+13,65,s44_weighted,1.9275263517644168,5.07596493970555,0.10345517925303213,2.1757926787733615,0.13152049072678643,0.11410385255497273,13,11,5.5
