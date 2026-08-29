@@ -897,7 +897,7 @@ def emit(mn):
     #  is a rate of is the AUC sub-family of the inference surface,
     #  \nInferenceCells, and this is that ratio.
     M42 = load("s42_mpid.csv")
-    G20b = load("s20_grid.csv")
+    G20b = load("s44_grid.csv")
     if (M42 is not None and len(M42) and G20b is not None and len(G20b)
             and "cells" in G20b.columns):
         _den = float(G20b.cells.sum())

@@ -66,15 +66,15 @@ def emit(mn):
     # ================================================================
     # s20/s21 -- the inference surface and its bands
     # ================================================================
-    G20 = load("s20_grid.csv")
+    G20 = load("s44_grid.csv")
     #  ROUND TWENTY-SEVEN.  `s20_facts.csv' was loaded here and never
     #  read -- one occurrence in the file.  It was found while writing the
     #  re-pointing diff for the new surface, as the one site that would
     #  have needed its columns checked by hand; a load nothing consumes
     #  needs no columns and no successor.  Removed rather than re-pointed.
-    F21 = load("s21_facts.csv")
-    Q21 = load("s21_critical.csv")
-    R21 = load("s21_regions.csv")
+    F21 = load("s48w_facts.csv")
+    Q21 = load("s48w_critical.csv")
+    R21 = load("s48w_regions.csv")
     if G20 is not None and len(G20):
         put("nInferenceCells", thousands(int(G20.cells.sum())))
         put("nInferenceScalar", thousands(int(G20.scalar_cells.sum())))

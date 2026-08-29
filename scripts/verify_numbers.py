@@ -259,7 +259,7 @@ def main(argv=None):
     #  the region labels come from the WHOLE-SURFACE band (s21) wherever it
     #  exists, which is the source make_numbers reads; s03's are the narrower
     #  family the correction withdraws.
-    REG = load("s21_regions.csv")
+    REG = load("s48w_regions.csv")
     if REG is None or not len(REG):
         REG = load("s03_regions.csv")
     if REG is not None and len(REG):

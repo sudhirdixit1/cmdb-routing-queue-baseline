@@ -171,8 +171,21 @@ def fig_regions():
     #  caption and the picture disagree.  s33 carries both; the nominal bar is
     #  drawn behind the calibrated one so the size of the correction is what
     #  the reader sees rather than something they have to be told.
-    G = load("s33_regions.csv")
-    REG = load("s21_regions.csv")
+    #  ROUND TWENTY-SEVEN.  This drew the COVERAGE-CALIBRATED labels when a
+    #  calibrated file existed and fell back to the nominal ones otherwise.
+    #  The designed surface has no calibrated file: the K/n calibration was
+    #  fitted on the old surface's plane, and this round's coverage
+    #  measurement says the widening the new families need is LARGER than
+    #  that calibration supplies (1.36-1.88 against an applied 1.18-1.77).
+    #  Applying a calibration known to be under-sized, and drawing it as the
+    #  operative one, would be worse than drawing the nominal band and saying
+    #  so -- which is what the caption now does.
+    #
+    #  The fallback is NOT left pointing at the old surface.  A figure that
+    #  silently draws a surface the manuscript no longer reports, the moment
+    #  a file is absent, is the defect this round found four times.
+    G = None
+    REG = load("s48w_regions.csv")
     if G is not None and not G.empty:
         d = G.sort_values("rho_calibrated")
         rho, rho_nom = d.rho_calibrated.values, d.rho.values

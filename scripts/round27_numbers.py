@@ -146,7 +146,7 @@ def emit(mn):
     #  is small and the paper's subject is denominators, which is exactly why
     #  it has to be a number in the manuscript rather than a silent zero.
     _bandfile = None
-    for _cand in ("s21_bands.csv.gz",):
+    for _cand in ("s48w_bands.csv.gz", "s21_bands.csv.gz"):
         if (mn.RESULTS / _cand).exists():
             _bandfile = _cand
             break

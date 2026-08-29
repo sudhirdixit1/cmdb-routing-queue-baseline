@@ -93,7 +93,7 @@ def main():
     print("=" * 92)
 
     try:
-        GRID = pd.read_csv(RESULTS / "s20_grid.csv")
+        GRID = pd.read_csv(RESULTS / "s44_grid.csv")
     except Exception:  # noqa: BLE001
         GRID = S20.plan()
 
@@ -145,7 +145,7 @@ def main():
         g = GRID[(GRID.log == log) & (GRID.target == target)]
         inf_cells = int(g.cells.iloc[0]) if len(g) else 0
         try:
-            D = pd.read_csv(RESULTS / "s20" / ("draws_%s_%s.csv.gz"
+            D = pd.read_csv(RESULTS / "s44_weighted" / ("draws_%s_%s.csv.gz"
                                                % (log, target)))
             D = D[D.draw >= 0]
             inf_obs = int(D.groupby(["learner", "split", "quality", "level",

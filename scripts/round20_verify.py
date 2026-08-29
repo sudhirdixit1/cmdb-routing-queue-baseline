@@ -316,8 +316,8 @@ def check(vn, M):
                "and not a corpus median")
 
     # ---- s21: the bands, recomputed from the band file ------------------
-    B21 = load("s21_bands.csv")
-    R21 = load("s21_regions.csv")
+    B21 = load("s48w_bands.csv")
+    R21 = load("s48w_regions.csv")
     #  families s21 could not build from complete replicates.  Recorded by
     #  s21 rather than raised there; a build in which any exist is a build a
     #  reader must be told about, so it fails here.
@@ -327,14 +327,14 @@ def check(vn, M):
     #  not a failure; what fails is a family whose band rests on too little to
     #  be a band at all, or one whose critical value came out below the
     #  pointwise one, which cannot happen if the maximum was taken correctly.
-    INC = load("s21_incomplete.csv")
+    INC = load("s48w_incomplete.csv")
     if INC is not None and len(INC):
         if "q_below_pointwise" in INC.columns \
                 and INC.q_below_pointwise.notna().any():
             vn.FAILS.append(
                 "s21: a whole-surface critical value came out below the "
                 "pointwise 1.96, which the maximum over a family cannot do; "
-                "see results/s21_incomplete.csv")
+                "see results/s48w_incomplete.csv")
         if "n_draws_complete" in INC.columns:
             share = (INC.n_draws_complete / INC.n_draws_declared)
             if float(share.min()) < 0.75 or int(INC.n_draws_complete.min()) < 20:
@@ -360,7 +360,7 @@ def check(vn, M):
                             "the within-instrument family")
         per = ws.groupby(["log", "target"]).q.first()
         eq("maxTSurfaceMedian", fmt_num(float(per.median()), 2), M,
-           "median over pairs, recomputed from s21_bands")
+           "median over pairs, recomputed from s48w_bands")
         eq("maxTSurfaceMin", fmt_num(float(per.min()), 2), M)
         eq("maxTSurfaceMax", fmt_num(float(per.max()), 2), M)
         fam = ws.groupby(["log", "target"]).n_family.first()
@@ -372,7 +372,7 @@ def check(vn, M):
         eq("nRegionChangedByFamily",
            fmt_thousands(int((R21.region
                               != R21.region_within_instrument).sum())), M,
-           "recounted from s21_regions")
+           "recounted from s48w_regions")
         eq("rhoMedian", fmt_num(float(R21.rho.median()), 3), M)
         eq("nUniformlyBeneficial",
            fmt_thousands(int((R21.region == "uniformly beneficial").sum())), M)

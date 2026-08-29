@@ -320,7 +320,9 @@ def check(vn, M):
     #  be REPORTED: whatever the bands file contains, `nUnbandableCells' must
     #  equal it.  A future surface with none will carry a zero, which is also
     #  worth printing.
-    BF = Path(results) / "s21_bands.csv.gz"
+    BF = Path(results) / "s48w_bands.csv.gz"
+    if not BF.exists():
+        BF = Path(results) / "s21_bands.csv.gz"
     if BF.exists():
         try:
             _b = pd.read_csv(BF)

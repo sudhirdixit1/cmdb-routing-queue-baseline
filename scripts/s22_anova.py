@@ -324,7 +324,7 @@ def draw_uncertainty(rng_seed=0):
     """P1.2.  Recompute the whole decomposition inside every bootstrap draw of
     the axis-complete inference surface, which gives an interval for every
     index.  Returns an empty frame if s20 has not run."""
-    files = sorted((RESULTS / "s20").glob("draws_*.csv.gz"))
+    files = sorted((RESULTS / "s44_weighted").glob("draws_*.csv.gz"))
     if not files:
         return pd.DataFrame(), pd.DataFrame()
     rows, summ = [], []
