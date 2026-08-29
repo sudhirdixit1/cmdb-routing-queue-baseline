@@ -482,24 +482,28 @@ than counted by hand.
 
 | § | section | words | requested | |
 |---|---|---:|---|---|
-| 1 | Introduction | 1,232 | 1,200–1,500 | ✓ |
-| 2 | Related work | 681 | 1,200–1,500 | under |
-| 3 | The specification surface | 1,356 | ~1,500 | ✓ |
-| 4 | Estimation and inference | 2,981 | 2,000–2,500 | **over** |
-| 5 | The registered benchmark design | 1,233 | 1,200–1,500 | under |
-| 6 | Multi-log results | 3,757 | 2,000–2,500 | **over** |
-| 7 | Case study: a configuration management database | 2,249 | 1,500–2,000 | just over |
-| 8 | Decision-analytic evaluation | 869 | — | added |
-| 9 | A reporting standard, and software | 925 | — | added |
-| 10 | Simulation | 1,481 | 1,000–1,500 | just over |
-| 11 | Threats to validity | 1,488 | 1,200–1,500 | just over |
-| 12 | Conclusion | 616 | 400–600 | ✓ |
+| 1 | Introduction | 1,245 | 1,200–1,500 | ✓ |
+| 2 | Related work | 612 | 1,200–1,500 | under |
+| 3 | The specification surface | 1,384 | ~1,500 | ✓ |
+| 4 | Estimation and inference | 3,903 | 2,000–2,500 | **over** |
+| 5 | The registered benchmark design | 1,243 | 1,200–1,500 | ✓ |
+| 6 | Multi-log results | 4,498 | 2,000–2,500 | **over** |
+| 7 | Case study: a configuration management database | 2,235 | 1,500–2,000 | over |
+| 8 | Decision-analytic evaluation | 1,086 | — | added |
+| 9 | A reporting standard, and software | 1,037 | — | added |
+| 10 | Simulation | 1,706 | 1,000–1,500 | over |
+| 11 | Threats to validity | 2,452 | 1,200–1,500 | **over** |
+| 12 | Conclusion | 691 | 400–600 | over |
 
-**The body is about 19,700 words against the 13,000–15,000 requested, and we
+**The body is about 22,100 words against the 13,000–15,000 requested, and we
 are not going to pretend that is inside the band.** In pages, in the
-`preprint,12pt` layout Elsevier asks for at review: **64 pages of main text
-and 33 of appendices**, against the review's count of 69 pages for the whole
-of the round-nineteen manuscript. What grew is the appendix — this round moved
+`preprint,12pt` layout Elsevier asks for at review: **57 pages of main text
+within a 66-page article, and 93 of supplement**, against the review's count
+of 69 pages for the whole of the round-nineteen manuscript. The body has grown
+since that count and the reason is on the record: the last three rounds of
+review found, repeatedly, that a sentence named one set while its number was
+computed on another, and every repair adds the denominator that was missing.
+Precision cost pages. We would rather defend the pages than the imprecision. What grew is the appendix — this round moved
 four constructions, a worked example and the practice pilot's dossier into it
 — and the appendix is the online supplement the review asked us to move them
 to. Four of the ten sections the plan

@@ -81,7 +81,11 @@ The mechanism is removed completely. Register levels present in a draw go from
 consequence goes with it: on the old surface **150 cells of 3,900 could not be
 given a band at all**, because a resample dropped the arm from enough draws
 that the median down its column was undefined. Under weights that count is
-**zero**. We had never reported those cells: they were not resolved, so they
+**zero**. That pair changes the design as well as the scheme, so we also ran
+the multinomial arm on *this* design at the same draw count, which isolates
+the scheme: **270 of 3,420**, against zero. The clean comparison is the larger
+one, and Section 4.1 now prints both rather than only the flattering pair.
+We had never reported these cells at all: they were not resolved, so they
 were counted as *unresolved*, beside cells that were banded and straddled zero.
 Section 4.1 now reports them, and a verifier condition requires the count to be
 printed whatever it is.
@@ -127,12 +131,26 @@ Three consequences we now claim rather than concede:
    every one of the 19 pairs the design is 2 learners × 2 splits × 3 quality
    conditions × 3 rungs, with **every combination present exactly once**, and
    no pair differs in shape from any other.
-3. Measured family-wise coverage, on families matched to **this** surface
-   rather than the one it replaced: a median **83.7%** under the corpus's own
-   tails, **84.3%** under the non-zero-truth regime this round adds, against a
-   nominal 95%. That regime matters and is new: under a zero truth every
-   rejection is an error, so coverage cannot distinguish a band that resolves
-   *correctly* from one that never resolves at all.
+3. Measured family-wise coverage, on the family matched to **this** design
+   rather than the one it replaced: **91.6%** under the corpus's own tails, at
+   a Monte Carlo standard error of 0.6%, and **84.3%** under the
+   non-zero-truth regime this round adds, against a nominal 95%. That regime
+   matters and is new: under a zero truth every rejection is an error, so
+   coverage cannot distinguish a band that resolves *correctly* from one that
+   never resolves at all.
+
+   *A correction we make against ourselves, because it flatters us.* An
+   earlier draft of this letter and of Section 10 quoted a median of 83.7%
+   here. That figure pooled the decision-curve families with the surface ones
+   — two sets whose required widenings we report separately, at 1.36–1.88 and
+   2.20–2.61, precisely because they are not the same object — across draw
+   counts from 33 to 1,000 and family sizes from 120 to 2,966, while every
+   pair we report carries 180 cells at 400 draws. The number matched to what
+   we actually run is 91.6%, and the table of "families matched to this
+   corpus" did not contain that row until this revision. The correction raises
+   our coverage, so we state it plainly: 91.6% against a nominal 95% is short
+   by more than five Monte Carlo standard errors, the limitation is unchanged
+   in kind, and the number that carries it is now the right one.
 
 **On the labels: it does not, so they stay diagnostics.** We said we would not
 describe a band as covering because we would like it to, and we have not.
@@ -144,10 +162,15 @@ known answer and find short of nominal"* stands as written.
 as the binding constraint. It is not: coverage is 91.2% at 150 draws, 91.6% at
 400 and 91.3% at 1,000 — it **plateaus**. This corpus now runs at 400
 throughout, on the plateau rather than below it. The widening that would close
-the gap is 1.36–1.88 on the surface families, *larger* than the 1.18–1.77 we
-apply, because the designed surface's families carry heavier tails than the one
-the calibration was fitted on. So the calibration is not retired; it is
-under-sized, and Section 11 says so.
+the gap is 1.36–1.88 on the surface families, *larger* than the 1.18–1.77 the
+only calibration we have fitted would supply. **So we do not apply it.** A
+widening smaller than the measurement asks for would spend resolution and
+present the labels as corrected without earning the level, which is a worse
+position than reporting them nominal and saying by how much they are
+anti-conservative. Section 11 says so, and Supplement F derives the
+calibration in full so that the measurement retiring it is legible beside it.
+We do not claim to know *why* the shortfall exceeds it; that would need a
+counterfactual we have not run.
 
 **One design choice we state rather than leave to be found.** The three rungs
 are half-of-intake, intake, and intake-plus-the-free-field, so the
