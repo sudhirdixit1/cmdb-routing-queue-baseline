@@ -2467,3 +2467,47 @@ reports. **A verifier checking a retired object is worse than no verifier,
 because it reports success.** Both are repaired, and the identity check now
 passes against the reported surface, which is the first time that has actually
 been established.
+
+## R27.12 The length pass, what it yielded, and the two things it found instead
+
+Two independent analyses measured the whole body against one rule --- **a cut
+that removes a number is a saving; a cut that removes a concession is a
+regression** --- and both returned the same verdict: the 46-page target is not
+reachable from 66 without breaking it.
+
+**What was taken.** The reporting standard moved to the supplement entire,
+with the prescription kept in the body as a paragraph, because the standard is
+the contribution and the recipe, the package and the worked example are the
+apparatus. The case study's two side experiments; four detail blocks in
+Section 6; the design rule's full statement; two constructions the supplement
+already carried verbatim; and ten passages that restated a number where it was
+not computed. **66 pages to 62, and 22,100 body words to 19,900.**
+
+**Why the rest is not available, stated as arithmetic rather than as
+reluctance.** About a quarter of body prose is protected outright. **All
+eleven floats are protected by the referee's own earlier report**, which asked
+for six more floats moved IN --- the four-way partition table, the resolution
+triple, the MPID table and the overview figure were each moved in or written
+new to answer it. Eleven floats are 6.6 of 53 body pages and none is
+available. Reaching 38 body pages therefore means cutting 43 per cent of
+everything not protected, from sections that have had material moved out in
+four consecutive rounds --- which is the density at which this log's own
+evidence says a rewrite starts manufacturing defects faster than it removes
+pages.
+
+**One saving deliberately refused.** Section 6.5 runs specification-curve
+analysis unchanged against this paper's region labels and reports where the
+two part company. It is the largest single saving left and it is also the only
+head-to-head with the closest existing practice. A page count is recoverable;
+a reader asking where the comparison went is not.
+
+**And the pass found two defects that had nothing to do with length.** The
+first: `app_corrections.tex` and `app_pilot.tex` were reachable only from a
+file no built document includes, so **the correction register was in neither
+PDF** --- while the article's front matter, the supplement's own abstract and
+the archive description each promised it by name. A promise a referee can
+check in one click had been broken for at least a round. The second: the
+article's overview figure was referenced by nothing, which is the kind of
+thing a copy-editor returns a manuscript for.
+
+Both are now fixed, and the supplement carries the register it advertises.
