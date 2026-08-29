@@ -419,20 +419,50 @@ decision-curve figure's caption now says which band it draws. Precision is not
 free in pages, and a shorter version of this paper would have been a less
 precise one.
 
-Against that, the cut list we have measured — every duplicate, every
-compressible passage — totals 12 pages, and the earlier report's target of 30
-would require moving four more floats out of a main text that has eleven,
-when that same report asked for six more floats to be moved *in*. Those two
-requests cannot both be met, and we would rather put the trade to you than
-quietly miss a number. The rewrite of Sections 4, 6, 10 and 11 has now
-happened and the article stands at **65 pages**: the corrections and the new
-comparison added rather than removed, because saying which set a number was
-computed on takes words that omitting it does not. We would rather submit 65
-honest pages than 46 by deleting denominators, and we say so here so the choice
-is yours to overrule rather than ours to hide. Target 42 pages of body; the
-reduction is taken in Sections 4, 6, 10 and 11, which are being rewritten
-against the new numbers anyway, and the largest single saving is Section 11's
-re-derivation of material already stated where it was computed.⟩
+**Then we cut, and we report what the cut actually yielded.** The reporting
+standard and software section moved to the supplement in full, keeping the
+prescription itself in the body as a paragraph, because the standard is the
+contribution and the recipe, the package and the worked example are the
+apparatus. The case study's two side experiments, four detail blocks in
+Section 6, the design rule's full statement and two constructions the
+supplement already gives verbatim moved with it. Ten passages that restated a
+number where it was not computed were compressed to a pointer. **The article
+went from 66 pages to 62 and the body from 22,100 words to 19,900.**
+
+**That is four pages, and the target asks for twenty. We are not going to
+close that gap and we will say exactly why rather than let you discover it.**
+We measured the whole body, section by section, against the constraint that a
+cut which removes a number is a saving and a cut which removes a concession is
+a regression. Of the body's prose, roughly a quarter is protected under that
+rule: the coverage measurement at full length, every withdrawn claim, the
+"descriptive diagnostic and not a guarantee" sentence, the prefix disclaimer,
+the per-pair role declarations, the decision-time ladder and the configuration
+management programme reading. **All eleven floats are protected too, and by
+your own earlier report** — the four-way partition table, the resolution-triple
+table, the MPID table and the overview figure were each moved into the body or
+written new to answer comment C3, which asked for six more floats in, not
+fewer. Eleven floats are 6.6 of the body's 53 pages and none of them is
+available. Reaching 38 body pages from here means removing about 43 per cent
+of everything not explicitly protected, from sections that have had material
+moved to the supplement in four consecutive rounds. At that density it stops
+being a move-and-compress pass and becomes the kind of rewrite that this
+project's own log records as the reliable way to introduce a defect — and this
+round found eighteen of them created by exactly that.
+
+**One thing we kept that we could have cut.** Section 6.5 runs
+specification-curve analysis unchanged against our own region labels and
+reports where the two part company. It is 0.85 pages and the single largest
+saving still on the table. It is also the paper's only head-to-head with the
+closest existing practice, and a reader assessing what is new here will look
+precisely there. We kept it, and we would rather be told to cut it than cut it
+and be asked where the comparison went.
+
+**So: 62 pages, and the trade is yours to make.** We would rather submit 62
+pages in which every number states the set it was computed over than 46 in
+which some of them do not, and we have put the arithmetic above so that the
+judgement is yours to overrule rather than ours to hide. If the page count is
+binding, tell us so and Section 6.5 and the simulation's first three
+subsections are the next 2.4 pages we would take.⟩
 
 **The archive DOI, and one more the round created.** Both are the author's to
 mint and neither is minted yet, so both are stated rather than implied. The
