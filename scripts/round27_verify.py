@@ -1375,3 +1375,48 @@ def check(vn, M):
                 vn.FAILS.append(
                     "round-27 condition: the article says the level is bought "
                     "with width, and the ratio is %s" % M["widthEmpOverMultAtDesign"])
+
+    # --- 22.  rho = 1 survives the band that attains its level -------------
+    #
+    #  Section 6.3 now makes the strongest claim in the paper: the one
+    #  uniformly beneficial surface is not an artefact of a band that
+    #  undercovers, because the construction which DOES attain its level
+    #  gives the same label.  That is worth having and worth checking, so the
+    #  empirical-edge labels are recomputed here from the bands file rather
+    #  than read from the macro that asserts them.
+    if Bw is not None and {"emp_lo", "emp_hi"} <= set(Bw.columns):
+        import s21_bands as _S21b
+        _WE = Bw[Bw.family == "whole-surface"].copy()
+        _WE = _WE.assign(_l=_WE.apply(
+            lambda r: _S21b.label_of(r.emp_lo, r.emp_hi), axis=1))
+        _n_unif, _n_res = 0, 0
+        for _k, _s in _WE.groupby(["log", "target"]):
+            _r, _b2, _h2, _u2 = _S21b.region_of(_s._l)
+            _n_res += _b2 + _h2
+            if _r == "uniformly beneficial":
+                _n_unif += 1
+        _gu = _num(M.get("nUnifBenEmpBand"))
+        if _gu is not None and int(_gu) != _n_unif:
+            vn.FAILS.append(
+                "round-27 condition: \\nUnifBenEmpBand is %s and %d pair(s) "
+                "are uniformly beneficial under the empirical band"
+                % (M["nUnifBenEmpBand"], _n_unif))
+        #  the claim the section makes is that it survives -- at least one
+        if _gu is not None and _n_unif < 1:
+            vn.FAILS.append(
+                "round-27 condition: Section 6.3 says the uniformly "
+                "beneficial label survives the level-attaining band, and no "
+                "pair carries it there")
+        _gr = _num(M.get("nResolvedEmpBand"))
+        if _gr is not None and abs(_gr - _n_res) > 0.5:
+            vn.FAILS.append(
+                "round-27 condition: \\nResolvedEmpBand is %s and the "
+                "empirical band resolves %d cells"
+                % (M["nResolvedEmpBand"], _n_res))
+        #  and the section says it costs resolution, so it must cost some
+        if _gr is not None and _rw is not None and _gr >= _rw:
+            vn.FAILS.append(
+                "round-27 condition: Section 6.3 says the level-attaining "
+                "band costs resolution, and it resolves %s against the "
+                "reported band's %s" % (M["nResolvedEmpBand"],
+                                        M["nResolvedWhole"]))

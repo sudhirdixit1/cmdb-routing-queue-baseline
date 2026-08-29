@@ -330,6 +330,50 @@ def emit(mn):
             put(k, None)
 
     # ================================================================
+    #  THE REGION LABELS UNDER THE BAND THAT ATTAINS ITS LEVEL.
+    #
+    #  The empirical quantile covers 94.7% on the family matched to this
+    #  corpus's design, against the reported multiplier band's 91.6%, and the
+    #  bands file already carries both edges.  So the obvious question a
+    #  reader has --- WHAT DO THE LABELS LOOK LIKE UNDER THE CONSTRUCTION
+    #  THAT ACTUALLY COVERS? --- is answerable without a new run, and leaving
+    #  it unanswered would be reporting the cheaper object because it is the
+    #  one already tabulated.
+    #
+    #  It costs resolution, which is the honest trade and is why the article
+    #  still reports the multiplier band.  What it BUYS is the strongest
+    #  statement in the paper: the one uniformly beneficial surface survives
+    #  it, so rho = 1 is not an artefact of a band that undercovers.
+    _bw2 = mn.RESULTS / "s48w_bands.csv.gz"
+    _emp = ("nResolvedEmpBand", "nUnifBenEmpBand", "rhoMedianEmpBand",
+            "nCondBeneficialEmpBand", "nCondHarmfulEmpBand",
+            "nSignChangingEmpBand", "nUnresolvedEmpBand")
+    if _bw2.exists():
+        import s21_bands as _S21
+        _B = pd.read_csv(_bw2)
+        _W = _B[_B.family == "whole-surface"].copy()
+        _W = _W.assign(_lab=_W.apply(
+            lambda r: _S21.label_of(r.emp_lo, r.emp_hi), axis=1))
+        _rows = []
+        for (_lg, _tg), _s in _W.groupby(["log", "target"]):
+            _r, _nb, _nh, _nu = _S21.region_of(_s._lab)
+            _rows.append((_r, _nb, _nh, len(_s)))
+        _reg = [r for r, _, _, _ in _rows]
+        put("nResolvedEmpBand", thousands(sum(b + h for _, b, h, _ in _rows)))
+        put("nUnifBenEmpBand", int(_reg.count("uniformly beneficial")))
+        put("nCondBeneficialEmpBand",
+            int(_reg.count("conditionally beneficial")))
+        put("nCondHarmfulEmpBand", int(_reg.count("conditionally harmful")))
+        put("nSignChangingEmpBand", int(_reg.count("sign-changing")))
+        put("nUnresolvedEmpBand", int(_reg.count("unresolved")))
+        put("rhoMedianEmpBand",
+            num(float(pd.Series([(b - h) / n for _, b, h, n in _rows])
+                      .median()), 3))
+    else:
+        for _k in _emp:
+            put(_k, None)
+
+    # ================================================================
     #  THE DENOMINATOR OF THE ONE UNIFORMLY BENEFICIAL SURFACE.
     #
     #  Section 6.3 quotes the admissible cell count of the pair that attains

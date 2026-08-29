@@ -50,14 +50,14 @@
     "sha": "9caf7c97be3f35d0"
   },
   "round27_numbers.py": {
-    "at": "2026-08-29T09:56:00Z",
-    "note": "round 27: the empirical quantile at the design the corpus runs",
-    "sha": "8cfbc9eee7c72ca0"
+    "at": "2026-08-29T09:59:47Z",
+    "note": "round 27: the region labels under the band that attains its level",
+    "sha": "9cbf646db4075155"
   },
   "round27_verify.py": {
-    "at": "2026-08-29T09:56:00Z",
-    "note": "round 27: the estimator that attains the level is checked, not asserted",
-    "sha": "59bf8039dfb41e43"
+    "at": "2026-08-29T09:59:47Z",
+    "note": "round 27: the region labels under the band that attains its level",
+    "sha": "345d283fb0b32b96"
   },
   "s01_surface.py": {
     "at": "2026-08-25T01:56:46Z",
