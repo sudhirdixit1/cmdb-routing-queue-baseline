@@ -1,4 +1,9 @@
 {
+  "check_claims.py": {
+    "at": "2026-08-29T09:33:30Z",
+    "note": "round 27: a withdrawn claim may not survive in the submission package's prose, which no gate was watching",
+    "sha": "69c336f40fe5cbdb"
+  },
   "check_sources.py": {
     "at": "2026-08-29T08:57:13Z",
     "note": "round 27: the recurring defect becomes a gate -- no generator may read a retired surface by name without a stated reason",

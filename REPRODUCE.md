@@ -172,6 +172,9 @@ python scripts/verify_numbers.py          # re-derives each macro independently
 python scripts/texlint.py                 # abstract, keywords, highlights,
                                           # statements, no numeric literals
 python scripts/check_highlights.py        # the highlight character counts
+python scripts/check_claims.py            # no document that speaks for this
+                                          # version still asserts a claim the
+                                          # project has withdrawn
 python scripts/check_sources.py           # no generator reads a RETIRED
                                           # surface by name -- round 27's
                                           # recurring defect, now a gate

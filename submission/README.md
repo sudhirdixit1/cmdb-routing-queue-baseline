@@ -73,8 +73,8 @@ python scripts/check_package.py             # every file this table names exists
 
 `final_search.py` reads the **built PDF**, not the sources, and its two
 standing failures are the archive DOI: it fails while `\zenodoDOI` still
-renders as "DOI reserved, inserted at proof", and passes once the DOI in
-`results/release.json` is real. That is the check that stops the manuscript
+renders as "a Zenodo deposit whose DOI is reserved and is inserted at proof",
+and passes once the DOI in `.zenodo.json` is real. That is the check that stops the manuscript
 being submitted with a placeholder where a citation should be.
 
 `--strict` refuses a build whose numbers come from a script that has changed
