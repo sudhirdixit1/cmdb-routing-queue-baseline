@@ -158,10 +158,15 @@ it is absent: the decision-curve families are not calibrated at all, and no
 factor this corpus draws reaches even the bottom of their range.
 Section~\ref{sec:lim} says what follows.
 
-\textbf{The draw count is the binding constraint.} At the modal surface
-family the multiplier band covers \covMultBootThirtyThree\ at
-\nBootThirtyThree\ draws and \covMultBootOneThousand\ at
-\nBootOneThousand, and the per-cell interval underneath it moves
+\textbf{The draw count is \emph{not} the binding constraint, which is the
+opposite of what the asymptotics suggest.} At the modal surface family the
+multiplier band covers \covMultBootThirtyThree\ at \nBootThirtyThree\
+draws, \covMultBootOneFifty\ at \nBootOneFifty, \covMultBootFourHundred\
+at \nBootFourHundred\ and \covMultBootOneThousand\ at \nBootOneThousand\
+--- it rises steeply out of the smallest budgets and then \textbf{plateaus
+short of its level}, so a corpus that can afford more draws does not thereby
+buy coverage. This corpus runs at \nDrawsSurface\ throughout, on the plateau
+and not below it. The per-cell interval underneath the band moves
 \covPercellBootThirtyThree\ to \covPercellBootOneThousand\ over the same
 range: part of what the band loses it loses before any critical value is
 chosen, and Section~\ref{sec:simcoverage} validated that construction at a
