@@ -31,9 +31,22 @@ feature is \emph{well posed} only relative to a declared $\mathcal{S}$.
 Declaring a design space means writing down every axis, its levels, the
 measure over those levels, and every level deliberately excluded with the
 reason. Table~\ref{tab:axes} is that declaration, generated from the code that
-walks the space; multiplying its level counts gives the cell counts of
-Section~\ref{sec:denominator}, and that multiplication is the first check the
-verification harness runs. \textbf{The \nAxes\ axes above are the estimand's
+walks the space. \textbf{Not every axis is a factor of the cell count, and the
+table's `in the product' column says which are.} The admissible cell counts of
+Section~\ref{sec:denominator} are the product of the rows the table marks
+\textsc{yes} --- the learner, the split, the register-quality condition, the
+admissible baseline and the scalar instrument --- and that multiplication,
+re-done pair by pair from the same file the table is generated from, is a
+condition the verification harness checks. The rows marked \textsc{no} are not
+omissions and are not free to be multiplied in: the encoding is fixed by the
+learner, so the learner row already counts the pipeline and multiplying the
+two would count it twice; the ladder-rung row is the admissible row plus the
+intercept-only baseline, which is in the surface and in no admissible set; the
+decision time indexes a second surface on the case study's log rather than a
+further factor of the first, and Section~\ref{sec:twodecision} reports it; and
+the operating point multiplies the decision-curve grid, which
+Section~\ref{sec:denominator} counts separately from the scalar cells.
+\textbf{The \nAxes\ axes above are the estimand's
 arguments, and this study does not vary all of them.} The target $Y$ indexes
 the surfaces rather than being an axis \emph{of} one, and the decision time,
 the operating point and the cohort vary on the case study's log alone;

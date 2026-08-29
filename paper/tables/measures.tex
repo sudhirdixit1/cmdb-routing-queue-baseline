@@ -2,17 +2,17 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{llrrrrrr}
+\begin{tabular}{llrrrrll}
 \toprule
 measure & description & median & min & max & largest first order median & n pairs first order exceeds & n pairs \\
 \midrule
-equal-level & every level of every axis equally likely & 0.560 & 0.233 & 0.793 & 0.287 & 6.000 & 19.000 \\
-reference & half the mass on the reference level of each axis & 0.496 & 0.157 & 0.709 & 0.299 & 6.000 & 19.000 \\
-concentrated & eighty per cent on the reference level & 0.317 & 0.065 & 0.638 & 0.392 & 12.000 & 19.000 \\
+equal-level & every level of every axis equally likely & 0.560 & 0.233 & 0.793 & 0.287 & 6 & 19 \\
+reference & half the mass on the reference level of each axis & 0.496 & 0.157 & 0.709 & 0.299 & 6 & 19 \\
+concentrated & eighty per cent on the reference level & 0.317 & 0.065 & 0.638 & 0.392 & 12 & 19 \\
 envelope & 200 Dirichlet draws of the level weights, primary pair & 0.181 & 0.098 & 0.347 & -- & -- & -- \\
 \bottomrule
 \end{tabular}%
 }
-\caption{The declared measures over specifications, and the total higher-order variance share under each. The magnitude moves with the measure; the qualitative conclusion, that no first-order index approaches the higher-order remainder, does not.}
+\caption{The declared measures over specifications, and the total higher-order variance share under each. `largest first order median' is the median over pairs of the largest single first-order index under the same measure, and `n pairs first order exceeds' counts the pairs on which that index is LARGER than the higher-order total. THE MAGNITUDE MOVES WITH THE MEASURE, AND SO DOES THE QUALITATIVE CONCLUSION: across the three product measures the higher-order share moves by \measureSpreadPct, and under the measure concentrated on the reference level it is \interactionTotalConcentratedPct, BELOW the largest first-order index of \concentratedFirstOrderPct, with a first-order index exceeding the higher-order remainder on \nConcentratedExceeds\ of \nPairs\ pairs --- and on \nEqualExceeds\ of \nPairs\ even under the primary equal-level measure. `The interactions carry more than any main effect' is therefore a claim about a measure and not only about a surface, and Section~\ref{sec:axes2} states it as one. The envelope row is the Dirichlet envelope on the primary pair alone, so it carries no corpus-wide comparison and its last three cells are dashes rather than zeroes.}
 \label{tab:measures}
 \end{table}

@@ -307,6 +307,32 @@ def check(vn, M):
             vn.FAILS.append(
                 "round-27 condition: the master table's region label is not "
                 "the one Definition 3 yields -- " + "; ".join(bad[:6]))
+    #  THE SPECIFICATION-CURVE TABLE OBEYS THE SAME DEFINITION.  The master
+    #  table was repaired in round twenty-seven and this one was not, so for a
+    #  week two tables printed different region labels for the same four
+    #  pairs.  Repairing one instance of a defect and leaving a second is the
+    #  failure this file exists to make impossible, so the condition covers
+    #  every table that prints a region and not only the one a reader found.
+    #  Read by HEADER rather than by column position: sca.tex gained a column
+    #  when it was repaired, and a positional read would have silently moved
+    #  to the wrong one.
+    sca_head = _table_header(tables, "sca.tex")
+    if RG is not None and len(RG) and sca_head and "region" in sca_head:
+        i_log, i_tgt = sca_head.index("log"), sca_head.index("target")
+        i_reg = sca_head.index("region")
+        bad = []
+        for row in _table_rows(tables, "sca.tex"):
+            if len(row) != len(sca_head):
+                continue
+            key = (row[i_log], row[i_tgt])
+            if key in want and row[i_reg] != want[key]:
+                bad.append("%s/%s: sca says %r, Definition 3 gives %r"
+                           % (key[0], key[1], row[i_reg], want[key]))
+        if bad:
+            vn.FAILS.append(
+                "round-27 condition: the SCA table's region label is not the "
+                "one Definition 3 yields -- " + "; ".join(bad[:6]))
+
     #  and the two tables must agree with each other, which is the form the
     #  reader met the defect in
     if master and triple:

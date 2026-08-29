@@ -220,8 +220,29 @@ def emit(mn):
     if RG is not None and len(RG):
         put("resolvedShareMedianPct", pct(float(RG.share_resolved.median())))
         put("resolvedShareMaxPct", pct(float(RG.share_resolved.max())))
-        d = RG[RG.region_calibrated.astype(str) != "unresolved"]
+        #  ROUND TWENTY-SEVEN, S10.  A SIGN-CHANGING LABEL CARRIES NO
+        #  DIRECTION.  This counted every pair whose label is not
+        #  `unresolved', which is thirteen, and the three sign-changing pairs
+        #  are inside that thirteen.  Four sentences in the manuscript --- the
+        #  master table's caption, the triple table's caption below,
+        #  Definition 3's paragraph and the limitations --- read
+        #  "\nLabelsLostToMinShare of the \nDirectionalLabels pairs THAT
+        #  CARRY A DIRECTION", so each of them printed a denominator over a
+        #  set three larger than the set the words describe.  A direction is a
+        #  sign, and only the two labels that name a sign carry one: the
+        #  conditionally beneficial and the conditionally harmful.  The
+        #  numerator was never wrong -- all four withdrawals come out of that
+        #  set -- so only the denominator moves, from thirteen to ten.
+        _DIRECTIONAL = ("conditionally beneficial", "conditionally harmful")
+        d = RG[RG.region_calibrated.astype(str).isin(_DIRECTIONAL)]
         put("nDirectionalLabels", int(len(d)))
+        #  and the numerator is recounted over THE SAME ROWS as the
+        #  denominator rather than read from a separate total, so a count
+        #  taken over one set can never again be printed against a total
+        #  taken over another.  It agrees with `n_labels_lost_to_min_share'
+        #  in the facts file, which is what this macro was read from above.
+        if len(d) and "changed_min05" in RG.columns:
+            put("nLabelsLostToMinShare", int(d.changed_min05.sum()))
         if len(d):
             put("resolvedShareDirectionalMinPct",
                 pct(float(d.share_resolved.min())))

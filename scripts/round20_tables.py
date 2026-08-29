@@ -51,6 +51,34 @@ def write(mn):
                     "admissible set",
             "decision_time": "two times on the primary log, one elsewhere",
             "operating_point": "outside the declared range"}
+        #  ROUND TWENTY-SEVEN, S5.  THE PRODUCT THIS TABLE CLAIMED DID NOT
+        #  WORK.  The caption said the level counts multiply to the cell
+        #  counts of the denominator table; nine rows are printed and only
+        #  five are factors, so the naive product of a modal pair is
+        #  2*2*6*1*6*4*3*5*31 = 267,840 against a declared 1,080, and for
+        #  BPIC14 the product of the seven non-degenerate rows is 28,800
+        #  against 4,800 -- a factor of six that is exactly the encoding
+        #  times the decision time.  The five factors are named here, in the
+        #  table itself, and they are the same five `round27_verify.py'
+        #  multiplies in `_BASES["admissible scalar cells"]' and
+        #  `s25_denominator.py' multiplies in `declared_admissible_scalar':
+        #  learner * split * quality_level * admissible_rung * scalar_metric.
+        #  The other four are not axes the surface fails to vary; each is
+        #  counted somewhere else, and the column says where.
+        #  Kept to a few characters each: the reasons are spelled out in the
+        #  caption, and a fifth wide column would push the table under a
+        #  \resizebox reduction that costs more legibility than the reasons
+        #  buy back.
+        FACTOR = {
+            "learner": "yes",
+            "encoding": "no: in the learner",
+            "split": "yes",
+            "decision_time": "no: second surface",
+            "quality_level": "yes",
+            "rung": "no: the row below",
+            "admissible_rung": "yes",
+            "scalar_metric": "yes",
+            "operating_point": "no: decision curve"}
         for ax in ("learner", "encoding", "split", "decision_time",
                    "quality_level", "rung", "admissible_rung",
                    "scalar_metric", "operating_point"):
@@ -61,18 +89,54 @@ def write(mn):
             rows.append(dict(
                 axis=LABEL[ax],
                 levels=("%d" % lo) if lo == hi else ("%d-%d" % (lo, hi)),
+                factor=FACTOR[ax],
                 measure=MEASURE[ax],
                 exclusions=EXCL.get(ax, "none")))
         (TABLES / "axes.tex").write_text(
             tex_table(pd.DataFrame(rows),
                       "The declared design space. One row per axis: the "
                       "number of levels (a range where it differs by log), "
-                      "the measure the paper places on those levels, and "
-                      "every level excluded by declaration with its reason. "
-                      "Generated from the code that walks the space, so the "
-                      "level counts multiply to the cell counts of "
-                      "Table~\\ref{tab:denominator}.",
-                      "tab:axes"), encoding="utf-8")
+                      "whether the axis is a FACTOR OF THE ADMISSIBLE CELL "
+                      "COUNT, the measure the paper places on those levels, "
+                      "and every level excluded by declaration with its "
+                      "reason. Generated from the code that walks the space. "
+                      "NOT EVERY ROW MULTIPLIES: only the rows marked `yes' "
+                      "do, and their product is learner $\\times$ split "
+                      "$\\times$ register "
+                      "quality $\\times$ admissible baseline $\\times$ "
+                      "scalar instrument, which is the `learners', `splits', "
+                      "`quality', `rungs' and `metrics' columns of "
+                      "Table~\\ref{tab:denominator} and equals its `declared "
+                      "scalar' column on every pair --- the multiplication "
+                      "the verification harness re-does, pair by pair, from "
+                      "the same file this table is generated from. The rows "
+                      "marked `no' are not axes the study leaves unvaried; "
+                      "each is counted somewhere else, and the column says "
+                      "where. The encoding is determined by the learner --- "
+                      "each "
+                      "learner names its own encoder --- so the learner row "
+                      "already counts the pipeline and multiplying by the "
+                      "encoding would count it twice; "
+                      "Table~\\ref{tab:axes2} separates the two where they "
+                      "can be separated. The decision time indexes a SECOND "
+                      "surface on the case-study log rather than a further "
+                      "factor of the first, and "
+                      "Section~\\ref{sec:twodecision} reports it. "
+                      #  NOT Table~\ref{tab:decisiontime}: that table is
+                      #  generated but is \input by no part of the
+                      #  manuscript, so a reference to it resolves to `??'.
+                      #  The live table is tab:tau, inside sec:twodecision.
+                      "The ladder-rung row is the admissible row "
+                      "plus the intercept-only baseline, so the two rows are "
+                      "one axis at two admissibility conventions and only "
+                      "the admissible one enters an admissible count. And "
+                      "the operating point multiplies the decision-curve "
+                      "surface, not the scalar one, which is why the two "
+                      "surfaces are counted separately in "
+                      "Section~\\ref{sec:denominator}.",
+                      "tab:axes",
+                      colnames={"factor": "in the product"}),
+            encoding="utf-8")
     else:
         blank("axes", "The declared design space.", "tab:axes")
 
@@ -215,12 +279,58 @@ def write(mn):
     # ------------------------------------------------------------ measures
     M22 = load("s22_measures.csv")
     if M22 is not None and len(M22):
+        m22 = M22.copy()
+        #  ROUND TWENTY-SEVEN, B2.  These two are COUNTS OF PAIRS, and they
+        #  printed as `6.000' and `19.000' -- `tex_table' turns a whole-number
+        #  column into integers only when every one of its values is finite,
+        #  and the envelope row has neither, because it is computed on the
+        #  primary pair alone.  A count with a full stop in it reads as a
+        #  thousands separator in a table whose other columns are proportions,
+        #  and the caption below quotes those same counts as macros, so the
+        #  cell and the caption have to print the same glyphs.
+        for c in ("n_pairs_first_order_exceeds", "n_pairs"):
+            if c in m22.columns:
+                m22[c] = [("%d" % int(round(v))) if np.isfinite(v) else None
+                          for v in pd.to_numeric(m22[c], errors="coerce")]
         (TABLES / "measures.tex").write_text(
-            tex_table(M22, "The declared measures over specifications, and "
-                      "the total higher-order variance share under each. The "
-                      "magnitude moves with the measure; the qualitative "
-                      "conclusion, that no first-order index approaches the "
-                      "higher-order remainder, does not.",
+            #  ROUND TWENTY-SEVEN, B2.  THIS CAPTION ASSERTED THE CONCLUSION
+            #  THE BODY WITHDRAWS AND THE TABLE'S OWN ROWS REFUTE.  It read
+            #  "the qualitative conclusion, that no first-order index
+            #  approaches the higher-order remainder, does not [move]", while
+            #  the concentrated row of this very table has a higher-order
+            #  share of 0.317 against a largest first-order index of 0.392 --
+            #  the first-order index does not approach the remainder, it
+            #  exceeds it, on twelve of nineteen pairs and on six of nineteen
+            #  even under the primary equal-level measure -- and
+            #  Section~\ref{sec:multilog} says in bold that the conclusion
+            #  does NOT survive the measure.  s22_anova.py's own comment at
+            #  the line that computes these two columns says the same.  The
+            #  caption now says what the columns say, in the macros the body
+            #  uses, so the two cannot drift apart again.
+            tex_table(m22, "The declared measures over specifications, and "
+                      "the total higher-order variance share under each. "
+                      "`largest first order median' is the median over pairs "
+                      "of the largest single first-order index under the "
+                      "same measure, and `n pairs first order exceeds' "
+                      "counts the pairs on which that index is LARGER than "
+                      "the higher-order total. THE MAGNITUDE MOVES WITH THE "
+                      "MEASURE, AND SO DOES THE QUALITATIVE CONCLUSION: "
+                      "across the three product measures the higher-order "
+                      "share moves by \\measureSpreadPct, and under the "
+                      "measure concentrated on the reference level it is "
+                      "\\interactionTotalConcentratedPct, BELOW the largest "
+                      "first-order index of \\concentratedFirstOrderPct, "
+                      "with a first-order index exceeding the higher-order "
+                      "remainder on \\nConcentratedExceeds\\ of \\nPairs\\ "
+                      "pairs --- and on \\nEqualExceeds\\ of \\nPairs\\ even "
+                      "under the primary equal-level measure. `The "
+                      "interactions carry more than any main effect' is "
+                      "therefore a claim about a measure and not only about "
+                      "a surface, and Section~\\ref{sec:axes2} states it "
+                      "as one. The envelope row is the Dirichlet envelope on "
+                      "the primary pair alone, so it carries no corpus-wide "
+                      "comparison and its last three cells are dashes rather "
+                      "than zeroes.",
                       "tab:measures",
                       colnames={"interaction_total_median": "median",
                                 "interaction_total_min": "min",

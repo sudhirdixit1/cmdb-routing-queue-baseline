@@ -706,6 +706,52 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-28, overnight — the auditability check, made to work
+
+The worst of the red team's eighteen is repaired, and the repair is worth
+recording because deleting the claim was the tempting option and the wrong
+one.
+
+`paper/tables/axes.tex` gains a third column, **"in the product"**, generated
+rather than typed: `yes` on the five rows that are factors of the admissible
+cell count — learner, split, register quality, admissible baseline, scalar
+instrument — and, on the other four, a `no` that says where each is counted
+instead. The encoding is fixed by the learner, so the learner row already
+counts the pipeline and multiplying both would double-count it. The
+ladder-rung row is the admissible row plus the intercept-only baseline, which
+is in the surface and in no admissible set. The decision time indexes a
+*second* surface rather than a further factor of the first. The operating
+point multiplies the decision-curve grid, which is counted separately.
+
+Verified mechanically on all 19 pairs: the product of only the `yes` rows
+equals the declared-scalar column, zero mismatches. So a reader can now run
+the check the paper invites them to run, which was the point.
+
+Two smaller things fell out. The claim said "the **first** check the
+verification harness runs" and it is condition 10, not condition 1, so
+"first" is gone rather than defended. And the same table's two count columns
+had been printing `6.000` and `19.000`, because the integer coercion needs
+every value in the column finite and the envelope row is NaN.
+
+**The specification-curve table now obeys Definition 3 too**, and a condition
+was added so the pair cannot drift again — read by *header* rather than by
+column position, because that table gained a column when it was repaired and
+a positional read would have silently moved to the wrong one. Exercised
+against the exact defect it replaces: flipping one withdrawn label back to
+its pre-minimum-share value fails the build, and the clean tree passes.
+
+**`\nDirectionalLabels` was 13 and is 10.** It counted `region != unresolved`,
+which includes the three *sign-changing* pairs — and a sign-changing label
+carries no direction, which is precisely what the four sentences quoting it
+say in words. The numerator is now re-derived over the same rows as the
+denominator, so a count taken over one set can never again be printed against
+a total taken over another.
+
+**Outstanding, small:** `paper/tables/decisiontime.tex` is generated and
+`\input` by nothing — confirmed dead by grep. Either input it or stop
+generating it; it is harmless but it is a table a `\ref` could resolve to
+`??`.
+
 ### 2026-08-28, overnight — red-team repairs, two findings that grew
 
 Two of the four repair agents are done and their findings extended past what

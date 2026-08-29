@@ -399,6 +399,42 @@ def write(mn):
                 "null_median_median", "p_median", "share_positive",
                 "sca_verdict", "region_full_surface", "rho_full_surface"]
         d = V[[c for c in cols if c in V.columns]].copy()
+        #  ROUND TWENTY-SEVEN, B4.  DEFINITION 3 IS THE DEFINITION, AND THIS
+        #  TABLE HAS TO OBEY IT TOO.  `region_full_surface' in
+        #  s36_verdicts.csv is the PRE-minimum-share label -- it is
+        #  `region_calibrated' of s42_regions.csv, value for value on all
+        #  nineteen pairs -- so this table printed `conditionally beneficial'
+        #  on BPIC13_incidents/duration, BPIC15_1/duration and
+        #  UCI498/handover and `conditionally harmful' on Helpdesk/duration,
+        #  whose resolved shares are 1.7%, 1.1%, 4.4% and 1.1% against a
+        #  declared minimum of 5%.  The master table was repaired for exactly
+        #  this in an earlier round and this one was not, so the two tables
+        #  disagreed about the same four cells under captions that both
+        #  claimed to print the region of Section~\ref{sec:regions}.  The
+        #  applied label is merged from the same file and the same column the
+        #  master table reads, `region_min05', so they cannot part company
+        #  again without that file disagreeing with itself.
+        MINSH = load("s42_regions.csv")
+        if (MINSH is not None and len(MINSH)
+                and "region_min05" in MINSH.columns):
+            d = d.merge(
+                MINSH[["log", "target", "region_min05", "share_resolved"]],
+                on=["log", "target"], how="left")
+            if "region_full_surface" in d.columns:
+                d["region_full_surface"] = (
+                    d.region_min05.combine_first(d.region_full_surface))
+            else:
+                d["region_full_surface"] = d.region_min05
+            d["resolved share"] = [
+                (mn.fmt_fixed(100 * v, 1) if pd.notna(v) else "--")
+                for v in d.share_resolved]
+            d = d.drop(columns=["region_min05", "share_resolved"])
+            #  the share the label rests on sits beside the label, not at the
+            #  end of the row, so a reader can see why a direction was
+            #  withheld without counting columns
+            order = [c for c in d.columns if c != "resolved share"]
+            i = order.index("region_full_surface") + 1
+            d = d[order[:i] + ["resolved share"] + order[i:]]
         (TABLES / "sca.tex").write_text(
             tex_table(d, "Specification-curve analysis as practised, beside "
                          "this paper's region label. The permutation test "
@@ -406,16 +442,43 @@ def write(mn):
                          "one with no signal in it; the region asks, of each "
                          "cell, whether the sign of that cell's own "
                          "increment is determined. Where the two part "
-                         "company is what the extra machinery is for. Both "
-                         "verdicts are computed on the declared "
+                         "company is what the extra machinery is for. The "
+                         #  ROUND TWENTY-SEVEN.  This clause read "BOTH
+                         #  verdicts are computed on the declared sub-surface"
+                         #  and then, four sentences later, that the region is
+                         #  "computed on the full data".  Both cannot be true,
+                         #  and the second is: `rho' beside the label is
+                         #  0.422 on BPIC13_incidents/handover, which is
+                         #  76/180, the full inference family -- not a share
+                         #  of twenty-four cells.  Only the permutation test
+                         #  runs on the sub-surface.
+                         "permutation test runs on the declared "
                          "\\nScaCells-cell sub-surface at \\nScaPerms\\ "
-                         "permutations; `cases' is the number of cases the "
-                         "permutation test ran on, which is the pair's own "
+                         "permutations, and `cases' is the number of cases "
+                         "it ran on, which is the pair's own "
                          "count unless the declared cap of "
-                         "\\nScaMaxCases\\ bound on it. The region column is "
-                         "the coverage-calibrated label of "
-                         "Section~\\ref{sec:regions}, computed on the full "
-                         "data.",
+                         "\\nScaMaxCases\\ bound on it. THE REGION IS NOT "
+                         "COMPUTED ON THAT SUB-SURFACE: it is the label "
+                         "Definition~\\ref{def:regions} yields on the pair's "
+                         "whole inference family, "
+                         "minimum resolved share included, under the "
+                         "coverage-calibrated critical "
+                         "value of Section~\\ref{sec:regions}. `Resolved "
+                         "share' is the percentage of the inference family "
+                         "the band resolves, and a direction is withheld "
+                         "below \\minResolvedSharePct\\ of it. THE TWO "
+                         "UNRESOLVED LABELS ARE NOT THE SAME STATE: a plain "
+                         "`unresolved' is a pair on which the band resolves "
+                         "no cell at all, and `unresolved (below minimum "
+                         "share)' one on which it resolves some but too few "
+                         "to carry a direction --- which is why the count of "
+                         "pairs where neither instrument resolves anything "
+                         "is taken over the first label only. It is the "
+                         "same label, from the same column of the same "
+                         "file, as the `region' column of "
+                         "Table~\\ref{tab:master}, and "
+                         "Table~\\ref{tab:triple} prints the counts "
+                         "underneath it.",
                       "tab:sca",
                       colnames={"n_cases": "cases",
                                 "obs_median": "observed median",
