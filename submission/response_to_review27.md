@@ -152,6 +152,33 @@ Three consequences we now claim rather than concede:
    by more than five Monte Carlo standard errors, the limitation is unchanged
    in kind, and the number that carries it is now the right one.
 
+**And one estimator does attain the level — which we found only because the
+draw count rose.** Section 9 previously said, and we believed, that *no*
+estimator recovers the shortfall. That was measured on medians pooled across
+draw counts from 33 to 1,000, and the two critical-value estimates do not
+behave the same way along that axis. The multiplier's coverage plateaus. The
+**empirical quantile's does not**. At this corpus's family size it runs 79.0%
+at 33 draws, 91.2% at 80, 93.9% at 150 and **94.7% at 400** — the count every
+pair now carries — at a Monte Carlo standard error of 0.5%, which is a gap to nominal of well under one standard
+error against the reported band's five. Its conservative end reaches 96.6%.
+
+This is not a repair that existed before. At 33 draws the empirical quantile
+is the *worse* of the two, because an order statistic of that few maxima is
+badly determined, and that is precisely the argument our own Section 4.3 gives
+for not adopting it. Raising every pair to 400 draws changed the answer, and
+we did not notice until we asked which design each pooled median was averaging
+over. **It costs width**: the empirical band is 1.35 times as wide, and
+resolves 698 cells against the multiplier's 890.
+
+We report the multiplier band and print both. A band that attains its level by
+being wider is a different object, not a correction to this one, and choosing
+between resolution and level is the reader's decision on their own loss
+function rather than ours. But the honest shape of our sharpest limitation has
+changed: it is no longer *no construction here attains its level*, it is *the
+construction we report does not, one we also compute does, and here is what
+the difference costs*. A verifier condition now checks the direction and the
+width, because the claim is the reverse of the one it replaced.
+
 **On the labels: it does not, so they stay diagnostics.** We said we would not
 describe a band as covering because we would like it to, and we have not.
 Region labels and $\rho$ remain descriptive diagnostics, contribution 2 does
