@@ -73,13 +73,30 @@ The visible symptom was a pivotal interval excluding its own point estimate
 on 74 of 3,900 cells. That count is the success criterion, because it is a
 defect a reader can see without believing any theory about why it happens.
 
-**Under weights it is 36 of 3,420 — 1.05% against 1.90%.** Halved, and not
-removed. We report that as the result rather than as the result we wanted.
-Every register level is now present in every refit, so the *mechanism* Section
-11 named is gone; a residual displacement remains that the mechanism does not
-explain, and the manuscript says so rather than describing a halving as a fix.
-The residual is itself informative: it says the displacement was never only
-about level loss.
+**We ran the comparison, and it did not go the way Section 11 predicted.**
+
+The mechanism is removed completely. Register levels present in a draw go from
+**80.8%** — 60.2% at worst — to **100% by construction**. The starkest
+consequence goes with it: on the old surface **150 cells of 3,900 could not be
+given a band at all**, because a resample dropped the arm from enough draws
+that the median down its column was undefined. Under weights that count is
+**zero**. We had never reported those cells: they were not resolved, so they
+were counted as *unresolved*, beside cells that were banded and straddled zero.
+Section 4.1 now reports them, and a verifier condition requires the count to be
+printed whatever it is.
+
+**And the symptom survives the removal of its supposed cause.** The interval
+that excludes its own point estimate falls from 3.9% to 1.3% — better, not
+fixed. The displacement's median barely moves, 0.0050 to 0.0041, and its
+maximum is slightly *worse* under weights.
+
+So level loss was offered as the explanation of the displacement, and removing
+level loss entirely leaves most of the displacement standing. **It was not the
+main cause, and we do not know what is.** We think this is the more valuable
+outcome: the round retires a mechanism the manuscript asserted, on evidence the
+manuscript generated, and no amount of reasoning about $1-e^{-1}$ would have
+shown it. The weighted scheme is adopted anyway — it removes a real defect and
+is slightly more conservative — but not on the grounds we gave for wanting it.
 
 **The surface, and the draws.** The old inference surface was chosen by row
 count — four learners on the case study and two elsewhere, three quality
