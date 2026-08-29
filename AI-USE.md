@@ -24,10 +24,17 @@ result or any citation.
 | 1–18 | 2026-08-18 to 2026-08-22 | **not recorded** | code, prose |
 | 19 (literature pilot adjudication) | 2026-08-22 | **not recorded** | code, prose, **pilot adjudication** |
 | 20 | 2026-08-23 to 2026-08-24 | **not recorded** | code, prose |
-| 21 (this revision) | 2026-08-24 | `claude-opus-5` | code, prose |
+| 21 | 2026-08-24 | `claude-opus-5` | code, prose |
+| 22–26 | 2026-08-25 to 2026-08-26 | **not recorded** | code, prose |
+| 27 (this revision) | 2026-08-28 to 2026-08-29 | `claude-opus-5`, then `claude-fable-5` | code, prose |
 
-**The gap is stated rather than filled.** The identifiers for rounds 1–20 were
-not recorded at the time and are not reconstructible from the repository. For
+**The gap is stated rather than filled.** The identifiers for rounds 1–20 and
+22–26 were not recorded at the time and are not reconstructible from the
+repository; the dates are, and are given. Round twenty-seven ran under two
+models in one session --- it began under `claude-opus-5` and continued under
+`claude-fable-5` --- and both are listed rather than only the later one,
+because a register that names the model that finished the work and not the one
+that started it is not a register. For
 the code and the prose this does not affect reproducibility: the code is in
 the archive and produces the numbers without any model. For the literature
 pilot it does, because there the model was part of the measuring instrument.

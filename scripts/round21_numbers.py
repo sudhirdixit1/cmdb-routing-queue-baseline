@@ -123,8 +123,17 @@ def emit(mn):
         put("highlightMaxChars", None)
 
     #  the model identifier behind the generative-AI declaration
-    put("aiModelId", "claude-opus-5")
-    put("aiModelDate", "2026-08-24")
+    #  ROUND TWENTY-SEVEN.  These were the round-21 values and stayed put
+    #  through six further rounds, so the declaration named the model that
+    #  prepared a manuscript two versions old.  In a paper whose subject is
+    #  auditability that is the wrong sentence to leave stale.  Round
+    #  twenty-seven ran under two models in one session and both are named:
+    #  a register that lists the model which finished the work and not the
+    #  one that started it is not a register.  `AI-USE.md' carries the same
+    #  pair and the same dates.
+    put("aiModelId", "claude-fable-5")
+    put("aiModelIdPrev", "claude-opus-5")
+    put("aiModelDate", "2026-08-24 to 2026-08-29")
 
     # ================================================================
     # the family-relative separation (Proposition 2, Remark 3)
