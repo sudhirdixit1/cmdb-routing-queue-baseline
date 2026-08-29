@@ -1,8 +1,18 @@
 {
+  "round26_numbers.py": {
+    "at": "2026-08-29T08:20:32Z",
+    "note": "round 27: the direction-carrying set is a membership test, so a new sign-naming label joins it",
+    "sha": "9caf7c97be3f35d0"
+  },
   "round27_numbers.py": {
     "at": "2026-08-29T08:14:37Z",
     "note": "round 27: the like-for-like unbandable counterfactual, which isolates the scheme from the design change",
     "sha": "ee8d48bd22c4ac10"
+  },
+  "round27_verify.py": {
+    "at": "2026-08-29T08:20:32Z",
+    "note": "round 27: re-derives the direction-carrying set and the min-share withdrawal from the same rows",
+    "sha": "dab4cf1c2df66bba"
   },
   "s01_surface.py": {
     "at": "2026-08-25T01:56:46Z",

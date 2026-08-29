@@ -233,7 +233,20 @@ def emit(mn):
         #  conditionally beneficial and the conditionally harmful.  The
         #  numerator was never wrong -- all four withdrawals come out of that
         #  set -- so only the denominator moves, from thirteen to ten.
-        _DIRECTIONAL = ("conditionally beneficial", "conditionally harmful")
+        #
+        #  ROUND TWENTY-SEVEN AGAIN.  The tuple below then went stale the
+        #  moment the corpus produced a label it did not contain.  A
+        #  UNIFORMLY BENEFICIAL SURFACE CARRIES A DIRECTION -- beneficial is
+        #  a sign -- and until this round no pair attained one, so a set
+        #  written as "the two conditional labels" and a set written as "the
+        #  labels that name a sign" had the same members and the difference
+        #  could not show.  It shows now: the denominator is twelve, not
+        #  eleven.  The rule is the MEMBERSHIP TEST rather than the
+        #  enumeration, so it is written as one and a new sign-carrying label
+        #  joins it without an edit here.
+        _DIRECTIONAL = tuple(sorted(
+            s for s in RG.region_calibrated.astype(str).unique()
+            if "beneficial" in s or "harmful" in s))
         d = RG[RG.region_calibrated.astype(str).isin(_DIRECTIONAL)]
         put("nDirectionalLabels", int(len(d)))
         #  and the numerator is recounted over THE SAME ROWS as the

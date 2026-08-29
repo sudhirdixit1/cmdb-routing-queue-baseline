@@ -174,17 +174,17 @@ its own.
 grid is not uniform across the corpus}
 Every point estimate comes from the full declared space; every \emph{band}
 comes from the inference surface, a median
-\inferenceShareAdmissibleMedianPct\ of each pair's computational surface. It
+\inferenceShareAdmissibleMedianPct\ of each pair's admissible surface. It
 is a subset of the declared surface cell for
 cell and the share of positive cells differs between them by a median
 \repGapMedian, but a study with compute to spare should equate the two. The
-same budget shows in two further places. The draw counts run
-\nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ as declared and
-\nDrawsEffectiveMin\ to \nDrawsSurfaceMax\ effectively, because a replicate
-that leaves any cell of a family without outcome variation is dropped from
-that family; the two families that lose the most sit on logs that also supply
-much of the sign disagreement of Section~\ref{sec:results-regret}, so the
-headline's largest contributors are also its noisiest. And the pipeline axis
+same budget shows in two further places. Every family is declared at
+\nDrawsSurfaceMax\ draws and every family is effective at
+\nDrawsEffectiveMin: a replicate that leaves any cell of a family without
+outcome variation is dropped from that family, and under the weighted scheme
+no replicate is dropped on any family. The accounting is kept rather than
+removed, because what it now establishes is that the gap it was built to
+measure is empty --- a distinction a reader cannot draw from its absence. And the pipeline axis
 carries four levels on the case study's log and two or three elsewhere, by a
 rule declared on row count before the runs, so a sensitivity index computed on
 one pair is not strictly comparable with one computed on another.

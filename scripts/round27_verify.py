@@ -1026,3 +1026,36 @@ def check(vn, M):
                     "round-27 condition: \\nPairsAtLargestGrid is %s and %d "
                     "pair(s) carry the corpus's largest declared grid"
                     % (M["nPairsAtLargestGrid"], n_at))
+
+    # --- 12.  the direction-carrying set is a test, not a list -----------
+    #
+    #  "\nLabelsLostToMinShare of the \nDirectionalLabels pairs that carry a
+    #  direction" is printed in four places.  The denominator was once every
+    #  non-`unresolved' label (too large by the sign-changing pairs) and then
+    #  a hard-coded pair of conditional labels (too small by the uniformly
+    #  beneficial one, the moment such a pair existed).  Both halves are
+    #  re-derived here from the region file and the minimum share -- the
+    #  numerator from THE SAME ROWS as the denominator, which is the property
+    #  that failed the first time.
+    if RG is not None and {"region", "n_resolved_whole",
+                           "n_cells"} <= set(RG.columns):
+        carries = RG.region.astype(str).str.contains("beneficial|harmful")
+        D = RG[carries]
+        got = _num(M.get("nDirectionalLabels"))
+        if got is not None and int(got) != len(D):
+            vn.FAILS.append(
+                "round-27 condition: \\nDirectionalLabels is %s and %d "
+                "pair(s) carry a label naming a sign (%s)"
+                % (M["nDirectionalLabels"], len(D),
+                   ", ".join(sorted(D.region.astype(str).unique()))))
+        thr = _num(M.get("minResolvedSharePct"))
+        lost = _num(M.get("nLabelsLostToMinShare"))
+        if thr is not None and lost is not None and len(D):
+            share = D.n_resolved_whole / D.n_cells
+            n_lost = int((share < thr / 100.0).sum())
+            if int(lost) != n_lost:
+                vn.FAILS.append(
+                    "round-27 condition: \\nLabelsLostToMinShare is %s and %d "
+                    "of the %d direction-carrying pairs resolve less than %s "
+                    "of their family" % (M["nLabelsLostToMinShare"], n_lost,
+                                         len(D), M["minResolvedSharePct"]))
