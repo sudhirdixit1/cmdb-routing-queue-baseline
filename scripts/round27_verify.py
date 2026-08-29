@@ -307,6 +307,43 @@ def check(vn, M):
             vn.FAILS.append(
                 "round-27 condition: the master table's region label is not "
                 "the one Definition 3 yields -- " + "; ".join(bad[:6]))
+    #  THE CELL COUNTS AND THE REGION LABELS DESCRIBE ONE SURFACE.
+    #
+    #  Round twenty-seven replaced the inference surface, and found FOUR
+    #  separate checks that went on reading the old one because its name was a
+    #  literal in the code.  The dangerous combination is not any single stale
+    #  reader: it is a HALF-migrated state, where the cell-count macros come
+    #  from one surface and the region labels from another.  Both files are
+    #  internally consistent then, every number resolves, and the manuscript
+    #  reports a family size that no label was computed over.
+    #
+    #  So the condition is a join rather than a total: per pair, the grid the
+    #  counts come from and the regions file the labels come from must agree
+    #  on the family size.  A total would pass on two surfaces that happened
+    #  to sum alike; a per-pair join cannot.
+    G20 = _read(results, "s20_grid.csv")
+    R21 = _read(results, "s21_regions.csv")
+    if (G20 is not None and len(G20) and R21 is not None and len(R21)
+            and "scalar_cells" in G20.columns and "n_cells" in R21.columns):
+        gk = {(str(r.log), str(r.target)): int(r.scalar_cells)
+              for r in G20.itertuples()}
+        bad = []
+        for r in R21.itertuples():
+            key = (str(r.log), str(r.target))
+            if key in gk and gk[key] != int(r.n_cells):
+                bad.append("%s/%s: grid says %d cells, the region label was "
+                           "computed over %d"
+                           % (key[0], key[1], gk[key], int(r.n_cells)))
+        missing = [k for k in gk
+                   if k not in {(str(r.log), str(r.target))
+                                for r in R21.itertuples()}]
+        if bad or missing:
+            vn.FAILS.append(
+                "round-27 condition: the inference-surface cell counts and "
+                "the region labels do not describe one surface -- "
+                + "; ".join(bad[:4] or ["%d pairs in the grid carry no region "
+                                        "label" % len(missing)]))
+
     #  THE DESK COMPARISON'S PAIRS ARE ACCOUNTED FOR.  Section 8.4 printed a
     #  count taken over the 16 pairs that carry a calibrated model against a
     #  denominator of 19 --- two sentences after saying the calibration rule
