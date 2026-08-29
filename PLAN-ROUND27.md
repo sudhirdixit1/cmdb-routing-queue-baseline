@@ -840,6 +840,25 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-29, 01:45 — the design is a balanced full factorial, checked rather than trusted
+
+The rewrite will claim the new inference surface is "a full factorial and so a
+strictly stronger guarantee than the resolution-IV fraction Section 11 asked
+for". `s44_grid.csv` carries `balanced = True`, but that is the design's own
+flag and not a measurement of what ran. Checked against the draw files:
+
+- on **every one of the 19 pairs**, the AUC sub-surface is 2 learners × 2
+  splits × 3 quality conditions × 3 rungs = **36 cells, with every
+  combination present exactly once** — no missing cell, no duplicate;
+- and every pair is **identical in shape**: the level counts and the cell
+  count take one value across the corpus.
+
+So the claim is supportable as written, and the second half of it — that a
+corpus median no longer mixes families of different shapes — is now a
+verified fact rather than a design intention. Both are worth stating in §4.2
+with the check named, because "balanced" is exactly the kind of word a
+referee will want evidence for and the evidence is one line of arithmetic.
+
 ### 2026-08-29, 01:30 — the decomposition on the inference surface: computable, and it does NOT confirm the declared one
 
 §4.2's concession is that the inference surface is "a corner of the declared
