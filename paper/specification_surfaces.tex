@@ -1000,8 +1000,8 @@ map. The identity map's maximum excess is \identityMaxExcess.
 Supplement~\ref{app:regretfull} gives the three constructions and the four
 decision rules compared under them.
 
-\paragraph{A reporting standard follows from the apparatus, and is short
-enough to state}
+\subsection{A reporting standard, in one paragraph}
+\label{sec:standard}
 Report the design space and the measure over it; the denominator the claim
 quantifies over, named as one of the three; the absolute increment at every
 rung rather than a ratio; the decomposition with $1 - \sum_i S_i$ reported as
@@ -1274,14 +1274,13 @@ condition on \nFoldLeadPairsQuality\ and the pipeline on
 \nFoldLeadPairsPipeline\ --- so an analyst cannot learn from somebody else's
 paper which of their own choices their answer turns on.
 
-\textbf{The pooled decomposition is reported beside it} ---
+\textbf{The pooled decomposition is reported beside it}, because it is what
+the specification-curve literature computes and the difference between the two
+is this subsection's result --- not because it answers the question as asked.
 Supplement~\ref{app:measures} gives the four pooled first-order medians, the
-largest per-instrument first-order index \largestFirstOrderPct, the pooled
-higher-order share \interactionTotalPct\ (\interactionTotalCI\ over pairs)
-and the largest per-axis \emph{involvement} \largestInvolvementPct, a
-different quantity --- because it is what the specification-curve literature
-computes and the difference between the two is this subsection's result, not
-because it answers the question as asked.
+largest per-instrument first-order index, the pooled higher-order share with
+its spread over pairs, and the largest per-axis \emph{involvement}, which is a
+different quantity again.
 
 \textbf{The measure is not neutral, and one conclusion does not survive it.}
 Across the three product measures the higher-order share moves by
@@ -1307,7 +1306,8 @@ way the intercept-only rung this paper already excludes is impoverished.
 Excluding it too, the spread is \spreadRealisticMedian\ AUC at the median pair
 and \spreadRealisticMax\ at the widest, and exceeds the reference increment on
 \nSpreadExceedsRealistic\ pairs. \textbf{How much of that range the
-half-of-intake rung carries is itself a property of the pair}, and on
+half-of-intake rung carries is itself a property of the pair}, and where it
+carries all of it the reason is structural: on
 \nPairsTwoRealisticRungs\ of the \nPairs\ pairs only two rungs remain, so
 the spread over them \emph{is} the absorption $D$ of the free field, which
 Section~\ref{sec:absorption} reports as an object in its own right with its
