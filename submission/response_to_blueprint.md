@@ -494,10 +494,10 @@ than counted by hand.
 | 10 | Threats to validity | 2,246 | 1,200–1,500 | **over** |
 | 11 | Conclusion | 730 | 400–600 | just over |
 
-**The body is about 19,900 words against the 13,000–15,000 requested, and we
+**The body is about 21,285 words against the 13,000–15,000 requested, and we
 are not going to pretend that is inside the band.** In pages, in the
-`preprint,12pt` layout Elsevier asks for at review: **53 pages of main text
-within a 62-page article, and 107 of supplement**, against the review's count
+`preprint,12pt` layout Elsevier asks for at review: **57 pages of main text
+within a 63-page article, and 107 of supplement**, against the review's count
 of 69 pages for the whole of the round-nineteen manuscript. The body has grown
 since that count and the reason is on the record: the last three rounds of
 review found, repeatedly, that a sentence named one set while its number was

@@ -467,7 +467,10 @@ apparatus. The case study's two side experiments, four detail blocks in
 Section 6, the design rule's full statement and two constructions the
 supplement already gives verbatim moved with it. Ten passages that restated a
 number where it was not computed were compressed to a pointer. **The article
-went from 66 pages to 62 and the body from 22,100 words to 19,900.**
+went from 66 pages to 63 and the body from 22,100 words to about 20,100** ---
+63 rather than 62 because the last of the work put a page back, reporting a
+construction that attains its nominal level where the one we report does not,
+and we would rather carry that page than omit it.
 
 **That is four pages, and the target asks for twenty. We are not going to
 close that gap and we will say exactly why rather than let you discover it.**
@@ -497,7 +500,29 @@ closest existing practice, and a reader assessing what is new here will look
 precisely there. We kept it, and we would rather be told to cut it than cut it
 and be asked where the comparison went.
 
-**So: 62 pages, and the trade is yours to make.** We would rather submit 62
+**The arithmetic, so it can be checked rather than taken on our word.** The
+body is 57 pages. Four passages we will not cut, measured at the 435
+words-per-page this document calibrates on, account for 4.8 of them:
+
+| passage | words | pp |
+|---|---:|---:|
+| the band's family-wise coverage, at full length | 809 | 1.9 |
+| the two repairs, and that neither did what it was named for | 388 | 0.9 |
+| the band does not attain its nominal level | 204 | 0.5 |
+| what the case study says to a configuration-management programme | 680 | 1.6 |
+| **eleven floats at 0.6 pp each** | — | **6.6** |
+| **total** | | **11.4** |
+
+That list is deliberately partial — it omits the per-pair role declarations,
+the decision-time ladder, the tie-break correction, the prefix disclaimer and
+every withdrawn claim, all of which we also will not cut. Even so: reaching a
+38-page body means removing 19 pages from the at-most 45.6 that are not on it,
+which is **42 per cent of everything not protected**, in sections that have
+had material moved to the supplement in four consecutive rounds. We report
+that as a measurement rather than a reluctance, and the numbers above are
+reproducible from `results/section_words.csv` and the built `.aux`.
+
+**So: 63 pages, and the trade is yours to make.** We would rather submit 62
 pages in which every number states the set it was computed over than 46 in
 which some of them do not, and we have put the arithmetic above so that the
 judgement is yours to overrule rather than ours to hide. If the page count is

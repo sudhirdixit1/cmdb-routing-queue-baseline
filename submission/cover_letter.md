@@ -211,7 +211,7 @@ guesses at the other's numbering. The article is self-contained without the
 supplement.
 
 The article was ninety-seven pages two rounds ago and seventy-one when the
-second developmental review read it. It is now 62 pages, with
+second developmental review read it. It is now 63 pages, with
 8 tables and 3 figures against twenty-three tables and seven
 figures, and no line overruns its margin. Material moved to the supplement and
 restatement came out; a further four pages came out in this round, including
