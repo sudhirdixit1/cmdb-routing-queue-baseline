@@ -48,11 +48,15 @@ would otherwise have made the claim.
   now declares, for each quantity a reader would name in one phrase, which
   macros may hold it, and fails when two of them disagree.
 - **Two of the paper's four reporting objects rested on bands the paper itself
-  declared undercovering on its own corpus.** They are now computed under a
-  critical value calibrated at each pair's own register cardinality, from a
-  denser simulated plane, by a factor that is a quantile of the studentised
-  error rather than a fitted fudge. The correction costs resolution and the
-  manuscript prints both sets of labels so the cost is visible.
+  declared undercovering on its own corpus.** A critical value calibrated at
+  each pair's own register cardinality is derived from a denser simulated
+  plane, by a factor that is a quantile of the studentised error rather than a
+  fitted fudge --- and then measured to be smaller than the family-wise
+  widening these families need, so it is **not applied**. The two objects are
+  reported as descriptive diagnostics rather than as guarantees, the labels
+  are nominal, and the manuscript states by how much they are
+  anti-conservative. Both sets of labels are printed so the cost a widening
+  would carry is visible.
 - **Ninety-seven pages, thirty of them about the project's own history of
   errors.** The appendices are now a separate supplementary document; the
   correction register, the literature pilot and the verification harness are
@@ -180,15 +184,20 @@ the training row count, and this corpus lives where that coverage is below
 nominal: the median pair sits at 0.106. The previous version reported that as
 a limitation and left the region labels at their nominal critical value, which
 means it published two objects it had just declared unreliable. This version
-calibrates instead. The plane is estimated at twenty cells and five hundred
-replicates over the range the corpus actually occupies; the factor by which an
-interval must be widened to reach nominal coverage is derived in closed form
-as a quantile of the studentised error, so it is computed rather than tuned;
-and every region label and every robustness index in the article is the
-calibrated one, with the nominal one printed beside it so the size of the
-correction is visible. What the repair does not buy is stated in three clauses
-in section 10, because a calibration estimated in a simulation and applied to
-real logs is an assumption and should be labelled as one.
+derives the correction and then measures that it is not enough. The plane is
+estimated over the range the corpus actually occupies and the widening factor
+is derived in closed form as a quantile of the studentised error, so it is
+computed rather than tuned. **It is not applied.** The family-wise widening
+these families need is 1.36 to 1.88 and the factor supplies less than that at
+both ends, so applying it would spend resolution and still not earn the level
+— a worse position than reporting the labels nominal and saying by how much
+they are anti-conservative, which is what the article does. The calibrated
+labels are printed beside the reported ones so that what a widening would cost
+is visible, and the derivation is given in full in the supplement so that the
+measurement retiring it can be read against it. What the derivation does not buy is stated
+plainly in the threats section, because a calibration estimated in a
+simulation and carried to real logs is an assumption, and one this corpus's
+own measurement declines to license.
 
 **Length and structure.** The article and its supplementary material are now
 two documents. The supplement carries the protocol and its amendments, the
@@ -202,11 +211,12 @@ guesses at the other's numbering. The article is self-contained without the
 supplement.
 
 The article was ninety-seven pages two rounds ago and seventy-one when the
-second developmental review read it. It is now 58 pages, with
-7 tables and five figures against twenty-three tables and seven
-figures, and no line overruns its margin. About ten of those pages moved to
-the supplement and about seven were restatement that came out: four sections
-were describing the coverage calibration and one does now. The review asked
+second developmental review read it. It is now 62 pages, with
+8 tables and 3 figures against twenty-three tables and seven
+figures, and no line overruns its margin. Material moved to the supplement and
+restatement came out; a further four pages came out in this round, including
+the reporting-standard section, which moved whole while its prescription
+stayed in the body. The review asked
 for thirty-five to forty pages, and the response letter sets out under M12 the
 arithmetic that leaves the article above that — the same review asked, in its
 first two phases, for eight new measurements, and those are about eight pages
