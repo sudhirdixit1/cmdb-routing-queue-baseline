@@ -159,9 +159,9 @@ computed on it. It can now, and is: one decomposition per pair per instrument,
 over \nCellsPerDecomposition\ cells each. Supplement~\ref{app:infanova} reports
 what that shows, and it is not a confirmation --- the axis carrying the
 largest first-order index agrees between the two surfaces on a minority of
-pairs --- a comparison between two designs that declare different levels, and
-so a statement about the levels an analyst declared rather than a verdict on
-either surface (Supplement~\ref{app:infanova}).
+pairs. The disagreement is a comparison between two designs that declare
+different levels, and so a statement about the levels an analyst declared
+rather than a verdict on either surface.
 
 \noindent The objection it does \emph{not} retire is the one that matters
 most for reading a region label. The inference family is still a fraction of
@@ -201,8 +201,9 @@ hundred cells that a surface-level label ranges over. Four interval objects are
 declared and every table says which it prints; \textsc{whole-surface} ---
 max-$t$ over \emph{every} admissible scalar cell of the pair --- is the only
 family a surface-level claim may use, and it has a median
-\familySizeMedian\ members against five and a median critical value of
-\maxTSurfaceMedian\ against \maxTWithinMedian\ and the pointwise $1.96$.
+\familySizeMedian\ members against the within-instrument family's five, at a
+median critical value of \maxTSurfaceMedian\ against that family's
+\maxTWithinMedian\ and the pointwise $1.96$.
 Family control is per log--target pair; every cross-pair statement here is
 descriptive.
 Supplement~\ref{app:families} gives these four \emph{interval} objects
@@ -213,8 +214,9 @@ rule for dropping a replicate that leaves a cell without outcome variation.
 Standardising the draws and multiplying them by independent standard normals
 gives a statistic with their empirical covariance, generated \nMultiplier\
 times for the cost of matrix arithmetic \citep{chernozhukov2013gaussian}, so
-the budget fixes $B$ and not the precision of $q$; the residual Monte Carlo
-interval is carried through, and a cell counts as \emph{resolved} only at its
+the budget fixes $B$ and not the precision of $q$ --- order-statistic widths of
+\qEmpWidth\ against \qMultWidth. The residual Monte Carlo interval is
+carried through, and a cell counts as \emph{resolved} only at its
 \emph{upper} end (Supplement~\ref{app:objects}). A max-$t$ band also inherits the coverage of the interval it is built
 from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
 register cardinality to training size. Supplement~\ref{app:calibration}

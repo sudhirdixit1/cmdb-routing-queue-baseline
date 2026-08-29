@@ -19,19 +19,18 @@ against the family's \sFamilyPct, each the median over those two targets and
 the \nInstruments\ instruments pooled, with an interaction,
 \sFamilyEncodingPct, that lies between the two main effects and is the largest
 two-way term: the fused index is not the sum of two indices.
-Supplement~\ref{app:secondary} carries the crossed decomposition, and
-Table~\ref{tab:axes2} the per-target medians, which are a different
+Table~\ref{tab:axes2} carries the per-target medians, which are a different
 aggregation and need not agree with these.
 
 \textbf{Run on the \nItsmCrossed\ ITSM pairs, that finding travels but does
 not hold everywhere.} Taking the median over the \nInstruments\ instruments
-within each pair --- a third aggregation, named here because the two above are
-not it --- the encoding is the larger first-order axis on
+within each pair --- a third aggregation, distinct from the corpus median of a
+column and from the per-instrument largest that Section~\ref{sec:axes2} names --- the encoding is the larger first-order axis on
 \nEncodingLargerItsm\ of the \nItsmCrossed, and on the other
 \nFamilyLargerItsm\ \textbf{the family is, and not narrowly}: on the more
 extreme of them the encoding carries \encOverFamItsmMin\ times what the family
 does. So the case study's ordering is the common one and not the rule.
-\textbf{That is this section's own thesis arriving where it was not sent}: the
+\textbf{That is the article's own thesis arriving where it was not sent}: the
 crossing was run to separate two axes a fused index confounds, and what it
 finds is again that which axis leads is a property of the pair. The remaining
 pairs are not crossed, which Section~\ref{sec:lim} records.
@@ -195,48 +194,13 @@ limitation.
 \subsection{The case study's leakage and quality experiments}
 \label{app:casedetail}
 
-%%  ROUND TWENTY-SEVEN.  Moved from Section 7.3 for length, unchanged.
-
-Two further experiments on this estate are in Supplement~\ref{app:casedetail}
-and summarised here.
-
-\textbf{A field that looks like leakage has a tipping point, and where it
-sits is what a reader has to judge.} The knowledge reference is the field
-that takes the register's increment to indistinguishable from zero, and
-whether it was available at $\tau_2$ is probable but unproven. Writing
-$\lambda$ for the share of its values assumed written \emph{after} the
-incident --- so that a larger $\lambda$ makes more of the field inadmissible
---- the register is worth \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] at
-$\lambda = 0$, not resolvably different from zero, and reaches half of its
-knowledge-free value at $\lambda = \lambdaHalf$. A reader who believes more
-than \lambdaHalfPct\ of references are written after the incident should read
-this estate's register as worth at least half of \VTtwoGroup\ AUC, and one
-who believes almost none are should read it as worth almost nothing. We
-cannot measure $\lambda$, so the disposition of an unprovable admissibility
-assumption is reported as a sensitivity analysis and not as a headline
-(Figure~\ref{fig:tipping}, Table~\ref{tab:tipping}).
-
-\textbf{Register quality is an axis, not a caveat, and which rows go missing
-matters as much as how many.} Under \nQualityKinds\ declared degradation
-mechanisms the increment at the reference cell moves from \qClean\ on a clean
-register to \qRareHalf\ when half the population is lost from its long tail
-and \qCommonHalf\ when half is lost from its core. Three of the mechanisms
-are \emph{dependent} --- on time, on content, and on a training-estimated
-propensity that correlates missingness with the outcome --- and they carry
-severity integrals \integralTime, \integralContent\ and
-\integralPropensity\ against \integralMaskRare\ for the independent long-tail
-mechanism, which they bracket rather than track. A quality axis built only
-from independent coin flips measures one corner of the question.
-
-\textbf{Which halves are degraded, exactly.} A degraded register is a state of
-the world and not a training accident, so \textbf{the mechanism is applied to
-both halves of the data} while its \emph{parameters} are estimated from the
-training half alone, and the repository executes that property rather than
-asserting it. Supplement~\ref{app:degrade} gives the construction, the
-executed check and why a mechanism applied to training alone would measure a
-different thing; Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every
-mechanism and level.
-
+%%  ROUND TWENTY-SEVEN.  Section 7.3 was reduced to a stub and its prose
+%%  moved here -- where round twenty-five had ALREADY put the full
+%%  treatment of both experiments.  The move therefore duplicated, within
+%%  one page, every number of the tipping point and the quality axis.  The
+%%  moved copy is deleted and the round-25 block below stands; the body's
+%%  stub summarises and points here, which is the arrangement round
+%%  twenty-five chose and this pass should not have disturbed.
 
 %%  ROUND TWENTY-FIVE.  Moved here from Section 7 unchanged.  The article
 %%  keeps both findings and the pointer; the referees asked three times
@@ -636,15 +600,16 @@ the staff who keep it current --- is nowhere in this evidence.
 median pooled first-order index is \sSplitPct\ for the split, \sRungPct\ for
 the baseline rung, \sQualityPct\ for the register-quality condition and
 \sLearnerPct\ for the pipeline; at the median pair the largest first-order
-index \emph{within an instrument} --- the second of the three aggregations
-named above, and not the largest of those four medians --- is
+index \emph{within an instrument} --- a median over pairs of a median over
+instruments, and not the largest of those four medians --- is
 \largestFirstOrderPct, the total higher-order share is \interactionTotalPct\
 (\interactionTotalCI\ over pairs, \interactionMinPct\ to
 \interactionMaxPct), and the largest per-axis \emph{involvement}
 $\max_i (S_{T_i} - S_i)$, a different quantity, is \largestInvolvementPct.
-It is reported because it is what the specification-curve literature computes
-and because the difference between the two is this subsection's result, not
-because it answers the question as asked.
+The involvement is reported because it is what the specification-curve
+literature computes, and because the difference between it and the
+higher-order share is what Section~\ref{sec:axes2} turns on --- not because it
+answers the question as asked.
 
 
 %%  ROUND TWENTY-FIVE.  Moved from Section 6.2 for length, unchanged.
@@ -900,7 +865,7 @@ line, is the only state in which a single positive number is a safe summary.}
 
 %%  ROUND TWENTY-SEVEN.  Moved from Section 6.2 for length, unchanged.
 
-\textbf{How much of the range that rung
+\textbf{How much of the range the half-of-intake rung
 carries is itself a property of the pair}: dropping it cuts the spread by a
 median \spreadFallMedianPct\ per pair, by \spreadFallWidestPct\ on the pair
 holding the corpus's widest spread, and not at all on \nPairsSpreadUnmoved\
@@ -912,4 +877,4 @@ spread over them \emph{is} the absorption $D$ of the free field, which
 Section~\ref{sec:absorption} reports as an object in its own right with its
 own interval. Only the case study's log carries a third
 (Table~\ref{tab:roles}), and its two pairs are where the corpus's widest
-realistic-rung spread sits, reaching \spreadRealisticMax. The
+realistic-rung spread sits, reaching \spreadRealisticMax.

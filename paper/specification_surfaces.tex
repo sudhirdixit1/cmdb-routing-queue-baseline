@@ -501,6 +501,7 @@ bound on a robust conclusion. Section~\ref{sec:regionsdef} makes that a
 definition.
 
 \subsection{The relative reduction, and its pathologies}
+\label{sec:reduction}
 
 Comparisons between two baselines are often stated as a proportion. Write
 $B_0 \subset B_1$ and
@@ -722,9 +723,9 @@ computed on it. It can now, and is: one decomposition per pair per instrument,
 over \nCellsPerDecomposition\ cells each. Supplement~\ref{app:infanova} reports
 what that shows, and it is not a confirmation --- the axis carrying the
 largest first-order index agrees between the two surfaces on a minority of
-pairs --- a comparison between two designs that declare different levels, and
-so a statement about the levels an analyst declared rather than a verdict on
-either surface (Supplement~\ref{app:infanova}).
+pairs. The disagreement is a comparison between two designs that declare
+different levels, and so a statement about the levels an analyst declared
+rather than a verdict on either surface.
 
 \noindent The objection it does \emph{not} retire is the one that matters
 most for reading a region label. The inference family is still a fraction of
@@ -764,8 +765,9 @@ hundred cells that a surface-level label ranges over. Four interval objects are
 declared and every table says which it prints; \textsc{whole-surface} ---
 max-$t$ over \emph{every} admissible scalar cell of the pair --- is the only
 family a surface-level claim may use, and it has a median
-\familySizeMedian\ members against five and a median critical value of
-\maxTSurfaceMedian\ against \maxTWithinMedian\ and the pointwise $1.96$.
+\familySizeMedian\ members against the within-instrument family's five, at a
+median critical value of \maxTSurfaceMedian\ against that family's
+\maxTWithinMedian\ and the pointwise $1.96$.
 Family control is per log--target pair; every cross-pair statement here is
 descriptive.
 Supplement~\ref{app:families} gives these four \emph{interval} objects
@@ -776,8 +778,9 @@ rule for dropping a replicate that leaves a cell without outcome variation.
 Standardising the draws and multiplying them by independent standard normals
 gives a statistic with their empirical covariance, generated \nMultiplier\
 times for the cost of matrix arithmetic \citep{chernozhukov2013gaussian}, so
-the budget fixes $B$ and not the precision of $q$; the residual Monte Carlo
-interval is carried through, and a cell counts as \emph{resolved} only at its
+the budget fixes $B$ and not the precision of $q$ --- order-statistic widths of
+\qEmpWidth\ against \qMultWidth. The residual Monte Carlo interval is
+carried through, and a cell counts as \emph{resolved} only at its
 \emph{upper} end (Supplement~\ref{app:objects}). A max-$t$ band also inherits the coverage of the interval it is built
 from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
 register cardinality to training size. Supplement~\ref{app:calibration}
@@ -1702,11 +1705,15 @@ admissible set.
 \subsection{The leakage tipping point, and register quality}
 \label{sec:quality}
 
-Two further experiments on this estate are in Supplement~\ref{app:casedetail}: a leakage tipping point --- the
-knowledge reference takes the register's increment to \VTtwoKnow,
-indistinguishable from zero, and reaches half its knowledge-free value at
-$\lambda = \lambdaHalf$, so an unprovable admissibility assumption is
-reported as a sensitivity analysis and not as a headline --- and a
+Two further experiments on this estate are in
+Supplement~\ref{app:casedetail}. The first is a leakage tipping point: at
+$\tau_2$ the knowledge reference takes the register's increment to
+\VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi], indistinguishable from zero, and
+writing $\lambda$ for the share of that field's values assumed written
+\emph{after} the incident, the increment reaches half its knowledge-free
+value at $\lambda = \lambdaHalf$. An unprovable admissibility assumption is
+therefore reported as a sensitivity analysis and not as a headline. The
+second is a
 register-quality axis under \nQualityKinds\ declared mechanisms, three of
 them dependent, applied to both halves of the data with their parameters
 estimated from training alone (Supplement~\ref{app:degrade}).
@@ -1811,7 +1818,7 @@ the set's kind. On this estate at the reference cell $D$ is \Dabs\ [\DabsLo,
 favourable case --- \nFiellerUnboundedCase\ of the \nFiellerCase\ reductions
 it produces have a set that is not a bounded interval, because the denominator
 is resolvably positive at every rung --- which across the corpus is not so
-(Section~\ref{sec:props}), and that is why the ratio is secondary everywhere
+(Section~\ref{sec:reduction}), and that is why the ratio is secondary everywhere
 and not only here. The full ladder is Table~\ref{tab:absorption}.
 % ---- paper/parts/60_dca.tex ----
 
@@ -1898,7 +1905,9 @@ printed rather than argued away: the all-cells factor \dcaWidenFactorAll,
 measured on families built to carry degenerate cells
 (Section~\ref{sec:simband}), removes a further point, to
 \nBeneficialSimultaneousAllCells. The admissible factor is the operative one
-because this family is not the degenerate case, and the all-cells count is
+because this family is not the degenerate case --- \nDegenerateCellsBand\ of
+its \nDcaFamily\ cells are zero in at least nine draws of ten --- and the
+all-cells count is
 printed beside it because that argument is a judgement rather than a
 measurement.
 
@@ -2160,8 +2169,10 @@ configuration item to a legal article --- so every corpus statistic is about
 \emph{sensitivity} and every one is reported on the \nItsmPairs\ ITSM pairs as
 well (Table~\ref{tab:family}); Table~\ref{tab:construct} names each pair's own
 construct threat. The registered handover target on the case study's log is
-close to degenerate at prevalence \prevAdmittedMax\ and carries more of the
-corpus's admissible cells than any other pair (Section~\ref{sec:design}), and
+close to degenerate at prevalence \prevAdmittedMax, it carries
+\nCellsBpicFourteenHandover\ of \nDeclaredAdmissibleScalar\ admissible
+cells --- the largest count in the corpus, which it shares with the other
+target on the same log --- and
 Section~\ref{sec:cohort} shows the register's sign turns exactly there.
 Whether a generic handover rule is a meaningful target on ITSM logs, where
 reassignment is what a desk acts on, and whether the prevalence window should
@@ -2289,7 +2300,8 @@ this evidence does not support}
 Section~\ref{sec:conclusion} states what the decomposition and the
 disagreement rate leave standing once the pooled surface's resampling is
 netted out and the three restrictions are imposed; both readings a pooled
-surface invites are withdrawn there rather than here. Four qualifications
+surface invites are withdrawn there rather than here, together with the
+sign-disagreement rate's withdrawal as a headline. Three qualifications
 belong to this section because they are limits and not results. Both
 decompositions are reported under all three declared measures because
 there is no neutral measure --- across the three the higher-order share
@@ -2337,8 +2349,8 @@ The \emph{inference surface} is smaller than the declared one and always will
 be, because a draw refits every arm of every cell
 (Section~\ref{sec:threesurfaces}), so every region label is a claim about a
 fraction of the space the point estimates cover --- and a smaller set is a set
-on which \emph{uniformly beneficial} is easier to earn, which
-Section~\ref{sec:regions} reports the one label that turns on.
+on which \emph{uniformly beneficial} is easier to earn, which is exactly what
+the one label of Section~\ref{sec:regions} that reaches it turns on.
 The \emph{pipeline axis} is now crossed on the \nItsmCrossed\ ITSM pairs and
 not only on the case study's log, which narrows this limitation rather than
 removing it: the pairs outside that family still carry family and encoding
@@ -2396,7 +2408,11 @@ acting on at \mpidAuc\ AUC, the number of the
 \nCellsFullyRestricted\ \emph{AUC} cells surviving all three restrictions
 that contradict the conventional report is
 \nDisagreeFullyRestricted{} --- the MPID is declared in AUC and
-Remark~\ref{prop:nonid} forbids carrying it further.
+Remark~\ref{prop:nonid} forbids carrying it further. \textbf{So the
+sign-disagreement rate is withdrawn as a headline}
+(Section~\ref{sec:results-regret}): a sign disagreement is not a
+misstatement unless the sizes are worth acting on, and under the three
+restrictions this paper's own argument implies, they are not.
 What the conventional report does not say is that the cells it does not stand
 on lie a median \madResolvedMedian\ AUC away from the one it does, and that on
 \nRefUnresolvedCell\ of \nPairs\ pairs the data do not determine the sign of

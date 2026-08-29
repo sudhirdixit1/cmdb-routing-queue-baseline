@@ -3,14 +3,14 @@ section,words
 "Introduction",1211
 "Related work",612
 "The specification surface",1352
-"Estimation and inference",3871
+"Estimation and inference",3882
 "The registered benchmark design",1209
 "Multi-log results",4164
-"Case study: a configuration management database",1918
-"Decision-analytic evaluation",1045
+"Case study: a configuration management database",1941
+"Decision-analytic evaluation",1061
 "Simulation against a known answer",1706
-"Threats to validity",2132
-"Conclusion",691
+"Threats to validity",2158
+"Conclusion",730
 "CRediT authorship contribution statement",29
 "Declaration of competing interest",54
 "Funding",19
