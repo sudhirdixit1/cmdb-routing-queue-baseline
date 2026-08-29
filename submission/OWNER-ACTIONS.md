@@ -429,6 +429,14 @@ found, after the one in the split sort that Section 7.1 reports.
 
 It is not repaired in this round because repairing it changes every committed
 number on the quality axis, and it belongs with the run that regenerates them.
-It is recorded in `REPRODUCE.md` and `ROUND27-STATE.md`, and the reporting
-standard's tie-break item should be widened from "the sort that produces the
-split" to any sort a mechanism cuts on.
+It is recorded in `REPRODUCE.md` and `ROUND27-STATE.md`.
+
+**The widening this entry asked for has been done.** The reporting standard's
+tie-break item now reads *"the tie-break rule on **every** sort a procedure
+cuts on, and not only on the sort that produces the split"*, and it says why
+it is stated at that width: the narrow version of it missed this second
+instance inside the same study. The standard now lives in the supplement's
+reporting-standard appendix, having moved there in this round's length pass,
+with the prescription itself kept in the body. Nothing here is outstanding
+except the eventual repair, which waits on the run that regenerates the
+quality axis.
