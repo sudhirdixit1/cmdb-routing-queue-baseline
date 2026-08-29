@@ -110,6 +110,18 @@ redesign it; finish it.
   Do NOT read `results/s44_facts.csv` until the run completes (it currently
   holds the four-draw smoke run). A finished pair's `.csv.gz` is ~10 MB.
 
+**The weighted arm's bands do not wait for the multinomial arm.** Verified:
+`s21_bands.py --draws-dir s44_weighted --prefix s48w` reads only the weighted
+draws, so it can run the moment the 19th weighted pair lands — hours before
+the multinomial arm finishes. That gives the new region labels, ρ and resolved
+counts early, and §6.1/§6.3's rewrite can start against them. Only
+`s47_schemes.py` (the two-scheme comparison) genuinely needs both arms.
+
+*Chain verified 2026-08-29: all four downstream scripts accept the flags
+`round27_chain.sh` passes them (`--draws-dir`/`--prefix`, none, `--procs`,
+none), and the script passes `sh -n`. It also refuses to proceed at fewer than
+19/19 in either arm, with the resume command in the message.*
+
 - [ ] **1.2 Downstream, in order:**
 
   ```bash
