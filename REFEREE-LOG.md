@@ -2582,3 +2582,37 @@ cannot recur silently.
 Separately: `verify_release.py` passes --- a checkout carrying only what is
 committed regenerates every macro and all 58 generated tables byte for byte
 and builds both documents without any file under `data/`.
+
+## R27.15 The cover letter told the editor the opposite of what the paper says
+
+The document an editor reads first said this:
+
+> "every region label and every robustness index in the article is the
+> calibrated one, with the nominal one printed beside it so the size of the
+> correction is visible."
+
+The article applies no calibration. It derives one, measures that the widening
+these families need is larger than it supplies, and reports nominal labels
+while saying by how much they are anti-conservative --- which is the paper's
+central caveat and the thing three rounds of review pushed hardest on. The
+cover letter asserted its negation, in the first two pages, under a bullet
+summarising the contribution.
+
+It also said the article is 58 pages with 7 tables and five figures. It is 62
+with 8 and 3.
+
+**Why this survived every gate.** `verify_numbers` re-derives macros;
+`texlint` forbids numeric literals in the manuscript's prose; `check_sources`
+watches the generators. **Nothing was watching the submission package's
+prose**, which contains typed numbers and typed claims by design, because it
+is not built from `numbers.tex`. The manuscript could not have carried this
+contradiction --- there is one of each number and a condition tying the
+calibration's direction to the measurement --- and the letter carried it for
+as long as it took someone to read it.
+
+Moving Section 9 to the supplement then renumbered five sections, and both
+letters went on naming the old ones; eight references to "Section 11" meant
+the threats section, which is now Section 10, and one pointed at a subsection
+that had left the article entirely. Corrected, and `check_response_refs`
+validates the section references --- which is why that half was caught by a
+gate and the calibration half was not.
