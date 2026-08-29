@@ -116,10 +116,13 @@ is done; this needs the depositing account.
 
 ### 1.2 Decide what to do about the branch
 
-The work is on `round25-coverage`, which branches from `main`. Merge it to
-the default branch before tagging if the release should sit on the mainline;
-the archive is a snapshot of whatever the tag points at. Nothing under
-`data/` is committed on it.
+The work is on **`round27-inference`**, which branches from `main`. (This
+file named `round25-coverage` for two rounds after the work had moved off it;
+the branch is checked here rather than remembered.) Merge it to the default
+branch before tagging if the release should sit on the mainline; the archive
+is a snapshot of whatever the tag points at. Nothing under `data/` is
+committed on it. The merge is left to you because it changes what the default
+branch is, which is not an agent's call to make unasked.
 
 ### 1.3 Read the three statements
 
