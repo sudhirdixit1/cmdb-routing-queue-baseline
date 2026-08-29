@@ -62,7 +62,7 @@ poses and had only ever answered with "never".
 | 2c · crossed family × encoding | **done** — partially replicates (6 of 8) |
 | 3 / 3b · denominators, citations | **done** |
 | red team, **five** passes | 40 + 8 + 15 + 12 findings — **all repaired** |
-| 4 · length | **not done** — 65 pp against a 46 target; the cut list is written and the response letter puts the trade to the editor explicitly |
+| 4 · length | **done, and short of target** — 66 → **62 pp**, body 22,100 → 19,900 words. §9 moved to the supplement whole; 15 further moves and compressions. The remaining gap is structural: a quarter of body prose and **all eleven floats** are protected, the floats by the referee's own C3. The letter now reports the yield and names the next 2.4 pp if the count is binding. |
 | 5 · claims regenerated | **done** — three data layers migrated, every changed macro accounted for |
 | 6 · `hgb` reproduction | **done** |
 | 7 · compliance | agent items **done**; owner items below |
