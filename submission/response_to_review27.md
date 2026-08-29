@@ -465,17 +465,32 @@ binding, tell us so and Section 6.5 and the simulation's first three
 subsections are the next 2.4 pages we would take.⟩
 
 **The archive DOI, and one more the round created.** Both are the author's to
-mint and neither is minted yet, so both are stated rather than implied. The
-DOI is reference [11] and the code-availability statement; the previous report
-declined "reserved, inserted at proof" and was right to — a paper whose
-strongest claim is reproducibility cannot ask a referee to take the artefact on
-trust. The second is a **container image digest**: this round measured that the
-results are not bit-reproducible across processor architectures, and the
-code-availability statement now claims bit-exactness *inside the shipped
-container*. A container pinned by a mutable tag is not a fixed object, so that
-claim needs a digest the archive records. Until both exist the manuscript makes
-two claims the archive cannot support, and we would rather you saw them listed
-than discovered them.
+mint, and we have taken each as far as it goes without the depositing account.
+
+**The container is now a fixed object.** This round measured that the results
+are not bit-reproducible across processor architectures, and the
+code-availability statement claims bit-exactness *inside the shipped
+container* — which a container pinned by a mutable tag cannot support, because
+the same `Dockerfile` would build a different image next year. The base is now
+pinned **by digest**, the multi-architecture manifest list, so a build still
+selects the host platform while the content is fixed. We verified the digest
+rather than trusting the registry's reply: fetching the manifest *by* that
+digest returns bytes that hash to exactly it. The manuscript's sentence reads
+the digest out of the `Dockerfile` rather than carrying a typed copy, and a
+verifier condition fails the build if the two ever disagree, so an edit to the
+container cannot silently falsify the paper. What still awaits the deposit is
+the digest of the **built** image; the statement says the archive records it at
+release, which is true.
+
+**The DOI is still ours to mint, and the loop around it is closed.** Reference
+[11] read *"the archived release cited in the data-availability statement (DOI
+reserved, inserted at proof)"* — and that statement carried the same text, so
+an editorial assistant following the reference arrived back where they
+started. The entry now carries its own resolvable URL to the repository the
+release is cut from, and the note states the DOI's status in one clause.
+Adding a `doi` key to `.zenodo.json` replaces the placeholder in the
+statement, the reference and the archive metadata at once. We would rather you
+saw this listed than discovered it.
 
 ---
 
