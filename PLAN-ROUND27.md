@@ -12,47 +12,62 @@ Append progress to §9 of THIS file after every phase.
 
 ---
 
-## STATUS AT A GLANCE — updated 2026-08-29, 03:00 (overnight session)
+## STATUS AT A GLANCE — updated 2026-08-29, 05:00 (overnight session)
 
-**Everything not gated on the designed-surface run is done.** 55 commits on
-`round27-inference`. Every gate green: `verify_numbers` 166 macros / 38
-conditions, `texlint`, `check_package`, `check_highlights`, `check_bands`,
-`check_reproduction`, `attack_verifier` 255 caught / 0 missed,
-`attack_reproduction` 6 / 0. The manuscript builds at **63 pp, 0 errors, 0
-undefined references, 0 overfull boxes**.
+**The run is complete and the manuscript describes it.** 71 commits on
+`round27-inference`. Builds at **65 pp, 0 errors, 0 undefined references, 0
+overfull boxes**; `verify_numbers` 165 macros / 38 conditions / 0 failures;
+`texlint`, `check_package`, `check_highlights`, `check_bands`,
+`check_reproduction` all clean.
+
+### What the round found, which is not what it set out to find
+
+Both repairs this paper named as the first to make were run, and **neither did
+what it was named for**:
+
+| | named as | measured |
+|---|---|---|
+| level loss → displacement | the cause | mechanism removed completely (level share 80.8% → **100%**), displacement median barely moves (0.0050 → 0.0041) |
+| more draws → coverage | the cure | **plateaus**: 91.2% at 150, 91.6% at 400, 91.3% at 1,000 |
+
+So the band still does not attain its level (83.7% heavy-tail median against a
+nominal 95%), region labels and ρ **stay descriptive diagnostics**, and the
+K/n calibration is **not retired but under-sized** — the widening these
+families need is 1.36–1.88 against the 1.18–1.77 it supplies, so it is not
+applied at all and the paper says the labels are anti-conservative by an
+amount it has measured and cannot remove.
+
+**What the round did buy, and it is real:** level coverage 80.8% → 100%; cells
+that could not be banded at all **150 → 0** (a category the paper had never
+reported, because such cells were counted as *unresolved*); the
+excludes-own-estimate rate 3.9% → 1.3%; a balanced full factorial that retires
+the "corner, not a design" concession and makes the decomposition computable
+on the inference surface; and **one surface now reaches ρ = 1**, over a family
+that is 3.75% of that pair's admissible cells — which answers a question §4.6
+poses and had only ever answered with "never".
+
+### Phases
 
 | phase | state |
 |---|---|
-| 1 · weighted bootstrap on a designed surface | **weighted arm complete and validated five ways.** The repair **halves** the interval pathology (36/3,420 = 1.05% against 1.90%) rather than removing it. Multinomial arm nearly done; `round27_chain.sh` is armed and waiting to run the whole downstream. |
-| 2 · decision-curve band widened | **done** — costs 10 of 31 resolved thresholds; the per-thousand headline checked and untouched |
-| 2b · within-cell noise bound | **closed as ill-posed**, reason recorded; nothing from it enters the paper |
-| 2c · crossed family × encoding | **done** — partially replicates: encoding leads on 6 of 8 ITSM pairs, family on 2 and not narrowly |
-| 3 · inference-share denominator + sweep | **done** |
-| 3b · scikit-learn citation; §9.3 euphemism | **done** |
-| red team, three passes | **40 findings, 11 blocking — all repaired.** Pass 3 audited the repairs themselves and found 8 defects the repairs created |
-| 4 · length | measured 63 pp; 42 unreachable, target 46; cut list executable, execution waits on Phase 1 |
-| 5 · claims regenerated | register written; **eight-edit migration diff exact and ready** |
-| 6 · `hgb` reproduction gap | **done** — worse than recorded; disclosed, gated, corruption-suited |
-| 7 · compliance | agent-fixable **done**; owner items in `submission/OWNER-ACTIONS.md` §4 |
-| 8 · pre-submission red team | gates green; the fresh-context PDF read waits on the rewrite |
+| 1 · weighted bootstrap, designed surface, 400 draws | **complete**, both arms, downstream run, manuscript migrated |
+| 2 · decision-curve widening | **done** |
+| 2b · noise bound | closed as ill-posed, reason recorded |
+| 2c · crossed family × encoding | **done** — partially replicates (6 of 8) |
+| 3 / 3b · denominators, citations | **done** |
+| red team, **five** passes | 40 + 8 + 15 + 12 findings — **all repaired** |
+| 4 · length | **not done** — 65 pp against a 46 target; the cut list is written and the response letter puts the trade to the editor explicitly |
+| 5 · claims regenerated | **done** — three data layers migrated, every changed macro accounted for |
+| 6 · `hgb` reproduction | **done** |
+| 7 · compliance | agent items **done**; owner items below |
+| 8 · final adversarial read | **running** |
 
-**Prepared and waiting for the run**, so the post-run work is paste-and-check
-rather than think-and-derive: ready-to-paste drafts for **§4.2** (§1.4b) and
-**§11's bootstrap paragraph** (§1.4c); the **exact eight-edit re-pointing
-diff** (§1.4d); the **ρ = 1 framing decision** (§1.4e); the
-paragraph-by-paragraph rewrite spec (§1.4a); the claims-at-risk register
-(§5.1a).
+### The two owner items, both blocking submission
 
-**Two findings the rewrite must not soften.** The repair halves the pathology
-and does not remove it. And one surface reaches **uniformly beneficial** — on
-a family that is 3.8% of its admissible cells, *smaller* than the old
-surface's 10%, and robust to widening out to 1.5×, so the family-size caveat
-is the only thing between it and a headline.
-
-**Owner, two items, both blocking submission:** mint the archive DOI (it is
-reference [11], currently a placeholder), and mint the **Docker image digest**
-the code-availability statement now depends on. `submission/OWNER-ACTIONS.md`
-§4.5 and §4.7.
+Mint the **archive DOI** (it is reference [11]) and the **container image
+digest** the code-availability statement now depends on.
+`submission/OWNER-ACTIONS.md` §4.5 and §4.7. Until both exist the manuscript
+makes two claims the archive cannot support.
 
 ## 0. The review this plan answers
 
