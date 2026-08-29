@@ -396,10 +396,19 @@ def emit(mn):
     put("nRegionsChangedByCalibration",
         thousands(first(F33, "n_regions_changed")))
     put("rhoMedianCalibrated", num(first(F33, "rho_median_calibrated"), 3))
-    put("nResolvedCellsNominal",
-        thousands(first(F33, "n_resolved_cells_nominal")))
-    put("nResolvedCellsCalibrated",
-        thousands(first(F33, "n_resolved_cells_calibrated")))
+    #  ROUND TWENTY-SEVEN.  These two named the same quantities as
+    #  `nResolvedCorpusNominal' and `nResolvedCorpus' and were read from the
+    #  PREVIOUS surface's calibration file, so after the migration one pair of
+    #  macros described the new surface and the other the old one.  A checker
+    #  caught it, which is what that checker is for.  They are retired rather
+    #  than re-pointed: the designed surface has no calibrated companion --- the
+    #  calibration was fitted on the old plane and the coverage measurement now
+    #  says the new families need a larger widening than it supplies --- so a
+    #  macro named `Calibrated' would have nothing true to hold.  Sections that
+    #  need the counts use the `Corpus' pair.
+    #  (not emitted at all: a retired macro must be ABSENT, not missing.  `None'
+    #  renders as the ?? marker, which says "this number should exist and the
+    #  analysis did not produce it" -- the opposite of what is true here.)
     put("nUniformlyBeneficialCalibrated",
         thousands(first(F33, "n_uniformly_beneficial_calibrated")))
     put("nUnresolvedCalibrated",

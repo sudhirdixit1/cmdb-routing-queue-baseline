@@ -91,7 +91,7 @@ ITSM = "itsm"
 def resolved_map():
     """Which (pair, cell) the whole-surface band resolves, under the nominal
     critical value and under the calibrated one when s33 has produced it."""
-    B = pd.read_csv(RESULTS / "s21_bands.csv.gz")
+    B = pd.read_csv(RESULTS / "s48w_bands.csv.gz")
     W = B[B.family == "whole-surface"].copy()
     W["resolved_nominal"] = (W.cons_lo > 0) | (W.cons_hi < 0)
     W["resolved_calibrated"] = W["resolved_nominal"]

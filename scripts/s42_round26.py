@@ -368,8 +368,22 @@ def axis_inventory(SUR):
 # B3 -- the resolution triple, and a minimum resolved share
 # --------------------------------------------------------------------------
 def region_triple():
-    G = pd.read_csv(RESULTS / "s33_regions.csv")
+    G = pd.read_csv(RESULTS / "s48w_regions.csv")
     G = G.copy()
+    #  ROUND TWENTY-SEVEN.  This read `s33_regions', the COVERAGE-CALIBRATED
+    #  labels for the previous inference surface, and used its column names.
+    #  The designed surface has no calibrated file --- the calibration was
+    #  fitted on the old plane and the coverage measurement now says the new
+    #  families need a LARGER widening than it supplies --- so the operative
+    #  labels are the nominal ones, and they are aliased here to the names the
+    #  rest of this function was written against.  Aliasing rather than
+    #  renaming throughout keeps the diff to the read.
+    G["cells"] = G.n_cells
+    G["beneficial_cal"] = G.n_beneficial
+    G["harmful_cal"] = G.n_harmful
+    G["unresolved_cal"] = G.n_unresolved
+    G["rho_calibrated"] = G.rho
+    G["region_calibrated"] = G.region
     G["n_family"] = G.cells
     G["share_beneficial"] = G.beneficial_cal / G.cells
     G["share_harmful"] = G.harmful_cal / G.cells

@@ -1366,22 +1366,32 @@ different region label on \nRegionChangedByFamily\ of the \nPairs\ pairs, and
 the whole-surface family resolves \nResolvedWhole\ cells against the narrow
 family's \nResolvedWithin.
 
-\textbf{The nominal critical value is not enough, and the correction is
-measured rather than assumed.} Section~\ref{sec:simsensitivity} shows that
-coverage is governed by $K/n$ and that this corpus lives where coverage is
+\textbf{The nominal critical value is not enough, and this paper does not have
+a correction that closes the gap.} Section~\ref{sec:simsensitivity} shows that
+pointwise coverage is governed by $K/n$ and that this corpus lives where it is
 below nominal, the median pair sitting at \medianKoverN, so a region label
-computed from a nominal band overstates how much of a surface is resolved.
-The $(n, K)$ plane is dense enough to calibrate against, and
-Supplement~\ref{app:calibration} derives the inflation factor $c(K/n)$ from it
+computed from a nominal band overstates how much of a surface is resolved. The
+$(n, K)$ plane is dense enough to calibrate against, and
+Supplement~\ref{app:calibration} derives an inflation factor $c(K/n)$ from it
 --- a monotone regression through the measured factors, whose log-linear
-summary has slope \calSlope\ (standard error \calSlopeSe). The factors the
-corpus draws range from \calMin\ to \calMax; at the median pair the critical
-value goes from \maxTSurfaceMedian\ to \qCalibratedMedian; the corpus resolves
-\nResolvedCellsCalibrated\ cells against \nResolvedCellsNominal, a loss of
-\resolutionLostToCalibrationPct, and \nRegionsChangedByCalibration\ of the
-\nPairs\ region labels change. \textbf{Every region label and every $\rho$
-quoted in this paper is the calibrated one}; Table~\ref{tab:calbands} prints
-the nominal columns beside them.
+summary has slope \calSlope\ (standard error \calSlopeSe), and which on this
+corpus would supply widenings of \calMin\ to \calMax.
+
+\noindent\textbf{That factor is not applied to the labels this paper reports,
+and the reason is a measurement rather than a preference.} It was fitted to
+restore \emph{pointwise} coverage, on a plane built around the previous
+inference surface. Section~\ref{sec:simband} measures the widening the
+\emph{family-wise} band actually needs on families matched to the surface
+reported here, and it is \shortfallWholeMin\ to \shortfallWholeMax\ ---
+\emph{larger} than the factor would supply, because these families carry
+heavier tails (a median per-cell excess kurtosis of \corpusKurtMedWhole\ and
+\corpusKurtNinetyWhole\ at the ninetieth percentile). Applying a widening
+known to be under-sized, and presenting the result as the operative band, would
+buy the appearance of a correction and not the correction. \textbf{The labels
+below are therefore computed at the nominal critical value, and they are
+anti-conservative by an amount this paper has measured and cannot remove}:
+\nResolvedWhole\ cells resolve corpus-wide, and a band wide enough to cover
+would resolve fewer.
 
 \textbf{The factor's reach, and what widening the plane in $n$ found.} It is
 fitted at training sizes \planeNtrainLo\ to \planeNtrainHi\ against a corpus
