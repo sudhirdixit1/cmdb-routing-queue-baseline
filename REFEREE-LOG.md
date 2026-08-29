@@ -2439,3 +2439,31 @@ run went unnoticed through four commits --- while the article did not compile.
 `check_package`'s rule that a PDF older than its source is a stale document is
 what caught it. THE GATE THAT MATTERED WAS THE ONE COMPARING TWO TIMESTAMPS,
 not any of the ones reading the document.
+
+## R27.11 The recurring defect becomes a gate, and the gate finds two more
+
+Fourteen times this round, in fourteen files, the same defect: **a check that
+reads a fixed filename cannot notice that the analysis moved.** Every instance
+was caught by a reader noticing an impossible number in a table. None was
+caught by a gate, because no gate asked the question that generalises --- does
+any generator still name the old surface?
+
+`scripts/check_sources.py` asks it. It scans every generator for a read of a
+retired surface's bands, cells, regions, critical values or incomplete
+families, and fails unless the line carries `# retired-ok: <reason>`. The
+reason is required: a bare marker is how a gate gets switched off one line at
+a time. It is scoped to the SURFACE-SHAPED files rather than to the prefix,
+because `s17_facts` holds a diagnostic nothing later recomputes while
+`s17_bands` is a superseded band, and a gate that cannot tell them apart is
+one people learn to skip.
+
+Run for the first time it found **two live defects nobody had looked for**.
+The count of pairs carrying a negative cell was computed on the retired
+surface, where every pair has one; on the reported surface two do not, so the
+macro said nineteen and the answer is seventeen. And the cell-for-cell
+identity check --- whose own comment calls it "the only version that would
+have caught it" --- was running against the surface the article no longer
+reports. **A verifier checking a retired object is worse than no verifier,
+because it reports success.** Both are repaired, and the identity check now
+passes against the reported surface, which is the first time that has actually
+been established.
