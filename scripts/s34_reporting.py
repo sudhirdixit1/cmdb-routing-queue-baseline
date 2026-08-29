@@ -94,15 +94,24 @@ def resolved_map():
     B = pd.read_csv(RESULTS / "s48w_bands.csv.gz")
     W = B[B.family == "whole-surface"].copy()
     W["resolved_nominal"] = (W.cons_lo > 0) | (W.cons_hi < 0)
+    #  ROUND TWENTY-SEVEN.  This applied the per-pair inflation factor from
+    #  `s33_regions' --- the K/n calibration --- on top of the band, and the
+    #  `calibrated' column fed the resolved-cell headline, the mean distance
+    #  from the reference and the abstract.
+    #
+    #  IT NO LONGER DOES, and the reason is a measurement.  That factor was
+    #  fitted to restore POINTWISE coverage on a plane built around the
+    #  previous inference surface.  The family-wise widening the surface this
+    #  paper reports actually needs is LARGER than the factor supplies, so
+    #  applying it would buy the appearance of a correction and not the
+    #  correction -- and would leave the resolved-cell statistics computed
+    #  under a band Section 6.3 says the paper does not use.
+    #
+    #  The column is kept, and holds the nominal result, so that every reader
+    #  of this file gets one band and not two.  What the paper owes instead of
+    #  a correction is the honest statement that its labels are
+    #  anti-conservative by an amount it has measured, which Section 6.3 makes.
     W["resolved_calibrated"] = W["resolved_nominal"]
-    p = RESULTS / "s33_regions.csv"
-    if p.exists():
-        G = pd.read_csv(p)
-        c = {(r.log, r.target): float(r.c) for r in G.itertuples()}
-        f = np.array([c.get((l, t), 1.0) for l, t in zip(W.log, W.target)])
-        lo = W.centre - f * W.q_hi * W.se
-        hi = W.centre + f * W.q_hi * W.se
-        W["resolved_calibrated"] = (lo > 0) | (hi < 0)
     keep = ["log", "target"] + CELLKEY + ["resolved_nominal",
                                           "resolved_calibrated"]
     return W[[c for c in keep if c in W.columns]]

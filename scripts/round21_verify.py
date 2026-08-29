@@ -273,8 +273,12 @@ def check(vn, M):
                             "widened band, which is impossible" % worse)
         #  `nResolvedCellsCalibrated' retired with the calibration; see the
         #  note in the same-quantity table above.
-        eq("rhoMedianCalibrated", fmt_num(float(G.rho_calibrated.median()), 3),
-           M, "recomputed from s33_regions")
+        #  ROUND TWENTY-SEVEN: re-derived from the surface the manuscript
+        #  reports, not the previous surface's calibration file.
+        R48 = load("s48w_regions.csv")
+        if R48 is not None and len(R48):
+            eq("rhoMedianCalibrated", fmt_num(float(R48.rho.median()), 3),
+               M, "recomputed from s48w_regions")
 
     # ================================================================
     # s34 -- the three sign-disagreement rates

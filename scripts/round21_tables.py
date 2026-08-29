@@ -25,6 +25,46 @@ _RUNG_LABEL = {"B_intake": "intake",
                "B_intake_g_km": "intake + group + knowledge"}
 
 
+
+def _regions_as_calibrated(load):
+    """The reported surface's regions, under the column names the calibrated
+    file used.
+
+    ROUND TWENTY-SEVEN.  `s33_regions' is the previous surface's
+    coverage-calibrated labels.  The designed surface has no calibrated
+    companion --- the factor was fitted for pointwise coverage on the old
+    plane and the family-wise widening these families need is larger than it
+    supplies --- so the operative labels are the nominal ones.  They are
+    aliased here rather than renamed at every use, so the diff is one function
+    and not fifty call sites, and so that a reader who greps for `_cal' finds
+    this note.
+    """
+    G = load("s48w_regions.csv")
+    if G is None or not len(G):
+        return None
+    G = G.copy()
+    G["cells"] = G.n_cells
+    G["beneficial"] = G.n_beneficial
+    G["harmful"] = G.n_harmful
+    G["unresolved"] = G.n_unresolved
+    G["beneficial_cal"] = G.n_beneficial
+    G["harmful_cal"] = G.n_harmful
+    G["unresolved_cal"] = G.n_unresolved
+    G["rho_calibrated"] = G.rho
+    G["region_calibrated"] = G.region
+    G["q_calibrated"] = G.q
+    G["c"] = 1.0
+    #  K/n is a property of the pair and not of the calibration, so it is
+    #  carried over from the file that measures it rather than recomputed.
+    K = load("s42_regions.csv")
+    if K is not None and len(K) and "k_over_n" in K.columns:
+        G = G.merge(K[["log", "target", "k_over_n"]], on=["log", "target"],
+                    how="left")
+    else:
+        G["k_over_n"] = float("nan")
+    return G
+
+
 def write(mn):
     load, tex_table = mn.load, mn.tex_table
     TABLES = mn.TABLES
@@ -297,7 +337,7 @@ def write(mn):
               "tab:axiskind")
 
     # --------------------------------------------------- calibrated bands
-    G = load("s33_regions.csv")
+    G = _regions_as_calibrated(load)
     if G is not None and len(G):
         #  ROUND TWENTY-TWO, M9 and the review's table-legibility minor.
         #  Fifteen columns, two of them long region names, made this the one

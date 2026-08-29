@@ -30,6 +30,46 @@ _TAU = {"t0_first_touch_all": "$\\tau_0$ first touch, every call",
         "t2_incident_creation": "$\\tau_2$ incident creation"}
 
 
+
+def _regions_as_calibrated(load):
+    """The reported surface's regions, under the column names the calibrated
+    file used.
+
+    ROUND TWENTY-SEVEN.  `s33_regions' is the previous surface's
+    coverage-calibrated labels.  The designed surface has no calibrated
+    companion --- the factor was fitted for pointwise coverage on the old
+    plane and the family-wise widening these families need is larger than it
+    supplies --- so the operative labels are the nominal ones.  They are
+    aliased here rather than renamed at every use, so the diff is one function
+    and not fifty call sites, and so that a reader who greps for `_cal' finds
+    this note.
+    """
+    G = load("s48w_regions.csv")
+    if G is None or not len(G):
+        return None
+    G = G.copy()
+    G["cells"] = G.n_cells
+    G["beneficial"] = G.n_beneficial
+    G["harmful"] = G.n_harmful
+    G["unresolved"] = G.n_unresolved
+    G["beneficial_cal"] = G.n_beneficial
+    G["harmful_cal"] = G.n_harmful
+    G["unresolved_cal"] = G.n_unresolved
+    G["rho_calibrated"] = G.rho
+    G["region_calibrated"] = G.region
+    G["q_calibrated"] = G.q
+    G["c"] = 1.0
+    #  K/n is a property of the pair and not of the calibration, so it is
+    #  carried over from the file that measures it rather than recomputed.
+    K = load("s42_regions.csv")
+    if K is not None and len(K) and "k_over_n" in K.columns:
+        G = G.merge(K[["log", "target", "k_over_n"]], on=["log", "target"],
+                    how="left")
+    else:
+        G["k_over_n"] = float("nan")
+    return G
+
+
 def emit(mn):
     put, load, pct, num, sig, first = (mn.put, mn.load, mn.pct, mn.num,
                                        mn.sig, mn.first)
@@ -177,7 +217,7 @@ def emit(mn):
     #  never be beneficial at any critical value and every pair has one.  The
     #  informative reading of the region column is how the pairs that resolve
     #  anything divide, so those counts are macros now.
-    G33 = load("s33_regions.csv")
+    G33 = _regions_as_calibrated(load)
     if G33 is not None and len(G33):
         _any = G33[(G33.beneficial_cal + G33.harmful_cal) > 0]
         put("nPairsResolvingAny", thousands(int(len(_any))))
@@ -340,7 +380,7 @@ def emit(mn):
     # s33 -- the coverage-calibrated critical value (M3)
     # ================================================================
     F33 = load("s33_facts.csv")
-    G33 = load("s33_regions.csv")
+    G33 = _regions_as_calibrated(load)
     put("nPlaneCells", thousands(first(F33, "n_cells")))
     put("nPlaneReps", thousands(first(F33, "n_reps")))
     put("planeKnMin", num(first(F33, "kn_min"), 4))
@@ -395,7 +435,10 @@ def emit(mn):
             pct(first(F33, "ladder_coverage_spread_max")))
     put("nRegionsChangedByCalibration",
         thousands(first(F33, "n_regions_changed")))
-    put("rhoMedianCalibrated", num(first(F33, "rho_median_calibrated"), 3))
+    #  ROUND TWENTY-SEVEN: from the reported surface, not the old facts file.
+    put("rhoMedianCalibrated",
+        num(float(G33.rho_calibrated.median()), 3)
+        if G33 is not None and len(G33) else None)
     #  ROUND TWENTY-SEVEN.  These two named the same quantities as
     #  `nResolvedCorpusNominal' and `nResolvedCorpus' and were read from the
     #  PREVIOUS surface's calibration file, so after the migration one pair of
@@ -410,7 +453,9 @@ def emit(mn):
     #  renders as the ?? marker, which says "this number should exist and the
     #  analysis did not produce it" -- the opposite of what is true here.)
     put("nUniformlyBeneficialCalibrated",
-        thousands(first(F33, "n_uniformly_beneficial_calibrated")))
+        thousands(int((G33.region_calibrated.astype(str)
+                       == "uniformly beneficial").sum()))
+        if G33 is not None and len(G33) else None)
     put("nUnresolvedCalibrated",
         thousands(first(F33, "n_unresolved_calibrated")))
     #  M8: how much of the conclusion the calibration itself is carrying
@@ -851,7 +896,7 @@ def emit(mn):
     #  the two do not sum to the pairs that resolve anything: the pair that
     #  resolves only HARMFUL cells also determines every sign it determines
     #  in one direction, and was in neither group.
-    G33b = load("s33_regions.csv")
+    G33b = _regions_as_calibrated(load)
     if G33b is not None and len(G33b):
         _b = G33b.beneficial_cal > 0
         _h = G33b.harmful_cal > 0
