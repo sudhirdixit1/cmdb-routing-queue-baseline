@@ -18,8 +18,8 @@ configuration item to a legal article --- so every corpus statistic is about
 \emph{sensitivity} and every one is reported on the \nItsmPairs\ ITSM pairs as
 well (Table~\ref{tab:family}); Table~\ref{tab:construct} names each pair's own
 construct threat. The registered handover target on the case study's log is
-close to degenerate at prevalence \prevAdmittedMax, it carries
-\nCellsBpicFourteenHandover\ of \nDeclaredAdmissibleScalar\ cells, and
+close to degenerate at prevalence \prevAdmittedMax\ and carries more of the
+corpus's admissible cells than any other pair (Section~\ref{sec:design}), and
 Section~\ref{sec:cohort} shows the register's sign turns exactly there.
 Whether a generic handover rule is a meaningful target on ITSM logs, where
 reassignment is what a desk acts on, and whether the prevalence window should
@@ -177,14 +177,11 @@ what is reported is case-level outcome prediction from event-log attributes.
 A prefix axis is nonetheless run on one log, because the obvious question is
 whether this paper's central claim is a property of that literature's axis too
 (Supplement~\ref{app:prefix}). It is. Holding the register and the estate
-fixed and moving only the prefix, the increment falls from \VPrefixZero\
-[\VPrefixZeroLo, \VPrefixZeroHi] AUC at case creation to \VPrefixTwo\
-[\VPrefixTwoLo, \VPrefixTwoHi] two events later, and beyond that it does not
-decline monotonically: at the deepest prefix measured it is \VPrefixEight\
-[\VPrefixEightLo, \VPrefixEightHi] --- nominally \prefixRetainedPct\ of its
-creation-time value, on an interval that contains zero --- and it is one of
-\nPrefixUnresolved\ of \nPrefixLevels\ prefixes where the data do not
-determine the increment's sign. \textbf{Case creation --- the point every
+fixed and moving only the prefix, the increment falls from \VPrefixZero\ AUC
+at case creation to \VPrefixTwo\ two events later, does not decline
+monotonically beyond that, and is undetermined in sign at
+\nPrefixUnresolved\ of \nPrefixLevels\ prefixes.
+\textbf{Case creation --- the point every
 other result here occupies --- is the most favourable prefix for a
 creation-time register}, and two studies of this field reporting from the two
 ends of that axis would differ by a factor of \prefixDropFactor\ in point
@@ -195,21 +192,16 @@ omission stands.
 
 \paragraph{External --- three narrower limits, named}
 The \emph{inference surface} is smaller than the declared one and always will
-be, because a draw refits every arm of every cell: it carries
-\nInferenceScalar\ of the \nDeclaredAdmissibleScalar\ admissible scalar
-cells, so every region label is a claim about a fraction of the space the
-point estimates cover. It is no longer a \emph{corner} of that space --- it is
-a balanced full factorial, and Section~\ref{sec:threesurfaces} reports the
-decomposition now computable on it --- but a smaller set is a set on which
-\emph{uniformly beneficial} is easier to earn, and
-Section~\ref{sec:regions} reports the one label that turns on exactly that.
+be, because a draw refits every arm of every cell
+(Section~\ref{sec:threesurfaces}), so every region label is a claim about a
+fraction of the space the point estimates cover --- and a smaller set is a set
+on which \emph{uniformly beneficial} is easier to earn, which
+Section~\ref{sec:regions} reports the one label that turns on.
 The \emph{pipeline axis} is now crossed on the \nItsmCrossed\ ITSM pairs and
 not only on the case study's log, which narrows this limitation rather than
 removing it: the pairs outside that family still carry family and encoding
-confounded. What the wider crossing found is in Section~\ref{sec:axes2} and
-is not a clean replication --- the encoding leads on
-\nEncodingLargerItsm\ of the \nItsmCrossed\ and the family on the other
-\nFamilyLargerItsm\ --- so the case study's ordering should be read as the
+confounded, and what the wider crossing found is not a clean replication
+(Section~\ref{sec:axes2}), so the case study's ordering should be read as the
 common case and not as a corpus fact. And the
 \emph{case study} is one bank's estate on one public log, with the
 availability question at its centre settled by probability rather than by a
