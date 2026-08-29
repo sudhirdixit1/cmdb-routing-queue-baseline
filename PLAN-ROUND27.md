@@ -29,7 +29,7 @@ Append progress to §9 of THIS file after every phase.
 | 5 | claims regenerated against the new numbers | register written; execution waits for Phase 1 |
 | 6 | the `hgb` cross-machine reproduction gap | **done — and it was worse than recorded.** Platform, not threading; the divergence tracks register **cardinality**, not the learner; `logit` diverges up to 0.094 and boosting to 0.851, against the 5e-10 and 0.14 the repo had written down. Disclosed with six measured tolerances, gated, and the gate has its own corruption suite. |
 | 7 | compliance | audited against the journal's own guide; agent-fixable items **done**; owner items in `submission/OWNER-ACTIONS.md` §4 |
-| 8 | pre-submission red team | partly done by the two passes above |
+| 8 | pre-submission red team | **gates green**: `attack_verifier` 255 caught / 0 missed, the new `attack_reproduction` 6 / 0 unnoticed, `verify_numbers` 166 macros + 38 conditions / 0 failures, `texlint` 0, `check_package` 15 / 0, `check_highlights` 5 / 0. Build: **63 pp, 0 errors, 0 undefined references, 0 overfull boxes.** Remaining: the fresh-context read of the built PDF, which waits for the Phase 1 rewrite. |
 
 **A second thing that now needs the owner, created by this round's own
 disclosure:** the code-availability statement claims bit-exactness *inside the
