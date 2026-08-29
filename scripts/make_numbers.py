@@ -1234,7 +1234,7 @@ def write_tables(D):
                       "supplies, so these are the nominal labels and they are "
                       "anti-conservative by an amount the paper reports. "
                       "Table~\\ref{tab:calbands} prints what applying that "
-                      "factor would have given, beside these. THE REGION IS THE LABEL Definition~\\ref{def:regions} YIELDS, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one (Table~\\ref{tab:triple} prints the counts underneath). Last, the share of "
+                      "factor would have given, beside these. THE REGION IS THE LABEL Definition~\\ref{def:regions} YIELDS, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one. Table~\\ref{tab:triple} MARKS \\nMarkedBelowMinShare\\ rows, which is the larger number: a pair the band already left unresolved is not marked, and \\nSignChangingBelowMinShare\\ of the marked rows are sign-changing, which carry no direction to withdraw. Last, the share of "
                       "admissible specifications whose sign disagrees with a "
                       "conventional one-number report, under the equal-level "
                       "measure, which is the `all-cells rate' column of "

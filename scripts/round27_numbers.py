@@ -490,7 +490,8 @@ def emit(mn):
     F42 = load("s42_facts.csv")
     _MS = ("nCondBeneficialMinShare", "nSignChangingMinShare",
            "nCondHarmfulMinShare", "nUniformlyBeneficialMinShare",
-           "nUnresolvedMinShare")
+           "nUnresolvedMinShare", "nMarkedBelowMinShare",
+           "nSignChangingBelowMinShare")
     if (RW is not None and len(RW) and F42 is not None and len(F42)
             and {"n_resolved_whole", "n_cells", "region"} <= set(RW.columns)):
         thr = float(first(F42, "min_resolved_declared"))
@@ -507,6 +508,18 @@ def emit(mn):
         #  states differently, so both count here
         put("nUnresolvedMinShare",
             int(lab.str.startswith("unresolved").sum()))
+        #  HOW MANY ROWS THE TABLE MARKS, which is not how many directions
+        #  the rule withdraws.  A reader counting the marked rows gets a
+        #  larger number than the caption's, because a pair already
+        #  unresolved is not marked and a SIGN-CHANGING pair is marked while
+        #  carrying no direction to withdraw.  Both counts are printed so the
+        #  arithmetic is visible instead of looking like a discrepancy.
+        _below = share < thr
+        put("nMarkedBelowMinShare",
+            int((_below & (RW.region.astype(str) != "unresolved")).sum()))
+        put("nSignChangingBelowMinShare",
+            int((_below
+                 & (RW.region.astype(str) == "sign-changing")).sum()))
     else:
         for k in _MS:
             put(k, None)

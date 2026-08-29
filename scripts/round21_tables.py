@@ -399,7 +399,7 @@ def write(mn):
                          "Section~\\ref{sec:simband} measures the "
                          "family-wise widening the article's families need as "
                          "LARGER than it supplies, so no band in the article "
-                         "is widened by it. `c applied' is the monotone "
+                         "is widened by it. `c monotone' is the monotone "
                          "regression that would be used if it were; `c "
                          "log-linear' is the parametric fit whose slope "
                          "Section~\\ref{sec:regions} quotes, printed beside "
@@ -409,7 +409,7 @@ def write(mn):
                       colnames={"Kn": "K / n", "n": "replicates",
                                 "coverage_nominal": "coverage at c = 1",
                                 "coverage_nominal_se": "se",
-                                "c_applied": "c applied",
+                                "c_applied": "c monotone",
                                 "c_loglinear": "c log-linear"}),
             encoding="utf-8")
     else:

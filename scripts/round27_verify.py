@@ -1233,3 +1233,21 @@ def check(vn, M):
                     "nominal 95%% at an error of %s is %.1f"
                     % (M["covHeavyWholeAtDesign"],
                        M["covHeavyWholeAtDesignSE"], (95.0 - _got) / _se))
+
+    # --- 18.  the marked rows and the withdrawn directions reconcile ------
+    #
+    #  A reader counting the rows Table 5 marks gets a larger number than the
+    #  caption's withdrawal count, and nothing told them why.  The difference
+    #  is exactly the sign-changing rows, which are marked and carry no
+    #  direction.  The caption now prints both; this checks they reconcile,
+    #  so the explanation cannot drift from the counts it explains.
+    _mk = _num(M.get("nMarkedBelowMinShare"))
+    _sc = _num(M.get("nSignChangingBelowMinShare"))
+    _lost = _num(M.get("nLabelsLostToMinShare"))
+    if None not in (_mk, _sc, _lost) and abs((_mk - _sc) - _lost) > 0.5:
+        vn.FAILS.append(
+            "round-27 condition: Table 5 marks %s rows of which %s are "
+            "sign-changing, leaving %d directions withdrawn, and "
+            "\\nLabelsLostToMinShare is %s"
+            % (M["nMarkedBelowMinShare"], M["nSignChangingBelowMinShare"],
+               int(_mk - _sc), M["nLabelsLostToMinShare"]))
