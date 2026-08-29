@@ -332,3 +332,38 @@ cause of a desk return.**
 `paper/specification_surfaces.pdf` predates the current source. The built
 PDF's generative-AI declaration differs in substance from the one now in the
 source of record. Whatever is uploaded must be rebuilt from the current tree.
+
+### 4.7 Mint and record the Docker image digest  *(owner — new, and it is now cited)*
+
+Round twenty-seven measured that this repository's results are **not**
+bit-reproducible across processor architectures, and the paper's
+code-availability statement now says so — and says that bit-exact
+reproduction is claimed *inside the container, whose image digest the archive
+records*. **No such digest exists yet.** The `Dockerfile` pins
+`python:3.10.0-slim-bullseye` by **tag**, which is mutable, so the container
+is not currently pinned either.
+
+Two steps, and the second is the one the paper's sentence depends on:
+
+1. Build the image and resolve the base to a digest, replacing the tag:
+   `FROM python:3.10.0-slim-bullseye@sha256:<...>`.
+2. Record the built image's own digest in the archive, and check it is what
+   `REPRODUCE.md` §5.1 names as canonical.
+
+Until this is done the manuscript makes a claim the archive cannot support,
+which is the one category of defect this project treats as unshippable.
+
+### 4.8 One measured defect that is *not* repaired, and why  *(decision, not an action)*
+
+The register-quality mechanisms cut on a tie-ordered index: `mask_rare` cuts
+the cumulative-count curve **inside** a tie group (5–9 identities were
+measured tied at the cut), and `corrupt` maps its draws onto the same
+tie-ordered index. So *which* identities are masked or corrupted rests on a
+sort order nothing pins — the second undeclared tie order this project has
+found, after the one in the split sort that Section 7.1 reports.
+
+It is not repaired in this round because repairing it changes every committed
+number on the quality axis, and it belongs with the run that regenerates them.
+It is recorded in `REPRODUCE.md` and `ROUND27-STATE.md`, and the reporting
+standard's tie-break item should be widened from "the sort that produces the
+split" to any sort a mechanism cuts on.

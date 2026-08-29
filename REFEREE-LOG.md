@@ -2263,3 +2263,55 @@ interval; the decision-time ladder's six increments, intervals and ordinals
 are right; and roughly thirty further identities hold to the printed
 precision. The defects are concentrated in *prose that describes* tables, not
 in the tables.
+
+## R27.7 The reproduction claim was false across machines, and the record of it was wrong twice. **CONCEDED — found by us**
+
+`ROUND27-STATE.md` had recorded that the boosting learner does not reproduce
+this repository's committed results on another machine, that the logistic
+learner reproduces to 5e-10, and that the divergence reaches 0.14. Round
+twenty-seven diagnosed it properly and **both of those numbers were wrong in
+the direction that flatters nobody.**
+
+**It is the machine, not the threading, and not the library.** Four candidate
+causes were eliminated by measurement rather than by argument: thread count
+(pinned to one against four — bit-identical), library version (the pinned
+set against a newer one — bit-identical), source drift (the analysis module
+at the commit that wrote the surface against the current one — bit-identical),
+and run-to-run nondeterminism (exactly deterministic). What is left is the
+processor architecture: the committed surface was produced on x86-64 and the
+re-run on arm64. Thread pinning does not fix it because the pins were already
+there.
+
+**The mechanism is amplification, and it was measured.** A one-unit-in-the-
+last-place nudge to the boosting encoding matrix — a relative 2.2e-16 — moves
+a predicted probability by 0.37 and Nagelkerke by 0.038. The logistic learner
+is not chaotic at all; its probabilities agree to 1.4e-15. But a
+rank-based metric is a step function, and a high-cardinality register ties
+test rows to equal predictions that a difference in the last bit unties.
+
+**Two corrections to the record.** "The logistic learner reproduces to 5e-10"
+is **false** — it diverges by up to 0.094 in Nagelkerke, 0.039 in AUC and
+0.128 in net benefit. The 5e-10 held only on the cells the earlier check
+happened to look at. And "up to 0.14" is **0.851**. The right
+characterisation is not a learner at all: **the divergence tracks the
+register's cardinality**, and the low-cardinality rungs of both families
+reproduce to 2.3e-12.
+
+**Disposition.** `REPRODUCE.md` gains a section measuring the divergence with
+six documented tolerances; the code-availability statement now claims
+bit-exactness inside the container and states plainly what holds outside it,
+with the distinction a reader needs — checking a *digit* requires the
+container, checking a *conclusion* does not. Two new scripts execute the
+claim rather than asserting it: a gate that re-runs part of the surface
+against the documented tolerances, and its own corruption suite, which caught
+a labelling bug in the gate before the gate was trusted.
+
+**And a second undeclared tie order, found on the way.** The register-quality
+mechanisms cut a cumulative-count curve *inside* a group of tied identities,
+and the corruption mechanism maps its draws onto the same tie-ordered index —
+so which identities a degradation removes rests on a sort nothing pins. This
+is the second instance of the defect Section 7.1 reports about the split sort,
+which is why the reporting standard's tie-break item is now stated over
+**every** sort a procedure cuts on. It is recorded rather than repaired:
+repairing it moves every number on the quality axis and belongs with the run
+that regenerates them.

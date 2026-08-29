@@ -223,21 +223,56 @@ macros it uses.
 
 ## 4. Reproducibility: a discrepancy we found ourselves and are disclosing
 
-⟨PENDING: the `hgb` cross-machine finding and its disposition.⟩
+This is not in your report. We are raising it because it would have been in
+the next one, and because a referee who ran our archive before we said this
+would have been entitled to disbelieve everything else in it.
 
-The short of it: the boosting learner does not reproduce this repository's
-committed results across machines at identical pinned dependency versions,
-while the logistic learner reproduces to 5e-10. No gate caught it, because
-the release check re-derives macros from committed result files and never
-re-runs an analysis. The manuscript claimed one-command reproduction without
-qualification. A referee who tried it on their own machine would have found
-this before we told them, which is the worst possible order.
+**The manuscript claimed one-command reproduction without qualification, and
+that claim was false on any machine but ours.** No gate caught it: the
+release check re-derives macros from committed result files and never re-runs
+an analysis, so it could not see the thing it certified.
 
-We would rather be the ones who found it. ⟨PENDING: whether it is thread
-nondeterminism and therefore fixable by pinning, or platform nondeterminism
-and therefore a disclosed tolerance; the gate that now executes the claim
-rather than asserting it; and the corrected wording of the code-availability
-statement.⟩
+We diagnosed it by elimination rather than by argument, and **four candidate
+causes are ruled out by measurement**: thread count (pinned to one against
+four — bit-identical), library versions (the pinned set against a newer one —
+bit-identical), source drift (the analysis module at the commit that produced
+the surface against the current one — bit-identical), and run-to-run
+nondeterminism (exactly deterministic). What remains is the processor
+architecture. Thread pinning does not repair it, because the pins were
+already there.
+
+**The mechanism is amplification and we measured it.** A one-unit-in-the-
+last-place nudge to the boosting encoding matrix — a relative 2.2e-16 — moves
+a predicted probability by 0.37. The logistic learner is not chaotic at all:
+its probabilities agree to 1.4e-15. But a rank-based metric is a step
+function, and a high-cardinality register ties test rows to equal predictions
+that a difference in the last bit unties.
+
+**Two things we had written down about this were wrong, and both were wrong
+in our favour.** Our own notes said the logistic learner reproduced to 5e-10;
+it diverges by up to 0.094 in Nagelkerke. They said the discrepancy reached
+0.14; it reaches 0.851. And the right characterisation is not a learner at
+all — **the divergence tracks the register's cardinality**, and the
+low-cardinality rungs of both families reproduce to 2.3e-12.
+
+The disposition is a measured tolerance, not a promise. `REPRODUCE.md` now
+carries the eliminations, the mechanism and six documented tolerances; the
+code-availability statement claims bit-exactness inside the container and
+states what holds outside it, with the distinction that matters — **checking
+a digit requires the container, checking a conclusion does not**. Two new
+scripts execute the claim instead of asserting it: a gate that re-runs part of
+the surface against those tolerances, and its own corruption suite, which
+caught a labelling bug in the gate before we trusted the gate.
+
+**A second undeclared tie order, found on the way, and not repaired.** The
+register-quality mechanisms cut a cumulative-count curve *inside* a group of
+tied identities, so which identities a degradation removes rests on a sort
+nothing pins. This is the second instance of the defect Section 7.1 already
+reports about the split sort — which is why the reporting standard's
+tie-break item is now stated over *every* sort a procedure cuts on, rather
+than over the one place we happened to find it first. We have not repaired it:
+doing so moves every number on the quality axis, and it belongs with the run
+that regenerates them. It is recorded where a reader will meet it.
 
 ---
 
@@ -277,7 +312,25 @@ decision rule than a number*. An impersonal rewrite takes the agent out of a
 withdrawal, which is the last place a paper should be agentless. We would
 rather answer the request with a reason than with a passive voice.
 
-**Length.** ⟨PENDING: the measured cut. Target 42 pages of body; the
+**Length, and a trade we want the editor to judge rather than discover.**
+This round *added* four pages before it cut any, and we would make the same
+choice again. Nearly every one of the eighteen defects above was of one shape
+— the sentence named one set and the number was computed on another — and the
+repair for that shape is to name the set. "197 of 5,808 AUC cells" became
+"197 of the 780 AUC cells that carry a band". The design-space table gained a
+column stating which of its rows are factors of the cell count. The
+decision-curve figure's caption now says which band it draws. Precision is not
+free in pages, and a shorter version of this paper would have been a less
+precise one.
+
+Against that, the cut list we have measured — every duplicate, every
+compressible passage — totals 12 pages, and the earlier report's target of 30
+would require moving four more floats out of a main text that has eleven,
+when that same report asked for six more floats to be moved *in*. Those two
+requests cannot both be met, and we would rather put the trade to you than
+quietly miss a number. ⟨PENDING: the final figure, measured after the Sections
+4, 6, 10 and 11 rewrite, which is where compression is cheapest because those
+sections are being written once against the new results anyway.⟩ Target 42 pages of body; the
 reduction is taken in Sections 4, 6, 10 and 11, which are being rewritten
 against the new numbers anyway, and the largest single saving is Section 11's
 re-derivation of material already stated where it was computed.⟩

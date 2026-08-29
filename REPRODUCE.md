@@ -239,10 +239,16 @@ arm64, at the pinned versions, reproduces some of the surface exactly and some
 of it only to a tolerance — and the reader is owed the measurement rather than
 the claim. **Bit-exact reproduction is claimed only inside the container**,
 which fixes the interpreter, the artefact hashes and the thread counts, and
-whose base image (`python:3.10.0-slim-bullseye`) is `linux/amd64`; the digest
-of the built image is recorded in the archived release and is the canonical
-environment for any check against a printed digit. Outside it, this is what a
-reader should expect.
+whose base image (`python:3.10.0-slim-bullseye`) is `linux/amd64`. That image
+is the canonical environment for any check against a printed digit, and the
+digest of the built image is recorded in `submission/OWNER-ACTIONS.md` and in
+the archived release. Note the gap this leaves until then: the `Dockerfile`
+currently pins its base by *tag*, and a tag is mutable, so an image built from
+it today and one built from it next year are not guaranteed to be the same
+image. Pinning the base by digest, and publishing the digest of the built
+image alongside the release, is what makes the paragraph above a promise
+rather than an intention. Outside that image, this is what a reader should
+expect.
 
 Four candidate causes were eliminated by measurement, not by argument. Thread
 count is not it: one thread and four give bit-identical answers, and every

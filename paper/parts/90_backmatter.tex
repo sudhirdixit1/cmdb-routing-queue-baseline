@@ -75,7 +75,19 @@ verification harness are archived at \zenodoDOI\ (release \releaseTag) and
 developed at \url{https://github.com/sudhirdixit1/cmdb-routing-queue-baseline}.
 The archive contains a \texttt{Dockerfile} and a \texttt{requirements.lock}
 pinning every transitive dependency; \texttt{REPRODUCE.md} gives the exact
-commands and the expected runtime.
+commands and the expected runtime. \textbf{Bit-exact reproduction is claimed
+inside that container, whose image digest the archive records, and not outside
+it.} On a different processor architecture, cells whose design carries no
+high-cardinality register agree to floating-point tolerance, while cells that
+carry one can differ materially in every metric --- the register ties test
+rows to equal predictions, and a difference in the last bit unties them, so a
+rank-based metric steps. The divergence tracks the register's cardinality and
+not the learner: it is present in both model families and absent from the low
+-cardinality rungs of each. \texttt{REPRODUCE.md} measures it for both
+families and states a tolerance per condition, and
+\texttt{scripts/check\_reproduction.py} re-runs part of the surface and fails
+if one is exceeded. A reader checking a \emph{digit} therefore needs the
+container; a reader checking a \emph{conclusion} does not.
 
 \bibliographystyle{elsarticle-harv}
 \bibliography{references}

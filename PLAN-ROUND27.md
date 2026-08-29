@@ -435,6 +435,30 @@ round-26 response letter already puts that trade to the editor.
   lands in a supplement section that already exists. The response letter must
   state the trade rather than quietly missing 42.
 
+**4.0b The baseline moved, and the reason is not slippage.** After the
+red-team repairs the built article is **62 pages**, not 58. The four pages are
+almost entirely the repairs themselves, and they are the *right* kind of
+addition: nearly every finding was "the sentence names one set and the number
+was computed on another", and the fix is to name the set. "197 of 5,808 AUC
+cells" became "197 of the 780 AUC cells that carry a band"; the axes table
+gained a column saying which rows multiply; the decision-curve figure's
+caption now says which band it draws.
+
+So **precision cost four pages and it was worth paying**, and the cut list's
+12.2 pages now lands at 50 rather than 46. Two consequences:
+
+- the Reserve tier (R1–R5, 2.26 pp) moves from optional to necessary, and
+  even then the arithmetic gives ~47–48;
+- the response letter should say this plainly rather than hide it. The honest
+  sentence is that this round *added* four pages of denominators and
+  qualifiers because a referee found eighteen places where the paper said one
+  set and meant another, and that a shorter paper would have been a less
+  precise one. An editor who has just read that argument is in a position to
+  judge the trade; one who only sees a missed page target is not.
+- Re-measure after the Phase 1 rewrite before committing to a number: §4, §6,
+  §10 and §11 are 25 of the 50 body pages and are being rewritten once against
+  the new results, which is where compression is cheapest.
+
 ### 4.0a A sentence in §11 that is false, and is the kind a referee checks
 
 `80_limits.tex:4–5` opens the threats section with
