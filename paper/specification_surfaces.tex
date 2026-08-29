@@ -1430,20 +1430,7 @@ anti-conservative by an amount this paper has measured and cannot remove}:
 \nResolvedWhole\ cells resolve corpus-wide, and a band wide enough to cover
 would resolve fewer.
 
-\textbf{The factor's reach, and what widening the plane in $n$ found.} It is
-fitted at training sizes \planeNtrainLo\ to \planeNtrainHi\ against a corpus
-running \corpusNtrainLo\ to \corpusNtrainHi, so all \nPairsInsidePlaneN\ of
-the \nPairs\ pairs lie inside the range that identifies it. Two things took
-the place of the extrapolation that used to sit here. \textbf{$K/n$ is not
-sufficient}: $\log n$ enters the fit at $t = \planeNdependenceT$, and the
-applied curve, a function of the ratio alone, sits below the measured
-factor's own lower confidence limit on \nCellsUnderApplied\ of the plane's
-cells. \textbf{And on \nPlaneCellsUndefined\ of \nPlaneCellsOffered\ cells
-the factor does not exist}, because past a crossing in $n$ the basic interval
-stops containing the point estimate a widening would be about
-(Section~\ref{sec:boot}). Supplement~\ref{app:calibration} carries the
-ladder, the two-covariate comparison and the admission rule;
-Section~\ref{sec:lim} carries what it leaves the corpus's largest pairs.
+Supplement~\ref{app:calibration} carries the factor's reach in $n$, the evidence that $K/n$ alone is not sufficient, and the \nPlaneCellsUndefined\ of \nPlaneCellsOffered\ cells on which the factor does not exist at all because past a crossing in $n$ the basic interval stops containing the point estimate a widening would be about; Section~\ref{sec:lim} carries what that leaves the corpus's largest pairs.
 
 \input{tables/triple}
 
@@ -1763,45 +1750,15 @@ admissible set.
 \subsection{The leakage tipping point, and register quality}
 \label{sec:quality}
 
-Two further experiments on this estate are in Supplement~\ref{app:casedetail}
-and summarised here.
+Two further experiments on this estate are in Supplement~\ref{app:casedetail}: a leakage tipping point --- the
+knowledge reference takes the register's increment to \VTtwoKnow,
+indistinguishable from zero, and reaches half its knowledge-free value at
+$\lambda = \lambdaHalf$, so an unprovable admissibility assumption is
+reported as a sensitivity analysis and not as a headline --- and a
+register-quality axis under \nQualityKinds\ declared mechanisms, three of
+them dependent, applied to both halves of the data with their parameters
+estimated from training alone (Supplement~\ref{app:degrade}).
 
-\textbf{A field that looks like leakage has a tipping point, and where it
-sits is what a reader has to judge.} The knowledge reference is the field
-that takes the register's increment to indistinguishable from zero, and
-whether it was available at $\tau_2$ is probable but unproven. Writing
-$\lambda$ for the share of its values assumed written \emph{after} the
-incident --- so that a larger $\lambda$ makes more of the field inadmissible
---- the register is worth \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] at
-$\lambda = 0$, not resolvably different from zero, and reaches half of its
-knowledge-free value at $\lambda = \lambdaHalf$. A reader who believes more
-than \lambdaHalfPct\ of references are written after the incident should read
-this estate's register as worth at least half of \VTtwoGroup\ AUC, and one
-who believes almost none are should read it as worth almost nothing. We
-cannot measure $\lambda$, so the disposition of an unprovable admissibility
-assumption is reported as a sensitivity analysis and not as a headline
-(Figure~\ref{fig:tipping}, Table~\ref{tab:tipping}).
-
-\textbf{Register quality is an axis, not a caveat, and which rows go missing
-matters as much as how many.} Under \nQualityKinds\ declared degradation
-mechanisms the increment at the reference cell moves from \qClean\ on a clean
-register to \qRareHalf\ when half the population is lost from its long tail
-and \qCommonHalf\ when half is lost from its core. Three of the mechanisms
-are \emph{dependent} --- on time, on content, and on a training-estimated
-propensity that correlates missingness with the outcome --- and they carry
-severity integrals \integralTime, \integralContent\ and
-\integralPropensity\ against \integralMaskRare\ for the independent long-tail
-mechanism, which they bracket rather than track. A quality axis built only
-from independent coin flips measures one corner of the question.
-
-\textbf{Which halves are degraded, exactly.} A degraded register is a state of
-the world and not a training accident, so \textbf{the mechanism is applied to
-both halves of the data} while its \emph{parameters} are estimated from the
-training half alone, and the repository executes that property rather than
-asserting it. Supplement~\ref{app:degrade} gives the construction, the
-executed check and why a mechanism applied to training alone would measure a
-different thing; Tables~\ref{tab:quality2} and~\ref{tab:quality3} carry every
-mechanism and level.
 
 \subsection{What this says to a configuration management programme}
 \label{sec:programme}

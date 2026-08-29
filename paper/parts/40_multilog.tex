@@ -256,20 +256,7 @@ anti-conservative by an amount this paper has measured and cannot remove}:
 \nResolvedWhole\ cells resolve corpus-wide, and a band wide enough to cover
 would resolve fewer.
 
-\textbf{The factor's reach, and what widening the plane in $n$ found.} It is
-fitted at training sizes \planeNtrainLo\ to \planeNtrainHi\ against a corpus
-running \corpusNtrainLo\ to \corpusNtrainHi, so all \nPairsInsidePlaneN\ of
-the \nPairs\ pairs lie inside the range that identifies it. Two things took
-the place of the extrapolation that used to sit here. \textbf{$K/n$ is not
-sufficient}: $\log n$ enters the fit at $t = \planeNdependenceT$, and the
-applied curve, a function of the ratio alone, sits below the measured
-factor's own lower confidence limit on \nCellsUnderApplied\ of the plane's
-cells. \textbf{And on \nPlaneCellsUndefined\ of \nPlaneCellsOffered\ cells
-the factor does not exist}, because past a crossing in $n$ the basic interval
-stops containing the point estimate a widening would be about
-(Section~\ref{sec:boot}). Supplement~\ref{app:calibration} carries the
-ladder, the two-covariate comparison and the admission rule;
-Section~\ref{sec:lim} carries what it leaves the corpus's largest pairs.
+Supplement~\ref{app:calibration} carries the factor's reach in $n$, the evidence that $K/n$ alone is not sufficient, and the \nPlaneCellsUndefined\ of \nPlaneCellsOffered\ cells on which the factor does not exist at all because past a crossing in $n$ the basic interval stops containing the point estimate a widening would be about; Section~\ref{sec:lim} carries what that leaves the corpus's largest pairs.
 
 \input{tables/triple}
 
