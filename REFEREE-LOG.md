@@ -2384,3 +2384,58 @@ The defence added is a condition that fails on a HALF-MIGRATED tree --- cell
 counts from one surface, region labels from another --- because that state
 passes every other gate: both files are internally consistent, every number
 resolves, and the manuscript reports a family size no label was computed over.
+
+## R27.10 A sixth pass, on the repairs made after the fifth. **EIGHTEEN FINDINGS**
+
+The fifth pass repaired fifteen contradictions. The sixth audited those
+repairs and found eighteen more, of which nine were blocking. The pattern did
+not change, and by now it is the round's real subject: **a repair applied at
+one site is a repair applied at one site**.
+
+**Four printed tables carried the retired surface under captions saying they
+carried the reported one.** The master table --- the one a referee quotes ---
+printed a robustness index taken from the previous surface's CALIBRATED
+column: one row showed a resolved share of a hundred per cent with no harmful
+cells beside a rho of 0.096, which its own neighbouring columns force to be
+1.000. The specification-curve table had the same defect from a different
+file, the family table from a third, and the comparison table printed a
+widening column of ones beside two pairs of identical columns, under a caption
+promising the reader the size of a correction.
+
+**A number set to one to mean "nothing is applied" emptied the argument that
+says why.** The factor's supplied range became 1.00 to 1.00, and three
+sentences asking what the calibration WOULD supply rendered "1.00 to 1.00" ---
+one of them concluding that this range lies ABOVE the 1.36 to 1.88 the
+measurement asks for, and calling it conservative. Whether a factor is applied
+is a fact about the manuscript; what it supplies is a measurement. Conflating
+them cost the paper its own central caveat, in the direction that flatters.
+
+**A coverage was quoted for a design the corpus does not run.** The headline
+83.7 per cent pooled decision-curve families with surface ones --- two sets
+whose shortfalls this paper reports separately, precisely because they are not
+the same object --- across draw counts from 33 to 1000 and family sizes from
+120 to 2966, while every reported pair carries 180 cells at 400 draws. The
+family matched to the reported design covers 91.6 per cent, and the table of
+"families matched to this corpus" did not contain it. THE CORRECTION RAISES
+THE NUMBER, which is why it is reported with its Monte Carlo standard error
+and its neighbours: 91.6 against a nominal 95 is short by more than five of
+them, so the paper's sharpest limitation stands, on a number that is now the
+right one.
+
+**A list of labels could not notice a label nobody had written down.** The set
+of regions "that carry a direction" was a hard-coded pair of conditional
+labels, correct until a pair attained UNIFORMLY BENEFICIAL --- which names a
+sign too. The denominator was eleven and should have been twelve, and an
+enumeration of the corpus printed four labels summing to eighteen over
+nineteen pairs. The missing pair was the one the round turns on. The rule is
+now a membership test, and any list claiming to partition the corpus is
+checked by adding it up.
+
+**And a build command that is not installed reports nothing at all.** Several
+rebuilds during this pass invoked a tool absent from the environment; the
+shell said only "command not found", the page count was then read from a PDF
+five hours stale, and a spliced line that had eaten the clause closing a bold
+run went unnoticed through four commits --- while the article did not compile.
+`check_package`'s rule that a PDF older than its source is a stale document is
+what caught it. THE GATE THAT MATTERED WAS THE ONE COMPARING TWO TIMESTAMPS,
+not any of the ones reading the document.
