@@ -840,6 +840,43 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-29, 01:30 — the decomposition on the inference surface: computable, and it does NOT confirm the declared one
+
+§4.2's concession is that the inference surface is "a corner of the declared
+surface rather than a design … which is why the decomposition cannot be
+computed on it". Under the balanced design **it can**, and it now has been:
+`results/s51_inference_anova.csv`, all **95** decompositions (19 pairs × 5
+instruments), 36 cells each, no failures. That much retires the concession.
+
+**Then it goes the other way, and the rewrite must not claim otherwise.**
+Comparing which axis carries the largest first-order index on each surface,
+the two **agree on 7 of 19 pairs**. The corpus medians differ too — on the
+inference surface the rung leads at 17.1%, quality 8.6%, pipeline 4.8%, split
+4.1%, higher-order 22.0%, against the declared surface's fold-averaged 21.9 /
+19.2 / 15.2 / 26.3.
+
+**The confound, stated because it is the whole interpretation.** The two
+surfaces do not declare the same levels: the inference surface carries 2
+splits, 3 quality conditions and 3 rungs against the declared surface's 6, 6–10
+and 3–4. An axis cannot show the same variance share at three levels as at ten.
+So this is a comparison **between two designs**, not a check of one against
+the other, and it does *not* establish that either surface is unrepresentative.
+
+**What it does mean for the rewrite, and it is a restraint rather than a
+result.** The tempting sentence — *"the decomposition computed on the
+inference surface confirms the declared one"* — is not available. Nor is its
+opposite. What is available is narrower and worth saying: the decomposition is
+now computable on both, the two are reported, and the ordering differs, which
+is a reminder that a first-order index is a statement about *the levels an
+analyst declared* and not only about the pair. That is consistent with the
+paper's surviving claim rather than a refutation of it, but it qualifies it,
+and §6.2 should carry the qualification rather than let a reader discover it
+from the supplement.
+
+**Do not promote this to a headline.** It is exploratory, the confound is real,
+and a clean version would need the two surfaces matched on level counts —
+which is a further run and is not this round's.
+
 ### 2026-08-29, 01:20 — every place that still describes the OLD inference surface
 
 Found by grepping for the trap the audit had just caught twice. **The
