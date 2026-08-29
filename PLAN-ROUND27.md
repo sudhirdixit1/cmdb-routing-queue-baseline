@@ -840,6 +840,39 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-29, 01:55 — the new bands validated before anything depends on them
+
+`verify_numbers` checks the OLD bands for internal consistency and does not
+yet read `s48w`. Run by hand, on the 3,420 whole-surface cells:
+
+1. the simultaneous band contains the pointwise interval on **every** cell —
+   0 violations;
+2. the conservative edge contains the simultaneous band on **every** cell —
+   0 violations;
+3. critical values run **3.214 to 3.430**, median **3.356**, all above the
+   pointwise 1.96 — and close to the old surface's median 3.33, which is
+   reassuring for a different scheme on a different design;
+4. the band edges reproduce the regions file's beneficial and harmful counts
+   on all 19 pairs, **exactly**;
+5. no NaN edge anywhere.
+
+**Check 4 failed the first time and the failure was mine.** I tested the
+`sim_*` edges; the region labels are computed at the **conservative** end of
+the critical value's Monte Carlo interval, which is what the manuscript has
+said all along. Testing the right edge reproduces every count. Two useful
+facts fell out of getting it wrong: the conservative safeguard costs two pairs
+a handful of cells (89→86 and 28→27), so it is doing something small and
+nonzero rather than nothing; and the **empirical** quantile edge would resolve
+far less — 72 against 86 on one pair, differing on 16 of 19 — which is the
+same ordering §10.4 reports between the multiplier value and the empirical
+quantile's order-statistic interval, arriving independently on a new surface.
+
+**Add these five as a permanent condition when `verify_numbers` is re-pointed
+at `s48w`.** They are cheap, they caught nothing this time, and the reason to
+add them is that check 4 is precisely the kind that fails silently: a band
+built from one edge and a label counted from another would agree on most pairs
+and differ on a few.
+
 ### 2026-08-29, 01:45 — the design is a balanced full factorial, checked rather than trusted
 
 The rewrite will claim the new inference surface is "a full factorial and so a
