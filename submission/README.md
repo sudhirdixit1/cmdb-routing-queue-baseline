@@ -36,7 +36,11 @@ only numbers in this package that are not macros.
 | `upload/Highlights.txt` | **The highlights file to upload, and the only one to upload.** Five bullets, nothing else in the file. Highlights are *mandatory* for this journal, and the guide asks for them as a separate editable file with `Highlights` in the name — hence the name and the subdirectory, since macOS would otherwise treat `Highlights.txt` and `highlights.txt` as one file. If the submission system asks for a Word file, paste these five lines into it unchanged. |
 | `highlights.txt` | The **working copy** of the same five bullets, carrying each bullet's character count and the note on why they are generated. Do **not** upload this one: it opens with build commentary, and an editor's first impression of the paper should not be a note about this project's own tooling. Both files are written from one `render()` in `scripts/make_highlights.py`, so they cannot disagree; lengths are **derived** by `scripts/check_highlights.py` rather than counted — the counts have shipped wrong twice. |
 | `cover_letter.md` | Cover letter. |
-| `response_to_blueprint.md` | Response to the second review. Upload this one if the system takes a single response document. |
+| **`response_to_review27.md`** | **Response to the current report, and the one to upload if the system takes a single response document.** It answers the sixth review, reports the two repairs this round ran and what they measured, and puts the length trade to the editor with the arithmetic. This row was missing for a round, during which the table pointed at `response_to_blueprint.md` — four reviews older — as the single document to upload. |
+| `response_to_review26.md` | Response to the fifth review. |
+| `response_to_review23.md` | Response to the fourth review. |
+| `response_to_review21.md` | Response to the third review. |
+| `response_to_blueprint.md` | Response to the second review. |
 | `response_to_referee.md` | Response to the first report, kept because the correction register cites it. |
 | `declaration_of_interests.md` | Declaration of interests. |
 | `credit_statement.md` | CRediT roles. |
