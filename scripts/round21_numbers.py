@@ -349,14 +349,20 @@ def emit(mn):
     put("calSlopeSe", num(first(F33, "c_slope_se"), 3))
     put("calIntercept", num(first(F33, "c_intercept"), 3))
     put("calAtMedianPair", num(first(F33, "c_at_median_pair"), 2))
-    #  ROUND TWENTY-FIVE.  The range of the applied factor across the corpus,
-    #  which is the quantity s41's shortfall factor has to be compared with:
-    #  both are multiplicative widenings of the same critical value.
+    #  ROUND TWENTY-FIVE said these were "the range of the applied factor
+    #  across the corpus".  THEY WERE NOT, and round twenty-seven found both
+    #  places that quoted them saying so.  `s33_cells.csv' is the SIMULATION
+    #  PLANE -- 33 cells at sizes the design chose -- and the factors actually
+    #  applied to the corpus are the `c' column of `s33_regions.csv', which is
+    #  `calMin'/`calMax' and is 1.18 to 1.77 against the plane's 1.09 to 1.88.
+    #
+    #  The macros are RETIRED rather than left unused.  An unused macro that
+    #  states a withdrawn number is a trap: it resolves, so no checker
+    #  complains, and the next sentence that reaches for a "calibration
+    #  factor" gets the wrong object silently.  Deleting them makes that
+    #  sentence fail to compile, which is the outcome we want.
     C33 = load("s33_cells.csv")
     if C33 is not None and len(C33):
-        put("calFactorMin", num(float(C33.c.min()), 2))
-        put("calFactorMax", num(float(C33.c.max()), 2))
-        put("calFactorMedian", num(float(C33.c.median()), 2))
         #  ROUND TWENTY-FIVE.  Where the basic interval stops straddling its own
         #  point estimate, which is where this file's estimator stops existing.
         #  Both range over the PLANE's cells and not over the corpus.
@@ -387,9 +393,6 @@ def emit(mn):
             pct(first(F33, "fixedk_coverage_spread")))
         put("ladderCoverageSpreadPct",
             pct(first(F33, "ladder_coverage_spread_max")))
-    else:
-        for k in ("calFactorMin", "calFactorMax", "calFactorMedian"):
-            put(k, None)
     put("nRegionsChangedByCalibration",
         thousands(first(F33, "n_regions_changed")))
     put("rhoMedianCalibrated", num(first(F33, "rho_median_calibrated"), 3))
