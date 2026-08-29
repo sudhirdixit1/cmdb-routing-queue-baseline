@@ -487,6 +487,25 @@ the single cheapest shot a referee has.
 - [ ] 4.1 The length pass waits for Phases 1–2 (write §4, §6, §10, §11 once,
   against the new numbers — that is 25 of the body's 50 pages).
 
+  **One cut resolved precisely, so the pass does not have to re-derive it.**
+  The largest Tier-B duplicate was listed as "delete §10.3's straddle
+  paragraph, §4.1 already says it". Checked line by line: it is **not** a
+  wholesale duplicate. `20_inference.tex:70-78` and `75_simulation.tex:75-90`
+  quote the *same four macros* — `\straddleRatio`, `\nStraddleAllMax`,
+  `\shareStraddleAtHalfPct`, `\nStraddleHalfMin` — telling the same story, but
+  §10.3 additionally carries two facts §4.1 does not: the plane's own size
+  range, and the count of plane cells for which the inflation factor is
+  undefined.
+
+  So the cut is: **§4.1 keeps the mechanism and drops the crossing numbers**,
+  forward-referencing §10.3 as it already does in the same sentence; §10.3
+  keeps the crossing, which is what its heading is about, and keeps the plane
+  facts. That saves the overlap without gutting either.
+
+  **Not done now, deliberately**: §4.1's displacement paragraphs are precisely
+  what Phase 1 rewrites — under the weighted scheme the whole displacement
+  story changes — so cutting here before the run lands means cutting twice.
+
   **The cut list is in the length analysis and is executable as written**:
   Tier A (2.47 pp, already offered to the editor, destinations already
   written), Tier B (3.07 pp, pure duplicates inside §4/§6/§10/§11), Tier C
