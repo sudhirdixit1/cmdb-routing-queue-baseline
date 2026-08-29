@@ -2716,3 +2716,50 @@ supplying less, in the place a referee looks first. The conclusion the
 analyses reached is right; the reason they gave for it --- that every float is
 literally referee-requested --- is not, and the distinction matters, because
 the next person to read that sentence would have believed the enumeration.
+
+## R27.19 One estimator does attain the level, and the paper said none did
+
+The last finding of the round, and the most consequential, was found by asking
+the question that had already caught the coverage headline: **which designs is
+this median averaging over?**
+
+Section 10 said, and the author believed, that *no estimator recovers the
+difference* between the band's coverage and its nominal level. That was
+measured on medians pooled across draw counts from 33 to 1,000 --- and the two
+critical-value estimates do not behave the same way along that axis.
+
+| draws | multiplier | empirical |
+|---|---|---|
+| 33 | 81.2% | 79.0% |
+| 80 | 88.8% | 91.2% |
+| 150 | 91.2% | 93.9% |
+| **400** | **91.6%** | **94.7%** |
+| 1,000 | 91.3% | 94.3% |
+
+**The multiplier plateaus. The empirical quantile does not.** At 400 draws ---
+the count every pair in this corpus now carries --- the empirical quantile
+covers 94.7 per cent against a nominal 95, at a Monte Carlo standard error of
+0.5: a gap of well under one standard error, against the reported band's five.
+Its conservative end reaches 96.6.
+
+**The repair did not exist before this round made it.** At 33 draws the
+empirical quantile is the WORSE of the two, because an order statistic of that
+few maxima is badly determined --- which is exactly the argument Section 4.3
+gives for not adopting it, and that argument was correct when it was written.
+Raising every pair to 400 draws is what changed the answer. The round's own
+change created the finding, and the round's own pooled median hid it.
+
+It costs width: 1.35 times, and 698 resolved cells against 890. The article
+reports the multiplier band and prints both, because a band that attains its
+level by being wider is a different object rather than a correction to this
+one, and the trade between level and resolution belongs to the reader's loss
+function. But the shape of the paper's sharpest limitation has changed, and
+for the better: not *no construction here attains its level*, but *the one we
+report does not, one we also compute does, and here is the difference*.
+
+**The lesson is the round's, one more time.** Three separate defects this
+round --- the 83.7 per cent coverage headline, the calibration's direction,
+and this --- were all the same error: a statistic pooled over designs the
+corpus does not run, quoted as a statement about the corpus. The first two
+made the paper look worse than it is. This one made it look worse too, and it
+was the one that mattered.
