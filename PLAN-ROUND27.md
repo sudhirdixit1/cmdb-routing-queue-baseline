@@ -337,6 +337,48 @@ scheme.
    claim and must be checked against its output before the sentence ships, not
    assumed from the design's intent.
 
+### 1.4d The re-pointing, as an exact diff
+
+Nine edits in six files. **Make them in one commit.** A half-migrated tree is
+the state `round27_verify`'s newest condition exists to fail, and that
+condition covers only the grid-versus-regions pair — the figure and the
+bootstrapped ANOVA are not covered by anything.
+
+| # | file:line | current | becomes |
+|---|---|---|---|
+| 1 | `round20_numbers.py:69` | `G20 = load("s20_grid.csv")` | `load("s44_grid.csv")` |
+| 2 | `round20_numbers.py:70` | `F20 = load("s20_facts.csv")` | `load("s44_facts.csv")` — **check its columns first**; `s44_facts` is not `s20_facts` renamed, and the draw-count macros read from it |
+| 3 | `round20_numbers.py:71` | `F21 = load("s21_facts.csv")` | `load("s48w_facts.csv")` |
+| 4 | `round20_numbers.py:72` | `Q21 = load("s21_critical.csv")` | `load("s48w_critical.csv")` |
+| 5 | `round20_numbers.py:73` | `R21 = load("s21_regions.csv")` | `load("s48w_regions.csv")` |
+| 6 | `round21_numbers.py:900` | `G20b = load("s20_grid.csv")` | `load("s44_grid.csv")` |
+| 7 | `s25_denominator.py:96` | `pd.read_csv(RESULTS / "s20_grid.csv")` | `"s44_grid.csv"` |
+| 8 | `s25_denominator.py:148` | `RESULTS / "s20" / ("draws_%s_%s.csv.gz"` | `RESULTS / "s44_weighted" / (...)` |
+| 9 | `s22_anova.py:327` | `sorted((RESULTS / "s20").glob(...))` | `RESULTS / "s44_weighted"` |
+| 10 | `s28_figures.py:174-175` | `load("s33_regions.csv")` / `load("s21_regions.csv")` | the calibrated branch has no successor unless a calibration is still applied — **see the note below** |
+
+**Site 10 is a decision, not a substitution.** `s28_figures` prefers
+`s33_regions` (the coverage-calibrated labels) and falls back to
+`s21_regions`. If the coverage measurement retires the K/n calibration, there
+is no calibrated file and the figure should read `s48w_regions.csv` on the
+single branch, with the two-bar nominal-versus-calibrated design collapsing to
+one. If a calibration survives, the figure keeps both bars and needs a
+recomputed calibrated file. **Do not leave the fallback pointing at
+`s21_regions`**: it would silently draw the old surface the moment the new
+calibrated file was absent, which is precisely how this class of defect works.
+
+**Column compatibility, checked before any of this is pasted.** `s48w_regions`
+carries `n_cells / n_beneficial / n_harmful / n_unresolved / rho / region`,
+where `s21_regions` carried the same names — so sites 3–5 are likely drop-in.
+`s44_grid` carries `scalar_cells` and `cells`, which sites 1, 6 and 7 use.
+`s44_facts` is the one to verify by hand.
+
+**After the nine edits, in order:** `make_numbers.py`, then diff
+`paper/numbers.tex` against its committed version and account for **every**
+changed macro against §5.1a's register; then `s28_figures.py` to redraw
+`figS3_regions.png`; then `verify_numbers.py`, which will fail loudly if the
+tree is half-migrated; then `assemble_paper.py` and the build.
+
 **Done when:**
 - the displacement statistic on the weighted scheme is ≈ 0 and the count of
   cells whose band excludes its own point estimate is 0 (or reported ≤ 0.1%);
