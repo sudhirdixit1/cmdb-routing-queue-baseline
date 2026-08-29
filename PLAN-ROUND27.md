@@ -180,8 +180,19 @@ already-computed critical value costs matrix arithmetic only.
   the 0.003 delivery at their thresholds, rule 1 of §0.1 applies: the paper
   changes, including §8.4 and the Conclusion.
 
-- [ ] **2.4 The decision-curve FIGURE now disagrees with its own section —
-  fix introduced by this round's own correction.** `app_secondary.tex:306-315`
+- [x] **2.4 The decision-curve FIGURE now disagrees with its own section —
+  DONE, by resolution 2.** The drawn band is left as it is and the caption now
+  says it is the **nominal** one, gives the widened band's factor, and prints
+  the dip and the harmful counts under both. So the figure shows the shape of
+  the curve and the ordering of the two intervals, and says plainly that it is
+  not the band any claim is read against. Resolution 1 (redraw) was declined:
+  it would need the figure generator taught about `s49_dcaband.csv` for a
+  picture whose *shape* is unchanged, and a caption that names which band it
+  draws is the more useful artefact anyway. The superseded "read this
+  section's counts as upper bounds" paragraph now says what the widening does
+  and does not settle — it is fitted where the bootstrap is ideal, and it does
+  not reconcile the two estimators of the critical value.
+  *(original finding below)* `app_secondary.tex:306-315`
   draws `figS4_dca.png`, which plots the **nominal** band, and its caption
   quotes the nominal `\dcaDipTheta`, `\dcaDipValue` and
   `\nHarmfulSimultaneous`. The prose immediately below it now quotes the

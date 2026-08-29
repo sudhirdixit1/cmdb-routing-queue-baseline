@@ -317,11 +317,18 @@ rule tightens, and they do not say what cost ratio that rule encodes.
 \caption{The register's net-benefit increment across the operating range at
 the reference cell, with the pointwise interval and the simultaneous max-$t$
 band. The simultaneous band is what a claim about a \emph{range} of thresholds
-has to be read against. The curve dips near $\theta = \dcaDipTheta$, where the
-simultaneous band's lower edge reaches \dcaDipValue: \nHarmfulPointwise\ of
-the \nDcGrid\ operating points resolve as harmful pointwise and
-\nHarmfulSimultaneous\ under the simultaneous band, so the dip a reader can
-see is not a harm the evidence resolves.}
+has to be read against. \textbf{The band drawn here is the NOMINAL one, before
+the measured widening of Section~\ref{sec:dcabands}}: the widened band is
+\dcaWidenFactor\ times wider at every point and is what the counts in that
+section and in the text below are computed under, so this figure shows the
+shape of the curve and the ordering of the two intervals, and not the band any
+claim is read against. The curve dips near $\theta = \dcaDipTheta$ as drawn,
+where the nominal band's lower edge reaches \dcaDipValue\ --- under the widened
+band the dip is at $\theta = \dcaDipThetaWidened$ and reaches
+\dcaDipValueWidened. Either way the dip is not a harm the evidence resolves:
+\nHarmfulPointwise\ of the \nDcGrid\ operating points resolve as harmful
+pointwise, \nHarmfulSimultaneous\ under the nominal band and
+\nHarmfulSimultaneousWidened\ under the widened one.}
 \label{fig:dca}
 \end{figure}
 
@@ -360,16 +367,23 @@ are a different and much larger set --- the same counts are
 this pair's own curve, operating point by operating point, and its caption
 names the cell it is computed at.
 
-\textbf{And this family is the one most exposed to how the critical value was
-estimated.} The decision-curve bands are \emph{not} coverage-calibrated: the
-$(n,K)$ calibration of Section~\ref{sec:regions} is estimated for the scalar
-instruments and is not applied here. On every one of the \nFamiliesDca\
-decision-curve families the multiplier critical value lies below the whole
-order-statistic interval of the empirical quantile
+\textbf{This family is the one most exposed to how the critical value was
+estimated, and it is the one now corrected for it.} The $(n,K)$ calibration of
+Section~\ref{sec:regions} is estimated for the scalar instruments and is still
+not applied here; what is applied instead is the family's own measured
+shortfall, \dcaWidenFactor, which Section~\ref{sec:dcabands} takes from the
+matched families of Section~\ref{sec:simband} and which every count above is
+computed under. Two things it does not settle. It is fitted where the
+bootstrap is \emph{ideal}, so it closes the shortfall that design can measure
+and not whatever the real resampling adds on top of it. And it does not
+reconcile the two estimators of the critical value: on every one of the
+\nFamiliesDca\ decision-curve families the multiplier value lies below the
+whole order-statistic interval of the empirical quantile
 (Section~\ref{sec:simbands}), by a median factor of \qRatioDcaMedian, and
 across the corpus's decision-curve cells the multiplier band resolves
-\nResolvedDcaMult\ against the empirical band's \nResolvedDcaEmp. A reader who
-takes the empirical value should read this section's counts as upper bounds.
+\nResolvedDcaMult\ against the empirical band's \nResolvedDcaEmp. The widening
+is applied to the multiplier value, so a reader who prefers the empirical one
+should read these counts as upper bounds still.
 Section~\ref{sec:lim} states why we do not choose between the two.
 
 \subsection{The ITSM family, statistic by statistic}
