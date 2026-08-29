@@ -27,9 +27,17 @@ Append progress to §9 of THIS file after every phase.
 | 4 | length | **measured**: 58 pp, and 42 is *not* reachable — target renegotiated to 46. Cut list written and executable. Execution waits for Phase 1. |
 | 4.2 | voice | **decided: keep the editorial "we"**, with the reason recorded |
 | 5 | claims regenerated against the new numbers | register written; execution waits for Phase 1 |
-| 6 | the `hgb` cross-machine reproduction gap | agent working |
+| 6 | the `hgb` cross-machine reproduction gap | **done — and it was worse than recorded.** Platform, not threading; the divergence tracks register **cardinality**, not the learner; `logit` diverges up to 0.094 and boosting to 0.851, against the 5e-10 and 0.14 the repo had written down. Disclosed with six measured tolerances, gated, and the gate has its own corruption suite. |
 | 7 | compliance | audited against the journal's own guide; agent-fixable items **done**; owner items in `submission/OWNER-ACTIONS.md` §4 |
 | 8 | pre-submission red team | partly done by the two passes above |
+
+**A second thing that now needs the owner, created by this round's own
+disclosure:** the code-availability statement claims bit-exactness *inside the
+container, whose image digest the archive records* — and **no such digest
+exists**. The `Dockerfile` pins its base by mutable tag. Until it is minted
+and recorded, the manuscript makes a claim the archive cannot support, which
+is the one category of defect this project treats as unshippable.
+`submission/OWNER-ACTIONS.md` §4.7.
 
 **The one thing that cannot be done without the owner:** mint the archive DOI.
 It is not merely a missing statement — it is **reference [11]** in the printed
