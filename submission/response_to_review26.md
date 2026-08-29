@@ -1,5 +1,19 @@
 # Response to the sixth referee report
 
+> **HISTORICAL — read with the round-27 letter beside it.** This letter was
+> accurate when it was written and two of its framings did not survive the
+> next round. It says "most of the variance belongs to no single axis" net of
+> resampling; round 27 found that holds on 7 of 19 pairs and the article now
+> withdraws it, carrying instead the claim that *which* axis leads is a
+> property of the pair. And it says the nested interval "beats" the
+> fixed-model interval by 1.3 Monte Carlo standard errors; the article's own
+> Section 4.1 calls that gap one this evidence cannot resolve, and Section 11
+> now says so too. Both corrections are in `response_to_review27.md`. The
+> letter is kept unedited below, because a response letter is a dated record
+> of what was claimed when, and editing one to match a later manuscript is
+> the thing this project's correction register exists to prevent.
+
+
 *Manuscript:* Specification Surfaces for Incremental Predictive Performance:
 Estimation, Uncertainty, and Multi-Log Evaluation
 *Recommendation received:* major revision

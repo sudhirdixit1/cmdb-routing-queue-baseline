@@ -99,22 +99,21 @@ Estimation, Uncertainty, and Multi-Log Evaluation}
 
 \begin{abstract}
 What a recorded field is worth to a prediction is reported as one number, but
-that number is a functional of choices the report rarely states: the baseline,
+it is a functional of choices the report rarely states: the baseline,
 the pipeline, the outcome predicted, the split, the moment the decision is
 taken, how completely the register behind the field is populated, and the
 metric. We define incremental predictive performance as a \emph{specification
 surface} $V_s(f)$ over a design space the analyst declares, and give three
 objects for reporting one: an exact functional-ANOVA decomposition of its
-variance that separates analyst choices from the resampling a design also
+variance that separates analyst choices from the resampling a design
 contains; simultaneous max-$t$ bands from a pipeline-refitting bootstrap,
 whose coverage we measure against a known answer and find short of nominal;
 and \emph{resolution regions}, which say where a sign is determined. On
-\nPairs\ pairs from \nLogs\ public event logs, resampling carries
-a median \shareResamplingStratumPct\ of the variance, and net of it no single
-analyst choice dominates on \nFoldInteractionExceeds\ pairs. Most
-specifications leave the sign undetermined; where the data determine one,
-admissible specifications sit a median \madResolvedMedian\ AUC from the
-conventional report. In a case study on \nCohort\ bank incidents, a register's
+\nPairs\ pairs from \nLogs\ public event logs, resampling carries a median
+\shareResamplingStratumPct\ of the variance, and net of it which analyst
+choice leads is a property of the pair. Most specifications leave the sign
+undetermined; where the data determine one, admissible specifications sit a
+median \madResolvedMedian\ AUC from the conventional report. In a case study on \nCohort\ bank incidents, a register's
 worth turns on the decision time and its sign on the target.
 \end{abstract}
 
@@ -172,7 +171,7 @@ surface overstates the case}: most of its variance here is resampling rather
 than analyst latitude, and the correction is exact
 (Section~\ref{sec:sobol}). And \textbf{the sign is the wrong thing to count}:
 where the data determine a sign, the conventional report is usually right
-about it and usually wrong about the magnitude, which is what
+about it and usually silent about the size, which is what
 Section~\ref{sec:results-regret} reports instead.
 
 \paragraph{The estimand}

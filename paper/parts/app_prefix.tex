@@ -31,15 +31,20 @@ this paper occupies.
 \input{tables/prefix}
 
 \paragraph{What it shows}
-\textbf{The register's worth collapses once anything has happened.} At case
+\textbf{The register's worth falls sharply away from case creation, and
+what it does after that is not measured well enough to describe.} At case
 creation it is \VPrefixZero\ [\VPrefixZeroLo, \VPrefixZeroHi] AUC over the
 intake block on \nPrefixZero\ cases; two events later it is \VPrefixTwo\
-[\VPrefixTwoLo, \VPrefixTwoHi] on \nPrefixTwo, and at the deepest prefix
-measured it retains \prefixRetainedPct\ of its creation-time value. Across
+[\VPrefixTwoLo, \VPrefixTwoHi] on \nPrefixTwo. That fall is resolved: the two
+intervals do not overlap. \textbf{Beyond it the sequence is not monotone} ---
+at the deepest prefix measured the increment is \VPrefixEight\
+[\VPrefixEightLo, \VPrefixEightHi], nominally \prefixRetainedPct\ of its
+creation-time value but on an interval containing zero, and higher than the
+point estimate at two shallower prefixes. Across
 the \nPrefixLevels\ prefixes it ranges over \prefixVmin\ to \prefixVmax, and
-on \nPrefixUnresolved\ of them the interval does not exclude zero --- the
-register's sign is not determined by the data at those prefixes at all,
-though it is determined, and large, at creation.
+on \nPrefixUnresolved\ of them the interval does not exclude zero, so no
+shape should be read into the tail of this axis --- only the fall at its
+head, which is determined, and large.
 
 \textbf{Two of the three mechanisms are visible in the table.} The baseline
 rises as the prefix reveals the routing history, from \basePrefixZero\ at
@@ -59,5 +64,6 @@ service-desk one of Section~\ref{sec:twodecision}, and that case creation ---
 the point this paper occupies throughout --- is the \emph{most favourable}
 point for a creation-time register. A study that reported this register's
 worth from a prefix-based benchmark and a study that reported it from case
-creation would disagree by a factor of \prefixDropFactor, and neither would
-be wrong.
+creation would disagree by a factor of \prefixDropFactor\ \emph{in point
+estimates}, and neither would be wrong. The qualifier is not decoration: that
+factor's denominator is one of the prefixes whose interval contains zero.
