@@ -2817,3 +2817,30 @@ letter as a table rather than claimed in a sentence.
 
 The editor can check it. That is the difference between a reluctance and a
 measurement, and it is the distinction this paper exists to argue for.
+
+## R27.22 The four outstanding items become one command
+
+The round ends owing four things that cannot be done from inside the
+repository: the archive DOI, the built image's digest, the suggested
+reviewers' e-mail addresses, and a push. Three need credentials the repository
+does not have and should not have; the fourth needs facts about real people
+that nobody should guess.
+
+What could be done was to stop them being a list in a document somebody has to
+remember to read. `scripts/finalise.py` reports what is outstanding and exits
+non-zero while anything is, so it is the last gate before upload, and each
+item names the command that discharges it. Two are a single flag: the value is
+written into `.zenodo.json`, and then **every macro is regenerated, both
+documents rebuilt and the verifiers re-run** --- because the DOI alone has to
+reach the data-availability statement, the code-availability statement,
+reference [11] and the archive metadata, and doing that by hand is how a
+placeholder ships. The gate output, not anyone's memory, is what says it
+landed.
+
+It was tested rather than assumed: a dummy DOI was written, the build was
+checked to confirm it reached the printed article, and the dummy was reverted.
+
+The file will not mint, build, push or invent. That boundary is written into
+its docstring rather than left implicit, because an agent that quietly
+extended it would be doing the thing this manuscript spends sixty pages
+arguing against --- asserting a claim the record cannot support.
