@@ -1,2 +1,2 @@
 n_pairs,n_schemes,draws,cells_per_pair,n_cells,n_scalar_cells,balanced,runtime_s
-19,2,4,36,684,3420,True,343.8
+19,2,400,36,684,3420,True,14723.6

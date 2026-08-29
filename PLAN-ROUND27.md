@@ -1058,6 +1058,30 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-29, 03:05 — a duplicate chain, started because I misread `ps`
+
+Recorded because the misdiagnosis is the reusable part.
+
+The chain was launched to wait for `s44` and fire on its own. When `s44`
+finished I checked whether the chain was alive with a `ps` for running Python
+steps, got **nothing**, and concluded it had died — so I started a second one.
+It had not died: it was **between steps**, and the first step had in fact
+completed normally (63 s, regions file written, `check_bands` clean).
+
+For about thirty seconds two chains ran concurrently, both about to write the
+same `s48m` outputs. The duplicate was stopped and only the original
+continues.
+
+**Two things to carry.** A shell pipeline is not dead because no *child* of it
+is running at the instant you look — check the pipeline's own process, which
+here is `pgrep -f round27_chain`, and only then its children. And the recovery
+was safe only because the work is deterministic: same draws, same seed, same
+output, so a race between two writers of one file costs a corrupted file at
+worst and not a wrong number. `check_bands` on `s48m` is the check that
+settles whether the overlap did any damage, and it runs in the chain
+automatically — which is the argument for having wired it in rather than
+remembering to run it.
+
 ### 2026-08-29, 02:45 — how much the new labels depend on a calibration, tested before the calibration exists
 
 Run so that when `s41` returns a factor the labels are already known at it,
