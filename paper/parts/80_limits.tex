@@ -152,35 +152,22 @@ comparison.
 
 \paragraph{Conclusion --- two claims a specification surface invites and
 this evidence does not support}
-The pooled decomposition is mostly resampling. Net of it the higher-order
-share falls from \pooledInteractionMedianPct\ to \foldInteractionTotalPct\
-and no longer exceeds the largest first-order index, so \emph{most of the
-variance belongs to no single axis} --- the reading a pooled surface invites
---- holds on \nFoldInteractionExceeds\ of \nPairs\ pairs rather than
-\nPooledInteractionExceeds\ (Section~\ref{sec:axes2}). What survives is that
-\emph{which} axis leads is a property of the pair. And a sign disagreement is
-not a misstatement unless the sizes are worth acting on: under the three
-restrictions the argument implies, the corpus retains
-\nCellsFullyRestricted\ cells, of which the number that disagrees is
-\nDisagreeFullyRestricted,
-so \textbf{the sign-disagreement rate is withdrawn as a headline}
-(Section~\ref{sec:results-regret}). What replaces it is a magnitude and a
-scarcity: resolved cells sit a median \madResolvedMedian\ AUC from the
-reference, and only \nCellsResolvedAuc\ of the \nInferenceCells\ AUC cells
-that carry a band resolve at
-all, with \nRefUnresolvedCell\ of \nPairs\ pairs failing to resolve even the
-cell a conventional report stands on. Both decompositions are reported under
-all three declared measures because there is no neutral measure --- across the
-three the higher-order share moves by \measureSpreadPct\ --- and the
-within-instrument decomposition is primary because the decomposition inherits
-the metric's scale (Proposition~\ref{prop:scale}). Region labels remain
-relative to an inference family of a median
-\inferenceShareAdmissibleMedianPct\ of a pair's admissible cells, now under a
-minimum resolved share that withdraws the direction
-on \nLabelsLostToMinShare\ of \nDirectionalLabels\ pairs, and they are not
-partitioned by axis kind, so they stay conditional on the quality axis being
-averaged over. Specification regret reports a null and is retained as a
-robustness check rather than a contribution.
+Section~\ref{sec:conclusion} states what the decomposition and the
+disagreement rate leave standing once the pooled surface's resampling is
+netted out and the three restrictions are imposed; both readings a pooled
+surface invites are withdrawn there rather than here. Four qualifications
+belong to this section because they are limits and not results. Both
+decompositions are reported under all three declared measures because
+there is no neutral measure --- across the three the higher-order share
+moves by \measureSpreadPct\ --- and the within-instrument decomposition
+is primary because the decomposition inherits the metric's scale
+(Proposition~\ref{prop:scale}). Region labels remain relative to an
+inference family of a median \inferenceShareAdmissibleMedianPct\ of a
+pair's admissible cells, now under a minimum resolved share that withdraws
+the direction on \nLabelsLostToMinShare\ of \nDirectionalLabels\ pairs,
+and they are not partitioned by axis kind, so they stay conditional on the
+quality axis being averaged over. And specification regret reports a null
+and is retained as a robustness check rather than a contribution.
 
 \paragraph{External --- the design space is declared, not complete}
 $\mathcal{S}$ has \nAxes\ axes in Definition~\ref{def:space} and the per-pair
@@ -240,6 +227,7 @@ practice: the pilot that attempted it is in the archive, and it is a
 hypothesis rather than evidence.
 
 \section{Conclusion}
+\label{sec:conclusion}
 \label{sec:conc}
 
 The incremental predictive performance of a recorded field is a functional of
