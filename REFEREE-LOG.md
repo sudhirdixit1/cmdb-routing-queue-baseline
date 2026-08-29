@@ -2694,3 +2694,25 @@ went from 9 to 28.
 **And the pass left `paper/parts/70_standard.tex` in the tree, uncompiled,
 duplicating the appendix it became** --- which is precisely the shape of the
 `_appendix_block.tex` defect this same round had just fixed. Removed.
+
+## R27.18 The float claim, checked rather than accepted
+
+Both length analyses concluded that **all eleven body floats are protected by
+the referee's own earlier report**, and that conclusion carried a third of the
+argument for why the page target is not reachable. It was taken second-hand,
+so it was checked.
+
+Six of the eight tables are named in R26.9 or on this round's protected list:
+roles-and-levels per pair, the master table, the four-way partition, the
+resolution triple, the MPID table and the decision-time ladder. **Two are
+not** --- the reporting-objects table and the declared design space. On the
+enumeration alone, 1.2 pages were available.
+
+They stay, and the reason is the same report. Comment C3 asked for **six more
+floats in the main text, not fewer**, and the reporting-objects table is the
+one that orients a reader to the three objects this paper contributes, in the
+introduction. Removing it would answer a request for more orientation by
+supplying less, in the place a referee looks first. The conclusion the
+analyses reached is right; the reason they gave for it --- that every float is
+literally referee-requested --- is not, and the distinction matters, because
+the next person to read that sentence would have believed the enumeration.
