@@ -2790,3 +2790,30 @@ Two conditions check it: the empirical-edge labels are recomputed from the
 bands file rather than read from the macros that assert them, and the section's
 own directional claims --- that the label survives, and that the level costs
 resolution --- are checked in the direction they are made.
+
+## R27.21 The page argument, measured instead of asserted
+
+The response letter had been telling the editor that the remaining pages are
+concessions and floats, and asking them to take that on trust. In a paper
+whose entire subject is that a claim should carry the denominator it was
+computed over, that was the wrong way to make the argument.
+
+It is now measured. The body is 57 pages. Four passages this paper will not
+cut account for 4.8 of them at the 435 words-per-page the document calibrates
+on --- the band's coverage measurement at full length (1.9), the two repairs
+that did not work (0.9), the statement that the band does not attain its level
+(0.5), and what the case study says to a configuration-management programme
+(1.6) --- and the eleven floats account for 6.6 more. **Eleven and a half
+pages of fifty-seven, from a list that is deliberately partial**: it omits the
+per-pair role declarations, the decision-time ladder, the tie-break
+correction, the prefix disclaimer and every withdrawn claim.
+
+Reaching a thirty-eight-page body therefore means removing nineteen pages from
+the at most forty-five and a half that are not on that list: **forty-two per
+cent of everything unprotected**, in sections that have had material moved out
+in four consecutive rounds. That is the number, it is reproducible from
+`results/section_words.csv` and the built `.aux`, and it is now printed in the
+letter as a table rather than claimed in a sentence.
+
+The editor can check it. That is the difference between a reluctance and a
+measurement, and it is the distinction this paper exists to argue for.
