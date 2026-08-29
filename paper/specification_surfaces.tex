@@ -1294,18 +1294,13 @@ condition on \nFoldLeadPairsQuality\ and the pipeline on
 \nFoldLeadPairsPipeline\ --- so an analyst cannot learn from somebody else's
 paper which of their own choices their answer turns on.
 
-\textbf{The pooled decomposition, for comparison.} Across the corpus the
-median pooled first-order index is \sSplitPct\ for the split, \sRungPct\ for
-the baseline rung, \sQualityPct\ for the register-quality condition and
-\sLearnerPct\ for the pipeline; at the median pair the largest first-order
-index \emph{within an instrument} --- the second of the three aggregations
-named above, and not the largest of those four medians --- is
-\largestFirstOrderPct, the total higher-order share is \interactionTotalPct\
-(\interactionTotalCI\ over pairs, \interactionMinPct\ to
-\interactionMaxPct), and the largest per-axis \emph{involvement}
-$\max_i (S_{T_i} - S_i)$, a different quantity, is \largestInvolvementPct.
-It is reported because it is what the specification-curve literature computes
-and because the difference between the two is this subsection's result, not
+\textbf{The pooled decomposition is reported beside it} ---
+Supplement~\ref{app:measures} gives the four pooled first-order medians, the
+largest per-instrument first-order index \largestFirstOrderPct, the pooled
+higher-order share \interactionTotalPct\ (\interactionTotalCI\ over pairs)
+and the largest per-axis \emph{involvement} \largestInvolvementPct, a
+different quantity --- because it is what the specification-curve literature
+computes and the difference between the two is this subsection's result, not
 because it answers the question as asked.
 
 \textbf{The measure is not neutral, and one conclusion does not survive it.}
@@ -1331,19 +1326,12 @@ deterministic order by cardinality, is admissible but impoverished in the same
 way the intercept-only rung this paper already excludes is impoverished.
 Excluding it too, the spread is \spreadRealisticMedian\ AUC at the median pair
 and \spreadRealisticMax\ at the widest, and exceeds the reference increment on
-\nSpreadExceedsRealistic\ pairs. \textbf{How much of the range that rung
-carries is itself a property of the pair}: dropping it cuts the spread by a
-median \spreadFallMedianPct\ per pair, by \spreadFallWidestPct\ on the pair
-holding the corpus's widest spread, and not at all on \nPairsSpreadUnmoved\
-pairs, where the rung's own increment falls inside the range the remaining
-rungs already span. The fall is not a correction of an error but
-a change of denominator with a plain explanation: on
-\nPairsTwoRealisticRungs\ of the \nPairs\ pairs only two rungs remain, so the
-spread over them \emph{is} the absorption $D$ of the free field, which
+\nSpreadExceedsRealistic\ pairs. \textbf{How much of that range the
+half-of-intake rung carries is itself a property of the pair}, and on
+\nPairsTwoRealisticRungs\ of the \nPairs\ pairs only two rungs remain, so
+the spread over them \emph{is} the absorption $D$ of the free field, which
 Section~\ref{sec:absorption} reports as an object in its own right with its
-own interval. Only the case study's log carries a third
-(Table~\ref{tab:roles}), and its two pairs are where the corpus's widest
-realistic-rung spread sits, reaching \spreadRealisticMax. The
+own interval; Supplement~\ref{app:spread} gives the per-pair fall. The
 index and the spread answer different questions --- what share of the
 \emph{variance} an axis explains while every other axis is also varying,
 against how far that one axis moves the answer on its own --- and both are
@@ -1361,32 +1349,19 @@ carries the same two levels, differing in model \emph{family}, with the
 boosting arm retained everywhere (Section~\ref{sec:threesurfaces}). The fused
 index below is therefore a statement about the same axis on every pair rather
 than about a different one on each.
-Crossed on the
-case study's log --- both families against all three encodings,
-\nCrossedPipelines\ complete factorial pipelines, run on each of the log's two
-targets, which index surfaces rather than enlarging one
-(Section~\ref{sec:design}) ---
-\textbf{the encoding is the larger of the two}, \sEncodingPct\ of the variance
-against the family's \sFamilyPct, each the median over those two targets and
-the \nInstruments\ instruments pooled, with an interaction,
-\sFamilyEncodingPct, that lies between the two main effects and is the largest
-two-way term: the fused index is not the sum of two indices.
-Supplement~\ref{app:secondary} carries the crossed decomposition, and
-Table~\ref{tab:axes2} the per-target medians, which are a different
-aggregation and need not agree with these.
-
-\textbf{Run on the \nItsmCrossed\ ITSM pairs, that finding travels but does
-not hold everywhere.} Taking the median over the \nInstruments\ instruments
-within each pair --- a third aggregation, named here because the two above are
-not it --- the encoding is the larger first-order axis on
-\nEncodingLargerItsm\ of the \nItsmCrossed, and on the other
-\nFamilyLargerItsm\ \textbf{the family is, and not narrowly}: on the more
-extreme of them the encoding carries \encOverFamItsmMin\ times what the family
-does. So the case study's ordering is the common one and not the rule.
-\textbf{That is this section's own thesis arriving where it was not sent}: the
-crossing was run to separate two axes a fused index confounds, and what it
-finds is again that which axis leads is a property of the pair. The remaining
-pairs are not crossed, which Section~\ref{sec:lim} records.
+Crossed on the case study's log --- both families against all three
+encodings, \nCrossedPipelines\ complete factorial pipelines run on each of
+its two targets --- \textbf{the encoding is the larger of the two},
+\sEncodingPct\ of the variance against the family's \sFamilyPct, with an
+interaction between the two that is the largest two-way term. \textbf{Run on
+the \nItsmCrossed\ ITSM pairs that finding travels but does not hold
+everywhere}: the encoding leads on \nEncodingLargerItsm\ of them and on the
+other \nFamilyLargerItsm\ the family does, and not narrowly --- which is
+again this section's own thesis, that which axis leads is a property of the
+pair. Supplement~\ref{app:axes2full} carries the interaction term, the
+per-target medians of Table~\ref{tab:axes2} and why a fused index is not the
+sum of two indices. The remaining pairs are not crossed, which
+Section~\ref{sec:lim} records.
 
 \subsection{Resolution regions, and the coverage they have}
 \label{sec:regions}

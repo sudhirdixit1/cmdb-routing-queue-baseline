@@ -7,6 +7,36 @@
 \subsection{The pipeline axis is two axes}
 \label{app:axes2full}
 
+%%  ROUND TWENTY-SEVEN.  Moved from Section 6.2 for length, unchanged.
+
+Crossed on the
+case study's log --- both families against all three encodings,
+\nCrossedPipelines\ complete factorial pipelines, run on each of the log's two
+targets, which index surfaces rather than enlarging one
+(Section~\ref{sec:design}) ---
+\textbf{the encoding is the larger of the two}, \sEncodingPct\ of the variance
+against the family's \sFamilyPct, each the median over those two targets and
+the \nInstruments\ instruments pooled, with an interaction,
+\sFamilyEncodingPct, that lies between the two main effects and is the largest
+two-way term: the fused index is not the sum of two indices.
+Supplement~\ref{app:secondary} carries the crossed decomposition, and
+Table~\ref{tab:axes2} the per-target medians, which are a different
+aggregation and need not agree with these.
+
+\textbf{Run on the \nItsmCrossed\ ITSM pairs, that finding travels but does
+not hold everywhere.} Taking the median over the \nInstruments\ instruments
+within each pair --- a third aggregation, named here because the two above are
+not it --- the encoding is the larger first-order axis on
+\nEncodingLargerItsm\ of the \nItsmCrossed, and on the other
+\nFamilyLargerItsm\ \textbf{the family is, and not narrowly}: on the more
+extreme of them the encoding carries \encOverFamItsmMin\ times what the family
+does. So the case study's ordering is the common one and not the rule.
+\textbf{That is this section's own thesis arriving where it was not sent}: the
+crossing was run to separate two axes a fused index confounds, and what it
+finds is again that which axis leads is a property of the pair. The remaining
+pairs are not crossed, which Section~\ref{sec:lim} records.
+
+
 \input{tables/axes2}
 
 Table~\ref{tab:sobol}'s ``learner'' column is not a learner axis. Its levels
@@ -600,6 +630,23 @@ the staff who keep it current --- is nowhere in this evidence.
 \subsection{The measure, the target axis, and which axis leads}
 \label{app:measures}
 
+%%  ROUND TWENTY-SEVEN.  Moved from Section 6.2 for length, unchanged.
+
+\textbf{The pooled decomposition, for comparison.} Across the corpus the
+median pooled first-order index is \sSplitPct\ for the split, \sRungPct\ for
+the baseline rung, \sQualityPct\ for the register-quality condition and
+\sLearnerPct\ for the pipeline; at the median pair the largest first-order
+index \emph{within an instrument} --- the second of the three aggregations
+named above, and not the largest of those four medians --- is
+\largestFirstOrderPct, the total higher-order share is \interactionTotalPct\
+(\interactionTotalCI\ over pairs, \interactionMinPct\ to
+\interactionMaxPct), and the largest per-axis \emph{involvement}
+$\max_i (S_{T_i} - S_i)$, a different quantity, is \largestInvolvementPct.
+It is reported because it is what the specification-curve literature computes
+and because the difference between the two is this subsection's result, not
+because it answers the question as asked.
+
+
 %%  ROUND TWENTY-FIVE.  Moved from Section 6.2 for length, unchanged.
 
 \textbf{The measure is not neutral, and one conclusion does not survive it.}
@@ -846,3 +893,23 @@ label, at the critical value Section~\ref{sec:regions} reports. $\rho = 1$, the 
 line, is the only state in which a single positive number is a safe summary.}
 \label{fig:regions}
 \end{figure}
+
+
+\subsection{How much of the rung spread the half-of-intake rung carries}
+\label{app:spread}
+
+%%  ROUND TWENTY-SEVEN.  Moved from Section 6.2 for length, unchanged.
+
+\textbf{How much of the range that rung
+carries is itself a property of the pair}: dropping it cuts the spread by a
+median \spreadFallMedianPct\ per pair, by \spreadFallWidestPct\ on the pair
+holding the corpus's widest spread, and not at all on \nPairsSpreadUnmoved\
+pairs, where the rung's own increment falls inside the range the remaining
+rungs already span. The fall is not a correction of an error but
+a change of denominator with a plain explanation: on
+\nPairsTwoRealisticRungs\ of the \nPairs\ pairs only two rungs remain, so the
+spread over them \emph{is} the absorption $D$ of the free field, which
+Section~\ref{sec:absorption} reports as an object in its own right with its
+own interval. Only the case study's log carries a third
+(Table~\ref{tab:roles}), and its two pairs are where the corpus's widest
+realistic-rung spread sits, reaching \spreadRealisticMax. The
