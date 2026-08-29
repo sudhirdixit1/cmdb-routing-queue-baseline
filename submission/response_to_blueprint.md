@@ -324,14 +324,14 @@ cannot. The nine required items, one by one:
 | # | required | done |
 |---|---|---|
 | 1 | ≥1,000 replicates per world | 1,000 in each of six worlds |
-| 2 | Monte Carlo standard errors for coverage, bias and width | every row of `results/s31_coverage.csv` carries all three; §10's table prints the bias and the reported interval's width beside the coverages, and the manuscript quotes the coverage resolution wherever it compares two constructions |
+| 2 | Monte Carlo standard errors for coverage, bias and width | every row of `results/s31_coverage.csv` carries all three; §9's table prints the bias and the reported interval's width beside the coverages, and the manuscript quotes the coverage resolution wherever it compares two constructions |
 | 3 | sparse world expanded toward the observed 3,019-level regime | the `(n, K)` grid reaches K = 3,019, the case study's own register cardinality |
 | 4 | sample size and cardinality varied **jointly** | a 10-cell `(n, K)` plane, n ∈ {2,000; 4,000; 8,000}, K ∈ {20; 200; 1,000} plus (8,000; 3,019) — because it is the *ratio* K/n that governs the bootstrap shift, and varying either alone shows neither |
 | 5 | at least three block lengths around n^(1/3) | three — half the rule of thumb, the rule, and twice it — on the world where the construction is well behaved and on the one where it is not. The coverage **does** move with the block length, by a couple of points within a world, and §9.3 says so rather than claiming invariance; what does not move is the comparison the paper rests on, which holds at every length |
 | 6 | six constructions compared, including m-out-of-n in the sparse regime | seven: fixed-model percentile/basic/bias-corrected, nested percentile/basic/bias-corrected, and nested **m-out-of-n** at m = n^(2/3) with the deviations rescaled by √(m/n) |
 | 7 | coverage for both the fitted-pipeline limit and the oracle target | both, in every table, with the manuscript stating that only the first is estimable by resampling |
-| 8 | stationarity/mixing assumptions stated | §11, and again in the simulation section's closing paragraph |
-| 9 | consequence of a fixed split point | §11: split-position uncertainty is outside every interval reported here, said in those words |
+| 8 | stationarity/mixing assumptions stated | §10, and again in the simulation section's closing paragraph |
+| 9 | consequence of a fixed split point | §10: split-position uncertainty is outside every interval reported here, said in those words |
 
 **The result that matters is a negative one and is reported as one.** In the
 sparse regime — the one that motivates subsampling at all — the nested
@@ -339,7 +339,7 @@ percentile interval covers **37.2%** against a nominal 95%, the
 bias-corrected percentile **63.1%**, m-out-of-n **72.8%**, and the basic
 (pivotal) interval **89.9%**. Subsampling does not rescue the sparse world and
 undercovers on the well-behaved ones too. The paper therefore keeps the basic
-interval — one construction rather than a construction and a rate — and §10
+interval — one construction rather than a construction and a rate — and §9
 prints all seven coverages side by side so the choice is visible rather than
 asserted. **And the `(n, K)` plane returned the round's most consequential result,
 which is against us.** Coverage of the interval this paper reports is governed
@@ -351,7 +351,7 @@ the case study is at 0.093. **So the bands this paper reports are narrower
 than their nominal level on most of its own pairs**, which is the
 anti-conservative direction: it inflates the count of cells called *resolved*.
 
-We report this in §9.3, again in §11 as the study's sharpest limitation, and
+We report this in §9.3, again in §10 as the study's sharpest limitation, and
 as a `K/n` column in the denominator table so a reader can see which pairs are
 affected. Nothing in the paper's point estimates or its
 specification-sensitivity conclusions rests on the bands — the decomposition,
@@ -485,14 +485,14 @@ than counted by hand.
 | 1 | Introduction | 1,211 | 1,200–1,500 | just under |
 | 2 | Related work | 612 | 1,200–1,500 | under |
 | 3 | The specification surface | 1,352 | ~1,500 | ✓ |
-| 4 | Estimation and inference | 3,871 | 2,000–2,500 | **over** |
+| 4 | Estimation and inference | 3,882 | 2,000–2,500 | **over** |
 | 5 | The registered benchmark design | 1,209 | 1,200–1,500 | ✓ |
 | 6 | Multi-log results | 4,164 | 2,000–2,500 | **over** |
-| 7 | Case study: a configuration management database | 1,918 | 1,500–2,000 | ✓ |
-| 8 | Decision-analytic evaluation | 1,045 | — | added |
+| 7 | Case study: a configuration management database | 1,941 | 1,500–2,000 | ✓ |
+| 8 | Decision-analytic evaluation | 1,061 | — | added |
 | 9 | Simulation against a known answer | 1,706 | 1,000–1,500 | just over |
-| 10 | Threats to validity | 2,132 | 1,200–1,500 | **over** |
-| 11 | Conclusion | 691 | 400–600 | just over |
+| 10 | Threats to validity | 2,158 | 1,200–1,500 | **over** |
+| 11 | Conclusion | 730 | 400–600 | just over |
 
 **The body is about 19,900 words against the 13,000–15,000 requested, and we
 are not going to pretend that is inside the band.** In pages, in the
@@ -531,15 +531,20 @@ What we did instead of cutting the content:
   of the main text entirely.
 
 The manuscript also grew after the structure table was first written, by
-about a thousand words, and all of it is §9.3 and §11: the `(n, K)` plane
+about a thousand words, and all of it is §9.3 and §10: the `(n, K)` plane
 returned a result against the paper and reporting it properly took the space
 it took. We would rather submit over length than either remove an object the
 review asked to have made precise or bury the limitation the review's own
-experiment produced. If the editor wants the band met exactly, the two candidates we would
-cut are §9 (the reporting standard and software, 769 words, which is a
-contribution but not a result) and the decision-analytic section's
-partial-identification passage — and we would prefer to be told which, rather
-than choose for you.
+experiment produced. **The first of the two candidates named here has since been cut.** The
+reporting standard and software section moved to the supplement in a later
+round, with the prescription itself kept in the body as a paragraph, because
+the standard is a contribution and the recipe, the package and the worked
+example are apparatus. If the editor wants the band met exactly, the next two
+are the decision-analytic section's partial-identification passage and the
+head-to-head against specification-curve analysis — the second with the caveat
+that it is the paper's only direct comparison with the closest existing
+practice, so it is a saving that costs positioning. We would prefer to be told
+which, rather than choose for you.
 
 ---
 

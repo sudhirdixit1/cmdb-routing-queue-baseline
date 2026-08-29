@@ -36,9 +36,27 @@ ROOT = HERE.parent
 PAPER = ROOT / "paper"
 MANUSCRIPT = ROOT / "paper" / "specification_surfaces.tex"
 SUPPLEMENT = ROOT / "paper" / "supplement.tex"
+#  A HISTORICAL LETTER DESCRIBES THE VERSION IT ANSWERED.  Its section
+#  numbers were right when it was written and cannot be expected to survive a
+#  later renumbering; rewriting them would falsify the record.  Only documents
+#  that speak for the CURRENT version have their section references checked.
+#  `response_to_referee`, `response_to_blueprint` and `response_to_review21`
+#  are kept in the list because their TABLE references and their quoted
+#  numbers are still checked, and because `response_to_blueprint` carries the
+#  per-section word-count table, which must track the manuscript.
+HISTORICAL = {"response_to_referee.md", "response_to_review21.md",
+              "response_to_review23.md", "response_to_review26.md"}
+
 DOCS = [ROOT / "submission" / "response_to_referee.md",
         ROOT / "submission" / "response_to_blueprint.md",
         ROOT / "submission" / "response_to_review21.md",
+        ROOT / "submission" / "response_to_review23.md",
+        ROOT / "submission" / "response_to_review26.md",
+        #  ROUND TWENTY-SEVEN.  Three further letters had been written and
+        #  none was checked, so when a section moved and renumbered five
+        #  others the letter that speaks for the CURRENT version was the one
+        #  nothing was watching.
+        ROOT / "submission" / "response_to_review27.md",
         ROOT / "submission" / "cover_letter.md",
         #  ROUND TWENTY-FIVE.  These four are the documents Elsevier
         #  publishes or the editor reads, and none of them was checked.  The
@@ -53,7 +71,11 @@ HEADING = re.compile(r"\\(appendix|section|subsection)(\*?)(?:\{([^}]*)\})?")
 #  A reference is a section sign followed by a number, or the word Appendix
 #  followed by a letter.  `SS1.2` and `SS1` are both references; `SS` alone is
 #  not, and a number in ordinary prose is not.
-REF = re.compile(r"\u00a7\s?([0-9]+(?:\.[0-9]+)?|[A-G](?:\.[0-9]+)?)")
+#  ROUND TWENTY-SEVEN.  This matched only the SECTION-SIGN form, so six
+#  references written out as "Section 11" survived a renumbering that the
+#  "\u00a7 11" ones did not.  A reference is a reference in either spelling.
+REF = re.compile(r"(?:\u00a7\s?|\bSection~?\s)"
+                 r"([0-9]+(?:\.[0-9]+)?|[A-G](?:\.[0-9]+)?)")
 APPREF = re.compile(r"Appendix\s+([A-G])\b")
 
 
@@ -248,8 +270,17 @@ def main(argv=None):
             continue
         for i, line in enumerate(doc.read_text(encoding="utf-8").splitlines(),
                                  1):
-            for m in list(REF.finditer(line)) + list(APPREF.finditer(line)):
+            #  a historical letter's section numbers describe the version it
+            #  answered; only its table references and quoted numbers are
+            #  still meaningful against the current manuscript
+            _refs = ([] if doc.name in HISTORICAL
+                     else list(REF.finditer(line)) + list(APPREF.finditer(line)))
+            for m in _refs:
                 ref = m.group(1)
+                #  a letter's own \u00a7 0 is its preamble, not a manuscript
+                #  section; no manuscript has one
+                if ref == "0":
+                    continue
                 checked += 1
                 if ref in N:
                     print("  %-28s %-7s %s"

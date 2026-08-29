@@ -24,7 +24,7 @@ the manuscript.
 ## The datasets, by persistent identifier
 
 Twenty-four files across seven domains. The first three carry the primary
-analysis; the rest are the pre-registered corpus of Section 11.
+analysis; the rest are the pre-registered corpus of Section 5.
 
 | Log | Domain | Identifier |
 |---|---|---|
@@ -52,7 +52,7 @@ control, and the one thing that is tracked —
 **One file is new to this version and is worth naming.** The BPI Challenge
 2014 collection ships `Detail_Interaction.csv`, which the previous version of
 this paper did not obtain and named as the evidence that would settle its
-Section 9. It is obtained, it settles it, and Section 13 reports the result.
+Section 9. It is obtained, it settles it, and Section 7 reports the result.
 
 ## Pre-registration
 
@@ -63,7 +63,7 @@ would falsify the claim. It was committed **before** any corpus result file
 existed, in a commit that adds no result file; `git log --stat` shows that.
 Eight amendments were made after running the outcome-free role assignment and
 before fitting any model; each is recorded in that file with its reason, and
-Section 11 of the manuscript summarises them.
+Section 5 of the manuscript summarises them.
 
 `PROTOCOL.md` is offered as supplementary material.
 
@@ -86,7 +86,7 @@ round are sentences in which every individual literal was correct.
 
 ---
 
-## The literature audit's frame and coding sheet (Section 4)
+## The literature audit's frame and coding sheet (Supplement S18)
 
 The audit does not analyse a dataset; it analyses **published papers**, and
 the frame that selects them is machine-enumerable so a reader can rebuild it.
@@ -104,7 +104,7 @@ from each work's own open-access location and caches them under
 `data/audit/fulltext/`, which is git-ignored. Everything needed to re-fetch
 them is in `results/r40_sample.csv`.
 
-## The held-out logs (Section 12.5)
+## The held-out logs (Supplement S1)
 
 | Log | Domain | Identifier |
 |---|---|---|
@@ -115,7 +115,7 @@ Both were named in `PROTOCOL.md` §2 in the previous round as considered and
 not included. Neither was downloaded, parsed or inspected until after
 `PREDICTION.md` was committed; `git log --stat` shows the order.
 
-## The worked example (Section 4.5)
+## The worked example (Supplement S7)
 
 | Dataset | Identifier |
 |---|---|

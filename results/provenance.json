@@ -4,6 +4,11 @@
     "note": "round 27: a withdrawn claim may not survive in the submission package's prose, which no gate was watching",
     "sha": "69c336f40fe5cbdb"
   },
+  "check_response_refs.py": {
+    "at": "2026-08-29T09:41:49Z",
+    "note": "round 27: prose-form section references are references too; historical letters describe the version they answered",
+    "sha": "76c30b920353c638"
+  },
   "check_sources.py": {
     "at": "2026-08-29T08:57:13Z",
     "note": "round 27: the recurring defect becomes a gate -- no generator may read a retired surface by name without a stated reason",
