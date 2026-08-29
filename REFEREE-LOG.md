@@ -2511,3 +2511,41 @@ article's overview figure was referenced by nothing, which is the kind of
 thing a copy-editor returns a manuscript for.
 
 Both are now fixed, and the supplement carries the register it advertises.
+
+## R27.13 The two "owner-only" items were not entirely owner-only
+
+Both blocking items were recorded as needing the depositing account. One of
+them did not, and the distinction is worth stating because it is the same
+mistake as reading a fixed filename: **an item was classified by its hardest
+half.**
+
+**The container was pinned by a mutable tag while the paper claimed
+bit-exactness inside it.** `Dockerfile` read
+`FROM python:3.10.0-slim-bullseye` --- a tag, so the same file would build a
+different image after any upstream rebuild, and the code-availability
+statement's promise had nothing fixed to attach to. Minting the digest of a
+BUILT image needs the deposit; **resolving the base to a digest does not**. It
+is a public read. The base is now pinned by the multi-architecture manifest
+list, so a build still selects the host's platform while the content is fixed,
+and the digest was verified rather than trusted: fetching the manifest BY that
+digest returns bytes that hash to exactly it.
+
+The manuscript's sentence now reads the digest OUT OF the `Dockerfile` rather
+than carrying a typed copy, and `round27_verify` condition 20 fails the build
+if the two disagree --- proved by zeroing the digest and watching it fail. So
+an edit to the container cannot silently falsify the paper, which is the
+property the original claim never had.
+
+**And the DOI's worst symptom was not the missing DOI.** Reference [11] read
+"the archived release cited in the data-availability statement (DOI reserved,
+inserted at proof)", and that statement carried the same macro --- so a desk
+check following the reference arrived back where it started. A reference list
+that loops is a likelier cause of a desk return than one that is candidly
+incomplete. The entry now carries its own resolvable URL and states the DOI's
+status in one clause. The DOI remains the owner's to mint; the loop was not.
+
+`REPRODUCE.md` still described the tag pinning three paragraphs after it
+stopped being true, and the response letter still listed both items as
+unsupportable claims. Both corrected. **A repair is not finished until every
+document that described the defect stops describing it** --- which is this
+round's oldest lesson, arriving for the last time.
