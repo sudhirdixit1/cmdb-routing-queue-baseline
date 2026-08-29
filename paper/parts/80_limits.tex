@@ -35,34 +35,26 @@ study.
 \paragraph{Internal --- the band does not attain its nominal level}
 This is the sharpest limitation in the paper. Section~\ref{sec:simband}
 measures family-wise coverage against a known answer over matched families
-whose bootstrap is \emph{ideal}, so every coverage there is an upper bound on
-what the procedure attains. On the family matched to the design this paper
-reports it is \covHeavyWholeAtDesign\ against a nominal $95\%$, at a Monte
-Carlo standard error of \covHeavyWholeAtDesignSE\ --- short by more than
-five of them, so the shortfall is not a resolution artefact. It falls to
-\covHeavyWholeMin\ across the surface families as the cell count and the
-draw count move, is a median \covHeavyDcaMedian\ on the decision-curve
-families, and is \covMultGaussMedian\ even under the Gaussian draws the
-construction is derived for. The safeguard we
-called conservative moves coverage by less than a point, because it controls
-the Monte Carlo error in $q$ and not the error in what $q$ estimates. More draws
-were the repair this suggested, and the paragraph below reports what they
-bought, which is less than the asymptotics promise. \textbf{Every region label and every $\rho$ here is
-therefore a descriptive diagnostic and not a guarantee}, which the front
-matter now says. The two families are not equally exposed, and they are no
-longer corrected alike. On the surface families the widening that would close
-the gap is \shortfallWholeMin\ to \shortfallWholeMax, and the calibration
-derived in Supplement~\ref{app:calibration} supplies \calMin\ to \calMax\ on
-this corpus --- fitted for \emph{pointwise} coverage rather than for this one,
-and smaller than this one needs at both ends, so it is not applied. On the decision-curve
-families it is \shortfallDcaMin\ to \shortfallDcaMax, and
-Section~\ref{sec:dcabands} now applies it rather than reporting it: that
-band's operative critical value is \dcaQWidened\ and not \dcaQ, at a cost of
-\nBeneficialLostToWidening\ of the \nDcGrid\ operating points. The correction
-is narrower than it looks. It is fitted where the bootstrap is ideal, so it
-closes the shortfall this design can measure and not whatever the real
-resampling adds to it; and it leaves the surface families with no widening at
-all, because the only one this paper has fitted is smaller than they need.
+whose bootstrap is \emph{ideal}, so every coverage there is an upper bound
+on what the procedure attains, and on the family matched to the design this
+paper reports it is \covHeavyWholeAtDesign\ against a nominal $95\%$ ---
+short by more than five Monte Carlo standard errors, so the shortfall is
+not a resolution artefact. The safeguard we called conservative moves
+coverage by less than a point, because it controls the Monte Carlo error in
+$q$ and not the error in what $q$ estimates. More draws were the repair
+this suggested, and the paragraph below reports what they bought, which is
+less than the asymptotics promise. \textbf{Every region label and every
+$\rho$ here is therefore a descriptive diagnostic and not a guarantee},
+which the front matter now says.
+
+\noindent The two families are not equally exposed and are no longer
+corrected alike. Section~\ref{sec:simband} gives both shortfalls and
+Section~\ref{sec:dcabands} what applying one to the decision-curve
+families cost. \textbf{The correction is narrower than it looks}: it is
+fitted where the bootstrap is ideal, so it closes the shortfall this design
+can measure and not whatever the real resampling adds to it; and it leaves
+the surface families with no widening at all, because the only one this
+paper has fitted is smaller than they need.
 \textbf{Their} region labels and $\rho$ are the conclusions to distrust.
 
 \paragraph{Internal --- two repairs this paper named, both run, and neither
