@@ -998,6 +998,45 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-29, 02:45 — how much the new labels depend on a calibration, tested before the calibration exists
+
+Run so that when `s41` returns a factor the labels are already known at it,
+rather than the factor arriving and the write-up starting from scratch.
+Widening the conservative edge about each cell's centre by a factor $f$:
+
+| $f$ | uniformly ben. | cond. ben. | sign-changing | cond. harmful | unresolved | resolved cells |
+|---|---|---|---|---|---|---|
+| 1.00 | **1** | 6 | 3 | 0 | 9 | 890 |
+| 1.05 | **1** | 6 | 3 | 0 | 9 | 865 |
+| 1.10 | **1** | 6 | 3 | 0 | 9 | 832 |
+| 1.20 | **1** | 5 | 2 | 0 | 11 | 767 |
+| 1.30 | **1** | 5 | 2 | 0 | 11 | 722 |
+| 1.50 | **1** | 3 | 2 | 0 | 13 | 626 |
+
+*(post-minimum-share labels, so these are Definition 3's and not
+`s21_bands`' `region` column, which does not apply the condition)*
+
+**The uniformly beneficial label survives every factor tested, to 1.5×.** So
+it is **not** an artefact of an uncalibrated band, and the write-up cannot
+retire it by widening. Whatever `s41` returns — the surface families needed
+1.05–1.24 last round — that label stands. Which means the family-size caveat
+of §4.2's draft is the *only* thing standing between it and a headline, and
+confirms that putting the caveat where a reader meets the surface is the right
+call rather than a cautious one.
+
+**A second finding, and §6.3 must carry it.** The minimum resolved share now
+withdraws **7 of 17** directional-or-sign-changing labels, against **4 of 13**
+on the old surface. The withdrawn seven resolve between 1.1% and 4.4% of their
+families. So the new surface **resolves something on more pairs and enough on
+fewer** — the number of pairs touching the threshold went up because more
+pairs now resolve a handful of cells, not because more resolve substantially.
+That is a more interesting sentence than either count alone, and it is the
+honest gloss on "far fewer pairs are unresolved".
+
+**Helpdesk is still the only harmful surface and is still withdrawn** — 4
+cells of 180, 2.2% — so `\nCondHarmfulMinShare` stays 0 and §4.6's rewritten
+paragraph needs no change on that account.
+
 ### 2026-08-29, 01:55 — the new bands validated before anything depends on them
 
 `verify_numbers` checks the OLD bands for internal consistency and does not
