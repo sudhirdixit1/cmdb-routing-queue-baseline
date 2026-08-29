@@ -186,7 +186,20 @@ that 6.5 is the paper's only direct comparison with the closest existing
 practice, so it is a saving that costs positioning. `submission/response_to_review27.md`
 puts the whole trade to the editor with the arithmetic.
 
-### 1.8 Confirm the generative-AI version register
+### 1.8 Confirm the generative-AI version register  *(brought current by agent; rounds 22–26 still blank)*
+
+> **What changed.** The register stopped at round 21 and still called it "this
+> revision", while the manuscript is round 27 — and the manuscript's own
+> declaration named `claude-opus-5, 2026-08-24`, the model that prepared a
+> version two rounds old. Both now name round twenty-seven's two models,
+> `claude-opus-5` then `claude-fable-5`, over 2026-08-24 to 2026-08-29, and the
+> declaration reads them from the same macros as the register so the two cannot
+> drift. Rounds 22–26 remain **not recorded**, with their dates supplied from
+> the commit history; if you have session records that establish the
+> identifiers, fill them in — and if you do not, leave them, because an
+> unrecorded identifier stated as unrecorded is a disclosure and a guessed one
+> is not.
+
 
 `AI-USE.md` records the model identifier and dates for every round. Round
 twenty-one's is `claude-opus-5`; rounds one to twenty are recorded as
