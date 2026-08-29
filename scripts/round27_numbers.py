@@ -131,6 +131,45 @@ def emit(mn):
             put("nPrefix" + nm, None)
 
     # ================================================================
+    # s37 --itsm -- DOES `THE ENCODING BEATS THE FAMILY' TRAVEL?
+    # ================================================================
+    #  Section 11 conceded that the crossing runs on the case study's log
+    #  alone.  It now runs on the eight ITSM pairs, and the answer is the one
+    #  rule 2 predicts for a claim the paper likes: it PARTIALLY replicates.
+    #  The encoding is the larger first-order axis on six of the eight, and on
+    #  the other two the family is --- decisively, at four hundredths and a
+    #  third of the encoding's share.  That is a better result than a clean
+    #  replication would have been, because it is an instance of this paper's
+    #  own thesis rather than an exception to it: WHICH AXIS LEADS IS A
+    #  PROPERTY OF THE PAIR.
+    #
+    #  The aggregation is named because Section 6.2 insists it must be: this
+    #  is the median over the five instruments WITHIN a pair, then a count
+    #  over pairs.  It is not the pooled median the case-study macros use, and
+    #  the two are not interchangeable.
+    IDX = load("s37_indices_itsm.csv")
+    if IDX is not None and len(IDX):
+        def _per_pair(term):
+            return (IDX[IDX.term == term].groupby(["log", "target"])
+                    .share.median())
+        fam, enc = _per_pair("family"), _per_pair("encoding")
+        both = pd.concat([fam.rename("f"), enc.rename("e")], axis=1).dropna()
+        put("nItsmCrossed", int(len(both)))
+        put("nEncodingLargerItsm", int((both.e > both.f).sum()))
+        put("nFamilyLargerItsm", int((both.f >= both.e).sum()))
+        #  the two pairs that go the other way do so decisively, and saying
+        #  so is what stops `six of eight' reading as a near-miss
+        if (both.f >= both.e).any():
+            worst = (both.e / both.f)[both.f >= both.e].min()
+            put("encOverFamItsmMin", num(float(worst), 2))
+        else:
+            put("encOverFamItsmMin", None)
+    else:
+        for k in ("nItsmCrossed", "nEncodingLargerItsm", "nFamilyLargerItsm",
+                  "encOverFamItsmMin"):
+            put(k, None)
+
+    # ================================================================
     # THE PLANNED CONTRASTS, COUNTED THE WAY THIS PAPER SAYS TO COUNT THEM
     # ================================================================
     #  Section 4.4 said five of five survive at alpha = 0.05, three lines above

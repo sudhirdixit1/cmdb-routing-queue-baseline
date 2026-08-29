@@ -184,9 +184,9 @@
     "sha": "e438cdc32bd0a325"
   },
   "s37_axes.py": {
-    "at": "2026-08-24T23:51:14Z",
-    "note": "round twenty-one: run to completion and its outputs read by the manuscript",
-    "sha": "6852434dc487e073"
+    "at": "2026-08-29T04:34:28Z",
+    "note": "Round twenty-seven: the crossing extended from the case study's log to the eight ITSM pairs, with --pairs and an output suffix so a wider run cannot overwrite the case-study results the manuscript's macros are computed from. The finding partially replicates: the encoding is the larger first-order axis on six of the eight and the family on the other two, decisively.",
+    "sha": "9850043cc2c52a6e"
   },
   "s38_tau.py": {
     "at": "2026-08-25T11:41:42Z",
