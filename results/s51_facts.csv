@@ -1,0 +1,2 @@
+draws_dir,n_decompositions,n_pairs,n_instruments,n_cells_per_decomposition,n_skipped,share_pipeline_median,share_split_median,share_quality_median,share_rung_median,higher_order_median,n_pairs_leader_compared,n_pairs_leader_agrees,runtime_s
+s44_weighted,95,19,5,36,0,0.04772293335474198,0.041229917066992854,0.08567434308351043,0.17100860804524368,0.2203953145612153,19,6,5.7

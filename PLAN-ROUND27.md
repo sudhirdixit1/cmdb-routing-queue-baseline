@@ -850,7 +850,7 @@ instruments), 36 cells each, no failures. That much retires the concession.
 
 **Then it goes the other way, and the rewrite must not claim otherwise.**
 Comparing which axis carries the largest first-order index on each surface,
-the two **agree on 7 of 19 pairs**. The corpus medians differ too — on the
+the two **agree on 6 of 19 pairs**. The corpus medians differ too — on the
 inference surface the rung leads at 17.1%, quality 8.6%, pipeline 4.8%, split
 4.1%, higher-order 22.0%, against the declared surface's fold-averaged 21.9 /
 19.2 / 15.2 / 26.3.
@@ -876,6 +876,21 @@ from the supplement.
 **Do not promote this to a headline.** It is exploratory, the confound is real,
 and a clean version would need the two surfaces matched on level counts —
 which is a further run and is not this round's.
+
+**A correction to this entry, made an hour after it was written, and the
+reason it is left visible.** The first version said the leaders agree on
+*seven* pairs. They agree on **six**. The inline script that produced the
+seven omitted `first_split` from the columns it took the maximum over, so it
+could not pick the split as a leader — and the split *does* lead on four pairs
+of the inference surface, which is itself worth knowing given that surface
+carries only two split levels. `scripts/s51_infanova.py` is the formalised
+version and is the one to cite; it takes the maximum over all four axes and
+maps s22's `learner` onto the designed surface's `pipeline` rather than
+counting a naming difference as disagreement.
+
+That is this project's rule 4 arriving on its own author: an inline number,
+printed once and believed, was wrong in a way only re-implementation caught.
+Nothing from a scratch script goes in the manuscript.
 
 ### 2026-08-29, 01:20 — every place that still describes the OLD inference surface
 
