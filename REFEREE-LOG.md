@@ -2315,3 +2315,72 @@ which is why the reporting standard's tie-break item is now stated over
 **every** sort a procedure cuts on. It is recorded rather than repaired:
 repairing it moves every number on the quality axis and belongs with the run
 that regenerates them.
+
+## R27.8 The run was made, and both repairs it was made for failed. **MEASURED**
+
+Round twenty-seven's purpose was to run the two changes Section 11 named as the
+first to make. Both ran. Neither did what it was named for, and that is the
+round's result.
+
+**Level loss does not explain the displacement.** The multinomial resample
+holds about $1-e^{-1}$ of a high-cardinality register's levels, and that was
+offered as the reason the bootstrap distribution is displaced. Weights remove
+the mechanism completely --- the share of levels present in a draw goes from
+80.8 per cent, 60.2 at worst, to 100 by construction --- and the displacement's
+median moves only from 0.0050 to 0.0041. A mechanism removed entirely leaves
+its supposed consequence standing, so it was not the cause, and this paper does
+not know what is.
+
+**More draws do not fix the coverage.** Round twenty-five wrote that the
+binding constraint on family-wise coverage was the draw count. On families
+matched to the surface this paper now reports, coverage is 91.2 per cent at 150
+draws, 91.6 at 400 and 91.3 at 1,000: it plateaus, and the spread across those
+three sits inside one Monte Carlo standard error while the rise from 33 draws
+does not. The corpus runs at 400 throughout, on the plateau, and the band still
+covers a median 83.7 per cent under this corpus's tails against a nominal 95.
+
+**Consequences, stated rather than softened.** Region labels and rho remain
+descriptive diagnostics. The abstract's "find short of nominal" stands. The K/n
+calibration is not retired but under-sized --- the widening these families need
+is 1.36 to 1.88 against the 1.18 to 1.77 it supplies --- so it is not applied,
+and the manuscript says the labels are anti-conservative by an amount it has
+measured and cannot remove.
+
+**What the round did buy.** Level coverage 80.8 to 100 per cent. Cells that
+could not be given a band at all: 150 to 0 --- a category this paper had never
+reported, because a cell with no band is not resolved and was therefore counted
+as UNRESOLVED, putting cells the data were never given a chance to resolve
+inside the denominator of every statement about how little the data resolve.
+The excludes-own-estimate rate from 3.9 to 1.3 per cent. A balanced full
+factorial, checked cell by cell, that retires the corner-not-a-design
+concession and makes the decomposition computable on the inference surface.
+And one surface that reaches rho = 1, which answers a question Section 4.6
+poses and that this corpus had only ever answered with "never" --- over a
+family that is 3.75 per cent of that pair's admissible cells, which is the part
+of the answer that matters.
+
+## R27.9 Five adversarial passes, and the last three audited this round's own work
+
+Three passes audited the manuscript and two audited the repairs. The second
+pair found 8 and 15 defects respectively, every one of them created by a fix
+made hours earlier. Two root causes, both worth recording because they are
+general:
+
+**A check that reads a fixed filename cannot notice that the analysis moved.**
+Five separate places went on reading the previous inference surface after it
+was replaced: two macro generators, the coverage matcher, the region figure,
+and --- the one that stings --- the verifiers themselves, which then failed on
+eleven macros by disagreeing with the files they were supposed to check. A
+sixth layer, the resolved-cell statistics behind the abstract, was found only
+by checking the abstract's numbers by hand.
+
+**A rewritten passage deletes its own statement of a claim and not the pointers
+elsewhere that restate it.** Fifteen instances, of which two were worse than
+the rest: a section citing, as its supporting authority, an appendix that
+asserted the opposite; and a printed table whose caption told the reader its
+labels were not the ones the article quotes, when by then they were.
+
+The defence added is a condition that fails on a HALF-MIGRATED tree --- cell
+counts from one surface, region labels from another --- because that state
+passes every other gate: both files are internally consistent, every number
+resolves, and the manuscript reports a family size no label was computed over.
