@@ -339,7 +339,7 @@ scheme.
 
 ### 1.4d The re-pointing, as an exact diff
 
-Nine edits in six files. **Make them in one commit.** A half-migrated tree is
+**Eight** edits in six files. **Make them in one commit.** A half-migrated tree is
 the state `round27_verify`'s newest condition exists to fail, and that
 condition covers only the grid-versus-regions pair — the figure and the
 bootstrapped ANOVA are not covered by anything.
@@ -347,7 +347,7 @@ bootstrapped ANOVA are not covered by anything.
 | # | file:line | current | becomes |
 |---|---|---|---|
 | 1 | `round20_numbers.py:69` | `G20 = load("s20_grid.csv")` | `load("s44_grid.csv")` |
-| 2 | `round20_numbers.py:70` | `F20 = load("s20_facts.csv")` | `load("s44_facts.csv")` — **check its columns first**; `s44_facts` is not `s20_facts` renamed, and the draw-count macros read from it |
+| 2 | ~~`round20_numbers.py:70`~~ | ~~`F20 = load("s20_facts.csv")`~~ | **already removed** — the load had exactly one occurrence in the file and nothing read it. Found while writing this diff, as the one site whose columns would have needed checking by hand; a load nothing consumes needs no successor. **Eight edits, not nine.** |
 | 3 | `round20_numbers.py:71` | `F21 = load("s21_facts.csv")` | `load("s48w_facts.csv")` |
 | 4 | `round20_numbers.py:72` | `Q21 = load("s21_critical.csv")` | `load("s48w_critical.csv")` |
 | 5 | `round20_numbers.py:73` | `R21 = load("s21_regions.csv")` | `load("s48w_regions.csv")` |
