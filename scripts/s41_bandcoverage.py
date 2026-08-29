@@ -336,10 +336,23 @@ def shape_of(Z, n_moments, rng, tag=""):
                 float(np.mean(np.abs(Z).max(axis=1) >= ceiling - 1e-6))}
 
 
-def profile(out_path):
+def profile(out_path, draws_dir="s20"):
+    """Measure the shape of the corpus's own bootstrap families.
+
+    ROUND TWENTY-SEVEN made `draws_dir` an argument.  It was the literal
+    "s20", the OLD inference surface, and the round replaced that surface with
+    a balanced 400-draw one --- so a coverage measured here would have been
+    measured on families matched to a surface the manuscript no longer
+    reports, and reported as the new band's coverage.  That is the same defect
+    an audit found in `round21_numbers` the same night: a check that reads a
+    fixed filename cannot notice that the analysis moved.
+    """
     rng = np.random.default_rng(SEED)
     rows = []
-    for fn in sorted((RESULTS / "s20").glob("draws_*.csv.gz")):
+    src = RESULTS / draws_dir
+    if not src.exists():
+        raise SystemExit("s41: no draws directory results/%s" % draws_dir)
+    for fn in sorted(src.glob("draws_*.csv.gz")):
         D = pd.read_csv(fn)
         log, target = str(D.log.iloc[0]), str(D.target.iloc[0])
         D = D[~D.rung.isin(S.IMPLAUSIBLE_RUNGS)]
@@ -816,6 +829,10 @@ def main(argv=None):
     ap.add_argument("--only", default="profile,calibrate,coverage")
     ap.add_argument("--reps", type=int, default=0)
     ap.add_argument("--procs", type=int, default=0)
+    ap.add_argument("--draws-dir", default="s20",
+                    help="the results/ subdirectory of bootstrap draw files "
+                         "whose family shape the synthetic populations are "
+                         "matched to; round 27's surface is s44_weighted")
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--resummarise", action="store_true",
@@ -848,10 +865,14 @@ def main(argv=None):
               "%s*, which nothing in the manuscript reads." % (reps, REPS,
                                                                prefix))
 
-    ppath = RESULTS / "s41_profile.csv"
+    #  the profile is cached PER SOURCE, so switching surfaces cannot serve a
+    #  stale profile from the previous one
+    _sfx = "" if a.draws_dir == "s20" else "_" + a.draws_dir
+    ppath = RESULTS / ("s41_profile%s.csv" % _sfx)
     if "profile" in stages or not ppath.exists():
-        print("\nSTAGE 1  the shape of the corpus's own families")
-        P = profile(ppath)
+        print("\nSTAGE 1  the shape of the corpus's own families (%s)"
+              % a.draws_dir)
+        P = profile(ppath, a.draws_dir)
     else:
         P = pd.read_csv(ppath)
     ws, dc = P[P.family == "whole-surface"], P[P.family == "decision-curve"]
