@@ -170,15 +170,21 @@ and `scripts/s28_figures.py` and re-run them; the manuscript's
 `python scripts/texlint.py --report` prints the abstract word count, the
 keyword count, the highlight lengths and an approximate main-text word count;
 `--sections` adds the per-section breakdown and writes
-`results/section_words.csv`. The abstract is 198 words; the linter's limit is
+`results/section_words.csv`. The abstract is 200 words; the linter's limit is
 200, which is stricter than the journal's 250 and is the limit the second
 developmental review set.
 
-The appendices are now a separate supplementary document, which is the change
-that review asked for. Check the article's page count against the journal's
-own guidance before submitting; if the editor asks for a shorter article
-still, the two things to cut are section 9 (the reporting standard and the
-software) and the partial-identification passage of section 8, in that order.
+The appendices are a separate supplementary document, which is the change
+that review asked for. **The first of the two cuts this file used to name has
+been taken**: the reporting standard and software section moved to the
+supplement in full, keeping the prescription itself in the body as a
+paragraph, and the article is **62 pages** with a 52-page body. If the editor
+asks for a shorter article still, the next two are the partial-identification
+passage of the decision-analytic section and section 6.5, the head-to-head
+against specification-curve analysis --- in that order, and with the caveat
+that 6.5 is the paper's only direct comparison with the closest existing
+practice, so it is a saving that costs positioning. `submission/response_to_review27.md`
+puts the whole trade to the editor with the arithmetic.
 
 ### 1.8 Confirm the generative-AI version register
 
