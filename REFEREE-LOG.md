@@ -2616,3 +2616,32 @@ the threats section, which is now Section 10, and one pointed at a subsection
 that had left the article entirely. Corrected, and `check_response_refs`
 validates the section references --- which is why that half was caught by a
 gate and the calibration half was not.
+
+## R27.16 A second gate, for the class the cover letter carried
+
+`check_claims.py` fails if a document that speaks for the CURRENT version
+still asserts a phrasing the project has withdrawn. Five are declared, each
+with the reason and the round that retired it, so adding a withdrawal is one
+entry rather than a memory.
+
+Two design decisions are worth recording because both were made after the
+first run reported six hits and only one was real.
+
+**A claim inside quotation marks is reported, not asserted.** Every letter
+that explains a withdrawal quotes the sentence it withdrew --- the round-27
+response letter quotes the old reference text in the paragraph explaining why
+it changed --- so quoted spans are blanked before matching. Without that the
+gate fires hardest on the documents doing exactly the right thing.
+
+**Two of round twenty-six's withdrawals were deliberately left out.** "The
+sign-disagreement rate" is the NAME OF A QUANTITY the paper still computes and
+still prints in a table; what was withdrawn is its use as a headline, which is
+a fact about prominence and not about wording. "Most of the variance belongs
+to no single axis" appears inside the very sentences that withdraw it. A
+pattern firing on both a claim and its retraction reports noise, and **a noisy
+gate is one people learn to skip** --- which would cost more than the two rules
+are worth. Only claims a regex can separate from their denial belong in the
+list; the rest are held by the manuscript's prose and by R26 above.
+
+It was proved by reinstating the cover letter's withdrawn sentence and
+watching it fail on the exact line.
