@@ -17,12 +17,18 @@ commit that wrote the surface gives bit-identical answers), and run-to-run
 nondeterminism (there is none).  What remains is the machine.  The committed
 surface was produced on x86-64; this one is arm64.
 
-The divergence is not spread evenly, and that is the useful part:
+The divergence is not spread evenly, and that is the useful part.  It tracks
+CARDINALITY, not the arm and not the learner:
 
-  *  the `without_f` arm -- the rungs alone, low cardinality -- reproduces to
-     machine epsilon everywhere, for BOTH learner families;
-  *  every discrepancy lives in the `with_f` arm, the one that admits the
-     high-cardinality register, which is the paper's object of study.
+  *  wherever the design matrix is low-cardinality -- the `B_empty` and
+     `B_half` rungs, either arm, either family -- the surface reproduces to
+     2.3e-12, and the boosting half of that to 4.4e-16, machine epsilon;
+  *  the logistic learner reproduces to 2.0e-8 on the `without_f` arm at
+     EVERY rung, and to 6.9e-9 on the `with_f` arm wherever the register is
+     undegraded;
+  *  everything else -- the boosting learner as soon as any high-cardinality
+     column enters, and both learners once a degradation mechanism runs --
+     is where the discrepancies are.
 
 The two families fail differently there.  The logistic model itself is
 reproducible: its predicted probabilities agree to 1.4e-15, and on undegraded
@@ -55,14 +61,23 @@ and this file from drifting apart.
       re-fetched at a different version this condition, not the tolerances,
       is the one that fires.
 
-  2.  THE LOW-CARDINALITY ARM IS BIT-EXACT.  `without_f` to 1e-12, both
-      families, every cell.  This is the condition that carries the weight:
-      it exercises the loader, the roles, the ladder, the splits, the
-      degradation and both learners, and it holds to 3.6e-16 across machines.
+  2a. THE LOW-CARDINALITY RUNGS ARE BIT-EXACT, BOTH FAMILIES.  On `B_empty`
+      and `B_half`, `without_f`, to 1e-9.  Measured across machines: 2.3e-12,
+      and 4.4e-16 for the boosting learner alone.  This is the condition that
+      reaches the boosting code path tightly -- the only one that does -- and
+      it still exercises the loader, the roles, the ladder, the splits and
+      the degradation.
 
-  3.  THE LOGISTIC MODEL IS BIT-EXACT WHERE NOTHING IS DEGRADED.  On `clean`
+  2b. THE LOGISTIC `without_f` ARM IS BIT-EXACT AT EVERY RUNG.  To 1e-6;
+      measured 2.0e-8.  This is the widest tight condition available: every
+      rung, every quality mechanism, every split, 2,592 values per arm.
+
+  3.  THE LOGISTIC MODEL REPRODUCES WHERE NOTHING IS DEGRADED.  On `clean`
       and `stale` cells the smooth metrics -- Nagelkerke, scaled Brier,
-      log-loss skill -- reproduce to 1e-8.  Measured: 5e-11.
+      log-loss skill -- reproduce to 1e-6 on the `with_f` arm too.  Measured:
+      6.9e-9.  Note the deliberate restriction to SMOOTH metrics: AUC on the
+      same cells moves by 9.4e-4, because the one-hot register ties test rows
+      to equal predictions and a 1e-15 difference unties them.
 
   4.  ONE MACHINE IS DETERMINISTIC.  The manuscript claims a seeded pipeline.
       The same cell is fitted twice in this process and the two results must
@@ -139,9 +154,13 @@ def metric_class(m):
 
 #  The gate's own tight bounds.  These are not platform tolerances; they are
 #  the parts that DO reproduce, with headroom over the measured value.
-WITHOUT_F_TOL = 1e-12          # measured 3.6e-16
-LOGIT_UNDEGRADED_TOL = 1e-8    # measured 5.0e-11
+LOWCARD_TOL = 1e-9             # measured 2.3e-12 (the boosting half: 4.4e-16)
+LOGIT_WITHOUT_TOL = 1e-6       # measured 2.0e-8, every rung
+LOGIT_UNDEGRADED_TOL = 1e-6    # measured 6.9e-9, smooth metrics only
 UNDEGRADED = ("clean", "stale")
+#  the rungs whose design matrix carries no high-cardinality categorical, and
+#  which therefore reproduce for the boosting learner as well
+LOW_RUNGS = ("B_empty", "B_half")
 
 #  The documented platform tolerance, per family and metric class.  These are
 #  the numbers REPRODUCE.md prints; condition 6 checks that they still are.
@@ -258,16 +277,18 @@ def _determinism(log, target, C):
         b = S.LEARNERS[learner](tr, te, cc, tr["_y"].values, S.SEED)
         if not np.array_equal(a, b):
             FAILS.append(
-                "%s is not deterministic on one machine: two fits of the same "
-                "cell differ by up to %.3e, and the manuscript claims a "
-                "seeded pipeline"
+                "condition 4: %s is not deterministic on one machine -- two "
+                "fits of the same cell differ by up to %.3e, and the "
+                "manuscript claims a seeded pipeline"
                 % (learner, float(np.max(np.abs(a - b)))))
         Ma = S.all_metrics(a, yte, prev)
         Mb = S.all_metrics(b, yte, prev)
         bad = [k for k in Ma if Ma[k] != Mb[k]]
         if bad:
-            FAILS.append("%s: %d metric(s) differ between two identical fits: "
-                         "%s" % (learner, len(bad), ", ".join(sorted(bad)[:4])))
+            FAILS.append(
+                "condition 4: %s gives %d metric(s) that differ between two "
+                "identical fits: %s"
+                % (learner, len(bad), ", ".join(sorted(bad)[:4])))
 
 
 def main(argv=None):
@@ -334,18 +355,32 @@ def main(argv=None):
                 % (c, sorted(set(bad[c + "_g"]))[:2],
                    sorted(set(bad[c + "_c"]))[:2]))
 
-    # 2.  the low-cardinality arm is bit-exact
-    bad = D[D.d_without > WITHOUT_F_TOL]
+    # 2a.  the low-cardinality rungs are bit-exact, both families
+    L = D[D.rung.isin(LOW_RUNGS)]
+    bad = L[L.d_without > LOWCARD_TOL]
     if len(bad):
         w = bad.nlargest(1, "d_without").iloc[0]
         FAILS.append(
-            "condition 2: the without_f arm does not reproduce -- %d of %d "
-            "values exceed %.0e, worst %.3e at %s/%s/%s %s %s %.2f %s/%s.  "
-            "That arm carries no high-cardinality register and reproduces to "
-            "machine epsilon across machines, so this is a regression in the "
-            "pipeline, not the platform"
-            % (len(bad), len(D), WITHOUT_F_TOL, w.d_without, w.log, w.target,
+            "condition 2a: the low-cardinality rungs do not reproduce -- %d "
+            "of %d values exceed %.0e, worst %.3e at %s/%s/%s %s %s %.2f "
+            "%s/%s.  Those rungs carry no high-cardinality categorical and "
+            "reproduce to 2.3e-12 across machines, so this is a regression in "
+            "the pipeline, not the platform"
+            % (len(bad), len(L), LOWCARD_TOL, w.d_without, w.log, w.target,
                w.learner, w.split, w.quality, w.level, w.rung, w.metric))
+
+    # 2b.  the logistic without_f arm is bit-exact at every rung
+    G = D[D.family == "logistic"]
+    bad = G[G.d_without > LOGIT_WITHOUT_TOL]
+    if len(bad):
+        w = bad.nlargest(1, "d_without").iloc[0]
+        FAILS.append(
+            "condition 2b: the logistic without_f arm does not reproduce -- "
+            "%d of %d values exceed %.0e, worst %.3e at %s/%s %s %s %.2f "
+            "%s/%s.  That arm reproduces to 2.0e-8 across machines at every "
+            "rung; this is the code changing"
+            % (len(bad), len(G), LOGIT_WITHOUT_TOL, w.d_without, w.log,
+               w.target, w.split, w.quality, w.level, w.rung, w.metric))
 
     # 3.  the logistic model is bit-exact where nothing is degraded
     U = D[(D.family == "logistic") & (D.quality.isin(UNDEGRADED))
@@ -357,7 +392,7 @@ def main(argv=None):
             "condition 3: the logistic learner's smooth metrics do not "
             "reproduce on undegraded cells -- %d of %d exceed %.0e, worst "
             "%.3e at %s/%s %s %s/%s.  The logistic model reproduces across "
-            "machines to 1e-11 there; this is the code changing"
+            "machines to 6.9e-9 there; this is the code changing"
             % (len(bad), len(U), LOGIT_UNDEGRADED_TOL, w.d_with, w.log,
                w.target, w.split, w.rung, w.metric))
 
@@ -401,10 +436,13 @@ def main(argv=None):
 
     print("check_reproduction: %d values re-run over %d arm(s) in %.0fs, "
           "%d failure(s)" % (len(D), len(parts), time.time() - t0, len(FAILS)))
-    print("  without_f  max |delta| %.3e   (bound %.0e)"
-          % (D.d_without.max(), WITHOUT_F_TOL))
-    print("  with_f     max |delta| %.3e   (platform, not gated tightly)"
-          % D.d_with.max())
+    print("  low-cardinality rungs, without_f   %.3e   (bound %.0e)"
+          % (D[D.rung.isin(LOW_RUNGS)].d_without.max(), LOWCARD_TOL))
+    print("  logistic without_f, every rung     %.3e   (bound %.0e)"
+          % (D[D.family == "logistic"].d_without.max(), LOGIT_WITHOUT_TOL))
+    print("  logistic with_f, undegraded, smooth %.3e   (bound %.0e)"
+          % (U.d_with.max() if len(U) else float("nan"),
+             LOGIT_UNDEGRADED_TOL))
     for (fam, cls), r in T.iterrows():
         print("  %-9s %-9s n=%5d  measured %.3e  bound %.2f  exact %5.1f%%"
               % (fam, cls, r.n, r.measured, PLATFORM.get((fam, cls), float("nan")),

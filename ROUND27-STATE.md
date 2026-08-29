@@ -80,15 +80,50 @@ arithmetic, no pipeline refitted. It parallelises; give it `--procs`.
 - **Phase 4's DOI**, which needs the depositing account.
 - **Phase 6**, the pre-submission red-team pass.
 
-## One finding worth carrying forward
+## One finding worth carrying forward — diagnosed, disclosed and gated
 
-`hgb` — the boosting learner — does **not** reproduce this repository's
-committed results on this machine, at identical pinned versions of numpy,
-pandas, scipy and scikit-learn. `logit` reproduces to 5e-10; `hgb` differs by
-up to 0.14 in Nagelkerke on Sepsis. Run to run on one machine it is exactly
-deterministic. No gate detects this, because `verify_release.py` re-derives
-macros from committed CSVs and never re-runs an analysis. The round-27 run is
-internally consistent — both schemes, one machine, one sitting — so the
-comparison is unaffected; but the absolute numbers it produces will differ
-from the committed ones wherever boosting is involved, and the manuscript will
-have to say so.
+**The earlier statement of this finding was wrong in two ways, and both
+corrections make it worse.** It said the problem was the boosting learner and
+that `logit` reproduced to 5e-10. Neither holds. Phase 6 re-ran the surface
+cell by cell and measured 41,472 values across four logs and both families.
+
+What is actually true. The discrepancy tracks **cardinality**, not the
+learner. Wherever the design matrix carries no high-cardinality categorical —
+the `B_empty` and `B_half` rungs — everything reproduces to 2.3e-12, and the
+boosting half of that to machine epsilon. Wherever it does carry one, both
+families diverge: boosting by up to **0.85** in Nagelkerke (not 0.14), and
+`logit` by up to **0.094** in Nagelkerke, 0.039 in AUC and 0.128 in net
+benefit. `logit` reproduces to 5e-10 only on the undegraded `clean` and
+`stale` cells, which is where the earlier check happened to look.
+
+The cause is **platform**, and it is not fixable by pinning threads. Four
+candidates were eliminated by measurement: thread count (one thread and four
+are bit-identical), library version (scikit-learn 1.7.2 and 1.9.0, pandas
+2.2.3 and 2.3.1, CPython 3.11 and 3.13 all bit-identical to each other),
+source drift (the `spec.py` of the commit that wrote the surface is
+bit-identical to the current one), and run-to-run nondeterminism (there is
+none). The committed surface was produced on x86-64 and this machine is
+arm64. The mechanism is amplification: a **one-ULP** nudge to the boosting
+encoding matrix moves a predicted probability by 0.37 and Nagelkerke by 0.038.
+The logistic model is not chaotic — its probabilities agree to 1.4e-15 — but
+AUC, average precision and net benefit are step functions, and a one-hot
+register ties test rows to equal predictions that a 1e-15 difference unties.
+
+One genuine, repairable defect was found alongside it and is **not** repaired,
+because repairing it changes every committed number: `mask_rare` cuts the
+cumulative-count curve *inside* a group of identities that share a count, and
+`corrupt` maps its draws onto a tie-ordered index, so which identities are
+masked or corrupted rests on a tie order nothing pins. It belongs with the run
+that regenerates the surface.
+
+Disclosed in `REPRODUCE.md` §5.1, with the measured tolerance per family and
+metric class and the container named as the canonical bit-exact environment.
+Gated by `scripts/check_reproduction.py` — the first gate in this repository
+that re-runs an analysis rather than re-deriving macros from the committed
+CSVs, which is precisely why nothing caught this. Its own corruption suite is
+`scripts/attack_reproduction.py`; six cases, all caught.
+
+Still owner-only: the Dockerfile pins `python:3.10.0-slim-bullseye` by tag and
+not by digest, and no built-image digest is recorded anywhere in the
+repository. §5.1 calls that digest canonical, so it has to be minted and
+written in at release.

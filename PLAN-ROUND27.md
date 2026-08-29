@@ -22,7 +22,7 @@ Append progress to §9 of THIS file after every phase.
 | 2c | crossed family × encoding on the 8 ITSM pairs | **script ready**, run queued behind Phase 1 |
 | 3 | the inference-share denominator, plus a generalised sweep | **done** — two macros, and a condition that re-multiplies every quoted count from the axis declaration |
 | 3b | scikit-learn citation; §9.3's euphemism | 3b.1 **done**; 3b.2 queued |
-| — | **internal red team, pass 1** | 18 findings (8 blocking) — **4 agents repairing** |
+| — | **internal red team, pass 1** | 18 findings (8 blocking) — **3 of 4 repair agents done**; §6 and the supplement's crossed section still in flight |
 | — | **internal red team, pass 2** | running, over the files pass 1 could not read |
 | 4 | length | **measured**: 58 pp, and 42 is *not* reachable — target renegotiated to 46. Cut list written and executable. Execution waits for Phase 1. |
 | 4.2 | voice | **decided: keep the editorial "we"**, with the reason recorded |

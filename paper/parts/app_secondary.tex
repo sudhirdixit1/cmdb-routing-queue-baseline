@@ -18,20 +18,30 @@ two things at once.
 On the case study's log the budget allows the two to be crossed. Both model
 families --- penalised logistic regression and histogram gradient boosting ---
 are run against all three encodings: one-hot, frequency, and cross-fitted
-target encoding, on both of the log's targets. That is \nPipelines\ complete
-factorial pipelines, and the decomposition of Section~\ref{sec:sobol} then
+target encoding. That is \nCrossedPipelines\ complete factorial pipelines, run
+on each of the log's two targets --- the target is not an axis of any surface
+(Section~\ref{sec:design}), so it indexes surfaces rather than enlarging one
+--- and the decomposition of Section~\ref{sec:sobol} then
 carries a family axis and an encoding axis separately.
 
 Three things follow, and the third is the reason the confound mattered.
 
 \textbf{The encoding is the larger of the two.} It carries \sEncodingPct\ of
-the variance in the increment against the family's \sFamilyPct. How the
-register is turned into columns matters about twice as much as which model
-consumes them, and it is the choice more often left unstated.
+the variance in the increment against the family's \sFamilyPct, each the
+median over the log's two targets and the \nInstruments\ instruments pooled;
+Table~\ref{tab:axes2} prints the per-target medians, which are a different
+aggregation and need not agree with these. How the
+register is turned into columns matters more than which model consumes them on
+both targets, and it is the choice more often left unstated --- but by how
+much is a property of the target: the encoding's share is
+\encodingOverFamilyMin\ times the family's on one target and
+\encodingOverFamilyMax\ on the other.
 
-\textbf{Their interaction is as large as either main effect.} The
-family--encoding two-way component carries \sFamilyEncodingPct, the largest
-two-way term in the crossed decomposition. A gradient-boosting model and a
+\textbf{Their interaction lies between the two main effects, and is the
+largest two-way term.} The family--encoding two-way component carries
+\sFamilyEncodingPct\ --- below the encoding's \sEncodingPct\ and above the
+family's \sFamilyPct\ --- and no other two-way term in the crossed
+decomposition is larger. A gradient-boosting model and a
 logistic model do not respond to a change of encoding in the same way, which
 is precisely what an axis that fuses them cannot express.
 
@@ -697,12 +707,17 @@ Supplement~\ref{app:itsmfamily} carries every statistic on both populations.
 
 \textbf{No surface in this corpus is uniformly beneficial, and that statement
 is weaker than it looks.} It holds under the calibrated band, the nominal one
-and the empirical one --- but \emph{uniformly beneficial} requires every
-admissible cell's lower band to be above zero, and a cell whose point estimate
-is negative can never qualify at any critical value. Every one of the \nPairs\
-pairs contains at least one such cell, so the label is unreachable here before
-any band, bootstrap or calibration is applied, and the count of zero is not an
-inferential finding. The statement that carries content needs none of the
+and the empirical one --- but \emph{uniformly beneficial} requires every cell
+of the \emph{inference family} to have its lower band above zero
+(Definition~\ref{def:regions}), a set that is a median
+\inferenceShareAdmissibleMedianPct\ of a pair's admissible cells and on which
+the label is correspondingly easier to earn; and a cell whose point estimate
+is negative can never qualify at any critical value. \nPairsWithNegativeCell\
+of the \nPairs\
+pairs carry such a cell inside that family, so the label is unreachable here
+before any band, bootstrap or calibration is applied, and the count of zero is
+not an inferential finding. The statement that carries content needs none of
+the
 apparatus: on every pair at least one admissible specification has a negative
 increment, which is visible from the all-cells column of
 Table~\ref{tab:misreport}. What the apparatus earns is $\rho$ and the resolved

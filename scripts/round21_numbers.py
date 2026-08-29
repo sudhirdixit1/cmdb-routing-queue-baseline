@@ -492,7 +492,25 @@ def emit(mn):
         #  how many pairs carry only the two-level pipeline axis
         lv = SUR.groupby(["log", "target"]).learner.nunique()
         put("nPairsTwoLearners", thousands(int((lv <= 2).sum())))
-        put("nPairsOther", thousands(int(lv.shape[0] - (lv > 2).sum())))
+        #  ROUND TWENTY-SEVEN.  `nPairsOther' is quoted three times as the
+        #  pairs THE FAMILY-BY-ENCODING CROSSING HAS NOT BEEN RE-RUN ON
+        #  (Section~\ref{sec:axes2}, Supplement~\ref{app:secondary},
+        #  Section~\ref{sec:lim}).  It was defined as the pairs carrying at
+        #  most two pipeline levels, which is a different set: BPIC19 and
+        #  RoadFines carry THREE levels on the declared surface and the
+        #  crossing was equally not re-run on either, so the limitation was
+        #  understated by two pairs.  The set is now what the sentences say
+        #  it is -- every pair that is not on the log the crossing ran on --
+        #  and it is read from s37's own cells rather than assumed, so a
+        #  crossing extended to a second log moves the sentences with it.
+        C37 = load("s37_cells.csv")
+        if C37 is not None and len(C37) and "log" in C37.columns:
+            crossed = set(C37.log.astype(str))
+        else:
+            crossed = {"BPIC14"}
+        pairs = SUR[["log", "target"]].drop_duplicates()
+        put("nPairsOther", thousands(int(
+            (~pairs.log.astype(str).isin(crossed)).sum())))
     else:
         for k in ("medianKoverN", "maxKoverN", "nPairsAboveTenth",
                   "nPairsTwoLearners", "nPairsOther"):
@@ -704,6 +722,139 @@ def emit(mn):
     put("crossedHigherOrderPct", pct(first(F37, "higher_order_share")))
     v = F37.larger_axis.iloc[0] if (F37 is not None and len(F37)) else None
     put("largerPipelineAxis", v)
+    #  ROUND TWENTY-SEVEN.  `nPipelines' is the count of s37's TASKS, which
+    #  are (target, family, encoding) triples -- so it counts each pipeline
+    #  once per target and is twice the number of pipelines.  The target is
+    #  not an axis of any surface (Section~\ref{sec:design}), so a sentence
+    #  that says "N complete factorial pipelines" must not multiply by it;
+    #  Table~\ref{tab:axes2}'s own caption says six, eleven lines above a
+    #  paragraph that said twelve.  The crossing's width is the product of
+    #  the two axes it crosses, and that is what the prose now quotes.
+    #  `nPipelines' keeps its meaning and its name and is no longer used in
+    #  the prose.
+    _nf, _ne = first(F37, "n_families"), first(F37, "n_encodings")
+    put("nCrossedPipelines",
+        thousands(int(_nf) * int(_ne)) if (_nf is not None
+                                           and _ne is not None) else None)
+    #  ROUND TWENTY-SEVEN.  WHICH AGGREGATION.  `sEncodingPct' and
+    #  `sFamilyPct' are medians over the POOLED ten (target x instrument)
+    #  combinations; Table~\ref{tab:axes2} prints the per-target medians over
+    #  the five instruments, and the two are not the same number.  The
+    #  supplement said the encoding "matters about twice as much" as the
+    #  family, which is the pooled ratio 1.9 and is neither of the per-target
+    #  ratios.  Both ends of the per-target range are macros now, so the
+    #  sentence can say that the margin is a property of the target instead
+    #  of averaging it away.  RANGES OVER: the case study's two targets, each
+    #  a median over the five instruments.
+    I37 = load("s37_indices.csv")
+    if I37 is not None and len(I37) and "order" in I37.columns:
+        _f1 = I37[I37.order == 1]
+        _fam = _f1[_f1.term == "family"].groupby(["log", "target"]).share.median()
+        _enc = _f1[_f1.term == "encoding"].groupby(["log", "target"]).share.median()
+        _r = (_enc / _fam.replace(0, np.nan)).dropna()
+        put("encodingOverFamilyMin", num(float(_r.min()), 1) if len(_r)
+            else None)
+        put("encodingOverFamilyMax", num(float(_r.max()), 1) if len(_r)
+            else None)
+    else:
+        put("encodingOverFamilyMin", None)
+        put("encodingOverFamilyMax", None)
+
+    # ================================================================
+    # ROUND TWENTY-SEVEN -- the denominators Section 6 quotes
+    #
+    # Each macro below replaces a sentence that quantified over the wrong
+    # set, or over the modal pair's set asserted of every pair.  Every one
+    # names what it ranges over, because that is the defect being repaired.
+    # ================================================================
+    #  (a) THE PIPELINE AXIS'S LEVEL COUNTS, from the file Table~\ref{tab:roles}
+    #  is generated from, so the prose and the table cannot disagree.  The
+    #  prose said the two largest logs "carry the two that differ in
+    #  encoding" while the table gives them three, and the three-way
+    #  partition 2 + 2 + 15 = 19 closed only because of it.
+    AX42 = load("s42_axes.csv")
+    if AX42 is not None and len(AX42) and "n_pipeline" in AX42.columns:
+        _other = AX42[AX42.log.astype(str) != "BPIC14"]
+        put("nPipelineLevelsLarge",
+            thousands(int(_other.n_pipeline.max())) if len(_other) else None)
+        put("nPipelineLevelsModal",
+            thousands(int(_other.n_pipeline.mode().iloc[0]))
+            if len(_other) else None)
+        put("nQualityLevelsOther",
+            thousands(int(_other.n_quality.max())) if len(_other) else None)
+    else:
+        for k in ("nPipelineLevelsLarge", "nPipelineLevelsModal",
+                  "nQualityLevelsOther"):
+            put(k, None)
+
+    #  (b) HOW THE PAIRS THAT RESOLVE ANYTHING DIVIDE.  The prose read the
+    #  region column as "conditionally beneficial against sign-changing" and
+    #  the two do not sum to the pairs that resolve anything: the pair that
+    #  resolves only HARMFUL cells also determines every sign it determines
+    #  in one direction, and was in neither group.
+    G33b = load("s33_regions.csv")
+    if G33b is not None and len(G33b):
+        _b = G33b.beneficial_cal > 0
+        _h = G33b.harmful_cal > 0
+        put("nPairsResolveOneSign", thousands(int((_b ^ _h).sum())))
+    else:
+        put("nPairsResolveOneSign", None)
+
+    #  (c) THE ANALYST-LATITUDE CELLS, WHICH ARE NOT THE SAME NUMBER ON EVERY
+    #  PAIR.  `nCellsLatitude' is the MEDIAN per-pair count and the prose
+    #  asserted it of every pair; the pipeline and the rung axes are wider on
+    #  the case study's two pairs and on the two largest logs.  The headline
+    #  \misreportLatitudePct is a median of per-pair rates and is unaffected,
+    #  but the corpus total belongs beside the median.
+    M34b = load("s34_misreport.csv")
+    if M34b is not None and len(M34b) and "n_cells_latitude" in M34b.columns:
+        _e = M34b[M34b.measure == "equal-level"]
+        put("nCellsLatitudeTotal",
+            thousands(int(_e.n_cells_latitude.sum())) if len(_e) else None)
+    else:
+        put("nCellsLatitudeTotal", None)
+
+    #  (d) WHAT THE HALF-OF-INTAKE RUNG CARRIES, PAIR BY PAIR.  "That range is
+    #  carried by the half-of-intake rung" is true at the median pair and
+    #  false at the widest, which is the pair the sentence has just quoted the
+    #  maximum from.  RANGES OVER: the 19 pairs; the `Widest' macro is the
+    #  fall on the pair attaining the maximum ALL-RUNG spread, not the largest
+    #  fall.
+    SP42 = load("s42_spread.csv")
+    if SP42 is not None and len(SP42) and "spread_all" in SP42.columns:
+        _s = SP42[SP42.spread_all > 0].copy()
+        _s["fall"] = 1.0 - _s.spread_realistic / _s.spread_all
+        put("spreadFallMedianPct", pct(float(_s.fall.median()))
+            if len(_s) else None)
+        _w = SP42.loc[SP42.spread_all.idxmax()]
+        put("spreadFallWidestPct",
+            pct(1.0 - float(_w.spread_realistic) / float(_w.spread_all)))
+        #  an exact equality up to floating-point noise: the rung's own
+        #  increment lies inside the range the remaining rungs already span,
+        #  so removing it changes nothing at all
+        put("nPairsSpreadUnmoved", thousands(int(
+            np.isclose(SP42.spread_realistic, SP42.spread_all,
+                       rtol=1e-9, atol=0.0).sum())))
+    else:
+        for k in ("spreadFallMedianPct", "spreadFallWidestPct",
+                  "nPairsSpreadUnmoved"):
+            put(k, None)
+
+    #  (e) THE SHARE OF THE AUC INFERENCE FAMILY THAT RESOLVES.  Section 6.5
+    #  said "\nCellsResolvedAuc of \nCellsAuc AUC cells", which is 197 of the
+    #  5,808 ADMISSIBLE AUC cells -- but 5,028 of those carry no draws and are
+    #  therefore neither resolved nor unresolved.  The set a resolution rate
+    #  is a rate of is the AUC sub-family of the inference surface,
+    #  \nInferenceCells, and this is that ratio.
+    M42 = load("s42_mpid.csv")
+    G20b = load("s20_grid.csv")
+    if (M42 is not None and len(M42) and G20b is not None and len(G20b)
+            and "cells" in G20b.columns):
+        _den = float(G20b.cells.sum())
+        put("shareResolvedAucPct",
+            pct(float(M42.n_resolved_auc.sum()) / _den) if _den else None)
+    else:
+        put("shareResolvedAucPct", None)
 
     # ================================================================
     # s39 -- the case study's quality and absorption, on ITS OWN cohort

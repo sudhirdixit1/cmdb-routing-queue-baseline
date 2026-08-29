@@ -404,7 +404,8 @@ GLOSSARY = [
      "\\nDeclaredAdmissibleScalar, the same, and \\nInferenceScalar"),
     ("resolved", "the cell's simultaneous band excludes zero, so the data "
      "determine the sign of that cell's increment",
-     "\\nCellsResolvedAuc\\ of \\nCellsAuc\\ AUC cells corpus-wide"),
+     "\\nCellsResolvedAuc\\ of the \\nInferenceCells\\ AUC cells that "
+     "carry a band"),
     ("family $\\mathcal{F}$", "the set of cells a claim quantifies over, "
      "which is what a simultaneous band must cover",
      "a median \\familySizeMedian\\ cells per pair"),

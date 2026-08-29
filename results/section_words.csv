@@ -2,16 +2,16 @@ section,words
 "Highlights",8
 "Introduction",1245
 "Related work",612
-"The specification surface",1229
-"Estimation and inference",2984
+"The specification surface",1384
+"Estimation and inference",3084
 "The registered benchmark design",1243
-"Multi-log results",3762
-"Case study: a configuration management database",2176
+"Multi-log results",4152
+"Case study: a configuration management database",2235
 "Decision-analytic evaluation",996
-"A reporting standard, and software",926
-"Simulation against a known answer",1481
-"Threats to validity",1755
-"Conclusion",616
+"A reporting standard, and software",953
+"Simulation against a known answer",1578
+"Threats to validity",1883
+"Conclusion",621
 "CRediT authorship contribution statement",29
 "Declaration of competing interest",54
 "Funding",19

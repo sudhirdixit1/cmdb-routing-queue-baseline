@@ -1,8 +1,11 @@
 \section{Threats to validity}
 \label{sec:lim}
 
-Organised as threats rather than as a list. Nothing here is re-derived: every
-number is stated where it is computed and referenced from here.
+Organised as threats rather than as a list. No result is computed here:
+every number this section quotes is the same macro, from the same result
+file, as the section that establishes it, so the two cannot disagree --- but
+many are quoted twice, and a reader who wants the argument rather than the
+summary should read them where they are established.
 
 \paragraph{Construct --- this is predictive performance, not value}
 Nothing here measures what a register costs to acquire or maintain, whether
@@ -128,7 +131,8 @@ restrictions the argument implies, the corpus retains
 so \textbf{the sign-disagreement rate is withdrawn as a headline}
 (Section~\ref{sec:results-regret}). What replaces it is a magnitude and a
 scarcity: resolved cells sit a median \madResolvedMedian\ AUC from the
-reference, and only \nCellsResolvedAuc\ of \nCellsAuc\ AUC cells resolve at
+reference, and only \nCellsResolvedAuc\ of the \nInferenceCells\ AUC cells
+that carry a band resolve at
 all, with \nRefUnresolvedCell\ of \nPairs\ pairs failing to resolve even the
 cell a conventional report stands on. Both decompositions are reported under
 all three declared measures because there is no neutral measure --- across the
@@ -217,8 +221,9 @@ pooled specification curve as evidence that everything matters.
 
 \textbf{A one-number report is usually right about the sign and usually silent
 about the size.} Once a sign has to be determined by the data \emph{and} worth
-acting on at \mpidAuc\ AUC, \nDisagreeFullyRestricted\ of
-\nCellsFullyRestricted\ admissible \emph{AUC} cells contradicts the
+acting on at \mpidAuc\ AUC, \nDisagreeFullyRestricted\ of the
+\nCellsFullyRestricted\ \emph{AUC} cells that survive all three restrictions
+contradicts the
 conventional report --- the MPID is declared in AUC and
 Remark~\ref{prop:nonid} forbids carrying it further.
 What the conventional report does not say is that the cells it does not stand

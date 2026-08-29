@@ -181,8 +181,20 @@ python scripts/assemble_paper.py --check  # the shipped .tex is current
 python scripts/claim_registry.py --check  # every macro the manuscript uses
                                           # resolves, and every headline
                                           # number is re-derived independently
+python scripts/check_reproduction.py      # RE-RUNS one pair of the surface
+                                          # for both learner families and
+                                          # diffs it against the committed
+                                          # CSV at the documented tolerances
 python -m pytest fieldvalue -q            # the package
 ```
+
+**Only one of those controls re-runs an analysis.** Every other check in the
+list re-derives the manuscript's macros from the committed CSVs, which means
+they verify that the paper agrees with the result files and cannot see a
+result file the code no longer produces. That gap is how the cross-machine
+discrepancy in §5.1 sat undetected: nothing had ever re-run a cell and
+compared it. `check_reproduction.py` does, for one pair and both learner
+families, in about fifty seconds.
 
 **`--strict` is not a freshness guarantee.** It certifies that every macro
 resolved, not that the file it resolved from is current — this round left a
@@ -211,7 +223,7 @@ a bug in the generator is caught rather than propagated consistently.
 Every script takes a seed from one constant (`spec.SEED = 20260819`, and
 `20260823` for the round-nineteen additions) and derives every stream from it.
 Reruns on the same data and the same lockfile reproduce every result file
-byte-for-byte, with two documented exceptions:
+byte-for-byte **on the same machine**, with two documented exceptions:
 
 - **The pilot's frame** depends on the public index's contents at fetch time.
   The enumeration is cached per stratum under `data/audit2/frame_cache/`, so a
@@ -219,6 +231,91 @@ byte-for-byte, with two documented exceptions:
   different frame.
 - **Full-text retrieval** depends on which open-access locations are reachable.
   `results/s06_fetch.csv` records what was retrieved and from where.
+
+### 5.1 Across machines, byte-for-byte is not true, and here is what is
+
+The committed result files were produced on x86-64. Re-running the analysis on
+arm64, at the pinned versions, reproduces some of the surface exactly and some
+of it only to a tolerance — and the reader is owed the measurement rather than
+the claim. **Bit-exact reproduction is claimed only inside the container**,
+which fixes the interpreter, the artefact hashes and the thread counts, and
+whose base image (`python:3.10.0-slim-bullseye`) is `linux/amd64`; the digest
+of the built image is recorded in the archived release and is the canonical
+environment for any check against a printed digit. Outside it, this is what a
+reader should expect.
+
+Four candidate causes were eliminated by measurement, not by argument. Thread
+count is not it: one thread and four give bit-identical answers, and every
+script already pins the five variables above. Library version is not it:
+scikit-learn 1.7.2 and 1.9.0, pandas 2.2.3 and 2.3.1, and CPython 3.11 and
+3.13 all give bit-identical answers to each other. Source drift is not it: the
+`spec.py` of the commit that wrote the surface gives bit-identical answers to
+the current one. Run-to-run nondeterminism is not it: there is none, and
+`check_reproduction.py` condition 4 executes that claim rather than repeating
+it. What is left is the machine, and the mechanism is amplification, not
+noise. Nudging the boosting learner's encoding matrix by **one ULP** — a
+relative change of 2.2e-16 — moves a predicted probability by 0.37 and
+Nagelkerke by 0.038, because histogram binning and split-gain ties resolve the
+other way and the fitted trees then differ. The logistic learner is not
+chaotic in that sense: its predicted probabilities agree to 1.4e-15. What
+moves there is the *summary*: a one-hot design over a register gives many test
+rows exactly equal predictions, and AUC, average precision and net benefit are
+step functions that jump a whole step when a 1e-15 difference unties them.
+Fitting one cell through the sparse and the dense code path on a single
+machine reproduces the committed AUC discrepancy exactly — identical
+probabilities, AUC apart by 1.3e-4.
+
+The discrepancy tracks **cardinality**, not the learner and not the arm:
+
+| what | max abs. difference | where |
+|---|---|---|
+| the `B_empty` and `B_half` rungs, `without_f`, either family | 2.3e-12 | 4.4e-16 for boosting alone, i.e. machine epsilon |
+| logistic, `without_f`, every rung | 2.0e-8 | on a smooth metric |
+| logistic, `with_f`, undegraded cells, smooth metrics | 6.9e-9 | Nagelkerke, scaled Brier, log-loss skill |
+| logistic, `with_f`, undegraded cells, AUC and average precision | 9.4e-4 | one tie unties |
+| boosting, `without_f`, the `B_intake` rungs | 9.9e-2 | the rung is itself high-cardinality |
+
+Once a degradation mechanism runs, a second and larger source is added for
+both families: `mask_rare` cuts the cumulative-count curve *inside* a group of
+identities that share a count, and `corrupt` maps its draws onto a tie-ordered
+index, so which identities are masked or corrupted is decided by a tie order
+that nothing in the code pins. This is a defect rather than a fact of
+floating-point arithmetic, and it is the one part of this that is repairable;
+it is not repaired here because doing so changes every committed number and
+the repair belongs with the run that regenerates them.
+
+Taking the whole surface together — 41,472 values, four logs, both families,
+every cell of the quality and split axes — these are the **documented
+tolerances**, and `scripts/check_reproduction.py` enforces them:
+
+| family | metric class | measured max | documented tolerance |
+|---|---|---|---|
+| logistic | smooth (Nagelkerke, scaled Brier, log-loss skill) | 0.093934 | 0.10 |
+| logistic | rank (AUC, average precision) | 0.038693 | 0.05 |
+| logistic | threshold (net benefit) | 0.128427 | 0.15 |
+| boosting | smooth (Nagelkerke, scaled Brier, log-loss skill) | 0.851086 | 0.90 |
+| boosting | rank (AUC, average precision) | 0.108966 | 0.15 |
+| boosting | threshold (net benefit) | 0.354167 | 0.40 |
+
+78.1% of the logistic family's `with_f` values and 59.2% of the boosting
+family's come back within 1e-12; the tolerances above bound the rest. They are
+ceilings, not typical errors, and they are worst-case over a deliberately
+adversarial slice — the smallest rolling block of the smallest logs, under the
+heaviest masking, which is where a step of one test row is worth the most.
+
+Two things follow, and both are stated in the manuscript rather than left
+here. The affected quantity is the paper's own object of study: the increment
+`V = with_f - without_f` over a high-cardinality register is exactly the arm
+that does not reproduce across machines. And a reader who wants to check a
+printed digit must use the container; a reader who wants to check a
+*conclusion* can use anything, because the conclusions rest on comparisons
+within one run, and every run is internally consistent.
+
+```bash
+python scripts/check_reproduction.py           # the gate, ~50 s
+python scripts/check_reproduction.py --wide    # re-derive the table above
+python scripts/check_reproduction.py --table   # print it without judging
+```
 
 ## 6. If something fails
 
