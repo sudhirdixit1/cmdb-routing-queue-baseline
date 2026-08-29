@@ -333,7 +333,26 @@ cause of a desk return.**
 PDF's generative-AI declaration differs in substance from the one now in the
 source of record. Whatever is uploaded must be rebuilt from the current tree.
 
-### 4.7 Mint and record the Docker image digest  *(owner — new, and it is now cited)*
+### 4.7 Mint and record the Docker image digest  *(step 1 DONE by agent; step 2 owner)*
+
+> **Step 1 is done.** The base is pinned by digest:
+> `FROM python:3.10.0-slim-bullseye@sha256:ad540a47...88f0d8`, the
+> multi-architecture manifest list, so `docker build` still selects the right
+> platform while the content is fixed. The digest was verified
+> cryptographically rather than trusted: fetching the manifest *by* that
+> digest returns bytes that hash to exactly it. The manuscript's
+> code-availability sentence now reads the digest **out of the Dockerfile**
+> rather than carrying a typed copy, and `round27_verify` condition 20 fails
+> the build if the two ever disagree — so the sentence cannot be falsified by
+> an edit to the container.
+>
+> Re-resolve with `docker buildx imagetools inspect python:3.10.0-slim-bullseye`.
+>
+> **Step 2 remains yours**: build the image and record *its own* digest in the
+> archive. That needs the deposit, which needs the DOI, which needs your
+> account. The manuscript no longer claims that digest exists — it says the
+> archive records it at release, which is true.
+
 
 Round twenty-seven measured that this repository's results are **not**
 bit-reproducible across processor architectures, and the paper's

@@ -989,6 +989,24 @@ def read_release(what):
         d = j.get("image_digest") or ""
         if d:
             return r"whose image digest \texttt{%s} the archive records" % d
+        #  ROUND TWENTY-SEVEN, LATER.  The base image is now pinned BY
+        #  DIGEST rather than by tag, so the sentence that said otherwise had
+        #  to change with it.  The base digest is read from the Dockerfile
+        #  rather than typed here, so the two cannot drift; what still awaits
+        #  the deposit is the digest of the BUILT image, which is a different
+        #  object and is described as one.
+        base = ""
+        try:
+            df = (SRC_ROOT / "Dockerfile").read_text(encoding="utf-8")
+            m = re.search(r"^FROM\s+\S+@(sha256:[0-9a-f]{64})", df, re.M)
+            base = m.group(1) if m else ""
+        except OSError:
+            base = ""
+        if base:
+            return (r"built from a \texttt{Dockerfile} whose base is pinned "
+                    r"by digest, \texttt{%s...%s}, with the built image's own "
+                    r"digest recorded by the archive at release"
+                    % (base[:14], base[-6:]))
         return ("whose image digest the archive records at release, the "
                 r"\texttt{Dockerfile} in the meantime pinning by tag")
     return j.get("version")

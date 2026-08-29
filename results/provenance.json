@@ -5,9 +5,9 @@
     "sha": "231b67d34417ac04"
   },
   "make_numbers.py": {
-    "at": "2026-08-29T08:57:13Z",
-    "note": "round 27: retired-surface reads marked or re-pointed",
-    "sha": "2eb052c42277ff6c"
+    "at": "2026-08-29T09:21:01Z",
+    "note": "round 27: the container sentence reads the base digest out of the Dockerfile",
+    "sha": "a873767e79529384"
   },
   "round20_numbers.py": {
     "at": "2026-08-29T08:53:54Z",
@@ -45,9 +45,9 @@
     "sha": "1310b01645b57542"
   },
   "round27_verify.py": {
-    "at": "2026-08-29T08:44:08Z",
-    "note": "round 27: the per-instrument count is labelled as one; the rho=1 pair's survival of the widening is checked, not asserted",
-    "sha": "baaf5a944bbdd83a"
+    "at": "2026-08-29T09:21:01Z",
+    "note": "round 27: the container sentence is matched against the container",
+    "sha": "e5228d0873f7e9b7"
   },
   "s01_surface.py": {
     "at": "2026-08-25T01:56:46Z",

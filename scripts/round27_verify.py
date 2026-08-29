@@ -1284,3 +1284,35 @@ def check(vn, M):
             vn.FAILS.append(
                 "round-27 condition: the appendix says the rho = 1 pair is "
                 "not among the labels the widening changes, and it is")
+
+    # --- 20.  the container sentence tracks the container -----------------
+    #
+    #  The code-availability statement claims bit-exactness INSIDE a
+    #  container.  A container pinned by a mutable tag is not a fixed object,
+    #  so that claim needed the base pinned by digest -- and once the sentence
+    #  quotes the digest, an edit to the Dockerfile can falsify the paper
+    #  silently.  The digest is therefore re-read from the Dockerfile here and
+    #  matched against what the manuscript prints.
+    import re as _re
+    _dock = results.parent / "Dockerfile"
+    _macro = M.get("imageDigest") or ""
+    if _dock.exists():
+        try:
+            _df = _dock.read_text(encoding="utf-8")
+        except OSError:
+            _df = ""
+        _m = _re.search(r"^FROM\s+\S+@(sha256:[0-9a-f]{64})", _df, _re.M)
+        if not _m:
+            if "pinned by digest" in _macro:
+                vn.FAILS.append(
+                    "round-27 condition: the code-availability statement says "
+                    "the base is pinned by digest and the Dockerfile pins it "
+                    "by tag")
+        else:
+            _d = _m.group(1)
+            _head, _tail = _d[:14], _d[-6:]
+            if "pinned by digest" in _macro and not (
+                    _head in _macro and _tail in _macro):
+                vn.FAILS.append(
+                    "round-27 condition: the manuscript quotes a base image "
+                    "digest that is not the Dockerfile's (%s)" % _d)
