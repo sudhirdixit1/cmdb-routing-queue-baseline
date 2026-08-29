@@ -202,7 +202,14 @@ def main(argv=None):
     #  simultaneous band (s21) wherever it exists; s03's are the narrower
     #  within-instrument family the correction withdraws, and are the
     #  fallback only so a partial build still produces a document.
-    REG = load("s21_regions.csv")
+    #  ROUND TWENTY-SEVEN.  The reported surface first.  Nothing this
+    #  variable still feeds was wrong -- later modules overwrite the two
+    #  macros it sets, and the regions table is rewritten downstream -- but a
+    #  name bound to a retired file is how every other defect this round
+    #  started, and the fallback chain costs nothing.
+    REG = load("s48w_regions.csv")
+    if REG is None or not len(REG):
+        REG = load("s21_regions.csv")
     if REG is None or not len(REG):
         REG = load("s03_regions.csv")
     SOB = load("s03_sobol.csv")

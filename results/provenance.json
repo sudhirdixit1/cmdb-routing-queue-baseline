@@ -1,8 +1,8 @@
 {
   "make_numbers.py": {
-    "at": "2026-08-29T08:42:37Z",
-    "note": "round 27: marked rows reconcile with withdrawn directions; zero counts read as English",
-    "sha": "10ee5bab6cfaf9cc"
+    "at": "2026-08-29T08:54:28Z",
+    "note": "round 27: the region variable binds to the reported surface first",
+    "sha": "cbb249a8e4aa2b8b"
   },
   "round20_numbers.py": {
     "at": "2026-08-29T08:53:54Z",
