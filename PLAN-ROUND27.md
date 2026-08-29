@@ -377,7 +377,11 @@ reintroduced.
   dependency has a free shot. Cite it where the learners are introduced
   (§4.1, `20_inference.tex`) — currently owned by another agent — and confirm
   the version is the one `requirements.lock` pins.
-- [ ] **3b.2 §9.3's "machine-assisted" is a euphemism.** The AI declaration
+- [x] **3b.2 §9.3's "machine-assisted" is a euphemism.** — **DONE.** The
+  pilot's adjudicator is now named as "the author, assisted by the model named
+  in the generative-AI declaration", so the declaration's pointer lands on a
+  fact rather than on a hedge, and the two disclosures agree.
+  *(original finding below)* The AI declaration
   now points at §9.3 for the one machine-assisted judgement inside a study,
   but §9.3 (`70_standard.tex:94-100`) says only "a machine-assisted prevalence
   pilot" without naming what assisted it. Name it — "the author, assisted by
