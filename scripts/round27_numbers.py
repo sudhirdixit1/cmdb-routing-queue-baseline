@@ -227,10 +227,29 @@ def emit(mn):
         put("nUnbandablePairs",
             thousands(int(_w[_w.sim_lo.isna()]
                           .groupby(["log", "target"]).ngroups)))
+        #  THE LIKE-FOR-LIKE COUNTERFACTUAL.  The old count above is measured
+        #  on a different design as well as a different scheme, so quoting it
+        #  alone credits the resampling change with an improvement the design
+        #  change may have supplied.  The multinomial arm was run on THIS
+        #  design at THIS draw count, so it isolates the scheme, and it is the
+        #  larger number -- reporting only the confounded pair would understate
+        #  what weights actually bought.
+        _m = mn.RESULTS / "s48m_bands.csv.gz"
+        if _m.exists():
+            _mw = pd.read_csv(_m)
+            _mw = _mw[_mw.family == "whole-surface"]
+            put("nUnbandableSameDesign",
+                thousands(int(_mw.sim_lo.isna().sum())))
+            put("nUnbandableSameDesignOf", thousands(int(len(_mw))))
+        else:
+            put("nUnbandableSameDesign", None)
+            put("nUnbandableSameDesignOf", None)
     else:
         put("nUnbandableCells", None)
         put("nUnbandablePairs", None)
         put("nUnbandableOldCells", None)
+        put("nUnbandableSameDesign", None)
+        put("nUnbandableSameDesignOf", None)
 
     # ================================================================
     # s37 --itsm -- DOES `THE ENCODING BEATS THE FAMILY' TRAVEL?

@@ -75,6 +75,11 @@ resolved --- so it was counted as \emph{unresolved}, beside cells that were
 banded and straddled zero, inside the denominator of every statement about how
 little the data resolve. On the previous surface there were
 \nUnbandableOldCells\ of them. Under weights there are \nUnbandableCells.
+That pair changes the design as well as the scheme, so it credits the
+resampling with an improvement the balance may have supplied; the multinomial
+arm run on \emph{this} design at the same draw count isolates the scheme, and
+it carries \nUnbandableSameDesign\ such cells of
+\nUnbandableSameDesignOf. The clean comparison is the larger of the two.
 
 \noindent\textbf{The symptom, however, survives the removal of its supposed
 cause.} A pivotal interval need not contain the estimate it is built from:
@@ -97,8 +102,9 @@ that flatters the old scheme}: where a draw is missing, the band construction
 refuses the cell while the comparison drops the missing draws and computes
 from the rest, so every multinomial number above is conditioned on the draws in
 which the arm could be fitted --- and those cells carry roughly twice the
-displacement of the others. The scheme with the smaller number is the one
-measured on its successes.
+displacement of the others. Both multinomial numbers above are therefore
+measured on that scheme's successes, and both are still the larger of the
+pair.
 
 \textbf{It gets worse with the sample size, not better.} The displacement is
 a bias --- a resample holds about $1 - e^{-1}$ of the distinct levels however
