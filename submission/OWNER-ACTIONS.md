@@ -35,8 +35,8 @@ but the profile has to carry one before submission.
 
 The manuscript's data-availability and code-availability statements cite a
 Zenodo DOI. There is nothing to cite yet, so the macro currently renders as
-*"the archived release cited in the data-availability statement (DOI reserved,
-inserted at proof)"* rather than as the `??` marker — a number that does not
+*"a Zenodo deposit whose DOI is reserved and is inserted at proof"* rather
+than as the `??` marker — a number that does not
 exist yet is a different thing from a number that is missing, and the
 manuscript says which. `.zenodo.json` carries `"version": "v27.0"`, moved there in round twenty-seven so the manuscript names the release it describes, and its numeric claims are
 checked against `paper/numbers.tex` by `check_response_refs.py` --- seven
@@ -50,13 +50,13 @@ of them had gone stale before round twenty-five added that check.
    Its message should record the gate results at that commit:
 
    ```bash
-   git tag -a v27.0 -m "round twenty-six: the split as an error stratum, the MPID, and two headlines withdrawn"
+   git tag -a v27.0 -m "round twenty-seven: the weighted bootstrap on a balanced designed surface; both named repairs run and neither did what it was named for"
    git push origin v27.0
    git ls-remote --tags origin
    ```
 
 4. On GitHub, **Releases → Draft a new release**, choose the tag
-   `v25.0`, title it
+   `v27.0` — the same tag as step 3, not an earlier one — title it
    *Specification Surfaces for Incremental Predictive Performance*, and
    publish. Zenodo mints the DOI within a minute or two.
 5. Paste the minted DOI into one command:
