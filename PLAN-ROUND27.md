@@ -62,11 +62,15 @@ poses and had only ever answered with "never".
 | 2c · crossed family × encoding | **done** — partially replicates (6 of 8) |
 | 3 / 3b · denominators, citations | **done** |
 | red team, **five** passes | 40 + 8 + 15 + 12 findings — **all repaired** |
+| audit of the repairs (sixth pass) | 18 findings, 9 blocking — **all repaired** |
+| audit of the length pass (seventh) | running |
+| gates added this round | `check_bands`, `check_sources`, `check_claims` — the last two each caught live defects on their first run |
 | 4 · length | **done, and short of target** — 66 → **62 pp**, body 22,100 → 19,900 words. §9 moved to the supplement whole; 15 further moves and compressions. The remaining gap is structural: a quarter of body prose and **all eleven floats** are protected, the floats by the referee's own C3. The letter now reports the yield and names the next 2.4 pp if the count is binding. |
 | 5 · claims regenerated | **done** — three data layers migrated, every changed macro accounted for |
 | 6 · `hgb` reproduction | **done** |
 | 7 · compliance | agent items **done**; owner items below |
-| 8 · final adversarial read | **done** --- sixth pass, 18 findings, all repaired |
+| 8 · final adversarial read | **done** --- sixth pass, 18 findings, all repaired; a seventh is auditing the length pass |
+| 9 · submission package | **done** --- the cover letter asserted the negation of the paper's central caveat; the upload lists omitted the letter answering the current report; the AI declaration named a model two versions old; three instruction defects (wrong tag, wrong branch, wrong single-response document) |
 
 ### The owner items, reduced to one and a half
 
