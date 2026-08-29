@@ -503,14 +503,28 @@ def emit(mn):
         #  it is -- every pair that is not on the log the crossing ran on --
         #  and it is read from s37's own cells rather than assumed, so a
         #  crossing extended to a second log moves the sentences with it.
-        C37 = load("s37_cells.csv")
-        if C37 is not None and len(C37) and "log" in C37.columns:
-            crossed = set(C37.log.astype(str))
-        else:
-            crossed = {"BPIC14"}
+        #  ROUND TWENTY-SEVEN.  The safeguard above failed the first time it
+        #  was tested, and the way it failed is worth the comment.  It read
+        #  ONE cell file, so when the crossing was extended to the ITSM family
+        #  it kept reporting the case study's log alone -- and this macro was
+        #  corrected 15 -> 17 in the same round that made 17 wrong.  A check
+        #  that reads a fixed filename cannot notice a second file; it has to
+        #  read every file the analysis can write.  It now does, and the
+        #  crossing is counted PER PAIR rather than per log, because the ITSM
+        #  set is a set of pairs and not of logs.
+        crossed_pairs = set()
+        for _nm in ("s37_cells.csv", "s37_cells_itsm.csv"):
+            _c = load(_nm)
+            if _c is not None and len(_c) and {"log", "target"} <= set(_c.columns):
+                crossed_pairs |= set(zip(_c.log.astype(str),
+                                         _c.target.astype(str)))
         pairs = SUR[["log", "target"]].drop_duplicates()
-        put("nPairsOther", thousands(int(
-            (~pairs.log.astype(str).isin(crossed)).sum())))
+        if crossed_pairs:
+            _key = list(zip(pairs.log.astype(str), pairs.target.astype(str)))
+            n_other = sum(1 for k in _key if k not in crossed_pairs)
+        else:
+            n_other = int((~pairs.log.astype(str).isin({"BPIC14"})).sum())
+        put("nPairsOther", thousands(int(n_other)))
     else:
         for k in ("medianKoverN", "maxKoverN", "nPairsAboveTenth",
                   "nPairsTwoLearners", "nPairsOther"):

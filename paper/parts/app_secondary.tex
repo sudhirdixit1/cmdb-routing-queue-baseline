@@ -48,9 +48,10 @@ is precisely what an axis that fuses them cannot express.
 \textbf{So the fused index is not the sum of two indices.} It is a statement
 about a two-level axis whose levels move two things at once, and
 Table~\ref{tab:sobol}'s pipeline column should be read as that and nothing
-more. The crossing has not been re-run on the other \nPairsOther\ pairs, and
-Section~\ref{sec:lim} carries that as a limitation rather than assuming the
-case study's split transfers.
+more. Section~\ref{sec:axes2} reports what the same crossing found on the
+\nItsmCrossed\ ITSM pairs, where it does not fully replicate; the remaining
+\nPairsOther\ pairs are not crossed, and Section~\ref{sec:lim} carries that
+as a limitation rather than assuming the case study's split transfers.
 
 \subsection{Decision rules, in sample and out}
 \label{app:rulesfull}
@@ -91,8 +92,8 @@ which the two rules differ at all, which is near chance.
 that a surface report is a better decision rule than a number. On this corpus
 the decision-optimal collapse is the weighted mean, that is an algebraic
 identity in sample and a small and unstable advantage out of it, and on the
-one utility with an operational meaning the rules mostly tie
-(Section~\ref{sec:nbregret}). The case for reporting the surface rests on the
+one utility with an operational meaning what separates is the conservative
+rule and not the one-number rule (Section~\ref{sec:nbregret}). The case for reporting the surface rests on the
 decomposition and on the sign disagreement, not on the regret comparison, and
 the regret comparison is reported here as a check on the former rather than as
 a result in its own right.
@@ -479,12 +480,18 @@ and single exchange rates are reported beside it.
 decimal places of it look like a tie, so Table~\ref{tab:desk} reports it per
 thousand cases.
 
-\textbf{And the rules still mostly tie.} Under the desk distribution the
+\textbf{And where the rules separate, what separates is the conservative
+rule.} Under the desk distribution the
 one-number rule, the majority rule and the weighted mean all carry a median
 excess regret of \excessOneNumberDesk\ per thousand cases; only the
-conservative rule loses, at \excessUniformDesk. The four rules do not all
-choose the same action on \nSeparatingDesk\ pairs, and where they differ the
-one-number rule is the worst on \nOneNumberWorstDesk\ of them, at a maximum of
+conservative rule loses, at \excessUniformDesk\ --- and the medians hide a
+tail that is entirely that rule's, whose cross-pair \emph{mean} excess is
+\meanExcessUniformDesk\ against the one-number rule's
+\meanExcessOneNumberDesk. The four rules do not all lose the same amount on
+\nSeparatingDesk\ of the \nPairsDesk\ pairs the calibration rule admits, and
+are identical on the other \nAllRulesTieDesk. Where they do separate the
+one-number rule is strictly the worst on \nOneNumberWorstDesk\ and tied for
+worst on \nOneNumberTiedWorstDesk, at a maximum of
 \maxExcessOneNumberDesk\ per thousand --- a real ordering and a small
 quantity. \textbf{The case against a one-number report does not rest on this
 design.} It rests on the decomposition of Section~\ref{sec:sobol} and on the

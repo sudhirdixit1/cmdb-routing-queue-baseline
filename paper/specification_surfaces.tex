@@ -927,7 +927,8 @@ in Table~\ref{tab:denominator} differ.
 \emph{specification regret} reports is a null --- the one-number rule's median
 excess regret is zero in every instrument, the out-of-sample ordering reverses
 under rolling folds (Section~\ref{sec:rules}), and on calibrated net benefit
-the rules mostly tie (Section~\ref{sec:nbregret}) --- and a null is a check on
+what separates the rules is the conservative one rather than the one-number
+one (Section~\ref{sec:nbregret}) --- and a null is a check on
 the paper's other two arguments rather than a result of its own. It is
 reported in full, and it is not a contribution.
 
@@ -1877,8 +1878,9 @@ before the widening, and the median band width goes from \dcBandWidth\ to
 factor applied is \dcaWidenFactor, the upper end of the range
 Section~\ref{sec:simband} measures on families that carry this corpus's tails
 and no degenerate cells; the lower end \shortfallDcaMin\ returns the same
-count, so which end is taken is not carrying the result. Nor is the choice
-between the two kinds of matched family: the all-cells factor
+count, so which end is taken is not carrying the result. The choice between
+the two kinds of matched family does move it, and the alternative is therefore
+printed rather than argued away: the all-cells factor
 \dcaWidenFactorAll, measured where the matched families are built to carry
 cells at which both arms treat every case alike --- \nDegenerateCellsDca\ of
 them across the corpus's curve families --- removes a further point, to
@@ -2318,7 +2320,16 @@ paying.
 \paragraph{Internal --- further assumptions, named, and one of them
 measured}
 The split point is fixed within a draw, so split-position uncertainty is
-outside every interval here. The moving-block construction needs stationarity
+outside every interval here. \textbf{A second sort is undeclared, and unlike
+the one Section~\ref{sec:cohort} reports it is not repaired here}: the
+register-quality mechanisms cut a cumulative-count curve inside a group of
+tied identities, so \emph{which} identities a degradation removes rests on an
+order nothing pins. The affected quantity is the quality axis and not the
+increment at the reference cell, and repairing it moves every number on that
+axis --- which is why it is measured and recorded rather than corrected in a
+round that is not regenerating them. It is the second instance of one defect,
+which is why Section~\ref{sec:standard}'s tie-break item is stated over every
+sort a procedure cuts on rather than over the place it was first found. The moving-block construction needs stationarity
 and mixing that an event log is not guaranteed to have, and the same
 assumption is what makes Definition~\ref{def:estimand}'s population limit well
 defined under a temporal split. \textbf{Stationarity is now measured and it
@@ -2583,14 +2594,13 @@ developed at \url{https://github.com/sudhirdixit1/cmdb-routing-queue-baseline}.
 The archive contains a \texttt{Dockerfile} and a \texttt{requirements.lock}
 pinning every transitive dependency; \texttt{REPRODUCE.md} gives the exact
 commands and the expected runtime. \textbf{Bit-exact reproduction is claimed
-inside that container, whose image digest the archive records, and not outside
-it.} On a different processor architecture, cells whose design carries no
+inside that container --- \imageDigest\ --- and not outside it.} On a different processor architecture, cells whose design carries no
 high-cardinality register agree to floating-point tolerance, while cells that
 carry one can differ materially in every metric --- the register ties test
 rows to equal predictions, and a difference in the last bit unties them, so a
 rank-based metric steps. The divergence tracks the register's cardinality and
-not the learner: it is present in both model families and absent from the low
--cardinality rungs of each. \texttt{REPRODUCE.md} measures it for both
+not the learner: it is present in both model families and absent from the
+low-cardinality rungs of each. \texttt{REPRODUCE.md} measures it for both
 families and states a tolerance per condition, and
 \texttt{scripts/check\_reproduction.py} re-runs part of the surface and fails
 if one is exceeded. A reader checking a \emph{digit} therefore needs the

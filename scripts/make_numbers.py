@@ -803,6 +803,7 @@ def main(argv=None):
     put("nCorpusDownloaded", thousands(_n) if _n else None)
     put("nCorpusLogs", thousands(_n) if _n else None)
     put("zenodoDOI", read_release("doi"))
+    put("imageDigest", read_release("image_digest"))
     put("releaseTag", read_release("tag"))
 
     # ---- round twenty ----------------------------------------------------
@@ -961,6 +962,21 @@ def read_release(what):
             return r"\url{https://doi.org/%s}" % d
         return ("the archived release cited in the data-availability "
                 "statement (DOI reserved, inserted at proof)")
+    if what == "image_digest":
+        #  ROUND TWENTY-SEVEN.  Same problem, same treatment.  The code
+        #  availability statement claims bit-exactness INSIDE the container,
+        #  and a container pinned by a mutable tag is not a fixed object, so
+        #  the claim needs a digest the archive records.  Building and
+        #  depositing the image needs the depositing account, exactly as the
+        #  DOI does.  So the macro states the deposit's status rather than
+        #  asserting a digest that does not exist: adding an `image_digest`
+        #  key to .zenodo.json replaces this text everywhere it appears, and
+        #  until then the manuscript says what is true.
+        d = j.get("image_digest") or ""
+        if d:
+            return r"whose image digest \texttt{%s} the archive records" % d
+        return ("whose image digest the archive records at release, the "
+                r"\texttt{Dockerfile} in the meantime pinning by tag")
     return j.get("version")
 
 
