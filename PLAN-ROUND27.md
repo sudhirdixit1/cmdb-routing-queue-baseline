@@ -221,6 +221,67 @@ loses a paragraph every round without gaining one is a section nobody believes.
 **§6.1 and the tables.** Table 5, Table 7 and Table 1 regenerate. Every label
 and ρ moves. Work §5.1a's claims-at-risk register rather than re-reading.
 
+### 1.4b Ready-to-paste replacement for §4.2's second half
+
+Drafted while the multinomial arm ran, because this passage's content is
+settled by facts already verified and does **not** depend on the coverage
+measurement. The first paragraph of §4.2 (the three surfaces, the declared /
+computational identity) is unchanged. What follows replaces everything from
+**"The rule that selects it, in full"** to the end of the subsection.
+
+Macro names below are proposals; wire them from `s44_grid.csv` and
+`s51_facts.csv` when the surface macros are re-pointed. Do not paste this
+until every site in the re-pointing table has moved together — a half-migrated
+state is what `round27_verify`'s newest condition exists to fail.
+
+---
+
+\textbf{The rule that selects it, in full.} It is one design, and it is the
+same design on every pair: \nInfLearners\ learners, \nInfSplits\ splits,
+\nInfQuality\ register-quality conditions and \nInfRungs\ admissible rungs,
+crossed --- \nInfCells\ cells, \nInferenceScalar\ scalar family members across
+the corpus --- at \nDrawsDesigned\ draws. Nothing in the rule reads a result,
+and nothing in it reads the log: the size classes that chose the old surface's
+levels are gone, and with them the objection they carried.
+
+\textbf{It is a complete factorial, and that is checked rather than declared.}
+On every one of the \nPairs\ pairs, each combination of the four axes is
+present exactly once: no cell missing, no cell twice, and no pair differing in
+shape from any other. So a corpus median over these families is a median over
+one design, which the previous surface's was not. A balanced full factorial is
+also strictly stronger than the resolution-IV fraction
+Section~\ref{sec:lim} used to ask for, so that request is answered rather than
+deferred.
+
+\textbf{Two objections this retires, and one it does not.} The inference
+surface was \emph{a corner of the declared surface rather than a design}, and
+the decomposition of Section~\ref{sec:sobol} could not be computed on it.
+It can now: \nInfAnovaCount\ decompositions run on it, one per pair per
+instrument, over \nInfCells\ cells each. What that comparison shows is
+reported in Supplement~\ref{app:infanova} and is not a confirmation ---
+\textbf{the axis carrying the largest first-order index agrees between the two
+surfaces on \nInfAnovaAgree\ of \nPairs\ pairs}, and the two do not declare
+the same levels, so the disagreement is a comparison between designs and shows
+neither of them unrepresentative. What it does show is worth one sentence: a
+first-order index is a statement about the levels an analyst declared and not
+only about the pair.
+
+\noindent The objection it does not retire is the one that matters most for
+reading a region label. The inference family is still a fraction of the
+admissible surface --- \inferenceShareAdmissibleMedianPct\ at the median pair
+--- and \textbf{a label computed over fewer cells is systematically cleaner
+than one computed over all of them}. Section~\ref{sec:regionsdef} says which
+label that most flatters and Section~\ref{sec:regions} reports what it costs.
+
+---
+
+**Why the last paragraph is in this draft.** The new surface reaches
+`uniformly beneficial` on one pair, over a family that is a *smaller* share of
+that pair's admissible cells than the old one was. §4.2 is where a reader
+meets the inference surface, so it is where the restriction has to be stated
+plainly — before §6.3 reports a label that the restriction helped produce.
+Putting it only in §6.3 would be putting it after the reader needs it.
+
 **Done when:**
 - the displacement statistic on the weighted scheme is ≈ 0 and the count of
   cells whose band excludes its own point estimate is 0 (or reported ≤ 0.1%);
