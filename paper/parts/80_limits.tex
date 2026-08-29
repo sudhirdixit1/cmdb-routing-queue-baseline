@@ -79,9 +79,11 @@ were \nUnbandableOldCells\ of those on the previous surface,
 \nUnbandableSameDesign\ under the multinomial scheme on this one, and there
 are now \nUnbandableCells.
 
-\noindent\emph{More draws do not fix the coverage.} The binding constraint on
-the band's family-wise coverage is not the draw count, which the construction's
-asymptotics would suggest and this design's own measurement refutes. On families matched to the surface this paper now reports, coverage is
+\noindent\emph{More draws do not fix the multiplier band's coverage --- and
+they do fix the other estimator's.} The binding constraint on the reported
+band's family-wise coverage is not the draw count, which the construction's
+asymptotics would suggest and this design's own measurement refutes. On
+families matched to the surface this paper now reports, coverage is
 \covMultBootOneFifty\ at \nBootOneFifty\ draws, \covMultBootFourHundred\
 at \nBootFourHundred\ and \covMultBootOneThousand\ at
 \nBootOneThousand: \textbf{it plateaus}. This corpus runs at
@@ -92,7 +94,14 @@ truth, against a nominal $95\%$. The widening that would close it is
 \shortfallWholeMin\ to \shortfallWholeMax\ on the surface families, which
 is \emph{larger} than the \calMin\ to \calMax\ the only calibration this
 paper has fitted would supply --- which is why that calibration is reported
-and not applied.
+and not applied. \textbf{The estimator that does attain the level is the one
+this paper does not report}: the empirical quantile reaches
+\covEmpWholeAtDesign\ on the same matched family at
+\widthEmpOverMultAtDesign\ times the width
+(Section~\ref{sec:simband}). That is the honest shape of this limitation ---
+not that no construction here attains its level, but that the one which does
+buys it with width, and this paper reports the narrower object and prints
+both rather than choosing for the reader.
 
 \noindent\textbf{So every region label and every $\rho$ in this paper
 remains a descriptive diagnostic and not a guarantee}, which the front matter

@@ -269,6 +269,18 @@ def emit(mn):
     #  in size and draw count, and the decision-curve families on their own.
     #  The correction RAISES the headline coverage, which is why it is
     #  reported with its neighbours rather than alone.
+    #  THE OTHER ESTIMATOR, AT THE DESIGN THIS CORPUS RUNS.
+    #
+    #  Section 10 says "no estimator recovers the difference" and Section 4
+    #  says the draw count is not the binding constraint.  Both are true of
+    #  the MULTIPLIER band and both were checked on medians pooled across
+    #  draw counts from 33 to 1000 -- and the empirical quantile behaves
+    #  differently along that axis.  Its coverage RISES with the draw count
+    #  where the multiplier's plateaus: 0.804 at 33 draws, 0.912 at 80,
+    #  0.939 at 150 and 0.947 at 400, which is the count this corpus now runs
+    #  on every pair and is within one Monte Carlo standard error of nominal.
+    #  The pooled median hid it because half the families it averages over
+    #  are at draw counts the corpus abandoned this round.
     CV = load("s41_coverage.csv")
     _cov = ("covHeavyWholeAtDesign", "covHeavyWholeMin", "covHeavyWholeMax",
             "covHeavyDcaMedian", "covHeavyDcaMin", "nBandCovWholeCells",
@@ -297,6 +309,22 @@ def emit(mn):
             pct(float(D.coverage.median()), 1) if len(D) else None)
         put("covHeavyDcaMin",
             pct(float(D.coverage.min()), 1) if len(D) else None)
+        #  the empirical quantile at the same matched cell, and its own
+        #  conservative end, with the width each costs
+        E = CV[(CV.regime == "heavy") & (CV.family == "whole-surface")
+               & (CV.K_nom == _fam) & (CV.B == _b)]
+        def _c(cand, col="coverage"):
+            r = E[E.candidate == cand]
+            return float(r[col].iloc[0]) if len(r) else None
+        _ce, _cm = _c("q_emp"), _c("q_mult")
+        put("covEmpWholeAtDesign", pct(_ce, 1) if _ce else None)
+        put("covEmpWholeAtDesignSE",
+            pct(_c("q_emp", "coverage_se"), 1) if _ce else None)
+        put("covEmpHiWholeAtDesign",
+            pct(_c("q_emp_hi"), 1) if _c("q_emp_hi") else None)
+        _we, _wm = _c("q_emp", "mean_width"), _c("q_mult", "mean_width")
+        put("widthEmpOverMultAtDesign",
+            num(_we / _wm, 2) if _we and _wm else None)
     else:
         for k in _cov:
             put(k, None)

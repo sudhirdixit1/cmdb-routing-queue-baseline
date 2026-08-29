@@ -1316,3 +1316,62 @@ def check(vn, M):
                 vn.FAILS.append(
                     "round-27 condition: the manuscript quotes a base image "
                     "digest that is not the Dockerfile's (%s)" % _d)
+
+    # --- 21.  the estimator that attains the level, and the one reported ---
+    #
+    #  Section 9 said "no estimator recovers the difference".  It was checked
+    #  on medians pooled across draw counts from 33 to 1000, and the two
+    #  critical-value estimates behave DIFFERENTLY along that axis: the
+    #  multiplier's coverage plateaus, the empirical quantile's rises, and at
+    #  the count this corpus runs the empirical one is within a standard
+    #  error of nominal while the reported band is five short.  The claim now
+    #  made is the reverse of the old one, so it is checked rather than
+    #  trusted -- both the direction and the width it costs.
+    _ce = _num(M.get("covEmpWholeAtDesign"))
+    _cse = _num(M.get("covEmpWholeAtDesignSE"))
+    if (CVv is not None and Bw is not None and Gd is not None
+            and _ce is not None):
+        _bw2 = Bw[Bw.family == "whole-surface"]
+        _f2 = int(_bw2.groupby(["log", "target"]).size().median())
+        _b2 = int(Gd.draws.max())
+        _E = CVv[(CVv.regime == "heavy") & (CVv.family == "whole-surface")
+                 & (CVv.K_nom == _f2) & (CVv.B == _b2)]
+        _row_e = _E[_E.candidate == "q_emp"]
+        _row_m = _E[_E.candidate == "q_mult"]
+        if len(_row_e) and len(_row_m):
+            _want = 100.0 * float(_row_e.coverage.iloc[0])
+            if abs(_ce - _want) > 0.06:
+                vn.FAILS.append(
+                    "round-27 condition: \\covEmpWholeAtDesign is %s and the "
+                    "empirical quantile covers %.1f%% on the family matched "
+                    "to this corpus's design" % (M["covEmpWholeAtDesign"],
+                                                 _want))
+            #  the article says the empirical one attains its level and the
+            #  reported one does not; a directional word is a claim
+            _covm = 100.0 * float(_row_m.coverage.iloc[0])
+            if not (_ce > _covm):
+                vn.FAILS.append(
+                    "round-27 condition: Sections 9 and 10 say the empirical "
+                    "quantile covers better than the multiplier at this "
+                    "design, and they are %.1f%% and %.1f%%"
+                    % (_ce, _covm))
+            if _cse and (95.0 - _ce) / _cse > 1.0:
+                vn.FAILS.append(
+                    "round-27 condition: Section 9 says the empirical "
+                    "quantile's gap to nominal is well under one Monte Carlo "
+                    "standard error, and %s against 95%% at %s is %.1f"
+                    % (M["covEmpWholeAtDesign"],
+                       M["covEmpWholeAtDesignSE"], (95.0 - _ce) / _cse))
+            #  and it buys the level with width, which the article states
+            _wr = _num(M.get("widthEmpOverMultAtDesign"))
+            _true_wr = (float(_row_e.mean_width.iloc[0])
+                        / float(_row_m.mean_width.iloc[0]))
+            if _wr is not None and abs(_wr - _true_wr) > 0.02:
+                vn.FAILS.append(
+                    "round-27 condition: \\widthEmpOverMultAtDesign is %s and "
+                    "the empirical band is %.2f times as wide"
+                    % (M["widthEmpOverMultAtDesign"], _true_wr))
+            if _wr is not None and _wr <= 1.0:
+                vn.FAILS.append(
+                    "round-27 condition: the article says the level is bought "
+                    "with width, and the ratio is %s" % M["widthEmpOverMultAtDesign"])

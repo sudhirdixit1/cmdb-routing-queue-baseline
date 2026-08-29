@@ -177,14 +177,31 @@ and not below it. The per-cell interval underneath the band moves
 \covPercellBootThirtyThree\ to \covPercellBootOneThousand\ over the same
 range: part of what the band loses it loses before any critical value is
 chosen, and Section~\ref{sec:simcoverage} validated that construction at a
-refit count this corpus does not reach on most pairs. No estimator recovers
-the difference. The best of the five, the empirical quantile at the upper end
-of its own order-statistic interval, reaches \covEmpHiHeavyMedian\ at
-\widthEmpHiOverMult\ times the width and still falls to
-\covEmpHiHeavyMin\ at the smallest family; a Rademacher wild multiplier,
-which preserves the observed draws' magnitudes instead of replacing them by
-Gaussians and is the natural repair for a tail problem, is worse than the
-Gaussian multiplier at \covRadHeavyMedian.
+refit count this corpus does not reach on most pairs. A Rademacher wild
+multiplier, which preserves the observed draws' magnitudes instead of
+replacing them by Gaussians and is the natural repair for a tail problem, is
+worse than the Gaussian multiplier at \covRadHeavyMedian.
+
+\textbf{One estimator does recover the difference, and only at the draw count
+this corpus now runs.} The two critical-value estimates behave differently in
+$B$: the multiplier's coverage plateaus and the \emph{empirical} quantile's
+does not. On the family matched to the reported design the empirical quantile
+reaches \covEmpWholeAtDesign\ against a nominal $95\%$, at a Monte Carlo
+standard error of \covEmpWholeAtDesignSE\ --- a gap of well under one of
+them, against the multiplier's five --- and its own conservative end reaches
+\covEmpHiWholeAtDesign. \textbf{This repair was not available before.} At
+\nBootThirtyThree\ draws the empirical quantile is the \emph{worse} of the
+two, because an order statistic of that few maxima is badly determined, which
+is the argument Section~\ref{sec:simbands} gives for not adopting it. The
+answer therefore turns on the draw count: at \nDrawsSurface, which is what
+every pair here carries, the order statistic is determined well enough for
+the estimator to be the better of the two. \textbf{What it costs is width}:
+the
+empirical band is \widthEmpOverMultAtDesign\ times as wide. The article
+reports the multiplier band and prints both, because a band that attains its
+level by being wider is a different object rather than a correction to this
+one --- but a reader who wants the level rather than the resolution now has a
+construction on this corpus that reaches it.
 
 \paragraph{What the simulation does not establish}
 It certifies the pointwise constructions on \nWorlds\ worlds, a plane of
