@@ -14,11 +14,17 @@ Append progress to §9 of THIS file after every phase.
 
 ## STATUS AT A GLANCE — updated 2026-08-29, 05:00 (overnight session)
 
-**The run is complete and the manuscript describes it.** 71 commits on
-`round27-inference`. Builds at **65 pp, 0 errors, 0 undefined references, 0
-overfull boxes**; `verify_numbers` 165 macros / 38 conditions / 0 failures;
+**The run is complete and the manuscript describes it.** 221 commits on
+`round27-inference`. `scripts/build_journal.py` exits 0: article **66 pp**,
+supplement **93 pp**, 0 errors, 0 undefined references, 0 overfull boxes, 0
+floats too large. `verify_numbers` 166 macros / 38 conditions / 0 failures;
 `texlint`, `check_package`, `check_highlights`, `check_bands`,
 `check_reproduction` all clean.
+
+> **Build with `python scripts/build_journal.py`.** `latexmk` is not installed
+> in this environment; invoking it fails with `command not found`, which a
+> redirected shell reports as success, and the page count is then read from a
+> stale PDF. `check_package` catches it by comparing timestamps.
 
 ### What the round found, which is not what it set out to find
 
@@ -60,7 +66,7 @@ poses and had only ever answered with "never".
 | 5 · claims regenerated | **done** — three data layers migrated, every changed macro accounted for |
 | 6 · `hgb` reproduction | **done** |
 | 7 · compliance | agent items **done**; owner items below |
-| 8 · final adversarial read | **running** |
+| 8 · final adversarial read | **done** --- sixth pass, 18 findings, all repaired |
 
 ### The two owner items, both blocking submission
 
