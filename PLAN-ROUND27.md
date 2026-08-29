@@ -155,6 +155,60 @@ redesign it; finish it.
   *harder* to earn, so the choice errs conservative. The third clause is what
   turns a defence into a reason.
 
+### 1.4a The rewrite, paragraph by paragraph
+
+Written before the run finished so the writing is a decision about evidence
+and not about wording. Each item says what the paragraph must decide, and what
+it must **not** be allowed to drift into.
+
+**§4.1, "A pivoted interval need not contain the estimate it is built from."**
+Currently states the round-25 multinomial count. It becomes a *comparison*:
+both schemes, one design, one draw count, one set of seeds. The early read
+says the weighted scheme roughly halves the rate rather than removing it, so
+the paragraph's job is to say **what the repair bought and what it did not**.
+The claim the evidence supports is narrow and should be written narrowly:
+every register level is present in every refit, so the *mechanism* §11 named
+is gone; a residual displacement remains that the mechanism does not explain.
+That residual deserves its own sentence — it says the displacement was never
+only about level loss. *Do not write "the weighted scheme fixes it."*
+
+**§4.1, "It gets worse with the sample size."** Keep the mechanism; drop the
+crossing numbers and forward-reference §10.3, which carries them plus the
+plane's own facts (§4.0's cut, resolved).
+
+**§4.2, "The rule that selects it, in full."** The inference surface is now a
+balanced full factorial on every pair. **Three concessions are retired, and
+retiring them is a result rather than a deletion**: the "corner, not a design"
+limitation; the claim that the decomposition cannot be computed on the
+inference surface (it now can, and comparing it with the declared surface's is
+a new sentence worth having); and the median-share sentence, which becomes a
+per-size-class statement because the share is no longer uniform.
+
+**§4.3 / §10.4, the coverage.** The headline of the round. If measured
+family-wise coverage at 400 draws reaches nominal, contribution 2 and
+highlight 3 may claim *inference* and the abstract's "and find short of
+nominal" inverts. If it does not, **the diagnostics framing stays and the
+front matter keeps saying so** — and the paper is still better, because it now
+reports a measurement under a scheme with no displacement bias. §10.4 must
+also report the new `nonzero`-truth regime separately: under a zero truth
+every rejection is an error, so that regime is the only one that speaks to a
+band that resolves *correctly*.
+
+**§6.3, the K/n calibration.** If the weighted scheme covers, this apparatus
+is **retired, not re-fitted** — and §11's paragraph about a calibration fitted
+for pointwise coverage and applied simultaneously goes with it. That is a
+large simplification and the temptation will be to keep the machinery because
+it was expensive. Rule 1: if the result contradicts the paper, the paper
+changes, including by getting shorter.
+
+**§11, "the repair is not run here."** Does **not** simply get deleted. It
+becomes the paragraph that says what the repair bought, what it cost, and what
+remains — including the residual displacement above. A limitation section that
+loses a paragraph every round without gaining one is a section nobody believes.
+
+**§6.1 and the tables.** Table 5, Table 7 and Table 1 regenerate. Every label
+and ρ moves. Work §5.1a's claims-at-risk register rather than re-reading.
+
 **Done when:**
 - the displacement statistic on the weighted scheme is ≈ 0 and the count of
   cells whose band excludes its own point estimate is 0 (or reported ≤ 0.1%);
