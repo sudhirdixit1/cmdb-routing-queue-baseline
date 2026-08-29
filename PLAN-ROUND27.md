@@ -717,6 +717,40 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-28, overnight — an early read on Phase 1, and a warning about it
+
+Computed directly from the 13 weighted pairs that already carry 400 draws,
+restricted to the five scalar instruments so it is comparable with the number
+the paper quotes:
+
+| | cells | interval excludes its own estimate | median \|displacement\|/half-width |
+|---|---|---|---|
+| round-25, multinomial | 3,900 | 74 (**1.9%**) | 0.09 |
+| round-27, weighted (13 pairs) | 2,340 | 20 (**0.85%**) | 0.129 |
+
+**Read this as a warning, not a result.** The two rows are different surfaces
+at different draw counts, so the comparison is not clean — `s47_schemes.py`
+runs both schemes over *one* design at *one* draw count with *one* set of
+seeds, and it is the authority. But the direction is worth knowing now: the
+weighted scheme roughly **halves** the rate and does **not** take it to zero.
+
+Phase 1's done-when says the count should be zero, "or reported ≤ 0.1%". On
+this evidence it will be neither. So plan for the honest outcome rather than
+the hoped one:
+
+- The §4.1 paragraph must say the repair **reduced** the pathology rather
+  than removed it, and give both counts.
+- §11's "the repair is not run here" paragraph does not simply get deleted;
+  it becomes a paragraph saying what the repair bought and what it did not.
+- **Do not let the framing drift to "the weighted scheme fixes it".** Rule 2
+  applies exactly here: this is the round's flagship change, so the temptation
+  to over-read a favourable direction is at its strongest. The claim the
+  evidence will support is narrower — every register level is present in every
+  refit, so the *mechanism* named in Section 11 is removed, and a residual
+  displacement remains that the mechanism does not explain.
+- That residual is itself worth a sentence, because it says the displacement
+  was never only about level loss.
+
 ### 2026-08-28, overnight — the auditability check, made to work
 
 The worst of the red team's eighteen is repaired, and the repair is worth
