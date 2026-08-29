@@ -4,6 +4,11 @@
     "note": "round 27: marked rows reconcile with withdrawn directions; zero counts read as English",
     "sha": "10ee5bab6cfaf9cc"
   },
+  "round20_numbers.py": {
+    "at": "2026-08-29T08:53:54Z",
+    "note": "round 27: the incomplete-family macros follow the reported surface, and are absent when no family is incomplete",
+    "sha": "090de732ce36c5e5"
+  },
   "round20_tables.py": {
     "at": "2026-08-29T08:44:08Z",
     "note": "round 27: the per-instrument count is labelled as one; the rho=1 pair's survival of the widening is checked, not asserted",

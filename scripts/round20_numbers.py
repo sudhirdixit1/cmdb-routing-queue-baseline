@@ -172,15 +172,22 @@ def emit(mn):
     #  reported in Section 4.4 rather than left in a file, because a band
     #  built from 33 of 40 draws is a band with a noisier standard error and
     #  a reader is entitled to know which.
-    INC21 = load("s21_incomplete.csv")
+    #  ROUND TWENTY-SEVEN.  A fixed filename again: this read the RETIRED
+    #  surface's incomplete-family file and reported a band built from 33 of
+    #  40 draws.  On the reported surface no family is incomplete -- the
+    #  weighted scheme cannot drop an arm -- so the file is empty and these
+    #  two macros should be ABSENT rather than carry a retired surface's
+    #  worst case.  `nIncompleteFamilies' is zero and says so.
+    INC21 = load("s48w_incomplete.csv")
     put("nIncompleteFamilies", thousands(first(F21, "n_incomplete_families")))
     if INC21 is not None and len(INC21) and "n_draws_complete" in INC21.columns:
         share = (INC21.n_draws_complete / INC21.n_draws_declared).min()
         put("minDrawSharePct", pct(float(share), 0))
         put("minDrawsComplete", thousands(int(INC21.n_draws_complete.min())))
-    else:
-        put("minDrawSharePct", None)
-        put("minDrawsComplete", None)
+    #  and if the file is empty NOTHING IS EMITTED, because the ?? marker
+    #  means "this number should exist and the analysis did not produce it",
+    #  which is the opposite of the truth here: no family is incomplete, so
+    #  the worst incomplete family does not exist to be reported.
 
     if R21 is not None and len(R21):
         put("nUniformlyBeneficial",
