@@ -482,7 +482,7 @@ than counted by hand.
 
 | § | section | words | requested | |
 |---|---|---:|---|---|
-| 1 | Introduction | 1,186 | 1,200–1,500 | just under |
+| 1 | Introduction | 1,211 | 1,200–1,500 | just under |
 | 2 | Related work | 612 | 1,200–1,500 | under |
 | 3 | The specification surface | 1,352 | ~1,500 | ✓ |
 | 4 | Estimation and inference | 3,871 | 2,000–2,500 | **over** |
