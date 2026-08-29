@@ -12,7 +12,7 @@ Append progress to §9 of THIS file after every phase.
 
 ---
 
-## STATUS AT A GLANCE — updated 2026-08-28, overnight session
+## STATUS AT A GLANCE — updated 2026-08-29, 00:30 (overnight session)
 
 | phase | what | state |
 |---|---|---|
@@ -696,6 +696,12 @@ machine actually gets, with the tolerance stated and tested.
 *(append per phase: what ran, what it found, what changed in the paper, what
 it cost — per `PLAN-STRONG-ACCEPT.md` §0.2. Numbers here are checked against
 result files like any others.)*
+
+**Order of this section.** The baseline entry comes first and everything after
+it is **newest first**, because during a long run the most recent entry is the
+one a reader needs. Each entry carries its own timestamp, so the sequence can
+be reconstructed; do not reorder them to fix the apparent inconsistency, since
+the timestamps are the record and the arrangement is not.
 
 ### 2026-08-28, session start — baseline established
 
