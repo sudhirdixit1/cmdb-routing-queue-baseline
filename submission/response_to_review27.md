@@ -16,7 +16,7 @@ accept honesty as a substitute for the work. That is the right judgement and
 we have not argued with it.
 
 **The report's central charge, in its own words:** the paper ships its
-central inferential object as a diagnostic while its own Section 11 prices
+central inferential object as a diagnostic while its own Section 10 prices
 the repair at "a change to one function and a re-run" — and a methods paper
 whose subject is inference discipline cannot do that. We agree. Round
 twenty-seven runs it.
@@ -55,7 +55,7 @@ class needed a gate rather than a proofread. It now has one.
 **Conceded in full, and run — and the run did not vindicate the repair.** We
 report that first because it is the finding.
 
-The report is right that Section 11 named the repair and did not run it, and
+The report is right that Section 10 named the repair and did not run it, and
 right that the excuse — cost — is not available to us when our own text
 prices the fix at one function. Two things were wrong and both are now
 changed rather than described.
@@ -74,7 +74,7 @@ The visible symptom was a pivotal interval excluding its own point estimate
 on 74 of 3,900 cells. That count is the success criterion, because it is a
 defect a reader can see without believing any theory about why it happens.
 
-**We ran the comparison, and it did not go the way Section 11 predicted.**
+**We ran the comparison, and it did not go the way Section 10 predicted.**
 
 The mechanism is removed completely. Register levels present in a draw go from
 **80.8%** — 60.2% at worst — to **100% by construction**. The starkest
@@ -107,7 +107,7 @@ is slightly more conservative — but not on the grounds we gave for wanting it.
 count — four learners on the case study and two elsewhere, three quality
 conditions except on the largest logs. It was axis-complete and it was
 *unbalanced*, which is why the decomposition could not be computed on it and
-why its cell mix differed from the declared surface's. Section 11 asked for a
+why its cell mix differed from the declared surface's. Section 10 asked for a
 resolution-IV fraction. What round twenty-seven runs is stronger: one design
 on every pair — 2 learners × 2 splits × 3 quality conditions × 3 rungs, 36
 cells, 180 scalar members, balanced and orthogonal, which is a full factorial
@@ -140,7 +140,7 @@ Three consequences we now claim rather than concede:
    never resolves at all.
 
    *A correction we make against ourselves, because it flatters us.* An
-   earlier draft of this letter and of Section 10 quoted a median of 83.7%
+   earlier draft of this letter and of Section 9 quoted a median of 83.7%
    here. That figure pooled the decision-curve families with the surface ones
    — two sets whose required widenings we report separately, at 1.36–1.88 and
    2.20–2.61, precisely because they are not the same object — across draw
@@ -167,7 +167,7 @@ only calibration we have fitted would supply. **So we do not apply it.** A
 widening smaller than the measurement asks for would spend resolution and
 present the labels as corrected without earning the level, which is a worse
 position than reporting them nominal and saying by how much they are
-anti-conservative. Section 11 says so, and Supplement F derives the
+anti-conservative. Section 10 says so, and Supplement F derives the
 calibration in full so that the measurement retiring it is legible beside it.
 We do not claim to know *why* the shortfall exceeds it; that would need a
 counterfactual we have not run.
@@ -187,9 +187,9 @@ directional label *harder* to earn, so the choice errs conservative.
 
 **Conceded; it was arithmetic and it is now applied** (`s49_dcaband.py`, 0.07 s, no refits).
 
-The report is right that this one had no excuse at all: Section 10.4 measures
+The report is right that this one had no excuse at all: Section 9.4 measures
 that the decision-curve families need a multiplicative widening of 1.90 to
-2.05, Section 8.3 printed counts from the uncorrected band, and Section 11
+2.05, Section 8.3 printed counts from the uncorrected band, and Section 10
 told the reader to distrust them. Widening an already-computed critical value
 costs matrix arithmetic and no refits.
 
@@ -314,7 +314,7 @@ increments and intervals and ordinals. And the defects are concentrated in
 the writing is where the risk lives. That is the strongest argument we have
 for the length reduction below being a correctness measure rather than a
 cosmetic one. Every restatement of a number in prose is another place for the
-prose and the table to drift, and Section 11 alone restates 55 of the 73
+prose and the table to drift, and Section 10 alone restates 55 of the 73
 macros it uses.
 
 ## 4. Reproducibility: a discrepancy we found ourselves and are disclosing
@@ -377,7 +377,9 @@ that regenerates them. It is recorded where a reader will meet it.
 **The generative-AI declaration** now carries Elsevier's template statement
 and the two facts that belong with it, and nothing else; the
 literature-pilot description that had accumulated in it is where the pilot
-is, in Section 9.3. One substantive change came out of the edit and is worth
+is, in the supplement's reporting-standard appendix --- that section moved out
+of the article in this round's length pass, and the declaration's pointer moved
+with it. One substantive change came out of the edit and is worth
 flagging: the declaration's assertion that no generative model produced,
 imputed, augmented or selected any datum, result or citation was
 *unscoped*, and was safe only because the pilot carve-out followed it. The
@@ -387,7 +389,7 @@ paper" — which is what it always meant and now says. `credit_statement.md`
 is scoped to match.
 
 **The keyword "predictive process monitoring" is retired**, replaced by
-"event logs". Section 11 states that prefix length, prefix bucketing and
+"event logs". Section 10 states that prefix length, prefix bucketing and
 sequence encoding are not axes of this design space and cannot be, and that
 no result about that literature's benchmark is claimed; the prefix pilot is
 one log, one register, no bucketing and no sequence encoder, and says of
