@@ -2645,3 +2645,52 @@ list; the rest are held by the manuscript's prose and by R26 above.
 
 It was proved by reinstating the cover letter's withdrawn sentence and
 watching it fail on the exact line.
+
+## R27.17 A seventh pass, on the length pass. **THIRTEEN FINDINGS, THREE BLOCKING**
+
+The length pass moved twenty passages and compressed ten. It introduced
+thirteen defects, which is the same rate as every other rewrite this round and
+is the reason the pass was audited rather than trusted.
+
+**Three were blocking.** A moved block was cut one clause early, so the
+supplement printed a subsection ending in a dangling "The" and the body kept
+the continuation. Two moved blocks pointed **at themselves** --- "Two further
+experiments on this estate are in Supplement S14.5" printed *inside* S14.5.
+And the §7.3 move landed a summary directly above the full treatment round
+twenty-five had already put there, so one page of the supplement stated the
+same six numbers twice; round twenty-five's arrangement was summary in the
+body, detail in the supplement, and the pass collapsed both into the
+supplement.
+
+**One was the cut this project forbids.** Compressing §11 deleted *"the
+sign-disagreement rate is withdrawn as a headline"* and replaced it with a
+pointer saying the Conclusion withdraws it. The Conclusion reports the count
+and never performs the withdrawal, so **a concession the last three rounds
+were spent earning appeared nowhere in the paper.** The rule was written down
+in this round's own plan --- a cut that removes a number is a saving, a cut
+that removes a concession is a regression --- and the pass broke it anyway.
+Restored, in the Conclusion, where the pointer promises it.
+
+**One compression made a claim stronger and false.** "Carries more of the
+corpus's admissible cells than any other pair" --- it ties with the other
+target on the same log, and the paper prints the arithmetic that shows it.
+The text it replaced was exact.
+
+The rest: a symbol used in the body and defined only in the appendix it was
+moved to; a pointer landing on the nearest available label rather than the
+right subsection, because the right one carried no label; the same reference
+printed twice in one sentence after two were merged; four blocks whose
+"above", "this section" and "that rung" no longer had antecedents; three
+measured quantities left printing nowhere while the assertions they supported
+stayed; and an unattributed number.
+
+Two gates were widened in response. `check_response_refs` matched only the
+section-sign form, so six references written out as "Section 11" survived a
+renumbering the "§ 11" ones did not --- it now matches both, exempts
+historical letters (whose numbers describe the version they answered), and
+covers the three response letters it had never seen. Its table-reference count
+went from 9 to 28.
+
+**And the pass left `paper/parts/70_standard.tex` in the tree, uncompiled,
+duplicating the appendix it became** --- which is precisely the shape of the
+`_appendix_block.tex` defect this same round had just fixed. Removed.
