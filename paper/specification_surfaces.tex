@@ -758,31 +758,24 @@ coverage over $\mathcal{F}$ asymptotically, and over nothing larger.
 \paragraph{The family must be the family}
 Within-cell bands, each covering five members, do not cover the several
 hundred cells a surface-level label ranges over. Four interval objects are
-declared and every table says which it prints: \textsc{pointwise},
-\textsc{within-instrument}, \textsc{whole-surface} --- max-$t$ over
-\emph{every} admissible scalar cell of the pair, the only family a
-surface-level claim may use --- and \textsc{decision-curve}, declared
-separately because net benefit and a scalar instrument are not the same
-scale. The whole-surface family has a median \familySizeMedian\ members
-against five, and its median critical value is \maxTSurfaceMedian\ against
-\maxTWithinMedian\ and the pointwise $1.96$. Family control is per
-log--target pair; every cross-pair statement here is descriptive.
+declared and every table says which it prints; \textsc{whole-surface} ---
+max-$t$ over \emph{every} admissible scalar cell of the pair --- is the only
+family a surface-level claim may use, and it has a median
+\familySizeMedian\ members against five and a median critical value of
+\maxTSurfaceMedian\ against \maxTWithinMedian\ and the pointwise $1.96$.
+Family control is per log--target pair; every cross-pair statement here is
+descriptive.
 Supplement~\ref{app:families} gives these four \emph{interval} objects
 --- which are not the reporting objects of Table~\ref{tab:objects} --- and the
 rule for dropping a replicate that leaves a cell without outcome variation.
 
 \paragraph{Estimating the critical value without paying for it in refits}
-$q_{1-\alpha}$ is the upper quantile of a maximum over hundreds of correlated
-cells and the empirical quantile of $B$ observed maxima estimates it badly,
-while raising $B$ multiplies the cost of the whole design space. Standardising
-the draws and multiplying them by independent standard normals gives a
-statistic with their empirical covariance, generated \nMultiplier\ times for
-the cost of matrix arithmetic \citep{chernozhukov2013gaussian};
-Supplement~\ref{app:objects} gives the construction. The budget therefore
-fixes $B$ and not the precision of $q$ --- order-statistic widths of
-\qEmpWidth\ against \qMultWidth\ --- and the residual Monte Carlo interval is
-carried through, so a cell counts as \emph{resolved} only at its \emph{upper}
-end. A max-$t$ band also inherits the coverage of the interval it is built
+Standardising the draws and multiplying them by independent standard normals
+gives a statistic with their empirical covariance, generated \nMultiplier\
+times for the cost of matrix arithmetic \citep{chernozhukov2013gaussian}, so
+the budget fixes $B$ and not the precision of $q$; the residual Monte Carlo
+interval is carried through, and a cell counts as \emph{resolved} only at its
+\emph{upper} end (Supplement~\ref{app:objects}). A max-$t$ band also inherits the coverage of the interval it is built
 from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
 register cardinality to training size. Supplement~\ref{app:calibration}
 derives a $q$ calibrated at each pair's own ratio and

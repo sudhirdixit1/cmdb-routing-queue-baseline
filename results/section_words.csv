@@ -2,12 +2,12 @@ section,words
 "Highlights",8
 "Introduction",1186
 "Related work",612
-"The specification surface",1384
-"Estimation and inference",3936
-"The registered benchmark design",1243
+"The specification surface",1352
+"Estimation and inference",3870
+"The registered benchmark design",1209
 "Multi-log results",4164
-"Case study: a configuration management database",1939
-"Decision-analytic evaluation",1086
+"Case study: a configuration management database",1918
+"Decision-analytic evaluation",1045
 "Simulation against a known answer",1706
 "Threats to validity",2132
 "Conclusion",691
