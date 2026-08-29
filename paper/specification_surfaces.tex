@@ -524,11 +524,8 @@ under the \emph{simultaneous} band, not merely positive as a point estimate;
 \item its interval is a Fieller set and its \emph{kind} --- bounded,
 unbounded, or the complement of an interval --- is printed beside it. A
 confidence set for a ratio is the solution set of a quadratic
-\citep{fieller1954} and is a bounded interval only when that quadratic's
-leading coefficient is positive, which is to say only when the denominator is
-resolvably away from zero; otherwise it is unbounded or is the
-\emph{complement} of an interval, and no bounded interval summarises it
-(Supplement~\ref{app:objects}). Of the \nFieller\ reductions this paper
+\citep{fieller1954} and is bounded only when the denominator is resolvably
+away from zero (Supplement~\ref{app:fieller}). Of the \nFieller\ reductions this paper
 computes, \nFiellerUnbounded\ have a non-bounded Fieller set, and a percentile
 interval reports a bounded one for every single one of them;
 \item the magnitude of $R$ is never compared with the spread of $R$ across
@@ -1137,15 +1134,13 @@ assignment group, an assignee, a resource and a role; the targets mean
 different things in a bank's incident queue, a hospital's admissions and a
 municipality's permits.
 
-Table~\ref{tab:construct} makes that explicit rather than leaving it to a
-sentence. For every pair it names the domain, the field playing the register
-role, why that field behaves as a maintained and reused entity, the free
-field, the interpretation of the target, and the specific threat to construct
-validity that the pair carries. A diagnosis code is admitted as a register by
-a cardinality-and-reuse rule, and it is not a configuration management
-database; a legal article is reused across cases but nobody maintains a
-discovery process for it. Those are threats, they are named per pair, and the
-paper's conclusions are stated at a level that survives them.
+Table~\ref{tab:construct} names, for every pair, the domain, the field
+playing each role, the target's interpretation and the specific construct
+threat that pair carries --- a diagnosis code is admitted by a
+cardinality-and-reuse rule and is not a configuration management database, and
+a legal article is reused across cases but nobody maintains a discovery
+process for it. Those are threats, named per pair, and the paper's conclusions
+are stated at a level that survives them.
 
 This is therefore a \emph{benchmark of specification sensitivity across
 heterogeneous prediction problems}, not a replication of one finding on
@@ -1817,13 +1812,11 @@ field absorbs. The absolute absorption $D = V(f \mid B_0) - V(f \mid B_1)$ is
 reported first, with its own interval, and $R$ second with a Fieller set and
 the set's kind. On this estate at the reference cell $D$ is \Dabs\ [\DabsLo,
 \DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set. This ladder is the
-favourable case: \nFiellerUnboundedCase\ of the \nFiellerCase\ reductions it
-produces have a Fieller set that is not a bounded interval, because the
-denominator is resolvably positive at every rung of it. Across the corpus that
-is not so --- \nFiellerUnbounded\ of \nFieller\ reductions have a non-bounded
-set, and a percentile interval reports a bounded one for every one of them ---
-which is why the ratio is secondary everywhere and not only here. The full
-ladder is Table~\ref{tab:absorption}.
+favourable case --- \nFiellerUnboundedCase\ of the \nFiellerCase\ reductions
+it produces have a set that is not a bounded interval, because the denominator
+is resolvably positive at every rung --- which across the corpus is not so
+(Section~\ref{sec:props}), and that is why the ratio is secondary everywhere
+and not only here. The full ladder is Table~\ref{tab:absorption}.
 % ---- paper/parts/60_dca.tex ----
 
 \section{Decision-analytic evaluation}
@@ -1905,15 +1898,12 @@ Section~\ref{sec:simband} measures on families that carry this corpus's tails
 and no degenerate cells; the lower end \shortfallDcaMin\ returns the same
 count, so which end is taken is not carrying the result. The choice between
 the two kinds of matched family does move it, and the alternative is therefore
-printed rather than argued away: the all-cells factor
-\dcaWidenFactorAll, measured where the matched families are built to carry
-cells at which both arms treat every case alike --- \nDegenerateCellsDca\ of
-them across the corpus's curve families --- removes a further point, to
+printed rather than argued away: the all-cells factor \dcaWidenFactorAll,
+measured on families built to carry degenerate cells
+(Section~\ref{sec:simband}), removes a further point, to
 \nBeneficialSimultaneousAllCells. The admissible factor is the operative one
-because this family is not the degenerate case --- \nDegenerateCellsBand\ of
-its \nDcaFamily\ cells are zero in at least nine draws of ten, against a
-corpus share that reaches \shareDegenerateDcaMaxPct\ --- and the all-cells
-count is printed beside it because that argument is a judgement rather than a
+because this family is not the degenerate case, and the all-cells count is
+printed beside it because that argument is a judgement rather than a
 measurement.
 
 The pointwise interval is not widened by a family-wise factor; what it covers
