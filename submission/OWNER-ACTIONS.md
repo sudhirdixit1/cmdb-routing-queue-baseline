@@ -145,13 +145,24 @@ not as part of the PDF.
 | Highlights | `submission/highlights.txt` (the paste-ready block at the bottom) |
 | Cover letter | `submission/cover_letter.md` |
 | Supplementary material | `build/journal/supplement.pdf` |
-| Response to the previous report | `submission/response_to_referee.md` |
+| **Response to the current report** | **`submission/response_to_review27.md`** |
 | Declaration of interests | `submission/declaration_of_interests.md` |
 | CRediT | `submission/credit_statement.md` |
 | Data availability | `submission/data_availability.md` |
 | Suggested reviewers | `submission/suggested_reviewers.md` |
+| Response to the original referee report | `submission/response_to_referee.md` |
 | Response to the first developmental review | `submission/response_to_blueprint.md` |
 | Response to the second developmental review | `submission/response_to_review21.md` |
+| Response to the third developmental review | `submission/response_to_review23.md` |
+| Response to the fourth developmental review | `submission/response_to_review26.md` |
+
+**The letter answering the report this version responds to is
+`response_to_review27.md`, and it was missing from this table for a round.**
+The list had stopped at review 21 while three further letters were written, so
+an upload following it would have shipped the manuscript without the document
+that answers the current report. All six are listed above; upload the
+round-27 letter as the response and the rest as prior correspondence if the
+system takes them.
 
 ### 1.5 Corresponding-author details the submission system asks for
 
