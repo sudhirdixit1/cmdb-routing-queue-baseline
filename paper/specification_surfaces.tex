@@ -100,22 +100,21 @@ Estimation, Uncertainty, and Multi-Log Evaluation}
 
 \begin{abstract}
 What a recorded field is worth to a prediction is reported as one number, but
-that number is a functional of choices the report rarely states: the baseline,
+it is a functional of choices the report rarely states: the baseline,
 the pipeline, the outcome predicted, the split, the moment the decision is
 taken, how completely the register behind the field is populated, and the
 metric. We define incremental predictive performance as a \emph{specification
 surface} $V_s(f)$ over a design space the analyst declares, and give three
 objects for reporting one: an exact functional-ANOVA decomposition of its
-variance that separates analyst choices from the resampling a design also
+variance that separates analyst choices from the resampling a design
 contains; simultaneous max-$t$ bands from a pipeline-refitting bootstrap,
 whose coverage we measure against a known answer and find short of nominal;
 and \emph{resolution regions}, which say where a sign is determined. On
-\nPairs\ pairs from \nLogs\ public event logs, resampling carries
-a median \shareResamplingStratumPct\ of the variance, and net of it no single
-analyst choice dominates on \nFoldInteractionExceeds\ pairs. Most
-specifications leave the sign undetermined; where the data determine one,
-admissible specifications sit a median \madResolvedMedian\ AUC from the
-conventional report. In a case study on \nCohort\ bank incidents, a register's
+\nPairs\ pairs from \nLogs\ public event logs, resampling carries a median
+\shareResamplingStratumPct\ of the variance, and net of it which analyst
+choice leads is a property of the pair. Most specifications leave the sign
+undetermined; where the data determine one, admissible specifications sit a
+median \madResolvedMedian\ AUC from the conventional report. In a case study on \nCohort\ bank incidents, a register's
 worth turns on the decision time and its sign on the target.
 \end{abstract}
 
@@ -173,7 +172,7 @@ surface overstates the case}: most of its variance here is resampling rather
 than analyst latitude, and the correction is exact
 (Section~\ref{sec:sobol}). And \textbf{the sign is the wrong thing to count}:
 where the data determine a sign, the conventional report is usually right
-about it and usually wrong about the magnitude, which is what
+about it and usually silent about the size, which is what
 Section~\ref{sec:results-regret} reports instead.
 
 \paragraph{The estimand}
@@ -1899,17 +1898,25 @@ registered calibration rule --- which excludes \nModelsDcaExcluded\ of
 decision curve read off a model whose probabilities are wrong is read at a
 threshold the model does not have.
 
-\textbf{And the rules mostly tie.} The one-number rule's expected excess is
-\excessOneNumberDesk\ per thousand against the conservative rule's
-\excessUniformDesk, the four rules separate on only \nSeparatingDesk\ of
-\nPairs\ pairs, and the one-number rule is worst on \nOneNumberWorstDesk.
+\textbf{And the rules separate on most pairs, with the excess falling on the
+conservative rule rather than the one-number rule.} The one-number rule's
+median excess is \excessOneNumberDesk\ per thousand against the conservative
+rule's \excessUniformDesk, and the cross-pair means are
+\meanExcessOneNumberDesk\ and \meanExcessUniformDesk: what the medians hide
+is a tail, and it is the conservative rule's. The four rules do not all lose
+the same amount on \nSeparatingDesk\ of the \nPairsDesk\ pairs the
+calibration rule leaves, and all four are identical on the other
+\nAllRulesTieDesk. Where they do separate, the one-number rule is strictly
+the worst on \nOneNumberWorstDesk\ and tied for worst on
+\nOneNumberTiedWorstDesk, at a maximum of \maxExcessOneNumberDesk\ per
+thousand.
 \textbf{The case against one-number reporting does not rest on this design.}
-What does separate in this unit is the decision time: the register promises
-\promisedPerThousand\ per thousand at the earlier moment and delivers
-\deliveredPerThousand\ at the later one, a shortfall of
-\shortfallPerThousand. Supplement~\ref{app:deskfull} carries the rules, the
-exchange-rate distribution and the exclusions; Tables~\ref{tab:desk}
-and~\ref{tab:rules} the numbers.
+Larger than anything the choice of collapse rule costs a one-number report is
+the decision time: the register promises \promisedPerThousand\ per thousand
+at the earlier moment and delivers \deliveredPerThousand\ at the later one, a
+shortfall of \shortfallPerThousand. Supplement~\ref{app:deskfull} carries the
+rules, the exchange-rate distribution and the exclusions;
+Tables~\ref{tab:desk} and~\ref{tab:rules} the numbers.
 % ---- paper/parts/70_standard.tex ----
 
 \section{A reporting standard, and software}
@@ -2281,9 +2288,10 @@ interval this paper uses can exclude its own point estimate, on
 \nCellsExcludingV\ of \nCellsWholeTotal\ cells. The displacement is a bias, so
 it worsens with $n$, and it leaves the coverage calibration's estimator
 undefined on \nPlaneCellsUndefined\ of \nPlaneCellsOffered\ plane cells. The
-design's own justification is weak: the nested interval beats the fixed-model
-interval by \nestedGainInSe\ Monte Carlo standard errors, and the
-seven-construction comparison that chose the pivotal interval ran at
+design's own justification is weak: the nested interval's coverage sits
+\nestedGainInSe\ Monte Carlo standard errors from the fixed-model interval's,
+which is not a difference this evidence can resolve (Section~\ref{sec:boot}),
+and the seven-construction comparison that chose the pivotal interval ran at
 \simCoreNtrain\ training rows and at no other size --- below the regime where
 the defect appears. \textbf{The repair we would make first is a change of
 resampling scheme, not of interval}: drawing \emph{weights} --- Dirichlet or
@@ -2374,15 +2382,20 @@ A prefix axis is nonetheless run on one log, because the obvious question is
 whether this paper's central claim is a property of that literature's axis too
 (Supplement~\ref{app:prefix}). It is. Holding the register and the estate
 fixed and moving only the prefix, the increment falls from \VPrefixZero\
-[\VPrefixZeroLo, \VPrefixZeroHi] AUC at case creation to \VPrefixTwo\ two
-events later and \prefixRetainedPct\ of its creation-time value at the
-deepest prefix measured, and on \nPrefixUnresolved\ of \nPrefixLevels\
-prefixes the data no longer determine its sign. \textbf{Case creation --- the
-point every other result here occupies --- is the most favourable prefix for a
+[\VPrefixZeroLo, \VPrefixZeroHi] AUC at case creation to \VPrefixTwo\
+[\VPrefixTwoLo, \VPrefixTwoHi] two events later, and beyond that it does not
+decline monotonically: at the deepest prefix measured it is \VPrefixEight\
+[\VPrefixEightLo, \VPrefixEightHi] --- nominally \prefixRetainedPct\ of its
+creation-time value, on an interval that contains zero --- and it is one of
+\nPrefixUnresolved\ of \nPrefixLevels\ prefixes where the data do not
+determine the increment's sign. \textbf{Case creation --- the point every
+other result here occupies --- is the most favourable prefix for a
 creation-time register}, and two studies of this field reporting from the two
-ends of that axis would differ by a factor of \prefixDropFactor\ without
-either being wrong. One log, one register and no sequence encoder is a pilot,
-and the structural omission stands.
+ends of that axis would differ by a factor of \prefixDropFactor\ in point
+estimates without either being wrong. What this measurement supports is the
+fall away from case creation and not a shape for the rest of the axis: one
+log, one register and no sequence encoder is a pilot, and the structural
+omission stands.
 
 \paragraph{External --- three narrower limits, named}
 The \emph{inference surface} is a corner of the declared surface chosen by row
@@ -2420,14 +2433,21 @@ baseline alone --- among the baselines an analyst would actually build ---
 moves the increment further than the increment itself}. Four further results
 are worth carrying away.
 
-\textbf{Most of a pooled specification surface is resampling, and what remains
-is not dominated by one choice.} The components involving the split carry a
-median \shareResamplingStratumPct\ of the variance. Net of them the largest
-first-order index at the median pair is \foldLargestFirstOrderPct\ and the
-higher-order share \foldInteractionTotalPct, and which axis leads is a
-property of the pair. An analyst cannot learn from somebody else's paper which
-of their own choices their answer turns on --- but neither should they read a
-pooled specification curve as evidence that everything matters.
+\textbf{Most of a pooled specification surface is resampling, and net of it
+different pairs turn on different analyst choices.} The components involving
+the split carry a median \shareResamplingStratumPct\ of the variance. Net of them the largest first-order index at the median pair is
+\foldLargestFirstOrderPct\ against a higher-order share of
+\foldInteractionTotalPct: the interactions carry more than any single axis on
+\nFoldInteractionExceeds\ of \nPairs\ pairs, against
+\nPooledInteractionExceeds\ before the resampling stratum is removed, so
+\emph{most of the variance belongs to no single axis} is not a claim this
+evidence supports (Section~\ref{sec:axes2}). What it does support is that
+which axis leads is a property of the pair --- the baseline rung on
+\nFoldLeadPairsRung\ pairs, the register-quality condition on
+\nFoldLeadPairsQuality\ and the pipeline on \nFoldLeadPairsPipeline. An
+analyst therefore cannot learn from somebody else's paper which of their own
+choices their answer turns on --- but neither should they read a pooled
+specification curve as evidence that everything matters.
 
 \textbf{A one-number report is usually right about the sign and usually silent
 about the size.} Once a sign has to be determined by the data \emph{and} worth

@@ -671,9 +671,42 @@ def emit(mn):
     put("deskQmid", num(first(F35, "desk_q50"), 2))
     put("deskQhi", num(first(F35, "desk_q95"), 2))
     put("nSeparatingDesk", thousands(first(F35, "n_separating_desk")))
-    put("nOneNumberWorstDesk", thousands(first(F35, "n_one_number_worst_desk")))
-    put("excessOneNumberDesk", num(first(F35, "excess_one_number_desk"), 3))
-    put("excessUniformDesk", num(first(F35, "excess_uniform_desk"), 3))
+    #  THE DENOMINATOR THIS COUNT IS READ AGAINST.  `nSeparatingDesk' counts
+    #  pairs the desk comparison ran on, and the desk comparison runs only on
+    #  the pairs the registered calibration rule admits -- `nPairsDcaExcluded'
+    #  of `nPairs' carry no admissible model at all.  Section 8.4 printed the
+    #  count over `nPairs' two sentences after saying so, which turned a
+    #  majority of the pairs it compared into a minority of a corpus it did
+    #  not.  Anything divided by the desk table's pair count divides by this.
+    put("nPairsDesk", thousands(first(F35, "n_pairs_desk")))
+    #  WORST, WITH THE TIES SHOWN.  `nOneNumberWorstDesk' used to come from a
+    #  first-maximum argmax over a rule column whose first row is always
+    #  `one-number', so it counted every pair on which the four rules came
+    #  out exactly equal -- five of sixteen, on which no rule is worst -- as
+    #  one the one-number rule was worst on.  It now carries the STRICTLY
+    #  worst count, and the two quantities it used to absorb are printed
+    #  beside it.  The value changes from ten to three and the name does not,
+    #  because the supplement's sentence is scoped to the pairs on which the
+    #  rules differ and is true of the strict count.
+    put("nOneNumberWorstDesk",
+        thousands(first(F35, "n_one_number_strictly_worst_desk")))
+    put("nOneNumberTiedWorstDesk",
+        thousands(first(F35, "n_one_number_tied_worst_desk")))
+    put("nAllRulesTieDesk", thousands(first(F35, "n_all_rules_tie_desk")))
+    #  MEDIANS.  Both of these are cross-pair medians and the prose that
+    #  quotes them has to say so: on the conservative rule the median is
+    #  0.05 per thousand and the mean is 6.09, because eight of sixteen
+    #  pairs carry the whole of its excess.  The mean is emitted beside it
+    #  rather than left out, and the direction it cuts -- the conservative
+    #  rule far worse than the one-number rule, not better -- is the reason
+    #  it has to be printed rather than the reason it may be dropped.
+    put("excessOneNumberDesk",
+        num(first(F35, "median_excess_one_number_desk"), 3))
+    put("excessUniformDesk", num(first(F35, "median_excess_uniform_desk"), 3))
+    put("meanExcessOneNumberDesk",
+        num(first(F35, "mean_excess_one_number_desk"), 3))
+    put("meanExcessUniformDesk",
+        num(first(F35, "mean_excess_uniform_desk"), 3))
     put("maxExcessOneNumberDesk",
         num(first(F35, "max_excess_one_number_desk"), 3))
     put("promisedPerThousand", num(first(F35, "promised_per_1000"), 2))

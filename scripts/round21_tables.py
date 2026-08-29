@@ -616,7 +616,14 @@ def write(mn):
                          "report single exchange rates so that a reader who "
                          "rejects the distribution still has a number. The "
                          "last column counts the pairs on which the four "
-                         "rules do not all lose the same.",
+                         "rules do not all lose the same, out of the "
+                         "\\nPairsDesk\\ pairs that carry a model the "
+                         "calibration rule admits --- NOT out of "
+                         "\\nPairs: the rule excludes "
+                         "\\nPairsDcaExcluded\\ of them, and a count "
+                         "taken over the admitted pairs and printed "
+                         "against the corpus total is the defect this "
+                         "caption exists to prevent.",
                       "tab:desk", floatfmt="%.4f",
                       colnames={"threshold_measure": "threshold measure"}),
             encoding="utf-8")

@@ -307,6 +307,29 @@ def check(vn, M):
             vn.FAILS.append(
                 "round-27 condition: the master table's region label is not "
                 "the one Definition 3 yields -- " + "; ".join(bad[:6]))
+    #  THE DESK COMPARISON'S PAIRS ARE ACCOUNTED FOR.  Section 8.4 printed a
+    #  count taken over the 16 pairs that carry a calibrated model against a
+    #  denominator of 19 --- two sentences after saying the calibration rule
+    #  excludes 3 of the 19.  The partition is the check: a pair on which the
+    #  rules separate and a pair on which all four are identical are the only
+    #  two states, so they must sum to the pairs the comparison runs on.
+    F35 = _read(results, "s35_facts.csv")
+    if F35 is not None and len(F35):
+        try:
+            nsep = int(F35.n_separating_desk.iloc[0])
+            ntie = int(F35.n_all_rules_tie_desk.iloc[0])
+            npd = int(F35.n_pairs_desk.iloc[0])
+            if nsep + ntie != npd:
+                vn.FAILS.append(
+                    "round-27 condition: the desk comparison's pairs do not "
+                    "partition -- %d separating + %d all-tied != %d pairs"
+                    % (nsep, ntie, npd))
+        except (AttributeError, KeyError, IndexError, ValueError):
+            vn.FAILS.append(
+                "round-27 condition: s35_facts.csv is missing a column the "
+                "desk-pair partition needs (n_separating_desk, "
+                "n_all_rules_tie_desk, n_pairs_desk)")
+
     #  THE SPECIFICATION-CURVE TABLE OBEYS THE SAME DEFINITION.  The master
     #  table was repaired in round twenty-seven and this one was not, so for a
     #  week two tables printed different region labels for the same four

@@ -108,14 +108,22 @@ registered calibration rule --- which excludes \nModelsDcaExcluded\ of
 decision curve read off a model whose probabilities are wrong is read at a
 threshold the model does not have.
 
-\textbf{And the rules mostly tie.} The one-number rule's expected excess is
-\excessOneNumberDesk\ per thousand against the conservative rule's
-\excessUniformDesk, the four rules separate on only \nSeparatingDesk\ of
-\nPairs\ pairs, and the one-number rule is worst on \nOneNumberWorstDesk.
+\textbf{And the rules separate on most pairs, with the excess falling on the
+conservative rule rather than the one-number rule.} The one-number rule's
+median excess is \excessOneNumberDesk\ per thousand against the conservative
+rule's \excessUniformDesk, and the cross-pair means are
+\meanExcessOneNumberDesk\ and \meanExcessUniformDesk: what the medians hide
+is a tail, and it is the conservative rule's. The four rules do not all lose
+the same amount on \nSeparatingDesk\ of the \nPairsDesk\ pairs the
+calibration rule leaves, and all four are identical on the other
+\nAllRulesTieDesk. Where they do separate, the one-number rule is strictly
+the worst on \nOneNumberWorstDesk\ and tied for worst on
+\nOneNumberTiedWorstDesk, at a maximum of \maxExcessOneNumberDesk\ per
+thousand.
 \textbf{The case against one-number reporting does not rest on this design.}
-What does separate in this unit is the decision time: the register promises
-\promisedPerThousand\ per thousand at the earlier moment and delivers
-\deliveredPerThousand\ at the later one, a shortfall of
-\shortfallPerThousand. Supplement~\ref{app:deskfull} carries the rules, the
-exchange-rate distribution and the exclusions; Tables~\ref{tab:desk}
-and~\ref{tab:rules} the numbers.
+Larger than anything the choice of collapse rule costs a one-number report is
+the decision time: the register promises \promisedPerThousand\ per thousand
+at the earlier moment and delivers \deliveredPerThousand\ at the later one, a
+shortfall of \shortfallPerThousand. Supplement~\ref{app:deskfull} carries the
+rules, the exchange-rate distribution and the exclusions;
+Tables~\ref{tab:desk} and~\ref{tab:rules} the numbers.

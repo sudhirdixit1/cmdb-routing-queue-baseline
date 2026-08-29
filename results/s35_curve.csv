@@ -380,7 +380,7 @@ RoadFines,duration,True,0.175,0.0,0.0,0.0,0.5
 RoadFines,duration,True,0.2,0.0,0.0,0.0,0.5
 RoadFines,duration,True,0.225,0.0,0.0,0.0,0.5
 RoadFines,duration,True,0.25,0.0,0.011083771142283982,0.011083771142283982,0.5
-RoadFines,duration,True,0.275,0.0,0.01261256716190984,0.01261256716190984,0.5
+RoadFines,duration,True,0.275,0.0,0.012612567161909838,0.012612567161909838,0.5
 RoadFines,duration,True,0.3,0.0,0.014250562897222265,0.014250562897222265,0.5
 RoadFines,duration,True,0.325,0.0,0.0,0.0,0.0
 RoadFines,duration,True,0.35,0.0,0.01790455338368524,0.01790455338368524,0.5
@@ -400,7 +400,7 @@ RoadFines,duration,True,0.675,0.0,0.0,0.0,1.0
 RoadFines,duration,True,0.7,0.0,0.0,0.0,0.5
 RoadFines,duration,True,0.725,0.0,0.0,0.0,0.5
 RoadFines,duration,True,0.75,0.0,0.0,0.0,1.0
-RoadFines,duration,True,0.775,0.0,0.0036945903807645113,0.0036945903807645113,0.5
+RoadFines,duration,True,0.775,0.0,0.003694590380764508,0.003694590380764508,0.5
 RoadFines,duration,True,0.8,0.0,0.0,0.0,1.0
 Sepsis,duration,True,0.05,0.0,0.0,0.0,1.0
 Sepsis,duration,True,0.075,0.0,0.0,0.0,1.0

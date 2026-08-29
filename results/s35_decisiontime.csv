@@ -5,12 +5,12 @@ BPIC14,handover,hgb,uniform over the declared range,B_intake,B_intake_g_km,11.83
 BPIC14,handover,logit,uniform over the declared range,B_intake,B_half,11.095287339452643,11.075842603890234,0.019444735562409998
 BPIC14,handover,logit,uniform over the declared range,B_intake,B_intake_g,11.095287339452643,14.240792105689293,-3.145504766236649
 BPIC14,handover,logit,uniform over the declared range,B_intake,B_intake_g_km,11.095287339452643,0.1830799184619378,10.912207420990706
-BPIC14,handover,hgb,desk distribution,B_intake,B_half,1.7726367988034908,1.7593988851889557,0.013237913614535081
+BPIC14,handover,hgb,desk distribution,B_intake,B_half,1.7726367988034908,1.759398885188956,0.013237913614534864
 BPIC14,handover,hgb,desk distribution,B_intake,B_intake_g,1.7726367988034908,1.3826703860191862,0.3899664127843046
 BPIC14,handover,hgb,desk distribution,B_intake,B_intake_g_km,1.7726367988034908,-0.01950708833637298,1.7921438871398636
-BPIC14,handover,logit,desk distribution,B_intake,B_half,1.6426662708788122,1.637007756256606,0.005658514622206142
-BPIC14,handover,logit,desk distribution,B_intake,B_intake_g,1.6426662708788122,1.5582419061941872,0.084424364684625
-BPIC14,handover,logit,desk distribution,B_intake,B_intake_g_km,1.6426662708788122,0.025449243251677744,1.6172170276271345
+BPIC14,handover,logit,desk distribution,B_intake,B_half,1.6426662708788125,1.637007756256606,0.005658514622206359
+BPIC14,handover,logit,desk distribution,B_intake,B_intake_g,1.6426662708788125,1.5582419061941872,0.0844243646846252
+BPIC14,handover,logit,desk distribution,B_intake,B_intake_g_km,1.6426662708788125,0.02544924325167775,1.6172170276271347
 BPIC14,handover,hgb,fixed 1:2,B_intake,B_half,4.1534883474519,4.3230184840826,-0.16953013663070002
 BPIC14,handover,hgb,fixed 1:2,B_intake,B_intake_g,4.1534883474519,4.0819678210607995,0.07152052639110024
 BPIC14,handover,hgb,fixed 1:2,B_intake,B_intake_g_km,4.1534883474519,0.1536366863216,3.9998516611303003

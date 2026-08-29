@@ -263,6 +263,62 @@ def main():
         s = df[df.rule == rule].excess_per_1000
         return float(s.median()) if len(s) else np.nan
 
+    def avg(df, rule):
+        """The CROSS-PAIR MEAN, which is a different quantity from `med' and
+        is named as one.  Under the desk distribution the two disagree by two
+        orders of magnitude on the conservative rule -- median 0.05 per
+        thousand against a mean of 6.09 -- because eight of the sixteen pairs
+        carry the whole of its excess.  A section that prints the median and
+        calls it an expectation is reporting the tie it wants; both are
+        emitted here so the prose has to choose one and name it."""
+        s = df[df.rule == rule].excess_per_1000
+        return float(s.mean()) if len(s) else np.nan
+
+    def worst_counts(df):
+        """Which rule is worst on each pair, WITH THE TIES LEFT IN.
+
+        The count this file used to report came from `idxmax', which returns
+        the FIRST maximum.  `one-number' is written first for every pair, so
+        every pair on which the four rules came out exactly equal was
+        credited to it -- including the five on which all four lose nothing
+        at all and there is no worst rule to name.  That is how a count of
+        ten out of sixteen was assembled from three pairs the one-number rule
+        is actually worst on.  The artefact is not specific to this rule: any
+        rule that happened to sort first would inherit it.
+
+        The three counts returned are disjoint, and a pair on which the four
+        rules are identical is reported as such rather than assigned to
+        whichever rule the row order put first.
+        """
+        strict = tied = alltied = 0
+        p = df.pivot_table(index=["log", "target"], columns="rule",
+                           values="excess_per_1000")
+        for _, row in p.iterrows():
+            hi, lo = float(row.max()), float(row.min())
+            if hi - lo <= 1e-9:            # the same tolerance `nsep' uses
+                alltied += 1
+                continue
+            at_max = [r for r in p.columns if float(row[r]) >= hi - 1e-9]
+            if len(at_max) == 1 and at_max[0] == "one-number":
+                strict += 1
+            elif "one-number" in at_max:
+                tied += 1
+        return strict, tied, alltied, int(len(p))
+
+    w_strict, w_tied, w_alltied, n_pairs_desk = worst_counts(desk)
+    print("\n  under the desk distribution, over %d pairs: the one-number "
+          "rule is STRICTLY worst on %d, TIED for worst on %d; on %d all "
+          "four rules are identical"
+          % (n_pairs_desk, w_strict, w_tied, w_alltied))
+    #  the denominator the separation count must be read against is this
+    #  table's own pair count, not the corpus's.  They agree by construction
+    #  and the print says so, because Section 8.4 once divided this count by
+    #  the corpus total two sentences after excluding three of it.
+    if n_pairs_desk != int(D.groupby(["log", "target"]).ngroups):
+        print("  WARNING: the desk table covers %d pairs and the admitted "
+              "set %d" % (n_pairs_desk,
+                          D.groupby(["log", "target"]).ngroups))
+
     wd = WD[(WD.threshold_measure == "desk distribution")
             & (WD.deployed_rung == "B_intake_g_km")] if len(WD) \
         else pd.DataFrame()
@@ -287,20 +343,32 @@ def main():
                        .beta.ppf(0.50, DESK_A, DESK_B)),
         desk_q95=float(__import__("scipy.stats", fromlist=["beta"])
                        .beta.ppf(0.95, DESK_A, DESK_B)),
+        #  the pairs the desk comparison actually runs on: the denominator
+        #  every desk count below is to be read against
+        n_pairs_desk=int(n_pairs_desk),
         n_separating_desk=nsep.get("desk distribution", 0),
         n_separating_uniform=nsep.get("uniform over the declared range", 0),
-        excess_one_number_desk=med(desk, "one-number"),
-        excess_majority_desk=med(desk, "majority"),
-        excess_uniform_desk=med(desk, "uniform-beneficial"),
-        excess_mean_desk=med(desk, "weighted-mean"),
-        excess_one_number_uniform=med(uni, "one-number"),
-        excess_mean_uniform=med(uni, "weighted-mean"),
+        #  MEDIANS.  The `median_' prefix is not decoration: these six were
+        #  named `excess_*' and were quoted in the manuscript as expected
+        #  excess, which they are not.
+        median_excess_one_number_desk=med(desk, "one-number"),
+        median_excess_majority_desk=med(desk, "majority"),
+        median_excess_uniform_desk=med(desk, "uniform-beneficial"),
+        median_excess_mean_desk=med(desk, "weighted-mean"),
+        median_excess_one_number_uniform=med(uni, "one-number"),
+        median_excess_mean_uniform=med(uni, "weighted-mean"),
+        #  MEANS, over the same pairs, so the two can be printed together
+        mean_excess_one_number_desk=avg(desk, "one-number"),
+        mean_excess_majority_desk=avg(desk, "majority"),
+        mean_excess_uniform_desk=avg(desk, "uniform-beneficial"),
+        mean_excess_mean_desk=avg(desk, "weighted-mean"),
         max_excess_one_number_desk=float(
             desk[desk.rule == "one-number"].excess_per_1000.max()),
-        n_one_number_worst_desk=int(sum(
-            1 for _, g in desk.groupby(["log", "target"])
-            if len(g) and g.loc[g.excess_per_1000.idxmax(), "rule"]
-            == "one-number")),
+        #  disjoint, and summing to the pairs on which SOME rule is worst
+        #  plus the pairs on which none is; see `worst_counts'
+        n_one_number_strictly_worst_desk=int(w_strict),
+        n_one_number_tied_worst_desk=int(w_tied),
+        n_all_rules_tie_desk=int(w_alltied),
         runtime_s=round(time.time() - t0, 1))
     pd.DataFrame([facts]).to_csv(RESULTS / "s35_facts.csv", index=False)
     print("\n" + pd.Series(facts).to_string())
