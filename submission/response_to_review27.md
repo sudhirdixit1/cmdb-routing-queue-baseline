@@ -115,7 +115,7 @@ directional label *harder* to earn, so the choice errs conservative.
 
 ## 2. The decision-curve band's measured widening was never applied
 
-**Conceded; it was arithmetic and it is now applied.** ⟨PENDING: `s49_dcaband.py`⟩
+**Conceded; it was arithmetic and it is now applied** (`s49_dcaband.py`, 0.07 s, no refits).
 
 The report is right that this one had no excuse at all: Section 10.4 measures
 that the decision-curve families need a multiplicative widening of 1.90 to
@@ -123,11 +123,31 @@ that the decision-curve families need a multiplicative widening of 1.90 to
 told the reader to distrust them. Widening an already-computed critical value
 costs matrix arithmetic and no refits.
 
-⟨PENDING: which factor was applied and why (the all-cells factor against the
-one excluding the 841 degenerate cells where both arms treat every case alike
-and the net-benefit difference is zero by arithmetic); the corrected counts
-against the uncorrected 24 pointwise / 18 simultaneous; and whether any
-conclusion did not survive it.⟩
+**Which factor, and why it is measured rather than chosen.** The candidates
+are not the two you might expect. The ratio of two marginal quantiles is *not*
+a widening — our own simulation file carries a comment recording that an
+earlier version applied one and was wrong, because the critical value and the
+statistic are estimated from the same draws and move together. The factor that
+attains the level is the within-replicate quantile of their ratio. So the
+choice is between simulation *regimes*, and this family is measured into one
+rather than assigned to it: 2 of its 248 cells are degenerate against a corpus
+maximum of 17.2%, and its excess kurtosis matches the heavy regime and not the
+degenerate one. We apply the heavy regime's factor at its conservative end,
+2.05, and print the degenerate regime's 2.09 beside every count.
+
+**What it costs.** The thresholds the whole-curve band resolves fall from 18
+of 31 to **8**, and the surviving 8 are **not contiguous** — a fact the
+results file records so that no generator can accidentally describe them as a
+range. Over the whole 248-cell family the beneficial count falls from 110 to
+36, and the single cell that resolved as *harmful* no longer resolves, so the
+correction removes a claim rather than adding one. The count is 8 at every
+candidate factor from 1.80 to 2.05 and 7 only at the top, so the choice of
+factor moves one point in thirty-one.
+
+We state the consequence plainly: a decision curve read across its range while
+priced pointwise has claimed something it did not pay for, and once it pays,
+most of the range stops being sayable. That is the argument this paper makes
+about other people's work, and it costs us more than it costs them.
 
 If the correction removes a finding, the finding goes. We checked the one
 that would have mattered most and it is not exposed: the promise-versus-
