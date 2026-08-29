@@ -1,2 +1,2 @@
 n_pairs,n_perms,n_cells,n_max_cases,n_capped,n_sca_nonnull,n_sign_varies,n_disagree,n_agree_null,n_sub_surface_disagree,p_median_min,p_median_max,runtime_s
-19,100,24,20000,7,12,16,9,3,1,0.009900990099009901,1.0,0.0
+19,100,24,20000,7,12,16,9,1,1,0.009900990099009901,1.0,0.0

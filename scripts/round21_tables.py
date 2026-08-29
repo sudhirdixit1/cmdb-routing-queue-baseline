@@ -27,43 +27,17 @@ _RUNG_LABEL = {"B_intake": "intake",
 
 
 def _regions_as_calibrated(load):
-    """The reported surface's regions, under the column names the calibrated
-    file used.
+    """The reported surface's regions, beside what a widening would give.
 
-    ROUND TWENTY-SEVEN.  `s33_regions' is the previous surface's
-    coverage-calibrated labels.  The designed surface has no calibrated
-    companion --- the factor was fitted for pointwise coverage on the old
-    plane and the family-wise widening these families need is larger than it
-    supplies --- so the operative labels are the nominal ones.  They are
-    aliased here rather than renamed at every use, so the diff is one function
-    and not fifty call sites, and so that a reader who greps for `_cal' finds
-    this note.
+    ROUND TWENTY-SEVEN.  There were TWO copies of this function -- one here
+    and one in `round21_numbers' -- and a repair applied to that one left
+    this one alone, so the macros said one thing and the table printed
+    another: a widening column of ones and a K/n column of dashes on all
+    nineteen rows.  One definition now, imported, because two copies of a
+    rule are two rules.
     """
-    G = load("s48w_regions.csv")
-    if G is None or not len(G):
-        return None
-    G = G.copy()
-    G["cells"] = G.n_cells
-    G["beneficial"] = G.n_beneficial
-    G["harmful"] = G.n_harmful
-    G["unresolved"] = G.n_unresolved
-    G["beneficial_cal"] = G.n_beneficial
-    G["harmful_cal"] = G.n_harmful
-    G["unresolved_cal"] = G.n_unresolved
-    G["rho_calibrated"] = G.rho
-    G["region_calibrated"] = G.region
-    G["q_calibrated"] = G.q
-    G["c"] = 1.0
-    #  K/n is a property of the pair and not of the calibration, so it is
-    #  carried over from the file that measures it rather than recomputed.
-    K = load("s42_regions.csv")
-    if K is not None and len(K) and "k_over_n" in K.columns:
-        G = G.merge(K[["log", "target", "k_over_n"]], on=["log", "target"],
-                    how="left")
-    else:
-        G["k_over_n"] = float("nan")
-    return G
-
+    import round21_numbers as _r21n
+    return _r21n._regions_as_calibrated(load)
 
 def write(mn):
     load, tex_table = mn.load, mn.tex_table
@@ -364,30 +338,38 @@ def write(mn):
                          "cardinality. $c$ is the inflation factor the "
                          "$(n, K)$ plane of "
                          "Section~\\ref{sec:simsensitivity} gives at that "
-                         "pair's own $K/n$; the calibrated critical value is "
-                         "$c$ times the nominal one. `q upper' is the "
-                         "UPPER end of the critical value's Monte Carlo "
-                         "interval, which is the value the bands use by "
-                         "the rule of Section~\\ref{sec:simbands} that a "
-                         "cell resolves only at the conservative end; the "
-                         "point estimate whose corpus median the text "
-                         "quotes is smaller. The cell columns are "
-                         "beneficial / harmful / unresolved, and the "
-                         "admissible count is the same under both critical "
-                         "values. The calibrated columns are the ones the "
-                         "article's counts use; the nominal ones are printed "
-                         "beside them so that the size of the correction is "
-                         "visible.",
+                         "pair's own $K/n$; a calibrated critical value "
+                         "would be $c$ times the nominal one. `q' is the "
+                         "multiplier critical value's POINT ESTIMATE, and is "
+                         "the column whose corpus median the text quotes; "
+                         "the labels themselves are computed at the upper "
+                         "end of its Monte Carlo interval, by the rule of "
+                         "Section~\\ref{sec:simbands} that a cell resolves "
+                         "only at the conservative end, so they rest on a "
+                         "slightly larger value than this column shows. The "
+                         "cell columns are beneficial / harmful / "
+                         "unresolved, and the admissible count is the same "
+                         "under both critical values. THE NOMINAL COLUMNS "
+                         "ARE THE ONES THE ARTICLE'S COUNTS USE: no widening "
+                         "is applied (Section~\\ref{sec:simband}), and the "
+                         "calibrated columns are printed beside them to show "
+                         "what applying one would cost --- not what was "
+                         "done. The widening these families actually need is "
+                         "larger than the $c$ printed here.",
                       "tab:calbands",
                       colnames={"k_over_n": "K / n",
                                 "q_calibrated": "q calibrated",
-                                #  ROUND TWENTY-TWO.  This column is the UPPER end of the
-                                #  critical value's Monte Carlo interval --
-                                #  which is the value the bands use, by the
-                                #  rule that a cell resolves only at the
-                                #  conservative end -- and it was headed `q',
-                                #  which is the point estimate the text quotes.
-                                "q": "q upper",
+                                #  ROUND TWENTY-SEVEN.  Round twenty-two
+                                #  renamed this `q upper' on the belief that
+                                #  it carried the upper Monte Carlo end.  It
+                                #  does not -- the file has both, and this is
+                                #  the POINT ESTIMATE, whose corpus median is
+                                #  the one the text quotes.  The labels do
+                                #  rest on the upper end; that column is a
+                                #  different one and is not printed here, so
+                                #  the caption says so rather than the header
+                                #  claiming to be it.
+                                "q": "q",
                                 "cells_nominal": "cells (nominal)",
                                 "cells_cal": "cells (cal)",
                                 "rho_calibrated": "rho (cal)",
@@ -508,7 +490,7 @@ def write(mn):
                          "Definition~\\ref{def:regions} yields on the pair's "
                          "whole inference family, "
                          "minimum resolved share included, under the "
-                         "operative critical "
+                         "NOMINAL critical "
                          "value of Section~\\ref{sec:regions}. `Resolved "
                          "share' is the percentage of the inference family "
                          "the band resolves, and a direction is withheld "

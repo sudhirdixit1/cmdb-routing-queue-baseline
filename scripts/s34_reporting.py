@@ -399,13 +399,17 @@ def main():
     rows.append(row)
 
     #  regions and rho
-    for path, tag in ((RESULTS / "s33_regions.csv", "calibrated"),
-                      (RESULTS / "s21_regions.csv", "nominal")):
+    #  ROUND TWENTY-SEVEN.  This preferred the CALIBRATED column of the
+    #  PREVIOUS surface's region file, so the family table printed a rho the
+    #  article does not report, under a label ("calibrated") naming a
+    #  correction the article does not apply.  The reported surface's nominal
+    #  rho is the one every other table prints.
+    for path, tag in ((RESULTS / "s48w_regions.csv", ""),
+                      (RESULTS / "s33_regions.csv", ""),
+                      (RESULTS / "s21_regions.csv", "")):
         if path.exists():
             G = pd.read_csv(path)
-            col = "rho_calibrated" if ("rho_calibrated" in G.columns
-                                       and tag == "calibrated") else "rho"
-            add("robustness index rho (%s)" % tag, G, col)
+            add("robustness index rho", G, "rho")
             break
 
     #  regret

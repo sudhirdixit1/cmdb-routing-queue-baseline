@@ -667,7 +667,14 @@ def main(argv=None):
     BN = load("s17_bands.csv")
     if BN is None or not len(BN):
         BN = load("s02_bands.csv")
-    CE = load("s21_cells.csv")
+    #  ROUND TWENTY-SEVEN.  The master table's reference cell was read from
+    #  the RETIRED surface's cell file, so eighteen of nineteen pointwise
+    #  intervals differed from the surface the article reports -- at printed
+    #  precision, in a table a referee quotes.  The reported surface first,
+    #  and the older files only as a partial-build fallback.
+    CE = load("s48w_cells.csv")
+    if CE is None or not len(CE):
+        CE = load("s21_cells.csv")
     if CE is None or not len(CE):
         CE = load("s17_cells.csv")
     if CE is None or not len(CE):
@@ -1119,7 +1126,9 @@ def write_tables(D):
         m = m.rename(columns={lo_c: "lo", hi_c: "hi"})
         #  and the SIMULTANEOUS band at the same cell, which is what a
         #  surface-level table has to print beside a surface-level label.
-        BS = load("s21_bands.csv")
+        BS = load("s48w_bands.csv")
+        if BS is None or not len(BS):
+            BS = load("s21_bands.csv")
         if (BS is not None and len(BS) and "metric" in BS.columns
                 and "family" in BS.columns):
             w = BS[(BS.family == "whole-surface") & (BS.metric == "auc")
@@ -1139,13 +1148,16 @@ def write_tables(D):
         #  0.017 the conclusion quotes.  It now takes both from s33, which is
         #  the file the calibrated regions live in, and falls back to the
         #  nominal file only when s33 has not been run.
-        CAL = load("s33_regions.csv")
+        #  ROUND TWENTY-SEVEN.  The note above is left standing because it
+        #  records a real repair, but its premise has since been withdrawn:
+        #  NO CALIBRATION IS APPLIED, so the labels the article quotes are
+        #  the nominal ones and this table must print those.  Taking them
+        #  from the calibrated file made the paper's headline table disagree
+        #  with every other table in it.
+        CAL = load("s48w_regions.csv")
         if CAL is not None and len(CAL):
-            m = m.merge(
-                CAL[["log", "target", "region_calibrated", "rho_calibrated"]]
-                .rename(columns={"region_calibrated": "region",
-                                 "rho_calibrated": "rho"}),
-                on=["log", "target"], how="left")
+            m = m.merge(CAL[["log", "target", "region", "rho"]],
+                        on=["log", "target"], how="left")
         elif REG is not None and len(REG):
             m = m.merge(REG[["log", "target", "region", "rho"]],
                         on=["log", "target"], how="left")
@@ -1213,10 +1225,16 @@ def write_tables(D):
                       "end of the critical value's Monte Carlo interval. They "
                       "are different objects, and the region label uses only "
                       "the second. Then the resolution region and the "
-                      "robustness index $\\rho$, both under the "
-                      "COVERAGE-CALIBRATED critical value of "
-                      "Section~\\ref{sec:regions} --- the nominal ones are in "
-                      "Table~\\ref{tab:calbands}. THE REGION IS THE LABEL Definition~\\ref{def:regions} YIELDS, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one (Table~\\ref{tab:triple} prints the counts underneath). Last, the share of "
+                      "robustness index $\\rho$. NO COVERAGE CALIBRATION IS "
+                      "APPLIED TO EITHER: the $(n,K)$ factor was fitted to "
+                      "restore POINTWISE coverage on a plane built around a "
+                      "different inference surface, and "
+                      "Section~\\ref{sec:simband} measures the family-wise "
+                      "widening these families need as LARGER than it "
+                      "supplies, so these are the nominal labels and they are "
+                      "anti-conservative by an amount the paper reports. "
+                      "Table~\\ref{tab:calbands} prints what applying that "
+                      "factor would have given, beside these. THE REGION IS THE LABEL Definition~\\ref{def:regions} YIELDS, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one (Table~\\ref{tab:triple} prints the counts underneath). Last, the share of "
                       "admissible specifications whose sign disagrees with a "
                       "conventional one-number report, under the equal-level "
                       "measure, which is the `all-cells rate' column of "

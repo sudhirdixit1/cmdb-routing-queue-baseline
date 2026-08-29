@@ -48,18 +48,18 @@ therefore a descriptive diagnostic and not a guarantee}, which the front
 matter now says. The two families are not equally exposed, and they are no
 longer corrected alike. On the surface families the widening that would close
 the gap is \shortfallWholeMin\ to \shortfallWholeMax, and the calibration
-already applies \calMin\ to \calMax\ on this corpus --- fitted for
-\emph{pointwise} coverage rather than for this one, so that it lands in the
-right range is fortunate rather than by design. On the decision-curve
+derived in Supplement~\ref{app:calibration} supplies \calMin\ to \calMax\ on
+this corpus --- fitted for \emph{pointwise} coverage rather than for this one,
+and smaller than this one needs at both ends, so it is not applied. On the decision-curve
 families it is \shortfallDcaMin\ to \shortfallDcaMax, and
 Section~\ref{sec:dcabands} now applies it rather than reporting it: that
 band's operative critical value is \dcaQWidened\ and not \dcaQ, at a cost of
 \nBeneficialLostToWidening\ of the \nDcGrid\ operating points. The correction
 is narrower than it looks. It is fitted where the bootstrap is ideal, so it
 closes the shortfall this design can measure and not whatever the real
-resampling adds to it; and it leaves the surface families to a calibration
-fitted for the wrong coverage. \textbf{Their} region labels and $\rho$ are
-the conclusions to distrust.
+resampling adds to it; and it leaves the surface families with no widening at
+all, because the only one this paper has fitted is smaller than they need.
+\textbf{Their} region labels and $\rho$ are the conclusions to distrust.
 
 \paragraph{Internal --- two repairs this paper named, both run, and neither
 did what it was named for}
@@ -92,9 +92,9 @@ level --- a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\
 under this corpus's tails, and \covMultNonzeroMedian\ under a non-zero truth,
 against a nominal $95\%$. The widening that would close it is
 \shortfallWholeMin\ to \shortfallWholeMax\ on the surface families, which
-is \emph{larger} than the \calMin\ to \calMax\ this paper applies, because
-the designed surface's families carry heavier tails than the surface the
-calibration was fitted on.
+is \emph{larger} than the \calMin\ to \calMax\ the only calibration this
+paper has fitted would supply --- which is why that calibration is reported
+and not applied.
 
 \noindent\textbf{So every region label and every $\rho$ in this paper
 remains a descriptive diagnostic and not a guarantee}, which the front matter

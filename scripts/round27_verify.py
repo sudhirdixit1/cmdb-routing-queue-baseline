@@ -1081,13 +1081,25 @@ def check(vn, M):
             "round-27 condition: Section 10 says the calibration factor at the "
             "median pair (%s) is well below the decision-curve shortfall (%s), "
             "and it is not" % (M["calAtMedianPair"], M["shortfallDcaMin"]))
-    #  and the applied factor is one, because nothing is applied
+    #  \calMin and \calMax are WHAT THE FITTED CURVE SUPPLIES, not what is
+    #  applied -- every prose site asks the former.  They were once set to
+    #  one to mean "nothing is applied", which emptied three sentences into
+    #  "1.00 to 1.00", so the range is checked against the file that measured
+    #  it and required to be a real widening.
     _cmin, _cmax = _num(M.get("calMin")), _num(M.get("calMax"))
-    for _nm, _v in (("calMin", _cmin), ("calMax", _cmax)):
-        if _v is not None and abs(_v - 1.0) > 1e-9:
+    G33 = _read(results, "s33_regions.csv")
+    if G33 is not None and "c" in G33.columns and None not in (_cmin, _cmax):
+        for _nm, _v, _w in (("calMin", _cmin, float(G33.c.min())),
+                            ("calMax", _cmax, float(G33.c.max()))):
+            if abs(_v - _w) > 0.005:
+                vn.FAILS.append(
+                    "round-27 condition: \\%s is %s and the calibration "
+                    "supplies %.2f on this corpus" % (_nm, M[_nm], _w))
+        if _cmin <= 1.0:
             vn.FAILS.append(
-                "round-27 condition: no coverage calibration is applied, so "
-                "\\%s should be one and is %s" % (_nm, M[_nm]))
+                "round-27 condition: \\calMin is %s -- a factor of one is no "
+                "widening, and the sentences that quote this range are asking "
+                "what the calibration would supply" % M["calMin"])
 
     # --- 14.  the multiplier band IS the reported band -------------------
     #
@@ -1116,3 +1128,62 @@ def check(vn, M):
             "more conservative one, and it resolves %s against the "
             "multiplier's %s" % (M["nResolvedWholeEmp"],
                                  M["nResolvedWholeMult"]))
+
+    # --- 15.  the ladder's bottom rung IS the article's band -------------
+    #
+    #  The calibration sensitivity ladder's "nominal (c = 1)" rung is not an
+    #  alternative analysis: c = 1 is no widening, which is what the article
+    #  reports.  Its resolved count must therefore equal the headline.  It
+    #  did not, for the same reason as condition 14 -- a fixed filename --
+    #  and the appendix printed a nominal count larger than the article's own.
+    _sn = _num(M.get("nResolvedSensNominal"))
+    if _rw is not None and _sn is not None and abs(_rw - _sn) > 0.5:
+        vn.FAILS.append(
+            "round-27 condition: the sensitivity ladder's nominal rung is the "
+            "article's own band, so \\nResolvedSensNominal (%s) must equal "
+            "\\nResolvedWhole (%s)"
+            % (M["nResolvedSensNominal"], M["nResolvedWhole"]))
+    #  the ladder must also be monotone: widening cannot resolve more.
+    _sc, _su = (_num(M.get("nResolvedSensCalibrated")),
+                _num(M.get("nResolvedSensUpper")))
+    if None not in (_sn, _sc, _su) and not (_sn >= _sc >= _su):
+        vn.FAILS.append(
+            "round-27 condition: widening a band cannot resolve more cells, "
+            "and the ladder runs %s, %s, %s"
+            % (M["nResolvedSensNominal"], M["nResolvedSensCalibrated"],
+               M["nResolvedSensUpper"]))
+
+    # --- 16.  an enumeration of the corpus must enumerate the corpus ------
+    #
+    #  The appendix printed a four-label region enumeration that summed to
+    #  eighteen over nineteen pairs, because the list of labels was written
+    #  when no pair carried the fifth one.  The missing pair was the uniformly
+    #  beneficial surface -- the label the round turns on.  A list that claims
+    #  to partition the corpus is checked by adding it up, which is the only
+    #  check that would have caught a label nobody thought to look for.
+    _np = _num(M.get("nPairs"))
+    _sets = (
+        ("the reported band, before the minimum share",
+         ("nCondBeneficial", "nSignChanging", "nCondHarmful",
+          "nUniformlyBeneficial", "nUnresolvedPairs")),
+        ("the reported band, minimum share included",
+         ("nCondBeneficialMinShare", "nSignChangingMinShare",
+          "nCondHarmfulMinShare", "nUniformlyBeneficialMinShare",
+          "nUnresolvedMinShare")),
+        ("the band a widening would give",
+         ("nCondBeneficialCal", "nSignChangingCal", "nCondHarmfulCal",
+          "nUniformlyBeneficialCal", "nUnresolvedCalibrated")),
+    )
+    if _np is not None:
+        for _lab, _names in _sets:
+            _vals = [_num(M.get(n)) for n in _names]
+            if any(v is None for v in _vals):
+                continue
+            _tot = sum(_vals)
+            if abs(_tot - _np) > 0.5:
+                vn.FAILS.append(
+                    "round-27 condition: the region enumeration for %s sums "
+                    "to %d over a corpus of %d (%s)"
+                    % (_lab, int(_tot), int(_np),
+                       ", ".join("%s=%s" % (n, M[n])
+                                 for n in _names)))

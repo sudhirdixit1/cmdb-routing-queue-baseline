@@ -684,7 +684,9 @@ ratio it does not shrink with $n$ while the half-width shrinks like
 $n^{-1/2}$. Section~\ref{sec:simsensitivity} locates the crossing: at a ratio
 of \straddleRatio\ the interval straddles its own estimate in every replicate
 up to \nStraddleAllMax\ training rows and in only \shareStraddleAtHalfPct\ of
-them by \nStraddleHalfMin. The three pairs above are the corpus's nearest it.
+them by \nStraddleHalfMin. This corpus reaches a ratio of
+\corpusRatioMax\ at its highest pair and \nPairsRatioAboveTenth\ of
+\nPairs\ sit above a tenth, so it has pairs in that regime.
 \textbf{The argument does not carry to the bands reported here.} Weights
 remove the mechanism it rests on, and a displacement survives them anyway
 (above), so what remains under the reported scheme is not bounded by this
@@ -799,8 +801,9 @@ fixes $B$ and not the precision of $q$ --- order-statistic widths of
 carried through, so a cell counts as \emph{resolved} only at its \emph{upper}
 end. A max-$t$ band also inherits the coverage of the interval it is built
 from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
-register cardinality to training size; Section~\ref{sec:regions} calibrates
-$q$ at each pair's own ratio.
+register cardinality to training size. Supplement~\ref{app:calibration}
+derives a $q$ calibrated at each pair's own ratio and
+Section~\ref{sec:simband} measures why it is not applied.
 
 \paragraph{What these bands cover, measured against a known answer}
 \textbf{They do not attain their nominal level anywhere in this corpus's
@@ -2197,11 +2200,12 @@ register fixed while moving the training half from \simGridFixedNa\ rows to
 matters}: its median pair has $K/n = \corpusRatioMedian$ and
 \nPairsRatioAboveTenth\ of \nPairs\ pairs are above a tenth, so a nominal
 band on them is \emph{narrower} than a $95\%$ interval should be.
-Section~\ref{sec:regions} calibrates against the plane and
-Supplement~\ref{app:calibration} gives it in full.
+Supplement~\ref{app:calibration} derives a calibration against the plane in
+full, and Section~\ref{sec:simband} reports the measurement that keeps it
+from being applied.
 
 \textbf{Where the interval stops containing its own estimate.} The denser
-plane the coverage calibration of Section~\ref{sec:regions} is fitted on ---
+plane the calibration of Supplement~\ref{app:calibration} is fitted on ---
 a different and larger object from the \nSimGridCells-cell grid above, at
 \planeNtrainLo\ to \planeNtrainHi\ training rows --- locates the crossing
 Section~\ref{sec:boot} describes. At a fixed ratio
@@ -2367,18 +2371,18 @@ therefore a descriptive diagnostic and not a guarantee}, which the front
 matter now says. The two families are not equally exposed, and they are no
 longer corrected alike. On the surface families the widening that would close
 the gap is \shortfallWholeMin\ to \shortfallWholeMax, and the calibration
-already applies \calMin\ to \calMax\ on this corpus --- fitted for
-\emph{pointwise} coverage rather than for this one, so that it lands in the
-right range is fortunate rather than by design. On the decision-curve
+derived in Supplement~\ref{app:calibration} supplies \calMin\ to \calMax\ on
+this corpus --- fitted for \emph{pointwise} coverage rather than for this one,
+and smaller than this one needs at both ends, so it is not applied. On the decision-curve
 families it is \shortfallDcaMin\ to \shortfallDcaMax, and
 Section~\ref{sec:dcabands} now applies it rather than reporting it: that
 band's operative critical value is \dcaQWidened\ and not \dcaQ, at a cost of
 \nBeneficialLostToWidening\ of the \nDcGrid\ operating points. The correction
 is narrower than it looks. It is fitted where the bootstrap is ideal, so it
 closes the shortfall this design can measure and not whatever the real
-resampling adds to it; and it leaves the surface families to a calibration
-fitted for the wrong coverage. \textbf{Their} region labels and $\rho$ are
-the conclusions to distrust.
+resampling adds to it; and it leaves the surface families with no widening at
+all, because the only one this paper has fitted is smaller than they need.
+\textbf{Their} region labels and $\rho$ are the conclusions to distrust.
 
 \paragraph{Internal --- two repairs this paper named, both run, and neither
 did what it was named for}
@@ -2411,9 +2415,9 @@ level --- a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\
 under this corpus's tails, and \covMultNonzeroMedian\ under a non-zero truth,
 against a nominal $95\%$. The widening that would close it is
 \shortfallWholeMin\ to \shortfallWholeMax\ on the surface families, which
-is \emph{larger} than the \calMin\ to \calMax\ this paper applies, because
-the designed surface's families carry heavier tails than the surface the
-calibration was fitted on.
+is \emph{larger} than the \calMin\ to \calMax\ the only calibration this
+paper has fitted would supply --- which is why that calibration is reported
+and not applied.
 
 \noindent\textbf{So every region label and every $\rho$ in this paper
 remains a descriptive diagnostic and not a guarantee}, which the front matter

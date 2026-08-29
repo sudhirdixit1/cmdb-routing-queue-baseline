@@ -78,6 +78,8 @@ import spec as S  # noqa: E402
 from common import RESULTS  # noqa: E402
 
 ALPHA = 0.05
+#: the bands the sensitivity ladder recomputes regions on (see main)
+BANDS_PREFIX = "s48w"
 SEED = 20260825
 
 #: A cell is admitted to the plane only if the basic interval straddles its
@@ -347,7 +349,14 @@ def apply_to_corpus(c_of, scale=1.0, suffix=""):
     conclusion the calibration is not carrying.
     """
     import s21_bands as S21
-    B = pd.read_csv(RESULTS / "s21_bands.csv.gz")
+    #  ROUND TWENTY-SEVEN.  This filename was fixed, so the sensitivity
+    #  ladder went on being computed on the RETIRED inference surface after
+    #  the article moved to another one -- and its "nominal" rung, which is
+    #  by construction the article's own reported band, disagreed with the
+    #  article's own resolved count.  The plane above is legitimately fitted
+    #  where it was fitted; the REGIONS are not, and must be recomputed on
+    #  the bands the article prints.
+    B = pd.read_csv(RESULTS / ("%s_bands.csv.gz" % BANDS_PREFIX))
     #  K/n comes from the surface itself, by the same expression the
     #  denominator table prints, so the two cannot disagree.
     SU = S.read_results("s01_surface.csv", usecols=["log", "target", "card_f",
@@ -388,7 +397,12 @@ def main(argv=None):
                     help="keep the replicates already on disk and simulate "
                          "only the cells the plane has gained since")
     ap.add_argument("--serial", action="store_true")
+    ap.add_argument("--bands-prefix", default="s48w",
+                    help="the bands prefix the sensitivity ladder's regions "
+                         "are recomputed on; the plane itself is unaffected")
     a = ap.parse_args(argv)
+    global BANDS_PREFIX
+    BANDS_PREFIX = a.bands_prefix
     t0 = time.time()
     print("=" * 92)
     print("s33  A COVERAGE-CALIBRATED CRITICAL VALUE")

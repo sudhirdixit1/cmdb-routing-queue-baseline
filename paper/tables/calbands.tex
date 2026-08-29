@@ -2,32 +2,32 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{llrrlrlrlrl}
+\begin{tabular}{llrrrrlrlrl}
 \toprule
-log & target & K / n & q upper & c & q calibrated & cells (nominal) & rho & cells (cal) & rho (cal) & region \\
+log & target & K / n & q & c & q calibrated & cells (nominal) & rho & cells (cal) & rho (cal) & region \\
 \midrule
-BPIC13\_closed & handover & -- & 3.380 & 1 & 3.380 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
-BPIC13\_incidents & duration & -- & 3.372 & 1 & 3.372 & 19 / 0 / 161 & 0.106 & 19 / 0 / 161 & 0.106 & conditionally beneficial \\
-BPIC13\_incidents & handover & -- & 3.356 & 1 & 3.356 & 86 / 0 / 94 & 0.478 & 86 / 0 / 94 & 0.478 & conditionally beneficial \\
-BPIC14 & duration & -- & 3.214 & 1 & 3.214 & 180 / 0 / 0 & 1.000 & 180 / 0 / 0 & 1.000 & uniformly beneficial \\
-BPIC14 & handover & -- & 3.266 & 1 & 3.266 & 179 / 0 / 1 & 0.994 & 179 / 0 / 1 & 0.994 & conditionally beneficial \\
-BPIC15\_1 & duration & -- & 3.362 & 1 & 3.362 & 5 / 0 / 175 & 0.028 & 5 / 0 / 175 & 0.028 & conditionally beneficial \\
-BPIC15\_1 & handover & -- & 3.377 & 1 & 3.377 & 2 / 0 / 178 & 0.011 & 2 / 0 / 178 & 0.011 & conditionally beneficial \\
-BPIC15\_3 & duration & -- & 3.362 & 1 & 3.362 & 27 / 0 / 153 & 0.150 & 27 / 0 / 153 & 0.150 & conditionally beneficial \\
-BPIC15\_3 & handover & -- & 3.345 & 1 & 3.345 & 2 / 6 / 172 & -0.022 & 2 / 6 / 172 & -0.022 & sign-changing \\
-BPIC15\_4 & duration & -- & 3.409 & 1 & 3.409 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
-BPIC15\_4 & handover & -- & 3.430 & 1 & 3.430 & 2 / 5 / 173 & -0.017 & 2 / 5 / 173 & -0.017 & sign-changing \\
-BPIC15\_5 & duration & -- & 3.407 & 1 & 3.407 & 3 / 0 / 177 & 0.017 & 3 / 0 / 177 & 0.017 & conditionally beneficial \\
-BPIC17 & duration & -- & 3.276 & 1 & 3.276 & 16 / 6 / 158 & 0.056 & 16 / 6 / 158 & 0.056 & sign-changing \\
-BPIC19 & duration & -- & 3.380 & 1 & 3.380 & 21 / 94 / 65 & -0.406 & 21 / 94 / 65 & -0.406 & sign-changing \\
-Helpdesk & duration & -- & 3.325 & 1 & 3.325 & 0 / 4 / 176 & -0.022 & 0 / 4 / 176 & -0.022 & conditionally harmful \\
-RoadFines & duration & -- & 3.298 & 1 & 3.298 & 82 / 10 / 88 & 0.400 & 82 / 10 / 88 & 0.400 & sign-changing \\
-Sepsis & duration & -- & 3.319 & 1 & 3.319 & 112 / 0 / 68 & 0.622 & 112 / 0 / 68 & 0.622 & conditionally beneficial \\
-UCI498 & duration & -- & 3.296 & 1 & 3.296 & 22 / 0 / 158 & 0.122 & 22 / 0 / 158 & 0.122 & conditionally beneficial \\
-UCI498 & handover & -- & 3.339 & 1 & 3.339 & 7 / 0 / 173 & 0.039 & 7 / 0 / 173 & 0.039 & conditionally beneficial \\
+BPIC13\_closed & handover & 0.324 & 3.380 & 1.767 & 6.007 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC13\_incidents & duration & 0.133 & 3.372 & 1.456 & 4.939 & 19 / 0 / 161 & 0.106 & 5 / 0 / 175 & 0.028 & conditionally beneficial \\
+BPIC13\_incidents & handover & 0.133 & 3.356 & 1.456 & 4.920 & 86 / 0 / 94 & 0.478 & 65 / 0 / 115 & 0.361 & conditionally beneficial \\
+BPIC14 & duration & 0.093 & 3.214 & 1.294 & 4.187 & 180 / 0 / 0 & 1.000 & 180 / 0 / 0 & 1.000 & uniformly beneficial \\
+BPIC14 & handover & 0.093 & 3.266 & 1.294 & 4.248 & 179 / 0 / 1 & 0.994 & 176 / 0 / 4 & 0.978 & conditionally beneficial \\
+BPIC15\_1 & duration & 0.106 & 3.362 & 1.343 & 4.537 & 5 / 0 / 175 & 0.028 & 2 / 0 / 178 & 0.011 & conditionally beneficial \\
+BPIC15\_1 & handover & 0.106 & 3.377 & 1.343 & 4.564 & 2 / 0 / 178 & 0.011 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_3 & duration & 0.095 & 3.362 & 1.300 & 4.394 & 27 / 0 / 153 & 0.150 & 5 / 0 / 175 & 0.028 & conditionally beneficial \\
+BPIC15\_3 & handover & 0.095 & 3.345 & 1.300 & 4.373 & 2 / 6 / 172 & -0.022 & 0 / 4 / 176 & -0.022 & conditionally harmful \\
+BPIC15\_4 & duration & 0.072 & 3.409 & 1.243 & 4.263 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_4 & handover & 0.072 & 3.430 & 1.243 & 4.284 & 2 / 5 / 173 & -0.017 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_5 & duration & 0.132 & 3.407 & 1.455 & 4.988 & 3 / 0 / 177 & 0.017 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC17 & duration & 0.032 & 3.276 & 1.177 & 3.876 & 16 / 6 / 158 & 0.056 & 8 / 0 / 172 & 0.044 & conditionally beneficial \\
+BPIC19 & duration & 0.011 & 3.380 & 1.177 & 4.001 & 21 / 94 / 65 & -0.406 & 16 / 88 / 76 & -0.400 & sign-changing \\
+Helpdesk & duration & 0.123 & 3.325 & 1.431 & 4.782 & 0 / 4 / 176 & -0.022 & 0 / 0 / 180 & 0.000 & unresolved \\
+RoadFines & duration & 0.001 & 3.298 & 1.177 & 3.906 & 82 / 10 / 88 & 0.400 & 71 / 6 / 103 & 0.361 & sign-changing \\
+Sepsis & duration & 0.200 & 3.319 & 1.562 & 5.218 & 112 / 0 / 68 & 0.622 & 33 / 0 / 147 & 0.183 & conditionally beneficial \\
+UCI498 & duration & 0.301 & 3.296 & 1.756 & 5.818 & 22 / 0 / 158 & 0.122 & 4 / 0 / 176 & 0.022 & conditionally beneficial \\
+UCI498 & handover & 0.301 & 3.339 & 1.756 & 5.890 & 7 / 0 / 173 & 0.039 & 0 / 0 / 180 & 0.000 & unresolved \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Resolution regions under the nominal critical value and under one calibrated for the register's cardinality. $c$ is the inflation factor the $(n, K)$ plane of Section~\ref{sec:simsensitivity} gives at that pair's own $K/n$; the calibrated critical value is $c$ times the nominal one. `q upper' is the UPPER end of the critical value's Monte Carlo interval, which is the value the bands use by the rule of Section~\ref{sec:simbands} that a cell resolves only at the conservative end; the point estimate whose corpus median the text quotes is smaller. The cell columns are beneficial / harmful / unresolved, and the admissible count is the same under both critical values. The calibrated columns are the ones the article's counts use; the nominal ones are printed beside them so that the size of the correction is visible.}
+\caption{Resolution regions under the nominal critical value and under one calibrated for the register's cardinality. $c$ is the inflation factor the $(n, K)$ plane of Section~\ref{sec:simsensitivity} gives at that pair's own $K/n$; a calibrated critical value would be $c$ times the nominal one. `q' is the multiplier critical value's POINT ESTIMATE, and is the column whose corpus median the text quotes; the labels themselves are computed at the upper end of its Monte Carlo interval, by the rule of Section~\ref{sec:simbands} that a cell resolves only at the conservative end, so they rest on a slightly larger value than this column shows. The cell columns are beneficial / harmful / unresolved, and the admissible count is the same under both critical values. THE NOMINAL COLUMNS ARE THE ONES THE ARTICLE'S COUNTS USE: no widening is applied (Section~\ref{sec:simband}), and the calibrated columns are printed beside them to show what applying one would cost --- not what was done. The widening these families actually need is larger than the $c$ printed here.}
 \label{tab:calbands}
 \end{table}

@@ -346,8 +346,16 @@ def _verdicts(D, CU, t0, n_perms, n_cells):
     #  a DataFrame; `float()` of it raised, at the very end of a run that had
     #  already cost hours.  The nominal columns are dropped first, so the
     #  rename lands on names nothing else holds.
+    #  ROUND TWENTY-SEVEN.  The premise of the note above is withdrawn: no
+    #  calibration is applied, so the labels the article quotes are the
+    #  NOMINAL ones on the reported surface, and this table printed the
+    #  calibrated labels of a retired one.  The rename survives only as the
+    #  fallback for a tree where the reported surface has not been built.
+    _rep = RESULTS / "s48w_regions.csv"
     _cal = RESULTS / "s33_regions.csv"
-    if _cal.exists():
+    if _rep.exists():
+        REG = pd.read_csv(_rep)
+    elif _cal.exists():
         REG = pd.read_csv(_cal).drop(columns=["rho", "region"],
                                      errors="ignore").rename(
             columns={"region_calibrated": "region",

@@ -275,9 +275,20 @@ def check(vn, M):
         #  note in the same-quantity table above.
         #  ROUND TWENTY-SEVEN: re-derived from the surface the manuscript
         #  reports, not the previous surface's calibration file.
+        #  ROUND TWENTY-SEVEN, LATER THE SAME NIGHT.  This was re-pointed at
+        #  the reported surface's NOMINAL rho while the macro's one use site
+        #  quotes it as the CALIBRATED median -- what the widening would cost
+        #  if it were applied.  Both numbers are wanted and they are two
+        #  different numbers; the macro's name says which, so the check
+        #  follows the name.
+        G33b = load("s33_regions.csv")
+        if G33b is not None and len(G33b) and "rho_calibrated" in G33b.columns:
+            eq("rhoMedianCalibrated",
+               fmt_num(float(G33b.rho_calibrated.median()), 3),
+               M, "recomputed from s33_regions, which applies the factor")
         R48 = load("s48w_regions.csv")
         if R48 is not None and len(R48):
-            eq("rhoMedianCalibrated", fmt_num(float(R48.rho.median()), 3),
+            eq("rhoMedian", fmt_num(float(R48.rho.median()), 3),
                M, "recomputed from s48w_regions")
 
     # ================================================================

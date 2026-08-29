@@ -428,27 +428,35 @@ def emit(mn):
     #  it is quoting instead of leaving a reader to discover that there are
     #  two.  The column name is built from the declared threshold rather than
     #  typed, so these track the convention if it ever moves.
+    #  ROUND TWENTY-SEVEN, AGAIN.  These were read off a column of the
+    #  PREVIOUS surface's region file, which no longer carries the labels the
+    #  article prints and never carried a `uniformly beneficial' one -- so the
+    #  enumeration the appendix printed summed to eighteen over a corpus of
+    #  nineteen, and the missing pair was the one the round turns on.  The
+    #  rule is short enough to apply here, to the reported surface, and an
+    #  enumeration that must sum to the corpus is checked that it does.
+    RW = load("s48w_regions.csv")
     R42 = load("s42_regions.csv")
     F42 = load("s42_facts.csv")
     _MS = ("nCondBeneficialMinShare", "nSignChangingMinShare",
-           "nCondHarmfulMinShare", "nUnresolvedMinShare")
-    if R42 is not None and len(R42) and F42 is not None and len(F42):
+           "nCondHarmfulMinShare", "nUniformlyBeneficialMinShare",
+           "nUnresolvedMinShare")
+    if (RW is not None and len(RW) and F42 is not None and len(F42)
+            and {"n_resolved_whole", "n_cells", "region"} <= set(RW.columns)):
         thr = float(first(F42, "min_resolved_declared"))
-        col = "region_min%02d" % int(round(thr * 100))
-        if col in R42.columns:
-            lab = R42[col].astype(str)
-            put("nCondBeneficialMinShare",
-                int((lab == "conditionally beneficial").sum()))
-            put("nSignChangingMinShare", int((lab == "sign-changing").sum()))
-            put("nCondHarmfulMinShare",
-                int((lab == "conditionally harmful").sum()))
-            #  a withdrawn direction is unresolved, and the file spells the
-            #  two states differently, so both count here
-            put("nUnresolvedMinShare",
-                int(lab.str.startswith("unresolved").sum()))
-        else:
-            for k in _MS:
-                put(k, None)
+        share = RW.n_resolved_whole / RW.n_cells
+        lab = RW.region.astype(str).where(share >= thr, "unresolved")
+        put("nCondBeneficialMinShare",
+            int((lab == "conditionally beneficial").sum()))
+        put("nSignChangingMinShare", int((lab == "sign-changing").sum()))
+        put("nCondHarmfulMinShare",
+            int((lab == "conditionally harmful").sum()))
+        put("nUniformlyBeneficialMinShare",
+            int((lab == "uniformly beneficial").sum()))
+        #  a withdrawn direction is unresolved, and the file spells the two
+        #  states differently, so both count here
+        put("nUnresolvedMinShare",
+            int(lab.str.startswith("unresolved").sum()))
     else:
         for k in _MS:
             put(k, None)

@@ -115,7 +115,9 @@ ratio it does not shrink with $n$ while the half-width shrinks like
 $n^{-1/2}$. Section~\ref{sec:simsensitivity} locates the crossing: at a ratio
 of \straddleRatio\ the interval straddles its own estimate in every replicate
 up to \nStraddleAllMax\ training rows and in only \shareStraddleAtHalfPct\ of
-them by \nStraddleHalfMin. The three pairs above are the corpus's nearest it.
+them by \nStraddleHalfMin. This corpus reaches a ratio of
+\corpusRatioMax\ at its highest pair and \nPairsRatioAboveTenth\ of
+\nPairs\ sit above a tenth, so it has pairs in that regime.
 \textbf{The argument does not carry to the bands reported here.} Weights
 remove the mechanism it rests on, and a displacement survives them anyway
 (above), so what remains under the reported scheme is not bounded by this
@@ -230,8 +232,9 @@ fixes $B$ and not the precision of $q$ --- order-statistic widths of
 carried through, so a cell counts as \emph{resolved} only at its \emph{upper}
 end. A max-$t$ band also inherits the coverage of the interval it is built
 from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
-register cardinality to training size; Section~\ref{sec:regions} calibrates
-$q$ at each pair's own ratio.
+register cardinality to training size. Supplement~\ref{app:calibration}
+derives a $q$ calibrated at each pair's own ratio and
+Section~\ref{sec:simband} measures why it is not applied.
 
 \paragraph{What these bands cover, measured against a known answer}
 \textbf{They do not attain their nominal level anywhere in this corpus's

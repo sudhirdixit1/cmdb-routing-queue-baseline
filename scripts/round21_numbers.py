@@ -58,15 +58,30 @@ def _regions_as_calibrated(load):
     G["rho_calibrated"] = G.rho
     G["region_calibrated"] = G.region
     G["q_calibrated"] = G.q
-    G["c"] = 1.0
-    #  K/n is a property of the pair and not of the calibration, so it is
-    #  carried over from the file that measures it rather than recomputed.
-    K = load("s42_regions.csv")
-    if K is not None and len(K) and "k_over_n" in K.columns:
-        G = G.merge(K[["log", "target", "k_over_n"]], on=["log", "target"],
+    #  `c' IS WHAT THE FITTED CURVE SUPPLIES AT THIS PAIR'S RATIO, NOT WHAT
+    #  IS APPLIED.  Setting it to one here was meant to say "nothing is
+    #  applied", and instead it emptied every sentence that asks what the
+    #  calibration WOULD supply -- three of them rendered "1.00 to 1.00" --
+    #  and left the comparison table printing a widening column of ones
+    #  beside two identical pairs of columns.  Whether it is applied is a
+    #  fact about the manuscript and is stated there; what it supplies is a
+    #  measurement and belongs to the file that measured it.
+    #
+    #  K/n likewise is a property of the pair, not of the calibration.  It
+    #  was merged from a file that does not carry the column, so every row
+    #  came back NaN and the table printed a dash on all nineteen.
+    K = load("s33_regions.csv")
+    _cols = [c for c in ("k_over_n", "c", "beneficial_cal", "harmful_cal",
+                         "unresolved_cal", "rho_calibrated",
+                         "region_calibrated", "q_calibrated")
+             if K is not None and c in K.columns]
+    if K is not None and len(K) and _cols:
+        G = G.drop(columns=[c for c in _cols if c in G.columns])
+        G = G.merge(K[["log", "target"] + _cols], on=["log", "target"],
                     how="left")
     else:
         G["k_over_n"] = float("nan")
+        G["c"] = float("nan")
     return G
 
 

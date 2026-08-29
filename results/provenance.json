@@ -1,8 +1,23 @@
 {
+  "make_numbers.py": {
+    "at": "2026-08-29T08:36:41Z",
+    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
+    "sha": "c83cf321047e2ed2"
+  },
+  "round21_numbers.py": {
+    "at": "2026-08-29T08:36:41Z",
+    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
+    "sha": "6133f510cca94d59"
+  },
   "round21_tables.py": {
-    "at": "2026-08-29T08:23:05Z",
-    "note": "round 27: the calibration is derived and reported, not applied",
-    "sha": "12f5d367131d7852"
+    "at": "2026-08-29T08:36:41Z",
+    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
+    "sha": "9f61cb581247ec56"
+  },
+  "round21_verify.py": {
+    "at": "2026-08-29T08:36:41Z",
+    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
+    "sha": "ea5eab01f62d4188"
   },
   "round26_numbers.py": {
     "at": "2026-08-29T08:20:32Z",
@@ -10,14 +25,14 @@
     "sha": "9caf7c97be3f35d0"
   },
   "round27_numbers.py": {
-    "at": "2026-08-29T08:14:37Z",
-    "note": "round 27: the like-for-like unbandable counterfactual, which isolates the scheme from the design change",
-    "sha": "ee8d48bd22c4ac10"
+    "at": "2026-08-29T08:36:41Z",
+    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
+    "sha": "b97716eed97cf647"
   },
   "round27_verify.py": {
-    "at": "2026-08-29T08:25:21Z",
-    "note": "round 27: the estimator comparison follows the inference surface",
-    "sha": "ae761780d7a61ff3"
+    "at": "2026-08-29T08:36:41Z",
+    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
+    "sha": "634b034cd4167d9e"
   },
   "s01_surface.py": {
     "at": "2026-08-25T01:56:46Z",
@@ -184,14 +199,14 @@
     "sha": "f007dbdfeb480547"
   },
   "s33_calibrate.py": {
-    "at": "2026-08-26T00:45:19Z",
-    "note": "Round twenty-five, item B: the plane widened in n from three sizes to eleven, 500 to 180,000 training rows, with three constant-ratio ladders that isolate n at a fixed K/n; --resume added so a plane that gains a cell costs a cell; the admission guard moved from a replicate COUNT to the SHARE of replicates whose basic interval straddles its own point estimate, after two cells passed the count guard on 34 and 39 selected replicates and returned c = 3074.7 and c = 0.86. Full run of 25 August 2026, 33 cells at 500 replicates, four of which have no factor and are recorded as such.",
-    "sha": "710d010b04865ff5"
+    "at": "2026-08-29T08:36:41Z",
+    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
+    "sha": "bd21518868c1573a"
   },
   "s34_reporting.py": {
-    "at": "2026-08-26T00:45:19Z",
-    "note": "Round twenty-five: re-run after s33's plane was widened, since it reads s33_regions.csv for the calibrated resolution.",
-    "sha": "6f81fbc95adae970"
+    "at": "2026-08-29T08:36:42Z",
+    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
+    "sha": "ad82bc2cab8743a8"
   },
   "s35_utility.py": {
     "at": "2026-08-24T23:51:14Z",
@@ -199,9 +214,9 @@
     "sha": "266b0394cb39170e"
   },
   "s36_sca.py": {
-    "at": "2026-08-26T00:45:19Z",
-    "note": "Round twenty-five: --reuse added, which rebuilds the verdicts from the permutation null and the curves on disk. The two columns this file merges in from s33 went stale when the plane was widened and nothing else it computes changed; recomputing the null to refresh a merge would have cost the raw logs. Also a guard that refuses to overwrite the null when no replicate is usable, after a failed run wrote 1,919 error rows over it.",
-    "sha": "e438cdc32bd0a325"
+    "at": "2026-08-29T08:36:42Z",
+    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
+    "sha": "03b489af8bd6b928"
   },
   "s37_axes.py": {
     "at": "2026-08-29T04:34:28Z",
