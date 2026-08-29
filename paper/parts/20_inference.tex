@@ -32,9 +32,9 @@ difference this evidence can resolve. The nested construction is retained becaus
 variability it admits is variability the estimand contains and the fixed-model
 interval excludes by construction, not because it measures better here; and
 the price it charges is the subject of the next two paragraphs.
-Section~\ref{sec:lim} records that the comparison a reader would want ---
-against a \emph{weighted} bootstrap, which would remove that price at source
---- is the first thing this design should be replaced by, and is not run here.
+The comparison a reader would want --- against a \emph{weighted} bootstrap,
+which removes that price at source --- is below, and what it found is not what
+this construction's defence predicted.
 
 \noindent Throughout, $K$ denotes the \textbf{cardinality of the register
 field} --- the number of distinct values $f$ takes on a pair, \cardFMedian\ at
@@ -130,7 +130,7 @@ multiplied by the draw count.
 
 \textbf{The rule that selects it, in full.} It is one design, and it is the
 same design on every pair: two learners, two splits, three register-quality
-conditions and three admissible rungs, crossed --- \nInferenceCells\ cells,
+conditions and three admissible rungs, crossed --- \nCellsPerDecomposition\ cells a pair,
 \nInferenceScalar\ scalar family members across the corpus --- at
 \nDrawsSurface\ draws. Nothing in the rule reads a result, and nothing in it
 reads the log: the size classes that chose the previous surface's levels are
@@ -149,7 +149,7 @@ stronger one and not the cheaper one.
 surface used to be \emph{a corner of the declared surface rather than a
 design}, and the decomposition of Section~\ref{sec:sobol} could not be
 computed on it. It can now, and is: one decomposition per pair per instrument,
-over \nInferenceCells\ cells each. Supplement~\ref{app:infanova} reports
+over \nCellsPerDecomposition\ cells each. Supplement~\ref{app:infanova} reports
 what that shows, and it is not a confirmation --- the axis carrying the
 largest first-order index agrees between the two surfaces on a minority of
 pairs. The two do not declare the same levels, so the disagreement compares
@@ -230,12 +230,15 @@ bootstrap is \emph{ideal}, so every coverage it reports is an upper bound on
 what the real procedure attains. The multiplier band's family-wise coverage
 there has a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\
 against a nominal $95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even
-under the Gaussian draws the construction is derived for. The binding
-constraint is the draw count and not the choice among estimators: at the modal
-surface family coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\
-draws and \covMultBootFourHundred\ at \nBootFourHundred, and this corpus runs
-at \nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ as declared,
-\nDrawsEffectiveMin\ to \nDrawsSurfaceMax\ effectively. Section~\ref{sec:simband}
+under the Gaussian draws the construction is derived for. \textbf{The binding
+constraint is not the draw count}, which an asymptotic argument would suggest
+and this design's own measurement refutes: at the modal surface family
+coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\ draws and then
+\emph{plateaus} --- \covMultBootOneFifty\ at \nBootOneFifty,
+\covMultBootFourHundred\ at \nBootFourHundred\ and
+\covMultBootOneThousand\ at \nBootOneThousand. This corpus runs at
+\nDrawsSurface\ draws throughout, on the plateau and not below it, so the
+shortfall is not one a larger budget removes. Section~\ref{sec:simband}
 reports all five candidate critical values, the safeguard that buys almost
 nothing, and the shortfall in the units the calibration works in.
 \textbf{Every band, region label and $\rho$ in this paper is therefore an
@@ -379,8 +382,9 @@ a sixth of a pair's cells is systematically cleaner than one computed on all
 of them, and \emph{uniformly beneficial} is the label most helped by it: a
 claim about every cell is easier to sustain over fewer cells. The manuscript
 therefore never says a surface is uniformly beneficial without this
-restriction being in force, and Section~\ref{sec:regions} reports that the
-label is not reached on any pair in any case.
+restriction being in force, and Section~\ref{sec:regions} reports the one pair
+that reaches it together with the share of that pair's admissible cells the
+label was earned over --- which is the smallest such share in the corpus.
 
 \noindent The two harmful labels are not decoration, and what this corpus
 does with them is a case of the minimum share doing its work.

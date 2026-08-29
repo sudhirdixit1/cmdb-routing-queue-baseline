@@ -41,10 +41,9 @@ what the procedure attains: median \covMultHeavyMedian\ and minimum
 \covMultGaussMedian\ even under the Gaussian draws the construction is
 derived for. The safeguard we
 called conservative moves coverage by less than a point, because it controls
-the Monte Carlo error in $q$ and not the error in what $q$ estimates. The
-repair is more draws --- \covMultBootThirtyThree\ at \nBootThirtyThree\
-against \covMultBootFourHundred\ at \nBootFourHundred\ --- and a draw refits
-the whole design space. \textbf{Every region label and every $\rho$ here is
+the Monte Carlo error in $q$ and not the error in what $q$ estimates. More draws
+were the repair this suggested, and the paragraph below reports what they
+bought, which is less than the asymptotics promise. \textbf{Every region label and every $\rho$ here is
 therefore a descriptive diagnostic and not a guarantee}, which the front
 matter now says. The two families are not equally exposed, and they are no
 longer corrected alike. On the surface families the widening that would close
@@ -209,12 +208,16 @@ log, one register and no sequence encoder is a pilot, and the structural
 omission stands.
 
 \paragraph{External --- three narrower limits, named}
-The \emph{inference surface} is a corner of the declared surface chosen by row
-count rather than a design: axis-complete but unbalanced, the decomposition
-cannot be computed on it, and its positive-cell share differs from the
-declared surface's by a median \repGapMedian; a resolution-IV fractional
-factorial of the same size would remove both objections and free budget for
-draws. The \emph{pipeline axis} is now crossed on the \nItsmCrossed\ ITSM pairs and
+The \emph{inference surface} is smaller than the declared one and always will
+be, because a draw refits every arm of every cell: it carries
+\nInferenceScalar\ of the \nDeclaredAdmissibleScalar\ admissible scalar
+cells, so every region label is a claim about a fraction of the space the
+point estimates cover. It is no longer a \emph{corner} of that space --- it is
+a balanced full factorial, and Section~\ref{sec:threesurfaces} reports the
+decomposition now computable on it --- but a smaller set is a set on which
+\emph{uniformly beneficial} is easier to earn, and
+Section~\ref{sec:regions} reports the one label that turns on exactly that.
+The \emph{pipeline axis} is now crossed on the \nItsmCrossed\ ITSM pairs and
 not only on the case study's log, which narrows this limitation rather than
 removing it: the pairs outside that family still carry family and encoding
 confounded. What the wider crossing found is in Section~\ref{sec:axes2} and

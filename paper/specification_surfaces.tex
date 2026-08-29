@@ -601,9 +601,9 @@ difference this evidence can resolve. The nested construction is retained becaus
 variability it admits is variability the estimand contains and the fixed-model
 interval excludes by construction, not because it measures better here; and
 the price it charges is the subject of the next two paragraphs.
-Section~\ref{sec:lim} records that the comparison a reader would want ---
-against a \emph{weighted} bootstrap, which would remove that price at source
---- is the first thing this design should be replaced by, and is not run here.
+The comparison a reader would want --- against a \emph{weighted} bootstrap,
+which removes that price at source --- is below, and what it found is not what
+this construction's defence predicted.
 
 \noindent Throughout, $K$ denotes the \textbf{cardinality of the register
 field} --- the number of distinct values $f$ takes on a pair, \cardFMedian\ at
@@ -699,7 +699,7 @@ multiplied by the draw count.
 
 \textbf{The rule that selects it, in full.} It is one design, and it is the
 same design on every pair: two learners, two splits, three register-quality
-conditions and three admissible rungs, crossed --- \nInferenceCells\ cells,
+conditions and three admissible rungs, crossed --- \nCellsPerDecomposition\ cells a pair,
 \nInferenceScalar\ scalar family members across the corpus --- at
 \nDrawsSurface\ draws. Nothing in the rule reads a result, and nothing in it
 reads the log: the size classes that chose the previous surface's levels are
@@ -718,7 +718,7 @@ stronger one and not the cheaper one.
 surface used to be \emph{a corner of the declared surface rather than a
 design}, and the decomposition of Section~\ref{sec:sobol} could not be
 computed on it. It can now, and is: one decomposition per pair per instrument,
-over \nInferenceCells\ cells each. Supplement~\ref{app:infanova} reports
+over \nCellsPerDecomposition\ cells each. Supplement~\ref{app:infanova} reports
 what that shows, and it is not a confirmation --- the axis carrying the
 largest first-order index agrees between the two surfaces on a minority of
 pairs. The two do not declare the same levels, so the disagreement compares
@@ -799,12 +799,15 @@ bootstrap is \emph{ideal}, so every coverage it reports is an upper bound on
 what the real procedure attains. The multiplier band's family-wise coverage
 there has a median \covMultHeavyMedian\ and a minimum \covMultHeavyMin\
 against a nominal $95\%$ --- \covMultGaussMedian\ and \covMultGaussMin\ even
-under the Gaussian draws the construction is derived for. The binding
-constraint is the draw count and not the choice among estimators: at the modal
-surface family coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\
-draws and \covMultBootFourHundred\ at \nBootFourHundred, and this corpus runs
-at \nDrawsSurfaceMin\ to \nDrawsSurfaceMax\ as declared,
-\nDrawsEffectiveMin\ to \nDrawsSurfaceMax\ effectively. Section~\ref{sec:simband}
+under the Gaussian draws the construction is derived for. \textbf{The binding
+constraint is not the draw count}, which an asymptotic argument would suggest
+and this design's own measurement refutes: at the modal surface family
+coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\ draws and then
+\emph{plateaus} --- \covMultBootOneFifty\ at \nBootOneFifty,
+\covMultBootFourHundred\ at \nBootFourHundred\ and
+\covMultBootOneThousand\ at \nBootOneThousand. This corpus runs at
+\nDrawsSurface\ draws throughout, on the plateau and not below it, so the
+shortfall is not one a larger budget removes. Section~\ref{sec:simband}
 reports all five candidate critical values, the safeguard that buys almost
 nothing, and the shortfall in the units the calibration works in.
 \textbf{Every band, region label and $\rho$ in this paper is therefore an
@@ -948,8 +951,9 @@ a sixth of a pair's cells is systematically cleaner than one computed on all
 of them, and \emph{uniformly beneficial} is the label most helped by it: a
 claim about every cell is easier to sustain over fewer cells. The manuscript
 therefore never says a surface is uniformly beneficial without this
-restriction being in force, and Section~\ref{sec:regions} reports that the
-label is not reached on any pair in any case.
+restriction being in force, and Section~\ref{sec:regions} reports the one pair
+that reaches it together with the share of that pair's admissible cells the
+label was earned over --- which is the smallest such share in the corpus.
 
 \noindent The two harmful labels are not decoration, and what this corpus
 does with them is a case of the minimum share doing its work.
@@ -1316,14 +1320,11 @@ two of them run. \textbf{The admission rule is a function of the log's row
 count and nothing else}, declared before any fit. On the declared surface the
 case study's log carries all \nPipelineLevelsCase\ levels, the two largest
 logs carry \nPipelineLevelsLarge\ and every other pair
-\nPipelineLevelsModal, which Table~\ref{tab:roles} gives per pair. The same
-rule narrows the axis again inside the inference family, where every draw
-refits every arm: there the case study's log keeps all
-\nPipelineLevelsCase, the two largest logs keep the two levels that differ
-in \emph{encoding} and drop the boosting arm --- a boosting fit on a quarter
-of a million rows, refitted in every draw, costs more than the rest of the
-corpus together --- and every remaining pair keeps the two that
-differ in \emph{family}.
+\nPipelineLevelsModal, which Table~\ref{tab:roles} gives per pair. \textbf{Inside the inference family that rule no longer applies}: every pair
+carries the same two levels, differing in model \emph{family}, with the
+boosting arm retained everywhere (Section~\ref{sec:threesurfaces}). The fused
+index below is therefore a statement about the same axis on every pair rather
+than about a different one on each.
 Crossed on the
 case study's log --- both families against all three encodings,
 \nCrossedPipelines\ complete factorial pipelines, run on each of the log's two
@@ -1435,7 +1436,8 @@ in which a single number is safe is a case where the claim ranges over a
 fortieth of the specifications an analyst could have chosen}, which is a
 statement about a denominator rather than a counterexample to one. It is also
 not an artefact of the band's width: the label survives every widening the
-measured shortfall of Section~\ref{sec:simband} could ask for. The counts are
+measured shortfall of Section~\ref{sec:simband} could ask for, and
+Supplement~\ref{app:uniformly} gives the whole reckoning. The counts are
 reported at four calibration settings and the ordering is
 stable across all of them (Supplement~\ref{app:foursettings}), so no
 conclusion here rests on the calibration being exactly right.
@@ -2344,10 +2346,9 @@ what the procedure attains: median \covMultHeavyMedian\ and minimum
 \covMultGaussMedian\ even under the Gaussian draws the construction is
 derived for. The safeguard we
 called conservative moves coverage by less than a point, because it controls
-the Monte Carlo error in $q$ and not the error in what $q$ estimates. The
-repair is more draws --- \covMultBootThirtyThree\ at \nBootThirtyThree\
-against \covMultBootFourHundred\ at \nBootFourHundred\ --- and a draw refits
-the whole design space. \textbf{Every region label and every $\rho$ here is
+the Monte Carlo error in $q$ and not the error in what $q$ estimates. More draws
+were the repair this suggested, and the paragraph below reports what they
+bought, which is less than the asymptotics promise. \textbf{Every region label and every $\rho$ here is
 therefore a descriptive diagnostic and not a guarantee}, which the front
 matter now says. The two families are not equally exposed, and they are no
 longer corrected alike. On the surface families the widening that would close
@@ -2512,12 +2513,16 @@ log, one register and no sequence encoder is a pilot, and the structural
 omission stands.
 
 \paragraph{External --- three narrower limits, named}
-The \emph{inference surface} is a corner of the declared surface chosen by row
-count rather than a design: axis-complete but unbalanced, the decomposition
-cannot be computed on it, and its positive-cell share differs from the
-declared surface's by a median \repGapMedian; a resolution-IV fractional
-factorial of the same size would remove both objections and free budget for
-draws. The \emph{pipeline axis} is now crossed on the \nItsmCrossed\ ITSM pairs and
+The \emph{inference surface} is smaller than the declared one and always will
+be, because a draw refits every arm of every cell: it carries
+\nInferenceScalar\ of the \nDeclaredAdmissibleScalar\ admissible scalar
+cells, so every region label is a claim about a fraction of the space the
+point estimates cover. It is no longer a \emph{corner} of that space --- it is
+a balanced full factorial, and Section~\ref{sec:threesurfaces} reports the
+decomposition now computable on it --- but a smaller set is a set on which
+\emph{uniformly beneficial} is easier to earn, and
+Section~\ref{sec:regions} reports the one label that turns on exactly that.
+The \emph{pipeline axis} is now crossed on the \nItsmCrossed\ ITSM pairs and
 not only on the case study's log, which narrows this limitation rather than
 removing it: the pairs outside that family still carry family and encoding
 confounded. What the wider crossing found is in Section~\ref{sec:axes2} and

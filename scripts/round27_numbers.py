@@ -249,6 +249,19 @@ def emit(mn):
     #  is the median over the five instruments WITHIN a pair, then a count
     #  over pairs.  It is not the pooled median the case-study macros use, and
     #  the two are not interchangeable.
+    #  the decomposition on the inference surface, which the balanced design
+    #  makes possible -- Section 4.2 quotes the per-decomposition cell count and
+    #  it is NOT the corpus total, which is that number times the pair count.
+    F51 = load("s51_facts.csv")
+    if F51 is not None and len(F51):
+        put("nCellsPerDecomposition",
+            thousands(int(first(F51, "n_cells_per_decomposition"))))
+        put("nDecompositionsInference",
+            thousands(int(first(F51, "n_decompositions"))))
+    else:
+        put("nCellsPerDecomposition", None)
+        put("nDecompositionsInference", None)
+
     IDX = load("s37_indices_itsm.csv")
     if IDX is not None and len(IDX):
         def _per_pair(term):

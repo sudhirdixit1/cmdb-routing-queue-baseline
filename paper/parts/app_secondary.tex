@@ -58,7 +58,7 @@ as a limitation rather than assuming the case study's split transfers.
 
 The inference surface is a balanced full factorial, so the exact functional
 ANOVA of Section~\ref{sec:sobol} applies to it unchanged. It is applied: one
-decomposition per pair per instrument, over \nInferenceCells\ cells each,
+decomposition per pair per instrument, over \nCellsPerDecomposition\ cells each,
 with no failures. That retires the objection that the surface bands are
 computed on is a corner rather than a design.
 
@@ -754,31 +754,42 @@ higher-order \itsmHigherOrderPct\ against \interactionTotalPct, largest
 first-order \itsmLargestFirstOrderPct\ against \largestFirstOrderPct.
 Supplement~\ref{app:itsmfamily} carries every statistic on both populations.
 
-\subsection{Why no surface is uniformly beneficial, and what that is worth}
+\subsection{The one surface that is uniformly beneficial, and what it cost to
+reach}
 \label{app:uniformly}
 
-%%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+\textbf{\nUniformlyBeneficial\ of the \nPairs\ pairs is uniformly
+beneficial, and the interesting part is the denominator.} The label requires
+every cell of the \emph{inference family} to have its lower band above zero
+(Definition~\ref{def:regions}) --- a set that is a median
+\inferenceShareAdmissibleMedianPct\ of a pair's admissible cells, and on the
+pair that reaches the label it is smaller still, under a twentieth. A label
+about \emph{every} cell is correspondingly easier to earn over fewer of them,
+which is why Section~\ref{sec:regionsdef} names this as the label the
+restriction most flatters.
 
-\textbf{No surface in this corpus is uniformly beneficial, and that statement
-is weaker than it looks.} It holds under the calibrated band, the nominal one
-and the empirical one --- but \emph{uniformly beneficial} requires every cell
-of the \emph{inference family} to have its lower band above zero
-(Definition~\ref{def:regions}), a set that is a median
-\inferenceShareAdmissibleMedianPct\ of a pair's admissible cells and on which
-the label is correspondingly easier to earn; and a cell whose point estimate
-is negative can never qualify at any critical value. \nPairsWithNegativeCell\
-of the \nPairs\
-pairs carry such a cell inside that family, so the label is unreachable here
-before any band, bootstrap or calibration is applied, and the count of zero is
-not an inferential finding. The statement that carries content needs none of
-the
-apparatus: on every pair at least one admissible specification has a negative
-increment, which is visible from the all-cells column of
-Table~\ref{tab:misreport}. What the apparatus earns is $\rho$ and the resolved
-counts, not this. For the same reason $\rho = 1$ is not an attainable state
-for any pair in this design, and Section~\ref{sec:regionsdef}'s remark that it
-is the only safe state for a single number should be read as a definition
-rather than as a hypothesis this corpus tests.
+\noindent It is not, however, an artefact of the band's width. A cell whose
+point estimate is negative can never qualify at any critical value, and the
+pair in question carries none inside its family; the label survives every
+widening the measured shortfall of Section~\ref{sec:simband} could ask for.
+So the state is genuinely reached, and reached over a fortieth of the
+specifications the declaration admits.
+
+\noindent \textbf{That combination is the point rather than an
+embarrassment.} Section~\ref{sec:regionsdef} offers $\rho = 1$ as the only
+state in which one positive number is a safe summary of a surface, and asks
+how often it obtains. It obtains once here --- on the pair with the richest
+declared grid --- and the claim it licenses ranges over a fortieth of that
+pair's admissible specifications. A reader who wants a single number for this
+register may have one, provided they are content that it is a statement about
+the design the band was computed on and not about the design they might have
+declared.
+
+\noindent The statement that needs none of the apparatus is the weaker one
+that survives everywhere: on every pair at least one admissible specification
+has a negative increment, which is visible from the all-cells column of
+Table~\ref{tab:misreport}. What the apparatus earns is $\rho$ and the
+resolved counts.
 
 %%  ROUND TWENTY-FIVE.  Moved from Section 6.4 for length; Table~\ref{tab:master}
 %%  carries the same rho per pair.

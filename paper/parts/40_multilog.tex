@@ -182,14 +182,11 @@ two of them run. \textbf{The admission rule is a function of the log's row
 count and nothing else}, declared before any fit. On the declared surface the
 case study's log carries all \nPipelineLevelsCase\ levels, the two largest
 logs carry \nPipelineLevelsLarge\ and every other pair
-\nPipelineLevelsModal, which Table~\ref{tab:roles} gives per pair. The same
-rule narrows the axis again inside the inference family, where every draw
-refits every arm: there the case study's log keeps all
-\nPipelineLevelsCase, the two largest logs keep the two levels that differ
-in \emph{encoding} and drop the boosting arm --- a boosting fit on a quarter
-of a million rows, refitted in every draw, costs more than the rest of the
-corpus together --- and every remaining pair keeps the two that
-differ in \emph{family}.
+\nPipelineLevelsModal, which Table~\ref{tab:roles} gives per pair. \textbf{Inside the inference family that rule no longer applies}: every pair
+carries the same two levels, differing in model \emph{family}, with the
+boosting arm retained everywhere (Section~\ref{sec:threesurfaces}). The fused
+index below is therefore a statement about the same axis on every pair rather
+than about a different one on each.
 Crossed on the
 case study's log --- both families against all three encodings,
 \nCrossedPipelines\ complete factorial pipelines, run on each of the log's two
@@ -301,7 +298,8 @@ in which a single number is safe is a case where the claim ranges over a
 fortieth of the specifications an analyst could have chosen}, which is a
 statement about a denominator rather than a counterexample to one. It is also
 not an artefact of the band's width: the label survives every widening the
-measured shortfall of Section~\ref{sec:simband} could ask for. The counts are
+measured shortfall of Section~\ref{sec:simband} could ask for, and
+Supplement~\ref{app:uniformly} gives the whole reckoning. The counts are
 reported at four calibration settings and the ordering is
 stable across all of them (Supplement~\ref{app:foursettings}), so no
 conclusion here rests on the calibration being exactly right.
