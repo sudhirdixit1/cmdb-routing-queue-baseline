@@ -109,7 +109,9 @@ computed on it and why the positive-cell share differs between the two
 surfaces by a median \repGapMedian; Section~\ref{sec:lim} names the
 resolution-IV fractional factorial that would remove both objections.
 It carries \nInferenceScalar\ scalar family members, a median
-\inferenceShareMedianPct\ of each pair's computational surface.
+\inferenceShareAdmissibleMedianPct\ of each pair's computational surface, and
+a median \inferenceShareMedianPct\ of the master surface file, which also
+carries the intercept-only rung.
 Every quantity that does \emph{not} need a bootstrap ---
 the decomposition, the sign-disagreement rate, the regret comparison --- is
 computed on the full declared surface; only the region labels are computed on
@@ -281,8 +283,9 @@ differ substantially, at \largestInvolvementPct\ against
 \label{def:regions}
 Let $\mathcal{F}$ be the declared inference family of
 Section~\ref{sec:threesurfaces} for a pair --- the cells that carry bootstrap
-draws, a median \inferenceShareMedianPct\ of that pair's admissible scalar
-cells. Under the simultaneous band of Section~\ref{sec:simbands}, a cell of
+draws, a median \inferenceShareAdmissibleMedianPct\ of that pair's admissible
+scalar cells. Under the simultaneous band of Section~\ref{sec:simbands}, a
+cell of
 $\mathcal{F}$ is \emph{beneficial} if its lower band is above zero,
 \emph{harmful} if its upper band is below zero, and \emph{unresolved}
 otherwise. A surface is \emph{uniformly beneficial} if every cell of

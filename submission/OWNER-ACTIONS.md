@@ -261,3 +261,74 @@ in `scripts/` would run on it unchanged.
   material resolve to headings that exist.
 - The branch `round-nineteen-specification-surfaces` is pushed to
   `origin`.
+
+---
+
+## 4. Round twenty-seven: what a compliance audit against the journal's own guide added
+
+The Guide for Authors was recovered in full from the Internet Archive
+(snapshot **2024-04-22**, the newest that exists; the live page returns 403 to
+automated fetches). Everything below is from that snapshot or from a
+publisher-level policy page fetched on 2026-08-28. **The primary source is
+about two years old**, so re-read the live guide once before submitting.
+
+Three findings are *not* problems and are recorded so they are not
+"fixed" by mistake:
+
+- **There is no abstract word limit in this journal's guide.** The widely
+  repeated 250 words is boilerplate from other Elsevier titles. The abstract
+  is 201 words and needs nothing.
+- **ORCID appears nowhere in this journal's guide.** The manuscript's
+  handling — leave it to the Editorial Manager profile — is correct.
+- **No graphical abstract is required** ("where applicable").
+
+### 4.1 Highlights are MANDATORY for this journal *(fixed — nothing to do)*
+
+Not optional, as they are for most Elsevier titles. The guide asks for a
+separate editable file with `Highlights` in the name. What the package used
+to offer was a working document that opened with fifteen lines of build
+commentary. **Upload `submission/upload/Highlights.txt`** — five bullets,
+nothing else — and not `submission/highlights.txt`, which is the annotated
+working copy. If the system wants a Word file, paste those five lines in
+unchanged.
+
+### 4.2 Suggested reviewers need institutional e-mail addresses  *(owner)*
+
+The guide and the submission checklist both require them.
+`suggested_reviewers.md` currently has six names and **zero e-mail
+addresses**. Editorial Manager will not let the submission complete without
+them, so this stops the submission rather than risking a rejection.
+
+### 4.3 The competing-interest declaration must be Elsevier's .docx  *(owner)*
+
+The guide is unusually explicit: use Elsevier's declaration tool and
+**"do not convert the .docx template to another file type."** The package
+supplies `declaration_of_interests.md` — the content is right, the container
+is wrong. Generate the .docx from Elsevier's tool and attach that.
+
+### 4.4 The affiliation is not a full postal address  *(owner)*
+
+The guide asks for the "full postal address of each affiliation, including
+the country name", and the submission checklist repeats it for the
+corresponding author. The manuscript renders *"Independent Researcher, Apex,
+United States"* — a city and a country, not a postal address. This is queried
+at technical check for unaffiliated authors specifically. Set the full
+address in `scripts/round26_numbers.py` beside `AFFILIATION_CITY`.
+
+### 4.5 The archive DOI is now a placeholder inside the reference list  *(owner — still the blocking item)*
+
+Already §1.1 above, with one thing that section did not know: the placeholder
+does not only appear in the code-availability statement. It is **reference
+[11]**, the `fieldvalue` software citation, where it renders as *"the
+archived release cited in the data-availability statement (DOI reserved,
+inserted at proof)"* — a reference that forwards the reader to a statement
+which does not carry the DOI either. The guide requires a software citation
+to include a "global persistent identifier". An editorial assistant checking
+that the reference list resolves stops here. **This is the single most likely
+cause of a desk return.**
+
+### 4.6 Rebuild before uploading  *(owner or agent, but do not skip)*
+
+`paper/specification_surfaces.pdf` predates the current source. The built
+PDF's generative-AI declaration differs in substance from the one now in the
+source of record. Whatever is uploaded must be rebuilt from the current tree.

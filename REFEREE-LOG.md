@@ -2086,3 +2086,105 @@ the tie-break paragraph, the threats section --- were taken. The rest is a
 decision about what an *Information Systems* reader should be able to check
 without a second document, and `submission/response_to_review26.md` puts it to
 the editor with a ranked list of what can move back out.
+
+---
+
+# Round twenty-seven — a seventh referee, and the repair the paper had priced and not run
+
+A seventh review, of the round-twenty-six PDF, returned **major revision
+(narrow)**. Its judgement is that the paper's candour and presentation are no
+longer what blocks it, and that its remaining problem is *delivery*:
+
+> A methods paper whose subject is inference discipline cannot ship its
+> central inferential object as a diagnostic when its own text prices the fix
+> at one function.
+
+That is the correct reading of Section 11 and it is conceded without
+argument. The round runs the repair.
+
+## R27.0 Three findings were already repaired before the report was written
+
+The reviewed PDF was built at commit `d854e9d` and six commits of
+round-twenty-seven work land after it. Two of the report's three
+inconsistencies — the master table printing region labels Definition 3
+withdraws, and "that pair carries" quoting the log's cell count — were
+repaired in `a03b560`, together with three more of the same class the report
+did not find. **DISMISSED as already-closed**, with the commit named, and
+recorded here rather than claimed as new work in the response letter.
+
+The class matters more than the instances: *a macro is right, a table is
+right, and the pair contradicts*. Six of them in one manuscript says the
+class needed a gate and not a proofread. It has one — `round27_verify.py`,
+six conditions, each exercised against the exact defect it replaces.
+
+## R27.1 The band is delivered as a diagnostic while the repair sits unrun. **CONCEDED — the round's central item**
+
+Round twenty-five measured the band's family-wise coverage at a median 84.6%
+against a nominal 95% and named the repair; round twenty-six reported the
+measurement honestly and did not run it. The referee is right that honesty is
+not a substitute, and right that our own cost estimate defeats the cost
+excuse.
+
+**Disposition.** `s44_designed.py` runs both resampling schemes over one
+balanced design at 400 draws: weights per moving block, so every register
+level is present in every refit and the displacement disappears at source
+rather than being pivoted around. The design is a full factorial on every
+pair — 2 learners x 2 splits x 3 quality conditions x 3 rungs, 180 scalar
+members — which is strictly stronger than the resolution-IV fraction
+Section 11 asked for, and it retires the "corner, not a design" limitation:
+the decomposition can now be computed on the inference surface too.
+
+The success criterion is the count of cells whose pivotal interval excludes
+its own point estimate, 74 of 3,900 in round twenty-five, because it is a
+defect a reader can see without believing any theory about why it happens.
+
+## R27.2 The decision-curve widening is measured and never applied. **CONCEDED**
+
+Section 10.4 measures that the decision-curve families need a multiplicative
+widening of 1.90 to 2.05; Section 8.3 printed counts from the uncorrected
+band; Section 11 told the reader to distrust them. Unlike R27.1 this had no
+cost defence at all — widening an already-computed critical value is matrix
+arithmetic on existing draws. `s49_dcaband.py` applies it and reprints every
+count that rests on it, with the uncorrected column beside it as the scalar
+family's table already does.
+
+## R27.3 The inference share is quoted against a denominator it was not computed on. **CONCEDED — a seventh instance of R27.0's class**
+
+`inferenceShareMedianPct` was computed as observed inference cells over
+*computational* cells — a denominator including the intercept-only rung — and
+used at four call sites, three of which say *admissible*, which by the
+paper's own definition excludes that rung. One macro, two denominators, so at
+least one site was wrong wherever they differed.
+
+**Disposition.** Two macros, each derived from the axis declaration; the call
+sites matched to the denominator their sentence names; and a sweep in
+`round27_verify.py` that recomputes every per-pair and per-surface count and
+share from the axis declaration, so the eighth instance fails the build
+instead of reaching a referee.
+
+## R27.4 The reproduction claim is not true on another machine. **CONCEDED — found by us, not by the referee**
+
+Not in the report. Recorded here because it would have been in the next one.
+The boosting learner does not reproduce this repository's committed results
+across machines at identical pinned dependency versions, up to 0.14 in
+Nagelkerke on Sepsis, while the logistic learner reproduces to 5e-10. No gate
+caught it, because `verify_release.py` re-derives macros from committed
+result files and never re-runs an analysis — a checker that cannot see the
+thing it certifies, which is this project's rule 5 exactly.
+
+## R27.5 Two smaller items, both conceded
+
+**The generative-AI declaration** is trimmed to Elsevier's template plus the
+facts that belong with it. Trimming it exposed an overclaim: the assertion
+that no generative model produced any datum, result or citation was
+*unscoped*, and was true only because the pilot carve-out followed it. The
+supplement does report prevalence estimates from machine-assisted
+adjudications. Scoped to "behind a claim of this paper" in the article and in
+`credit_statement.md`. **This is rule 2 landing again** — the trim looked
+like pure subtraction and was not.
+
+**The keyword "predictive process monitoring"** is retired for "event logs".
+Section 11 states that prefix length, bucketing and sequence encoding are not
+axes of this design space and cannot be; the prefix pilot says of itself that
+it does not make this a predictive-process-monitoring paper. A keyword is a
+claim of topical membership and the body disclaims it.

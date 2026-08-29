@@ -131,6 +131,63 @@ def emit(mn):
             put("nPrefix" + nm, None)
 
     # ================================================================
+    # s49 -- THE DECISION-CURVE BAND, WIDENED BY ITS MEASURED SHORTFALL
+    # ================================================================
+    #  Section 10.4 measured that the decision-curve families need a
+    #  multiplicative widening of about two, and Section 8.3 printed counts
+    #  from a band that had not received it -- then told the reader in
+    #  Section 11 to distrust them.  Unlike the resampling repair this one
+    #  never had a cost defence: widening an already-computed critical value
+    #  is arithmetic on draws that exist.  s49 applies it.
+    #
+    #  WHICH FACTOR, AND WHY IT IS NOT THE RATIO.  `ratio_dca_all' and
+    #  `ratio_dca_adm' are medians of q_emp/q -- a ratio of two marginal
+    #  quantiles -- and s41 carries a comment recording that an earlier
+    #  version applied one and was wrong, because q and t_max are estimated
+    #  from the same draws and move together.  The factor that attains the
+    #  level is the within-replicate quantile of t_max/q, which is
+    #  `shortfall_factor'.  The choice is therefore between s41's REGIMES,
+    #  and this family is measured into one rather than assigned to it: 2 of
+    #  its 248 cells are degenerate against a corpus maximum of 17.2%, and
+    #  its excess kurtosis matches the `heavy' regime, so the heavy factor
+    #  applies and the degenerate one is reported beside it.
+    F49 = load("s49_facts.csv")
+    if F49 is not None and len(F49):
+        put("dcaQWidened", num(first(F49, "q_widened"), 2))
+        put("dcaWidenFactor", num(first(F49, "factor_applied"), 2))
+        put("dcaWidenFactorAll", num(first(F49, "factor_all_cells"), 2))
+        put("nBeneficialSimultaneousWidened",
+            thousands(int(first(F49, "n_beneficial_sim_widened"))))
+        put("nBeneficialSimultaneousAllCells",
+            thousands(int(first(F49, "n_beneficial_sim_all_cells"))))
+        put("nHarmfulSimultaneousWidened",
+            thousands(int(first(F49, "n_harmful_sim_widened"))))
+        put("nBeneficialLostToWidening",
+            thousands(int(first(F49, "n_beneficial_lost_to_widening"))))
+        put("thetaBeneficialWidenedMin",
+            num(first(F49, "theta_min_beneficial_widened"), 2))
+        put("dcBandWidthWidened", num(first(F49, "width_sim_widened"), 4))
+        put("nDegenerateCellsBand",
+            thousands(int(first(F49, "n_degenerate_band"))))
+        #  the whole 248-cell family, for the supplement's band section
+        put("dcaHarmfulSimultaneousWidened",
+            thousands(int(first(F49, "n_family_harmful_widened"))))
+        put("dcaBeneficialSimultaneousWidened",
+            thousands(int(first(F49, "n_family_beneficial_widened"))))
+        put("dcaDipThetaWidened", num(first(F49, "dip_theta_widened"), 3))
+        put("dcaDipValueWidened", num(first(F49, "dip_value_widened"), 4))
+    else:
+        for k in ("dcaQWidened", "dcaWidenFactor", "dcaWidenFactorAll",
+                  "nBeneficialSimultaneousWidened",
+                  "nBeneficialSimultaneousAllCells",
+                  "nHarmfulSimultaneousWidened", "nBeneficialLostToWidening",
+                  "thetaBeneficialWidenedMin", "dcBandWidthWidened",
+                  "nDegenerateCellsBand", "dcaHarmfulSimultaneousWidened",
+                  "dcaBeneficialSimultaneousWidened", "dcaDipThetaWidened",
+                  "dcaDipValueWidened"):
+            put(k, None)
+
+    # ================================================================
     # s46 -- is the increment stationary across the test half?
     # ================================================================
     D = load("s46_summary.csv")

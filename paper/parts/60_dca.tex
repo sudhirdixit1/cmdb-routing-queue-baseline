@@ -50,24 +50,51 @@ and what the curves look like without it.
 
 The decision-curve family is declared separately from the scalar surface and
 carries its own max-$t$ critical value, because net benefit and a scalar
-instrument are not the same scale. Across the \nDcGrid\ operating points of
-this estate's curve \textbf{the pointwise interval declares the increment
-resolvably positive at \nBeneficialPointwise\ of them and the simultaneous
-band at \nBeneficialSimultaneous}, and the harmful counts are
-\nHarmfulPointwise\ against \nHarmfulSimultaneous. Both are built from the
-same draws, so the only thing that differs is the family: those points are
+instrument are not the same scale. That critical value does not reach the
+level it is named for, and Section~\ref{sec:simband} measures by how much on
+families matched to this one in size, draw count, cross-cell correlation and
+tail. The widening it measures is applied here rather than reported: the
+operative critical value below is \dcaQWidened, not the \dcaQ\ the multiplier
+bootstrap returns.
+
+Across the \nDcGrid\ operating points of this estate's curve \textbf{the
+pointwise interval declares the increment resolvably positive at
+\nBeneficialPointwise\ of them and the widened simultaneous band at
+\nBeneficialSimultaneousWidened}, every one of the second at or above $\theta
+= \thetaBeneficialWidenedMin$; the harmful counts are \nHarmfulPointwise\
+against \nHarmfulSimultaneousWidened. All are built from the same draws, so
+what differs is the family and the level it is bought at: those points are
 the price of a statement about a \emph{range} of thresholds rather than about
 each one separately, and a paper that reads a decision curve across its range
 while pricing it pointwise has claimed the first and paid for the second.
 
-\textbf{This family is also the one most exposed to how the critical value
-was estimated.} It is \emph{not} coverage-calibrated --- the $(n,K)$
-calibration of Section~\ref{sec:regions} is estimated for the scalar family
---- and Section~\ref{sec:simband} finds that the widening it would need is
-about twice what the surface families need.
-Supplement~\ref{app:dcabandsfull} carries the comparison, the dip near
-$\theta = \dcaDipTheta$ and Figure~\ref{fig:dca}; Table~\ref{tab:dca} prints
-the curve.
+\textbf{The widening costs \nBeneficialLostToWidening\ of the \nDcGrid\
+operating points}, and the uncorrected count is printed beside the corrected
+one rather than dropped: the same draws declared \nBeneficialSimultaneous\
+before the widening, and the median band width goes from \dcBandWidth\ to
+\dcBandWidthWidened\ against the pointwise interval's \dcPointWidth. The
+factor applied is \dcaWidenFactor, the upper end of the range
+Section~\ref{sec:simband} measures on families that carry this corpus's tails
+and no degenerate cells; the lower end \shortfallDcaMin\ returns the same
+count, so which end is taken is not carrying the result. Nor is the choice
+between the two kinds of matched family: the all-cells factor
+\dcaWidenFactorAll, measured where the matched families are built to carry
+cells at which both arms treat every case alike --- \nDegenerateCellsDca\ of
+them across the corpus's curve families --- removes a further point, to
+\nBeneficialSimultaneousAllCells. The admissible factor is the operative one
+because this family is not the degenerate case --- \nDegenerateCellsBand\ of
+its \nDcaFamily\ cells are zero in at least nine draws of ten, against a
+corpus share that reaches \shareDegenerateDcaMaxPct\ --- and the all-cells
+count is printed beside it because that argument is a judgement rather than a
+measurement.
+
+The pointwise interval is not widened by a family-wise factor; what it covers
+is a separate measurement and Section~\ref{sec:simband} reports it. What the
+decision curve still does not receive is the $(n,K)$ calibration of
+Section~\ref{sec:regions}, which is estimated for the scalar family and is
+fitted to restore pointwise rather than family-wise coverage.
+Supplement~\ref{app:dcabandsfull} carries the comparison and
+Figure~\ref{fig:dca}; Table~\ref{tab:dca} prints the curve.
 
 \subsection{The decision, in units a service desk uses}
 \label{sec:nbregret}

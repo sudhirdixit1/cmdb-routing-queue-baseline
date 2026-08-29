@@ -27,6 +27,14 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 NUMBERS = ROOT / "paper" / "numbers.tex"
 OUT = ROOT / "submission" / "highlights.txt"
+#: The file that is UPLOADED.  The guide asks for `Highlights' in the file
+#: name, so the name has to be exactly that --- which is why this sits in its
+#: own directory rather than beside `highlights.txt'.  macOS is
+#: case-insensitive, so `submission/Highlights.txt' and
+#: `submission/highlights.txt' are ONE FILE there, and writing both wrote the
+#: upload over the working copy.  A subdirectory keeps the required name and
+#: cannot collide on any filesystem.
+UPLOAD = ROOT / "submission" / "upload" / "Highlights.txt"
 LIMIT = 85
 
 #: Each bullet is a format string over macro names.  A macro that renders as
@@ -105,19 +113,47 @@ def build():
     return "\n".join(body) + "\n"
 
 
+def build_upload():
+    """The file that is actually UPLOADED, and nothing else in it.
+
+    Round twenty-seven.  Highlights are MANDATORY for this journal --- not
+    optional as they are for most Elsevier titles --- and the guide asks for
+    them as `a separate editable file' with `Highlights' in the file name.
+    What this script wrote was a working document: fifteen lines of build
+    commentary, then the bullets with their character counts in brackets,
+    then the bullets again.  Uploaded as it stood, an editor's first
+    impression of the paper would have been a note about a bug in the
+    project's own highlight generator.
+
+    So there are two files and one source.  `highlights.txt' stays the
+    annotated working copy, because the character counts are what a person
+    checks against the eighty-five-character limit.  `Highlights.txt' is the
+    upload: the bullets, one per line, nothing else.  Both are generated from
+    the same `render()', so they cannot disagree.
+    """
+    return "\n".join(render()) + "\n"
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args(argv)
     text = build()
+    upload = build_upload()
     if a.check:
         cur = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
         if cur != text:
             sys.exit("submission/highlights.txt is stale; run "
                      "scripts/make_highlights.py")
+        cur_up = UPLOAD.read_text(encoding="utf-8") if UPLOAD.exists() else ""
+        if cur_up != upload:
+            sys.exit("submission/Highlights.txt is stale; run "
+                     "scripts/make_highlights.py")
         print("highlights are current")
         return 0
     OUT.write_text(text, encoding="utf-8")
+    UPLOAD.parent.mkdir(parents=True, exist_ok=True)
+    UPLOAD.write_text(upload, encoding="utf-8")
     for i in render():
         print("  [%2d] %s" % (len(i), i))
     print("wrote %s" % OUT.name)

@@ -319,28 +319,34 @@ Figure~\ref{fig:dca} draws the register's net-benefit increment across the
 grid at the reference cell on \emph{calibrated} probabilities, with the
 pointwise interval and the simultaneous max-$t$ band. The band's family is
 declared separately from the scalar family and spans every admissible
-net-benefit cell of the pair --- \nDcaFamily\ members, critical value
-\dcaQ\ --- and the difference from a pointwise reading is not cosmetic. Its
-median width is \dcBandWidth\ against the pointwise interval's
-\dcPointWidth, and across the \nDcGrid\ operating points of this estate's
+net-benefit cell of the pair --- \nDcaFamily\ members, nominal critical value
+\dcaQ, widened by the measured factor \dcaWidenFactor\ of
+Section~\ref{sec:dcabands} to \dcaQWidened\ --- and the difference from a
+pointwise reading is not cosmetic. Its median width is
+\dcBandWidthWidened\ against the pointwise interval's
+\dcPointWidth\ (\dcBandWidth\ before the widening), and across the
+\nDcGrid\ operating points of this estate's
 decision curve the pointwise interval declares the increment resolvably
 positive at \nBeneficialPointwise\ of them while the simultaneous band
-declares it at \nBeneficialSimultaneous. Both are built from the same draws,
+declares it at \nBeneficialSimultaneousWidened\
+(\nBeneficialSimultaneous\ under the nominal band). Both are built from the same draws,
 so the only thing that differs is the family: those points are the price of a
 statement about a \emph{range} of thresholds rather than about each threshold
 separately, and a paper that reads a decision curve across its range and
 prices it pointwise has claimed the first while paying for the second.
 
-The curve dips near $\theta = \dcaDipTheta$, where the simultaneous band's
-lower edge reaches \dcaDipValue, so the count of points that resolve as
+The curve dips near $\theta = \dcaDipThetaWidened$, where the widened band's
+lower edge reaches \dcaDipValueWidened, so the count of points that resolve as
 \emph{harmful} is reported rather than left to the eye:
 \nHarmfulPointwise\ of the \nDcGrid\ points pointwise and
-\nHarmfulSimultaneous\ under the simultaneous band. The second can only be
+\nHarmfulSimultaneousWidened\ under the simultaneous band. The second can only be
 smaller than or equal to the first --- the wider family gives the wider
 interval at every point, which \texttt{verify\_numbers} checks --- so a dip a
-reader can see is not a harm the evidence resolves. Over the \nDcaRows\
-decision-curve cells the corpus carries, the same counts are
-\dcaHarmfulPointwise\ and \dcaHarmfulSimultaneous; Table~\ref{tab:dca} prints
+reader can see is not a harm the evidence resolves. Over the
+\nDcaFamily\ cells of the band's own family --- \emph{not} the
+\nDcaRows\ decision-curve rows the corpus carries as point estimates, which
+are a different and much larger set --- the same counts are
+\dcaHarmfulPointwise\ and \dcaHarmfulSimultaneousWidened; Table~\ref{tab:dca} prints
 this pair's own curve, operating point by operating point, and its caption
 names the cell it is computed at.
 

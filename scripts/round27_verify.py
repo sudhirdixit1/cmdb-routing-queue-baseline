@@ -1,4 +1,4 @@
-"""round27_verify -- THE FIVE CROSS-OBJECT CONDITIONS ROUND TWENTY-SEVEN ADDS.
+"""round27_verify -- THE CROSS-OBJECT CONDITIONS ROUND TWENTY-SEVEN ADDS.
 
 Every defect this file guards against was found by a reader holding two parts
 of the manuscript side by side, and none of them could be seen from either
@@ -37,6 +37,31 @@ the source.
       that the coordinates it names are the coordinates the result file has,
       and that the two increments are indeed different numbers rather than one
       of them having drifted into agreement by accident.
+
+  9.  TWO DENOMINATORS ARE TWO MACROS.  The inference family's size was
+      quoted as a share of `the computational surface' in one sentence and of
+      `that pair's admissible scalar cells' in another, out of ONE macro,
+      whose denominator was the full declared grid -- the grid that carries
+      the intercept-only rung, which Section 4.5 and the axis table both say
+      is excluded from every admissible set.  One number cannot be both
+      shares: they are 12.5% and 16.7% and they differ by exactly the rung.
+      Both are re-multiplied here out of the declared axis levels, both
+      macros are required to hold their own value, they are required to
+      differ, and the master-file share is not allowed to stand as the
+      denominator of a sentence that says `admissible'.
+
+ 10.  EVERY QUOTED CELL COUNT IS A MULTIPLICATION, SO DO THE MULTIPLICATION.
+      The three inconsistencies round twenty-seven found in the counts were
+      all found the same way, by hand-multiplying Table 4 and comparing.
+      This condition does that multiplication mechanically -- for every pair,
+      for every basis the manuscript counts cells by, against the audit file
+      and against the generated table -- and then sweeps the macro file:
+      every macro the prose uses whose NAME says it is a count of cells or a
+      share of a surface is matched against what the axis declaration yields,
+      and the ones whose names name a log, a target, an admissible set or a
+      scalar surface must be attributed to exactly that.  The set of macros
+      swept is discovered from the macro file and the parts, not listed here,
+      so a new count is covered the day it is written.
 """
 from __future__ import annotations
 
@@ -70,6 +95,11 @@ CONDITIONS = (
     "the upper-tail rule it is defined from",
     "neither document calls a register's coarse layers free while the "
     "measured share says otherwise",
+    "the inference family's share of a pair's surface is quoted against the "
+    "denominator the sentence names, and the admissible surface and the "
+    "master surface file are not one number",
+    "every per-pair and per-surface cell count the prose quotes is the "
+    "product of the declared axis levels, on the basis its own name says",
 )
 
 _ORD = ("first", "second", "third", "fourth", "fifth", "sixth",
@@ -115,6 +145,137 @@ def _table_rows(tables, name):
             continue
         out.append([c.strip() for c in line.split("&")])
     return out
+
+
+#: The products of declared axis levels the manuscript counts cells by.  Each
+#: entry is a MULTIPLICATION over axis names exactly as `s25_denominator.py`
+#: writes them to results/s25_axis_levels.csv -- the file Table~\ref{tab:axes}
+#: and Table~\ref{tab:denominator} are both generated from -- so an axis added
+#: to the design walks into every basis here without this file being edited.
+#:
+#: The `admissible' bases differ from their partners by ONE axis and only one:
+#: `admissible_rung' is `rung' with the intercept-only level removed, which is
+#: the level the axis table prints as "in the surface, out of every admissible
+#: set".  That single difference is the whole of round twenty-seven's third
+#: inconsistency, and it is why the two are separate rows here rather than a
+#: flag on one.
+_BASES = {
+    "cells": ("learner", "split", "quality_level", "rung"),
+    "scalar cells": ("learner", "split", "quality_level", "rung",
+                     "scalar_metric"),
+    "admissible cells": ("learner", "split", "quality_level",
+                         "admissible_rung"),
+    "admissible scalar cells": ("learner", "split", "quality_level",
+                                "admissible_rung", "scalar_metric"),
+    "decision-curve cells": ("learner", "split", "quality_level", "rung",
+                             "operating_point"),
+    "admissible decision-curve cells": ("learner", "split", "quality_level",
+                                        "admissible_rung", "operating_point"),
+}
+
+#: which audit column each basis is stored in, so the multiplication can be
+#: checked against the file the macros are actually read from
+_BASIS_COLUMN = {
+    "cells": "declared_cells",
+    "scalar cells": "declared_scalar",
+    "admissible cells": "declared_admissible_cells",
+    "admissible scalar cells": "declared_admissible_scalar",
+    "admissible decision-curve cells": "declared_admissible_dc",
+}
+
+_ONES = ("zero", "one", "two", "three", "four", "five", "six", "seven",
+         "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen",
+         "fifteen", "sixteen", "seventeen", "eighteen", "nineteen")
+_TENS = ("", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy",
+         "eighty", "ninety")
+
+
+def _spelled(n):
+    """`14` as `fourteen`, because a log is `BPIC14' in a result file and
+    `BpicFourteen' in a macro name.  Above ninety-nine there is no convention
+    to follow, so the caller falls back to the digits."""
+    if n < 20:
+        return _ONES[n]
+    if n < 100:
+        return _TENS[n // 10] + (_ONES[n % 10] if n % 10 else "")
+    return None
+
+
+def _key(s):
+    """A name reduced to its letters and digits, lower-cased: the form in
+    which `BPIC15_1' and `BpicFifteenOne' can be compared."""
+    return re.sub(r"[^a-z0-9]", "", str(s).lower())
+
+
+def _name_variants(log):
+    """Every spelling of a log's name a macro might carry: the digits as they
+    stand, and the digits spelled out."""
+    base = _key(log)
+    out = {base}
+    parts = re.split(r"(\d+)", base)
+    words, ok = [], True
+    for p in parts:
+        if p.isdigit():
+            w = _spelled(int(p))
+            if w is None:
+                ok = False
+                break
+            words.append(w)
+        else:
+            words.append(p)
+    if ok:
+        out.add("".join(words))
+    return out
+
+
+def _axis_bases(results):
+    """{(log, target): {basis: value}} -- Table 4's multiplication, done from
+    the declaration rather than read from a stored count."""
+    AX = _read(results, "s25_axis_levels.csv")
+    if AX is None or not len(AX) or "n_levels" not in AX.columns:
+        return {}
+    lev = {}
+    for r in AX.itertuples():
+        lev.setdefault((str(r.log), str(r.target)), {})[
+            str(r.axis)] = int(r.n_levels)
+    out = {}
+    for key, axes in lev.items():
+        vals = {}
+        for name, prod in _BASES.items():
+            if all(a in axes for a in prod):
+                n = 1
+                for a in prod:
+                    n *= axes[a]
+                vals[name] = n
+        if vals:
+            out[key] = vals
+    return out
+
+
+def _macro_uses(paper):
+    """{macro name: [file names]} over paper/parts, which is where the prose
+    is.  Scanning the assembled document instead is how condition 8's first
+    version passed against the very sentence it was written for."""
+    out = {}
+    for f in sorted((Path(paper) / "parts").glob("*.tex")):
+        body = re.sub(r"(?<!\\)%.*", "", f.read_text(encoding="utf-8"))
+        for name in set(re.findall(r"\\([A-Za-z]+)", body)):
+            out.setdefault(name, []).append(f.name)
+    return out
+
+
+def _table_header(tables, name):
+    """The column names of a generated table, so a condition can find a
+    column by what it is called rather than by counting commas."""
+    p = Path(tables) / name
+    if not p.exists():
+        return []
+    m = re.search(r"\\toprule(.*?)\\midrule", p.read_text(encoding="utf-8"),
+                  re.S)
+    if not m:
+        return []
+    line = m.group(1).strip().rstrip("\\").strip()
+    return [c.strip() for c in line.split("&")]
 
 
 def check(vn, M):
@@ -385,3 +546,301 @@ def check(vn, M):
                     "round-27 condition: the layer ladder's increment over "
                     "intake and the decision-time table's are now the same "
                     "number, and Section 7.4 explains why they differ")
+
+    # --- 9.  two denominators are two macros -----------------------------
+    #  The inference family is a corner of the declared surface, and the
+    #  manuscript quotes its size as a SHARE in four places.  Two of those
+    #  sentences name the admissible set as the denominator and two name the
+    #  computational surface, which is the same set: Section 4.2 defines the
+    #  declared surface as "every scientifically admissible specification"
+    #  and the computational surface as equal to it, and prints both at
+    #  \nDeclaredAdmissibleScalar.  All four were served by one macro whose
+    #  denominator was neither of those but the full declared
+    #  grid -- the grid that carries the intercept-only rung.  The rung is one
+    #  level of one axis, so the error is not large; it is simply a share of a
+    #  set no sentence in the manuscript ranges over.
+    AUD = _read(results, "s25_audit.csv")
+    BASES = _axis_bases(results)
+    if (AUD is not None and len(AUD) and BASES
+            and "inference_cells_observed" in AUD.columns):
+        full, adm = [], []
+        for r in AUD.itertuples():
+            b = BASES.get((str(r.log), str(r.target)))
+            if not b or "cells" not in b or "admissible cells" not in b:
+                continue
+            full.append(float(r.inference_cells_observed) / b["cells"])
+            adm.append(float(r.inference_cells_observed) / b["admissible cells"])
+        if full:
+            w_full = 100.0 * float(pd.Series(full).median())
+            w_adm = 100.0 * float(pd.Series(adm).median())
+            for macro, want, what in (
+                    ("inferenceShareMedianPct", w_full,
+                     "the full declared grid, which carries the "
+                     "intercept-only rung"),
+                    ("inferenceShareAdmissibleMedianPct", w_adm,
+                     "the admissible grid, from which that rung is excluded")):
+                got = _num(M.get(macro))
+                if got is None:
+                    vn.FAILS.append(
+                        "round-27 condition: \\%s is not defined, and the "
+                        "inference family's share needs one macro for each "
+                        "denominator the manuscript quotes it against"
+                        % macro)
+                elif abs(got - want) > 0.06:
+                    vn.FAILS.append(
+                        "round-27 condition: \\%s is %s and the median share "
+                        "over %s, multiplied out of the declared axis levels, "
+                        "is %.1f%%" % (macro, M.get(macro), what, want))
+            #  They are not one number.  The admissible grid is a strict
+            #  subset of the declared one on every pair of this corpus, so
+            #  its share is strictly the larger; a manuscript in which the two
+            #  macros agree has lost the distinction it has just drawn.
+            g_full = _num(M.get("inferenceShareMedianPct"))
+            g_adm = _num(M.get("inferenceShareAdmissibleMedianPct"))
+            if (g_full is not None and g_adm is not None
+                    and not g_adm > g_full):
+                vn.FAILS.append(
+                    "round-27 condition: the inference family's share of the "
+                    "admissible surface (%s) is not greater than its share of "
+                    "the master surface file (%s), and the second denominator "
+                    "contains the first plus the intercept-only rung"
+                    % (M.get("inferenceShareAdmissibleMedianPct"),
+                       M.get("inferenceShareMedianPct")))
+        #  The same subsection prints the third surface as an IDENTITY --- the
+        #  computational surface "equals the declared surface", with both
+        #  counts side by side --- and it is the audit that makes the sentence
+        #  true.  So the sentence is checked against the audit and not against
+        #  itself: the two macros must be one number, that number must be the
+        #  admissible scalar surface the axis levels multiply to, and a
+        #  duplicate or a missing combination anywhere in the corpus breaks
+        #  the identity the sentence asserts.
+        c_cells = _num(M.get("nComputationalCells"))
+        d_cells = _num(M.get("nDeclaredAdmissibleScalar"))
+        want = sum(v["admissible scalar cells"] for v in BASES.values()
+                   if "admissible scalar cells" in v)
+        if c_cells is not None and d_cells is not None and c_cells != d_cells:
+            vn.FAILS.append(
+                "round-27 condition: Section 4.2 says the computational "
+                "surface equals the declared surface and prints \\%s against "
+                "\\%s" % (M.get("nComputationalCells"),
+                          M.get("nDeclaredAdmissibleScalar")))
+        if c_cells is not None and want and abs(c_cells - want) > 0.5:
+            vn.FAILS.append(
+                "round-27 condition: \\nComputationalCells is %s and the "
+                "declared axis levels multiply to %d admissible scalar cells"
+                % (M.get("nComputationalCells"), want))
+        for col in ("duplicates", "missing"):
+            if col in AUD.columns and float(AUD[col].abs().sum()) > 0:
+                vn.FAILS.append(
+                    "round-27 condition: Section 4.2 says the computational "
+                    "surface equals the declared surface, and the audit "
+                    "reports %d %s" % (int(AUD[col].abs().sum()), col))
+
+        #  and the master-file share may not stand as the denominator of a
+        #  sentence that says `admissible'.  What was wrong was never the
+        #  arithmetic in the generator; it was the right number under the
+        #  wrong noun, so the noun is what this reads.
+        for f in sorted((Path(vn.PAPER) / "parts").glob("*.tex")):
+            body = re.sub(r"(?<!\\)%.*", "", f.read_text(encoding="utf-8"))
+            for m in re.finditer(r"\\inferenceShareMedianPct\b", body):
+                after = " ".join(body[m.end():m.end() + 110].split())
+                if re.search(r"admissible", after, re.I):
+                    vn.FAILS.append(
+                        "round-27 condition: %s quotes the master surface "
+                        "file's share as a share of an ADMISSIBLE set -- "
+                        "\"...%s\"; the admissible denominator is "
+                        "\\inferenceShareAdmissibleMedianPct"
+                        % (f.name, after[:78]))
+
+    # --- 10.  the sweep: every quoted count is a multiplication ----------
+    #  Three of this round's inconsistencies were found by multiplying the
+    #  axis levels of Table 4 by hand and comparing with the prose.  Nothing
+    #  about that is manual, so it is done here for every pair, every basis,
+    #  every row of the table, and every macro the parts quote whose own name
+    #  says it is a count of cells.
+    if AUD is not None and len(AUD) and BASES:
+        # (a) the stored counts ARE the product of the declared levels
+        bad = []
+        for r in AUD.itertuples():
+            b = BASES.get((str(r.log), str(r.target)))
+            if not b:
+                bad.append("%s/%s: the axis file declares no levels"
+                           % (r.log, r.target))
+                continue
+            for basis, col in _BASIS_COLUMN.items():
+                if basis not in b or col not in AUD.columns:
+                    continue
+                stored = float(getattr(r, col))
+                if abs(stored - b[basis]) > 0.5:
+                    bad.append("%s/%s %s: the audit stores %d, the declared "
+                               "levels multiply to %d"
+                               % (r.log, r.target, basis, int(stored),
+                                  b[basis]))
+        if bad:
+            vn.FAILS.append(
+                "round-27 condition: a stored cell count is not the product "
+                "of the declared axis levels -- " + "; ".join(bad[:6]))
+
+        # (b) the denominator table's own cells, re-multiplied.  The table is
+        #     what a reader multiplies, so the table is what is checked --
+        #     by column NAME, so a reordered table is still checked.
+        head = _table_header(tables, "denominator.tex")
+        col_basis = {"declared scalar": "admissible scalar cells",
+                     "computed scalar": "admissible scalar cells",
+                     "model fits": "cells"}
+        if head and "log" in head and "target" in head:
+            i_log, i_tgt = head.index("log"), head.index("target")
+            bad = []
+            for row in _table_rows(tables, "denominator.tex"):
+                if len(row) != len(head):
+                    continue
+                key = (row[i_log].replace("\\_", "_"), row[i_tgt])
+                b = BASES.get(key)
+                if not b:
+                    continue
+                for col, basis in col_basis.items():
+                    if col not in head or basis not in b:
+                        continue
+                    got = _num(row[head.index(col)])
+                    if got is not None and abs(got - b[basis]) > 0.5:
+                        bad.append("%s/%s `%s': the table prints %d, the "
+                                   "declared levels multiply to %d"
+                                   % (key[0], key[1], col, int(got),
+                                      b[basis]))
+            if bad:
+                vn.FAILS.append(
+                    "round-27 condition: the denominator table prints a cell "
+                    "count that is not the product of the declared axis "
+                    "levels -- " + "; ".join(bad[:6]))
+
+        # (c) the macro sweep.  The macros are DISCOVERED -- every one the
+        #     parts quote whose name says `cells', `scalar' or a
+        #     decision-curve count -- rather than listed, so a count written
+        #     next week is swept the day it is written.  A value the
+        #     declaration cannot yield is not a failure: a count of RESOLVED
+        #     cells is a result and not a declaration.  What is a failure is a
+        #     value the declaration CAN yield, attributed to something other
+        #     than what the macro's own name says.
+        USES = _macro_uses(vn.PAPER)
+        per_log, corpus, spread = {}, {}, {}
+        n_pairs_of = {}
+        for (log, target), vals in BASES.items():
+            n_pairs_of[log] = n_pairs_of.get(log, 0) + 1
+            for basis, v in vals.items():
+                per_log[(log, basis)] = per_log.get((log, basis), 0) + v
+                corpus[basis] = corpus.get(basis, 0) + v
+                spread.setdefault(basis, []).append(v)
+
+        def _attribute(v):
+            """Every quantity the declaration yields that this value could
+            be, as (basis, log, target); a log with target None is the sum
+            over that log's pairs, and both None is the corpus."""
+            out = []
+            for (lg, tg), vals in BASES.items():
+                for basis, x in vals.items():
+                    if abs(v - x) <= 0.5:
+                        out.append((basis, lg, tg))
+            for (lg, basis), x in per_log.items():
+                if abs(v - x) <= 0.5 and n_pairs_of[lg] > 1:
+                    out.append((basis, lg, None))
+            for basis, x in corpus.items():
+                if abs(v - x) <= 0.5:
+                    out.append((basis, None, None))
+            for basis, xs in spread.items():
+                s = pd.Series(xs)
+                for x in (s.median(), s.min(), s.max()):
+                    if abs(v - float(x)) <= 0.5:
+                        out.append((basis, None, None))
+            return out
+
+        LOGS = sorted({lg for lg, _t in BASES})
+        TARGETS = sorted({tg for _l, tg in BASES})
+        VARIANTS = {lg: _name_variants(lg) for lg in LOGS}
+        for name in sorted(M):
+            if name not in USES:
+                continue                       # defined, never quoted
+            k = _key(name)
+            if not ("cells" in k or "scalar" in k or k.endswith("dc")):
+                continue
+            v = _num(M[name])
+            if v is None:
+                continue
+            att = _attribute(v)
+            if not att:
+                continue                       # a result, not a declaration
+            #  (i) a macro that names a log is that log's count, and a macro
+            #      that names a log AND a target is one pair's and not the
+            #      log's.  This is the shape of the `9,600 admissible cells'
+            #      defect, generalised: the log names come from the axis file.
+            hit = None
+            for lg in LOGS:
+                if any(var in k for var in VARIANTS[lg]):
+                    if hit is None or len(_key(lg)) > len(_key(hit)):
+                        hit = lg
+            if hit is not None:
+                tgt = next((t for t in TARGETS if t in k), None)
+                if tgt is not None:
+                    ok = [b for b, lg, tg in att if lg == hit and tg == tgt]
+                    if not ok:
+                        vn.FAILS.append(
+                            "round-27 condition: \\%s is %s and the %s/%s "
+                            "PAIR declares %s" % (
+                                name, M[name], hit, tgt,
+                                ", ".join("%d %s" % (x, b) for b, x in sorted(
+                                    BASES[(hit, tgt)].items(),
+                                    key=lambda kv: kv[1]))))
+                elif n_pairs_of.get(hit, 0) > 1:
+                    ok = [b for b, lg, tg in att if lg == hit and tg is None]
+                    if not ok:
+                        vn.FAILS.append(
+                            "round-27 condition: \\%s is %s and names the %s "
+                            "LOG, whose %d pairs declare %s" % (
+                                name, M[name], hit, n_pairs_of[hit],
+                                ", ".join("%d %s" % (x, b) for b, x in sorted(
+                                    ((b, x) for (lg, b), x in per_log.items()
+                                     if lg == hit), key=lambda kv: kv[1]))))
+            #  (ii) a token in the name is a claim about the basis.  Only the
+            #       PRESENCE of a word is read, never its absence: `computational
+            #       surface' is this manuscript's name for the admissible one,
+            #       and a checker that inferred a basis from a missing word
+            #       would call that sentence wrong.
+            for token, need in (("admissible", "admissible"),
+                                ("scalar", "scalar")):
+                if token in k and not any(need in b for b, _l, _t in att):
+                    vn.FAILS.append(
+                        "round-27 condition: \\%s is %s, its name says `%s', "
+                        "and the only thing the declaration makes that value "
+                        "is %s" % (name, M[name], token,
+                                   "; ".join(sorted({b for b, _l, _t in att}))))
+
+        # (d) the shares, on whichever denominator each macro's name names.
+        #     Written as a family rather than for the two macros that exist,
+        #     so an `inferenceShareMinPct' would be checked without this file
+        #     being touched.
+        for name in sorted(M):
+            k = _key(name)
+            if not (k.startswith("inferenceshare") and k.endswith("pct")):
+                continue
+            if name not in USES:
+                continue
+            basis = "admissible cells" if "admissible" in k else "cells"
+            vals = []
+            for r in AUD.itertuples():
+                b = BASES.get((str(r.log), str(r.target)))
+                if b and basis in b:
+                    vals.append(float(r.inference_cells_observed) / b[basis])
+            if not vals:
+                continue
+            s = pd.Series(vals)
+            agg, x = ("median", s.median())
+            if "min" in k:
+                agg, x = "min", s.min()
+            elif "max" in k:
+                agg, x = "max", s.max()
+            got = _num(M[name])
+            if got is not None and abs(got - 100.0 * float(x)) > 0.06:
+                vn.FAILS.append(
+                    "round-27 condition: \\%s is %s and the %s share of a "
+                    "pair's %s, multiplied out of the declared axis levels, "
+                    "is %.1f%%" % (name, M[name], agg, basis,
+                                   100.0 * float(x)))

@@ -227,5 +227,10 @@
     "at": "2026-08-26T21:26:31Z",
     "note": "Round twenty-seven: new. The stationarity assumption Section 11 names as untested, measured against a permutation null that re-partitions the same test rows at random. 400 permutations; results/s46_drift.csv, s46_summary.csv, s46_facts.csv.",
     "sha": "de368e6909e65b9d"
+  },
+  "s49_dcaband.py": {
+    "at": "2026-08-29T03:16:36Z",
+    "note": "Round twenty-seven: the decision-curve band's measured shortfall, applied rather than reported. Section 10.4 measured a widening of 1.90-2.05 for these families and Section 8.3 printed counts from a band that never received it. The factor is s41's heavy-regime shortfall_factor at its conservative end, chosen because this family is measured into that regime (2 of 248 cells degenerate against a corpus maximum of 17.2 per cent, kurtosis matching heavy) rather than assigned to it; the degenerate-regime factor is reported beside every count. Pure arithmetic on existing draws, no refits.",
+    "sha": "178b9ad908cf9db9"
   }
 }

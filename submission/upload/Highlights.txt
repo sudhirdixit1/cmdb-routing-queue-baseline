@@ -1,0 +1,5 @@
+A field's incremental predictive performance is a surface, not one number
+An exact decomposition separates analyst choices from resampling
+Simultaneous bands over the whole declared family, with coverage measured
+Resolved cells sit 0.0430 AUC from the one-number report
+A register's worth turns on the decision time and on which target is set

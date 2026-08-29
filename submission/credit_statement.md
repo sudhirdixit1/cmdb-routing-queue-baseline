@@ -38,10 +38,16 @@ assistant's help, from evidence dossiers extracted from full text, which is
 the sense in which the pilot has one machine-assisted adjudicator rather than
 two independent human raters; and portions of the manuscript were drafted and
 edited with the assistant. No generative model produced, imputed, augmented or
-selected any datum, any result or any citation, and the reference list was
-checked against the published records.
+selected any datum, any result or any citation behind a claim of this paper,
+and the reference list was checked against the published records. The scope of
+that sentence is deliberate and matches the manuscript's: the one place a
+machine-assisted judgement enters a study is the literature pilot's
+adjudication described in the paragraph above, and no claim in the paper rests
+on it.
 
 Under Elsevier's policy on generative AI in scientific writing, AI tools
 cannot be listed as authors and their use in the writing process must be
-disclosed. This is that disclosure; the manuscript's Acknowledgements section
-states it too, in the text a reader of the published article will see.
+disclosed. This is that disclosure; the manuscript carries it too, in a
+dedicated *Declaration of Generative AI and AI-assisted technologies in the
+writing process* section, which is the text a reader of the published article
+will see.

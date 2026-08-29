@@ -107,12 +107,44 @@ def emit(mn):
         for k in ("nDrawsSurface", "nDrawsSurfaceMin", "nDrawsSurfaceMax",
                   "nDrawsEffectiveMin"):
             put(k, None)
+    #  ROUND TWENTY-SEVEN.  TWO denominators, because the manuscript uses two
+    #  and one macro was serving both.
+    #
+    #  `computational_cells` is s25_denominator's count of the arms actually
+    #  evaluated on the FULL declared grid, and the full grid carries the
+    #  intercept-only rung -- the rung Table~\ref{tab:axes} calls "in the
+    #  surface, out of every admissible set" and Table~\ref{tab:denominator}
+    #  prints under `model fits'.  A share against it is therefore the share
+    #  of the MASTER SURFACE FILE, not of any admissible set.
+    #
+    #  `declared_admissible_cells` is the same product with that rung removed:
+    #  s25_denominator.py builds it as learner x split x quality_level x
+    #  ADMISSIBLE rung from the declared axis levels it writes to
+    #  s25_axis_levels.csv, which is the file Table~\ref{tab:axes} and
+    #  Table~\ref{tab:denominator} are generated from.  It is READ from the
+    #  audit file the numerator comes from rather than multiplied out again
+    #  here, so the two shares cannot drift apart; and the audit's own
+    #  `missing' column certifies that the declared count is the observed one,
+    #  which is what makes a declared denominator legitimate under an observed
+    #  numerator.
+    #
+    #  Both ratios are invariant to the instrument axis, because numerator and
+    #  denominator alike expand by the scalar instruments: on the median pair
+    #  36/288 = 180/1,440 = 12.5% and 36/216 = 180/1,080 = 16.7%.
     if AUD is not None and len(AUD) and G20 is not None and len(G20):
         sh = (AUD.inference_cells_observed
               / AUD.computational_cells.replace(0, np.nan))
         put("inferenceShareMedianPct", pct(float(sh.median()), 1))
+        if "declared_admissible_cells" in AUD.columns:
+            adm = (AUD.inference_cells_observed
+                   / AUD.declared_admissible_cells.replace(0, np.nan))
+            put("inferenceShareAdmissibleMedianPct",
+                pct(float(adm.median()), 1))
+        else:
+            put("inferenceShareAdmissibleMedianPct", None)
     else:
         put("inferenceShareMedianPct", None)
+        put("inferenceShareAdmissibleMedianPct", None)
 
     put("maxTSurfaceMedian", num(first(F21, "q_median"), 2))
     put("maxTSurfaceMin", num(first(F21, "q_min"), 2))

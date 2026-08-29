@@ -121,9 +121,19 @@ worth turns on the decision time and its sign on the target.
 
 %%  Six keywords: the Elsevier template caps them at six and an earlier
 %%  version listed seven.
+%%
+%%  ROUND TWENTY-SEVEN.  "predictive process monitoring" was the third keyword
+%%  and is now "event logs".  Section 11 states that prefix length, prefix
+%%  bucketing and sequence encoding are not axes of this design space and
+%%  cannot be, and that no result about that literature's own benchmark is
+%%  claimed; the prefix pilot of Supplement C is one log, one register, no
+%%  bucketing and no sequence encoder, and says of itself that it does not
+%%  make this a predictive-process-monitoring paper.  A keyword is a claim of
+%%  topical membership, so it follows what Section 11 says the paper reports:
+%%  case-level outcome prediction from event-log attributes.
 \begin{keyword}
 specification surface \sep incremental predictive performance \sep
-predictive process monitoring \sep simultaneous inference \sep
+event logs \sep simultaneous inference \sep
 sensitivity analysis \sep configuration management database
 \end{keyword}
 
@@ -656,7 +666,9 @@ computed on it and why the positive-cell share differs between the two
 surfaces by a median \repGapMedian; Section~\ref{sec:lim} names the
 resolution-IV fractional factorial that would remove both objections.
 It carries \nInferenceScalar\ scalar family members, a median
-\inferenceShareMedianPct\ of each pair's computational surface.
+\inferenceShareAdmissibleMedianPct\ of each pair's computational surface, and
+a median \inferenceShareMedianPct\ of the master surface file, which also
+carries the intercept-only rung.
 Every quantity that does \emph{not} need a bootstrap ---
 the decomposition, the sign-disagreement rate, the regret comparison --- is
 computed on the full declared surface; only the region labels are computed on
@@ -828,8 +840,9 @@ differ substantially, at \largestInvolvementPct\ against
 \label{def:regions}
 Let $\mathcal{F}$ be the declared inference family of
 Section~\ref{sec:threesurfaces} for a pair --- the cells that carry bootstrap
-draws, a median \inferenceShareMedianPct\ of that pair's admissible scalar
-cells. Under the simultaneous band of Section~\ref{sec:simbands}, a cell of
+draws, a median \inferenceShareAdmissibleMedianPct\ of that pair's admissible
+scalar cells. Under the simultaneous band of Section~\ref{sec:simbands}, a
+cell of
 $\mathcal{F}$ is \emph{beneficial} if its lower band is above zero,
 \emph{harmful} if its upper band is below zero, and \emph{unresolved}
 otherwise. A surface is \emph{uniformly beneficial} if every cell of
@@ -1756,24 +1769,51 @@ and what the curves look like without it.
 
 The decision-curve family is declared separately from the scalar surface and
 carries its own max-$t$ critical value, because net benefit and a scalar
-instrument are not the same scale. Across the \nDcGrid\ operating points of
-this estate's curve \textbf{the pointwise interval declares the increment
-resolvably positive at \nBeneficialPointwise\ of them and the simultaneous
-band at \nBeneficialSimultaneous}, and the harmful counts are
-\nHarmfulPointwise\ against \nHarmfulSimultaneous. Both are built from the
-same draws, so the only thing that differs is the family: those points are
+instrument are not the same scale. That critical value does not reach the
+level it is named for, and Section~\ref{sec:simband} measures by how much on
+families matched to this one in size, draw count, cross-cell correlation and
+tail. The widening it measures is applied here rather than reported: the
+operative critical value below is \dcaQWidened, not the \dcaQ\ the multiplier
+bootstrap returns.
+
+Across the \nDcGrid\ operating points of this estate's curve \textbf{the
+pointwise interval declares the increment resolvably positive at
+\nBeneficialPointwise\ of them and the widened simultaneous band at
+\nBeneficialSimultaneousWidened}, every one of the second at or above $\theta
+= \thetaBeneficialWidenedMin$; the harmful counts are \nHarmfulPointwise\
+against \nHarmfulSimultaneousWidened. All are built from the same draws, so
+what differs is the family and the level it is bought at: those points are
 the price of a statement about a \emph{range} of thresholds rather than about
 each one separately, and a paper that reads a decision curve across its range
 while pricing it pointwise has claimed the first and paid for the second.
 
-\textbf{This family is also the one most exposed to how the critical value
-was estimated.} It is \emph{not} coverage-calibrated --- the $(n,K)$
-calibration of Section~\ref{sec:regions} is estimated for the scalar family
---- and Section~\ref{sec:simband} finds that the widening it would need is
-about twice what the surface families need.
-Supplement~\ref{app:dcabandsfull} carries the comparison, the dip near
-$\theta = \dcaDipTheta$ and Figure~\ref{fig:dca}; Table~\ref{tab:dca} prints
-the curve.
+\textbf{The widening costs \nBeneficialLostToWidening\ of the \nDcGrid\
+operating points}, and the uncorrected count is printed beside the corrected
+one rather than dropped: the same draws declared \nBeneficialSimultaneous\
+before the widening, and the median band width goes from \dcBandWidth\ to
+\dcBandWidthWidened\ against the pointwise interval's \dcPointWidth. The
+factor applied is \dcaWidenFactor, the upper end of the range
+Section~\ref{sec:simband} measures on families that carry this corpus's tails
+and no degenerate cells; the lower end \shortfallDcaMin\ returns the same
+count, so which end is taken is not carrying the result. Nor is the choice
+between the two kinds of matched family: the all-cells factor
+\dcaWidenFactorAll, measured where the matched families are built to carry
+cells at which both arms treat every case alike --- \nDegenerateCellsDca\ of
+them across the corpus's curve families --- removes a further point, to
+\nBeneficialSimultaneousAllCells. The admissible factor is the operative one
+because this family is not the degenerate case --- \nDegenerateCellsBand\ of
+its \nDcaFamily\ cells are zero in at least nine draws of ten, against a
+corpus share that reaches \shareDegenerateDcaMaxPct\ --- and the all-cells
+count is printed beside it because that argument is a judgement rather than a
+measurement.
+
+The pointwise interval is not widened by a family-wise factor; what it covers
+is a separate measurement and Section~\ref{sec:simband} reports it. What the
+decision curve still does not receive is the $(n,K)$ calibration of
+Section~\ref{sec:regions}, which is estimated for the scalar family and is
+fitted to restore pointwise rather than family-wise coverage.
+Supplement~\ref{app:dcabandsfull} carries the comparison and
+Figure~\ref{fig:dca}; Table~\ref{tab:dca} prints the curve.
 
 \subsection{The decision, in units a service desk uses}
 \label{sec:nbregret}
@@ -2207,8 +2247,9 @@ all three declared measures because there is no neutral measure --- across the
 three the higher-order share moves by \measureSpreadPct\ --- and the
 within-instrument decomposition is primary because the decomposition inherits
 the metric's scale (Proposition~\ref{prop:scale}). Region labels remain
-relative to an inference family of a median \inferenceShareMedianPct\ of a
-pair's cells, now under a minimum resolved share that withdraws the direction
+relative to an inference family of a median
+\inferenceShareAdmissibleMedianPct\ of a pair's admissible cells, now under a
+minimum resolved share that withdraws the direction
 on \nLabelsLostToMinShare\ of \nDirectionalLabels\ pairs, and they are not
 partitioned by axis kind, so they stay conditional on the quality axis being
 averaged over. Specification regret reports a null and is retained as a
@@ -2348,7 +2389,7 @@ public, commercial or not-for-profit sectors.
 %%  ONE source line deliberately: texlint records each section's name and word
 %%  count into results/section_words.csv, and a title wrapped across two lines
 %%  put a newline inside a CSV field, which broke check_response_refs.
-\section*{Declaration of generative AI and AI-assisted technologies in the writing process}
+\section*{Declaration of Generative AI and AI-assisted technologies in the writing process}
 
 During the preparation of this work the author used Anthropic Claude
 (\texttt{\aiModelId}, \aiModelDate) in order to draft and edit prose and to
@@ -2356,18 +2397,23 @@ write analysis and verification code. After using this tool the author
 reviewed and edited the content as needed and takes full responsibility for
 the content of the publication.
 
-\noindent This is a use beyond the language-and-readability editing an author
-may make without comment, which is why it is declared. Two further facts
-belong with it and are recorded rather than summarised: every session's model
-identifier and date are in \texttt{AI-USE.md} in the archive, because a
-disclosure naming a product and not a version is not reproducible; and
-\textbf{no generative model produced, imputed, augmented or selected any
-datum, any result or any citation}. Every result in this paper is produced by
-public code that \texttt{REPRODUCE.md} re-runs by one command, and the
-reference list was checked against the published records. The one use of the
-assistant \emph{inside} a study --- adjudicating the literature-prevalence
-pilot, which is in the archive and carries no claim in this paper --- is
-described where that pilot is, in Section~\ref{sec:practice}.
+\noindent \textbf{This is a use beyond the language-and-readability editing an
+author may make without comment, which is why it is declared}, and the two
+halves of it are separated here because the policy this section answers is
+about the first: the prose was drafted and edited with the tool, and the
+analysis and verification code was written with it, which is a use in the
+research process and is disclosed rather than assumed to be covered. The tool
+is named with its version and the date it was used, because a disclosure that
+names a product and not a version is not reproducible; every session's model
+identifier and date are in \texttt{AI-USE.md} in the archive.
+\textbf{No generative model produced,
+imputed, augmented or selected any datum, any result or any citation behind a
+claim of this paper}: every result is produced by public code that
+\texttt{REPRODUCE.md} re-runs by one command, and the reference list was
+checked against the published records. The one place where a machine-assisted
+judgement enters a study is the literature pilot of
+Section~\ref{sec:practice}, which is declared where it is described, and no
+claim in this paper rests on it.
 
 \section*{Data availability}
 

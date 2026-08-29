@@ -232,10 +232,51 @@ def check(vn, M):
                "recounted from the denominator audit")
             eq("nDrawsSurfaceMax", fmt_thousands(int(dr.max())), M)
             eq("nDrawsSurface", fmt_thousands(int(dr.median())), M)
-        if "computational_cells" in AUD2.columns:
-            sh = (AUD2.inference_cells_observed
-                  / AUD2.computational_cells.replace(0, np.nan))
-            eq("inferenceShareMedianPct", fmt_pct(float(sh.median()), 1), M)
+        #  ROUND TWENTY-SEVEN.  The inference family's share of a pair's
+        #  surface, against BOTH denominators the manuscript names, and with
+        #  each denominator MULTIPLIED OUT of the declared axis levels rather
+        #  than read from the audit's own column -- which is what this file is
+        #  for: make_numbers reads a stored count, this recomputes it.
+        #
+        #  The two denominators differ by ONE axis level.  The full declared
+        #  grid carries the intercept-only rung; every admissible set excludes
+        #  it by declaration (Table~\ref{tab:axes} prints the exclusion and
+        #  its reason).  One macro was serving both sentences, so a share of
+        #  the master surface file was printed where a share of the admissible
+        #  surface was claimed.
+        AXL = load("s25_axis_levels.csv")
+        if AXL is not None and len(AXL) and "n_levels" in AXL.columns:
+            lev = {(r.log, r.target, r.axis): int(r.n_levels)
+                   for r in AXL.itertuples()}
+
+            def _levels(log, target, axes):
+                n = 1
+                for a in axes:
+                    if (log, target, a) not in lev:
+                        return None
+                    n *= lev[(log, target, a)]
+                return n
+
+            _base = ["learner", "split", "quality_level"]
+            s_all, s_adm = [], []
+            for r in AUD2.itertuples():
+                full = _levels(r.log, r.target, _base + ["rung"])
+                adm = _levels(r.log, r.target, _base + ["admissible_rung"])
+                if not full or not adm:
+                    continue
+                s_all.append(float(r.inference_cells_observed) / full)
+                s_adm.append(float(r.inference_cells_observed) / adm)
+            if s_all:
+                eq("inferenceShareMedianPct",
+                   fmt_pct(float(np.median(s_all)), 1), M,
+                   "inference arms over the FULL declared grid, multiplied "
+                   "out of the axis levels; that grid carries the "
+                   "intercept-only rung")
+                eq("inferenceShareAdmissibleMedianPct",
+                   fmt_pct(float(np.median(s_adm)), 1), M,
+                   "inference arms over the ADMISSIBLE grid, the "
+                   "intercept-only rung removed as every admissible set "
+                   "removes it")
     #  the corpus spread and the sign-varying count, recomputed from the
     #  master surface rather than from the generator's own filter
     if SUR is not None and len(SUR):
