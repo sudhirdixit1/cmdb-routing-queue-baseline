@@ -52,10 +52,22 @@ from common import RESULTS  # noqa: E402
 ALPHA = 0.05
 
 
-def main():
+def main(argv=None):
+    #  ROUND TWENTY-SEVEN.  These two filenames were fixed, so when the
+    #  inference surface moved this file went on comparing the estimators on
+    #  the RETIRED one -- and the manuscript printed its counts beside the
+    #  new surface's, where the multiplier's total exceeded the article's own
+    #  resolved count over what both call "the whole-surface families".  A
+    #  check that reads a fixed filename cannot notice that the analysis
+    #  moved, so the prefix is an argument.
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--prefix", default="s48w",
+                    help="the bands prefix under results/, e.g. s48w")
+    a = ap.parse_args(argv)
     t0 = time.time()
-    Q = pd.read_csv(RESULTS / "s21_critical.csv")
-    B = pd.read_csv(RESULTS / "s21_bands.csv.gz")
+    Q = pd.read_csv(RESULTS / ("%s_critical.csv" % a.prefix))
+    B = pd.read_csv(RESULTS / ("%s_bands.csv.gz" % a.prefix))
 
     rows = []
     for (lg, tg, fam), s in B.groupby(["log", "target", "family"]):

@@ -15,9 +15,9 @@
     "sha": "ee8d48bd22c4ac10"
   },
   "round27_verify.py": {
-    "at": "2026-08-29T08:23:05Z",
-    "note": "round 27: the calibration is derived and reported, not applied",
-    "sha": "702c0d3776cfbc16"
+    "at": "2026-08-29T08:25:21Z",
+    "note": "round 27: the estimator comparison follows the inference surface",
+    "sha": "ae761780d7a61ff3"
   },
   "s01_surface.py": {
     "at": "2026-08-25T01:56:46Z",
@@ -219,9 +219,9 @@
     "sha": "0a47be052d85ba7b"
   },
   "s40_qcheck.py": {
-    "at": "2026-08-26T00:45:19Z",
-    "note": "Round twenty-five: a third check on the band against itself -- whether it contains the point estimate it is a band for. 74 of 3,900 whole-surface cells do not, on the three pairs nearest the crossing in n that s33's plane locates.",
-    "sha": "b5b93625f79d4ba9"
+    "at": "2026-08-29T08:25:21Z",
+    "note": "round 27: the estimator comparison follows the inference surface",
+    "sha": "7a8596ae6e16d0e1"
   },
   "s41_bandcoverage.py": {
     "at": "2026-08-26T00:45:27Z",

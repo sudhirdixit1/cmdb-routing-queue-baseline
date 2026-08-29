@@ -596,12 +596,14 @@ the leader and be right about half the time.
 \textbf{It is a pooled ratio, it depends on which band resolves the cells, and
 both facts belong beside it.} The denominator is a sum over pairs whose
 resolved-cell counts run from zero to \nResolvedMax, not an average of
-per-pair rates, and it depends on which band decides what ``resolved'' means:
-the same quantity over the cells the \emph{nominal} multiplier band resolves
-is \misreportPooledResolvedNominalPct. The calibrated figure this paper quotes
-is the smaller of the two, so the choice is the conservative one --- but it is
-a choice, and a reader is entitled to both. Under the empirical critical value
-of Section~\ref{sec:simbands} the denominator is smaller again,
+per-pair rates, and it depends on which band decides what ``resolved'' means.
+The figure quoted here, \misreportPooledResolvedPct, is the \emph{nominal}
+multiplier band's: no coverage calibration is applied to these families
+(Section~\ref{sec:simband}), so there is no wider figure beside it and no
+conservative choice being made on the reader's behalf --- which is worth
+saying plainly, because a ratio reported without its alternative can look like
+the cautious one. The estimator choice does still move it: under the empirical
+critical value of Section~\ref{sec:simbands} the denominator is smaller again,
 \nResolvedWholeEmp\ cells against \nResolvedWholeMult. \textbf{And the disagreements are concentrated}: of the
 \nDisagreeResolved\ cells, \nDisagreeTopThree\ come from three logs, and only
 \nLogsDisagree\ of the \nLogs\ logs contribute any at all. Two of the three

@@ -1088,3 +1088,31 @@ def check(vn, M):
             vn.FAILS.append(
                 "round-27 condition: no coverage calibration is applied, so "
                 "\\%s should be one and is %s" % (_nm, M[_nm]))
+
+    # --- 14.  the multiplier band IS the reported band -------------------
+    #
+    #  Section 6.4 prints what each estimator resolves.  The multiplier one
+    #  is not an alternative to the article's band -- it IS the article's
+    #  band -- so its count must equal the headline resolved count exactly.
+    #  It did not: the estimator comparison read a fixed filename and went on
+    #  reporting the retired surface, giving a multiplier total LARGER than
+    #  the number of cells the article says it resolves, over what both call
+    #  "the whole-surface families".  Equality is the check that would have
+    #  caught it, and it costs nothing.
+    _rw = _num(M.get("nResolvedWhole"))
+    _rm = _num(M.get("nResolvedWholeMult"))
+    if _rw is not None and _rm is not None and abs(_rw - _rm) > 0.5:
+        vn.FAILS.append(
+            "round-27 condition: the multiplier band is the reported band, so "
+            "\\nResolvedWholeMult (%s) must equal \\nResolvedWhole (%s)"
+            % (M["nResolvedWholeMult"], M["nResolvedWhole"]))
+    #  and the empirical quantile is the WIDER estimator on this corpus, so
+    #  it must resolve no more than the multiplier does.  A directional word
+    #  in Section 6.4 rests on this and is checked rather than trusted.
+    _re = _num(M.get("nResolvedWholeEmp"))
+    if _re is not None and _rm is not None and _re > _rm:
+        vn.FAILS.append(
+            "round-27 condition: Section 6.4 reads the empirical band as the "
+            "more conservative one, and it resolves %s against the "
+            "multiplier's %s" % (M["nResolvedWholeEmp"],
+                                 M["nResolvedWholeMult"]))

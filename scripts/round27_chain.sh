@@ -97,6 +97,19 @@ $PY provenance.py --accept s47_schemes.py \
 $PY provenance.py --accept s41_bandcoverage.py \
   --note "Round twenty-seven: family-wise coverage with the non-zero-truth regime added, because under a zero truth every rejection is an error and coverage cannot tell a band that resolves correctly from one that never resolves." || true
 
+#  THE ESTIMATOR COMPARISON, ON THE SURFACE THE ARTICLE ACTUALLY REPORTS.
+#  s40 read two fixed filenames, so when the inference surface moved it went
+#  on comparing the two critical-value estimates on the RETIRED one -- and the
+#  appendix then printed a multiplier total LARGER than the number of cells
+#  the article says that same band resolves.  The multiplier band IS the
+#  article's band, so its count has to equal the headline; round27_verify
+#  now enforces that equality.
+echo
+echo "== s40  the two critical-value estimates, on the reported surface =="
+$PY s40_qcheck.py --prefix s48w
+$PY provenance.py --accept s40_qcheck.py \
+  --note "Round twenty-seven: the bands prefix is an argument, so the estimator comparison follows the inference surface instead of reading a retired one." || true
+
 echo
 echo "== DONE.  Do not regenerate macros yet. =="
 echo "Read these first:"
