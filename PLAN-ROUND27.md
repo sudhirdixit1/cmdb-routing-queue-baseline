@@ -840,6 +840,63 @@ headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
 
+### 2026-08-29, 01:10 — THE WEIGHTED ARM IS COMPLETE, and it changes a headline
+
+`s21_bands.py --draws-dir s44_weighted --prefix s48w` has run on all 19 pairs.
+**Read the caveat in point 4 before quoting anything above it.**
+
+**1. The repair works, and it does not fully work — as predicted.** The
+pivotal interval excludes its own point estimate on **36 of 3,420** scalar
+cells, **1.05%**, against round 25's 74 of 3,900 = 1.90% under multinomial
+resampling. Roughly halved, not eliminated. Phase 1's done-when asked for zero
+and does not get it, so §4.1 says the mechanism §11 named is removed and a
+residual remains that the mechanism does not explain. **Do not write "the
+weighted scheme fixes it."**
+
+**2. The bands are wider, which is the conservative direction.** 890 resolved
+cells at the nominal critical value against round 25's **1,150 nominal**. And
+note what 890 is close to: round 25's **coverage-calibrated** count was 896.
+So the weighted scheme at 400 draws produces bands about as wide as the old
+scheme's calibrated ones — a hypothesis that `s41_bandcoverage.py` must test
+before it is written down, but if it holds, **the K/n calibration apparatus is
+retired rather than re-fitted** and §6.3 shrinks to a paragraph.
+
+**3. The region labels move a long way.** Against round 25's calibrated
+0 uniformly beneficial / 9 conditionally beneficial / 1 conditionally harmful
+/ 3 sign-changing / 6 unresolved, the weighted arm gives **1 / 10 / 1 / 5 /
+2**. Far fewer pairs resolve nothing; more resolve both signs. BPIC19 flips
+hard — 94 harmful against 21 beneficial, ρ = −0.41.
+
+**4. THE TRAP, and it is the most important thing on this page.** BPIC14 /
+duration comes out **uniformly beneficial** — 180 of 180 cells — which
+reverses "*No surface in this corpus is uniformly beneficial*", a claim the
+paper has carried for rounds, and lands exactly on the state §4.6 calls "the
+only state in which one positive number is a safe summary of a surface".
+
+**It is on a smaller family, and smaller in the direction that manufactures
+the label.** That pair's inference family is now 180 cells of its 4,800
+admissible — **3.8%**, down from 480 cells and **10.0%**. And §4.6 already
+warns, in the paper's own words, that *"a label computed on a sixth of a
+pair's cells is systematically cleaner than one computed on all of them, and*
+uniformly beneficial *is the label most helped by it: a claim about every cell
+is easier to sustain over fewer cells."*
+
+So the paper wrote the warning for this result before it had it. **The
+rewrite must lead with the warning and not with the label.** The defensible
+sentence is that the state obtains once in nineteen, on the pair with the
+richest grid, over a family that is a twenty-sixth of that pair's admissible
+cells — and that this is what the design's own restriction buys, not what the
+data establish about every specification an analyst could choose. A headline
+reading "we found a uniformly beneficial surface" would be the single most
+attackable sentence in the paper, and it would be attackable using a paragraph
+the paper already contains.
+
+**5. What is still needed before any of this is written.** The multinomial arm
+(for `s47`'s scheme comparison), and `s41_bandcoverage.py` on the new families
+— because every label above is at the **nominal** critical value. `region` and
+`region_nominal_q` are identical in `s48w_regions.csv`: no calibration has been
+applied. Whether one is still needed is exactly what s41 decides.
+
 ### 2026-08-29, 01:00 — the repairs audited, and why that was worth doing
 
 The 32 repairs rewrote a lot of prose and nobody had read the rewrites. A
