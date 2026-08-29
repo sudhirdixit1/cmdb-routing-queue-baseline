@@ -4,10 +4,10 @@
 Estimation, Uncertainty, and Multi-Log Evaluation
 *Recommendation received:* major revision (narrow)
 
-> **STATUS: DRAFT — round 27 in progress.** Passages marked `⟨PENDING⟩` await
-> the run this round is built on. Every number that reaches the final version
-> is a macro re-derived from a deposited result file; nothing below is typed
-> from memory. Delete this block before submission.
+> **One item is still open and it is the author's, not the analysis's:** the
+> archive DOI and the container image digest, both noted below. Every number in
+> this letter is a macro re-derived from a deposited result file; none is typed
+> from memory.
 
 ---
 
@@ -52,7 +52,8 @@ class needed a gate rather than a proofread. It now has one.
 
 ## 1. The blocking finding — the band is delivered as a diagnostic
 
-**Conceded in full, and run.** ⟨PENDING: the outcome of `s44_designed.py`⟩
+**Conceded in full, and run — and the run did not vindicate the repair.** We
+report that first because it is the finding.
 
 The report is right that Section 11 named the repair and did not run it, and
 right that the excuse — cost — is not available to us when our own text
@@ -126,14 +127,27 @@ Three consequences we now claim rather than concede:
    every one of the 19 pairs the design is 2 learners × 2 splits × 3 quality
    conditions × 3 rungs, with **every combination present exactly once**, and
    no pair differs in shape from any other.
-3. ⟨PENDING: measured family-wise coverage, including under the non-zero-truth
-   regime `s41_bandcoverage.py` adds this round.⟩
+3. Measured family-wise coverage, on families matched to **this** surface
+   rather than the one it replaced: a median **83.7%** under the corpus's own
+   tails, **84.3%** under the non-zero-truth regime this round adds, against a
+   nominal 95%. That regime matters and is new: under a zero truth every
+   rejection is an error, so coverage cannot distinguish a band that resolves
+   *correctly* from one that never resolves at all.
 
-**On the labels.** If the measured coverage supports it, region labels and
-$\rho$ become inference and the front matter says so. If it does not, they
-stay descriptive diagnostics and the front matter keeps saying *that* — we
-will not describe a band as covering because we would like it to.
-⟨PENDING: which.⟩
+**On the labels: it does not, so they stay diagnostics.** We said we would not
+describe a band as covering because we would like it to, and we have not.
+Region labels and $\rho$ remain descriptive diagnostics, contribution 2 does
+not claim inference, and the abstract's *"whose coverage we measure against a
+known answer and find short of nominal"* stands as written.
+
+**And the reason it does not is the second finding.** The draw count was named
+as the binding constraint. It is not: coverage is 91.2% at 150 draws, 91.6% at
+400 and 91.3% at 1,000 — it **plateaus**. This corpus now runs at 400
+throughout, on the plateau rather than below it. The widening that would close
+the gap is 1.36–1.88 on the surface families, *larger* than the 1.18–1.77 we
+apply, because the designed surface's families carry heavier tails than the one
+the calibration was fitted on. So the calibration is not retired; it is
+under-sized, and Section 11 says so.
 
 **One design choice we state rather than leave to be found.** The three rungs
 are half-of-intake, intake, and intake-plus-the-free-field, so the
@@ -199,8 +213,10 @@ across its range while priced pointwise has claimed something it did not pay
 for, and once it does pay for it, most of the range stops being sayable. The
 paper's operational conclusion about the decision time survives because it
 never depended on that band; its inferential conclusion about the curve does
-not, and Section 8.3 now says which is which. ⟨PENDING: final wording once
-the factor choice is settled.⟩
+not, and Section 8.3 now says which is which. The factor is settled: the
+heavy-regime shortfall at its conservative end, measured on this family rather
+than assigned to it, with the degenerate-regime alternative printed beside
+every count.
 
 ---
 
@@ -219,7 +235,11 @@ condition that recomputes both from the files and fails if they agree.
 Because round twenty-seven's design also makes the share non-uniform across
 pairs — the case study's family is now a smaller fraction of its much larger
 admissible set — the quantity is reported per size class rather than as a
-single median. ⟨PENDING: the values.⟩
+single median. The values: the inference family is a median **16.7%** of a
+pair's admissible cells and **12.5%** of the master surface file, which carries
+the intercept-only rung that no admissible set contains. Those are two numbers
+because they are two denominators, and the sentence quoting each now names
+which.
 
 The report is also right that this defect is the same species as the six in
 §0. The generalisable repair is the sweep now in `round27_verify.py`: every
@@ -381,16 +401,28 @@ compressible passage — totals 12 pages, and the earlier report's target of 30
 would require moving four more floats out of a main text that has eleven,
 when that same report asked for six more floats to be moved *in*. Those two
 requests cannot both be met, and we would rather put the trade to you than
-quietly miss a number. ⟨PENDING: the final figure, measured after the Sections
-4, 6, 10 and 11 rewrite, which is where compression is cheapest because those
-sections are being written once against the new results anyway.⟩ Target 42 pages of body; the
+quietly miss a number. The rewrite of Sections 4, 6, 10 and 11 has now
+happened and the article stands at **65 pages**: the corrections and the new
+comparison added rather than removed, because saying which set a number was
+computed on takes words that omitting it does not. We would rather submit 65
+honest pages than 46 by deleting denominators, and we say so here so the choice
+is yours to overrule rather than ours to hide. Target 42 pages of body; the
 reduction is taken in Sections 4, 6, 10 and 11, which are being rewritten
 against the new numbers anyway, and the largest single saving is Section 11's
 re-derivation of material already stated where it was computed.⟩
 
-**The archive DOI.** ⟨PENDING — owner action. The report declined "reserved,
-inserted at proof" and it was right to: a paper whose strongest claim is
-reproducibility cannot ask a referee to take the artefact on trust.⟩
+**The archive DOI, and one more the round created.** Both are the author's to
+mint and neither is minted yet, so both are stated rather than implied. The
+DOI is reference [11] and the code-availability statement; the previous report
+declined "reserved, inserted at proof" and was right to — a paper whose
+strongest claim is reproducibility cannot ask a referee to take the artefact on
+trust. The second is a **container image digest**: this round measured that the
+results are not bit-reproducible across processor architectures, and the
+code-availability statement now claims bit-exactness *inside the shipped
+container*. A container pinned by a mutable tag is not a fixed object, so that
+claim needs a digest the archive records. Until both exist the manuscript makes
+two claims the archive cannot support, and we would rather you saw them listed
+than discovered them.
 
 ---
 
