@@ -31,6 +31,35 @@ but the profile has to carry one before submission.
 
 ## 1. Before submission
 
+### 0.2 One command tells you what is still owed  *(start here)*
+
+```
+python scripts/finalise.py
+```
+
+It prints exactly what is outstanding and exits non-zero while anything is,
+so it is the last gate before upload. Each item names the command that
+discharges it. Two of them are a single flag:
+
+```
+python scripts/finalise.py --doi 10.5281/zenodo.XXXXXXX
+python scripts/finalise.py --image-digest sha256:<64 hex>
+```
+
+Either flag writes the value into `.zenodo.json`, **regenerates every macro,
+rebuilds both documents and re-runs the verifiers** --- because the DOI alone
+has to reach the data-availability statement, the code-availability statement,
+reference [11] and the archive metadata, and doing that by hand is how a
+placeholder ships. The gate output, not your memory, is what says it landed.
+The path was tested end to end against a dummy DOI: it reached the built PDF,
+and the dummy was reverted.
+
+It will not mint the DOI, build or push the image, invent an e-mail address,
+or push a branch. Three of those need credentials this repository does not
+have; the fourth needs facts about real people that nobody should guess.
+
+---
+
 ### 1.1 Mint the archive DOI  *(required by the referee's Phase 7)*
 
 The manuscript's data-availability and code-availability statements cite a

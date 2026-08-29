@@ -172,6 +172,9 @@ python scripts/verify_numbers.py          # re-derives each macro independently
 python scripts/texlint.py                 # abstract, keywords, highlights,
                                           # statements, no numeric literals
 python scripts/check_highlights.py        # the highlight character counts
+python scripts/finalise.py                # what is still owed before upload,
+                                          # and the command that discharges
+                                          # each; non-zero while any remains
 python scripts/check_claims.py            # no document that speaks for this
                                           # version still asserts a claim the
                                           # project has withdrawn

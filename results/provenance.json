@@ -14,6 +14,11 @@
     "note": "round 27: the recurring defect becomes a gate -- no generator may read a retired surface by name without a stated reason",
     "sha": "231b67d34417ac04"
   },
+  "finalise.py": {
+    "at": "2026-08-29T10:05:26Z",
+    "note": "round 27: the outstanding owner items, and one command to discharge each",
+    "sha": "3f934ac34839a20b"
+  },
   "make_numbers.py": {
     "at": "2026-08-29T09:22:24Z",
     "note": "round 27: the software reference resolves instead of forwarding to itself",
