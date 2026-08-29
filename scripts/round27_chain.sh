@@ -62,8 +62,16 @@ tail -4 ../logs/s47_r27.log
 
 #  Family-wise coverage, now with the non-zero-truth regime.  Heaviest of the
 #  readers -- 58,000 replicates of matrix arithmetic, no pipeline refitted.
-echo "-- s41_bandcoverage.py"
-$PY s41_bandcoverage.py --procs 8 > ../logs/s41_r27.log 2>&1
+#
+#  --draws-dir IS NOT OPTIONAL HERE.  s41 matches its synthetic families to a
+#  real surface's shape, and its default is the OLD surface, `s20'.  Running it
+#  without this flag measures the coverage of families matched to a surface the
+#  manuscript no longer reports, and the number looks entirely reasonable.  The
+#  profile is cached per source, so a run interrupted after stage 1 resumes
+#  from `results/s41_profile_s44_weighted.csv' rather than re-profiling.
+echo "-- s41_bandcoverage.py --draws-dir s44_weighted"
+$PY s41_bandcoverage.py --draws-dir s44_weighted --procs 8 \
+    > ../logs/s41_r27.log 2>&1
 tail -4 ../logs/s41_r27.log
 
 #  The decision-curve widening is a function of s41's measured shortfall, so
