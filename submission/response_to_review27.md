@@ -72,7 +72,14 @@ is present in every refit.
 The visible symptom was a pivotal interval excluding its own point estimate
 on 74 of 3,900 cells. That count is the success criterion, because it is a
 defect a reader can see without believing any theory about why it happens.
-⟨PENDING: the count under weights; the target is zero.⟩
+
+**Under weights it is 36 of 3,420 — 1.05% against 1.90%.** Halved, and not
+removed. We report that as the result rather than as the result we wanted.
+Every register level is now present in every refit, so the *mechanism* Section
+11 named is gone; a residual displacement remains that the mechanism does not
+explain, and the manuscript says so rather than describing a halving as a fix.
+The residual is itself informative: it says the displacement was never only
+about level loss.
 
 **The surface, and the draws.** The old inference surface was chosen by row
 count — four learners on the case study and two elsewhere, three quality
@@ -89,10 +96,19 @@ measurement says the band attains its level.
 
 Three consequences we now claim rather than concede:
 
-1. The "corner, not a design" limitation is retired. The decomposition can be
-   computed on the inference surface as well as the declared one.
+1. The "corner, not a design" limitation is retired, and not by assertion: the
+   exact functional ANOVA now runs on the inference surface — 95
+   decompositions, 19 pairs by 5 instruments, 36 cells each, no failures. We
+   report alongside it that its leading axis agrees with the declared
+   surface's on a minority of pairs, and that this compares two designs which
+   do not declare the same levels rather than showing either
+   unrepresentative. The tempting sentence — that one confirms the other — is
+   not available, and we do not use it.
 2. Every pair contributes the same 180-cell family, so a corpus median no
-   longer mixes families that differ in shape.
+   longer mixes families that differ in shape. Checked rather than trusted: on
+   every one of the 19 pairs the design is 2 learners × 2 splits × 3 quality
+   conditions × 3 rungs, with **every combination present exactly once**, and
+   no pair differs in shape from any other.
 3. ⟨PENDING: measured family-wise coverage, including under the non-zero-truth
    regime `s41_bandcoverage.py` adds this round.⟩
 
