@@ -282,6 +282,61 @@ meets the inference surface, so it is where the restriction has to be stated
 plainly — before §6.3 reports a label that the restriction helped produce.
 Putting it only in §6.3 would be putting it after the reader needs it.
 
+### 1.4c Ready-to-paste replacement for §11's refitting-bootstrap paragraph
+
+Its content is settled: the repair ran, and what it bought is measured. Only
+the coverage sentence at the end waits on `s41`. The current paragraph is
+headed *"Internal --- the refitting bootstrap is the source of a bias, and the
+repair is not run here"*; that heading goes with it.
+
+---
+
+\paragraph{Internal --- the refitting bootstrap was the source of a bias, and
+the repair removes its mechanism and not all of it}
+A multinomial resample holds about $1 - e^{-1}$ of a high-cardinality
+register's levels, so the bootstrap distribution is displaced: the percentile
+interval becomes a correct interval for the wrong quantity, and the pivotal
+interval this paper uses can exclude its own point estimate.
+Section~\ref{sec:lim} of the previous round named the repair --- drawing
+\emph{weights} per moving block, so that every row has positive weight in
+every draw and every register level is present in every refit --- and did not
+run it. \textbf{It is run here, on one design at one draw count with one set
+of seeds, and the comparison is reported rather than the scheme we preferred.}
+
+\textbf{The mechanism is removed and the symptom is halved, not removed.}
+Under weights every register level is present in every refit, which is the
+thing the mechanism was about, and the count of cells whose pivotal interval
+excludes its own point estimate falls from \nCellsExcludingVOld\ of
+\nCellsWholeTotalOld\ to \nCellsExcludingV\ of \nCellsWholeTotal. That is a
+halving of the rate and not an elimination of it, and \textbf{the residual is
+the informative part}: a displacement that survives the removal of level loss
+was never only about level loss. What remains of it we do not explain, and
+Section~\ref{sec:lim} carries that rather than a claim that the scheme is now
+unbiased.
+
+\noindent Two things follow that the earlier version could not say. The
+percentile interval is admissible again on a scheme with no level loss, and
+the paper nonetheless keeps the pivotal one, because the residual displacement
+above is exactly the condition under which the two differ. And the
+seven-construction comparison that chose the pivotal interval still ran at one
+training size, which remains a limitation of the choice rather than of the
+scheme.
+
+---
+
+**Two cautions for whoever pastes this.**
+
+1. `\nCellsExcludingVOld` and `\nCellsWholeTotalOld` do not exist. The old
+   counts must become macros of their own before the paragraph can quote both,
+   or the sentence has to be recast to quote only the new pair and describe
+   the old one in words. **Do not hardcode 74 and 3,900** — that is the defect
+   this project's lint exists to prevent, and it would be introduced by the
+   paragraph announcing the repair.
+2. The last sentence of the first paragraph promises the comparison is "on one
+   design at one draw count with one set of seeds". That is `s47_schemes.py`'s
+   claim and must be checked against its output before the sentence ships, not
+   assumed from the design's intent.
+
 **Done when:**
 - the displacement statistic on the weighted scheme is ≈ 0 and the count of
   cells whose band excludes its own point estimate is 0 (or reported ≤ 0.1%);
