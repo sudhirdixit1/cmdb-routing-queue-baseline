@@ -1100,6 +1100,42 @@ multinomial bands are expected to be defective — that is the finding. The
 remaining steps run manually. The gate stays as it is; it is right, and the
 chain is what needs to know that one arm is allowed to fail.
 
+### 2026-08-29, 03:25 — the old surface had the same defect, and its numbers carry it
+
+Asked of round 25's own bands, because a defect found in one arm should be
+asked of the arm the manuscript actually reports.
+
+**The old inference surface has 150 unbandable cells of 3,900 — 3.8%** — on
+BPIC15_4/duration (90) and BPIC19/duration (60). They have no centre, so no
+band, so they were **counted as unresolved**, indistinguishable in every table
+from a cell that was banded and straddled zero.
+
+So round 25's resolution counts are a mixture. Of 3,900 cells: 896 resolved,
+150 **never assessable**, and 2,854 banded and unresolved. Every statement of
+the form "the data resolve so little" was computed against a denominator
+containing cells the data were never given a chance to resolve.
+
+**This is small and it is exactly the paper's subject.** The correction is
+0.15 percentage points on a resolution share — nothing a conclusion turns on.
+But a paper that spends a section on three denominators, audits them from the
+files, and makes "which set does this claim range over" its central
+discipline, cannot leave 150 unassessable cells inside the set it quotes
+resolution against. **It has to be said, and the smallness is what makes
+saying it cheap.**
+
+**What §4.1 and §6.3 now have.** Not merely "the weighted scheme reduces the
+displacement", but: the old scheme could not band 3.8% of its own surface and
+counted those cells as evidence of non-resolution; the new scheme bands all of
+them. That is one mechanism — level loss — with three visible consequences: a
+displaced interval, a band that excludes its own estimate, and a cell with no
+band at all. The third is the one a reader can check without believing any
+theory, and it is the one the paper has never reported.
+
+**Do not describe this as a discovery about the corpus.** It is a discovery
+about a resampling scheme, made because a gate written for a different purpose
+refused a file. Say that plainly; it is a better advertisement for the
+apparatus than any claim about the register.
+
 ### 2026-08-29, 03:05 — a duplicate chain, started because I misread `ps`
 
 Recorded because the misdiagnosis is the reusable part.
