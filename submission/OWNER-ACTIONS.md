@@ -38,7 +38,7 @@ Zenodo DOI. There is nothing to cite yet, so the macro currently renders as
 *"the archived release cited in the data-availability statement (DOI reserved,
 inserted at proof)"* rather than as the `??` marker — a number that does not
 exist yet is a different thing from a number that is missing, and the
-manuscript says which. `.zenodo.json` carries `"version": "v25.0"` and must be moved to `v26.0`, and its numeric claims are
+manuscript says which. `.zenodo.json` carries `"version": "v27.0"`, moved there in round twenty-seven so the manuscript names the release it describes, and its numeric claims are
 checked against `paper/numbers.tex` by `check_response_refs.py` --- seven
 of them had gone stale before round twenty-five added that check.
 
@@ -46,12 +46,12 @@ of them had gone stale before round twenty-five added that check.
    `sudhirdixit1/cmdb-routing-queue-baseline`.
 2. **Settings → GitHub**, and switch the repository **on**. Zenodo will then
    archive every future release.
-3. **Tag the commit this manuscript was built from as `v26.0`** and push it.
+3. **Tag the commit this manuscript was built from as `v27.0`** and push it.
    Its message should record the gate results at that commit:
 
    ```bash
-   git tag -a v26.0 -m "round twenty-six: the split as an error stratum, the MPID, and two headlines withdrawn"
-   git push origin v26.0
+   git tag -a v27.0 -m "round twenty-six: the split as an error stratum, the MPID, and two headlines withdrawn"
+   git push origin v27.0
    git ls-remote --tags origin
    ```
 
