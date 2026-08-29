@@ -229,6 +229,26 @@ rather than a property of the cell.
 \subsection{The pipeline, and what the estimator holds fixed}
 \label{app:pipeline}
 
+%%  ROUND TWENTY-SEVEN.  Moved from Section 4.2 for length, unchanged.
+
+\textbf{The rule that selects it, in full.} It is one design, and it is the
+same design on every pair: two learners, two splits, three register-quality
+conditions and three admissible rungs, crossed --- \nCellsPerDecomposition\ cells a pair,
+\nInferenceScalar\ scalar family members across the corpus --- at
+\nDrawsSurface\ draws. Nothing in the rule reads a result, and nothing in it
+reads the log: the size classes that chose the previous surface's levels are
+gone, and the objection they carried with them.
+
+\textbf{It is a complete factorial, and that is checked rather than
+declared.} On every one of the \nPairs\ pairs each combination of the four
+axes is present exactly once --- no cell missing, no cell twice, and no pair
+differing in shape from any other --- so a corpus median over these families
+is a median over one design, which the previous surface's was not. A balanced
+full factorial is also strictly stronger than the resolution-IV fraction that
+would suffice to make the decomposition estimable here, so the guarantee is the
+stronger one and not the cheaper one.
+
+
 %%  ROUND TWENTY-FIVE.  Moved from Section 4.1 for length, unchanged.
 
 The pipeline is frozen and identical on every log. Attributes are assigned to
