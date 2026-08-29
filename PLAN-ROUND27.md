@@ -1143,6 +1143,41 @@ worth one clause rather than being buried. And `displacement_max` above 13 in
 both arms says the maximum is a tail artefact of some degenerate cell, not a
 quantity to quote; use the median and say so.
 
+### 2026-08-29, 03:30 — the two scripts disagree about a hole, and the disagreement flatters the old scheme
+
+Checked before quoting `s47`'s numbers, because `s21_bands` and
+`s47_schemes` meet the same situation and resolve it differently.
+
+When a draw produces no value for a cell, `s21_bands` takes `np.median` down a
+column with a hole and gets **NaN** — it refuses. `s47_schemes` drops the
+non-finite entries and computes from what remains, skipping only cells with
+fewer than 20 draws. Both are defensible; the consequence is not symmetric.
+
+**On the multinomial arm, 1,944 of 24,624 cells — 7.9% — carry fewer than 400
+draws**, as few as 311. On the weighted arm, none do. And those short cells
+are not a random subset: they are the draws **in which the arm could be
+fitted**, so every statistic `s47` reports for them is conditioned on
+fittability.
+
+**The conditioning flatters the multinomial scheme, and by roughly a factor of
+two.** The short cells' median absolute displacement is **0.00890** against
+**0.00473** on the full-draw cells. So the draws that were lost were the ones
+that would have displaced the estimate most, and dropping them pulls the
+multinomial arm's headline displacement *down*.
+
+**What this means for §4.1's wording.** The comparison already shows the
+weighted scheme better on level coverage, on unbandable cells and on the
+excludes-own-estimate rate, and roughly level on displacement. That last
+comparison is **measured in the multinomial scheme's favour**: it is computed
+on the draws where that scheme worked. The honest sentence says so — and it
+makes the finding that the displacement barely moves *more* striking rather
+than less, because the old scheme's number is the flattered one.
+
+**Do not "fix" the asymmetry by making the two scripts agree.** They answer
+different questions: a band must refuse a cell it cannot centre, and a
+comparison must describe cells that partly worked. What was missing is that
+neither said so, and now the plan does.
+
 ### 2026-08-29, 03:25 — the old surface had the same defect, and its numbers carry it
 
 Asked of round 25's own bands, because a defect found in one arm should be
