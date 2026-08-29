@@ -68,12 +68,31 @@ poses and had only ever answered with "never".
 | 7 · compliance | agent items **done**; owner items below |
 | 8 · final adversarial read | **done** --- sixth pass, 18 findings, all repaired |
 
-### The two owner items, both blocking submission
+### The owner items, reduced to one and a half
 
-Mint the **archive DOI** (it is reference [11]) and the **container image
-digest** the code-availability statement now depends on.
-`submission/OWNER-ACTIONS.md` §4.5 and §4.7. Until both exist the manuscript
-makes two claims the archive cannot support.
+Both were recorded as needing the depositing account. **One was classified by
+its hardest half.**
+
+- **The container is done.** Minting the digest of a BUILT image needs the
+  deposit; resolving the BASE to a digest does not --- it is a public read.
+  `Dockerfile` now pins
+  `python:3.10.0-slim-bullseye@sha256:ad540a47...88f0d8`, the
+  multi-architecture manifest list, verified cryptographically rather than
+  trusted: fetching the manifest by that digest returns bytes that hash to
+  exactly it. The manuscript reads the digest out of the Dockerfile and
+  `round27_verify` condition 20 fails the build if the two disagree, so the
+  claim cannot be silently falsified. Only the built image's own digest awaits
+  the deposit, and the statement says so, which is true.
+- **The DOI is still the owner's**, but its worst symptom was not the missing
+  identifier: reference [11] forwarded to a statement that forwarded back, and
+  a reference list that loops is a likelier desk return than one candidly
+  incomplete. The entry now carries a resolvable URL. Adding a `doi` key to
+  `.zenodo.json` replaces the placeholder in the statement, the reference and
+  the archive metadata at once.
+
+Everything else in `submission/OWNER-ACTIONS.md` is personal detail or an
+external document: reviewer e-mail addresses, Elsevier's competing-interest
+`.docx`, a full postal address, and the decision whether to merge the branch.
 
 ## 0. The review this plan answers
 
