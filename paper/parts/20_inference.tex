@@ -5,15 +5,13 @@
 \label{sec:boot}
 
 The pipeline is frozen and identical on every log, and the \emph{pipeline}
-axis spans encodings as well as model families. Every learner, encoder and
+axis spans encodings as well as model families; every learner, encoder and
 calibrator is the \texttt{scikit-learn} implementation
 \citep{pedregosa2011scikit} at the version \texttt{requirements.lock} pins,
-so the pipeline axis varies what this paper declares and nothing underneath
-it. Attributes are assigned to
-roles by the pre-registered rules of Section~\ref{sec:design}, cases are
-ordered by their first timestamp, and the split is temporal;
-Supplement~\ref{app:pipeline} lists the levels and why the tree learner is
-target-encoded. The usual interval for such an increment resamples test rows
+so the axis varies what this paper declares and nothing underneath it.
+Attributes are assigned to roles by the pre-registered rules of
+Section~\ref{sec:design}, cases are ordered by their first timestamp, and the
+split is temporal (Supplement~\ref{app:pipeline}). The usual interval for such an increment resamples test rows
 with the models held fixed, which excludes training-sample, model-selection,
 encoder and split variability and the temporal dependence between cases.
 
@@ -285,12 +283,9 @@ Because the surface is a complete factorial over its axes --- the audit of
 Section~\ref{sec:threesurfaces} establishes that it is, cell for cell --- the
 variance of $V_s$ admits an exact and \emph{orthogonal} functional-ANOVA
 decomposition \citep{sobol2001global,saltelli2010variance} under a product
-measure $\mathbb{P} = \bigotimes_i w_i$. Every subset $u$ of axes has a
-component $g_u$, a M\"obius sum over the conditional means computed exactly
-rather than estimated (Supplement~\ref{app:objects}); the components are
-orthogonal, so $\sum_{u \neq \emptyset} D_u = \operatorname{Var}(V)$ exactly,
-and with $S_u = D_u/\operatorname{Var}(V)$ the first-order and total indices
-are $S_i = S_{\{i\}}$ and $S_{T_i} = \sum_{u \ni i} S_u$. The closest
+measure $\mathbb{P} = \bigotimes_i w_i$, with first-order and total indices
+$S_i$ and $S_{T_i}$ computed exactly rather than estimated
+(Supplement~\ref{app:sobolest}). The closest
 precedent is \citet{hutter2014efficient}, who decompose an algorithm's
 performance over its \emph{configuration} space by the same device; what
 differs here is that the axes are analysis decisions rather than
@@ -334,14 +329,11 @@ is not the share carried by interactions. That share is
 S_{\mathrm{int}} \;=\; 1 - \sum_i S_i ,
 \end{equation}
 which this paper computes together with every disjoint component, so the
-identity $\sum_u S_u = 1$ is asserted numerically --- it holds on all
-\nDecompositions\ decompositions, which is the \nPairs\ pairs crossed with
-the \nInstruments\ instruments under each of the three declared product
-measures, plus one per pair on the pooled cross-instrument scale --- rather
-than assumed. The other quantity
-is retained as the \emph{largest per-axis interaction involvement}; the two
-differ substantially, at \largestInvolvementPct\ against
-\interactionTotalPct\ at the median pair.
+identity $\sum_u S_u = 1$ is asserted numerically rather than assumed
+(Supplement~\ref{app:sobolest}). The other quantity is retained as the
+\emph{largest per-axis interaction involvement}; the two differ
+substantially, at \largestInvolvementPct\ against \interactionTotalPct\ at
+the median pair.
 
 \subsection{Resolution regions and the robustness index}
 \label{sec:regionsdef}
@@ -427,14 +419,11 @@ the paper's other two arguments rather than a result of its own. It is
 reported in full, and it is not a contribution.
 
 The construction asks what choosing one specification costs against the best
-one, on a scale a decision can use. Three designs are declared and all three
-reported: \textbf{A}, metric-specific, so that no average crosses an
-instrument; \textbf{B}, on calibrated net benefit, which is a common
-operational utility; and \textbf{C}, partially identified over a declared set
-of monotone utility maps, which reports an interval rather than assuming one
-map. The identity map's maximum excess is \identityMaxExcess.
-Supplement~\ref{app:regretfull} gives the three constructions and the four
-decision rules compared under them.
+one, on a scale a decision can use; the identity map's maximum excess is
+\identityMaxExcess. Supplement~\ref{app:regretfull} gives the three declared
+designs --- metric-specific, calibrated net benefit, and partially identified
+over a declared set of monotone utility maps --- and the four decision rules
+compared under them.
 
 \subsection{A reporting standard, in one paragraph}
 \label{sec:standard}
