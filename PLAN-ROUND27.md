@@ -909,6 +909,8 @@ changed macro" — with the sites that will *not* change on their own.
 | `s22_anova.py:327` globs `RESULTS/"s20"` | the **bootstrapped** decomposition indices and their intervals (Table S5) | `s44_weighted` — and note the design changed, so these intervals are not comparable to the old ones cell for cell |
 | `s41_bandcoverage.py` | family-wise coverage | **done** — `--draws-dir` added, running against `s44_weighted` |
 | `s21_bands.py` | the bands themselves | **done** — already had `--draws-dir` |
+| `s28_figures.py:174-175` | **`figS3_regions.png`**, the ρ-and-region figure | `s48w_regions.csv`. Figures were an unchecked category and this is the one that matters: it draws a bar per pair sorted by ρ, so if it is not regenerated it will **picture** the old surface's labels under a caption describing the new ones — a disagreement a reader sees rather than has to compute |
+| `s51_infanova.py` | the decomposition on the inference surface | **done** — reads `s44_weighted` by argument |
 
 **Two of these are traps rather than chores.** `s25_denominator` computes the
 audit that the manuscript's whole denominator discipline rests on; if it keeps

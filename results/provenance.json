@@ -232,5 +232,10 @@
     "at": "2026-08-29T03:16:36Z",
     "note": "Round twenty-seven: the decision-curve band's measured shortfall, applied rather than reported. Section 10.4 measured a widening of 1.90-2.05 for these families and Section 8.3 printed counts from a band that never received it. The factor is s41's heavy-regime shortfall_factor at its conservative end, chosen because this family is measured into that regime (2 of 248 cells degenerate against a corpus maximum of 17.2 per cent, kurtosis matching heavy) rather than assigned to it; the degenerate-regime factor is reported beside every count. Pure arithmetic on existing draws, no refits.",
     "sha": "178b9ad908cf9db9"
+  },
+  "s51_infanova.py": {
+    "at": "2026-08-29T05:30:03Z",
+    "note": "Round twenty-seven: the exact functional ANOVA applied to the designed inference surface, which the old unbalanced surface made impossible. Reports the leading-axis comparison with the declared surface as a comparison between designs, not as a check of one against the other.",
+    "sha": "1bb45bdf0f7ced1e"
   }
 }
