@@ -2763,3 +2763,30 @@ and this --- were all the same error: a statistic pooled over designs the
 corpus does not run, quoted as a statement about the corpus. The first two
 made the paper look worse than it is. This one made it look worse too, and it
 was the one that mattered.
+
+## R27.20 And the paper's strongest result survives the band that covers
+
+Having found that the empirical quantile attains its level where the reported
+band does not, the obvious next question was the one a referee asks: **what do
+the labels look like under the construction that actually covers?** The bands
+file already carried both edges, so it cost no new run --- only the asking.
+
+The answer is the best sentence in the paper. **BPIC14/duration is still
+uniformly beneficial under the empirical band: all 180 cells of it.** The one
+$\rho = 1$ in this corpus is therefore not an artefact of a band that
+undercovers; it is the label a band which attains its level also gives. That
+converts the paper's headline from a result standing on an object it had just
+declared unreliable into one that survives the strongest test the corpus can
+put to it.
+
+The level is not free, and the counts are printed rather than implied: across
+the corpus the empirical band resolves 698 cells against 890, at a median
+robustness index of 0.000 against 0.039, with 8 pairs resolving nothing
+against 2. That is the trade, and it is the reader's to make on their own loss
+function --- which is why the article reports the narrower band and prints
+both rather than choosing.
+
+Two conditions check it: the empirical-edge labels are recomputed from the
+bands file rather than read from the macros that assert them, and the section's
+own directional claims --- that the label survives, and that the level costs
+resolution --- are checked in the direction they are made.

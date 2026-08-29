@@ -170,6 +170,17 @@ we did not notice until we asked which design each pooled median was averaging
 over. **It costs width**: the empirical band is 1.35 times as wide, and
 resolves 698 cells against the multiplier's 890.
 
+**And the paper's strongest single result survives that band.** The one
+uniformly beneficial surface — the only $\rho = 1$ in the corpus, and the only
+state in which one positive number is a safe summary — is still uniformly
+beneficial under the empirical critical value: all 180 cells of it, under a
+construction that covers 94.7%. So that result is not an artefact of a band
+that undercovers; it is the label a band which attains its level also gives.
+Across the corpus the level-attaining band resolves 698 cells against 890, at
+a median robustness index of 0.000 against 0.039, with 8 pairs resolving
+nothing against 2 — which is what the level costs, stated rather than
+implied.
+
 We report the multiplier band and print both. A band that attains its level by
 being wider is a different object, not a correction to this one, and choosing
 between resolution and level is the reader's decision on their own loss
