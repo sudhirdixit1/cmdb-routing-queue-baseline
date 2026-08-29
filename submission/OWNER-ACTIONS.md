@@ -337,14 +337,14 @@ address in `scripts/round26_numbers.py` beside `AFFILIATION_CITY`.
 
 
 Already §1.1 above, with one thing that section did not know: the placeholder
-does not only appear in the code-availability statement. It is **reference
-[11]**, the `fieldvalue` software citation, where it renders as *"the
-archived release cited in the data-availability statement (DOI reserved,
-inserted at proof)"* — a reference that forwards the reader to a statement
-which does not carry the DOI either. The guide requires a software citation
-to include a "global persistent identifier". An editorial assistant checking
-that the reference list resolves stops here. **This is the single most likely
-cause of a desk return.**
+does not only appear in the code-availability statement. It is also
+**reference [11]**, the `fieldvalue` software citation. The guide requires a
+software citation to carry a "global persistent identifier", and until the DOI
+exists this entry does not have one — so the entry now carries a resolvable
+`url` to the repository the release is cut from, and states the DOI's status
+in one clause, rather than forwarding the reader to a statement that forwarded
+back. That was the loop, and it was the likelier cause of a desk return than
+the missing identifier itself; it is closed. The identifier is still owed.
 
 ### 4.6 Rebuild before uploading  *(owner or agent, but do not skip)*
 
