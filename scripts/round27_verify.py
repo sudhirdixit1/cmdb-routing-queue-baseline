@@ -961,3 +961,68 @@ def check(vn, M):
                     "pair's %s, multiplied out of the declared axis levels, "
                     "is %.1f%%" % (name, M[name], agg, basis,
                                    100.0 * float(x)))
+
+    # --- 11.  the denominator belongs to the pair that attains rho = 1 ----
+    #
+    #  Section 6.3 quotes an admissible cell count beside the uniformly
+    #  beneficial label.  It quoted it through a macro named for the OTHER
+    #  target of the same log, and the error was invisible because both
+    #  targets happen to carry the same count.  A macro whose name is fixed
+    #  cannot notice that the region moved to a different pair, so the pair
+    #  is re-derived here from the region file and the count re-multiplied
+    #  from the declared axis levels -- neither of which is what the
+    #  generator read.
+    RG = _read(results, "s48w_regions.csv")
+    AX2 = _read(results, "s42_axes.csv")
+    if RG is not None and AX2 is not None and "region" in RG.columns:
+        u = RG[RG.region.astype(str).str.strip() == "uniformly beneficial"]
+        got = _num(M.get("nCellsUniformPair"))
+        if got is not None:
+            if len(u) != 1:
+                vn.FAILS.append(
+                    "round-27 condition: \\nCellsUniformPair names one pair's "
+                    "admissible cells and %d pairs are uniformly beneficial"
+                    % len(u))
+            else:
+                lg, tg = str(u.log.iloc[0]), str(u.target.iloc[0])
+                A2 = AX2.assign(_c=AX2.n_pipeline * AX2.n_split
+                                * AX2.n_quality * AX2.n_rung
+                                * AX2.n_instrument)
+                row = A2[(A2.log == lg) & (A2.target == tg)]
+                if not len(row):
+                    vn.FAILS.append(
+                        "round-27 condition: the uniformly beneficial pair "
+                        "%s/%s has no row in the axis file" % (lg, tg))
+                elif abs(got - float(row._c.sum())) > 0.5:
+                    vn.FAILS.append(
+                        "round-27 condition: \\nCellsUniformPair is %s and "
+                        "%s/%s -- the pair that attains rho = 1 -- carries "
+                        "%d admissible cells"
+                        % (M["nCellsUniformPair"], lg, tg,
+                           int(row._c.sum())))
+                else:
+                    #  and the share the manuscript prints beside it
+                    B = _read(results, "s48w_bands.csv.gz")
+                    sh = _num(M.get("shareUniformFamilyPct"))
+                    if B is not None and sh is not None:
+                        fam = len(B[(B.family == "whole-surface")
+                                    & (B.log == lg) & (B.target == tg)])
+                        want = 100.0 * fam / float(row._c.sum())
+                        if abs(sh - want) > 0.02:
+                            vn.FAILS.append(
+                                "round-27 condition: \\shareUniformFamilyPct "
+                                "is %s and %s/%s bands %d of %d admissible "
+                                "cells, which is %.2f%%"
+                                % (M["shareUniformFamilyPct"], lg, tg, fam,
+                                   int(row._c.sum()), want))
+        #  the tie: the smallest share is the largest grid, and it is shared
+        gp = _num(M.get("nPairsAtLargestGrid"))
+        if gp is not None:
+            A2 = AX2.assign(_c=AX2.n_pipeline * AX2.n_split * AX2.n_quality
+                            * AX2.n_rung * AX2.n_instrument)
+            n_at = int((A2._c == A2._c.max()).sum())
+            if int(gp) != n_at:
+                vn.FAILS.append(
+                    "round-27 condition: \\nPairsAtLargestGrid is %s and %d "
+                    "pair(s) carry the corpus's largest declared grid"
+                    % (M["nPairsAtLargestGrid"], n_at))

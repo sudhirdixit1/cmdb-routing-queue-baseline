@@ -252,6 +252,55 @@ def emit(mn):
         put("nUnbandableSameDesignOf", None)
 
     # ================================================================
+    #  THE DENOMINATOR OF THE ONE UNIFORMLY BENEFICIAL SURFACE.
+    #
+    #  Section 6.3 quotes the admissible cell count of the pair that attains
+    #  rho = 1, and quoted it through a macro NAMED FOR A DIFFERENT PAIR --
+    #  right number, wrong pair, because both BPIC14 targets happen to carry
+    #  the same count.  A macro whose name is fixed cannot notice that the
+    #  pair moved, which is this round's recurring defect.  So the pair is
+    #  READ FROM THE REGION FILE rather than named here, and if the region
+    #  that attains rho = 1 moves to another pair, these macros move with it.
+    _reg = mn.RESULTS / "s48w_regions.csv"
+    _ax = mn.RESULTS / "s42_axes.csv"
+    if _reg.exists() and _ax.exists():
+        _r = pd.read_csv(_reg)
+        _u = _r[_r.region.astype(str).str.strip() == "uniformly beneficial"]
+        _A = pd.read_csv(_ax)
+        _A = _A.assign(_c=_A.n_pipeline * _A.n_split * _A.n_quality
+                       * _A.n_rung * _A.n_instrument)
+        if len(_u) == 1:
+            _log = str(_u.log.iloc[0])
+            _tgt = str(_u.target.iloc[0])
+            _row = _A[(_A.log == _log) & (_A.target == _tgt)]
+            if len(_row):
+                _adm = int(_row._c.sum())
+                #  the inference family is THE BANDED CELLS OF THAT PAIR --
+                #  the same set the label is computed over, not a grid
+                #  summary, whose rows are pairs rather than cells.
+                _bw = pd.read_csv(mn.RESULTS / "s48w_bands.csv.gz")
+                _bw = _bw[(_bw.family == "whole-surface")
+                          & (_bw.log == _log) & (_bw.target == _tgt)]
+                _fam = int(len(_bw))
+                put("nCellsUniformPair", thousands(_adm))
+                put("shareUniformFamilyPct",
+                    "%.2f\\%%" % (100.0 * _fam / _adm))
+                #  IS IT THE SMALLEST SHARE, OR A TIE?  The family size is
+                #  constant across pairs by design, so the smallest share is
+                #  the largest admissible count -- and two pairs carry it.
+                #  "smaller than any other pair's" was therefore false.
+                put("nPairsAtLargestGrid",
+                    int((_A._c == _A._c.max()).sum()))
+            else:
+                put("nCellsUniformPair", None)
+                put("shareUniformFamilyPct", None)
+                put("nPairsAtLargestGrid", None)
+        else:
+            put("nCellsUniformPair", None)
+            put("shareUniformFamilyPct", None)
+            put("nPairsAtLargestGrid", None)
+
+    # ================================================================
     # s37 --itsm -- DOES `THE ENCODING BEATS THE FAMILY' TRAVEL?
     # ================================================================
     #  Section 11 conceded that the crossing runs on the case study's log
