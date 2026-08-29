@@ -1,4 +1,9 @@
 {
+  "round21_tables.py": {
+    "at": "2026-08-29T08:23:05Z",
+    "note": "round 27: the calibration is derived and reported, not applied",
+    "sha": "12f5d367131d7852"
+  },
   "round26_numbers.py": {
     "at": "2026-08-29T08:20:32Z",
     "note": "round 27: the direction-carrying set is a membership test, so a new sign-naming label joins it",
@@ -10,9 +15,9 @@
     "sha": "ee8d48bd22c4ac10"
   },
   "round27_verify.py": {
-    "at": "2026-08-29T08:20:32Z",
-    "note": "round 27: re-derives the direction-carrying set and the min-share withdrawal from the same rows",
-    "sha": "dab4cf1c2df66bba"
+    "at": "2026-08-29T08:23:05Z",
+    "note": "round 27: the calibration is derived and reported, not applied",
+    "sha": "702c0d3776cfbc16"
   },
   "s01_surface.py": {
     "at": "2026-08-25T01:56:46Z",

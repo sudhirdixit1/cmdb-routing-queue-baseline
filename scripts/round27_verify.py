@@ -1059,3 +1059,32 @@ def check(vn, M):
                     "of the %d direction-carrying pairs resolve less than %s "
                     "of their family" % (M["nLabelsLostToMinShare"], n_lost,
                                          len(D), M["minResolvedSharePct"]))
+
+    # --- 13.  the widening that is not applied is SMALLER than the need ---
+    #
+    #  Section 10 once said the calibration's range lay ABOVE the measured
+    #  shortfall, and called it conservative.  It lies below: that is the
+    #  whole reason it is not applied, and the sentence had survived the
+    #  measurement that reversed it.  A directional word is a claim, so the
+    #  direction is checked rather than trusted.
+    _cal = _num(M.get("calAtMedianPair"))
+    _sw = _num(M.get("shortfallWholeMin"))
+    _sd = _num(M.get("shortfallDcaMin"))
+    if _cal is not None and _sw is not None and not (_cal < _sw):
+        vn.FAILS.append(
+            "round-27 condition: Section 10 says the calibration factor at the "
+            "median pair (%s) is below the bottom of the surface shortfall "
+            "(%s), and it is not" % (M["calAtMedianPair"],
+                                     M["shortfallWholeMin"]))
+    if _cal is not None and _sd is not None and not (_cal < _sd):
+        vn.FAILS.append(
+            "round-27 condition: Section 10 says the calibration factor at the "
+            "median pair (%s) is well below the decision-curve shortfall (%s), "
+            "and it is not" % (M["calAtMedianPair"], M["shortfallDcaMin"]))
+    #  and the applied factor is one, because nothing is applied
+    _cmin, _cmax = _num(M.get("calMin")), _num(M.get("calMax"))
+    for _nm, _v in (("calMin", _cmin), ("calMax", _cmax)):
+        if _v is not None and abs(_v - 1.0) > 1e-9:
+            vn.FAILS.append(
+                "round-27 condition: no coverage calibration is applied, so "
+                "\\%s should be one and is %s" % (_nm, M[_nm]))

@@ -630,7 +630,9 @@ A previous version of this paper named the repair --- drawing \emph{weights}
 per moving block, so that every row has positive weight in every draw and
 every register level is present in every refit --- and did not run it. It is
 run here: both schemes over one design, at one draw count, with one set of
-seeds, on \schemeCells\ cells.
+seeds, on \schemeCells\ cells. \textbf{Every band this paper reports is the
+weighted one}; the multinomial arm appears only in this subsection, as the
+thing compared against.
 
 \noindent\textbf{The mechanism is removed completely.} The share of the
 register's training levels a draw actually contains rises from
@@ -675,15 +677,19 @@ displacement of the others. Both multinomial numbers above are therefore
 measured on that scheme's successes, and both are still the larger of the
 pair.
 
-\textbf{It gets worse with the sample size, not better.} The displacement is
-a bias --- a resample holds about $1 - e^{-1}$ of the distinct levels however
-many rows it has --- so at a fixed ratio it does not shrink with $n$ while the
-half-width shrinks like $n^{-1/2}$. Section~\ref{sec:simsensitivity} locates
-the crossing: at a ratio of \straddleRatio\ the interval straddles its own
-estimate in every replicate up to \nStraddleAllMax\ training rows and in only
-\shareStraddleAtHalfPct\ of them by \nStraddleHalfMin. The three pairs above
-are the corpus's nearest it, and Section~\ref{sec:regions} reports what it
-costs the coverage calibration.
+\textbf{Under the multinomial scheme it gets worse with the sample size, not
+better.} That displacement is a bias --- a multinomial resample holds about
+$1 - e^{-1}$ of the distinct levels however many rows it has --- so at a fixed
+ratio it does not shrink with $n$ while the half-width shrinks like
+$n^{-1/2}$. Section~\ref{sec:simsensitivity} locates the crossing: at a ratio
+of \straddleRatio\ the interval straddles its own estimate in every replicate
+up to \nStraddleAllMax\ training rows and in only \shareStraddleAtHalfPct\ of
+them by \nStraddleHalfMin. The three pairs above are the corpus's nearest it.
+\textbf{The argument does not carry to the bands reported here.} Weights
+remove the mechanism it rests on, and a displacement survives them anyway
+(above), so what remains under the reported scheme is not bounded by this
+reasoning and is not explained by it. Section~\ref{sec:lim} carries it as an
+open defect rather than a controlled one.
 
 \subsection{Three surfaces, and which one a claim may quantify over}
 \label{sec:threesurfaces}
@@ -2263,20 +2269,21 @@ $q_{\mathrm{emp}}/q$ from \ratioDcaAll\ to \ratioDcaAdmissible\ and does not
 dissolve the disagreement. Supplement~\ref{app:degencells} carries the
 mechanism and Table~\ref{tab:bandcov} the regime with and without them.
 
-\textbf{How far short, in the units the calibration works in.} A critical
-value is widened multiplicatively, so the useful summary of the shortfall is
-the factor that would have closed it. On the surface families that factor is
+\textbf{How far short, in the units a widening works in.} A critical value is
+widened multiplicatively, so the useful summary of the shortfall is the factor
+that would have closed it. On the surface families that factor is
 \shortfallWholeMin\ to \shortfallWholeMax; on the decision-curve families,
-\shortfallDcaMin\ to \shortfallDcaMax. The coverage calibration of
-Section~\ref{sec:regions} applies \calMin\ to \calMax\ on this corpus, is
-fitted to restore \emph{pointwise} coverage rather than this one, and is
-applied to the surface families only. Both ends of that range lie above the
-corresponding ends of the surface shortfall's, so where the calibration acts
-it is of the right order and mostly larger than family-wise coverage alone
-would have asked for --- conservative rather than short, at the cost in
-resolution Section~\ref{sec:regions} reports. Where the shortfall is largest
-it is absent: the decision-curve families are not calibrated at all, and no
-factor this corpus draws reaches even the bottom of their range.
+\shortfallDcaMin\ to \shortfallDcaMax. \textbf{No widening is applied to
+either.} The $(n, K)$ calibration Supplement~\ref{app:calibration} derives was
+fitted to restore \emph{pointwise} coverage on a plane built around a
+different inference surface; at the median pair it supplies
+\calAtMedianPair, which is below the bottom of the surface range above and
+well below the decision-curve one. Applying it would have widened these bands
+by less than the measurement says they need, while presenting them as
+corrected --- a worse position than leaving them nominal, because it spends
+the resolution and buys a label the coverage does not support. The labels this
+paper prints are therefore nominal and anti-conservative by the factors quoted
+here, which is a defect this paper has measured and has not removed.
 Section~\ref{sec:lim} says what follows.
 
 \textbf{The draw count is \emph{not} the binding constraint, which is the

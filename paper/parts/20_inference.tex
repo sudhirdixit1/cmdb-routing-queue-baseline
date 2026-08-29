@@ -61,7 +61,9 @@ A previous version of this paper named the repair --- drawing \emph{weights}
 per moving block, so that every row has positive weight in every draw and
 every register level is present in every refit --- and did not run it. It is
 run here: both schemes over one design, at one draw count, with one set of
-seeds, on \schemeCells\ cells.
+seeds, on \schemeCells\ cells. \textbf{Every band this paper reports is the
+weighted one}; the multinomial arm appears only in this subsection, as the
+thing compared against.
 
 \noindent\textbf{The mechanism is removed completely.} The share of the
 register's training levels a draw actually contains rises from
@@ -106,15 +108,19 @@ displacement of the others. Both multinomial numbers above are therefore
 measured on that scheme's successes, and both are still the larger of the
 pair.
 
-\textbf{It gets worse with the sample size, not better.} The displacement is
-a bias --- a resample holds about $1 - e^{-1}$ of the distinct levels however
-many rows it has --- so at a fixed ratio it does not shrink with $n$ while the
-half-width shrinks like $n^{-1/2}$. Section~\ref{sec:simsensitivity} locates
-the crossing: at a ratio of \straddleRatio\ the interval straddles its own
-estimate in every replicate up to \nStraddleAllMax\ training rows and in only
-\shareStraddleAtHalfPct\ of them by \nStraddleHalfMin. The three pairs above
-are the corpus's nearest it, and Section~\ref{sec:regions} reports what it
-costs the coverage calibration.
+\textbf{Under the multinomial scheme it gets worse with the sample size, not
+better.} That displacement is a bias --- a multinomial resample holds about
+$1 - e^{-1}$ of the distinct levels however many rows it has --- so at a fixed
+ratio it does not shrink with $n$ while the half-width shrinks like
+$n^{-1/2}$. Section~\ref{sec:simsensitivity} locates the crossing: at a ratio
+of \straddleRatio\ the interval straddles its own estimate in every replicate
+up to \nStraddleAllMax\ training rows and in only \shareStraddleAtHalfPct\ of
+them by \nStraddleHalfMin. The three pairs above are the corpus's nearest it.
+\textbf{The argument does not carry to the bands reported here.} Weights
+remove the mechanism it rests on, and a displacement survives them anyway
+(above), so what remains under the reported scheme is not bounded by this
+reasoning and is not explained by it. Section~\ref{sec:lim} carries it as an
+open defect rather than a controlled one.
 
 \subsection{Three surfaces, and which one a claim may quantify over}
 \label{sec:threesurfaces}
