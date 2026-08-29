@@ -131,6 +131,24 @@ def emit(mn):
             put("nPrefix" + nm, None)
 
     # ================================================================
+    # THE PLANNED CONTRASTS, COUNTED THE WAY THIS PAPER SAYS TO COUNT THEM
+    # ================================================================
+    #  Section 4.4 said five of five survive at alpha = 0.05, three lines above
+    #  its own rule that A CONTRAST IS CALLED RESOLVED ONLY WHEN THE INTERVAL
+    #  SAYS SO --- and it then says PC3's p-value and interval disagree.  So
+    #  the paper printed the count its own rule rejects, and named the
+    #  exception in the next sentence without changing the count.  Both counts
+    #  are macros now: `nPlannedReject' is what the p-values give and
+    #  `nPlannedResolved' is what the rule gives, and the prose prints the
+    #  second as the one that follows from the paper's own definition.
+    CN = load("s24_contrasts.csv")
+    if CN is not None and len(CN) and {"basic_lo", "basic_hi"} <= set(CN.columns):
+        excl = ((CN.basic_lo > 0) | (CN.basic_hi < 0))
+        put("nPlannedResolved", thousands(int(excl.sum())))
+    else:
+        put("nPlannedResolved", None)
+
+    # ================================================================
     # THE ESTATE'S OWN REGISTER CARDINALITY, AND THE TIE-BREAK IN SHARES
     # ================================================================
     #  Two findings of the same shape.  Section 7 quoted \cardF --- BPIC14's
