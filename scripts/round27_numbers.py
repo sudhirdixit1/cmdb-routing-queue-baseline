@@ -131,6 +131,129 @@ def emit(mn):
             put("nPrefix" + nm, None)
 
     # ================================================================
+    # THE ESTATE'S OWN REGISTER CARDINALITY, AND THE TIE-BREAK IN SHARES
+    # ================================================================
+    #  Two findings of the same shape.  Section 7 quoted \cardF --- BPIC14's
+    #  cardinality on the REGISTERED cohort --- while stating that every
+    #  number in the section is on the ESTATE's cohort, whose register carries
+    #  a different count at each decision time.  And the tie-break paragraph
+    #  said `a quarter of the point estimate's own magnitude' about two
+    #  different quantities: the range over 25 random tie orders, and the
+    #  displacement the undeclared sort actually caused.  Neither is a
+    #  quarter, and they are not each other.  Both are now shares of one
+    #  declared denominator --- the increment the declared rules give --- so
+    #  that `that magnitude' refers to one thing.
+    F38 = load("s38_facts.csv")
+    if F38 is not None and len(F38):
+        put("cardTauTwo", thousands(int(first(F38, "card_t2"))))
+    else:
+        put("cardTauTwo", None)
+
+    F32 = load("s32_facts.csv")
+    C32 = load("s32_cells.csv")
+    if F32 is not None and len(F32) and C32 is not None and len(C32):
+        sel = C32[(C32.ordering == "identifier")
+                  & (C32.cohort == "reassignment")
+                  & (C32.target == "reassignment")
+                  & (C32.rung == "B_intake_g_km")]
+        if len(sel) == 1:
+            #  the unrounded increment the declared rules give; the rounded
+            #  display macro would put the shares out by two points
+            v = abs(float(sel.V.iloc[0]))
+            rng = float(first(F32, "tiebreak_range"))
+            pub = float(first(F32, "v_published_case"))
+            put("tiebreakRangeSharePct", pct(rng / v, 1))
+            put("tiebreakShiftPct", pct(abs(pub - float(sel.V.iloc[0])) / v, 1))
+        else:
+            put("tiebreakRangeSharePct", None)
+            put("tiebreakShiftPct", None)
+    else:
+        put("tiebreakRangeSharePct", None)
+        put("tiebreakShiftPct", None)
+
+    # ================================================================
+    # THE REGION COUNTS DEFINITION 3 ACTUALLY YIELDS
+    # ================================================================
+    #  An internal audit found the supplement asserting that one conditionally
+    #  harmful surface exists while the article's master table shows none.
+    #  Both were right about their own object and the pair contradicted: the
+    #  `Cal' counts are the region column of the calibrated-band table, which
+    #  is the label BEFORE Definition 3's minimum resolved share, and the
+    #  master table prints the label after it.  Four pairs lose a direction
+    #  there, and one of them is the only conditionally harmful surface the
+    #  band reaches --- so the two label systems disagree about whether this
+    #  corpus contains any harmful surface at all.
+    #
+    #  Both sets of counts are now macros, so a sentence can say which system
+    #  it is quoting instead of leaving a reader to discover that there are
+    #  two.  The column name is built from the declared threshold rather than
+    #  typed, so these track the convention if it ever moves.
+    R42 = load("s42_regions.csv")
+    F42 = load("s42_facts.csv")
+    _MS = ("nCondBeneficialMinShare", "nSignChangingMinShare",
+           "nCondHarmfulMinShare", "nUnresolvedMinShare")
+    if R42 is not None and len(R42) and F42 is not None and len(F42):
+        thr = float(first(F42, "min_resolved_declared"))
+        col = "region_min%02d" % int(round(thr * 100))
+        if col in R42.columns:
+            lab = R42[col].astype(str)
+            put("nCondBeneficialMinShare",
+                int((lab == "conditionally beneficial").sum()))
+            put("nSignChangingMinShare", int((lab == "sign-changing").sum()))
+            put("nCondHarmfulMinShare",
+                int((lab == "conditionally harmful").sum()))
+            #  a withdrawn direction is unresolved, and the file spells the
+            #  two states differently, so both count here
+            put("nUnresolvedMinShare",
+                int(lab.str.startswith("unresolved").sum()))
+        else:
+            for k in _MS:
+                put(k, None)
+    else:
+        for k in _MS:
+            put(k, None)
+
+    #  The single conditionally harmful surface the calibrated band reaches,
+    #  by the counts it rests on.  Section 4.6 used to assert the label's
+    #  existence without them, which put the article body at odds with its own
+    #  master table; the counts are what make the withdrawal legible rather
+    #  than a second opinion.
+    if R42 is not None and len(R42):
+        _h = R42[R42.log.astype(str).str.contains("Helpdesk", case=False,
+                                                  na=False)]
+        if len(_h) == 1:
+            _r = _h.iloc[0]
+            put("nHelpdeskResolved",
+                thousands(int(_r.beneficial_cal) + int(_r.harmful_cal)))
+            put("nHelpdeskFamily", thousands(int(_r.n_family)))
+        else:
+            put("nHelpdeskResolved", None)
+            put("nHelpdeskFamily", None)
+    else:
+        put("nHelpdeskResolved", None)
+        put("nHelpdeskFamily", None)
+
+    # ================================================================
+    # HOW MANY TABLES THE ARTICLE PRINTS
+    # ================================================================
+    #  The supplement said "the seven tables a reader needs" while the article
+    #  printed eight.  texlint's spelled-out-count check does not fire on this
+    #  shape, and a hard-coded 8 goes stale exactly as `seven' did, so the
+    #  count is taken from the source: the article's own body parts, which are
+    #  the numbered ones -- an appendix's tables are not the article's.
+    try:
+        import re as _re
+        #  mn.PAPER, not a path built from the repo root: the corruption tests
+        #  redirect it, and a checker that reads the real tree while the
+        #  suite corrupts a copy is a hole this project has had before.
+        _parts = sorted((mn.PAPER / "parts").glob("[0-9]*.tex"))
+        _n = sum(len(_re.findall(r"\\input\{tables/", p.read_text(
+            encoding="utf-8", errors="ignore"))) for p in _parts)
+        put("nArticleTables", int(_n) if _n else None)
+    except Exception:
+        put("nArticleTables", None)
+
+    # ================================================================
     # s49 -- THE DECISION-CURVE BAND, WIDENED BY ITS MEASURED SHORTFALL
     # ================================================================
     #  Section 10.4 measured that the decision-curve families need a

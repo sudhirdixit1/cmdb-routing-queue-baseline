@@ -264,6 +264,19 @@ itself that it does not make this a predictive-process-monitoring paper. A
 keyword is a claim of topical membership, and we should not make one the body
 disclaims.
 
+**One request we are declining, with the reason.** An earlier report asked
+that the single-author paper drop the editorial "we" for first-person
+singular or an impersonal voice. We counted before deciding: 41 instances in
+the whole document, 19 in the main body — so this is not a cost objection.
+It is that the plural is not decorating narrative here, it is carrying
+accountability, and it falls almost entirely on the sentences that own a
+withdrawal or a refusal: *we therefore withdraw the claim*, *we report both
+rather than the one that reads better*, *we did not narrow the rule
+retrospectively*, *we do not conclude that a surface report is a better
+decision rule than a number*. An impersonal rewrite takes the agent out of a
+withdrawal, which is the last place a paper should be agentless. We would
+rather answer the request with a reason than with a passive voice.
+
 **Length.** ⟨PENDING: the measured cut. Target 42 pages of body; the
 reduction is taken in Sections 4, 6, 10 and 11, which are being rewritten
 against the new numbers anyway, and the largest single saving is Section 11's

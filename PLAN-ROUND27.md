@@ -12,6 +12,31 @@ Append progress to §9 of THIS file after every phase.
 
 ---
 
+## STATUS AT A GLANCE — updated 2026-08-28, overnight session
+
+| phase | what | state |
+|---|---|---|
+| 1 | weighted bootstrap, designed surface, 400 draws | **running** — `s44_designed.py`, 13/19 weighted done at restart, on BPIC19 (the ~1 h pair); multinomial arm after it. Everything downstream is written and waiting. |
+| 2 | decision-curve band widened by its measured shortfall | **done** — `s49_dcaband.py`. Costs 10 of 31 resolved thresholds; the per-thousand headline was checked and is untouched. |
+| 2b | within-cell noise bound on the analyst-choice share | queued — needs Phase 1's draws |
+| 2c | crossed family × encoding on the 8 ITSM pairs | **script ready**, run queued behind Phase 1 |
+| 3 | the inference-share denominator, plus a generalised sweep | **done** — two macros, and a condition that re-multiplies every quoted count from the axis declaration |
+| 3b | scikit-learn citation; §9.3's euphemism | 3b.1 **done**; 3b.2 queued |
+| — | **internal red team, pass 1** | 18 findings (8 blocking) — **4 agents repairing** |
+| — | **internal red team, pass 2** | running, over the files pass 1 could not read |
+| 4 | length | **measured**: 58 pp, and 42 is *not* reachable — target renegotiated to 46. Cut list written and executable. Execution waits for Phase 1. |
+| 4.2 | voice | **decided: keep the editorial "we"**, with the reason recorded |
+| 5 | claims regenerated against the new numbers | register written; execution waits for Phase 1 |
+| 6 | the `hgb` cross-machine reproduction gap | agent working |
+| 7 | compliance | audited against the journal's own guide; agent-fixable items **done**; owner items in `submission/OWNER-ACTIONS.md` §4 |
+| 8 | pre-submission red team | partly done by the two passes above |
+
+**The one thing that cannot be done without the owner:** mint the archive DOI.
+It is not merely a missing statement — it is **reference [11]** in the printed
+bibliography, rendering as a placeholder that forwards the reader to a
+statement which does not carry the DOI either. That is the single most likely
+cause of a desk return. See `submission/OWNER-ACTIONS.md` §4.5.
+
 ## 0. The review this plan answers
 
 A second-round review of the round-26 PDF reached: **major revision, narrow**.
@@ -155,9 +180,27 @@ already-computed critical value costs matrix arithmetic only.
   the 0.003 delivery at their thresholds, rule 1 of §0.1 applies: the paper
   changes, including §8.4 and the Conclusion.
 
+- [ ] **2.4 The decision-curve FIGURE now disagrees with its own section —
+  fix introduced by this round's own correction.** `app_secondary.tex:306-315`
+  draws `figS4_dca.png`, which plots the **nominal** band, and its caption
+  quotes the nominal `\dcaDipTheta`, `\dcaDipValue` and
+  `\nHarmfulSimultaneous`. The prose immediately below it now quotes the
+  **widened** dip and harmful count. Two honest resolutions, in order of
+  preference:
+  1. redraw the figure with the widened band (needs the figure generator
+     taught about `results/s49_dcaband.csv`, which carries both edges per
+     cell), and move the caption to the widened macros; or
+  2. keep the drawn band and make the caption **say** it is the uncorrected
+     one, giving the widened counts beside it.
+  Do **not** leave the caption as it stands: a figure whose caption describes
+  a different band from the section around it is precisely the defect class
+  R27.6 exists to catch, and it would be one this round introduced itself.
+  *(Deferred only because another agent held that file when it was found.)*
+
 **Done when:** no decision-curve count in the paper rests on a band whose
-measured widening was not applied, and §8.3's "most exposed family" caveat is
-replaced by the correction it called for.
+measured widening was not applied, §8.3's "most exposed family" caveat is
+replaced by the correction it called for, and the figure and its caption
+describe the same band as the text around them.
 
 ---
 
@@ -384,9 +427,28 @@ the single cheapest shot a referee has.
     are right. Keep the statement that the correction is applied and what it
     cost; cut the re-derivation of *why* the band undercovers, which §10.4
     already carries in full.
-- [ ] 4.2 Voice: the paper is single-author and says "we" throughout;
-  round-25 M12 asked for first-person singular or impersonal. Pick one,
-  apply it everywhere, add a `texlint` check for the other.
+- [x] **4.2 Voice — decided: keep the editorial "we", and say so.** Round-25
+  M12 asked for first-person singular or impersonal on the ground that the
+  paper is single-author. Counted before deciding: **41 instances in the whole
+  document, 19 in the main body parts** — small enough that the pass is easy,
+  which is why the decision has to rest on something other than cost.
+
+  Reading where they fall: the plural is not decorating narrative, it is
+  carrying **accountability**, and it clusters exactly on the sentences the
+  referees have praised — "we therefore withdraw the claim that a one-number
+  report misstates a sign at a rate worth quoting", "we report both rather
+  than the one that reads better", "we did not narrow the rule
+  retrospectively", "we do not conclude that a surface report is a better
+  decision rule than a number". Rewriting those impersonally ("the claim is
+  therefore withdrawn") removes the agent from a withdrawal, which is the one
+  place a paper should have one; rewriting them as "I" would be unusual enough
+  in this literature to become the thing a reader notices.
+
+  So: the editorial "we" stays. It is standard and unobjectionable in this
+  field, and the alternative costs the paper its best feature to answer one
+  line of a long list. **Record it in the response letter as a considered
+  refusal with this reason**, not as an item quietly missed — a referee
+  tolerates a reasoned "no" far better than a silent one.
 - [ ] 4.3 Reduce the one-sentence bolded lead-in density in §§4, 6, 10 (it
   reads as a memo, not an article; keep them where a table needs a verdict).
 - [ ] 4.4 Two figures still out of the main text that round-25 C3 asked in:
@@ -609,6 +671,52 @@ pivotal interval excludes its own point estimate — the last being the
 headline, because it is a defect a reader can see without believing any
 theory about why it happens. Round 25 counted 74 of 3,900. **The success
 criterion for Phase 1 is that number going to zero under weights.**
+
+### 2026-08-28, overnight — red-team repairs, two findings that grew
+
+Two of the four repair agents are done and their findings extended past what
+was handed to them. Both extensions are recorded because each is a case of the
+same defect surviving in a file nobody had looked at.
+
+**The pre- versus post-minimum-share label systems are two systems, and the
+paper had not said so.** The supplement asserted one conditionally harmful
+surface exists while the master table shows none — and both were right about
+their own object. `\nCondHarmfulCal` and its siblings count the *calibrated
+band's* region column, which is the label **before** Definition 3's minimum
+resolved share; the master table prints the label **after** it. Four pairs
+lose a direction there and one of them is the only conditionally harmful
+surface the band reaches. The repair is not to pick one: both sets are now
+macros (`\nCondBeneficialMinShare` and siblings, 6/3/0/10 against 9/3/1/6), so
+a sentence states which system it quotes. §4.6 carried the same contradiction
+in the article body and now says the label is available and the data do not
+earn it — Helpdesk resolves 2 cells of 180, so the direction is withdrawn.
+
+**`\calFactorMin`/`\calFactorMax` described the wrong object in both places
+they appeared.** They are the min and max over the 33 cells of the
+*simulation plane*; the factors actually **applied to this corpus** are
+`\calMin`/`\calMax` (1.18–1.77), already correct elsewhere. Both sites are
+fixed and the three `calFactor*` macros now appear in no prose at all — they
+should be retired from `round21_numbers.py` so nothing reaches for them again.
+
+And the argument got *better* for being corrected: against a needed 1.05–1.24,
+both ends of 1.18–1.77 sit above the corresponding ends, so where the
+calibration acts it is **conservative rather than short** — which the old
+sentence, hedging with "of the right order", could not say. `\calMax` = 1.77
+is still below `\shortfallDcaMin` = 1.90, so "absent where the shortfall is
+largest" survives intact.
+
+**Two smaller corrections worth recording because they correct me.** The
+tie-break paragraph's "a quarter of the point estimate's own magnitude" was
+describing two different quantities with one number: the range over 25 random
+tie orders is **30.6%** of the declared increment, and the displacement the
+undeclared sort actually caused is **12.4%** — not the 10% I estimated, which
+came from dividing the *rounded* display macros. Both are now shares of one
+declared denominator. And the agent asked to fix "the other 19 pairs"
+declined to wire a count, on the ground that whether the referent is 17 or 18
+turns on a judgement about how the case study's own cell is individuated —
+and that inventing one would re-create the class of error being fixed. It
+rewrote both sentences to be true under either reading instead. That is the
+right call.
 
 ### 2026-08-28, later — an internal red team, and what it changes about this plan
 

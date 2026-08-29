@@ -16,9 +16,10 @@ different cells. This ladder is computed on the \emph{registered} cohort of
 Section~\ref{sec:design} --- \layerLadderN\ cases, \layerLadderNTest\ in
 test --- under the registered handover rule, one-hot logistic regression at the
 fixed temporal holdout, against the intake block at base AUC
-\layerBaseHandover\ on the reassignment question and \layerBaseDuration\ on
+\layerBaseHandover\ on the handover question and \layerBaseDuration\ on
 duration. Table~\ref{tab:tau} is on the estate's own cohort and its
-reassignment target. Section~\ref{sec:cohort} is the reason the two differ:
+reassignment target, which is neither of the two targets this ladder is
+computed on. Section~\ref{sec:cohort} is the reason the two differ:
 they are the two analyses whose answers about this register disagree, and
 neither number is the other one mismeasured. What the ladder compares is
 layers \emph{against each other} at one cell, which is the comparison a
@@ -30,7 +31,7 @@ baseline, and of the item over each layer. \textbf{Which layer pays is a
 property of the target and of the log, and not of the register.} On the case
 study's estate the coarse layers are \emph{not} close to free: the item's type
 alone reaches \layerTypeSharePctHandover\ of what the item is worth over the
-intake block on the reassignment question and
+intake block on the handover question and
 \layerTypeSharePctDuration\ on the duration question
 (Section~\ref{sec:programme}), and what survives as a claim about the finest
 layer is its \emph{marginal} contribution over the coarse ones ---

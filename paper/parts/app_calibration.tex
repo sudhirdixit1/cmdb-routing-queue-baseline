@@ -22,6 +22,7 @@ replicate count directly: the plane carries \nPlaneCells\ cells at
 on two data-generating worlds rather than one (Table~\ref{tab:plane}).
 
 \subsection{A monotone fit, not a parametric one}
+\label{app:curves}
 
 The dependence of $c$ on $K/n$ is well summarised by a log-linear fit whose
 slope is \calSlope, with a standard error of \calSlopeSe: the widening a pair
@@ -87,7 +88,7 @@ the measured factor's own lower confidence limit on \nCellsUnderApplied\ of
 the plane's cells, by at most \maxShortfallApplied, and both are large-$n$
 cells. A two-covariate fit in $\log(K/n)$ and $\log n$ does not repair it
 --- it is worse than the monotone curve on every cell-weighted criterion
-(Supplement~\ref{app:calibration}) --- so the residual is reported rather
+(Supplement~\ref{app:curves}) --- so the residual is reported rather
 than fitted away.
 
 \textbf{And on \nPlaneCellsUndefined\ of the \nPlaneCellsOffered\ cells the
@@ -103,10 +104,20 @@ nothing: the rejected cells reach \straddleGapLo\ and the admitted ones start
 at \straddleGapHi, so any threshold between those two gives this plane.
 Section~\ref{sec:lim} carries what that leaves the corpus's largest pairs.
 
-Under the calibrated band the region counts are: conditionally beneficial,
-\nCondBeneficialCal; sign-changing, \nSignChangingCal; conditionally harmful,
-\nCondHarmfulCal; unresolved, \nUnresolvedCalibrated; and the median
-robustness index is \rhoMedianCalibrated.
+Under the calibrated band the region counts --- the labels
+Definition~\ref{def:regions} yields, minimum resolved share included, which
+are the ones Table~\ref{tab:master} prints --- are: conditionally beneficial,
+\nCondBeneficialMinShare; sign-changing, \nSignChangingMinShare;
+conditionally harmful, \nCondHarmfulMinShare; unresolved,
+\nUnresolvedMinShare; and the median robustness index is
+\rhoMedianCalibrated. Before the minimum share is applied the same band gives
+\nCondBeneficialCal, \nSignChangingCal, \nCondHarmfulCal\ and
+\nUnresolvedCalibrated\ in that same order, which is the region column of
+Table~\ref{tab:calbands}; the difference is the \nLabelsLostToMinShare\
+directional labels Table~\ref{tab:triple} withdraws. One of those is the only
+conditionally harmful label the band reaches, so under
+Definition~\ref{def:regions} this corpus carries no conditionally harmful
+surface at all.
 
 \subsection{The $(n,K)$ grid, cell by cell}
 

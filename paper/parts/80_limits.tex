@@ -43,14 +43,21 @@ repair is more draws --- \covMultBootThirtyThree\ at \nBootThirtyThree\
 against \covMultBootFourHundred\ at \nBootFourHundred\ --- and a draw refits
 the whole design space. \textbf{Every region label and every $\rho$ here is
 therefore a descriptive diagnostic and not a guarantee}, which the front
-matter now says. The two families are not equally exposed: the widening that
-would close the gap is \shortfallWholeMin\ to \shortfallWholeMax\ on the
-surface families, where the calibration already applies \calFactorMin\ to
-\calFactorMax\ --- fitted for \emph{pointwise} coverage, so its being of the
-right order is fortunate rather than by design --- and \shortfallDcaMin\ to
-\shortfallDcaMax\ on the decision-curve families, \textbf{which the
-calibration does not touch at all}. Those conclusions are the ones to
-distrust.
+matter now says. The two families are not equally exposed, and they are no
+longer corrected alike. On the surface families the widening that would close
+the gap is \shortfallWholeMin\ to \shortfallWholeMax, and the calibration
+already applies \calMin\ to \calMax\ on this corpus --- fitted for
+\emph{pointwise} coverage rather than for this one, so that it lands in the
+right range is fortunate rather than by design. On the decision-curve
+families it is \shortfallDcaMin\ to \shortfallDcaMax, and
+Section~\ref{sec:dcabands} now applies it rather than reporting it: that
+band's operative critical value is \dcaQWidened\ and not \dcaQ, at a cost of
+\nBeneficialLostToWidening\ of the \nDcGrid\ operating points. The correction
+is narrower than it looks. It is fitted where the bootstrap is ideal, so it
+closes the shortfall this design can measure and not whatever the real
+resampling adds to it; and it leaves the surface families to a calibration
+fitted for the wrong coverage. \textbf{Their} region labels and $\rho$ are
+the conclusions to distrust.
 
 \paragraph{Internal --- the refitting bootstrap is the source of a bias, and
 the repair is not run here}

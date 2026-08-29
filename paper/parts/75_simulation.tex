@@ -51,8 +51,12 @@ quantity a reader cares about, and no resampling scheme repairs that.
 A construction that works at one sample size, one register cardinality and one
 block length has been validated at a point, not in a regime. Sample size and
 register cardinality are therefore varied \emph{jointly}, up to $K = \simKMax$
-levels --- the cardinality of the case study's own register --- and the block
-length is varied around its rule of thumb.
+levels --- the cardinality the case study's log carries on the
+\emph{registered} cohort of Section~\ref{sec:design}, which is the cohort the
+corpus admits it under; the estate's own cohort in Section~\ref{sec:cmdb}
+carries a different one at each of its three decision times
+(Table~\ref{tab:tau}) --- and the block length is varied around its rule of
+thumb.
 
 \textbf{The ratio $K/n$ captures most of the dependence, and not all of it.}
 Across the plane the basic interval covers a median \coverageGridMedian\ and
@@ -143,11 +147,16 @@ value is widened multiplicatively, so the useful summary of the shortfall is
 the factor that would have closed it. On the surface families that factor is
 \shortfallWholeMin\ to \shortfallWholeMax; on the decision-curve families,
 \shortfallDcaMin\ to \shortfallDcaMax. The coverage calibration of
-Section~\ref{sec:regions} applies \calFactorMin\ to \calFactorMax, is
+Section~\ref{sec:regions} applies \calMin\ to \calMax\ on this corpus, is
 fitted to restore \emph{pointwise} coverage rather than this one, and is
-applied to the surface families only --- so it is of the right order where it
-acts and absent where the shortfall is largest. Section~\ref{sec:lim} says
-what follows.
+applied to the surface families only. Both ends of that range lie above the
+corresponding ends of the surface shortfall's, so where the calibration acts
+it is of the right order and mostly larger than family-wise coverage alone
+would have asked for --- conservative rather than short, at the cost in
+resolution Section~\ref{sec:regions} reports. Where the shortfall is largest
+it is absent: the decision-curve families are not calibrated at all, and no
+factor this corpus draws reaches even the bottom of their range.
+Section~\ref{sec:lim} says what follows.
 
 \textbf{The draw count is the binding constraint.} At the modal surface
 family the multiplier band covers \covMultBootThirtyThree\ at

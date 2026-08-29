@@ -7,10 +7,11 @@ analytics need it. This section evaluates one against a named decision on a
 public log: will this case be reassigned to another group before it is
 resolved? The estate is a bank's and the log is BPI Challenge 2014
 \citep{vandongen2014bpic}; the register field is the affected configuration
-item, with \cardF\ distinct values. It is reported at greater length than the
-other \nPairs\ pairs because it is the case that motivated the study and the
-one on which the decision time --- when in the service-desk process the
-prediction is made --- decides the answer.
+item, which takes \cardTauTwo\ distinct values on this estate's cohort at
+incident creation. It is reported at greater length than any of the \nPairs\
+log--target pairs of Section~\ref{sec:multilog} because it is the case that
+motivated the study and the one on which the decision time --- when in the
+service-desk process the prediction is made --- decides the answer.
 
 \subsection{One log, two answers, and what separates them}
 \label{sec:cohort}
@@ -22,9 +23,9 @@ registered generic rules of Section~\ref{sec:design}, which admit
 rule. This section uses the cohort and the reassignment target defined for the
 estate: \nCohort\ cases at prevalence \casePrevalence\ (\casePrevalenceTest\
 in the test half), \nCaseTrain\ in
-training and \nCaseTest\ in test. The first set is a strict subset of the
-second; the extra \nExtraCases\ cases are those the estate's own cutoff
-excludes.
+training and \nCaseTest\ in test. The estate's cohort is a strict subset of
+the registered one: the \nExtraCases\ cases the registered rules admit on top
+of it are those the estate's own cutoff excludes.
 
 The two produce different answers about the register at the later decision
 time, and the difference is large enough to change the sign. Against intake
@@ -60,12 +61,13 @@ reconciliation below anchors on the object rather than on a recollection of
 it. Over \nTiebreakDraws\ random tie-breaks
 the increment ranges over \tiebreakRange\ AUC without changing sign
 (\nTiebreakPositive\ of \nTiebreakDraws\ draws positive), so no conclusion
-turns on it --- but it is a quarter of the point estimate's own magnitude,
-produced by a choice no reporting standard asks anyone to state, which is why
+turns on it --- but that range is \tiebreakRangeSharePct\ of the magnitude of
+the increment the declared rules give, produced by a choice no reporting
+standard asks anyone to state, which is why
 Section~\ref{sec:standard} now asks. Every number in this section is computed
 under a declared tie-break, by incident identifier, on the estate's cohort and
 reassignment target; the registered cohort's answers are in
-Section~\ref{sec:multilog} with the other \nPairs\ pairs, so the decision-time
+Section~\ref{sec:multilog}, among the \nPairs\ pairs, so the decision-time
 result below is a statement about a routing decision on this estate and not
 about handover in general.
 
@@ -149,9 +151,12 @@ what a second would need.
 \paragraph{Which field is which}
 The prediction is: \emph{will this case be reassigned to another group before
 it is resolved?} The \textbf{register} $f$ is the affected configuration
-item, \cardF\ distinct values. Its \textbf{coarsenings} are the item's type
-(\nLayerTypeLevels\ values) and subtype (\nLayerSubtypeLevels), each given its
-own role rather than swept into the baseline. The \textbf{free field} $g$ is
+item, \cardTauTwo\ distinct values at incident creation on this estate's
+cohort and \cardF\ on the registered cohort of Section~\ref{sec:design}, which
+is the cohort the layer ladder below is computed on. Its \textbf{coarsenings}
+are the item's type (\nLayerTypeLevels\ values there) and subtype
+(\nLayerSubtypeLevels), each given its own role rather than swept into the
+baseline. The \textbf{free field} $g$ is
 the assignment group --- the routing queue, which is recorded without a
 configuration management database and is the field the register has to beat.
 The \textbf{intake block} $B_0$ is what the desk records when the case
@@ -181,7 +186,8 @@ it; Section~\ref{sec:nbregret} prices that in cases per thousand:
 A programme does not choose whether to have a configuration management
 database; it chooses how much of one to populate and maintain, and that is a
 choice among \emph{layers}. On the \emph{registered} cohort of
-Section~\ref{sec:design} --- \layerLadderN\ cases, one-hot logistic
+Section~\ref{sec:design} and under its registered handover rule ---
+\layerLadderN\ cases, one-hot logistic
 regression at the fixed temporal holdout, against the intake block at base AUC
 \layerBaseHandover\ --- the item's \emph{type} is worth \layerTypeHandover\
 AUC over intake, its \emph{subtype} \layerSubtypeHandover, and the item itself
@@ -192,8 +198,8 @@ because the table is on the estate's own cohort and its reassignment target
 --- the pair Section~\ref{sec:cohort} shows disagree about this register ---
 so the increment over intake is \layerItemHandover\ here and \VtauTwo\ there
 and neither is the other one mismeasured (Supplement~\ref{app:layers}).
-\textbf{On this estate and this question the coarse layers are not free, and
-the finest layer is not redundant}: \layerTypeSharePctHandover\ of what the
+\textbf{On this estate and the handover question the coarse layers are not
+free, and the finest layer is not redundant}: \layerTypeSharePctHandover\ of what the
 item is worth over the intake block is already reachable from a thirteen-value
 type field, and the item still adds \layerItemMarginalHandover\ once the
 subtype is in the model. On the duration question the same ladder gives
