@@ -186,9 +186,10 @@ replacing them by Gaussians and is the natural repair for a tail problem, is
 worse than the Gaussian multiplier at \covRadHeavyMedian.
 
 \textbf{One estimator does recover the difference, and only at the draw count
-this corpus now runs.} The two critical-value estimates behave differently in
-$B$: the multiplier's coverage plateaus and the \emph{empirical} quantile's
-does not. On the family matched to the reported design the empirical quantile
+this corpus now runs.} \emph{Both} critical-value estimates plateau in $B$ ---
+from \nBootOneFifty\ draws on, neither moves by more than its own Monte Carlo
+error --- but they plateau at different levels, and only one of the two levels
+is the nominal one. On the family matched to the reported design the empirical quantile
 reaches \covEmpWholeAtDesign\ against a nominal $95\%$, at a Monte Carlo
 standard error of \covEmpWholeAtDesignSE\ --- a gap of well under one of
 them, against the multiplier's five --- and its own conservative end reaches

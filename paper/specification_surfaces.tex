@@ -932,10 +932,11 @@ statement about the band's width and not about the register.
 \nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs that carry a
 direction lose it under the condition (Table~\ref{tab:triple}), and $\rho$ is
 printed beside the triple everywhere because $\rho$ alone cannot distinguish
-two resolved cells from ninety. The threshold is a declared convention; the
-labels at \nLabelsLostMinOne\ and \nLabelsLostMinTen\ per cent are in
-Table~\ref{tab:triple}'s source file, so a reader who prefers another can see
-what it costs.
+two resolved cells from ninety. The threshold is a declared convention, and moving it is cheap to inspect:
+at a one per cent minimum \nLabelsLostMinOne\ directions are withdrawn, at
+the declared \minResolvedSharePct\ it is \nLabelsLostToMinShare, and at ten
+per cent \nLabelsLostMinTen. Table~\ref{tab:triple}'s source file carries all
+three, so a reader who prefers another threshold can see what it costs.
 
 \noindent \textbf{The label is relative to $\mathcal{F}$ and not to the whole
 admissible set, and the direction of that is not neutral.} A label computed on
@@ -2136,9 +2137,10 @@ replacing them by Gaussians and is the natural repair for a tail problem, is
 worse than the Gaussian multiplier at \covRadHeavyMedian.
 
 \textbf{One estimator does recover the difference, and only at the draw count
-this corpus now runs.} The two critical-value estimates behave differently in
-$B$: the multiplier's coverage plateaus and the \emph{empirical} quantile's
-does not. On the family matched to the reported design the empirical quantile
+this corpus now runs.} \emph{Both} critical-value estimates plateau in $B$ ---
+from \nBootOneFifty\ draws on, neither moves by more than its own Monte Carlo
+error --- but they plateau at different levels, and only one of the two levels
+is the nominal one. On the family matched to the reported design the empirical quantile
 reaches \covEmpWholeAtDesign\ against a nominal $95\%$, at a Monte Carlo
 standard error of \covEmpWholeAtDesignSE\ --- a gap of well under one of
 them, against the multiplier's five --- and its own conservative end reaches
@@ -2247,8 +2249,8 @@ were \nUnbandableOldCells\ of those on the previous surface,
 \nUnbandableSameDesign\ under the multinomial scheme on this one, and there
 are now \nUnbandableCells.
 
-\noindent\emph{More draws do not fix the multiplier band's coverage --- and
-they do fix the other estimator's.} The binding constraint on the reported
+\noindent\emph{More draws do not fix the coverage of either estimator; they
+determine which level each settles at.} The binding constraint on the reported
 band's family-wise coverage is not the draw count, which the construction's
 asymptotics would suggest and this design's own measurement refutes. On
 families matched to the surface this paper now reports, coverage is

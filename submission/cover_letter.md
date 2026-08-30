@@ -151,7 +151,7 @@ a correction register grouping the author's own errors by class.
 **What the apparatus found in itself.** After every one of the referee's ten
 comments had been answered, four defects were found in this round's own work
 by this round's own controls, and the manuscript reports all four rather than
-quietly fixing them. The most serious is in Appendix H: the simulation
+quietly fixing them. The most serious is in Supplement S6: the simulation
 reported that every interval construction fails in one of its six worlds, and
 the failure was in the *estimand*, not the estimator --- the simulation scored
 the estimator against a population it does not sample from. It was found by
@@ -162,7 +162,7 @@ set, which turned out to change what the pilot *is*; a strict mode that
 certified a manuscript built from a superseded run; and a corruption in the
 verifier's own regression suite that had been passing because nothing
 regenerated between the corruption and the check. The correction register
-groups the project's errors by class, and Appendix H's class is the one no
+groups the project's errors by class, and Supplement S6's class is the one no
 checker in the repository could have caught.
 
 **The bootstrap validation.** The second review asked for the simulation to be

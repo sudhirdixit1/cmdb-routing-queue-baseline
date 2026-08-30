@@ -186,7 +186,7 @@ so the fitting budget fixes *B* and not the precision of *q*. Second, the five
 planned contrasts of `s24_confirm.py` live on one cell each and are therefore
 affordable at 2,000 draws, which is where the plus-one *p*-values come from.
 
-`s18_bias_scaling.py --legacy-target` regenerates Appendix G's
+`s18_bias_scaling.py --legacy-target` regenerates the pre-correction figures of Supplement S6's
 pre-correction figures. It is not needed for the manuscript's numbers; it is
 needed if you want to check the correction rather than take it on trust.
 

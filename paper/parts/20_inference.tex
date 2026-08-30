@@ -371,10 +371,11 @@ statement about the band's width and not about the register.
 \nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs that carry a
 direction lose it under the condition (Table~\ref{tab:triple}), and $\rho$ is
 printed beside the triple everywhere because $\rho$ alone cannot distinguish
-two resolved cells from ninety. The threshold is a declared convention; the
-labels at \nLabelsLostMinOne\ and \nLabelsLostMinTen\ per cent are in
-Table~\ref{tab:triple}'s source file, so a reader who prefers another can see
-what it costs.
+two resolved cells from ninety. The threshold is a declared convention, and moving it is cheap to inspect:
+at a one per cent minimum \nLabelsLostMinOne\ directions are withdrawn, at
+the declared \minResolvedSharePct\ it is \nLabelsLostToMinShare, and at ten
+per cent \nLabelsLostMinTen. Table~\ref{tab:triple}'s source file carries all
+three, so a reader who prefers another threshold can see what it costs.
 
 \noindent \textbf{The label is relative to $\mathcal{F}$ and not to the whole
 admissible set, and the direction of that is not neutral.} A label computed on
