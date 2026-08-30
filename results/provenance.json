@@ -60,9 +60,9 @@
     "sha": "9caf7c97be3f35d0"
   },
   "round27_numbers.py": {
-    "at": "2026-08-29T09:59:47Z",
-    "note": "round 27: the region labels under the band that attains its level",
-    "sha": "9cbf646db4075155"
+    "at": "2026-08-30T10:15:22Z",
+    "note": "round 27: the final read's corrections",
+    "sha": "43ebed3d99f20839"
   },
   "round27_verify.py": {
     "at": "2026-08-29T09:59:47Z",
@@ -299,9 +299,9 @@
     "sha": "de368e6909e65b9d"
   },
   "s49_dcaband.py": {
-    "at": "2026-08-29T03:16:36Z",
-    "note": "Round twenty-seven: the decision-curve band's measured shortfall, applied rather than reported. Section 10.4 measured a widening of 1.90-2.05 for these families and Section 8.3 printed counts from a band that never received it. The factor is s41's heavy-regime shortfall_factor at its conservative end, chosen because this family is measured into that regime (2 of 248 cells degenerate against a corpus maximum of 17.2 per cent, kurtosis matching heavy) rather than assigned to it; the degenerate-regime factor is reported beside every count. Pure arithmetic on existing draws, no refits.",
-    "sha": "178b9ad908cf9db9"
+    "at": "2026-08-30T10:15:22Z",
+    "note": "round 27: the final read's corrections",
+    "sha": "90b97548efca5a6c"
   },
   "s51_infanova.py": {
     "at": "2026-08-29T05:30:03Z",

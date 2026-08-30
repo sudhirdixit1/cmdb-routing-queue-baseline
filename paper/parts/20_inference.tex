@@ -372,9 +372,9 @@ statement about the band's width and not about the register.
 direction lose it under the condition (Table~\ref{tab:triple}), and $\rho$ is
 printed beside the triple everywhere because $\rho$ alone cannot distinguish
 two resolved cells from ninety. The threshold is a declared convention, and moving it is cheap to inspect:
-at a one per cent minimum \nLabelsLostMinOne\ directions are withdrawn, at
-the declared \minResolvedSharePct\ it is \nLabelsLostToMinShare, and at ten
-per cent \nLabelsLostMinTen. Table~\ref{tab:triple}'s source file carries all
+at a \minShareLowPct\ minimum \nLabelsLostMinOne\ directions are withdrawn,
+at the declared \minResolvedSharePct\ it is \nLabelsLostToMinShare, and at
+\minShareHighPct\ it is \nLabelsLostMinTen. Table~\ref{tab:triple}'s source file carries all
 three, so a reader who prefers another threshold can see what it costs.
 
 \noindent \textbf{The label is relative to $\mathcal{F}$ and not to the whole

@@ -52,8 +52,8 @@ conflated them got the answer wrong.
      measured here rather than assumed: of the 248 cells of s26's band, two are
      degenerate under s41's own rule (exactly zero in at least nine draws of
      ten), and one of the 31 operating points of the case study's curve.  That
-     is under one per cent, against a corpus range from nil to seventeen per
-     cent.  s26's family is calibrated, is one pair's, and excludes the
+     is under one per cent, against a corpus maximum of 14.3 per cent
+     (results/s41_facts.csv, share_degenerate_dca_max).  s26's family is calibrated, is one pair's, and excludes the
      zero-variance cells at construction; the 841 are spread over the whole
      corpus's uncalibrated curve families.  So the matched regime for THIS
      family is `heavy`, and the admissible factor is the operative one.

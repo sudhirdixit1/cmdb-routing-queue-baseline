@@ -329,6 +329,15 @@ def emit(mn):
         for k in _cov:
             put(k, None)
 
+    #  THE TWO COMPARISON THRESHOLDS, as macros rather than words.  Section
+    #  4.6 shows what moving the declared minimum resolved share would cost,
+    #  and `texlint' forbids a spelled-out magnitude in prose for the same
+    #  reason it forbids a numeric literal: a convention stated in words is a
+    #  number nothing checks.  These two are declared conventions, so they
+    #  are declared here.
+    put("minShareLowPct", "1\\%")
+    put("minShareHighPct", "10\\%")
+
     # ================================================================
     #  THE REGION LABELS UNDER THE BAND THAT ATTAINS ITS LEVEL.
     #
