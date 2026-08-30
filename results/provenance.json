@@ -45,9 +45,9 @@
     "sha": "b97503ac310ff8c8"
   },
   "round21_tables.py": {
-    "at": "2026-08-30T11:35:01Z",
-    "note": "round 27: the regions caption names what it prints; the calibrated block marks every column",
-    "sha": "f9157e430991bea1"
+    "at": "2026-08-30T11:37:19Z",
+    "note": "round 27: the final read's pointer corrections",
+    "sha": "0b6fb6d3f2d693c9"
   },
   "round21_verify.py": {
     "at": "2026-08-29T08:57:13Z",
@@ -284,9 +284,9 @@
     "sha": "6ff2df4c48219779"
   },
   "s43_overview.py": {
-    "at": "2026-08-26T03:04:22Z",
-    "note": "round 26 item C1: the overview figure; a schematic, reads no result file",
-    "sha": "88ae80749d0660fb"
+    "at": "2026-08-30T11:37:19Z",
+    "note": "round 27: the final read's pointer corrections",
+    "sha": "c0b657620b1f9281"
   },
   "s45_prefix.py": {
     "at": "2026-08-26T21:26:31Z",

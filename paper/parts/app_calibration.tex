@@ -118,8 +118,10 @@ uniformly beneficial, \nUniformlyBeneficialMinShare; unresolved,
 \nUnresolvedMinShare; and the median robustness index is \rhoMedian. Before
 the minimum share is applied the same band gives \nCondBeneficial,
 \nSignChanging, \nCondHarmful, \nUniformlyBeneficial\ and \nUnresolvedPairs\
-in that same order; the difference is the \nLabelsLostToMinShare\
-directional labels Table~\ref{tab:triple} withdraws. One of those is the only
+in that same order. The minimum share moves \nMarkedBelowMinShare\ of the
+labels, of which \nLabelsLostToMinShare\ are directions withdrawn and
+\nSignChangingBelowMinShare\ are sign-changing pairs that carried no
+direction to withdraw (Table~\ref{tab:triple}). One of those is the only
 conditionally harmful label the band reaches, so under
 Definition~\ref{def:regions} this corpus carries no conditionally harmful
 surface at all.
@@ -141,8 +143,8 @@ these families need is larger still.
 Across the plane the basic interval covers a median \coverageGridMedian\ and a
 minimum \coverageGridMin, the last at a ratio of \simGridWorstRatio. Below
 $K/n = \simGridRatioSafe$ its coverage lies between \coverageGridSafeMin\ and
-\coverageGridSafeMax\ --- short of nominal everywhere, by about one Monte
-Carlo standard error at \nPlaneGridReps\ replicates --- and it has fallen
+\coverageGridSafeMax\ --- short of nominal everywhere, by about two Monte
+Carlo standard errors at \nPlaneGridReps\ replicates --- and it has fallen
 below three quarters by \simGridRatioBad. The ratio is the right first-order
 summary --- the mechanism of Section~\ref{sec:boot} is why, and
 varying $n$ alone would not have exposed the regime the corpus occupies ---
@@ -211,7 +213,9 @@ reports}: the calibrated and upper-end rungs are a sensitivity ladder showing
 what a widening would cost, not settings the corpus runs under, because none
 is applied (Section~\ref{sec:simband}). That last comparison is not a
 calibration setting either but a different estimator of the same quantity, and
-it moves the resolution by more than the calibration would. What moves across all four is how much resolution
+it moves the resolution by \emph{less} than the calibration would ---
+\nResolvedEmpBand\ cells against the calibrated rung's
+\nResolvedSensCalibrated, from a nominal \nResolvedSensNominal. What moves across all four is how much resolution
 the corpus has; what does not move is which pair reaches $\rho = 1$: the
 count is \nUnifBenSensNominal\ at $c = 1$, \nUnifBenSensCalibrated\ under
 the calibrated factors and \nUnifBenSensUpper\ with every factor at the

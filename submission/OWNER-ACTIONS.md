@@ -177,7 +177,7 @@ not as part of the PDF.
 | item | file |
 |---|---|
 | Manuscript | `build/journal/specification_surfaces.pdf` |
-| Highlights | `submission/highlights.txt` (the paste-ready block at the bottom) |
+| Highlights | `submission/upload/Highlights.txt` --- **this file, not `highlights.txt`**, which opens with build commentary (§4.1) |
 | Cover letter | `submission/cover_letter.md` |
 | Supplementary material | `build/journal/supplement.pdf` |
 | **Response to the current report** | **`submission/response_to_review27.md`** |

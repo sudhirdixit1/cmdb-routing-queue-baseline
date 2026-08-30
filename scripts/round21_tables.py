@@ -848,7 +848,7 @@ def write_round25(mn):
         (r"Specification regret \emph{(a check, not an object)}",
          "what choosing one specification costs against the best one, on a "
          "scale a decision can use --- it returns a null on this corpus",
-         r"\ref{sec:regretdef}", r"\ref{tab:regret}",
+         r"\ref{sec:regretdef}", r"\ref{tab:rules}",
          r"exact; no refit, on the surface already computed"),
     ]
     body = "\n".join(

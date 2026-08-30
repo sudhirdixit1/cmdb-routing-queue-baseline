@@ -427,7 +427,13 @@ expressed, so the manuscript never says an axis dominates without naming it.
 %%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
 
 \paragraph{Refitting inside the draw breaks the percentile interval}
-A bootstrap resample contains about $1 - e^{-1}$ of the distinct levels of a
+\textbf{The mechanism below is the \emph{multinomial} resample's, and
+Section~\ref{sec:boot} retracts it as an explanation of the displacement}:
+drawing weights per block removes the level loss entirely and the displacement
+barely moves, so what follows is the reason the \emph{percentile} interval is
+not used, and not a diagnosis of the residual displacement, which this paper
+reports as unexplained. A multinomial resample contains about $1 - e^{-1}$ of
+the distinct levels of a
 high-cardinality categorical, so with \cardF\ register levels every refit
 inside every draw sees a sparser register than the real training half and
 returns a smaller increment. The bootstrap distribution is then displaced

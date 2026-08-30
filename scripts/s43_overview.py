@@ -66,7 +66,7 @@ def main():
         "BPIC14: incidents at\na bank's service desk")
     box(ax, 0.245, 0.660, 0.235, 0.320, "roles, by rule",
         "register $f$\nfree field $g$\nintake block $B_0$\n\n"
-        "(Section 5.2, Table 4)")
+        "(Section 5.2, Table 3)")
     box(ax, 0.515, 0.660, 0.235, 0.320, "design space $\\mathcal{S}$",
         "pipeline $\\times$ split\n"
         "$\\times$ quality $\\times$ rung\n$\\times$ instrument\n\n"
@@ -96,16 +96,16 @@ def main():
         "simultaneous band",
         "max-$t$ over the whole\nfamily the claim ranges\n"
         "over, $\\bf{coverage}$\n$\\bf{measured}$\n\n"
-        "Sections 4.3, 10.4")
+        "Sections 4.3, 9.4")
     box(ax, 0.505, 0.045, 0.240, 0.345,
         "region and $\\rho$",
         "where the sign is\ndetermined, with the\n"
         "counts and a minimum\nresolved share\n\n"
-        "Definition 3, Table 7")
+        "Definition 3, Table 6")
     box(ax, 0.755, 0.045, 0.240, 0.345,
         "reporting standard",
         "the minimum form a\nclaim must carry, and\n"
-        "the package that\nemits it\n\nSection 9", fill="0.93")
+        "the package that\nemits it\n\nSection 4.8", fill="0.93")
 
     for x in (0.125, 0.375, 0.625):
         arrow(ax, (0.500, 0.430), (x, 0.390), rad=0.12)
