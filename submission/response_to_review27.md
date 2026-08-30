@@ -205,7 +205,7 @@ only calibration we have fitted would supply. **So we do not apply it.** A
 widening smaller than the measurement asks for would spend resolution and
 present the labels as corrected without earning the level, which is a worse
 position than reporting them nominal and saying by how much they are
-anti-conservative. Section 10 says so, and Supplement F derives the
+anti-conservative. Section 10 says so, and Supplement S9 derives the
 calibration in full so that the measurement retiring it is legible beside it.
 We do not claim to know *why* the shortfall exceeds it; that would need a
 counterfactual we have not run.
@@ -266,9 +266,7 @@ does not rest on the simultaneous band's resolved-threshold count. It stands
 unchanged.
 
 What the correction does move is the band claim itself, and it moves it a
-long way: the thresholds the whole-curve band resolves fall from 18 of 31 to
-8, and the surviving 8 are **not contiguous**. We report that rather than
-soften it. The honest reading is the one the paper has been making about
+long way. We report that rather than soften it. The honest reading is the one the paper has been making about
 everyone else's work and must now make about its own — a decision curve read
 across its range while priced pointwise has claimed something it did not pay
 for, and once it does pay for it, most of the range stops being sayable. The
@@ -484,7 +482,7 @@ management programme reading. **All eleven floats are protected too, and by
 your own earlier report** — the four-way partition table, the resolution-triple
 table, the MPID table and the overview figure were each moved into the body or
 written new to answer comment C3, which asked for six more floats in, not
-fewer. Eleven floats are 6.6 of the body's 53 pages and none of them is
+fewer. Eleven floats are 6.6 of the body's 57 pages and none of them is
 available. Reaching 38 body pages from here means removing about 43 per cent
 of everything not explicitly protected, from sections that have had material
 moved to the supplement in four consecutive rounds. At that density it stops

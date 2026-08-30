@@ -79,10 +79,12 @@ suite: 255 corruptions.
 
 The checker guards **numbers** thoroughly and **prose** only where a guard was
 written by hand. It cannot tell you that an interpretation is sound. The
-README says so in the same words. Eleven corrections are reported in the
-manuscript and **all eleven are claims about what a number means**; the
-checker would have caught none of them, and two of the three found in this
-round are sentences in which every individual literal was correct.
+README says so in the same words. The correction register in the archive
+carries twenty-eight corrections grouped by class, and **the largest class is
+sentences in which every printed number was correct and the relation asserted
+between them was not** --- which the generated-macro discipline cannot make
+impossible. It makes one sub-class of it structurally impossible; the rest
+is what the adversarial reading passes are for.
 
 ---
 
