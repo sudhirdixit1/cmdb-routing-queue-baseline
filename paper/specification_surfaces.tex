@@ -259,8 +259,9 @@ costs against the best, on a scale a decision can use --- is reported in full
 and is \emph{not} among the contributions above.
 Sections~\ref{sec:rules} and~\ref{sec:nbregret} report that the one-number
 rule's median excess regret is zero in every instrument, that the
-out-of-sample ordering reverses under rolling folds, and that the rules mostly
-tie in net benefit. It is carried as a \emph{robustness check} on the other
+out-of-sample ordering reverses under rolling folds, and that in net benefit
+the rules separate on most pairs with the excess falling on the conservative
+rule rather than on the one-number rule. It is carried as a \emph{robustness check} on the other
 two arguments (Section~\ref{sec:regretdef}): an object that reports a null is
 a check and not a result.
 
@@ -458,8 +459,10 @@ limit needs an assumption, and it is stated here rather than where it is
 used}: the case sequence is stationary and mixing, so that a temporal split
 does not separate two different populations and the moving-block bootstrap of
 Section~\ref{sec:boot} resamples a dependence structure that persists. An
-event log is not guaranteed to have that property and this paper does not test
-it; Section~\ref{sec:lim} carries it as a threat. The
+event log is not guaranteed to have that property. Stationarity is tested here
+and does not hold everywhere --- the increment differs across the test half on
+\nDrifts\ of \nDriftPairs\ pairs (Supplement~\ref{app:drift}) --- while
+mixing is not tested, and Section~\ref{sec:lim} carries both. The
 \emph{estimand at $s$} is
 \[
 \vartheta_s(f) \;=\; m_\theta\bigl(A_s(P, B \cup \{f_q\}),\, P\bigr)
@@ -758,8 +761,10 @@ coverage over $\mathcal{F}$ asymptotically, and over nothing larger.
 Within-cell bands, each covering five members, do not cover the several
 hundred cells that a surface-level label ranges over. Four interval objects are
 declared and every table says which it prints; \textsc{whole-surface} ---
-max-$t$ over \emph{every} admissible scalar cell of the pair --- is the only
-family a surface-level claim may use, and it has a median
+max-$t$ over \emph{every} scalar cell of the pair's inference family, a
+median \inferenceShareAdmissibleMedianPct\ of its admissible scalar cells
+(Section~\ref{sec:threesurfaces}) --- is the only family a surface-level
+claim may use, and it has a median
 \familySizeMedian\ members against the within-instrument family's five, at a
 median critical value of \maxTSurfaceMedian\ against that family's
 \maxTWithinMedian\ and the pointwise $1.96$.
@@ -950,9 +955,9 @@ label was earned over --- which is the smallest such share in the corpus.
 
 \noindent The two harmful labels are not decoration, and what this corpus
 does with them is a case of the minimum share doing its work.
-Table~\ref{tab:calbands}, whose region column is the label \emph{before} the
-minimum share is applied, carries \nCondHarmfulCal\ conditionally harmful and
-\nUniformlyHarmfulCal\ uniformly harmful surfaces out of \nPairs; that one
+Table~\ref{tab:triple}, which prints the label before and after the minimum
+share, carries \nCondHarmful\ conditionally harmful and
+\nUniformlyHarmful\ uniformly harmful surfaces out of \nPairs\ before it; that one
 conditionally harmful label rests on \nHelpdeskResolved\ resolved cells of
 \nHelpdeskFamily, so Definition~\ref{def:regions} withdraws it, and under the
 definition this paper reports the count of either kind is
@@ -1333,7 +1338,7 @@ Section~\ref{sec:lim} records.
 \label{sec:regions}
 
 
-Table~\ref{tab:calbands} and Figure~\ref{fig:regions} carry the region labels
+Table~\ref{tab:regions} and Figure~\ref{fig:regions} carry the region labels
 and the robustness index for every pair, computed on the inference surface
 under the whole-surface simultaneous band at the conservative end of the
 critical value's Monte Carlo interval. That family has a median
@@ -2296,7 +2301,7 @@ register-quality mechanisms cut a cumulative-count curve inside a group of
 tied identities, so \emph{which} identities a degradation removes rests on an
 order nothing pins. The affected quantity is the quality axis and not the
 increment at the reference cell, and repairing it moves every number on that
-axis --- which is why it is measured and recorded rather than corrected in a
+axis --- which is why it is recorded rather than corrected in a
 round that is not regenerating them. It is the second instance of one defect,
 which is why Supplement~\ref{app:standard}'s tie-break item is stated over every
 sort a procedure cuts on rather than over the place it was first found. The moving-block construction needs stationarity
@@ -2444,8 +2449,9 @@ sign-disagreement rate is withdrawn as a headline}
 (Section~\ref{sec:results-regret}): a sign disagreement is not a
 misstatement unless the sizes are worth acting on, and under the three
 restrictions this paper's own argument implies, they are not.
-What the conventional report does not say is that the cells it does not stand
-on lie a median \madResolvedMedian\ AUC away from the one it does, and that on
+What the conventional report does not say is that the cells the band
+\emph{resolves} lie a median \madResolvedMedian\ AUC away from the one it
+stands on, and that on
 \nRefUnresolvedCell\ of \nPairs\ pairs the data do not determine the sign of
 its own cell at all.
 

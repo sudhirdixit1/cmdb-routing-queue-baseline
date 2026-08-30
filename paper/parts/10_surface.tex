@@ -79,8 +79,10 @@ limit needs an assumption, and it is stated here rather than where it is
 used}: the case sequence is stationary and mixing, so that a temporal split
 does not separate two different populations and the moving-block bootstrap of
 Section~\ref{sec:boot} resamples a dependence structure that persists. An
-event log is not guaranteed to have that property and this paper does not test
-it; Section~\ref{sec:lim} carries it as a threat. The
+event log is not guaranteed to have that property. Stationarity is tested here
+and does not hold everywhere --- the increment differs across the test half on
+\nDrifts\ of \nDriftPairs\ pairs (Supplement~\ref{app:drift}) --- while
+mixing is not tested, and Section~\ref{sec:lim} carries both. The
 \emph{estimand at $s$} is
 \[
 \vartheta_s(f) \;=\; m_\theta\bigl(A_s(P, B \cup \{f_q\}),\, P\bigr)

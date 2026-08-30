@@ -301,10 +301,12 @@ therefore declared, and every table says which it prints: \textsc{pointwise},
 the per-cell interval, with no multiplicity control; \textsc{within-instrument},
 max-$t$ over the scalar instruments at one cell, reported only so that the
 cost of the wider family is visible; \textsc{whole-surface}, max-$t$ over
-\emph{every} admissible scalar cell of the pair, which is the only family a
-surface-level claim may use; and \textsc{decision-curve}, max-$t$ over every
-admissible net-benefit cell of the pair, declared separately because net
-benefit and a scalar instrument are not the same scale. The last two are the
+\emph{every} scalar cell of the pair's inference family --- a median
+\inferenceShareAdmissibleMedianPct\ of its admissible scalar cells --- which
+is the only family a surface-level claim may use; and
+\textsc{decision-curve}, max-$t$ over the pair's declared decision-curve
+family, \nDcaFamily\ cells on the case study's, declared separately because
+net benefit and a scalar instrument are not the same scale. The last two are the
 pre-registered families. The whole-surface family has a median
 \familySizeMedian\ members against the five of the within-instrument family,
 and its median critical value is \maxTSurfaceMedian\ against

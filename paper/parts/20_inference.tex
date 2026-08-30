@@ -197,8 +197,10 @@ coverage over $\mathcal{F}$ asymptotically, and over nothing larger.
 Within-cell bands, each covering five members, do not cover the several
 hundred cells that a surface-level label ranges over. Four interval objects are
 declared and every table says which it prints; \textsc{whole-surface} ---
-max-$t$ over \emph{every} admissible scalar cell of the pair --- is the only
-family a surface-level claim may use, and it has a median
+max-$t$ over \emph{every} scalar cell of the pair's inference family, a
+median \inferenceShareAdmissibleMedianPct\ of its admissible scalar cells
+(Section~\ref{sec:threesurfaces}) --- is the only family a surface-level
+claim may use, and it has a median
 \familySizeMedian\ members against the within-instrument family's five, at a
 median critical value of \maxTSurfaceMedian\ against that family's
 \maxTWithinMedian\ and the pointwise $1.96$.
@@ -389,9 +391,9 @@ label was earned over --- which is the smallest such share in the corpus.
 
 \noindent The two harmful labels are not decoration, and what this corpus
 does with them is a case of the minimum share doing its work.
-Table~\ref{tab:calbands}, whose region column is the label \emph{before} the
-minimum share is applied, carries \nCondHarmfulCal\ conditionally harmful and
-\nUniformlyHarmfulCal\ uniformly harmful surfaces out of \nPairs; that one
+Table~\ref{tab:triple}, which prints the label before and after the minimum
+share, carries \nCondHarmful\ conditionally harmful and
+\nUniformlyHarmful\ uniformly harmful surfaces out of \nPairs\ before it; that one
 conditionally harmful label rests on \nHelpdeskResolved\ resolved cells of
 \nHelpdeskFamily, so Definition~\ref{def:regions} withdraws it, and under the
 definition this paper reports the count of either kind is

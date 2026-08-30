@@ -35,9 +35,9 @@
     "sha": "090de732ce36c5e5"
   },
   "round20_tables.py": {
-    "at": "2026-08-29T08:44:08Z",
-    "note": "round 27: the per-instrument count is labelled as one; the rho=1 pair's survival of the widening is checked, not asserted",
-    "sha": "2deec89c358860e6"
+    "at": "2026-08-30T11:35:01Z",
+    "note": "round 27: the regions caption names what it prints; the calibrated block marks every column",
+    "sha": "0ce91de3d5920086"
   },
   "round21_numbers.py": {
     "at": "2026-08-30T11:32:01Z",
@@ -45,9 +45,9 @@
     "sha": "b97503ac310ff8c8"
   },
   "round21_tables.py": {
-    "at": "2026-08-29T08:42:37Z",
-    "note": "round 27: marked rows reconcile with withdrawn directions; zero counts read as English",
-    "sha": "d6b3a57ed5cc30f9"
+    "at": "2026-08-30T11:35:01Z",
+    "note": "round 27: the regions caption names what it prints; the calibrated block marks every column",
+    "sha": "f9157e430991bea1"
   },
   "round21_verify.py": {
     "at": "2026-08-29T08:57:13Z",

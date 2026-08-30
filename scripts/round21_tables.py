@@ -373,7 +373,7 @@ def write(mn):
                                 "cells_nominal": "cells (nominal)",
                                 "cells_cal": "cells (cal)",
                                 "rho_calibrated": "rho (cal)",
-                                "region_calibrated": "region"}),
+                                "region_calibrated": "region (cal)"}),
             encoding="utf-8")
     else:
         blank("calbands", "Regions under a calibrated critical value.",
