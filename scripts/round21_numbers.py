@@ -241,15 +241,30 @@ def emit(mn):
     #  never be beneficial at any critical value and every pair has one.  The
     #  informative reading of the region column is how the pairs that resolve
     #  anything divide, so those counts are macros now.
+    #  ROUND TWENTY-SEVEN.  These read the `_cal' columns, which since the
+    #  helper was repaired carry the COUNTERFACTUAL "had the widening been
+    #  applied" counts rather than the band the article reports.  The
+    #  paragraph they feed is the one Section 6.3 calls "the one to carry
+    #  away", and it printed 12 / 10 / 8 + 1 / 2 --- numbers off the retired
+    #  surface, in which eight and one make ten on the page.  The nominal
+    #  columns are the article's.
     G33 = _regions_as_calibrated(load)
     if G33 is not None and len(G33):
-        _any = G33[(G33.beneficial_cal + G33.harmful_cal) > 0]
+        _any = G33[(G33.beneficial + G33.harmful) > 0]
         put("nPairsResolvingAny", thousands(int(len(_any))))
         put("nPairsResolveBothSigns", thousands(int(
-            ((G33.beneficial_cal > 0) & (G33.harmful_cal > 0)).sum())))
+            ((G33.beneficial > 0) & (G33.harmful > 0)).sum())))
+        #  the two halves of the one-sign group, so the prose can print them
+        #  instead of reaching for the calibrated region counts
+        put("nPairsResolveBeneficialOnly", thousands(int(
+            ((G33.beneficial > 0) & (G33.harmful == 0)).sum())))
+        put("nPairsResolveHarmfulOnly", thousands(int(
+            ((G33.harmful > 0) & (G33.beneficial == 0)).sum())))
     else:
         put("nPairsResolvingAny", None)
         put("nPairsResolveBothSigns", None)
+        put("nPairsResolveBeneficialOnly", None)
+        put("nPairsResolveHarmfulOnly", None)
     #  ROUND TWENTY-TWO.  The layer paragraph said the coarse layers are
     #  "close to free" and that knowing a case concerns a laptop "is worth
     #  little".  On the case study's own log the type layer alone is worth
@@ -928,8 +943,8 @@ def emit(mn):
     #  in one direction, and was in neither group.
     G33b = _regions_as_calibrated(load)
     if G33b is not None and len(G33b):
-        _b = G33b.beneficial_cal > 0
-        _h = G33b.harmful_cal > 0
+        _b = G33b.beneficial > 0
+        _h = G33b.harmful > 0
         put("nPairsResolveOneSign", thousands(int((_b ^ _h).sum())))
     else:
         put("nPairsResolveOneSign", None)

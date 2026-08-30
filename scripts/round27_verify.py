@@ -1420,3 +1420,91 @@ def check(vn, M):
                 "band costs resolution, and it resolves %s against the "
                 "reported band's %s" % (M["nResolvedEmpBand"],
                                         M["nResolvedWhole"]))
+
+    # --- 23.  the one-sign split must add up, and be the reported band's ---
+    #
+    #  Section 6.3 calls this paragraph "the one to carry away", and it
+    #  printed 12 / 10 / 8 + 1 / 2 -- every number off the retired surface,
+    #  and eight plus one making ten on the page.  The split is re-derived
+    #  here from the reported regions, and required to be a partition: the
+    #  two one-sign halves must sum to the one-sign count, and that plus the
+    #  both-signs count must be the pairs that resolve anything.
+    if RG is not None and {"n_beneficial", "n_harmful"} <= set(RG.columns):
+        _b0, _h0 = RG.n_beneficial, RG.n_harmful
+        _true = {
+            "nPairsResolvingAny": int(((_b0 + _h0) > 0).sum()),
+            "nPairsResolveBothSigns": int(((_b0 > 0) & (_h0 > 0)).sum()),
+            "nPairsResolveBeneficialOnly": int(((_b0 > 0) & (_h0 == 0)).sum()),
+            "nPairsResolveHarmfulOnly": int(((_h0 > 0) & (_b0 == 0)).sum()),
+        }
+        _true["nPairsResolveOneSign"] = (_true["nPairsResolveBeneficialOnly"]
+                                         + _true["nPairsResolveHarmfulOnly"])
+        for _nm, _v in _true.items():
+            _g = _num(M.get(_nm))
+            if _g is not None and int(_g) != _v:
+                vn.FAILS.append(
+                    "round-27 condition: \\%s is %s and the reported band "
+                    "gives %d" % (_nm, M[_nm], _v))
+        #  the arithmetic the reader can do on the page
+        _one = _num(M.get("nPairsResolveOneSign"))
+        _bo = _num(M.get("nPairsResolveBeneficialOnly"))
+        _ho = _num(M.get("nPairsResolveHarmfulOnly"))
+        _both = _num(M.get("nPairsResolveBothSigns"))
+        _anyp = _num(M.get("nPairsResolvingAny"))
+        if None not in (_one, _bo, _ho) and _bo + _ho != _one:
+            vn.FAILS.append(
+                "round-27 condition: Section 6.3 prints %s beneficial and %s "
+                "harmful as the %s pairs resolving one sign, and those do not "
+                "add up" % (M["nPairsResolveBeneficialOnly"],
+                            M["nPairsResolveHarmfulOnly"],
+                            M["nPairsResolveOneSign"]))
+        if None not in (_one, _both, _anyp) and _one + _both != _anyp:
+            vn.FAILS.append(
+                "round-27 condition: %s one-sign plus %s both-signs is not "
+                "the %s pairs that resolve anything"
+                % (M["nPairsResolveOneSign"], M["nPairsResolveBothSigns"],
+                   M["nPairsResolvingAny"]))
+
+    # --- 24.  the decision curve's two directional claims ------------------
+    #
+    #  Section 8.3 said the lower end of the shortfall range returns the same
+    #  count (it returns two more) and that the all-cells factor removes a
+    #  further point (it is the SMALLER factor and returns the same count).
+    #  Two directional claims, false in opposite directions, neither of which
+    #  had a macro to check against.  Both are re-derived here.
+    SENS = _read(results, "s49_sensitivity.csv")
+    if SENS is not None and "scope" in SENS.columns:
+        _R = SENS[SENS.scope == "reference curve"]
+        def _nb(f):
+            r = _R[(_R.factor - f).abs() < 0.002]
+            return int(r.n_beneficial.iloc[0]) if len(r) else None
+        F49 = _read(results, "s49_facts.csv")
+        if F49 is not None and len(F49):
+            _flo = float(F49.factor_admissible_min.iloc[0])
+            _fap = float(F49.factor_applied.iloc[0])
+            _fall = float(F49.factor_all_cells.iloc[0])
+            _lo, _ap, _all = _nb(_flo), _nb(_fap), _nb(_fall)
+            _glo = _num(M.get("nBeneficialSimultaneousLowEnd"))
+            if _glo is not None and _lo is not None and int(_glo) != _lo:
+                vn.FAILS.append(
+                    "round-27 condition: \\nBeneficialSimultaneousLowEnd is "
+                    "%s and the lower end of the range resolves %d"
+                    % (M["nBeneficialSimultaneousLowEnd"], _lo))
+            #  the section says the end taken MOVES the count
+            if None not in (_lo, _ap) and _lo == _ap:
+                vn.FAILS.append(
+                    "round-27 condition: Section 8.3 says which end of the "
+                    "range is taken moves the count, and both ends give %d"
+                    % _ap)
+            #  and that the family kind does NOT move it
+            if None not in (_all, _ap) and _all != _ap:
+                vn.FAILS.append(
+                    "round-27 condition: Section 8.3 says the all-cells "
+                    "factor returns the same count, and it gives %d against "
+                    "%d" % (_all, _ap))
+            #  a smaller factor cannot resolve fewer cells
+            if _fall < _fap and None not in (_all, _ap) and _all < _ap:
+                vn.FAILS.append(
+                    "round-27 condition: the all-cells factor is smaller "
+                    "(%.2f < %.2f) and cannot remove a resolved point"
+                    % (_fall, _fap))

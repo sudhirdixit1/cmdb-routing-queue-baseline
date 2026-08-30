@@ -489,7 +489,7 @@ than counted by hand.
 | 5 | The registered benchmark design | 1,209 | 1,200–1,500 | ✓ |
 | 6 | Multi-log results | 4,292 | 2,000–2,500 | **over** |
 | 7 | Case study: a configuration management database | 1,941 | 1,500–2,000 | ✓ |
-| 8 | Decision-analytic evaluation | 1,061 | — | added |
+| 8 | Decision-analytic evaluation | 1,088 | — | added |
 | 9 | Simulation against a known answer | 1,945 | 1,000–1,500 | just over |
 | 10 | Threats to validity | 2,246 | 1,200–1,500 | **over** |
 | 11 | Conclusion | 730 | 400–600 | just over |

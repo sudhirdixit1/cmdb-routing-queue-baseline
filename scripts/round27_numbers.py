@@ -329,6 +329,25 @@ def emit(mn):
         for k in _cov:
             put(k, None)
 
+    #  THE DECISION CURVE AT THE OTHER END OF THE MEASURED RANGE.
+    #
+    #  Section 8.3 said the lower end of the shortfall range "returns the same
+    #  count, so which end is taken is not carrying the result".  It returns
+    #  two more.  The count was never a macro, so nothing could check the
+    #  sentence; it is one now.
+    _SENS = mn.RESULTS / "s49_sensitivity.csv"
+    if _SENS.exists():
+        _S = pd.read_csv(_SENS)
+        _S = _S[_S.scope == "reference curve"]
+        def _at(f):
+            r = _S[(_S.factor - f).abs() < 0.002]
+            return int(r.n_beneficial.iloc[0]) if len(r) else None
+        _lo = first(load("s49_facts.csv"), "factor_admissible_min")
+        _v = _at(float(_lo)) if _lo is not None else None
+        put("nBeneficialSimultaneousLowEnd", _v)
+    else:
+        put("nBeneficialSimultaneousLowEnd", None)
+
     #  THE TWO COMPARISON THRESHOLDS, as macros rather than words.  Section
     #  4.6 shows what moving the declared minimum resolved share would cost,
     #  and `texlint' forbids a spelled-out magnitude in prose for the same
