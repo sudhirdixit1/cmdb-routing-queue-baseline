@@ -82,6 +82,13 @@ RETIRED = [
      "status in one clause, rather than forwarding to a statement that "
      "forwarded back",
      27),
+    (re.compile(r"\bno widening is applied to either\b", re.I),
+     "the decision-curve families ARE widened by the measured shortfall "
+     "(Section 8.3 applies a factor of 2.61 and costs 13 of 31 operating "
+     "points); what is applied to neither family is the (n,K) CALIBRATION. "
+     "Two different widenings, and a sentence that conflates them "
+     "contradicts Section 8.3 inside the same PDF",
+     27),
     #  ROUND TWENTY-SIX'S TWO WITHDRAWALS ARE DELIBERATELY ABSENT.  "the
     #  sign-disagreement rate" is the NAME OF A QUANTITY the paper still
     #  computes and still prints in a table; what was withdrawn is its use as

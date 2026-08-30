@@ -121,6 +121,40 @@ allocation without taking a draw, and `--no-resume` forces a rebuild.
 `bash scripts/round20_chain.sh` waits for it and then runs everything
 downstream in dependency order, through the checks and the PDF.
 
+### The round-twenty-seven chain, which produces the surface the article reports
+
+**`s20_boot2.py` is no longer the surface the manuscript's bands come from.**
+Round twenty-seven replaced it with a *balanced full factorial* --- two
+learners, two splits, three register-quality conditions and three rungs,
+crossed, at four hundred draws on every pair --- resampled by **weights per
+moving block** rather than multinomially. Every band, region, robustness index
+and coverage figure in the article is computed on that surface
+(`results/s44_*`, `results/s48w_*`), and `s20_boot2.py`'s output is retained
+only as the comparison the article makes against it.
+
+```bash
+bash scripts/round27_chain.sh
+```
+
+runs it: the designed surface under both resampling schemes, the bands and
+their internal checks after each, the scheme comparison, the family-wise
+coverage, the decision-curve widening, and the estimator comparison. It is the
+long job now --- two schemes over nineteen pairs --- and like `s20_boot2.py` it
+is resumable per pair.
+
+`reproduce_all.py` invokes it as its own stage, between the analysis waves and
+the held-out test, so the default path rebuilds it:
+
+```bash
+python scripts/reproduce_all.py --only round27
+```
+
+**This was missing until round twenty-seven's last audit.** The wave list in
+`reproduce_all.py` ended at `s39`, so a reader who followed this file
+regenerated the *retired* surface and got numbers that do not match the paper.
+`scripts/check_sources.py` now fails any generator that reads a retired
+surface by name, and the stage above closes the other half.
+
 ### The other long job: `s31_simboost.py`
 
 `s31_simboost.py` is the simulation at the size a methods claim needs: a

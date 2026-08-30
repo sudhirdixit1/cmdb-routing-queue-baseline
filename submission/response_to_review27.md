@@ -226,8 +226,8 @@ directional label *harder* to earn, so the choice errs conservative.
 **Conceded; it was arithmetic and it is now applied** (`s49_dcaband.py`, 0.07 s, no refits).
 
 The report is right that this one had no excuse at all: Section 9.4 measures
-that the decision-curve families need a multiplicative widening of 1.90 to
-2.05, Section 8.3 printed counts from the uncorrected band, and Section 10
+that the decision-curve families need a multiplicative widening of 2.20 to
+2.61, Section 8.3 printed counts from the uncorrected band, and Section 10
 told the reader to distrust them. Widening an already-computed critical value
 costs matrix arithmetic and no refits.
 
@@ -239,18 +239,18 @@ statistic are estimated from the same draws and move together. The factor that
 attains the level is the within-replicate quantile of their ratio. So the
 choice is between simulation *regimes*, and this family is measured into one
 rather than assigned to it: 2 of its 248 cells are degenerate against a corpus
-maximum of 17.2%, and its excess kurtosis matches the heavy regime and not the
+maximum of 14.3%, and its excess kurtosis matches the heavy regime and not the
 degenerate one. We apply the heavy regime's factor at its conservative end,
-2.05, and print the degenerate regime's 2.09 beside every count.
+2.61, and print the all-cells regime's 2.58 beside every count.
 
 **What it costs.** The thresholds the whole-curve band resolves fall from 18
-of 31 to **8**, and the surviving 8 are **not contiguous** — a fact the
-results file records so that no generator can accidentally describe them as a
-range. Over the whole 248-cell family the beneficial count falls from 110 to
-36, and the single cell that resolved as *harmful* no longer resolves, so the
-correction removes a claim rather than adding one. The count is 8 at every
-candidate factor from 1.80 to 2.05 and 7 only at the top, so the choice of
-factor moves one point in thirty-one.
+of 31 to **5** — the operative critical value goes from 3.57 to 9.33 — and the
+surviving 5 are **not contiguous**, a fact the results file records so that no
+generator can accidentally describe them as a range. Over the whole 248-cell
+family the beneficial count falls from 110 to 7, and the single cell that
+resolved as *harmful* no longer resolves, so the correction removes a claim
+rather than adding one. Under the all-cells factor the count is 5 as well, so
+the choice between the two regimes does not move the headline.
 
 We state the consequence plainly: a decision curve read across its range while
 priced pointwise has claimed something it did not pay for, and once it pays,

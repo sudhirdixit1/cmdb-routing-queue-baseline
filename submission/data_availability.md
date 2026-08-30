@@ -93,16 +93,16 @@ the frame that selects them is machine-enumerable so a reader can rebuild it.
 
 | what | where |
 |---|---|
-| the enumeration | the OpenAlex API, `https://api.openalex.org`; every query is executed verbatim by `scripts/r40_audit.py` and its raw counts are in `results/r40_frame.csv` |
-| the sample | `results/r40_sample.csv` — 600 works, drawn with seed 20260819 from a deduplicated frame of 604 |
-| the screening log | `results/r40_screening.csv` — every paper, its outcome, and the reason if it was excluded |
-| the coding sheet | `results/r40_coding.csv` — every included paper, every code, with a verbatim quote and the PDF page it was found on |
-| the adjudication | `results/r40_adjudication.csv` — the thirty papers read by hand, and `data/audit/adjudication/*.txt`, the deterministic extract each was coded from |
+| the enumeration | the OpenAlex API, `https://api.openalex.org`; every query is executed verbatim by `scripts/s06_audit2.py`, and the PRISMA flow it produces is `results/s06_prisma.csv` |
+| the sample | `results/s06_sample.csv` — 600 works, drawn under the pre-registered design of `AUDIT-PROTOCOL-2.md` |
+| the coding sheet | `results/s06_coding.csv` — every sampled work with its codes |
+| the agreement | `results/s06_agreement.csv` — per-code agreement and $\kappa$ from the two-screen design, with `results/s06_two_screens.csv` behind it |
+| the adjudication | `results/s06_applicability.csv` and `results/s06_missing.csv`, with `data/audit/adjudication/*.txt`, the deterministic extract each was coded from |
 
-**Full texts are not redistributed.** `r40_audit.py --fetch` retrieves them
-from each work's own open-access location and caches them under
+**Full texts are not redistributed.** `scripts/s06_audit2.py --fetch`
+retrieves them from each work's own open-access location and caches them under
 `data/audit/fulltext/`, which is git-ignored. Everything needed to re-fetch
-them is in `results/r40_sample.csv`.
+them is in `results/s06_sample.csv`.
 
 ## The held-out logs (Supplement S1)
 

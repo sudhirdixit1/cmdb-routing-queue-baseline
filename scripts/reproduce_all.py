@@ -341,6 +341,34 @@ def stage_analysis(jobs):
     return True
 
 
+def stage_round27():
+    """The round-twenty-seven chain, which produces the surface the article
+    reports.
+
+    WHY THIS EXISTS.  `WAVES` above ends at `s39`, and the manuscript's bands,
+    regions, robustness indices and coverage all come from `s44`/`s48w` --- the
+    balanced designed surface under weighted resampling.  A reader who ran the
+    documented path therefore regenerated the RETIRED surface and got numbers
+    that do not match the paper, which for a manuscript whose central claim is
+    auditability is the worst possible defect to ship.
+
+    The chain is a shell script because it runs one long job per scheme and
+    checks the bands between them; it is invoked here rather than transcribed,
+    so there is one definition of the order.
+    """
+    hdr("ROUND TWENTY-SEVEN --- THE SURFACE THE ARTICLE REPORTS")
+    chain = ROOT / "scripts" / "round27_chain.sh"
+    if not chain.exists():
+        sys.exit("reproduce_all: scripts/round27_chain.sh is missing, and "
+                 "without it the surface the article reports is not rebuilt")
+    print("  bash scripts/round27_chain.sh   (long: two schemes x 19 pairs)")
+    r = subprocess.run(["bash", str(chain)], cwd=str(ROOT))
+    if r.returncode != 0:
+        sys.exit("reproduce_all: the round-27 chain failed; the article's "
+                 "surface has not been rebuilt")
+    return True
+
+
 def stage_holdout():
     """The prospective test, in the order PREDICTION.md registers.
 
@@ -437,7 +465,7 @@ def main():
     ap.add_argument("--skip-fetch", action="store_true")
     ap.add_argument("--skip-attack", action="store_true")
     ap.add_argument("--skip-pdf", action="store_true")
-    ap.add_argument("--only", choices=["fetch", "analysis", "figures",
+    ap.add_argument("--only", choices=["fetch", "analysis", "round27", "figures",
                                        "holdout", "package", "numbers",
                                        "verify", "attack", "pdf"])
     ap.add_argument("--jobs", type=int, default=4)
@@ -447,7 +475,8 @@ def main():
     if a.only:
         preflight() if a.only == "analysis" else None
         {"fetch": stage_fetch,
-         "analysis": lambda: stage_analysis(a.jobs), "figures": stage_figures,
+         "analysis": lambda: stage_analysis(a.jobs),
+         "round27": stage_round27, "figures": stage_figures,
          "holdout": stage_holdout, "package": stage_package,
          "numbers": stage_numbers,
          "verify": stage_verify, "attack": stage_attack, "pdf": stage_pdf}[a.only]()
@@ -456,6 +485,7 @@ def main():
             stage_fetch()
         preflight()
         stage_analysis(a.jobs)
+        stage_round27()
         stage_holdout()
         stage_package()
         stage_figures()
