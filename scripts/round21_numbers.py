@@ -32,17 +32,30 @@ _TAU = {"t0_first_touch_all": "$\\tau_0$ first touch, every call",
 
 
 def _regions_as_calibrated(load):
-    """The reported surface's regions, under the column names the calibrated
-    file used.
+    """The reported surface's regions AND the counterfactual widened ones,
+    side by side, in one frame.
 
-    ROUND TWENTY-SEVEN.  `s33_regions' is the previous surface's
-    coverage-calibrated labels.  The designed surface has no calibrated
-    companion --- the factor was fitted for pointwise coverage on the old
-    plane and the family-wise widening these families need is larger than it
-    supplies --- so the operative labels are the nominal ones.  They are
-    aliased here rather than renamed at every use, so the diff is one function
-    and not fifty call sites, and so that a reader who greps for `_cal' finds
-    this note.
+    **READ THIS BEFORE USING A COLUMN.**  The frame carries two label
+    systems and the names do not advertise which is which:
+
+      `region', `beneficial', `harmful', `rho'   THE ARTICLE'S LABELS.  The
+          reported band, no widening applied.  Every count the manuscript
+          prints outside the sensitivity ladder comes from these.
+
+      `region_calibrated', `beneficial_cal',     THE COUNTERFACTUAL.  What the
+      `harmful_cal', `rho_calibrated', `c'           labels WOULD be if the
+          (n,K) widening were applied, which it is not.  Legitimate in exactly
+          one place --- the sensitivity ladder of `app_calibration' --- and
+          wrong everywhere else.
+
+    THIS DISTINCTION HAS COST FIVE DEFECTS.  An earlier version of this
+    docstring said the function aliased the nominal columns UNDER the
+    calibrated names, and consumers written against that promise reached for
+    `_cal' expecting the article's labels.  One of them fed the paragraph
+    Section 6.3 calls "the one to carry away", which printed eight beneficial
+    and one harmful as ten pairs --- off the retired surface, and not adding
+    up on the page.  The aliases are gone; the names now mean what they say,
+    and a caller that wants the article's labels must ask for the plain ones.
     """
     G = load("s48w_regions.csv")
     if G is None or not len(G):
@@ -525,8 +538,12 @@ def emit(mn):
         put("calMin", num(float(G33.c.min()), 2))
         put("calMax", num(float(G33.c.max()), 2))
         put("qCalibratedMedian", num(float(G33.q_calibrated.median()), 2))
-        #  the region counts UNDER THE CALIBRATED BAND, which are the ones the
-        #  article quotes; the nominal ones keep round twenty's names
+        #  the region counts UNDER THE CALIBRATED BAND.  These are the
+        #  COUNTERFACTUAL --- what the labels would be if the widening were
+        #  applied, which it is not --- and the only place the article may
+        #  use them is the sensitivity ladder of `app_calibration'.  This
+        #  comment used to say they were "the ones the article quotes", and
+        #  a consumer that believed it printed eight and one as ten.
         vc = G33.region_calibrated.value_counts()
         for lab, nm in (("conditionally beneficial", "nCondBeneficialCal"),
                         ("conditionally harmful", "nCondHarmfulCal"),

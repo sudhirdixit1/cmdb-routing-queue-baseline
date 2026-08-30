@@ -97,6 +97,25 @@ $PY provenance.py --accept s47_schemes.py \
 $PY provenance.py --accept s41_bandcoverage.py \
   --note "Round twenty-seven: family-wise coverage with the non-zero-truth regime added, because under a zero truth every rejection is an error and coverage cannot tell a band that resolves correctly from one that never resolves." || true
 
+#  FOUR GENERATORS THAT FEED MACROS AND THAT NO RUNNER INVOKED.
+#
+#  `s42_round26' produces the resolved map behind `madResolvedMedian' -- THE
+#  ABSTRACT'S NUMBER -- and it consumes `s34_reporting''s output.  When s34
+#  was re-pointed at the reported surface, nothing re-ran s42, so every macro
+#  derived from it was fifteen minutes stale and the abstract printed 0.0510
+#  where the current pipeline gives 0.0556.  `s45', `s46' and `s51' were
+#  orphaned the same way: the prefix axis, the stationarity test the surface
+#  definition now cites, and the decomposition on the inference surface.
+#
+#  Order matters: s42 reads s34, which `reproduce_all.py` runs in its
+#  analysis waves before this chain.
+echo
+echo "== the generators the macro layer depends on =="
+$PY s45_prefix.py
+$PY s46_drift.py
+$PY s51_infanova.py --draws-dir s44_weighted
+$PY s42_round26.py
+
 #  THE ESTIMATOR COMPARISON, ON THE SURFACE THE ARTICLE ACTUALLY REPORTS.
 #  s40 read two fixed filenames, so when the inference surface moved it went
 #  on comparing the two critical-value estimates on the RETIRED one -- and the

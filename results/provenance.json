@@ -40,9 +40,9 @@
     "sha": "0ce91de3d5920086"
   },
   "round21_numbers.py": {
-    "at": "2026-08-30T11:32:01Z",
-    "note": "round 27: the one-sign split and the decision curve's two directional claims",
-    "sha": "b97503ac310ff8c8"
+    "at": "2026-08-30T11:43:18Z",
+    "note": "round 27: the fold-averaged statistics share one population; the calibrated columns are named for what they are",
+    "sha": "5e6112cb92058bf8"
   },
   "round21_tables.py": {
     "at": "2026-08-30T11:37:19Z",
@@ -279,9 +279,9 @@
     "sha": "0b152283cf6de473"
   },
   "s42_round26.py": {
-    "at": "2026-08-26T02:35:32Z",
-    "note": "round 26: adds the fully-restricted rate and the per-instrument resolved breakdown",
-    "sha": "6ff2df4c48219779"
+    "at": "2026-08-30T11:43:18Z",
+    "note": "round 27: the fold-averaged statistics share one population; the calibrated columns are named for what they are",
+    "sha": "9f7da3a05b11375e"
   },
   "s43_overview.py": {
     "at": "2026-08-30T11:37:19Z",

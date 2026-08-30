@@ -529,8 +529,15 @@ def main():
                                         "share_mixed"]].max(axis=1)).sum()),
         partition_max_error=float(np.abs(P.check_sum - 1.0).max()),
         foldavg_interaction_median=float(ff.interaction_total.median()),
+        #  ROUND TWENTY-SEVEN.  This alone among the fold-averaged
+        #  statistics pooled BOTH split sets; `foldavg_interaction_median'
+        #  and `var_ratio_median' beside it are computed on `Fa', the `all'
+        #  set, and the manuscript quotes all three in one sentence as
+        #  properties of the same surface.  Pooling moved it from 38.9 to
+        #  38.8 per cent --- a tenth of a point, and a different population
+        #  from its own neighbours.
         foldavg_largest_first_median=float(
-            F.groupby(["log", "target"]).largest_first_order.median()
+            Fa.groupby(["log", "target"]).largest_first_order.median()
             .median()),
         var_ratio_median=float(ff.var_ratio.median()),
         spread_all_median=float(R.spread_all.median()),
