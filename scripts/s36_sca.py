@@ -403,6 +403,14 @@ def _verdicts(D, CU, t0, n_perms, n_cells):
     sub_one_sign = ~VD.sub_surface_sign_varies if len(VD) else None
     full_both = (VD.region_full_surface.isin(
         ["sign-changing", "conditionally harmful"]) if len(VD) else None)
+    #  ROUND TWENTY-EIGHT: the pair(s) and label(s) behind that count are
+    #  written out, so the article can name them instead of a disjunction
+    _ssd = VD[sub_one_sign & full_both] if len(VD) else VD
+    _ssd_pairs = "; ".join("%s/%s (%s)" % (r.log, r.target,
+                                           r.region_full_surface)
+                           for r in _ssd.itertuples()) if len(_ssd) else ""
+    _ssd_regions = "; ".join(sorted(set(_ssd.region_full_surface))) \
+        if len(_ssd) else ""
     facts = dict(
         n_pairs=len(VD), n_perms=n_perms, n_cells=n_cells,
         n_max_cases=N_MAX_CASES,
@@ -416,6 +424,8 @@ def _verdicts(D, CU, t0, n_perms, n_cells):
         if len(VD) else 0,
         n_sub_surface_disagree=int((sub_one_sign & full_both).sum())
         if len(VD) else 0,
+        sub_surface_disagree_pairs=_ssd_pairs,
+        sub_surface_disagree_regions=_ssd_regions,
         p_median_min=float(VD.p_median.min()) if len(VD) else np.nan,
         p_median_max=float(VD.p_median.max()) if len(VD) else np.nan,
         runtime_s=round(time.time() - t0, 1))

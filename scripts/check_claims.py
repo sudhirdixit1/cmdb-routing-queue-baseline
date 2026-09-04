@@ -49,7 +49,8 @@ PARTS = ROOT / "paper" / "parts"
 #: submission/ is correspondence about a previous one and is left alone.
 CURRENT = (
     "cover_letter.md",
-    "response_to_review27.md",
+    "summary_of_changes.md",
+    "response_to_review28.md",
     "README.md",
     "OWNER-ACTIONS.md",
     "data_availability.md",
@@ -89,6 +90,34 @@ RETIRED = [
      "Two different widenings, and a sentence that conflates them "
      "contradicts Section 8.3 inside the same PDF",
      27),
+    #  ROUND TWENTY-EIGHT.  The operative critical value is the empirical
+    #  quantile, measured at its level on the family matched to the design;
+    #  the sentences that described the reported band as a diagnostic that
+    #  does not attain its level are retired as statements about the
+    #  CURRENT version.  The multiplier still undercovers, and saying so is
+    #  not a hit: these patterns name the labels or the reported band.
+    (re.compile(r"\b(?:reported|treated|read) as descriptive diagnostics?"
+                r"(?: and not (?:as )?guarantees?)?\b", re.I),
+     "the region labels and rho rest on a critical value measured at its "
+     "nominal level on the family matched to this design (the empirical "
+     "quantile); the multiplier approximation is printed beside it",
+     28),
+    (re.compile(r"\b(?:every|each) (?:band, )?region label and (?:every )?"
+                r"\$?\\?rho\$?[^.]{0,40}\bis (?:therefore )?(?:an? )?"
+                r"(?:anti-conservative|descriptive diagnostic)", re.I),
+     "the labels rest on the empirical critical value, which attains its "
+     "level on the matched family",
+     28),
+    (re.compile(r"\bno (?:construction|estimator) here attains its level\b",
+                re.I),
+     "the empirical quantile attains its level on the matched family and "
+     "is the operative critical value",
+     28),
+    (re.compile(r"\b84\.3\s?(?:%|per cent|percent)\b"),
+     "84.3% was a median over six synthetic families matched to the "
+     "previous surface; the matched non-zero-truth coverage is "
+     "\\covMultNonzeroWholeAtDesign / \\covEmpNonzeroWholeAtDesign",
+     28),
     #  ROUND TWENTY-SIX'S TWO WITHDRAWALS ARE DELIBERATELY ABSENT.  "the
     #  sign-disagreement rate" is the NAME OF A QUANTITY the paper still
     #  computes and still prints in a table; what was withdrawn is its use as

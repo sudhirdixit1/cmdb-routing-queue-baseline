@@ -9,11 +9,22 @@ how to work; three rules round twenty-seven added are in §0 below.
 
 ---
 
-## STATUS AT A GLANCE — not started
+## STATUS AT A GLANCE — updated 2026-09-04, 00:30
 
 | phase | state |
 |---|---|
-| 1 · coverage grid re-matched to the balanced design (`s41`) | not started |
+| 1 · coverage grid re-matched to the balanced design (`s41`) | **done** — two runs; the second calibrated to the corpus's estimator ratio; empirical quantile adopted by the rule (§10 record) |
+| 2 · operative critical value → empirical quantile, every band-dependent number regenerated | **done** — `s21 --operative emp`, `s49` on the admissible family, chain re-run, 168 macros / 41 conditions / 0 failures |
+| 3 · the rewrite: §4.3, §6.3, §8.3, §9.4, §10, contribution 2, abstract, highlights | **done**, and audited against the built PDF (§8.2) |
+| 4 · revision narrative out of the article; voice | **done** — texlint check 16 widened; §6 bold lead-ins 36 → 10 |
+| 5 · length | **done, short of target** — 63 → 61 pp; body 21,400 → 19,900 words with ~600 added; next cuts and costs in `submission/summary_of_changes.md` §4 |
+| 6 · the package: cover letter, uploads, AI declaration | **done** |
+| 7 · ten small items (R28.6) | **done** (item 9 is the owner's DOI) |
+| 8 · gates, red-team of every rewrite, build | **done** — all gates clean except the DOI placeholder `final_search` reports; attack suite 11 of 11 caught after two cases were re-pointed and one independent re-derivation added (§10) |
+| 9 · owner items (DOI, image digest, e-mails, address, push/tag) | owner — `python scripts/finalise.py` |
+
+---|---|
+| 1 · coverage grid re-matched to the balanced design (`s41`) | **done** — two runs; the second calibrated to the corpus's estimator ratio; empirical quantile adopted by the rule |
 | 2 · operative critical value → empirical quantile, every band-dependent number regenerated | not started — waits on 1 |
 | 3 · the rewrite: §4.3, §6.3, §8.3, §9.4, §10, contribution 2, abstract, highlights | not started — waits on 2 |
 | 4 · revision narrative out of the article; voice | not started |
@@ -101,6 +112,25 @@ the matched 91.6%.
   - The decision-curve families are decided separately by the same rule on
     the (1,100, 400) cell, on the *admissible* family (degenerate cells
     excluded, §2.3).
+- [x] **1.4a Amendment, 2026-09-03 22:40, written before the second run.**
+  The first re-matched run (calibration at 180 × 400, kurtosis targets
+  only) gave multiplier 94.5% and empirical 94.5% under `heavy` on the
+  surface family — both at level — and its synthetic family had
+  $q_{\mathrm{emp}}/q \approx 1.0$, where the corpus's own families have a
+  median 1.50 (surface) and 2.24 (admissible curve cells). The kurtosis
+  match had chosen a contamination share of 2% against round 27's 5%, and a
+  95% quantile of 400 maxima sees a 2% contamination and not a 5% one, so
+  the verdict was riding on a grid choice the corpus does not constrain.
+  **A synthetic family counts as matched only if it reproduces the corpus's
+  observable ratio $q_{\mathrm{emp}}/q$** (within the corpus's interquartile
+  range) as well as its kurtosis; the calibration gains that target and a
+  finer contamination grid, and the run is repeated. Decision rule, extended
+  for the case the first run raised: if both estimators pass the level test
+  on the matched family, the multiplier stays operative (the narrower band,
+  at level) and the empirical is printed; if the empirical passes and the
+  multiplier fails, the empirical is adopted; if neither passes, both are
+  printed and neither is described as attaining its level. The first run's
+  coverage table is kept as `results/s41_r28a_coverage.csv` for the record.
 - [ ] **1.5 Both framings, written now.**
   - *Adopted:* "The critical value this paper reports is the empirical
     $(1-\alpha)$ quantile of the observed bootstrap maxima — the Romano–Wolf
@@ -375,6 +405,99 @@ be submitted with "DOI reserved" in reference [11].
 
 *(newest first after the baseline; per phase: what ran, what it found, what
 changed in the paper, what it cost; numbers checked against result files.)*
+
+### 2026-09-04, 00:30 — Phases 2 to 8 executed on the second run's decision
+
+`s21_bands.py --operative emp` on `s44_weighted` and `s44_multinomial`;
+`check_bands` (eight conditions) clean on `s48w`; `s40`, `s33 --reuse`, `s34`,
+`s36 --reuse`, `s42`, `s49` (now computing the empirical quantile on the
+admissible curve family: 6.64 [5.73, 9.08] over 246 cells, 2 degenerate
+excluded, against the multiplier's 3.57 and the retired widening's 9.33),
+`s28`; provenance accepted for each. Six provenance entries were stale or
+never accepted before this round (`s22`, `s25`, `s35`, `s44`, `s47`, `s50`);
+each was checked against its output's timestamp, and `s35` re-run. Macros
+regenerated: 1,415; `texlint` 0 failures; `verify_numbers` 168 macros, 41
+conditions (three new round-28 ones), 0 failures after three stale round-27
+conditions whose sentences left the article were retired and the operative
+critical value's re-derivation was pointed at `q_op`. Build: article 61 pp,
+supplement 110 pp, 0 errors, 0 undefined references. Package gates clean;
+`final_search` fails only on the DOI placeholder, as it must. The attack
+suite reported two cases MISSED because both corrupted files nothing reads
+(`s21_regions`, `s04_rules`); re-pointed at `s48w_regions` and
+`s34_misreport`, the region case is caught; the rate case needed more, because the
+suite regenerates the macros in its copy before verifying, so a corrupted
+summary file reproduces itself --- `round21_verify` now re-derives the
+all-cells rate from the master surface on every pair (it matches the summary
+to 1e-16), and the suite reports 11 of 11 caught.
+
+**Claims-at-risk register, resolved** (multiplier → empirical): resolved
+cells 890 → 698; median ρ 0.039 → 0.000; pairs resolving nothing 2 → 8;
+resolving anything 17 → 11 (one sign 12 → 9 = 7 + 2; both 5 → 2);
+directions withdrawn 5 of 12 → 3 of 9; median resolved per pair 19 → 2;
+`madResolvedMedian` 0.0556 → 0.0600 (abstract, highlights);
+`misreportPooledResolvedPct` 16.4% → 13.0%; fully restricted cells 38 → 31,
+0 disagreeing under both; reference cell unresolved on 14 of 19 (unchanged);
+uniformly beneficial 1 → 1, same pair; §6.5 verdicts part company 9 of 19
+(unchanged), sub-surface disagreement 1 pair (BPIC19/duration); §8.3 resolved
+operating points 18 → 8 (pointwise 24); conditionally harmful before the
+minimum share 1 → 2, both withdrawn (0 after). Decomposition, decision-time
+ladder, layer ladder, cohort × target, planned contrasts and calibration
+screen: unchanged, verified.
+
+**The audit pass** (§8.2) read the built §4.3, §6.3, §8.3, §9.4, §10 and §11
+against the files: no number or directional word out of step; two sentences
+had been falsified by the new counts before the audit and were caught by the
+verifier and by the read (the "one conditionally harmful label" sentence of
+§4.6 and S9.4; the master caption's "which is the larger number"), and are
+fixed.
+
+### 2026-09-03, 23:55 — the second run decides it: the empirical quantile is operative
+
+Runtime 2,679 s. Calibration with the ratio target: surface family
+eps = 0.050, lam = 3.0, fitted ratio **1.25** against the corpus's 1.50
+[IQR 1.24, 1.67] — inside, at the edge; curve family eps = 0.050, lam = 4.0,
+fitted ratio **1.49** against 2.24 [2.07, 2.55] — **outside**, so the curve
+family's numbers carry a transfer caveat. On the matched surface family
+(180 × 400): empirical **94.7%** (SE 0.50) under the corpus's tails and
+**94.6%** under a non-zero truth; multiplier **91.5%** and **92.6%**;
+Gaussian draws 93.7% and 94.3% (the multiplier is the better estimator where
+it is derived to be). Rule §1.4: the empirical passes both tests
+(thresholds 94.0% and 94.0%), the multiplier fails both → **adopt the
+empirical quantile**. Ladder (heavy): multiplier 80.6 / 88.1 / 90.9 / 91.5 /
+91.2 at 33 / 80 / 150 / 400 / 1,000 draws — plateaus; empirical 77.8 / 90.8
+/ 93.8 / 94.7 / 94.4. Curve families: modal (1,100 × 400) empirical 93.8%
+(tails) and 94.3% (non-zero), multiplier 91.3% and 92.1%; case study
+(248 × 200) empirical 93.6% and 93.3%, multiplier 91.2% and 90.3%. The
+empirical fails the heavy test on the modal curve family by 0.2 points; it
+is operative there for consistency and because it is the better of the two,
+and the article says it is about a point short on a family whose estimator
+ratio under-reproduces the corpus's. Every number above is read from
+`results/s41_coverage.csv` and `results/s41_calibration.csv`.
+
+### 2026-09-03, 22:40 — the first re-matched run, and why it is not the one the paper will quote
+
+`s41_bandcoverage.py` re-run with the grid matched to the balanced design
+(180 × 400 surface; 1,100 × 400 and 248 × 200 curve families; four regimes;
+tails calibrated at 180 × 400 instead of 180 × 80). Runtime 2,446 s. On the
+surface family under the corpus's tails: multiplier **94.5%** (SE 0.5),
+empirical **94.5%**; under a non-zero truth 94.7% and 94.0%; Gaussian 94.3%
+and 93.7%. So the round-27 figure of 91.6% for the multiplier — the paper's
+"sharpest limitation", five standard errors short — does not survive
+re-matching the calibration to the draw count the corpus runs. **That
+flatters the paper, so it was examined rather than adopted**, and it does
+not hold up either: in that synthetic family the two estimators coincide
+($q_{\mathrm{emp}}/q \approx 1.0$; mean band widths 7.15 against 7.16) where
+the corpus's own families disagree by a median 1.50 (surface) and 2.24
+(admissible curve cells). The kurtosis fit had chosen a contamination share
+of 2% against round 27's 5%, and a 95% quantile of 400 maxima sees a 5%
+contamination and not a 2% one — so both the round-27 verdict (undercovers)
+and the first round-28 verdict (covers) were decided by a grid choice of the
+tail model that the corpus's kurtosis does not constrain. The corpus does
+constrain the ratio, directly. The calibration now targets it alongside the
+kurtosis (§1.4a), the contamination grid is finer, and the run is repeated.
+The first run's files are kept as `results/s41_r28a_*`. Whatever the second
+run says, the manuscript must state that its matched families reproduce the
+corpus's estimator ratio, or say by how much they miss it.
 
 ### 2026-09-03 — baseline
 

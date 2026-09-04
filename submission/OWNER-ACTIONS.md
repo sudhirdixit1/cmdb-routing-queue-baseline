@@ -180,24 +180,20 @@ not as part of the PDF.
 | Highlights | `submission/upload/Highlights.txt` --- **this file, not `highlights.txt`**, which opens with build commentary (§4.1) |
 | Cover letter | `submission/cover_letter.md` |
 | Supplementary material | `build/journal/supplement.pdf` |
-| **Response to the current report** | **`submission/response_to_review27.md`** |
+| **Summary of changes since the referee report** | **`submission/summary_of_changes.md`** |
 | Declaration of interests | `submission/declaration_of_interests.md` |
 | CRediT | `submission/credit_statement.md` |
 | Data availability | `submission/data_availability.md` |
 | Suggested reviewers | `submission/suggested_reviewers.md` |
-| Response to the original referee report | `submission/response_to_referee.md` |
-| Response to the first developmental review | `submission/response_to_blueprint.md` |
-| Response to the second developmental review | `submission/response_to_review21.md` |
-| Response to the third developmental review | `submission/response_to_review23.md` |
-| Response to the fourth developmental review | `submission/response_to_review26.md` |
+| Response to the journal's referee report | `submission/response_to_referee.md` |
 
-**The letter answering the report this version responds to is
-`response_to_review27.md`, and it was missing from this table for a round.**
-The list had stopped at review 21 while three further letters were written, so
-an upload following it would have shipped the manuscript without the document
-that answers the current report. All six are listed above; upload the
-round-27 letter as the response and the rest as prior correspondence if the
-system takes them.
+**Upload nothing else as correspondence.** The other `response_to_*.md`
+letters answer internal, machine-assisted reviews (see `AI-USE.md` and the
+manuscript's generative-AI declaration); they stay in the archive, where the
+cover letter and `README.md` say what they are. An editor who receives six
+response letters to reviews the journal never commissioned will ask who the
+reviewers were, and the honest answer has to be in the cover letter before
+the question is asked.
 
 ### 1.5 Corresponding-author details the submission system asks for
 
@@ -308,7 +304,7 @@ in `scripts/` would run on it unchanged.
 ## 3. What is already done, so you do not redo it
 
 - The manuscript is assembled, compiles, and passes `texlint.py` with zero
-  failures: abstract within the limit, seven keywords, five highlights each
+  failures: abstract within the limit, six keywords, five highlights each
   within 85 characters and each with a machine-derived length, all five
   required statements present, no `Appendix Appendix`, and **no numeric
   literal anywhere in the prose**.

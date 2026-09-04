@@ -85,8 +85,13 @@ def main(argv=None):
             #  maxima's order-statistic interval admits
             below=bool(float(q.q) < float(q.q_emp_lo)),
             ratio=float(q.q_emp) / float(q.q) if float(q.q) else np.nan,
-            resolved_mult=int(((s.cons_lo > 0) | (s.cons_hi < 0)).sum()),
-            resolved_emp=int(((s.emp_lo > 0) | (s.emp_hi < 0)).sum())))
+            #  ROUND TWENTY-EIGHT: named by estimator, not by which one is
+            #  operative -- `cons_*' is whichever s21 was run with
+            resolved_mult=int((((s.mult_lo if "mult_lo" in s else s.cons_lo) > 0)
+                               | ((s.mult_hi if "mult_hi" in s else s.cons_hi)
+                                  < 0)).sum()),
+            resolved_emp=int(((s.emp_lo > 0) | (s.emp_hi < 0)).sum()),
+            resolved_operative=int(((s.cons_lo > 0) | (s.cons_hi < 0)).sum())))
     D = pd.DataFrame(rows)
     D.to_csv(RESULTS / "s40_qcheck.csv", index=False)
 

@@ -51,12 +51,9 @@ quantity a reader cares about, and no resampling scheme repairs that.
 A construction that works at one sample size, one register cardinality and one
 block length has been validated at a point, not in a regime. Sample size and
 register cardinality are therefore varied \emph{jointly}, up to $K = \simKMax$
-levels --- the cardinality the case study's log carries on the
-\emph{registered} cohort of Section~\ref{sec:design}, which is the cohort the
-corpus admits it under; the estate's own cohort in Section~\ref{sec:cmdb}
-carries a different one at each of its three decision times
-(Table~\ref{tab:tau}) --- and the block length is varied around its rule of
-thumb.
+levels --- the case study's cardinality on the registered cohort of
+Section~\ref{sec:design} --- and the block length is varied around its rule
+of thumb.
 
 \textbf{The ratio $K/n$ captures most of the dependence, and not all of it.}
 Across the plane the basic interval covers a median \coverageGridMedian\ and
@@ -74,144 +71,137 @@ Supplement~\ref{app:calibration} derives a calibration against the plane in
 full, and Section~\ref{sec:simband} reports the measurement that keeps it
 from being applied.
 
-\textbf{Where the interval stops containing its own estimate.} The denser
-plane the calibration of Supplement~\ref{app:calibration} is fitted on ---
-a different and larger object from the \nSimGridCells-cell grid above, at
-\planeNtrainLo\ to \planeNtrainHi\ training rows --- locates the crossing
-Section~\ref{sec:boot} describes. At a fixed ratio
-of \straddleRatio\ the basic interval straddles its own point estimate in
-every replicate up to \nStraddleAllMax\ training rows and in only
+\textbf{Where the interval stops containing its own estimate.} On the denser
+plane Supplement~\ref{app:calibration} is fitted on, at a fixed ratio of
+\straddleRatio\ the basic interval straddles its own point estimate in every
+replicate up to \nStraddleAllMax\ training rows and in only
 \shareStraddleAtHalfPct\ of them by \nStraddleHalfMin, because the bootstrap
 displacement is a bias that does not shrink with $n$ while the half-width
-does. Past that crossing the inflation factor is not defined --- it is a
-widening about the estimate, and there is nothing to widen about --- and
-\nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\ cells have none
-for that reason, every one of them at \nStraddleHalfMin\ rows or more.
-Section~\ref{sec:regions} reports what that leaves the corpus, and
-Supplement~\ref{app:calibration} describes that plane's design.
-
-\textbf{Block length.} \nSimBlockLengths\ lengths are examined --- half the
-rule $\lceil n^{1/3} \rceil$, the rule, and twice it. Coverage moves with the
-length, spanning \coverageBlockSpreadMax\ within a world, of the order of two
-standard errors; but the comparison the paper rests on is unchanged at every
-length, the basic interval beating the percentile interval on the sparse
-register by at least \blockSparseGapMin\ at all \nSimBlockLengths.
+does; past that crossing a widening about the estimate is undefined, which
+is the case on \nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\
+cells, all at \nStraddleHalfMin\ rows or more. \textbf{Block length.} Of the
+\nSimBlockLengths\ lengths examined --- half the rule
+$\lceil n^{1/3} \rceil$, the rule, and twice it --- coverage moves by up to
+\coverageBlockSpreadMax\ within a world, and the basic interval beats the
+percentile interval on the sparse register by at least \blockSparseGapMin\ at
+every one.
 
 \subsection{The band's family-wise coverage}
 \label{sec:simband}
 
 Everything above validates a \emph{pointwise} interval. Two of this paper's
-three reporting objects are functions of a \emph{simultaneous} band, and until
-this section nothing measured what that band covers.
+three reporting objects are functions of a \emph{simultaneous} band, and this
+section measures what the band's critical value covers.
 
-\textbf{The design, and why its answer is an upper bound.} The truth is zero
-at every cell of a synthetic family. One draw from the sampling distribution
-gives the point estimate, and as many further draws \emph{from that same
-distribution} as the corpus family it is matched to carries give the
-bootstrap --- so the bootstrap is not an approximation of the sampling
-distribution but is it. Every way a
-resampling scheme can be wrong --- dependence it fails to reproduce, a refit
-that comes apart, a block length misjudged --- is switched off, and what is
-left is the object under test: a standard error and a critical value both
-estimated from the same handful of draws. A coverage measured here is
-therefore the most the real procedure can attain, and a shortfall here is one
-that no improvement to the resampling repairs. The families are matched to
-this corpus in size, draw count, cross-cell correlation, effective rank and
-per-cell excess kurtosis; the matching is fitted by grid search against the
-corpus's own draw files and reported beside its target rather than asserted.
-Coverage is over \nBandCoverageReps\ replicates in each of
-\nBandCoverageCells\ cells, so no coverage here is determined worse than
-\bandCoverageSEMax.
+\textbf{The design, and why its answer is an upper bound.} One draw from the
+sampling distribution of a synthetic family gives the point estimate, and as
+many further draws \emph{from that same distribution} as the corpus family it
+is matched to carries give the bootstrap --- so the bootstrap is not an
+approximation of the sampling distribution but is it. Every way a resampling
+scheme can be wrong --- dependence it fails to reproduce, a refit that comes
+apart, a block length misjudged --- is switched off, and what is left is the
+object under test: a standard error and a critical value both estimated from
+the same handful of draws. A coverage measured here is therefore the most the
+real procedure can attain, and a shortfall here is one that no improvement
+to the resampling repairs. The families are the ones the corpus runs ---
+every pair's surface family of \nCellsPerPairMedian\ cells at
+\nDrawsSurface\ draws, the modal decision-curve family of
+\nDcaFamilyModal\ cells at the same count, and the case study's own curve
+family of \nDcaFamily\ cells at \nDcaDraws\ (Table~\ref{tab:bandcov}) ---
+matched in cross-cell correlation, effective rank, per-cell excess kurtosis
+and --- the statistic the verdict turns on --- the ratio of the empirical
+quantile to the multiplier on the corpus's own families, by grid search
+against the corpus's draw files. The surface family reproduces that ratio at
+\ratioSynthWhole\ against the corpus's median \ratioCorpusWhole\ (interquartile
+range \ratioCorpusWholeQone\ to \ratioCorpusWholeQthree), inside the range;
+the curve family reaches \ratioSynthDca\ against \ratioCorpusDca, outside it,
+so its numbers below transfer less well and are read with that stated. Four regimes
+are run: Gaussian draws, the case the multiplier is derived for; draws
+carrying this corpus's tails, whose median cell has an excess kurtosis of
+\corpusKurtMedWhole\ on the surface families and \corpusKurtNinetyWhole\ at
+the ninetieth percentile; the same with the degenerate cells described
+below; and a fixed heterogeneous \emph{non-zero} truth, under which a cell
+can be resolved correctly and family-wise coverage is the quantity a region
+label actually depends on. Coverage is over \nBandCoverageReps\ replicates
+in each of \nBandCoverageCells\ grid cells, so no coverage here is
+determined worse than \bandCoverageSEMax.
 
-\textbf{Three regimes, because ``the draws are heavy-tailed'' turned out to
-name two different things.} Under \emph{Gaussian} draws the multiplier's
-family-wise coverage is a median \covMultGaussMedian\ and a minimum
-\covMultGaussMin. Under draws carrying this corpus's tails, whose median
-cell has an excess kurtosis of \corpusKurtMedWhole\ on the surface families
-and whose ninetieth percentile is \corpusKurtNinetyWhole, the family
-matched to the reported design covers \covHeavyWholeAtDesign\ and the
-\nBandCovWholeCells\ surface families run \covHeavyWholeMin\ to
-\covHeavyWholeMax\ as the cell count and the draw count move around it;
-the decision-curve families cover a median \covHeavyDcaMedian\ and a
-minimum \covHeavyDcaMin, and are reported apart from the surface ones
-throughout, because the widening each needs is different. Under the third
-regime, which adds the degenerate cells described below, they are
-\covMultDegenMedian\ and \covMultDegenMin.
+\textbf{The empirical quantile attains its level on the matched family; the
+multiplier does not, and no draw budget makes it.} On every pair's surface
+family, under this corpus's tails, the empirical quantile of the observed
+maxima covers \covEmpHeavyWholeAtDesign\ against a nominal $95\%$, at a
+Monte Carlo standard error of \covEmpHeavyWholeAtDesignSE, and
+\covEmpNonzeroWholeAtDesign\ under the non-zero truth; the order-statistic
+upper end of the same quantile covers \covEmpHiHeavyWholeAtDesign. The
+Gaussian multiplier covers \covMultHeavyWholeAtDesign\ and
+\covMultNonzeroWholeAtDesign\ on the same families --- four to six standard
+errors short --- against \covMultGaussWholeAtDesign\ under the Gaussian draws
+it is derived for, where the empirical quantile covers
+\covEmpGaussWholeAtDesign: the two change places where the draws are
+Gaussian, which is what the theory says and what the corpus's draws are not;
+the upper end of the multiplier's Monte Carlo interval
+moves that by less than a point, because it controls the error in
+estimating $q$ and not the error in what $q$ estimates, and a Rademacher
+wild multiplier, which keeps the observed draws' magnitudes, covers
+\covRadHeavyWholeAtDesign. Along a ladder of draw counts at the surface
+family the multiplier rises steeply out of the smallest budgets and then
+\emph{plateaus}: \covMultBootThirtyThree\ at \nBootThirtyThree\ draws,
+\covMultBootOneFifty\ at \nBootOneFifty, \covMultBootFourHundred\ at
+\nBootFourHundred\ and \covMultBootOneThousand\ at \nBootOneThousand. The
+empirical quantile behaves differently along the same ladder ---
+\covEmpBootThirtyThree, \covEmpBootOneFifty, \covEmpBootFourHundred\ and
+\covEmpBootOneThousand\ --- because an order statistic of \nBootThirtyThree\
+maxima is badly determined and one of \nDrawsSurface\ is not, which is why
+the construction the paper reports is available at this corpus's draw count
+and would not have been at a third of it. The per-cell interval underneath
+moves \covPercellBootThirtyThree\ to \covPercellBootOneThousand\ over the
+same range, so part of what any band loses it loses before a critical value
+is chosen. What the level costs is width: the empirical band is
+\widthEmpOverMultAtDesign\ times as wide as the multiplier's, and
+Section~\ref{sec:regions} prints what each resolves.
 
-\textbf{What is wrong with the decision-curve families is not a tail.} At a
-threshold where both arms treat every case alike the net-benefit difference
-is zero by arithmetic, and \nDegenerateCellsDca\ cells of the corpus's curve
-families are exactly zero in at least nine draws of ten, against
-\nDegenerateCellsWhole\ anywhere in the surface families. They are what makes
-$q_{\mathrm{emp}}$ large there; excluding them moves the median ratio
-$q_{\mathrm{emp}}/q$ from \ratioDcaAll\ to \ratioDcaAdmissible\ and does not
-dissolve the disagreement. Supplement~\ref{app:degencells} carries the
-mechanism and Table~\ref{tab:bandcov} the regime with and without them.
+\textbf{The decision-curve families, and the cells that are zero by
+arithmetic.} At a threshold where both arms treat every case alike the
+net-benefit difference is zero by arithmetic, and \nDegenerateCellsDca\
+cells of the corpus's curve families are exactly zero in at least nine
+draws of ten, against \nDegenerateCellsWhole\ anywhere in the surface
+families. Standardising such a cell by its vanishing spread sends its
+studentised value to the largest value a deviate of $B$ points can take, so
+it inflates the critical value every other cell is judged by while its own
+band is trivially right; the degenerate regime reproduces that, and under
+it the multiplier covers \covMultDegenDcaAtDesign\ on the modal curve
+family. A declared rule therefore removes such cells from a decision-curve
+family before the quantile is taken --- a cell that is exactly zero in at
+least nine draws of ten is not a statement about the register --- and
+Section~\ref{sec:dcabands} reports the case study's curve under the
+empirical quantile of the admissible family, with the excluded count
+printed. On the modal curve family so treated the empirical quantile covers
+\covEmpHeavyDcaAtDesign\ under the corpus's tails and
+\covEmpNonzeroDcaAtDesign\ under a non-zero truth, against the multiplier's
+\covMultHeavyDcaAtDesign\ and \covMultNonzeroDcaAtDesign; on the case
+study's own family, \covEmpHeavyCaseAtDesign\ against
+\covMultHeavyCaseAtDesign. \textbf{On the curve families the empirical
+quantile is therefore about a point short of its level}, on a synthetic
+family that under-reproduces the corpus's estimator ratio, and the article
+reports it as the better of the two estimators rather than as one measured
+at nominal; Section~\ref{sec:dcabands} says so where the counts are
+printed. Supplement~\ref{app:degencells} carries the
+mechanism and Table~\ref{tab:bandcov} every regime and candidate.
 
-\textbf{How far short, in the units a widening works in.} A critical value is
-widened multiplicatively, so the useful summary of the shortfall is the factor
-that would have closed it. On the surface families that factor is
-\shortfallWholeMin\ to \shortfallWholeMax; on the decision-curve families,
-\shortfallDcaMin\ to \shortfallDcaMax. \textbf{The decision-curve families
-are widened by that measured factor and the surface families are not}
-(Section~\ref{sec:dcabands}), and \textbf{the $(n, K)$ calibration is applied
-to neither} --- two different widenings, and only the first of them is ever
-used here. The $(n, K)$ calibration Supplement~\ref{app:calibration} derives was
-fitted to restore \emph{pointwise} coverage on a plane built around a
-different inference surface; at the median pair it supplies
-\calAtMedianPair, which is below the bottom of the surface range above and
-well below the decision-curve one. Applying it would have widened these bands
-by less than the measurement says they need, while presenting them as
-corrected --- a worse position than leaving them nominal, because it spends
-the resolution and buys a label the coverage does not support. The labels this
-paper prints are therefore nominal and anti-conservative by the factors quoted
-here, which is a defect this paper has measured and has not removed.
-Section~\ref{sec:lim} says what follows.
-
-\textbf{The draw count is \emph{not} the binding constraint, which is the
-opposite of what the asymptotics suggest.} At the modal surface family the
-multiplier band covers \covMultBootThirtyThree\ at \nBootThirtyThree\
-draws, \covMultBootOneFifty\ at \nBootOneFifty, \covMultBootFourHundred\
-at \nBootFourHundred\ and \covMultBootOneThousand\ at \nBootOneThousand\
---- it rises steeply out of the smallest budgets and then \textbf{plateaus
-short of its level}, so a corpus that can afford more draws does not thereby
-buy coverage. This corpus runs at \nDrawsSurface\ throughout, on the plateau
-and not below it. The per-cell interval underneath the band moves
-\covPercellBootThirtyThree\ to \covPercellBootOneThousand\ over the same
-range: part of what the band loses it loses before any critical value is
-chosen, and Section~\ref{sec:simcoverage} validated that construction at a
-refit count this corpus does not reach on most pairs. A Rademacher wild
-multiplier, which preserves the observed draws' magnitudes instead of
-replacing them by Gaussians and is the natural repair for a tail problem, is
-worse than the Gaussian multiplier at \covRadHeavyMedian.
-
-\textbf{One estimator does recover the difference, and only at the draw count
-this corpus now runs.} \emph{Both} critical-value estimates plateau in $B$ ---
-from \nBootOneFifty\ draws on, neither moves by more than its own Monte Carlo
-error --- but they plateau at different levels, and only one of the two levels
-is the nominal one. On the family matched to the reported design the empirical quantile
-reaches \covEmpWholeAtDesign\ against a nominal $95\%$, at a Monte Carlo
-standard error of \covEmpWholeAtDesignSE\ --- a gap of well under one of
-them, against the multiplier's five --- and its own conservative end reaches
-\covEmpHiWholeAtDesign. \textbf{This repair was not available before.} At
-\nBootThirtyThree\ draws the empirical quantile is the \emph{worse} of the
-two, because an order statistic of that few maxima is badly determined, which
-is the argument Section~\ref{sec:simbands} gives for not adopting it. The
-answer therefore turns on the draw count: at \nDrawsSurface, which is what
-every pair here carries, the order statistic is determined well enough for
-the estimator to be the better of the two. \textbf{What it costs is width}:
-the
-empirical band is \widthEmpOverMultAtDesign\ times as wide. The article
-reports the multiplier band and prints both, because a band that attains its
-level by being wider is a different object rather than a correction to this
-one --- but a reader who wants the level rather than the resolution now has a
-construction on this corpus that reaches it.
+\textbf{What the $(n, K)$ calibration is, now.} Supplement~\ref{app:calibration}
+derives a widening for the \emph{pointwise} interval as a function of the
+register's cardinality over the training size, from the plane of
+Section~\ref{sec:simsensitivity}. It addresses the channel this section
+switches off, is fitted pointwise and applied simultaneously, and is
+measurably misspecified in $n$; the article reports the labels under it as
+a sensitivity ladder (Supplement~\ref{app:foursettings}) and does not apply
+it, and Section~\ref{sec:lim} says what that leaves open.
 
 \paragraph{What the simulation does not establish}
 It certifies the pointwise constructions on \nWorlds\ worlds, a plane of
 \nSimGridCells\ $(n, K)$ cells and \nSimBlockLengths\ block lengths, and
-the band on the \nBandCoverageCells\ matched families of
-Section~\ref{sec:simband} --- on nothing else. The stationarity and mixing the moving-block bootstrap needs are
+the band's critical value on the \nBandCoverageFamilies\ matched families of
+Section~\ref{sec:simband} under four regimes --- on nothing else. The stationarity and mixing the moving-block bootstrap needs are
 assumed and not tested; the split point is fixed within a draw, so
 split-position uncertainty is outside every interval reported here; and the
 drifting world shows what happens when the estimator is not consistent for the

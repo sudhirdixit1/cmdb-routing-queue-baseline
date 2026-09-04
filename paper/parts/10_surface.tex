@@ -31,8 +31,8 @@ feature is \emph{well posed} only relative to a declared $\mathcal{S}$.
 Declaring a design space means writing down every axis, its levels, the
 measure over those levels, and every level deliberately excluded with the
 reason. Table~\ref{tab:axes} is that declaration, generated from the code that
-walks the space. \textbf{Not every axis is a factor of the cell count, and the
-table's `in the product' column says which are.} The admissible cell counts of
+walks the space. Not every axis is a factor of the cell count, and the
+table's `in the product' column says which are. The admissible cell counts of
 Section~\ref{sec:denominator} are the product of the rows the table marks
 \textsc{yes} --- the learner, the split, the register-quality condition, the
 admissible baseline and the scalar instrument --- and that multiplication,
@@ -46,7 +46,7 @@ decision time indexes a second surface on the case study's log rather than a
 further factor of the first, and Section~\ref{sec:twodecision} reports it; and
 the operating point multiplies the decision-curve grid, which
 Section~\ref{sec:denominator} counts separately from the scalar cells.
-\textbf{Not all \nAxes\ axes are varied in this study};
+Not all \nAxes\ axes are varied in this study;
 Table~\ref{tab:roles} states per pair which ran and at how many levels, and
 Section~\ref{sec:lim} carries the gap. The
 \emph{measure} column names which of the three declared product measures a
@@ -74,9 +74,9 @@ Let the cases of a log be a sample from a population $P$, and let the
 specification $s$ fix the fitting procedure $A_s$, the cohort and eligibility
 rule, the split rule $\Pi$, the decision time, the register-quality mechanism,
 the baseline and the instrument. Write $A_s(P)$ for the limit of the fitted
-scoring rule as the sample grows under $P$ with $s$ held fixed. \textbf{That
+scoring rule as the sample grows under $P$ with $s$ held fixed. That
 limit needs an assumption, and it is stated here rather than where it is
-used}: the case sequence is stationary and mixing, so that a temporal split
+used: the case sequence is stationary and mixing, so that a temporal split
 does not separate two different populations and the moving-block bootstrap of
 Section~\ref{sec:boot} resamples a dependence structure that persists. An
 event log is not guaranteed to have that property. Stationarity is tested here
@@ -108,7 +108,7 @@ for $\vartheta_s$, not that the observed increment is nonzero.
 Given $\mathcal{S}$ and data $D$, the surface is the map $s \mapsto V_s(f)$
 of~\eqref{eq:estimand}, and a conventional report is one cell of it. The
 paper's claim is that a single cell is not a summary of the surface in any
-useful sense. \textbf{The point estimates alone establish that}: on
+useful sense. The point estimates alone establish that: on
 \nSignVaries\ of the \nPairs\ pairs, between a tenth and nine tenths of the
 admissible cells are positive, so the surface's sign is not settled by the
 data and the design together. Whether that unsettledness amounts to a
@@ -140,21 +140,15 @@ $R$ can exceed $1$ or fall below $0$, so reading it as ``the share absorbed''
 is a category error whenever it leaves $[0,1]$.
 
 We therefore make $D$ and the two increments primary throughout and treat $R$
-as a secondary descriptive statistic subject to three rules, declared before
-any $R$ in this paper was computed:
-\begin{enumerate}
-\item $R$ is reported only where $V_s(f \mid B_0)$ is resolvably positive
-under the \emph{simultaneous} band, not merely positive as a point estimate;
-\item its interval is a Fieller set and its \emph{kind} --- bounded,
-unbounded, or the complement of an interval --- is printed beside it. A
-confidence set for a ratio is the solution set of a quadratic
-\citep{fieller1954} and is bounded only when the denominator is resolvably
-away from zero (Supplement~\ref{app:fieller}). Of the \nFieller\ reductions this paper
-computes, \nFiellerUnbounded\ have a non-bounded Fieller set, and a percentile
-interval reports a bounded one for every single one of them;
-\item the magnitude of $R$ is never compared with the spread of $R$ across
-metrics as though both lived on an unproblematic common scale.
-\end{enumerate}
+as a secondary descriptive statistic under three rules declared before any
+$R$ in this paper was computed (Supplement~\ref{app:fieller}): it is reported
+only where $V_s(f \mid B_0)$ is resolvably positive under the
+\emph{simultaneous} band; its interval is a Fieller set whose \emph{kind} ---
+bounded, unbounded, or the complement of an interval --- is printed beside
+it, and of the \nFieller\ reductions this paper computes \nFiellerUnbounded\
+have a non-bounded set where a percentile interval would report a bounded one
+for every single one of them; and its magnitude is never compared with its
+spread across metrics as though both lived on one scale.
 
 \subsection{Two facts about the metric, and why they are remarks}
 \label{sec:props}

@@ -202,6 +202,46 @@ def candidate_factors():
         shortfall_whole_hi=float(F.shortfall_whole_max.iloc[0]))
 
 
+def empirical_quantiles(alpha=0.05):
+    """ROUND TWENTY-EIGHT.  The Romano-Wolf critical value for the case
+    study's curve family, from s26's own draws: the empirical (1 - alpha)
+    quantile of the B observed maxima of |Z| over the family, with its
+    order-statistic interval, on ALL cells and on the ADMISSIBLE ones.
+
+    A cell is inadmissible when its net-benefit difference is exactly zero in
+    at least TAU_DEGENERATE of its draws: at such a threshold the two arms
+    treat every case alike, the value is arithmetic rather than estimate, and
+    a statement quantified over it is vacuous -- while standardising it by
+    its tiny spread sends its studentised value to the ceiling and inflates
+    the critical value every other cell is judged by (Supplement S9.6).  The
+    rule is declared, the count it removes is written out, and both
+    quantiles are reported so the exclusion's effect is visible.
+    """
+    D = _load("s26_draws.csv.gz")
+    W = (D[D.draw >= 0]
+         .pivot_table(index="draw", columns=["rung", "learner", "threshold"],
+                      values="dnb"))
+    zero_share = (W == 0.0).sum(axis=0) / W.notna().sum(axis=0)
+    se = W.std(axis=0, ddof=1)
+    out = {}
+    for tag, cols in (("all", W.columns[se > 1e-15]),
+                      ("adm", W.columns[(se > 1e-15)
+                                        & (zero_share < TAU_DEGENERATE)])):
+        Z = ((W[cols] - W[cols].mean()) / se[cols]).values
+        Z = Z[np.isfinite(Z).all(axis=1)]
+        B = len(Z)
+        T = np.sort(np.abs(Z).max(axis=1))
+        k = 1.0 - alpha
+        lo_i = int(np.floor(B * k - 1.96 * np.sqrt(B * k * (1 - k)))) - 1
+        hi_i = int(np.ceil(B * k + 1.96 * np.sqrt(B * k * (1 - k)))) - 1
+        out[tag] = dict(q_emp=float(np.quantile(T, k)),
+                        q_emp_lo=float(T[max(0, lo_i)]),
+                        q_emp_hi=float(T[min(B - 1, hi_i)]),
+                        n_cells=int(len(cols)), n_draws=int(B))
+    out["n_excluded"] = out["all"]["n_cells"] - out["adm"]["n_cells"]
+    return out
+
+
 def counts(B, f, q):
     """Resolved counts under a band widened by `f`.  `B` carries the centre and
     the standard error; nothing else about the band moves."""
@@ -261,6 +301,36 @@ def main(argv=None):
     f_applied = fx["heavy_hi"]
     f_allcells = fx["degen_hi"]
 
+    #  ROUND TWENTY-EIGHT.  The Romano-Wolf empirical quantile on this
+    #  family, all cells and admissible cells, from s26's draws.  Expressed
+    #  as a factor on q so it sits on the same ladder as the widenings; it is
+    #  not a widening but a different estimator of the same quantile.
+    EQ = empirical_quantiles()
+    f_emp_adm = EQ["adm"]["q_emp"] / q
+    f_emp_all = EQ["all"]["q_emp"] / q
+    f_emp_adm_hi = EQ["adm"]["q_emp_hi"] / q
+    CAND = pd.concat([CAND, pd.DataFrame([
+        dict(label="empirical quantile, admissible cells", kind="estimator",
+             regime="", factor=f_emp_adm, is_widening=False,
+             what="Romano-Wolf: the (1-alpha) quantile of the observed "
+                  "maxima over the %d admissible cells; OPERATIVE when the "
+                  "decision rule of PLAN-ROUND28.md 1.4 adopts it"
+                  % EQ["adm"]["n_cells"]),
+        dict(label="empirical quantile, admissible, OS upper end",
+             kind="estimator", regime="", factor=f_emp_adm_hi,
+             is_widening=False,
+             what="the order-statistic upper end of the same quantile"),
+        dict(label="empirical quantile, all cells", kind="estimator",
+             regime="", factor=f_emp_all, is_widening=False,
+             what="the same quantile with the %d degenerate cells kept"
+                  % EQ["n_excluded"]),
+    ])], ignore_index=True)
+    print("\nTHE EMPIRICAL QUANTILE ON THIS FAMILY")
+    print("  admissible: q_emp = %.3f [%.3f, %.3f] over %d cells (%d "
+          "degenerate excluded); all cells: %.3f"
+          % (EQ["adm"]["q_emp"], EQ["adm"]["q_emp_lo"], EQ["adm"]["q_emp_hi"],
+             EQ["adm"]["n_cells"], EQ["n_excluded"], EQ["all"]["q_emp"]))
+
     print("\nCANDIDATE FACTORS")
     print(CAND[["label", "kind", "regime", "factor", "is_widening"]]
           .to_string(index=False, float_format=lambda x: "%.4f" % x))
@@ -294,6 +364,14 @@ def main(argv=None):
     OUT["factor_all_cells"] = f_allcells
     OUT["all_lo"] = B.centre - f_allcells * q * B.se
     OUT["all_hi"] = B.centre + f_allcells * q * B.se
+    OUT["q_emp_adm"] = EQ["adm"]["q_emp"]
+    OUT["emp_lo"] = B.centre - EQ["adm"]["q_emp"] * B.se
+    OUT["emp_hi"] = B.centre + EQ["adm"]["q_emp"] * B.se
+    OUT["q_emp_all"] = EQ["all"]["q_emp"]
+    OUT["empall_lo"] = B.centre - EQ["all"]["q_emp"] * B.se
+    OUT["empall_hi"] = B.centre + EQ["all"]["q_emp"] * B.se
+    OUT["emp_beneficial"] = OUT.emp_lo > 0
+    OUT["emp_harmful"] = OUT.emp_hi < 0
     OUT["is_reference"] = (B.rung == REF_RUNG) & (B.learner == REF_LEARNER)
     OUT["wid_beneficial"] = OUT.wid_lo > 0
     OUT["wid_harmful"] = OUT.wid_hi < 0
@@ -306,6 +384,12 @@ def main(argv=None):
     fam_nom = counts(B, 1.0, q)
     fam_wid = counts(B, f_applied, q)
     fam_alc = counts(B, f_allcells, q)
+    emp = counts(ref, f_emp_adm, q)
+    emp_hi = counts(ref, f_emp_adm_hi, q)
+    emp_all = counts(ref, f_emp_all, q)
+    fam_emp = counts(B, f_emp_adm, q)
+    fam_emp_all = counts(B, f_emp_all, q)
+    ben_emp = sorted(float(t) for t in ref[(ref.centre - f_emp_adm * q * ref.se) > 0].threshold)
     dip_nom = ref.loc[(ref.centre - q * ref.se).idxmin()]
     dip_wid = ref.loc[(ref.centre - f_applied * q * ref.se).idxmin()]
     ben = sorted(float(t) for t in rw[rw.wid_beneficial].threshold)
@@ -375,6 +459,26 @@ def main(argv=None):
         n_family_harmful_all_cells=fam_alc["n_harmful"],
         #  what the scalar families' widening is, for the comparison Section
         #  10.4 draws
+        #  ROUND TWENTY-EIGHT: the empirical quantile on this family
+        q_emp_adm=EQ["adm"]["q_emp"], q_emp_adm_lo=EQ["adm"]["q_emp_lo"],
+        q_emp_adm_hi=EQ["adm"]["q_emp_hi"], q_emp_all=EQ["all"]["q_emp"],
+        n_cells_admissible=EQ["adm"]["n_cells"],
+        n_cells_excluded_degenerate=EQ["n_excluded"],
+        n_beneficial_sim_emp=emp["n_beneficial"],
+        n_harmful_sim_emp=emp["n_harmful"],
+        n_unresolved_sim_emp=emp["n_unresolved"],
+        n_beneficial_sim_emp_hi=emp_hi["n_beneficial"],
+        n_beneficial_sim_emp_all=emp_all["n_beneficial"],
+        n_harmful_sim_emp_all=emp_all["n_harmful"],
+        n_beneficial_lost_to_emp=nom["n_beneficial"] - emp["n_beneficial"],
+        theta_min_beneficial_emp=ben_emp[0] if ben_emp else np.nan,
+        beneficial_emp_contiguous=bool(
+            ben_emp and len(ben_emp) == int((ref.threshold >= ben_emp[0]).sum())),
+        width_sim_emp=emp["median_width"],
+        n_family_beneficial_emp=fam_emp["n_beneficial"],
+        n_family_harmful_emp=fam_emp["n_harmful"],
+        n_family_beneficial_emp_all=fam_emp_all["n_beneficial"],
+        n_family_harmful_emp_all=fam_emp_all["n_harmful"],
         shortfall_whole_min=fx["shortfall_whole_lo"],
         shortfall_whole_max=fx["shortfall_whole_hi"],
         runtime_s=round(time.time() - t0, 3))

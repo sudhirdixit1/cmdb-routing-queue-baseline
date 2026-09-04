@@ -367,8 +367,14 @@ def apply_to_corpus(c_of, scale=1.0, suffix=""):
     W = B[B.family == "whole-surface"].copy()
     W["Kn"] = [kn.get((l, t), np.nan) for l, t in zip(W.log, W.target)]
     W["c"] = np.maximum(1.0, np.asarray(c_of(W.Kn.values), float) * scale)
-    W["cal_lo"] = W.centre - W.c * W.q_hi * W.se
-    W["cal_hi"] = W.centre + W.c * W.q_hi * W.se
+    #  ROUND TWENTY-EIGHT.  The widening is applied to the OPERATIVE critical
+    #  value -- whichever estimator s21 was run with -- and not to the
+    #  multiplier's upper end by name, so that the ladder's nominal rung is
+    #  the article's band whichever estimator that is.
+    if "q_op" not in W.columns:
+        W["q_op"] = W.q_hi
+    W["cal_lo"] = W.centre - W.c * W.q_op * W.se
+    W["cal_hi"] = W.centre + W.c * W.q_op * W.se
     rows = []
     for (lg, tg), sub in W.groupby(["log", "target"]):
         nom = sub.apply(lambda r: S21.label_of(r.cons_lo, r.cons_hi), axis=1)
@@ -378,8 +384,8 @@ def apply_to_corpus(c_of, scale=1.0, suffix=""):
         n = len(sub)
         rows.append(dict(
             log=lg, target=tg, cells=n, k_over_n=float(sub.Kn.iloc[0]),
-            c=float(sub.c.iloc[0]), q=float(sub.q_hi.iloc[0]),
-            q_calibrated=float(sub.c.iloc[0] * sub.q_hi.iloc[0]),
+            c=float(sub.c.iloc[0]), q=float(sub.q_op.iloc[0]),
+            q_calibrated=float(sub.c.iloc[0] * sub.q_op.iloc[0]),
             beneficial=nbn, harmful=nhn, unresolved=nun,
             rho=(nbn - nhn) / float(n), region=rn,
             beneficial_cal=nbc, harmful_cal=nhc, unresolved_cal=nuc,

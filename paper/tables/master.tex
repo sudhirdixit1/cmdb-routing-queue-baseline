@@ -4,30 +4,30 @@
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{llrllllrr}
 \toprule
-log & target & V at reference & pointwise & simultaneous & region & resolved share & rho & misreport rate \\
+log & target & V at reference & pointwise & simultaneous & region & resolved share & rho & sign-disagreement rate \\
 \midrule
-BPIC13\_closed & handover & -0.009 & [-0.042, +0.018] & [-0.062, +0.040] & unresolved & 0.0 & 0.000 & 0.284 \\
-BPIC13\_incidents & duration & 0.028 & [+0.009, +0.055] & [-0.007, +0.072] & conditionally beneficial & 10.6 & 0.106 & 0.393 \\
-BPIC13\_incidents & handover & 0.037 & [+0.028, +0.049] & [+0.021, +0.057] & conditionally beneficial & 47.8 & 0.478 & 0.111 \\
-BPIC14 & duration & 0.096 & [+0.089, +0.108] & [+0.082, +0.117] & uniformly beneficial & 100.0 & 1.000 & 0.106 \\
-BPIC14 & handover & 0.167 & [+0.146, +0.207] & [+0.117, +0.225] & conditionally beneficial & 99.4 & 0.994 & 0.244 \\
-BPIC15\_1 & duration & 0.001 & [-0.036, +0.036] & [-0.064, +0.059] & unresolved (below minimum share) & 2.8 & 0.028 & 0.423 \\
-BPIC15\_1 & handover & 0.007 & [-0.007, +0.020] & [-0.015, +0.031] & unresolved (below minimum share) & 1.1 & 0.011 & 0.242 \\
-BPIC15\_3 & duration & 0.035 & [-0.006, +0.068] & [-0.030, +0.101] & conditionally beneficial & 15.0 & 0.150 & 0.191 \\
-BPIC15\_3 & handover & -0.003 & [-0.050, +0.052] & [-0.085, +0.081] & unresolved (below minimum share) & 4.4 & -0.022 & 0.616 \\
-BPIC15\_4 & duration & 0.035 & [+0.009, +0.079] & [-0.014, +0.105] & unresolved & 0.0 & 0.000 & 0.623 \\
-BPIC15\_4 & handover & 0.001 & [-0.021, +0.042] & [-0.050, +0.063] & unresolved (below minimum share) & 3.9 & -0.017 & 0.618 \\
-BPIC15\_5 & duration & 0.032 & [-0.020, +0.103] & [-0.074, +0.138] & unresolved (below minimum share) & 1.7 & 0.017 & 0.328 \\
-BPIC17 & duration & 0.002 & [-0.004, +0.013] & [-0.010, +0.018] & sign-changing & 12.2 & 0.056 & 0.353 \\
-BPIC19 & duration & 0.024 & [+0.011, +0.040] & [-0.001, +0.052] & sign-changing & 63.9 & -0.406 & 0.360 \\
-Helpdesk & duration & -0.020 & [-0.045, -0.002] & [-0.062, +0.015] & unresolved (below minimum share) & 2.2 & -0.022 & 0.257 \\
-RoadFines & duration & 0.031 & [+0.024, +0.038] & [+0.019, +0.043] & sign-changing & 51.1 & 0.400 & 0.173 \\
-Sepsis & duration & 0.153 & [+0.102, +0.199] & [+0.073, +0.235] & conditionally beneficial & 62.2 & 0.622 & 0.056 \\
-UCI498 & duration & -0.007 & [-0.014, +0.005] & [-0.019, +0.012] & conditionally beneficial & 12.2 & 0.122 & 0.493 \\
-UCI498 & handover & -0.003 & [-0.007, -0.001] & [-0.009, +0.001] & unresolved (below minimum share) & 3.9 & 0.039 & 0.481 \\
+BPIC13\_closed & handover & -0.009 & [-0.042, +0.018] & [-0.074, +0.052] & unresolved & 0.0 & 0.000 & 0.284 \\
+BPIC13\_incidents & duration & 0.028 & [+0.009, +0.055] & [-0.016, +0.081] & conditionally beneficial & 6.7 & 0.067 & 0.393 \\
+BPIC13\_incidents & handover & 0.037 & [+0.028, +0.049] & [+0.015, +0.062] & conditionally beneficial & 40.0 & 0.400 & 0.111 \\
+BPIC14 & duration & 0.096 & [+0.089, +0.108] & [+0.079, +0.119] & uniformly beneficial & 100.0 & 1.000 & 0.106 \\
+BPIC14 & handover & 0.167 & [+0.146, +0.207] & [+0.093, +0.250] & conditionally beneficial & 95.0 & 0.950 & 0.244 \\
+BPIC15\_1 & duration & 0.001 & [-0.036, +0.036] & [-0.103, +0.098] & unresolved & 0.0 & 0.000 & 0.423 \\
+BPIC15\_1 & handover & 0.007 & [-0.007, +0.020] & [-0.033, +0.049] & unresolved & 0.0 & 0.000 & 0.242 \\
+BPIC15\_3 & duration & 0.035 & [-0.006, +0.068] & [-0.055, +0.126] & unresolved (below minimum share) & 1.1 & 0.011 & 0.191 \\
+BPIC15\_3 & handover & -0.003 & [-0.050, +0.052] & [-0.126, +0.122] & unresolved (below minimum share) & 2.2 & -0.022 & 0.616 \\
+BPIC15\_4 & duration & 0.035 & [+0.009, +0.079] & [-0.055, +0.147] & unresolved & 0.0 & 0.000 & 0.623 \\
+BPIC15\_4 & handover & 0.001 & [-0.021, +0.042] & [-0.093, +0.106] & unresolved & 0.0 & 0.000 & 0.618 \\
+BPIC15\_5 & duration & 0.032 & [-0.020, +0.103] & [-0.146, +0.211] & unresolved & 0.0 & 0.000 & 0.328 \\
+BPIC17 & duration & 0.002 & [-0.004, +0.013] & [-0.018, +0.026] & unresolved & 0.0 & 0.000 & 0.353 \\
+BPIC19 & duration & 0.024 & [+0.011, +0.040] & [-0.020, +0.071] & sign-changing & 45.0 & -0.339 & 0.360 \\
+Helpdesk & duration & -0.020 & [-0.045, -0.002] & [-0.069, +0.021] & unresolved (below minimum share) & 1.1 & -0.011 & 0.257 \\
+RoadFines & duration & 0.031 & [+0.024, +0.038] & [+0.013, +0.050] & sign-changing & 32.2 & 0.256 & 0.173 \\
+Sepsis & duration & 0.153 & [+0.102, +0.199] & [+0.059, +0.248] & conditionally beneficial & 56.7 & 0.567 & 0.056 \\
+UCI498 & duration & -0.007 & [-0.014, +0.005] & [-0.023, +0.015] & conditionally beneficial & 7.8 & 0.078 & 0.493 \\
+UCI498 & handover & -0.003 & [-0.007, -0.001] & [-0.012, +0.004] & unresolved & 0.0 & 0.000 & 0.481 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{The master table. One row per admitted log--target pair. `pointwise' is the 95\% interval at the reference cell, basic (pivotal) construction; `simultaneous' is that same cell's WHOLE-SURFACE simultaneous band, at the conservative end of the critical value's Monte Carlo interval. They are different objects, and the region label uses only the second. Then the resolution region and the robustness index $\rho$. NO COVERAGE CALIBRATION IS APPLIED TO EITHER: the $(n,K)$ factor was fitted to restore POINTWISE coverage on a plane built around a different inference surface, and Section~\ref{sec:simband} measures the family-wise widening these families need as LARGER than it supplies, so these are the nominal labels and they are anti-conservative by an amount the paper reports. Table~\ref{tab:calbands} prints what applying that factor would have given, beside these. THE REGION IS THE LABEL Definition~\ref{def:regions} YIELDS, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \minResolvedSharePct\ of it, which withdraws the direction on \nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs that carry one. Table~\ref{tab:triple} MARKS \nMarkedBelowMinShare\ rows, which is the larger number: a pair the band already left unresolved is not marked, and \nSignChangingBelowMinShare\ of the marked rows are sign-changing, which carry no direction to withdraw. Last, the share of admissible specifications whose sign disagrees with a conventional one-number report, under the equal-level measure, which is the `all-cells rate' column of Table~\ref{tab:misreport}. The reference cell's sign and the region need not agree, and on several pairs they do not: a surface can be conditionally beneficial while the one cell an analyst would have stood on is negative.}
+\caption{The master table. One row per admitted log--target pair. `pointwise' is the 95\% interval at the reference cell, basic (pivotal) construction; `simultaneous' is that same cell's WHOLE-SURFACE simultaneous band at the empirical critical value of Section~\ref{sec:simbands}, the construction Section~\ref{sec:simband} measures at its nominal level on the family matched to this design. They are different objects, and the region label uses only the second. Then the resolution region and the robustness index $\rho$. NO $(n,K)$ CALIBRATION IS APPLIED: that factor widens the pointwise interval underneath the band and is reported as a sensitivity in Table~\ref{tab:calbands}, which also prints what the multiplier approximation would have resolved. THE REGION IS THE LABEL Definition~\ref{def:regions} YIELDS, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \minResolvedSharePct\ of it, which withdraws the direction on \nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs that carry one. Table~\ref{tab:triple} MARKS \nMarkedBelowMinShare\ rows: a pair the band already left unresolved is not marked, and \nSignChangingBelowMinShare\ of the marked rows are sign-changing, which carry no direction to withdraw. Last, the share of admissible specifications whose sign disagrees with a conventional one-number report, under the equal-level measure, which is the `all-cells rate' column of Table~\ref{tab:misreport}. The reference cell's sign and the region need not agree, and on several pairs they do not: a surface can be conditionally beneficial while the one cell an analyst would have stood on is negative.}
 \label{tab:master}
 \end{table}

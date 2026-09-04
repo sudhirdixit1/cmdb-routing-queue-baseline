@@ -48,7 +48,7 @@ values on every row, so it is not a data-preparation difference; and they run
 the same pipeline at the same reference cell, so it is not a modelling
 difference.
 
-\textbf{An axis nobody declares, and this paper was standing on it.} Both
+An axis nobody declares, and this paper was standing on it. Both
 analyses sort the log in time and split at seventy per cent of the row order,
 and \nTiedTimestamps\ incidents share their timestamp with another; the sort
 this estate's analysis first used was not stable, so its tie order was
@@ -89,8 +89,8 @@ $\tau_1$ \VtauOne\ [\VtauOneLo, \VtauOneHi], and at $\tau_2$ against the
 intake block plus the group it is \VTtwoGroup\ [\VTtwoGroupLo,
 \VTtwoGroupHi] while against the block, the group and the knowledge reference
 it is \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] --- not resolvably different
-from zero. \textbf{The step from $\tau_1$ to $\tau_2$ is an information step
-only on the matched population}: \nTauTwoUnmatched\ of the \nTauTwo\
+from zero. The step from $\tau_1$ to $\tau_2$ is an information step
+only on the matched population: \nTauTwoUnmatched\ of the \nTauTwo\
 incidents have no interaction record, so the \tauMatchedRow\ row of
 Table~\ref{tab:tau} restricts $\tau_2$ to $\tau_1$'s own cases and it is that
 row, not the \tauPlainRow, that isolates the information.
@@ -124,37 +124,32 @@ what a second would need.
 
 \paragraph{Which field is which}
 The prediction is: \emph{will this case be reassigned to another group before
-it is resolved?} The \textbf{register} $f$ is the affected configuration
-item, \cardTauTwo\ distinct values at incident creation on this estate's
-cohort and \cardF\ on the registered cohort of Section~\ref{sec:design}, which
-is the cohort the layer ladder below is computed on. Its \textbf{coarsenings}
-are the item's type (\nLayerTypeLevels\ values there) and subtype
-(\nLayerSubtypeLevels), each given its own role rather than swept into the
-baseline. The \textbf{free field} $g$ is
-the assignment group --- the routing queue, which is recorded without a
-configuration management database and is the field the register has to beat.
-The \textbf{intake block} $B_0$ is what the desk records when the case
-arrives: category, impact, urgency and priority. The \textbf{knowledge
-reference} is a pointer to a knowledge-base article, admitted as a further
-rung because whether it is available at the moment of decision is exactly the
-question Section~\ref{sec:quality} cannot settle.
+it is resolved?} The register $f$ is the affected configuration item
+(\cardTauTwo\ distinct values at incident creation on this estate's cohort,
+\cardF\ on the registered cohort the layer ladder below uses); its
+coarsenings are the item's type (\nLayerTypeLevels\ values) and subtype
+(\nLayerSubtypeLevels), each given its own role. The free field $g$ is the
+assignment group --- the routing queue, recorded without a configuration
+management database and the field the register has to beat. The intake block
+$B_0$ is what the desk records when the case arrives: category, impact,
+urgency and priority. The knowledge reference is a pointer to a
+knowledge-base article, admitted as a further rung because whether it is
+available at the moment of decision is exactly the question
+Section~\ref{sec:quality} cannot settle.
 
 \paragraph{The three moments, in service-desk terms}
-$\tau_0$ is \emph{an interaction is logged}: somebody has contacted the desk,
-every call is in scope, and \nTauZero\ of them are.
-$\tau_1$ is the same moment restricted to the calls that will escalate ---
-the same information, a different population. $\tau_2$ is \emph{an incident
-record is created}: \nTauTwo\ cases, more known about each, and
-\nTauTwoUnmatched\ of them with no interaction record at all.
-Table~\ref{tab:tau} is the ladder. \textbf{Read down it and the register's
-worth falls from \VtauZero\ AUC to \VtauOne\ to \VTtwoGroup\ once the routing
-queue is in the baseline, and to \VTtwoKnow\ --- not resolvably different from
-zero --- once the knowledge reference is admitted too.} A programme that
-justifies the register on a first-touch number and then deploys the model at
-incident creation is quoting the top of a ladder and standing on the bottom of
-it; Section~\ref{sec:nbregret} prices that in cases per thousand:
-\promisedPerThousand\ true positives promised per thousand cases against
-\deliveredPerThousand\ delivered.
+$\tau_0$ is \emph{an interaction is logged}: every call is in scope, and
+\nTauZero\ of them are. $\tau_1$ is the same moment restricted to the calls
+that will escalate. $\tau_2$ is \emph{an incident record is created}:
+\nTauTwo\ cases, more known about each, \nTauTwoUnmatched\ of them with no
+interaction record. Read down Table~\ref{tab:tau} and the register's worth
+falls from \VtauZero\ AUC to \VtauOne\ to \VTtwoGroup\ once the routing queue
+is in the baseline, and to \VTtwoKnow\ --- not resolvably different from zero
+--- once the knowledge reference is admitted too. A programme that justifies
+the register on a first-touch number and deploys the model at incident
+creation is quoting the top of a ladder and standing on the bottom of it;
+Section~\ref{sec:nbregret} prices that at \promisedPerThousand\ true positives
+promised per thousand cases against \deliveredPerThousand\ delivered.
 
 \paragraph{Which layer of the register pays}
 A programme does not choose whether to have a configuration management
@@ -166,8 +161,8 @@ regression at the fixed temporal holdout, against the intake block at base AUC
 \layerBaseHandover\ --- the item's \emph{type} is worth \layerTypeHandover\
 AUC over intake, its \emph{subtype} \layerSubtypeHandover, and the item itself
 \layerItemHandover; with the subtype already in the model the item still adds
-\layerItemMarginalHandover. \textbf{That ladder is not
-Table~\ref{tab:tau}'s cell and does not reconcile with it arithmetically},
+\layerItemMarginalHandover. That ladder is not
+Table~\ref{tab:tau}'s cell and does not reconcile with it arithmetically,
 because the table is on the estate's own cohort and its reassignment target
 --- the pair Section~\ref{sec:cohort} shows disagree about this register ---
 so the increment over intake is \layerItemHandover\ here and \VtauTwo\ there
@@ -179,27 +174,25 @@ type field, and the item still adds \layerItemMarginalHandover\ once the
 subtype is in the model. On the duration question the same ladder gives
 \layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration, with
 \layerItemMarginalDuration\ marginal, and the type reaches
-\layerTypeSharePctDuration. \textbf{So the split between the layers is a
-property of the target and not of the register}, and
+\layerTypeSharePctDuration. So the split between the layers is a
+property of the target and not of the register, and
 Supplement~\ref{app:layers} carries two further logs on which every coarse
 layer is worth essentially nothing while the finest one is not. It is not a
 procurement conclusion: nothing here prices what a layer costs to populate or
 to keep accurate, and Section~\ref{sec:lim} says so.
 
 \paragraph{What would have to change for the answer to move}
-Three things, in the order a programme could act on them. \textbf{A
-timestamped field history.} The knowledge reference decides this estate's
-answer and its admissibility is settled here by probability rather than by
-evidence; a register that records when each field value was written turns
-Section~\ref{sec:quality}'s tipping-point analysis into a measurement.
-\textbf{A complete population at the decision time.} \nTauTwoUnmatched\ of the
-incidents have no interaction record, and the $\tau_1$-to-$\tau_2$ step is an
-information step only on the cases that have both; a desk that can identify
-its own cases across the two systems recovers that comparison. \textbf{A
-target the desk actually acts on.} The register's sign changes with the
-target on this log (Section~\ref{sec:cohort}), and reassignment is the
-question this desk routes on; a programme evaluating a register against a
-generic handover rule is answering a question nobody asked it.
+Three things, in the order a programme could act on them. A
+\emph{timestamped field history}: the knowledge reference decides this
+estate's answer and its admissibility is settled here by probability, and a
+register that records when each value was written turns
+Section~\ref{sec:quality}'s tipping point into a measurement. A
+\emph{complete population at the decision time}: \nTauTwoUnmatched\ incidents
+have no interaction record, so the $\tau_1$-to-$\tau_2$ step is an
+information step only on the cases that have both. And a \emph{target the
+desk actually acts on}: the register's sign changes with the target on this
+log (Section~\ref{sec:cohort}), and a programme evaluating a register against
+a generic handover rule is answering a question nobody asked it.
 
 \subsection{The absorption, and why the ratio is secondary}
 \label{sec:absorption}
@@ -209,9 +202,8 @@ reduction $R$: the share of the register's apparent value that a single free
 field absorbs. The absolute absorption $D = V(f \mid B_0) - V(f \mid B_1)$ is
 reported first, with its own interval, and $R$ second with a Fieller set and
 the set's kind. On this estate at the reference cell $D$ is \Dabs\ [\DabsLo,
-\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set. This ladder is the
-favourable case --- \nFiellerUnboundedCase\ of the \nFiellerCase\ reductions
-it produces have a set that is not a bounded interval, because the denominator
-is resolvably positive at every rung --- which across the corpus is not so
-(Section~\ref{sec:reduction}), and that is why the ratio is secondary everywhere
-and not only here. The full ladder is Table~\ref{tab:absorption}.
+\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set; \nFiellerUnboundedCase\
+of the \nFiellerCase\ reductions this ladder produces have a non-bounded set,
+because the denominator is resolvably positive at every rung, which across the
+corpus is not so (Section~\ref{sec:reduction}). The full ladder is
+Table~\ref{tab:absorption}.

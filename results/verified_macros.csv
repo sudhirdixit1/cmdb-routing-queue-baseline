@@ -45,9 +45,11 @@ largestFirstOrderPct
 largestInvolvementPct
 maxTMedian
 maxTMedianRatio
+maxTSurfaceEmpMedian
 maxTSurfaceMax
 maxTSurfaceMedian
 maxTSurfaceMin
+maxTSurfaceMultMedian
 maxTWithinMedian
 measureSpreadPct
 misreportLatitudePct

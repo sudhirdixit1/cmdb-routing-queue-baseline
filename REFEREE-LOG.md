@@ -2844,3 +2844,90 @@ The file will not mint, build, push or invent. That boundary is written into
 its docstring rather than left implicit, because an agent that quietly
 extended it would be doing the thing this manuscript spends sixty pages
 arguing against --- asserting a claim the record cannot support.
+
+# Round twenty-eight — an eighth referee, and the estimator that covers
+
+`submission/review_round28.md` read the round-27 PDF (`250e8e8`) as a
+referee for *Information Systems* and recommended **major revision, narrow**:
+two blocking items, one editor-facing item, two major items, ten small ones.
+`submission/response_to_review28.md` answers it; `PLAN-ROUND28.md` §10 is the
+record of what ran.
+
+## R28.1 The operative critical value was the one that undercovers. **CONCEDED, MEASURED, and adopted by a rule written before the run**
+
+The article reported the Gaussian-multiplier critical value, measured at
+91.6% on the family matched to its design, and printed beside it an
+empirical (Romano–Wolf) quantile measured at 94.7%, calling the labels
+"diagnostics". Two estimators of one quantile disagreeing, one at its level,
+is not a choice between objects. The decision rule (`PLAN-ROUND28.md` §1.4,
+extended in §1.4a before the deciding run) adopted the empirical quantile if
+it passed the level test under the corpus's tails and under a non-zero truth
+on the matched family and the multiplier failed. It did: 94.7% and 94.6%
+against 91.5% and 92.6% (SE 0.5–0.6). `s21_bands.py --operative emp` is the
+reported band; both estimators' edges and labels are on disk under `mult_*`
+and `emp_*`, and `check_bands` requires the operative edges to be one of the
+two named sets and the empirical band never to be narrower than the
+multiplier's. Every band-dependent number moved (890 → 698 resolved cells,
+median ρ 0.039 → 0.000, 8 pairs resolving nothing, 0.0556 → 0.0600 AUC in
+the abstract, 38 → 31 fully restricted cells with 0 disagreeing under both);
+the ρ = 1 pair holds under both estimators.
+
+## R28.2 "84.3% under a non-zero truth" was a pooled median over families the corpus does not run. **CONCEDED — and the re-matching found more than it was asked for**
+
+The grid of `s41_bandcoverage.py` was matched to the previous surface;
+the design the corpus runs had never been simulated under a non-zero truth.
+Re-declared to 180 × 400, 1,100 × 400 and 248 × 200 under four regimes, with
+the tails calibrated at the design. **The first re-matched run gave both
+estimators about 94.5%** — which would have retired the paper's sharpest
+limitation, and was examined for that reason: the synthetic family had the
+two estimators coinciding where the corpus's own families disagree by a
+median 1.50. A kurtosis match alone had picked a 2% contamination share
+against the previous 5%, and a 95% quantile of 400 maxima sees one and not
+the other, so both the round-27 verdict and the first round-28 verdict were
+decided by a grid choice of the tail model the corpus does not constrain.
+The corpus constrains the estimator ratio directly; the calibration now
+targets it (surface family inside the corpus's interquartile range at 1.25
+against 1.50; curve family outside at 1.49 against 2.24, which the article
+states) and the second run decided R28.1. `\covMultNonzeroMedian` is gone;
+a verifier condition fails any design-matched coverage macro that does not
+read the matched row, and fails the build if the matched design has no
+non-zero-truth row.
+
+## R28.3 Revision history in the article. **CONCEDED**
+
+Four passages rewritten as comparisons; the scheme comparison moved to
+Supplement S3.8; `texlint` check 16 gained the phrasings and failed on the
+round-27 source before passing on this one.
+
+## R28.4 Length. **CONCEDED IN PART — measured, not met**
+
+63 → 61 pages; body source 21,400 → 19,900 words with the round's own
+substance added. The moves and compressions are listed in
+`submission/summary_of_changes.md` §4 with the next cuts and their costs.
+
+## R28.5 The package presented internal reviews as if they were referees. **CONCEDED IN FULL**
+
+Cover letter rewritten to say what the reviews were; only the response to the
+journal's own report and a summary of changes are uploaded as correspondence;
+the generative-AI declaration gives the full span of use and names the review
+use; `AI-USE.md` gains the row.
+
+## R28.6 Ten small items. **NINE DONE, ONE OWNER**
+
+The "misreport rate" header, the §6.5 disjunction (now the pair, from a
+macro), Table 3's rung column, the cell counts, the two "1.35"s, contribution
+2, the keyword count, the Romano–Wolf sentence; the DOI is `finalise.py`'s.
+
+## R28.7 Two gates found stale inside the round. **REPAIRED**
+
+The verifier's corruption suite had two cases pointed at files nothing reads
+(`s21_regions`, `s04_rules`) and reported them MISSED; both were re-pointed
+at the files the manuscript reads; the region-label case now fails on the
+operative label set, and the rate case fails on a new independent
+re-derivation of the all-cells rate from the master surface, because the
+suite regenerates macros before verifying and a corrupted summary otherwise
+reproduces itself. 11 of 11 caught. Six provenance entries were stale or never accepted
+(`s22`, `s25`, `s35`, `s44`, `s47`, `s50`); each was checked against its
+output's timestamp before acceptance, and `s35` was re-run because its output
+predated its source by a minute.
+

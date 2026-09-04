@@ -1254,20 +1254,17 @@ def write_tables(D):
                       "pair. `pointwise' is the 95\\% interval at the "
                       "reference cell, basic (pivotal) construction; "
                       "`simultaneous' is that same cell's "
-                      "WHOLE-SURFACE simultaneous band, at the conservative "
-                      "end of the critical value's Monte Carlo interval. They "
+                      "WHOLE-SURFACE simultaneous band at the empirical "
+                      "critical value of Section~\\ref{sec:simbands}, the "
+                      "construction Section~\\ref{sec:simband} measures at its "
+                      "nominal level on the family matched to this design. They "
                       "are different objects, and the region label uses only "
                       "the second. Then the resolution region and the "
-                      "robustness index $\\rho$. NO COVERAGE CALIBRATION IS "
-                      "APPLIED TO EITHER: the $(n,K)$ factor was fitted to "
-                      "restore POINTWISE coverage on a plane built around a "
-                      "different inference surface, and "
-                      "Section~\\ref{sec:simband} measures the family-wise "
-                      "widening these families need as LARGER than it "
-                      "supplies, so these are the nominal labels and they are "
-                      "anti-conservative by an amount the paper reports. "
-                      "Table~\\ref{tab:calbands} prints what applying that "
-                      "factor would have given, beside these. THE REGION IS THE LABEL Definition~\\ref{def:regions} YIELDS, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one. Table~\\ref{tab:triple} MARKS \\nMarkedBelowMinShare\\ rows, which is the larger number: a pair the band already left unresolved is not marked, and \\nSignChangingBelowMinShare\\ of the marked rows are sign-changing, which carry no direction to withdraw. Last, the share of "
+                      "robustness index $\\rho$. NO $(n,K)$ CALIBRATION IS "
+                      "APPLIED: that factor widens the pointwise interval "
+                      "underneath the band and is reported as a sensitivity in "
+                      "Table~\\ref{tab:calbands}, which also prints what the "
+                      "multiplier approximation would have resolved. THE REGION IS THE LABEL Definition~\\ref{def:regions} YIELDS, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one. Table~\\ref{tab:triple} MARKS \\nMarkedBelowMinShare\\ rows: a pair the band already left unresolved is not marked, and \\nSignChangingBelowMinShare\\ of the marked rows are sign-changing, which carry no direction to withdraw. Last, the share of "
                       "admissible specifications whose sign disagrees with a "
                       "conventional one-number report, under the equal-level "
                       "measure, which is the `all-cells rate' column of "
@@ -1282,7 +1279,7 @@ def write_tables(D):
                       colnames={"V": "V at reference",
                                 "rho": "rho",
                                 "one_number_misreport_conventional":
-                                    "misreport rate"}),
+                                    "sign-disagreement rate"}),
             encoding="utf-8")
     else:
         blank("master", "The master table.", "tab:master")

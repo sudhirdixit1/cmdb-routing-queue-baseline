@@ -139,13 +139,23 @@ def emit(mn):
     #  CORRECTLY from one that never resolves at all.  With a heterogeneous
     #  non-zero truth a cell can be correctly resolved, and the family-wise
     #  coverage is then the quantity the label actually depends on.
+    #
+    #  ROUND TWENTY-EIGHT.  `\covMultNonzeroMedian' was the median over six
+    #  synthetic families matched to the OLD surface, none of them the design
+    #  the corpus runs, and Section 10 quoted it beside the matched 91.6% as
+    #  if the two were the same kind of statement (R28.2).  It is retired:
+    #  the pooled median keeps the word in its name, and a sentence about the
+    #  reported design reads `\covMultNonzeroWholeAtDesign', which
+    #  round21_numbers derives from the (180, 400) row and nothing else.
     F41 = load("s41_facts.csv")
     if F41 is not None and len(F41) and "cov_q_mult_nonzero_median" in F41.columns:
-        put("covMultNonzeroMedian", pct(first(F41, "cov_q_mult_nonzero_median"), 1))
-        put("covMultNonzeroMin", pct(first(F41, "cov_q_mult_nonzero_min"), 1))
+        put("covMultNonzeroPooledMedian",
+            pct(first(F41, "cov_q_mult_nonzero_median"), 1))
+        put("covMultNonzeroPooledMin",
+            pct(first(F41, "cov_q_mult_nonzero_min"), 1))
     else:
-        put("covMultNonzeroMedian", None)
-        put("covMultNonzeroMin", None)
+        put("covMultNonzeroPooledMedian", None)
+        put("covMultNonzeroPooledMin", None)
 
     # ================================================================
     # s47 -- THE TWO RESAMPLING SCHEMES, COMPARED ON ONE DESIGN
@@ -372,6 +382,25 @@ def emit(mn):
     #  still reports the multiplier band.  What it BUYS is the strongest
     #  statement in the paper: the one uniformly beneficial surface survives
     #  it, so rho = 1 is not an artefact of a band that undercovers.
+    #  ROUND TWENTY-EIGHT: the same reckoning under the MULTIPLIER, by name,
+    #  read from the region file's own `_mult' label set, so that the
+    #  comparison the article prints holds whichever estimator is operative
+    _rg28 = mn.RESULTS / "s48w_regions.csv"
+    if _rg28.exists():
+        _R28 = pd.read_csv(_rg28)
+        if {"n_resolved_mult", "rho_mult", "n_resolved_emp"} <= set(_R28.columns):
+            _nm, _ne = int(_R28.n_resolved_mult.sum()), int(_R28.n_resolved_emp.sum())
+            put("rhoMedianMult", num(float(_R28.rho_mult.median()), 3))
+            put("nPairsResolvingNothingMult",
+                int((_R28.n_resolved_mult == 0).sum()))
+            put("nPairsResolvingNothingEmp",
+                int((_R28.n_resolved_emp == 0).sum()))
+            put("nResolvedLostToEmp", thousands(_nm - _ne))
+            put("nUnresolvedPairsMult",
+                int((_R28.region_mult.astype(str) == "unresolved").sum()))
+            put("nUnifBenSensMult",
+                int((_R28.region_mult.astype(str)
+                     == "uniformly beneficial").sum()))
     _bw2 = mn.RESULTS / "s48w_bands.csv.gz"
     _emp = ("nResolvedEmpBand", "nUnifBenEmpBand", "rhoMedianEmpBand",
             "nCondBeneficialEmpBand", "nCondHarmfulEmpBand",
@@ -710,6 +739,39 @@ def emit(mn):
             thousands(int(first(F49, "n_family_beneficial_widened"))))
         put("dcaDipThetaWidened", num(first(F49, "dip_theta_widened"), 3))
         put("dcaDipValueWidened", num(first(F49, "dip_value_widened"), 4))
+        #  ROUND TWENTY-EIGHT: the empirical quantile on the admissible
+        #  family -- the construction that replaces the widening when the
+        #  decision rule adopts it -- and the counts under it
+        if "q_emp_adm" in F49.columns:
+            put("dcaQEmp", num(first(F49, "q_emp_adm"), 2))
+            put("dcaQEmpLo", num(first(F49, "q_emp_adm_lo"), 2))
+            put("dcaQEmpHi", num(first(F49, "q_emp_adm_hi"), 2))
+            put("dcaQEmpAll", num(first(F49, "q_emp_all"), 2))
+            put("nDcaCellsAdmissible",
+                thousands(int(first(F49, "n_cells_admissible"))))
+            put("nDcaCellsExcludedDegenerate",
+                int(first(F49, "n_cells_excluded_degenerate")))
+            put("nBeneficialSimultaneousEmp",
+                int(first(F49, "n_beneficial_sim_emp")))
+            put("nHarmfulSimultaneousEmp",
+                int(first(F49, "n_harmful_sim_emp")))
+            put("nUnresolvedSimultaneousEmp",
+                int(first(F49, "n_unresolved_sim_emp")))
+            put("nBeneficialSimultaneousEmpHi",
+                int(first(F49, "n_beneficial_sim_emp_hi")))
+            put("nBeneficialSimultaneousEmpAll",
+                int(first(F49, "n_beneficial_sim_emp_all")))
+            put("nBeneficialLostToEmp",
+                int(first(F49, "n_beneficial_lost_to_emp")))
+            put("thetaBeneficialEmpMin",
+                num(first(F49, "theta_min_beneficial_emp"), 2))
+            put("dcBandWidthEmp", num(first(F49, "width_sim_emp"), 4))
+            put("dcaBeneficialSimultaneousEmp",
+                thousands(int(first(F49, "n_family_beneficial_emp"))))
+            put("dcaHarmfulSimultaneousEmp",
+                thousands(int(first(F49, "n_family_harmful_emp"))))
+            put("dcaBeneficialSimultaneousEmpAll",
+                thousands(int(first(F49, "n_family_beneficial_emp_all"))))
     else:
         for k in ("dcaQWidened", "dcaWidenFactor", "dcaWidenFactorAll",
                   "nBeneficialSimultaneousWidened",
@@ -720,6 +782,34 @@ def emit(mn):
                   "dcaBeneficialSimultaneousWidened", "dcaDipThetaWidened",
                   "dcaDipValueWidened"):
             put(k, None)
+
+    # ================================================================
+    # s36 -- the pair on which the sub-surface has one sign and the full
+    #        surface does not, named rather than described by a disjunction
+    # ================================================================
+    F36 = load("s36_facts.csv")
+    if F36 is not None and len(F36) and "sub_surface_disagree_pairs" in F36.columns:
+        _pp = str(first(F36, "sub_surface_disagree_pairs") or "")
+        _rr = str(first(F36, "sub_surface_disagree_regions") or "")
+        import re as _re36
+        _names = [_re36.sub(r"\s*\(.*\)$", "", x.strip()) for x in _pp.split(";") if x.strip()]
+        put("scaSubSurfacePair", "; ".join(n.replace("_", "\\_") for n in _names) or None)
+        put("scaSubSurfaceRegion", _rr.replace("_", "\\_") or None)
+    else:
+        put("scaSubSurfacePair", None)
+        put("scaSubSurfaceRegion", None)
+
+    #  the conditionally harmful labels the operative band reaches before the
+    #  minimum share, and the most cells any of them rests on
+    _rg36 = mn.RESULTS / "s48w_regions.csv"
+    if _rg36.exists():
+        _R36 = pd.read_csv(_rg36)
+        _ch = _R36[_R36.region.astype(str) == "conditionally harmful"]
+        put("nCondHarmfulResolvedMax",
+            int((_ch.n_beneficial + _ch.n_harmful).max()) if len(_ch) else 0)
+        put("condHarmfulPairs",
+            "; ".join("%s/%s" % (str(r.log).replace("_", "\\_"), r.target)
+                      for r in _ch.itertuples()) or None)
 
     # ================================================================
     # s46 -- is the increment stationary across the test half?

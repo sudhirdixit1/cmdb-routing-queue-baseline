@@ -358,11 +358,23 @@ def check(vn, M):
         if len(wi_) and float(ws.n_family.min()) < float(wi_.n_family.max()):
             vn.FAILS.append("s21: the whole-surface family is smaller than "
                             "the within-instrument family")
-        per = ws.groupby(["log", "target"]).q.first()
+        #  ROUND TWENTY-EIGHT: the critical value the article quotes is the
+        #  OPERATIVE one (`q_op'), whichever estimator s21 was run with; the
+        #  two estimators are re-derived by name beside it
+        _qcol = "q_op" if "q_op" in ws.columns else "q"
+        per = ws.groupby(["log", "target"])[_qcol].first()
         eq("maxTSurfaceMedian", fmt_num(float(per.median()), 2), M,
-           "median over pairs, recomputed from s48w_bands")
+           "median over pairs of the operative critical value, recomputed "
+           "from s48w_bands")
         eq("maxTSurfaceMin", fmt_num(float(per.min()), 2), M)
         eq("maxTSurfaceMax", fmt_num(float(per.max()), 2), M)
+        _pm = ws.groupby(["log", "target"]).q.first()
+        eq("maxTSurfaceMultMedian", fmt_num(float(_pm.median()), 2), M,
+           "median multiplier critical value over pairs")
+        if "q_emp" in ws.columns:
+            _pe = ws.groupby(["log", "target"]).q_emp.first()
+            eq("maxTSurfaceEmpMedian", fmt_num(float(_pe.median()), 2), M,
+               "median empirical critical value over pairs")
         fam = ws.groupby(["log", "target"]).n_family.first()
         eq("familySizeMedian", fmt_thousands(float(fam.median())), M)
         wi = B21[B21.family == "within-instrument"]

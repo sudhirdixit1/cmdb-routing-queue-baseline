@@ -37,8 +37,8 @@ recur across the temporal split, so that a document number is not mistaken for
 a maintained entity.
 \item[The free field $g$.] A resource-like attribute, present on at least
 \minGPresent\ of cases, whose value varies within a case, so that it can carry
-information about routing. \textbf{Only the \emph{first} value it takes on a
-case is used as a feature}, while the handover target is defined from the
+information about routing. Only the \emph{first} value it takes on a
+case is used as a feature, while the handover target is defined from the
 whole sequence of values --- so the feature is what is known when the case
 opens and the target is what happens afterwards, and the field cannot inform
 the model about its own future. The distinction is not cosmetic: the same
@@ -56,8 +56,8 @@ Section~\ref{sec:programme}.
 
 \input{tables/roles}
 
-\textbf{Table~\ref{tab:roles} is what the rules found, and it is also the
-design space as it was actually varied.} It names, per pair, the attribute
+Table~\ref{tab:roles} is what the rules found, and it is also the
+design space as it was actually varied. It names, per pair, the attribute
 that plays each role and the number of levels each axis carries. Two things
 are visible there that Definition~\ref{def:space} and
 Table~\ref{tab:axes} do not say. The \emph{target} is not an axis of any
@@ -82,20 +82,20 @@ longer than the training half's median. Cases are ordered by first timestamp
 and split $70/30$, with \nFolds\ expanding-window rolling-origin folds
 beside it, and fields determined only at closure are excluded by name
 \citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}. A pair is
-excluded only for a registered reason, and \textbf{every admitted pair is
-analysed and reported} --- running the surface only where the reduction
+excluded only for a registered reason, and every admitted pair is
+analysed and reported --- running the surface only where the reduction
 resolves would condition the analysis on the outcome.
 Supplement~\ref{app:targets} gives the rules, the exclusion codes and the
 admission margin at the upper edge of the prevalence window.
 
-\textbf{Two exclusions a reader of Table~\ref{tab:roles} will ask about.}
+Two exclusions a reader of Table~\ref{tab:roles} will ask about.
 BPIC15\_2 is excluded under \textsc{small\_n} at \nBpicFifteenTwoRows\ cases
 while its four siblings are admitted --- the rule is a floor on the case count
 and nothing about the log's content --- and the further BPIC15 targets, the
 BPIC20 logs and BPIC12 are excluded under \textsc{no\_headroom} or
-\textsc{no\_g}, which are prevalence and role failures. \textbf{And the
+\textsc{no\_g}, which are prevalence and role failures. And the
 registered handover target on the case study's log sits at the upper edge of
-the admission window}: test prevalence \prevAdmittedMax\ against a
+the admission window: test prevalence \prevAdmittedMax\ against a
 window that closes at \prevHi, which excludes other logs at
 \prevExcludedAboveMin. That pair carries \nCellsBpicFourteenHandover\ of the
 corpus's \nDeclaredAdmissibleScalar\ admissible cells --- the log carries
@@ -108,30 +108,19 @@ Section~\ref{sec:lim} asks whether the window should be tightened.
 \label{sec:construct}
 
 
-The corpus is \nLogs\ public logs spanning \nDomains\ domains, and it includes
-the further ITSM logs the literature uses
-\citep{steeman2013bpic,amaral2018incident}. It is heterogeneous and the paper
-does not claim otherwise. The registers are a configuration item, a caller, a
-product, a vendor, a diagnosis and a legal article; the free fields are an
-assignment group, an assignee, a resource and a role; the targets mean
+The corpus is \nLogs\ public logs spanning \nDomains\ domains, including the
+further ITSM logs the literature uses \citep{steeman2013bpic,amaral2018incident},
+and it is heterogeneous: the registers are a configuration item, a caller, a
+product, a vendor, a diagnosis and a legal article, and the targets mean
 different things in a bank's incident queue, a hospital's admissions and a
-municipality's permits.
-
-Table~\ref{tab:construct} names, for every pair, the domain, the field
-playing each role, the target's interpretation and the specific construct
-threat that pair carries --- a diagnosis code is admitted by a
-cardinality-and-reuse rule and is not a configuration management database, and
-a legal article is reused across cases but nobody maintains a discovery
-process for it. Those are threats, named per pair, and the paper's conclusions
-are stated at a level that survives them.
-
+municipality's permits. Table~\ref{tab:construct} names, for every pair, the
+domain, the field playing each role, the target's interpretation and the
+construct threat that pair carries --- a diagnosis code is admitted by a
+cardinality-and-reuse rule and is not a configuration management database.
 This is therefore a \emph{benchmark of specification sensitivity across
 heterogeneous prediction problems}, not a replication of one finding on
-several organisations, and two disciplines follow. No domain-specific effect
-magnitude is averaged across domains as though it estimated one universal
-register value: the corpus-level statistics are all about \emph{sensitivity},
-which is a property each pair has separately and which can be summarised
-across pairs without assuming they measure one thing. And the \nITSMPairs\
-ITSM-like pairs, the closest family to the case study, are analysed as a group
-as well, with \emph{every} headline corpus statistic reported on both
-populations in Section~\ref{sec:family}.
+several organisations, and two disciplines follow: no effect magnitude is
+averaged across domains as though it estimated one universal register value,
+and the \nITSMPairs\ ITSM-like pairs, the closest family to the case study,
+are analysed as a group as well, with every headline corpus statistic
+reported on both populations in Section~\ref{sec:family}.

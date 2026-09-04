@@ -1,12 +1,15 @@
-This section derives a critical value calibrated at the pair's own ratio of
-register cardinality to training row count. \textbf{The article does not
-apply it.} The factor was fitted to restore \emph{pointwise} coverage on a
-plane built around a different inference surface, and
-Section~\ref{sec:simband} measures the family-wise widening the article's
-families need as larger than this factor supplies, so applying it would spend
-resolution and still not earn the level. The construction is given in full
-because the measurement that retired it is only legible beside it, and because
-the sensitivity of every downstream count to it is reported below.
+This section derives a widening calibrated at the pair's own ratio of
+register cardinality to training row count. \textbf{The article reports it
+as a sensitivity and does not apply it.} The factor is fitted to restore
+\emph{pointwise} coverage on the $(n, K)$ plane of
+Section~\ref{sec:simsensitivity}: it addresses the channel the family-wise
+measurement of Section~\ref{sec:simband} switches off --- the interval
+underneath the band, which is governed by $K/n$ --- and not the critical
+value, which that measurement settles. It is fitted pointwise and applied
+simultaneously, its transfer from simulated worlds to real logs is an
+assumption, and it is measurably misspecified in $n$ (below); the
+construction is given in full so that a reader can see what applying it
+would cost, and the sensitivity of every downstream count to it is reported.
 
 \subsection{The inflation factor has a closed form}
 
@@ -109,10 +112,10 @@ nothing: the rejected cells reach \straddleGapLo\ and the admitted ones start
 at \straddleGapHi, so any threshold between those two gives this plane.
 Section~\ref{sec:lim} carries what that leaves the corpus's largest pairs.
 
-Under the band the article reports --- no widening applied --- the region
-counts, the labels Definition~\ref{def:regions} yields with the minimum
-resolved share included, which are the ones Table~\ref{tab:master} prints,
-are: conditionally beneficial, \nCondBeneficialMinShare; sign-changing,
+Under the band the article reports --- the empirical critical value, no
+widening applied --- the region counts, the labels
+Definition~\ref{def:regions} yields with the minimum resolved share
+included, which are the ones Table~\ref{tab:master} prints, are: conditionally beneficial, \nCondBeneficialMinShare; sign-changing,
 \nSignChangingMinShare; conditionally harmful, \nCondHarmfulMinShare;
 uniformly beneficial, \nUniformlyBeneficialMinShare; unresolved,
 \nUnresolvedMinShare; and the median robustness index is \rhoMedian. Before
@@ -121,19 +124,21 @@ the minimum share is applied the same band gives \nCondBeneficial,
 in that same order. The minimum share moves \nMarkedBelowMinShare\ of the
 labels, of which \nLabelsLostToMinShare\ are directions withdrawn and
 \nSignChangingBelowMinShare\ are sign-changing pairs that carried no
-direction to withdraw (Table~\ref{tab:triple}). One of those is the only
-conditionally harmful label the band reaches, so under
-Definition~\ref{def:regions} this corpus carries no conditionally harmful
-surface at all.
+direction to withdraw (Table~\ref{tab:triple}). Every conditionally
+harmful label the band reaches --- \nCondHarmful\ of them, on
+\condHarmfulPairs, resting on at most \nCondHarmfulResolvedMax\ resolved cells
+of \nHelpdeskFamily\ --- is among those withdrawn, so under
+Definition~\ref{def:regions} this corpus carries \nCondHarmfulMinShare\
+conditionally harmful surfaces.
 
-\noindent Had the widening been applied instead, the same definition would
-give \nCondBeneficialCal, \nSignChangingCal, \nCondHarmfulCal,
+\noindent Had the widening been applied on top of it, the same definition
+would give \nCondBeneficialCal, \nSignChangingCal, \nCondHarmfulCal,
 \nUniformlyBeneficialCal\ and \nUnresolvedCalibrated\ in that order, at a
 median robustness index of \rhoMedianCalibrated. That is the column
 Table~\ref{tab:calbands} prints beside the reported one, and it is what the
-resolution would cost --- which is the reckoning Section~\ref{sec:simband}
-says the corpus cannot afford to call a correction, because the widening
-these families need is larger still.
+pointwise channel would cost if its correction transferred from the
+simulated plane to these logs, which the article treats as an assumption
+rather than a result.
 
 \subsection{The $(n,K)$ grid, cell by cell}
 
@@ -201,29 +206,25 @@ arithmetic.
 %%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
 
 \textbf{The counts are reported at four settings, and the ordering is stable
-across all of them.} At $c = 1$ --- the nominal band, no calibration at all
---- the corpus resolves \nResolvedSensNominal\ cells at a median $\rho$ of
-\rhoSensNominal; under the calibrated factors, \nResolvedSensCalibrated\ cells
-at \rhoSensCalibrated; pushing every factor to the upper end of its own Monte
-Carlo interval, \nResolvedSensUpper\ at \rhoSensUpper; and under the
-\emph{empirical} critical value of Section~\ref{sec:simbands} rather than the
-multiplier one, \nResolvedWholeEmp\ against the multiplier's
-\nResolvedWholeMult. \textbf{The first of those four is the one the article
-reports}: the calibrated and upper-end rungs are a sensitivity ladder showing
-what a widening would cost, not settings the corpus runs under, because none
-is applied (Section~\ref{sec:simband}). That last comparison is not a
-calibration setting either but a different estimator of the same quantity, and
-it moves the resolution by \emph{less} than the calibration would ---
-\nResolvedEmpBand\ cells against the calibrated rung's
-\nResolvedSensCalibrated, from a nominal \nResolvedSensNominal. What moves across all four is how much resolution
-the corpus has; what does not move is which pair reaches $\rho = 1$: the
-count is \nUnifBenSensNominal\ at $c = 1$, \nUnifBenSensCalibrated\ under
-the calibrated factors and \nUnifBenSensUpper\ with every factor at the
-upper end of its own Monte Carlo interval, and \nUnifBenEmpBand\ under the
-empirical critical value --- the one construction Section~\ref{sec:simband}
-measures at its nominal level --- and it is the same pair every time. Across the corpus \nRegionsChangedByCalibration\ region labels change
-under the widening, and that one is not among them. The
-transfer from a pointwise interval in a simulation to a simultaneous band on
-real logs, and the choice between the two critical-value estimators, are both
-assumptions, and Section~\ref{sec:lim} carries them as limitations.
+across all of them.} Under the multiplier critical value the corpus would
+resolve \nResolvedWholeMult\ cells at a median $\rho$ of \rhoMedianMult;
+under the empirical critical value the article reports, at $c = 1$ ---
+no widening --- \nResolvedSensNominal\ cells at \rhoSensNominal; under the
+calibrated factors on top of it, \nResolvedSensCalibrated\ cells at
+\rhoSensCalibrated; and pushing every factor to the upper end of its own
+Monte Carlo interval, \nResolvedSensUpper\ at \rhoSensUpper. \textbf{The
+second of those four is the one the article reports}: the first is the
+approximation Section~\ref{sec:simband} measures short of its level, and
+the calibrated and upper-end rungs are a sensitivity ladder for the
+pointwise channel, not settings the corpus runs under, because the widening
+is not applied. What moves across all four is how much resolution the
+corpus has; what does not move is which pair reaches $\rho = 1$: the count
+is \nUnifBenSensNominal\ under the reported band, \nUnifBenSensCalibrated\
+under the calibrated factors, \nUnifBenSensUpper\ with every factor at the
+upper end of its own Monte Carlo interval, and \nUnifBenSensMult\ under the
+multiplier, and it is the same pair every time. Across the corpus
+\nRegionsChangedByCalibration\ region labels change under the widening, and
+that one is not among them. The transfer from a pointwise interval in a
+simulation to a simultaneous band on real logs is an assumption, and
+Section~\ref{sec:lim} carries it as a limitation.
 

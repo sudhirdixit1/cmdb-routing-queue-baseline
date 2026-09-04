@@ -184,10 +184,33 @@ def critical(W, alpha=ALPHA):
                 se=se[ok], mu=mu[ok], members=list(ok))
 
 
-def bands_from(W, point, fam, q_field="q_hi"):
+#: which estimator of the critical value the RESOLVED flag, the region labels
+#: and every downstream consumer of `cons_lo`/`cons_hi` use.
+#:
+#:   mult   the upper end of the Gaussian multiplier's Monte Carlo interval
+#:          (`q_hi`) -- what every version through round twenty-seven used;
+#:   emp    the empirical (1 - alpha) quantile of the B observed maxima
+#:          (`q_emp`) -- the Romano-Wolf construction as cited.
+#:
+#: ROUND TWENTY-EIGHT.  s41 measures, on the family matched to the design the
+#: corpus runs, the multiplier at 91.6% family-wise coverage and the empirical
+#: quantile at 94.7% (SE 0.5).  Two estimators of ONE quantile disagreeing,
+#: with one measured at its level, is not a choice between two objects; the
+#: operative value is the one that covers.  The decision rule is written in
+#: PLAN-ROUND28.md section 1.4 and was fixed before the run that decided it.
+#: `--operative` selects; both sets of edges and labels are always written,
+#: under `mult_*` and `emp_*`, so the comparison is on disk whichever is
+#: operative.  `emphi_*` is the order-statistic upper end of the empirical
+#: quantile, the sensitivity the manuscript prints beside it.
+OPERATIVE = "mult"
+OPERATIVE_FIELD = {"mult": "q_hi", "emp": "q_emp"}
+
+
+def bands_from(W, point, fam, q_field=None):
     """Build simultaneous bands for one declared family.  `q_field` selects
-    the critical value used for the RESOLVED flag: q_hi is the conservative
-    end of the Monte Carlo interval."""
+    the critical value used for the RESOLVED flag and written to
+    `cons_lo`/`cons_hi`; by default it follows OPERATIVE."""
+    q_field = q_field or OPERATIVE_FIELD[OPERATIVE]
     c = critical(W)
     if c is None:
         return []
@@ -203,14 +226,19 @@ def bands_from(W, point, fam, q_field="q_hi"):
                          q=c["q"], q_lo=c["q_lo"], q_hi=c["q_hi"],
                          q_emp=c["q_emp"], q_emp_lo=c["q_emp_lo"],
                          q_emp_hi=c["q_emp_hi"],
+                         q_op=c[q_field], operative=OPERATIVE,
                          n_family=c["n_family"], n_draws=c["n_draws"],
                          n_mult=c["n_mult"],
                          sim_lo=centre - c["q"] * se,
                          sim_hi=centre + c["q"] * se,
                          cons_lo=centre - c[q_field] * se,
                          cons_hi=centre + c[q_field] * se,
+                         mult_lo=centre - c["q_hi"] * se,
+                         mult_hi=centre + c["q_hi"] * se,
                          emp_lo=centre - c["q_emp"] * se,
-                         emp_hi=centre + c["q_emp"] * se))
+                         emp_hi=centre + c["q_emp"] * se,
+                         emphi_lo=centre - c["q_emp_hi"] * se,
+                         emphi_hi=centre + c["q_emp_hi"] * se))
     return rows
 
 
@@ -246,15 +274,20 @@ def main(argv=None):
     overwrite the other's files.  With no arguments this is exactly the
     function it was: `results/s20` in, `results/s21_*` out.
     """
+    global INCOMPLETE, OPERATIVE
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--draws-dir", default="s20",
                     help="directory under results/ holding draws_*.csv.gz")
     ap.add_argument("--prefix", default="s21",
                     help="prefix for the output files under results/")
+    ap.add_argument("--operative", default=OPERATIVE,
+                    choices=sorted(OPERATIVE_FIELD),
+                    help="the critical-value estimator the labels use; "
+                         "both sets are written whichever is chosen")
     a = ap.parse_args(argv)
-    global INCOMPLETE
     INCOMPLETE = []
+    OPERATIVE = a.operative
     t0 = time.time()
     files = sorted((RESULTS / a.draws_dir).glob("draws_*.csv.gz"))
     if not files:
@@ -309,6 +342,7 @@ def main(argv=None):
                               q_hi=rows[0]["q_hi"], q_emp=rows[0]["q_emp"],
                               q_emp_lo=rows[0]["q_emp_lo"],
                               q_emp_hi=rows[0]["q_emp_hi"],
+                              q_op=rows[0]["q_op"], operative=OPERATIVE,
                               n_family=rows[0]["n_family"],
                               n_draws=rows[0]["n_draws"],
                               n_mult=rows[0]["n_mult"]))
@@ -346,6 +380,7 @@ def main(argv=None):
                                   q_emp=rd[0]["q_emp"],
                                   q_emp_lo=rd[0]["q_emp_lo"],
                                   q_emp_hi=rd[0]["q_emp_hi"],
+                                  q_op=rd[0]["q_op"], operative=OPERATIVE,
                                   n_family=rd[0]["n_family"],
                                   n_draws=rd[0]["n_draws"],
                                   n_mult=rd[0]["n_mult"]))
@@ -360,6 +395,20 @@ def main(argv=None):
                                for lo, hi in zip(WS.sim_lo, WS.sim_hi)]
         reg, nb_, nh, nu = region_of(WS.label)
         regn, _b, _h, _u = region_of(WS.label_nominal)
+        #  the same labels under EACH estimator, whichever is operative, so
+        #  the comparison the manuscript prints is on disk rather than
+        #  recomputed by whoever needs it
+        alt = {}
+        for tag in ("mult", "emp", "emphi"):
+            lab = pd.Series([label_of(lo, hi) for lo, hi in
+                             zip(WS[tag + "_lo"], WS[tag + "_hi"])])
+            r_, b_, h_, u_ = region_of(lab)
+            alt["region_" + tag] = r_
+            alt["n_beneficial_" + tag] = b_
+            alt["n_harmful_" + tag] = h_
+            alt["n_unresolved_" + tag] = u_
+            alt["rho_" + tag] = (b_ - h_) / float(len(WS))
+            alt["n_resolved_" + tag] = b_ + h_
         #  the same labels under round nineteen's narrower family, so the
         #  manuscript can say what the correction changed
         WI = pd.DataFrame(wi)
@@ -388,7 +437,9 @@ def main(argv=None):
             n_cells_within=int(len(WI)),
             share_positive=float((WS.V > 0).mean()),
             q=float(WS.q.iloc[0]), q_hi=float(WS.q_hi.iloc[0]),
-            n_draws=int(WS.n_draws.iloc[0])))
+            q_emp=float(WS.q_emp.iloc[0]), q_op=float(WS.q_op.iloc[0]),
+            operative=OPERATIVE,
+            n_draws=int(WS.n_draws.iloc[0])) | alt)
         print("  [%s/%s] %d cells, q=%.2f [%.2f,%.2f], %s"
               % (log, target, n, WS.q.iloc[0], WS.q_lo.iloc[0],
                  WS.q_hi.iloc[0], reg), flush=True)
@@ -480,7 +531,27 @@ def main(argv=None):
         n_incomplete_families=len(INCOMPLETE),
         n_region_changed_by_mc=int(
             (R.region != R.region_nominal_q).sum()) if len(R) else 0,
+        operative=OPERATIVE,
+        q_op_median=float(Q[Q.family == "whole-surface"].q_op.median())
+        if len(Q) else np.nan,
         runtime_s=round(time.time() - t0, 1))
+    #  the corpus reckoning under each estimator, whichever is operative
+    for tag in ("mult", "emp", "emphi"):
+        if len(R) and ("region_" + tag) in R:
+            rg = R["region_" + tag]
+            facts["n_resolved_" + tag] = int(R["n_resolved_" + tag].sum())
+            facts["rho_median_" + tag] = float(R["rho_" + tag].median())
+            facts["n_uniformly_beneficial_" + tag] = int(
+                (rg == "uniformly beneficial").sum())
+            facts["n_conditionally_beneficial_" + tag] = int(
+                (rg == "conditionally beneficial").sum())
+            facts["n_conditionally_harmful_" + tag] = int(
+                (rg == "conditionally harmful").sum())
+            facts["n_sign_changing_" + tag] = int(
+                (rg == "sign-changing").sum())
+            facts["n_unresolved_" + tag] = int((rg == "unresolved").sum())
+            facts["n_pairs_resolving_nothing_" + tag] = int(
+                (R["n_resolved_" + tag] == 0).sum())
     pd.DataFrame([facts]).to_csv(RESULTS / (a.prefix + "_facts.csv"), index=False)
     print("\n" + pd.Series(facts).to_string())
 

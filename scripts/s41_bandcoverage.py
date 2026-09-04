@@ -103,6 +103,7 @@ fourth exists because the first three cannot distinguish a band that covers
 from a band that never resolves anything.
   gaussian     no contamination; the case the multiplier is derived for
   heavy        contamination calibrated to the corpus's kurtosis profile
+               AND to its own ratio q_emp/q (round twenty-eight)
   degenerate   heavy, plus a share of cells put on a coarse lattice so that
                most of their draws are exactly zero -- the decision-curve
                cells above.  Their own bands are trivially right; what they
@@ -141,13 +142,21 @@ per-cell interval it is built from may not cover, or the multiplicity
 correction may be too small.  Every replicate therefore also records the
 coverage of the per-cell basic interval on the same draws.  It is not 95%
 even here: built from 33 draws the basic interval covers at about 0.90 and
-from 150 at about 0.93, reaching nominal only past about 400, and the corpus
-runs at 33 to 150 while Section 10 validated the construction at 100 refits.
-Part of what the band loses it loses before any critical value is chosen.
+from 150 at about 0.93, reaching nominal only past about 400 -- which is the
+count every pair has carried since round twenty-seven.  Part of what the band
+loses it loses before any critical value is chosen.
+
+ROUND TWENTY-EIGHT.  The grid is matched to the balanced design the corpus
+now runs (see GRID), the tails are calibrated at that design, the draw-count
+ladder runs under the non-zero truth as well, and the facts file carries a
+`_design` value for every candidate and regime on each matched family, so
+that a manuscript sentence about "the reported design" has a row to be read
+from.  The pooled `_median`/`_min` facts remain and are what their names say.
 
     python s41_bandcoverage.py --plan          # the cost, no simulation
     python s41_bandcoverage.py --only profile
     python s41_bandcoverage.py                 # all three stages
+    python s41_bandcoverage.py --legacy        # the round-25/27 grid as well
     python s41_bandcoverage.py --selftest      # the two exactness checks
 
 Outputs: results/s41_profile.csv      per corpus family: the shape measured
@@ -197,9 +206,37 @@ TAU_DEGENERATE = 0.90
 TAU_ALT = (0.50, 0.75, 0.95, 0.99)
 
 #: the coverage grid.  Each cell names the corpus family it is matched to, so
-#: that a reader can check the match in results/s41_profile.csv rather than
+#: that a reader can check the match in results/s41_profile*.csv rather than
 #: take the word "matched" on trust.
+#:
+#: ROUND TWENTY-EIGHT re-declared it.  The six cells below under LEGACY_GRID
+#: were matched to the OLD inference surface -- unbalanced, 33 to 150 draws,
+#: families of 120 to 2,966 cells -- and round twenty-seven replaced that
+#: surface with one design on every pair (180 scalar cells at 400 draws;
+#: about 1,100 decision-curve cells at 400 draws) without re-declaring this
+#: grid.  The only cell matched to the reported design was the draw-count
+#: ladder's 400 point, run under `heavy` alone, and the manuscript quoted a
+#: median over the six legacy cells under `nonzero` as "84.3% under a
+#: non-zero truth" beside the matched 91.6%.  A pooled median over families
+#: the corpus does not run is not a corpus statement, which is the defect
+#: REFEREE-LOG R27.19 records three times and R28.2 a fourth.
+#:
+#: The grid now carries exactly the families the manuscript reports: every
+#: pair's surface family, the modal decision-curve family, and the case
+#: study's own calibrated curve family (s26: 248 cells at 200 draws).
 GRID = (
+    (180, 400, "whole-surface",
+     "every pair's surface family: 2 x 2 x 3 x 3 cells x 5 instruments, "
+     "balanced, at 400 draws (s44_weighted)"),
+    (1100, 400, "decision-curve",
+     "the modal decision-curve family at 400 draws (s48w: 1,058 to 1,116)"),
+    (248, 200, "decision-curve",
+     "the case study's calibrated curve family, s26_bands.csv"),
+)
+#: the previous grid, kept so that the history in the supplement can be
+#: described and so that `--legacy` can reproduce it; nothing in the article
+#: quotes a number measured on it.
+LEGACY_GRID = (
     (120, 33, "whole-surface", "BPIC19/duration, the smallest surface family"),
     (180, 80, "whole-surface", "the modal surface family"),
     (480, 150, "whole-surface", "BPIC14, the largest surface family"),
@@ -230,23 +267,28 @@ REGIMES = ("gaussian", "heavy", "degenerate", "nonzero")
 TRUTH_SCALE = 2.0
 REPS = 2000
 
-#: the draw-count sensitivity, at the modal surface cell.  400 is past where
-#: the per-cell interval reaches nominal and is not affordable on the corpus;
-#: it is here to show what the corpus's draw counts cost.
+#: the draw-count sensitivity, at the surface cell.  400 is the count every
+#: pair now carries; the ladder shows what fewer would have cost and what
+#: more would buy, and it is run under `heavy` AND `nonzero` because the two
+#: critical-value estimators plateau at different levels along it (R27.19)
+#: and a region label's verdict is only visible under a non-zero truth.
 BSENS = (33, 80, 150, 400, 1000)
+BSENS_REGIMES = ("heavy", "nonzero")
 
 CANDIDATES = ("q_mult", "q_mult_hi", "q_emp", "q_emp_hi", "q_rad")
 
 #: the calibration grids.  Small and declared; the fit each achieves is
 #: written beside the target it was fitting.
 CAL_P = (0.05, 0.10, 0.20, 0.35, 0.50, 0.75, 1.0)   # share of cells fragile
-CAL_EPS = (0.01, 0.02, 0.05, 0.10)        # share of draws contaminated
+CAL_EPS = (0.01, 0.02, 0.035, 0.05, 0.075, 0.10, 0.15)  # share of draws contaminated
 CAL_LAM = (1.5, 2.0, 3.0, 4.0, 6.0, 9.0)  # what a contaminated draw is worth
 CAL_R = (2, 4, 8, 16, 32, 64)
 CAL_W = (0.05, 0.10, 0.20, 0.35, 0.50)
 CAL_M = (0.0, 0.2, 0.4, 0.8)
 CAL_REPS = 60
-CAL_CELL = {"whole-surface": (180, 80), "decision-curve": (1100, 80)}
+#: the cell each family type's tail is calibrated at: the matched design, so
+#: that the kurtosis fitted at B draws is the kurtosis the grid is scored at
+CAL_CELL = {"whole-surface": (180, 400), "decision-curve": (1100, 400)}
 
 #: the degenerate regime: this share of cells is put on a lattice this many
 #: standard deviations coarse, which makes most of their draws exactly zero.
@@ -616,7 +658,17 @@ def calibrate(P, procs):
                    absrho_mean=float(col("absrho_mean").median()),
                    eff_rank_frac=float(col("eff_rank_frac").median()),
                    kurt_med=float(col("kurt_med").median()),
-                   kurt_p90=float(col("kurt_p90").median()))
+                   kurt_p90=float(col("kurt_p90").median()),
+                   #  ROUND TWENTY-EIGHT: the corpus's OWN disagreement
+                   #  between the two estimators, q_emp / q, which is the
+                   #  statistic the band's verdict turns on and which a
+                   #  kurtosis match alone did not reproduce (the first
+                   #  re-matched run had the two coinciding where the corpus
+                   #  has 1.50).  Matched on the admissible cells where the
+                   #  family has them.
+                   ratio=float(col("ratio").median()),
+                   ratio_q1=float(col("ratio").quantile(0.25)),
+                   ratio_q3=float(col("ratio").quantile(0.75)))
         K, Bd = CAL_CELL[fam]
 
         best, best_loss = None, np.inf
@@ -642,14 +694,16 @@ def calibrate(P, procs):
         G = pd.DataFrame([g for _t, g in keep])
         for fld in ("p", "eps", "lam"):
             G[fld] = [t[4][fld] for t, _g in keep]
-        A = G.groupby(["p", "eps", "lam"])[["kurt_med",
-                                            "kurt_p90"]].median().reset_index()
-        #  relative error, because the two targets differ by an order of
-        #  magnitude and an absolute loss would fit only the larger
+        G["ratio"] = G.q_emp / G.q_mult
+        A = G.groupby(["p", "eps", "lam"])[["kurt_med", "kurt_p90",
+                                            "ratio"]].median().reset_index()
+        #  relative error, because the targets differ by an order of
+        #  magnitude and an absolute loss would fit only the largest
         A["loss"] = (((A.kurt_med - tgt["kurt_med"])
                       / max(abs(tgt["kurt_med"]), .1)) ** 2
                      + ((A.kurt_p90 - tgt["kurt_p90"])
-                        / max(abs(tgt["kurt_p90"]), .1)) ** 2)
+                        / max(abs(tgt["kurt_p90"]), .1)) ** 2
+                     + ((A.ratio - tgt["ratio"]) / tgt["ratio"]) ** 2)
         i = A.loss.idxmin()
         best |= dict(p=float(A.p[i]), eps=float(A.eps[i]), lam=float(A.lam[i]),
                      share_degenerate=float(F.share_degenerate.max()))
@@ -660,12 +714,21 @@ def calibrate(P, procs):
             target_eff_rank_frac=tgt["eff_rank_frac"], fit_eff_rank_frac=ef,
             target_kurt_med=tgt["kurt_med"], fit_kurt_med=float(A.kurt_med[i]),
             target_kurt_p90=tgt["kurt_p90"], fit_kurt_p90=float(A.kurt_p90[i]),
+            target_ratio=tgt["ratio"], target_ratio_q1=tgt["ratio_q1"],
+            target_ratio_q3=tgt["ratio_q3"], fit_ratio=float(A.ratio[i]),
+            #  MATCHED means the fitted ratio lies inside the corpus's own
+            #  interquartile range of it; a family that fails this carries
+            #  its coverage numbers with a stated transfer caveat
+            ratio_matched=bool(tgt["ratio_q1"] <= float(A.ratio[i])
+                               <= tgt["ratio_q3"]),
             n_cal_reps=CAL_REPS, n_cal_combos=len(A)))
-        print("  calibrated %-15s r=%d w=%.2f m=%.1f | p=%.2f eps=%.2f "
-              "lam=%.1f | kurt %.2f/%.2f against %.2f/%.2f"
+        print("  calibrated %-15s r=%d w=%.2f m=%.1f | p=%.2f eps=%.3f "
+              "lam=%.1f | kurt %.2f/%.2f against %.2f/%.2f | ratio %.2f "
+              "against %.2f [%.2f, %.2f]"
               % (fam, best["r"], best["w"], best["m"], best["p"], best["eps"],
                  best["lam"], A.kurt_med[i], A.kurt_p90[i],
-                 tgt["kurt_med"], tgt["kurt_p90"]), flush=True)
+                 tgt["kurt_med"], tgt["kurt_p90"], A.ratio[i], tgt["ratio"],
+                 tgt["ratio_q1"], tgt["ratio_q3"]), flush=True)
     return pd.DataFrame(rows)
 
 
@@ -734,7 +797,10 @@ def summarise(R):
                 truth_scale=float(sub.truth_scale.mean()),
                 kurt_med=float(sub.kurt_med.median()),
                 kurt_p90=float(sub.kurt_p90.median()),
-                share_q_emp_at_ceiling=float(sub.q_emp_at_ceiling.mean())))
+                share_q_emp_at_ceiling=float(sub.q_emp_at_ceiling.mean()),
+                #  ROUND TWENTY-EIGHT: the synthetic family's own q_emp / q,
+                #  to be read against the corpus's (s41_calibration.csv)
+                ratio_emp_over_mult=float((sub.q_emp / sub.q_mult).median())))
     return pd.DataFrame(rows)
 
 
@@ -829,10 +895,15 @@ def main(argv=None):
     ap.add_argument("--only", default="profile,calibrate,coverage")
     ap.add_argument("--reps", type=int, default=0)
     ap.add_argument("--procs", type=int, default=0)
-    ap.add_argument("--draws-dir", default="s20",
+    ap.add_argument("--draws-dir", default="s44_weighted",
                     help="the results/ subdirectory of bootstrap draw files "
                          "whose family shape the synthetic populations are "
-                         "matched to; round 27's surface is s44_weighted")
+                         "matched to; the reported surface is s44_weighted, "
+                         "the pre-round-27 one was s20")
+    ap.add_argument("--legacy", action="store_true",
+                    help="also run the round-25/27 grid (LEGACY_GRID); its "
+                         "rows are written to the same files and nothing in "
+                         "the article reads them")
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--resummarise", action="store_true",
@@ -847,11 +918,14 @@ def main(argv=None):
     full = reps >= REPS
     prefix = "s41_" if full else "s41_smoke_"
 
+    grid = GRID + (LEGACY_GRID if a.legacy else ())
+    n_cells_planned = (len(grid) * len(REGIMES)
+                       + len(BSENS) * len(BSENS_REGIMES))
     if a.plan:
-        n = len(GRID) * len(REGIMES) * reps + len(BSENS) * reps
+        n = n_cells_planned * reps
         cal = 2 * CAL_REPS * len(CAL_P) * len(CAL_EPS) * len(CAL_LAM)
         print("  coverage    %6d replicates over %d cells"
-              % (n, len(GRID) * len(REGIMES) + len(BSENS)))
+              % (n, n_cells_planned))
         print("  calibrate   %6d replicates" % cal)
         print("  no pipeline is refitted: the cost is matrix arithmetic")
         return
@@ -901,14 +975,20 @@ def main(argv=None):
         return
     print("\nSTAGE 3  coverage of five candidate critical values")
     tasks = []
-    for (K, Bd, fam, _why) in GRID:
+    for (K, Bd, fam, _why) in grid:
         for regime in REGIMES:
             tasks += [(K, Bd, fam, regime, par[fam], r) for r in range(reps)]
-    for Bd in BSENS:
-        tasks += [(180, Bd, "whole-surface", "heavy", par["whole-surface"], r)
-                  for r in range(reps)]
-    print("  %d replicates over %d cells"
-          % (len(tasks), len(GRID) * len(REGIMES) + len(BSENS)))
+    #  the ladder shares its 400-draw cell with the grid; that cell is not
+    #  run twice, and the grid's copy is the one summarised
+    _grid_keys = {(K, Bd, fam, rg) for (K, Bd, fam, _w) in grid
+                  for rg in REGIMES}
+    for regime in BSENS_REGIMES:
+        for Bd in BSENS:
+            if (180, Bd, "whole-surface", regime) in _grid_keys:
+                continue
+            tasks += [(180, Bd, "whole-surface", regime,
+                       par["whole-surface"], r) for r in range(reps)]
+    print("  %d replicates over %d cells" % (len(tasks), n_cells_planned))
     if a.resummarise:
         R = pd.read_csv(RESULTS / (prefix + "replicates.csv.gz"))
         print("  re-derived from %d replicates already on disk" % len(R))
@@ -930,6 +1010,31 @@ def main(argv=None):
     G = C[[(k, b) in grid_B for k, b in zip(C.K_nom, C.B)]]
     heavy = G[G["regime"] == "heavy"]
 
+    #  THE DESIGN-MATCHED VALUES, one per matched family, candidate and
+    #  regime.  These are the only rows a sentence about "the reported
+    #  design" may be read from; `_median`/`_min` below pool the three
+    #  matched families and say so in their names.
+    _design_tag = {(180, 400, "whole-surface"): "ws",
+                   (1100, 400, "decision-curve"): "dc",
+                   (248, 200, "decision-curve"): "cs"}
+    design_facts = {}
+    for (K, Bd, fam), tag in _design_tag.items():
+        for regime in REGIMES:
+            for cand in CANDIDATES:
+                s = C[(C.K_nom == K) & (C.B == Bd) & (C.family == fam)
+                      & (C.regime == regime) & (C.candidate == cand)]
+                if not len(s):
+                    continue
+                r = s.iloc[0]
+                base = "%s_%s_%s" % (cand, regime, tag)
+                design_facts["cov_" + base] = float(r.coverage)
+                design_facts["covse_" + base] = float(r.coverage_se)
+                design_facts["width_" + base] = float(r.mean_width)
+                design_facts["false_" + base] = float(r.mean_false_cells)
+                design_facts["resolved_" + base] = float(r.mean_resolved_cells)
+                design_facts["shortfall_" + base] = float(r.shortfall_factor)
+                design_facts["ratio_" + base] = float(r.ratio_emp_over_mult)
+
     def cv(regime, cand, how="median"):
         s = G[(G.regime == regime) & (G.candidate == cand)].coverage
         return float(getattr(s, how)()) if len(s) else np.nan
@@ -938,10 +1043,16 @@ def main(argv=None):
         s = G[(G.regime == regime) & (G.candidate == cand)].mean_width
         return float(s.median()) if len(s) else np.nan
 
-    BS = C[(C.K == 180) & (C.regime == "heavy")]
+    BS = C[(C.K_nom == 180) & (C.family == "whole-surface")]
     facts = dict(
-        n_reps=int(reps), n_cells=int(G.groupby(["family", "regime", "K",
-                                                 "B"]).ngroups),
+        n_reps=int(reps),
+        n_cells=int(G.groupby(["family", "regime", "K_nom", "B"]).ngroups),
+        n_cells_all=int(C.groupby(["family", "regime", "K_nom",
+                                   "B"]).ngroups),
+        n_matched_families=len(GRID),
+        design_ws_K=180, design_ws_B=400,
+        design_dc_K=1100, design_dc_B=400,
+        design_cs_K=248, design_cs_B=200,
         k_min=int(C.K.min()), k_max=int(C.K.max()),
         b_min=int(C.B.min()), b_max=int(C.B.max()),
         coverage_se_max=float(C.coverage_se.max()),
@@ -983,12 +1094,27 @@ def main(argv=None):
     for cand in ("q_emp_hi", "q_rad", "q_emp"):
         facts["width_%s_over_mult_heavy" % cand] = (wd("heavy", cand)
                                                     / wd("heavy", "q_mult"))
-    for Bd in BSENS:
-        s = BS[(BS.B == Bd) & (BS.candidate == "q_mult")]
-        if len(s):
-            facts["cov_mult_B%d" % Bd] = float(s.coverage.iloc[0])
-            facts["cov_percell_B%d" % Bd] = float(
-                s.coverage_percell_basic.iloc[0])
+    for regime in BSENS_REGIMES:
+        _sfx2 = "" if regime == "heavy" else "_" + regime
+        for Bd in BSENS:
+            s = BS[(BS.B == Bd) & (BS.regime == regime)]
+            m, e = s[s.candidate == "q_mult"], s[s.candidate == "q_emp"]
+            if len(m):
+                facts["cov_mult_B%d%s" % (Bd, _sfx2)] = float(
+                    m.coverage.iloc[0])
+                facts["cov_percell_B%d%s" % (Bd, _sfx2)] = float(
+                    m.coverage_percell_basic.iloc[0])
+            if len(e):
+                facts["cov_emp_B%d%s" % (Bd, _sfx2)] = float(
+                    e.coverage.iloc[0])
+    for r in CAL.itertuples():
+        tag = {"whole-surface": "ws", "decision-curve": "dc"}[r.family]
+        for col in ("target_ratio", "target_ratio_q1", "target_ratio_q3",
+                    "fit_ratio", "ratio_matched", "fit_kurt_med",
+                    "fit_kurt_p90", "eps", "lam", "p"):
+            if hasattr(r, col):
+                facts["cal_%s_%s" % (col, tag)] = getattr(r, col)
+    facts |= design_facts
     pd.DataFrame([facts]).to_csv(RESULTS / (prefix + "facts.csv"), index=False)
     print()
     print(C.to_string(index=False, float_format=lambda x: "%.4f" % x))

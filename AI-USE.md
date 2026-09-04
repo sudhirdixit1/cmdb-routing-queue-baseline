@@ -13,6 +13,7 @@ declaration points at.
 | writing the analysis code, the package and the verification harness | every result | yes — the code is in the archive and `REPRODUCE.md` regenerates every number from the raw data |
 | adjudicating the literature pilot | Supplement S7 only | **no** — see below |
 | drafting and editing prose | the manuscript | not applicable |
+| **internal adversarial review** of each revision, in the role of a referee, against the repository | `REFEREE-LOG.md`, `submission/review_round*.md`, the `response_to_*.md` letters other than `response_to_referee.md` | not applicable — these are the author's own reviews, conducted with the tool, and are **not** reports from the journal's referees; the one journal report is answered in `response_to_referee.md` |
 
 No generative model produced, imputed, augmented or selected any datum, any
 result or any citation.
@@ -26,7 +27,8 @@ result or any citation.
 | 20 | 2026-08-23 to 2026-08-24 | **not recorded** | code, prose |
 | 21 | 2026-08-24 | `claude-opus-5` | code, prose |
 | 22–26 | 2026-08-25 to 2026-08-26 | **not recorded** | code, prose |
-| 27 (this revision) | 2026-08-28 to 2026-08-29 | `claude-opus-5`, then `claude-fable-5` | code, prose |
+| 27 | 2026-08-28 to 2026-08-29 | `claude-opus-5`, then `claude-fable-5` | code, prose, review |
+| 28 (this revision) | 2026-09-03 | `claude-fable-5-1` | code, prose, **review** (`submission/review_round28.md`) |
 
 **The gap is stated rather than filled.** The identifiers for rounds 1–20 and
 22–26 were not recorded at the time and are not reconstructible from the

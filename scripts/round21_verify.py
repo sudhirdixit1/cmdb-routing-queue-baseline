@@ -319,6 +319,50 @@ def check(vn, M):
            "comes from")
         eq("misreportMaxPct", fmt_pct(float(eq_.misreport_all.max())), M)
         eq("misreportMinPct", fmt_pct(float(eq_.misreport_all.min())), M)
+        #  ROUND TWENTY-EIGHT.  Everything above re-derives the rate from the
+        #  SUMMARY file the macro is generated from, so a corrupted summary
+        #  reproduces itself and the corruption suite reported the case
+        #  MISSED.  The rate is re-derived here from the master surface
+        #  itself -- the equal-level all-cells rate is the share of a pair's
+        #  admissible scalar cells whose increment's sign differs from the
+        #  reference cell's -- and required to match the summary on every
+        #  pair, which is the independent arm the guard lacked.
+        try:
+            import sys as _sys
+            from pathlib import Path as _P
+            _sys.path.insert(0, str(_P(__file__).resolve().parent))
+            import spec as _S
+            import numpy as _np
+            _sur = load("s01_surface.csv")
+        except Exception:  # noqa: BLE001
+            _sur = None
+        if _sur is not None and len(_sur):
+            _adm = _sur[~_sur.rung.isin(_S.IMPLAUSIBLE_RUNGS)
+                        & _sur.metric.isin(_S.SCALARS)]
+            _ref = dict(learner="logit", split="holdout70", quality="clean",
+                        rung="B_intake_g", metric="auc")
+            _bad = []
+            for (_lg, _tg), _g in _adm.groupby(["log", "target"]):
+                _q = _g
+                for _a, _lv in _ref.items():
+                    if _a in _q.columns:
+                        _r = _q[_q[_a].astype(str) == _lv]
+                        if len(_r):
+                            _q = _r
+                _vref = float(_q.V.iloc[0])
+                _rate = float(_np.mean(_np.sign(_g.V.values)
+                                       != _np.sign(_vref)))
+                _row = eq_[(eq_.log == _lg) & (eq_.target == _tg)]
+                if len(_row) and abs(float(_row.misreport_all.iloc[0])
+                                     - _rate) > 1e-9:
+                    _bad.append("%s/%s summary %.4f, surface %.4f"
+                                % (_lg, _tg, float(_row.misreport_all.iloc[0]),
+                                   _rate))
+            if _bad:
+                vn.FAILS.append("round-28 condition: the all-cells sign-"
+                             "disagreement rate in s34_misreport does not "
+                             "reproduce from the master surface on %d pair(s): "
+                             "%s" % (len(_bad), "; ".join(_bad[:3])))
         eq("misreportLatitudePct",
            fmt_pct(float(eq_.misreport_latitude.median())), M,
            "the rate over the axes an analyst chooses")

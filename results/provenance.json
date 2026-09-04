@@ -134,10 +134,9 @@
     "sha": "7b5a1d055bfcfa55"
   },
   "s13_attack_numbers.py": {
-    "at": "2026-08-25T00:30:22Z",
-    "note": "round twenty-one: adds corruption G1, two macros naming one quantity made to disagree",
-    "renormalised": "2026-08-25T21:21:27Z",
-    "sha": "1c2a6bfd1eb3f2bc"
+    "at": "2026-09-04T03:51:18Z",
+    "note": "round 28: the region-label and rate corruptions re-pointed at the files the manuscript reads (s48w_regions, s34_misreport); both were tests that could not fail",
+    "sha": "9f075c3583bfab15"
   },
   "s15_calibration_curves.py": {
     "at": "2026-08-23T21:56:14Z",
@@ -167,16 +166,14 @@
     "sha": "d14186b60792ecec"
   },
   "s21_bands.py": {
-    "at": "2026-08-25T12:00:14Z",
-    "note": "round twenty-three: line endings normalised only; the computation and its outputs are unchanged, and the two critical-value estimates it has always written are now compared by s40_qcheck",
-    "renormalised": "2026-08-25T21:21:27Z",
-    "sha": "84c753cc9a7fd974"
+    "at": "2026-09-04T03:28:43Z",
+    "note": "round 28: coverage grid re-matched to the balanced design and calibrated to the corpus's estimator ratio; operative critical value = emp",
+    "sha": "49e2d5d32f5011a0"
   },
   "s22_anova.py": {
-    "at": "2026-08-24T13:10:35Z",
-    "note": "The corrected functional-ANOVA decomposition: every disjoint component computed, the total higher-order share as 1 - sum of first-order indices, under four declared measures, with the duplicate-level and grid-refinement invariances executed rather than asserted.",
-    "renormalised": "2026-08-25T21:21:27Z",
-    "sha": "92e1e5a3010b2629"
+    "at": "2026-09-04T03:30:43Z",
+    "note": "round 28: outputs of 2026-08-29 03:41 postdate the migration commit (03:38) that last changed the source; accepted after checking the times",
+    "sha": "add288999f0cec6a"
   },
   "s23_regret.py": {
     "at": "2026-08-24T13:10:35Z",
@@ -190,9 +187,9 @@
     "sha": "a94ba6e0f0876958"
   },
   "s25_denominator.py": {
-    "at": "2026-08-25T01:56:46Z",
-    "note": "round twenty-two: the declared surface carries the pipelines the inference surface uses, and everything that reads it was recomputed",
-    "sha": "ba7d988e13edb26b"
+    "at": "2026-09-04T03:30:43Z",
+    "note": "round 28: outputs of 2026-08-29 03:40 postdate the migration commit that last changed the source",
+    "sha": "32a02254ec29945b"
   },
   "s26_calib_dca.py": {
     "at": "2026-08-24T13:10:36Z",
@@ -207,9 +204,9 @@
     "sha": "87e16a598d49c7d9"
   },
   "s28_figures.py": {
-    "at": "2026-08-26T00:45:19Z",
-    "note": "Round twenty-five: figures regenerated after s33's plane was widened.",
-    "sha": "9ecea18eea3d0bc6"
+    "at": "2026-09-04T03:28:43Z",
+    "note": "round 28: coverage grid re-matched to the balanced design and calibrated to the corpus's estimator ratio; operative critical value = emp",
+    "sha": "f26ab5eafefcbc62"
   },
   "s29_props.py": {
     "at": "2026-08-24T13:10:37Z",
@@ -234,24 +231,24 @@
     "sha": "f007dbdfeb480547"
   },
   "s33_calibrate.py": {
-    "at": "2026-08-29T08:36:41Z",
-    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
-    "sha": "bd21518868c1573a"
+    "at": "2026-09-04T03:28:43Z",
+    "note": "round 28: coverage grid re-matched to the balanced design and calibrated to the corpus's estimator ratio; operative critical value = emp",
+    "sha": "e87bcdfaad4b62c3"
   },
   "s34_reporting.py": {
-    "at": "2026-08-29T08:36:42Z",
-    "note": "round 27: the reported surface is the one the tables and the ladder are computed on; the calibration is derived and reported, not applied",
+    "at": "2026-09-04T03:28:43Z",
+    "note": "round 28: coverage grid re-matched to the balanced design and calibrated to the corpus's estimator ratio; operative critical value = emp",
     "sha": "ad82bc2cab8743a8"
   },
   "s35_utility.py": {
-    "at": "2026-08-24T23:51:14Z",
-    "note": "round twenty-one: run to completion and its outputs read by the manuscript",
-    "sha": "266b0394cb39170e"
+    "at": "2026-09-04T03:30:55Z",
+    "note": "round 28: re-run so the outputs postdate the 2026-08-29 source change",
+    "sha": "1eb126fd4e264449"
   },
   "s36_sca.py": {
-    "at": "2026-08-29T08:57:13Z",
-    "note": "round 27: retired-surface reads marked or re-pointed",
-    "sha": "c3d34a3bb76108cd"
+    "at": "2026-09-04T03:28:43Z",
+    "note": "round 28: coverage grid re-matched to the balanced design and calibrated to the corpus's estimator ratio; operative critical value = emp",
+    "sha": "fe9d0564ac07c1e4"
   },
   "s37_axes.py": {
     "at": "2026-08-29T04:34:28Z",
@@ -269,24 +266,29 @@
     "sha": "0a47be052d85ba7b"
   },
   "s40_qcheck.py": {
-    "at": "2026-08-29T08:25:21Z",
-    "note": "round 27: the estimator comparison follows the inference surface",
-    "sha": "7a8596ae6e16d0e1"
+    "at": "2026-09-04T03:28:43Z",
+    "note": "round 28: coverage grid re-matched to the balanced design and calibrated to the corpus's estimator ratio; operative critical value = emp",
+    "sha": "d8e110fc4041bad5"
   },
   "s41_bandcoverage.py": {
-    "at": "2026-08-26T00:45:27Z",
-    "note": "Round twenty-five: the shortfall factor is now the (1-alpha) quantile of t_max/q taken WITHIN the replicate, which is the widening that attains nominal coverage; the ratio of the two marginal quantiles that the first version used is not the same number, though on this experiment it rounds the same. Re-derived with --resummarise; no replicate recomputed.",
-    "sha": "0b152283cf6de473"
+    "at": "2026-09-04T03:28:43Z",
+    "note": "round 28: coverage grid re-matched to the balanced design and calibrated to the corpus's estimator ratio; operative critical value = emp",
+    "sha": "730ec6de5a84c6d5"
   },
   "s42_round26.py": {
-    "at": "2026-08-30T11:43:18Z",
-    "note": "round 27: the fold-averaged statistics share one population; the calibrated columns are named for what they are",
+    "at": "2026-09-04T03:28:43Z",
+    "note": "round 28: coverage grid re-matched to the balanced design and calibrated to the corpus's estimator ratio; operative critical value = emp",
     "sha": "9f7da3a05b11375e"
   },
   "s43_overview.py": {
     "at": "2026-08-30T11:37:19Z",
     "note": "round 27: the final read's pointer corrections",
     "sha": "c0b657620b1f9281"
+  },
+  "s44_designed.py": {
+    "at": "2026-09-04T03:30:43Z",
+    "note": "round 27's designed inference surface, both schemes at 400 draws; source unchanged since 2026-08-26, run completed 2026-08-29; never accepted until round 28",
+    "sha": "0bf3684f0abd99ec"
   },
   "s45_prefix.py": {
     "at": "2026-08-26T21:26:31Z",
@@ -298,10 +300,20 @@
     "note": "Round twenty-seven: new. The stationarity assumption Section 11 names as untested, measured against a permutation null that re-partitions the same test rows at random. 400 permutations; results/s46_drift.csv, s46_summary.csv, s46_facts.csv.",
     "sha": "de368e6909e65b9d"
   },
+  "s47_schemes.py": {
+    "at": "2026-09-04T03:30:43Z",
+    "note": "round 27's scheme comparison on one design; source unchanged since 2026-08-26, run 2026-08-29; accepted in round 28",
+    "sha": "09c1962285aeea38"
+  },
   "s49_dcaband.py": {
-    "at": "2026-08-30T10:15:22Z",
-    "note": "round 27: the final read's corrections",
-    "sha": "90b97548efca5a6c"
+    "at": "2026-09-04T03:28:43Z",
+    "note": "round 28: coverage grid re-matched to the balanced design and calibrated to the corpus's estimator ratio; operative critical value = emp",
+    "sha": "adcdee4f4d9eef9a"
+  },
+  "s50_noise.py": {
+    "at": "2026-09-04T03:30:43Z",
+    "note": "round 27 phase 2b, closed as ill-posed; nothing reads its output; accepted so strict mode reports only live gaps",
+    "sha": "ae6fc5ef417f38f9"
   },
   "s51_infanova.py": {
     "at": "2026-08-29T05:30:03Z",

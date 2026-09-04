@@ -100,6 +100,18 @@ CONDITIONS = (
     "master surface file are not one number",
     "every per-pair and per-surface cell count the prose quotes is the "
     "product of the declared axis levels, on the basis its own name says",
+    #  ROUND TWENTY-EIGHT
+    "every coverage macro quoted as matched to the reported design is read "
+    "from the row whose family size and draw count are the corpus's, under "
+    "the regime the sentence names, and that row exists under the non-zero "
+    "truth as well",
+    "the operative critical value is one of the two named estimators, the "
+    "region file's operative labels reproduce from its edges, and the "
+    "empirical band is never narrower than the multiplier's conservative "
+    "edge on any cell",
+    "the article's directional claims about the two estimators -- which "
+    "attains its level on the matched family, and which resolves more -- "
+    "are checked in the direction they are made",
 )
 
 _ORD = ("first", "second", "third", "fourth", "fifth", "sixth",
@@ -1067,20 +1079,11 @@ def check(vn, M):
     #  whole reason it is not applied, and the sentence had survived the
     #  measurement that reversed it.  A directional word is a claim, so the
     #  direction is checked rather than trusted.
-    _cal = _num(M.get("calAtMedianPair"))
-    _sw = _num(M.get("shortfallWholeMin"))
-    _sd = _num(M.get("shortfallDcaMin"))
-    if _cal is not None and _sw is not None and not (_cal < _sw):
-        vn.FAILS.append(
-            "round-27 condition: Section 10 says the calibration factor at the "
-            "median pair (%s) is below the bottom of the surface shortfall "
-            "(%s), and it is not" % (M["calAtMedianPair"],
-                                     M["shortfallWholeMin"]))
-    if _cal is not None and _sd is not None and not (_cal < _sd):
-        vn.FAILS.append(
-            "round-27 condition: Section 10 says the calibration factor at the "
-            "median pair (%s) is well below the decision-curve shortfall (%s), "
-            "and it is not" % (M["calAtMedianPair"], M["shortfallDcaMin"]))
+    #  ROUND TWENTY-EIGHT: the sentence comparing the calibration at the
+    #  median pair with the multiplier's shortfall is gone from the article
+    #  -- the shortfall is no longer the operative band's -- so the two
+    #  directional checks that guarded it are retired with it.  What stays is
+    #  the requirement below that the range be a real widening.
     #  \calMin and \calMax are WHAT THE FITTED CURVE SUPPLIES, not what is
     #  applied -- every prose site asks the former.  They were once set to
     #  one to mean "nothing is applied", which emptied three sentences into
@@ -1111,21 +1114,28 @@ def check(vn, M):
     #  the number of cells the article says it resolves, over what both call
     #  "the whole-surface families".  Equality is the check that would have
     #  caught it, and it costs nothing.
+    #
+    #  ROUND TWENTY-EIGHT.  The reported band is whichever estimator s21 was
+    #  run with (`\bandOperative'), so the equality is against THAT count,
+    #  by name, and not against the multiplier's by assumption.
     _rw = _num(M.get("nResolvedWhole"))
     _rm = _num(M.get("nResolvedWholeMult"))
-    if _rw is not None and _rm is not None and abs(_rw - _rm) > 0.5:
+    _re = _num(M.get("nResolvedWholeEmp"))
+    _op = str(M.get("bandOperative", "mult")).strip()
+    _rop = {"mult": _rm, "emp": _re}.get(_op)
+    if _rw is not None and _rop is not None and abs(_rw - _rop) > 0.5:
         vn.FAILS.append(
-            "round-27 condition: the multiplier band is the reported band, so "
-            "\\nResolvedWholeMult (%s) must equal \\nResolvedWhole (%s)"
-            % (M["nResolvedWholeMult"], M["nResolvedWhole"]))
+            "round-28 condition: the operative estimator is %s, so its "
+            "count (%s) must equal \\nResolvedWhole (%s)"
+            % (_op, M["nResolvedWholeMult" if _op == "mult"
+                      else "nResolvedWholeEmp"], M["nResolvedWhole"]))
     #  and the empirical quantile is the WIDER estimator on this corpus, so
     #  it must resolve no more than the multiplier does.  A directional word
-    #  in Section 6.4 rests on this and is checked rather than trusted.
-    _re = _num(M.get("nResolvedWholeEmp"))
+    #  in Section 6.3 rests on this and is checked rather than trusted.
     if _re is not None and _rm is not None and _re > _rm:
         vn.FAILS.append(
-            "round-27 condition: Section 6.4 reads the empirical band as the "
-            "more conservative one, and it resolves %s against the "
+            "round-27 condition: the article reads the empirical band as the "
+            "wider one, and it resolves %s against the "
             "multiplier's %s" % (M["nResolvedWholeEmp"],
                                  M["nResolvedWholeMult"]))
 
@@ -1413,13 +1423,16 @@ def check(vn, M):
                 "round-27 condition: \\nResolvedEmpBand is %s and the "
                 "empirical band resolves %d cells"
                 % (M["nResolvedEmpBand"], _n_res))
-        #  and the section says it costs resolution, so it must cost some
-        if _gr is not None and _rw is not None and _gr >= _rw:
+        #  and the article says the level costs resolution against the
+        #  multiplier, so the empirical count must be the smaller of the two
+        #  (ROUND TWENTY-EIGHT: against the multiplier's count by name, since
+        #  the reported band may now BE the empirical one)
+        if _gr is not None and _rm is not None and _gr >= _rm:
             vn.FAILS.append(
-                "round-27 condition: Section 6.3 says the level-attaining "
+                "round-27 condition: the article says the level-attaining "
                 "band costs resolution, and it resolves %s against the "
-                "reported band's %s" % (M["nResolvedEmpBand"],
-                                        M["nResolvedWhole"]))
+                "multiplier's %s" % (M["nResolvedEmpBand"],
+                                     M["nResolvedWholeMult"]))
 
     # --- 23.  the one-sign split must add up, and be the reported band's ---
     #
@@ -1490,21 +1503,153 @@ def check(vn, M):
                     "round-27 condition: \\nBeneficialSimultaneousLowEnd is "
                     "%s and the lower end of the range resolves %d"
                     % (M["nBeneficialSimultaneousLowEnd"], _lo))
-            #  the section says the end taken MOVES the count
-            if None not in (_lo, _ap) and _lo == _ap:
-                vn.FAILS.append(
-                    "round-27 condition: Section 8.3 says which end of the "
-                    "range is taken moves the count, and both ends give %d"
-                    % _ap)
-            #  and that the family kind does NOT move it
-            if None not in (_all, _ap) and _all != _ap:
-                vn.FAILS.append(
-                    "round-27 condition: Section 8.3 says the all-cells "
-                    "factor returns the same count, and it gives %d against "
-                    "%d" % (_all, _ap))
+            #  ROUND TWENTY-EIGHT: Section 8.3 no longer makes the two
+            #  directional claims about the widening's ends (the widening is
+            #  the supplement's comparison, not the operative band), so those
+            #  two checks are retired; the ladder's own arithmetic stays.
             #  a smaller factor cannot resolve fewer cells
             if _fall < _fap and None not in (_all, _ap) and _all < _ap:
                 vn.FAILS.append(
                     "round-27 condition: the all-cells factor is smaller "
                     "(%.2f < %.2f) and cannot remove a resolved point"
                     % (_fall, _fap))
+
+    # =====================================================================
+    #  ROUND TWENTY-EIGHT
+    # =====================================================================
+    # --- 28.1  design-matched coverage macros come from the matched row ---
+    #
+    #  `\covMultNonzeroMedian' (84.3%) was a median over six synthetic
+    #  families matched to the previous surface, none of them the design the
+    #  corpus runs, quoted beside the matched 91.6% as if the two were the
+    #  same kind of statement.  Every `...AtDesign' macro is now required to
+    #  equal the coverage in the row whose K_nom and B are the corpus's own,
+    #  under the regime its name says -- and that row must exist under the
+    #  non-zero truth, which is the regime a region label depends on.
+    CV28 = _read(results, "s41_coverage.csv")
+    if (CV28 is not None and Bw is not None and Gd is not None
+            and {"regime", "candidate", "K_nom", "B"} <= set(CV28.columns)):
+        _fam = int(Bw[Bw.family == "whole-surface"]
+                   .groupby(["log", "target"]).size().median())
+        _b = int(Gd.draws.max())
+        _cands = {"Mult": "q_mult", "MultHi": "q_mult_hi", "Emp": "q_emp",
+                  "EmpHi": "q_emp_hi", "Rad": "q_rad"}
+        _regs = {"Gauss": "gaussian", "Heavy": "heavy",
+                 "Degen": "degenerate", "Nonzero": "nonzero"}
+        for rt, rk in _regs.items():
+            for ct, ck in _cands.items():
+                name = "cov%s%sWholeAtDesign" % (ct, rt)
+                got = _num(M.get(name))
+                if got is None:
+                    continue
+                row = CV28[(CV28.family == "whole-surface")
+                           & (CV28.K_nom == _fam) & (CV28.B == _b)
+                           & (CV28.regime == rk) & (CV28.candidate == ck)]
+                if not len(row):
+                    vn.FAILS.append(
+                        "round-28 condition: \\%s is quoted and the coverage "
+                        "grid has no (%d cells, %d draws) row under %s"
+                        % (name, _fam, _b, rk))
+                elif abs(got - 100.0 * float(row.coverage.iloc[0])) > 0.06:
+                    vn.FAILS.append(
+                        "round-28 condition: \\%s is %s and the matched row "
+                        "covers %.1f%%"
+                        % (name, M[name], 100.0 * float(row.coverage.iloc[0])))
+        _nz = CV28[(CV28.family == "whole-surface") & (CV28.K_nom == _fam)
+                   & (CV28.B == _b) & (CV28.regime == "nonzero")]
+        if not len(_nz):
+            vn.FAILS.append(
+                "round-28 condition: the design the corpus runs (%d cells, "
+                "%d draws) was never simulated under a non-zero truth"
+                % (_fam, _b))
+        #  the retired pooled macro may not be quoted as a design statement
+        if M.get("covMultNonzeroMedian") is not None:
+            vn.FAILS.append(
+                "round-28 condition: \\covMultNonzeroMedian is a pooled "
+                "median over families the corpus does not run and was "
+                "retired; use \\covMultNonzeroWholeAtDesign")
+
+    # --- 28.2  the operative estimator, and both label sets ---------------
+    RG28 = _read(results, "s48w_regions.csv")
+    if (Bw is not None and RG28 is not None
+            and {"mult_lo", "emp_lo", "operative"} <= set(Bw.columns)):
+        import s21_bands as _S28
+        _op = str(Bw.operative.iloc[0])
+        _mop = str(M.get("bandOperative", "")).strip()
+        if _mop and _mop != _op:
+            vn.FAILS.append(
+                "round-28 condition: the bands file was run with the %s "
+                "estimator operative and \\bandOperative says %s"
+                % (_op, _mop))
+        _W = Bw[Bw.family == "whole-surface"]
+        _lo, _hi = {"mult": ("mult_lo", "mult_hi"),
+                    "emp": ("emp_lo", "emp_hi")}.get(_op, (None, None))
+        if _lo is None:
+            vn.FAILS.append("round-28 condition: the operative estimator %r "
+                            "is not one of the two named ones" % _op)
+        else:
+            _d = ((_W.cons_lo - _W[_lo]).abs() > 1e-12).sum() \
+                + ((_W.cons_hi - _W[_hi]).abs() > 1e-12).sum()
+            if _d:
+                vn.FAILS.append(
+                    "round-28 condition: the operative edges differ from the "
+                    "%s edges on %d cell edges" % (_op, int(_d)))
+        _narrow = int(((_W.emp_lo > _W.mult_lo + 1e-12)
+                       | (_W.emp_hi < _W.mult_hi - 1e-12)).sum())
+        if _narrow:
+            vn.FAILS.append(
+                "round-28 condition: the empirical band is narrower than the "
+                "multiplier's conservative edge on %d cells, and the article "
+                "says the level is bought with width" % _narrow)
+        #  the operative set (unsuffixed columns, which every table reads)
+        #  and both named sets, each reproduced from its own edges -- label
+        #  AND counts, so a region name inconsistent with its counts fails
+        for tag, lo_c, hi_c, cb, ch, cr in (
+                ("operative", "cons_lo", "cons_hi", "n_beneficial",
+                 "n_harmful", "region"),
+                ("mult", "mult_lo", "mult_hi", "n_beneficial_mult",
+                 "n_harmful_mult", "region_mult"),
+                ("emp", "emp_lo", "emp_hi", "n_beneficial_emp",
+                 "n_harmful_emp", "region_emp")):
+            if not {cb, ch, cr} <= set(RG28.columns):
+                vn.FAILS.append("round-28 condition: the region file carries "
+                                "no %s label set" % tag)
+                continue
+            for (lg, tg), sub in _W.groupby(["log", "target"]):
+                lab = sub.apply(lambda r: _S28.label_of(r[lo_c], r[hi_c]),
+                                axis=1)
+                _r, b_, h_, _u = _S28.region_of(lab)
+                row = RG28[(RG28.log == lg) & (RG28.target == tg)]
+                if len(row) and (int(row[cb].iloc[0]) != b_
+                                 or int(row[ch].iloc[0]) != h_
+                                 or str(row[cr].iloc[0]).strip() != _r):
+                    vn.FAILS.append(
+                        "round-28 condition: %s/%s %s label is %s (%d/%d) in "
+                        "the region file and %s (%d/%d) from the edges"
+                        % (lg, tg, tag, row[cr].iloc[0], int(row[cb].iloc[0]),
+                           int(row[ch].iloc[0]), _r, b_, h_))
+
+    # --- 28.3  the directional claims about the two estimators -----------
+    _ce = _num(M.get("covEmpHeavyWholeAtDesign"))
+    _cm = _num(M.get("covMultHeavyWholeAtDesign"))
+    _cez = _num(M.get("covEmpNonzeroWholeAtDesign"))
+    _se = _num(M.get("covEmpHeavyWholeAtDesignSE"))
+    _op = str(M.get("bandOperative", "mult")).strip()
+    if None not in (_ce, _cm) and _ce <= _cm:
+        vn.FAILS.append(
+            "round-28 condition: the article says the empirical quantile "
+            "covers more than the multiplier on the matched family, and "
+            "%.1f is not above %.1f" % (_ce, _cm))
+    #  if the empirical quantile is operative, the rule that made it so
+    #  (PLAN-ROUND28.md 1.4) must hold on the numbers the manuscript prints
+    if _op == "emp" and None not in (_ce, _se) and _ce < 95.0 - 2.0 * _se:
+        vn.FAILS.append(
+            "round-28 condition: the empirical quantile is operative and "
+            "covers %.1f under the corpus's tails, more than two Monte Carlo "
+            "standard errors (%.1f) below nominal" % (_ce, _se))
+    _sez = _num(M.get("covEmpNonzeroWholeAtDesignSE"))
+    if _op == "emp" and None not in (_cez, _sez) and _cez < 95.0 - 2.0 * _sez:
+        vn.FAILS.append(
+            "round-28 condition: the empirical quantile is operative and "
+            "covers %.1f under a non-zero truth, more than two Monte Carlo "
+            "standard errors (%.1f) below nominal" % (_cez, _sez))

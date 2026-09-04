@@ -107,8 +107,8 @@ surface} $V_s(f)$ over a design space the analyst declares, and give three
 objects for reporting one: an exact functional-ANOVA decomposition of its
 variance that separates analyst choices from the resampling a design
 contains; simultaneous max-$t$ bands from a pipeline-refitting bootstrap,
-whose coverage we measure against a known answer and find short of nominal;
-and \emph{resolution regions}, which say where a sign is determined. On
+at a critical value whose coverage we measure against a known answer; and
+\emph{resolution regions}, which say where a sign is determined. On
 \nPairs\ pairs from \nLogs\ public event logs, resampling carries a median
 \shareResamplingStratumPct\ of the variance, and net of it which analyst
 choice leads is a property of the pair. Most specifications leave the sign
@@ -231,12 +231,75 @@ split is an \emph{error stratum}, so that resampling is separated from the
 choices an analyst makes (Section~\ref{sec:sobol}).
 \item \textbf{Simultaneous inference whose coverage is measured, and the
 labels that rest on it.} Simultaneous max-$t$ bands over the whole family a
-claim ranges over, from a pipeline-refitting bootstrap; \emph{resolution
+claim ranges over, from a pipeline-refitting bootstrap, at a critical value
+whose family-wise coverage is measured against a known answer in
+Section~\ref{sec:simband} --- \covEmpHeavyWholeAtDesign\ on the family
+matched to this design, under an ideal bootstrap that bounds the critical
+value's contribution and not the resampling's --- and \emph{resolution
 regions} with a robustness index $\rho$ under a declared minimum resolved
-share; and, in Section~\ref{sec:simband}, the band's family-wise coverage
-measured against a known answer --- which is short of nominal everywhere in
-this corpus's configuration, so the labels are reported as descriptive
-diagnostics and not as guarantees.
+share.
+\item \textbf{A registered multi-log benchmark and a register at three
+decision times.} The surface is computed through one frozen pipeline on every
+log--target pair a pre-registered protocol admits --- \nPairs\ of them, not
+only the ones where the answer resolves --- and every corpus statistic is
+reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
+maintained one (Section~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
+that a decision time fixes which cases are in scope, what is known about them
+and which fields are admissible at once, reconciles the two values the case
+study's log has been reported to give, and finds the difference is the
+\emph{target}: over the cohort $\times$ target design the target carries
+\shareTargetPct\ of the variance and the cohort \shareCohortPct.
+\end{enumerate}
+
+\noindent Figure~\ref{fig:overview} sets the method out once, from the three
+roles a log is read into to the three denominators a claim may quantify over.
+
+\noindent \emph{Specification regret} --- what choosing one specification
+costs against the best, on a scale a decision can use --- is reported in full
+and is \emph{not} among the contributions above: it returns a null on this
+corpus (Sections~\ref{sec:rules} and~\ref{sec:nbregret}) and is carried as a
+robustness check on the other two arguments (Section~\ref{sec:regretdef}).
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figS1_speccurve.png}
+\caption{The specification curve for the configuration item on BPIC14, at the
+registered handover target: \nCellsFigOne\ admissible scalar cells,
+\nPipelineLevelsCase\ pipelines $\times$ \nRungsFigOne\ baseline rungs $\times$
+\nInstruments\ instruments $\times$ \nQualityFigOne\ register-quality
+conditions $\times$ \nSplits\ splits. \textbf{(a)} Each point is one
+admissible specification --- a complete assignment to those five axes ---
+sorted by the increment. \textbf{(b)} Which level of which axis each
+specification occupies. The intercept-only rung is excluded. Every point is a
+point estimate; the simultaneous bands that decide the region labels are in
+Table~\ref{tab:calbands}. \textbf{The five scalar instruments are plotted on
+one axis and their increments are not on a common scale}
+(Section~\ref{sec:regretdef}); what the panel supports is the \emph{sign}
+statement, which is unit-free, and not a comparison of magnitudes across
+instruments. The panel shows the increment rather than the reduction, so a
+cell where the register is worth almost nothing looks the same as one where
+the free field absorbs almost everything.}
+\label{fig:speccurve}
+\end{figure}
+
+\paragraph{Contributions}
+\begin{enumerate}
+\item \textbf{An estimand, a declared surface and an exact decomposition}
+(Table~\ref{tab:objects}). The surface over a design space the reader can
+enumerate; three \emph{denominators} distinguished and audited from the files,
+so that a claim's quantifier is a counted set rather than a phrase; and an
+exact functional-ANOVA decomposition of the surface's variance in which the
+split is an \emph{error stratum}, so that resampling is separated from the
+choices an analyst makes (Section~\ref{sec:sobol}).
+\item \textbf{Simultaneous inference whose coverage is measured, and the
+labels that rest on it.} Simultaneous max-$t$ bands over the whole family a
+claim ranges over, from a pipeline-refitting bootstrap, at a critical value
+whose family-wise coverage is measured against a known answer in
+Section~\ref{sec:simband} --- \covEmpHeavyWholeAtDesign\ on the family
+matched to this design, under an ideal bootstrap that bounds the critical
+value's contribution and not the resampling's --- and \emph{resolution
+regions} with a robustness index $\rho$ under a declared minimum resolved
+share.
 \item \textbf{A registered multi-log benchmark and a register at three
 decision times.} The surface is computed through one frozen pipeline on every
 log--target pair a pre-registered protocol admits --- \nPairs\ of them, not
@@ -290,12 +353,11 @@ The protocol and its amendments, the proofs, the constructions of the
 reporting objects, the correction register, the reporting standard, the
 results this article summarises and the tables it does not print are in a
 supplementary document whose sections, tables and figures carry an
-\textsf{S}. \textbf{The article states every claim it makes and prints the
-evidence for each}; the supplement carries the constructions, the proofs and
-the sensitivity analyses, and a reader who wants to check an inference rather
-than read one will want it. Supplement~\ref{app:glossary} is a glossary of
-every term used here in a technical sense, with the case study's own value
-for each.
+\textsf{S}. The article states every claim it makes and prints the evidence
+for each; a reader who wants to check an inference rather than read one will
+want the supplement, and Supplement~\ref{app:glossary} is a glossary of every
+term used here in a technical sense, with the case study's own value for
+each.
 
 \section{Related work}
 \label{sec:related}
@@ -344,35 +406,29 @@ the form Section~\ref{sec:quality}'s leakage tipping point takes.
 \paragraph{The novelty gap, precisely}
 Every component used here is established and none is claimed. What none of
 them supplies is the object this paper reports, and the gap is in four
-places. \emph{The estimand is not declared completely}: the axes are
-discussed one at a time, and the decision time and the register's quality as
-preliminaries rather than as arguments. \emph{The measure is left implicit}:
-a specification curve is summarised uniformly over whatever cells were
-enumerated, a choice that moves the answer (Section~\ref{sec:sobol}).
-\emph{Inference is pointwise or absent}: a curve is a distribution of point
-estimates and a permutation test on its median, which licenses no statement
-about a sub-region. \emph{Nothing measures what the conventional report
-costs}: the alternative to one number is offered as a display, not as a
-decision rule with a loss.
-
-\textbf{What is new here is narrower than the objects' names suggest, and is
-stated precisely.} The decomposition is an adaptation of functional ANOVA over
-a configuration space \citep{hutter2014efficient}. \emph{Counting the share of
-specifications with an effect in a declared direction is already standard
-specification-curve practice} \citep{simonsohn2020specification}: the
-robustness index $\rho$ is that count, and this paper does not claim it. What
-is new is what the count is taken over and under --- a \emph{simultaneous}
-band over a declared family rather than a pointwise test, an \emph{audited}
-denominator rather than the cells that happened to be enumerated, and a
-minimum resolved share below which no direction is reported at all. The
-decomposition with the split as an error stratum, and the separation of
-analyst latitude from resampling that it makes exact, we have not seen
-elsewhere. Section~\ref{sec:sca} measures where a curve's verdict and a region
-label part company rather than asserting a difference.
-
-The contribution is deliberately \emph{not} ``people usually report one
-number''. It is that a claim of this form is a functional of a design, that
-the functional can be estimated and its uncertainty quantified, and that on
-this corpus it is far from constant.
+places: the estimand is not declared completely, the decision time and the
+register's quality being treated as preliminaries rather than arguments; the
+measure is left implicit, a specification curve being summarised uniformly
+over whatever cells were enumerated, which moves the answer
+(Section~\ref{sec:sobol}); inference is pointwise or absent, a curve being a
+distribution of point estimates and a permutation test on its median, which
+licenses no statement about a sub-region; and nothing measures what the
+conventional report costs. What is new is correspondingly narrower than the
+objects' names suggest. The decomposition adapts functional ANOVA over a
+configuration space \citep{hutter2014efficient}; counting the share of
+specifications with an effect in a declared direction is standard
+specification-curve practice \citep{simonsohn2020specification}, and the
+robustness index $\rho$ is that count. What is new is what the count is
+taken over and under --- a \emph{simultaneous} band over a declared family
+rather than a pointwise test, an \emph{audited} denominator rather than the
+cells that happened to be enumerated, and a minimum resolved share below
+which no direction is reported --- together with the decomposition that
+treats the split as an error stratum and so separates analyst latitude from
+resampling exactly, which we have not seen elsewhere.
+Section~\ref{sec:sca} measures where a curve's verdict and a region label part
+company rather than asserting a difference. The contribution is deliberately
+\emph{not} ``people usually report one number''; it is that a claim of this
+form is a functional of a design, that the functional can be estimated and
+its uncertainty quantified, and that on this corpus it is far from constant.
 
 

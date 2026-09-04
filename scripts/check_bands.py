@@ -118,6 +118,61 @@ def check(prefix: str, family: str) -> list[str]:
     if n5:
         fails.append("%d NaN band edges, which resolve nothing and are "
                      "invisible in a region label" % n5)
+
+    #  ROUND TWENTY-EIGHT.  s21 writes BOTH estimators' edges and label sets
+    #  whichever is operative, and `cons_*' is a copy of one of them.
+    #
+    #  6 -- THE OPERATIVE EDGES ARE ONE OF THE TWO NAMED SETS, exactly, and
+    #       the one the file says they are.  A `cons_*' that matched neither
+    #       would be a third band nothing names.
+    #  7 -- THE EMPIRICAL BAND IS NEVER NARROWER THAN THE MULTIPLIER'S
+    #       CONSERVATIVE EDGE.  Supplement S3.5 says the multiplier lies
+    #       below the empirical quantile's whole order-statistic interval on
+    #       every family; a cell where the empirical band is the narrower one
+    #       would falsify the sentence that the level is bought with width.
+    #  8 -- EACH NAMED LABEL SET IN THE REGION FILE REPRODUCES FROM ITS OWN
+    #       EDGES, so the comparison the manuscript prints between the two
+    #       estimators is a comparison of two things actually on disk.
+    if {"mult_lo", "emp_lo", "operative"} <= set(w.columns):
+        op = str(w.operative.iloc[0])
+        src = {"mult": ("mult_lo", "mult_hi"), "emp": ("emp_lo", "emp_hi")}
+        if op not in src:
+            fails.append("the bands file names an operative estimator %r "
+                         "this gate does not know" % op)
+        else:
+            lo, hi = src[op]
+            n6 = int(((w.cons_lo - w[lo]).abs() > TOL).sum()
+                     + ((w.cons_hi - w[hi]).abs() > TOL).sum())
+            if n6:
+                fails.append("the operative edges are not the %s edges on "
+                             "%d cell edges" % (op, n6))
+        print("     operative estimator: %s" % op)
+        n7 = int(((w.emp_lo > w.mult_lo + TOL)
+                  | (w.emp_hi < w.mult_hi - TOL)).sum())
+        if n7:
+            fails.append("the empirical band is narrower than the "
+                         "multiplier's conservative edge on %d cells" % n7)
+        if rpath.exists():
+            reg = pd.read_csv(rpath)
+            for tag in ("mult", "emp", "emphi"):
+                cb, ch = "n_beneficial_" + tag, "n_harmful_" + tag
+                if not {cb, ch} <= set(reg.columns):
+                    fails.append("the region file carries no %s label set"
+                                 % tag)
+                    continue
+                r8 = reg.set_index(["log", "target"])[[cb, ch]]
+                g8 = (w.assign(ben=w[tag + "_lo"] > 0,
+                               harm=w[tag + "_hi"] < 0)
+                      .groupby(["log", "target"])[["ben", "harm"]].sum())
+                j8 = g8.join(r8, how="inner")
+                bad = j8[(j8.ben != j8[cb]) | (j8.harm != j8[ch])]
+                if len(bad):
+                    fails.append("the %s edges do not reproduce the region "
+                                 "file's %s counts on %d pairs"
+                                 % (tag, tag, len(bad)))
+    else:
+        print("     (a bands file older than round twenty-eight: one "
+              "estimator only)")
     return fails
 
 

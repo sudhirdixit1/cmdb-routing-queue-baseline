@@ -67,6 +67,21 @@ interval, and reporting a bounded interval for it is reporting a set that is
 not the confidence set. \texttt{results/s02\_fieller.csv} records the kind of
 every set this paper computes, in its \texttt{fieller\_kind} column.
 
+\paragraph{The three rules for the reduction} The article makes $D$ and the two increments primary and treats $R$ as a secondary descriptive statistic subject to three rules, declared before any $R$ was computed:
+\begin{enumerate}
+\item $R$ is reported only where $V_s(f \mid B_0)$ is resolvably positive
+under the \emph{simultaneous} band, not merely positive as a point estimate;
+\item its interval is a Fieller set and its \emph{kind} --- bounded,
+unbounded, or the complement of an interval --- is printed beside it. A
+confidence set for a ratio is the solution set of a quadratic
+\citep{fieller1954} and is bounded only when the denominator is resolvably
+away from zero (Supplement~\ref{app:fieller}). Of the \nFieller\ reductions this paper
+computes, \nFiellerUnbounded\ have a non-bounded Fieller set, and a percentile
+interval reports a bounded one for every single one of them;
+\item the magnitude of $R$ is never compared with the spread of $R$ across
+metrics as though both lived on an unproblematic common scale.
+\end{enumerate}
+
 \subsection*{The three regret designs}
 \label{app:regretdesigns}
 
@@ -367,14 +382,18 @@ different mechanisms on the two families --- and the asymptotics the
 construction rests on are asked to hold at \nDrawsSurfaceMax\ draws over
 families of \nCellsPerPairMedian\ cells.
 
-We therefore report what each estimator resolves rather than asserting one of
-them. Over the whole-surface families the multiplier band resolves
-\nResolvedWholeMult\ cells and the empirical band \nResolvedWholeEmp; over the
-decision-curve families, \nResolvedDcaMult\ against \nResolvedDcaEmp, which is
-the larger exposure and sits on the families whose measured shortfall is
-furthest beyond any factor this corpus derives. Section~\ref{sec:regions} carries
-the surface counts under both and Section~\ref{sec:dcabands} the
-decision-curve ones.
+Which of the two is right is a measurement, and Section~\ref{sec:simband}
+makes it: on the family matched to this design the empirical quantile
+attains its nominal level and the multiplier does not, at any draw budget.
+The empirical quantile is therefore the operative critical value, and both
+are reported: over the whole-surface families the multiplier band would
+resolve \nResolvedWholeMult\ cells against the empirical band's
+\nResolvedWholeEmp; over the decision-curve families, \nResolvedDcaMult\
+against \nResolvedDcaEmp, the larger exposure, partly carried by cells that
+are zero by arithmetic (Supplement~\ref{app:degencells}) and excluded from a
+family by the rule Section~\ref{sec:dcabands} declares.
+Section~\ref{sec:regions} carries the surface counts under both and
+Section~\ref{sec:dcabands} the decision-curve ones.
 
 \subsection{The measure the decomposition is taken under}
 \label{app:decompmeasure}
@@ -452,3 +471,68 @@ displacement out; simultaneous bands are recentred by the same shift, which is
 a property of the draws and so corrects a whole family at once
 (Table~\ref{tab:sim31}, and Supplement~\ref{app:noisy} for the diagnosis).
 
+\subsection{The two resampling schemes, compared on one design}
+\label{app:schemes}
+
+Two moving-block schemes were run over one design, at one draw count, with
+one set of seeds, on \schemeCells\ cells: the multinomial resample, which
+holds a subset of the blocks, and the weighted one, which draws Dirichlet
+weights per moving block so that every row has positive weight in every draw
+and every register level is present in every refit. \textbf{Every band the
+article reports is the weighted one}; the multinomial arm appears only here,
+as the thing compared against. Section~\ref{sec:boot} carries the two
+findings; this section carries the whole comparison.
+
+\noindent\textbf{The mechanism is removed completely.} The share of the
+register's training levels a draw actually contains rises from
+\levelShareMult\ under multinomial resampling, \levelShareMultMin\ at
+worst, to \levelShareWeighted\ under weights, where it is one by
+construction. \textbf{And with it goes the starkest consequence}: under the
+multinomial scheme a draw can drop an arm
+\emph{entirely}, so the cell is absent rather than noisy, the median down its
+column is undefined, and the cell gets no band at all. Such a cell is not
+resolved --- so it was counted as \emph{unresolved}, beside cells that were
+banded and straddled zero, inside the denominator of every statement about how
+little the data resolve. Under weights there are \nUnbandableCells; the
+multinomial arm run on the same design at the same draw count carries
+\nUnbandableSameDesign\ such cells of \nUnbandableSameDesignOf.
+
+\noindent\textbf{The symptom, however, survives the removal of its supposed
+cause.} A pivotal interval need not contain the estimate it is built from:
+pivoting moves the interval by twice the displacement, and where the
+displacement exceeds the interval's own half-width both endpoints land on the
+same side of $\hat{V}$. That is a property of a pivotal interval under bias
+rather than an error, but it is not what a reader expects of a band, so it is
+counted --- and it falls from \nExcludesMult\ cells
+(\shareExcludesMultPct) to \nExcludesWeighted\ (\shareExcludesWeightedPct),
+which is better and is not zero. The displacement's own median barely moves,
+\dispMedianMult\ to \dispMedianWeighted.
+
+\noindent\textbf{Level loss is therefore not the main cause of the
+displacement.} Removing it entirely leaves most of the displacement standing,
+and this paper does not know what the remainder is.
+Section~\ref{sec:lim} carries that rather than a claim that the scheme is now
+unbiased. \textbf{The comparison is also not symmetric, and it leans the way
+that flatters the old scheme}: where a draw is missing, the band construction
+refuses the cell while the comparison drops the missing draws and computes
+from the rest, so every multinomial number above is conditioned on the draws in
+which the arm could be fitted --- and those cells carry roughly twice the
+displacement of the others. Both multinomial numbers above are therefore
+measured on that scheme's successes, and both are still the larger of the
+pair.
+
+\textbf{Under the multinomial scheme it gets worse with the sample size, not
+better.} That displacement is a bias --- a multinomial resample holds about
+$1 - e^{-1}$ of the distinct levels however many rows it has --- so at a fixed
+ratio it does not shrink with $n$ while the half-width shrinks like
+$n^{-1/2}$. Section~\ref{sec:simsensitivity} locates the crossing: at a ratio
+of \straddleRatio\ the interval straddles its own estimate in every replicate
+up to \nStraddleAllMax\ training rows and in only \shareStraddleAtHalfPct\ of
+them by \nStraddleHalfMin. This corpus reaches a ratio of
+\corpusRatioMax\ at its highest pair and \nPairsRatioAboveTenth\ of
+\nPairs\ sit above a tenth, so it has pairs in that regime.
+\textbf{The argument does not carry to the bands reported here.} Weights
+remove the mechanism it rests on, and a displacement survives them anyway
+(above), so what remains under the reported scheme is not bounded by this
+reasoning and is not explained by it. Section~\ref{sec:lim} carries it as an
+open defect rather than a controlled one.

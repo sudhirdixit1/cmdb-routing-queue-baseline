@@ -53,74 +53,28 @@ $[\,2\hat{V} - q_{1-\alpha/2},\; 2\hat{V} - q_{\alpha/2}\,]$
 \citep{davison1997bootstrap}, and simultaneous bands are recentred by the
 same shift (Supplement~\ref{app:pctfail}).
 
-\paragraph{The comparison Section~\ref{sec:lim} said was owed, and what it
-found}
-A previous version of this paper named the repair --- drawing \emph{weights}
-per moving block, so that every row has positive weight in every draw and
-every register level is present in every refit --- and did not run it. It is
-run here: both schemes over one design, at one draw count, with one set of
-seeds, on \schemeCells\ cells. \textbf{Every band this paper reports is the
-weighted one}; the multinomial arm appears only in this subsection, as the
-thing compared against.
-
-\noindent\textbf{The mechanism is removed completely.} The share of the
-register's training levels a draw actually contains rises from
-\levelShareMult\ under multinomial resampling, \levelShareMultMin\ at
-worst, to \levelShareWeighted\ under weights, where it is one by
-construction. \textbf{And with it goes the starkest consequence, which this
-paper had never reported}: under the multinomial scheme a draw can drop an arm
-\emph{entirely}, so the cell is absent rather than noisy, the median down its
-column is undefined, and the cell gets no band at all. Such a cell is not
-resolved --- so it was counted as \emph{unresolved}, beside cells that were
-banded and straddled zero, inside the denominator of every statement about how
-little the data resolve. On the previous surface there were
-\nUnbandableOldCells\ of them. Under weights there are \nUnbandableCells.
-That pair changes the design as well as the scheme, so it credits the
-resampling with an improvement the balance may have supplied; the multinomial
-arm run on \emph{this} design at the same draw count isolates the scheme, and
-it carries \nUnbandableSameDesign\ such cells of
-\nUnbandableSameDesignOf. The clean comparison is the larger of the two.
-
-\noindent\textbf{The symptom, however, survives the removal of its supposed
-cause.} A pivotal interval need not contain the estimate it is built from:
-pivoting moves the interval by twice the displacement, and where the
-displacement exceeds the interval's own half-width both endpoints land on the
-same side of $\hat{V}$. That is a property of a pivotal interval under bias
-rather than an error, but it is not what a reader expects of a band, so it is
-counted --- and it falls from \nExcludesMult\ cells
-(\shareExcludesMultPct) to \nExcludesWeighted\ (\shareExcludesWeightedPct),
-which is better and is not zero. The displacement's own median barely moves,
-\dispMedianMult\ to \dispMedianWeighted.
-
-\noindent\textbf{So the diagnosis this paper offered was wrong, and that is
-the finding.} Level loss was named as the cause of the displacement. Removing
-level loss entirely leaves most of the displacement standing; therefore it was
-not the main cause, and this paper does not know what is.
-Section~\ref{sec:lim} carries that rather than a claim that the scheme is now
-unbiased. \textbf{The comparison is also not symmetric, and it leans the way
-that flatters the old scheme}: where a draw is missing, the band construction
-refuses the cell while the comparison drops the missing draws and computes
-from the rest, so every multinomial number above is conditioned on the draws in
-which the arm could be fitted --- and those cells carry roughly twice the
-displacement of the others. Both multinomial numbers above are therefore
-measured on that scheme's successes, and both are still the larger of the
-pair.
-
-\textbf{Under the multinomial scheme it gets worse with the sample size, not
-better.} That displacement is a bias --- a multinomial resample holds about
-$1 - e^{-1}$ of the distinct levels however many rows it has --- so at a fixed
-ratio it does not shrink with $n$ while the half-width shrinks like
-$n^{-1/2}$. Section~\ref{sec:simsensitivity} locates the crossing: at a ratio
-of \straddleRatio\ the interval straddles its own estimate in every replicate
-up to \nStraddleAllMax\ training rows and in only \shareStraddleAtHalfPct\ of
-them by \nStraddleHalfMin. This corpus reaches a ratio of
-\corpusRatioMax\ at its highest pair and \nPairsRatioAboveTenth\ of
-\nPairs\ sit above a tenth, so it has pairs in that regime.
-\textbf{The argument does not carry to the bands reported here.} Weights
-remove the mechanism it rests on, and a displacement survives them anyway
-(above), so what remains under the reported scheme is not bounded by this
-reasoning and is not explained by it. Section~\ref{sec:lim} carries it as an
-open defect rather than a controlled one.
+\paragraph{Weights rather than subsets, and what the comparison found}
+Every band this paper reports comes from a bootstrap that draws Dirichlet
+\emph{weights} per moving block rather than a subset of rows, so every row
+has positive weight in every draw and every register level is present in
+every refit. The multinomial alternative was run beside it over the same
+design, at the same draw count and with the same seeds, on \schemeCells\
+cells, and Supplement~\ref{app:schemes} reports the comparison in full; two
+findings carry into the article. Under a multinomial resample a draw can drop
+an arm entirely, so the cell gets no band at all and is counted as
+\emph{unresolved} beside cells that were banded and straddled zero ---
+\nUnbandableSameDesign\ of \nUnbandableSameDesignOf\ cells on this design,
+against \nUnbandableCells\ under weights. And level loss is not what
+displaces the bootstrap distribution: weights raise the share of the
+register's levels a draw contains from \levelShareMult\ to
+\levelShareWeighted, and the displacement's median moves only from
+\dispMedianMult\ to \dispMedianWeighted, while the share of cells whose
+pivotal interval excludes its own estimate falls from
+\shareExcludesMultPct\ to \shareExcludesWeightedPct\ and not to zero. The
+displacement that remains is unexplained: the level-loss mechanism of
+Supplement~\ref{app:pctfail} is the reason the percentile interval is not
+used, and it is not a diagnosis of the residual, which
+Section~\ref{sec:lim} carries as an open defect.
 
 \subsection{Three surfaces, and which one a claim may quantify over}
 \label{sec:threesurfaces}
@@ -147,22 +101,20 @@ cells a pair and \nInferenceScalar\ scalar family members across the corpus,
 at \nDrawsSurface\ draws --- and the audit checks rather than declares that
 it is a complete factorial, each combination present exactly once on every
 one of the \nPairs\ pairs, so a corpus median over these families is a
-median over one design, which the previous surface's was not
-(Supplement~\ref{app:pipeline}).
+median over one design (Supplement~\ref{app:pipeline}).
 
-\textbf{One objection this retires, and one it does not.} The inference
-surface used to be \emph{a corner of the declared surface rather than a
-design}, and the decomposition of Section~\ref{sec:sobol} could not be
-computed on it. It can now, and is: one decomposition per pair per instrument,
-over \nCellsPerDecomposition\ cells each. Supplement~\ref{app:infanova} reports
-what that shows, and it is not a confirmation --- the axis carrying the
-largest first-order index agrees between the two surfaces on a minority of
-pairs. The disagreement is a comparison between two designs that declare
-different levels, and so a statement about the levels an analyst declared
-rather than a verdict on either surface.
+\textbf{A design, not a corner.} Because the inference surface is a balanced
+factorial, the decomposition of Section~\ref{sec:sobol} can be computed on it
+as well as on the declared surface --- one decomposition per pair per
+instrument, over \nCellsPerDecomposition\ cells each --- and
+Supplement~\ref{app:infanova} reports that the axis carrying the largest
+first-order index agrees between the two surfaces on a minority of pairs.
+That is a comparison between two designs that declare different levels, and
+so a statement about the levels an analyst declared rather than a verdict on
+either surface.
 
-\noindent The objection it does \emph{not} retire is the one that matters
-most for reading a region label. The inference family is still a fraction of
+\noindent What the design does not change is the thing that matters most
+for reading a region label. The inference family is a fraction of
 the admissible surface --- a median \inferenceShareAdmissibleMedianPct\ of a
 pair's admissible cells, and less than a twentieth on the pair with the
 richest grid --- and \textbf{a label computed over fewer cells is
@@ -210,49 +162,56 @@ Supplement~\ref{app:families} gives these four \emph{interval} objects
 --- which are not the reporting objects of Table~\ref{tab:objects} --- and the
 rule for dropping a replicate that leaves a cell without outcome variation.
 
-\paragraph{Estimating the critical value without paying for it in refits}
-Standardising the draws and multiplying them by independent standard normals
-gives a statistic with their empirical covariance, generated \nMultiplier\
-times for the cost of matrix arithmetic \citep{chernozhukov2013gaussian}, so
-the budget fixes $B$ and not the precision of $q$ --- order-statistic widths of
-\qEmpWidth\ against \qMultWidth. The residual Monte Carlo interval is
-carried through, and a cell counts as \emph{resolved} only at its
-\emph{upper} end (Supplement~\ref{app:objects}). A max-$t$ band also inherits the coverage of the interval it is built
-from, which Section~\ref{sec:simsensitivity} shows is governed by the ratio of
-register cardinality to training size. Supplement~\ref{app:calibration}
-derives a $q$ calibrated at each pair's own ratio and
-Section~\ref{sec:simband} measures why it is not applied.
+\paragraph{Estimating the critical value}
+Two estimators of $q_{1-\alpha}$ are computed on every family. The first is
+the empirical $(1-\alpha)$ quantile of the $B$ observed maxima $T^{(b)}$ ---
+the Romano--Wolf construction as cited --- whose precision is that of an
+order statistic of $B$ values: its order-statistic interval has a median
+width of \qEmpWidth\ on this corpus's families. The second standardises the
+draws and multiplies them by independent standard normals, which gives a
+statistic with their empirical covariance that can be generated
+\nMultiplier\ times for the cost of matrix arithmetic
+\citep{chernozhukov2013gaussian}, so the budget fixes $B$ and not the
+precision of $q$ (a Monte Carlo interval of width \qMultWidth). The
+multiplier is an approximation: it reproduces the covariance of the draws and
+therefore only the excursions a Gaussian process makes, and on every family
+here it lies below the empirical quantile's whole order-statistic interval
+(Supplement~\ref{app:twoq}). \textbf{The operative critical value is the
+empirical quantile}, at a median \maxTSurfaceMedian\ on the whole-surface
+families against the multiplier's \maxTSurfaceMultMedian;
+Section~\ref{sec:simband} is the measurement that decides it, and every
+table prints what the multiplier would have resolved beside what the
+reported band does. A max-$t$ band also inherits the coverage of the
+interval it is built from, which Section~\ref{sec:simsensitivity} shows is
+governed by the ratio of register cardinality to training size;
+Supplement~\ref{app:calibration} derives a widening calibrated at each pair's
+own ratio and reports it as a sensitivity.
 
 \paragraph{What these bands cover, measured against a known answer}
-\textbf{They do not attain their nominal level anywhere in this corpus's
-configuration.} Section~\ref{sec:simband} measures family-wise coverage over
-synthetic families matched to this corpus in size, draw count, cross-cell
-correlation and tails, whose truth is known by construction and whose
-bootstrap is \emph{ideal}, so every coverage it reports is an upper bound on
-what the real procedure attains. On the family matched to the design this
-paper reports --- this corpus's cell count, its draw count and its tails ---
-the multiplier band's family-wise coverage is \covHeavyWholeAtDesign\
+Section~\ref{sec:simband} measures family-wise coverage over synthetic
+families matched to this corpus in size, draw count, cross-cell correlation
+and tails, whose truth is known by construction and whose bootstrap is
+\emph{ideal}, so every coverage it reports is an upper bound on what the real
+procedure attains. On the family matched to the design this paper reports
+--- \nCellsPerPairMedian\ cells at \nDrawsSurface\ draws under this corpus's
+tails --- the empirical quantile's band covers \covEmpHeavyWholeAtDesign\
 against a nominal $95\%$, at a Monte Carlo standard error of
-\covHeavyWholeAtDesignSE. Across the \nBandCovWholeCells\ surface families,
-which move the cell count and the draw count around it, it falls to
-\covHeavyWholeMin; on the decision-curve families it is a median
-\covHeavyDcaMedian\ and a minimum \covHeavyDcaMin. It is
-\covMultGaussMedian\ even
-under the Gaussian draws the construction is derived for. \textbf{For this critical value the binding
-constraint is not the draw count}, which an asymptotic argument would suggest
-and this design's own measurement refutes: at the modal surface family
-coverage runs \covMultBootThirtyThree\ at \nBootThirtyThree\ draws and then
-\emph{plateaus} --- \covMultBootOneFifty\ at \nBootOneFifty,
-\covMultBootFourHundred\ at \nBootFourHundred\ and
-\covMultBootOneThousand\ at \nBootOneThousand. This corpus runs at
-\nDrawsSurface\ draws throughout, on the plateau and not below it, so the
-shortfall is not one a larger budget removes. Section~\ref{sec:simband}
-reports all five candidate critical values, the safeguard that buys almost
-nothing, and the shortfall in the units the calibration works in.
-\textbf{Every band, region label and $\rho$ in this paper is therefore an
-anti-conservative statement}: they are reported as descriptive diagnostics,
-they are not coverage guarantees, and Section~\ref{sec:lim} states what
-follows for each conclusion that rests on one.
+\covEmpHeavyWholeAtDesignSE, and \covEmpNonzeroWholeAtDesign\ under a
+non-zero truth, the regime in which a cell can be resolved correctly and a
+region label is actually being asked to hold. The multiplier's band covers
+\covMultHeavyWholeAtDesign\ and \covMultNonzeroWholeAtDesign\ on the same
+families, several standard errors short, and no draw budget closes that gap:
+along a ladder of draw counts its coverage plateaus from \nBootOneFifty\
+draws on, while the empirical quantile's rises to its level by
+\nDrawsSurface. \textbf{The level is bought with width}: the empirical band
+is \widthEmpOverMultAtDesign\ times as wide on the matched family and
+\ratioCorpusWhole\ times on the corpus's own families, and it resolves
+\nResolvedWhole\ cells corpus-wide where the multiplier would resolve
+\nResolvedWholeMult\ (Section~\ref{sec:regions}). What the measurement does
+not cover is stated with it: the bootstrap is ideal there, so the
+$K/n$-governed shortfall of the pointwise interval underneath
+(Section~\ref{sec:simsensitivity}) and whatever the real resampling adds
+are outside it, and Section~\ref{sec:lim} carries both.
 
 \subsection{Planned contrasts, and a $p$-value the design can produce}
 \label{sec:planned}
@@ -393,11 +352,11 @@ label was earned over --- which is the smallest such share in the corpus.
 does with them is a case of the minimum share doing its work.
 Table~\ref{tab:triple}, which prints the label before and after the minimum
 share, carries \nCondHarmful\ conditionally harmful and
-\nUniformlyHarmful\ uniformly harmful surfaces out of \nPairs\ before it; that one
-conditionally harmful label rests on \nHelpdeskResolved\ resolved cells of
-\nHelpdeskFamily, so Definition~\ref{def:regions} withdraws it, and under the
-definition this paper reports the count of either kind is
-\nCondHarmfulMinShare.
+\nUniformlyHarmful\ uniformly harmful surfaces out of \nPairs\ before it;
+each conditionally harmful label rests on at most \nCondHarmfulResolvedMax\
+resolved cells of \nHelpdeskFamily, so Definition~\ref{def:regions} withdraws
+them, and under the definition this paper reports the count of either kind
+is \nCondHarmfulMinShare.
 The label is available and the data do not earn it. $\rho = 1$ is the only state in
 which one positive number is a safe summary of a surface, and the empirical
 question this paper answers is how often it obtains. The region is defined

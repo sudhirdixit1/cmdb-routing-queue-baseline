@@ -101,6 +101,18 @@ REVISION_NARRATIVE = [
      r"\bearlier (?:versions?|drafts?) of this (?:paper|work|manuscript)\b|"
      r"\bthe previous (?:version|draft|round)\b|"
      r"\bin (?:this|the current) revision\b"),
+    #  ROUND TWENTY-EIGHT.  The eighth referee found the same narrative in
+    #  other words: "a previous version of this paper named the repair",
+    #  "which this paper had never reported", "two repairs this paper named".
+    #  A journal reader has no previous version; the comparison is stated,
+    #  the history goes to the response letter.
+    ("the paper's own history in other words",
+     r"\b(?:a|the) previous version of this (?:paper|work|manuscript)\b|"
+     r"\bthis paper had never reported\b|"
+     r"\b(?:repairs?|changes?|mechanisms?) this paper(?:'s own analysis)? "
+     r"(?:named|identified|offered|asserted)\b|"
+     r"\bthe diagnosis this paper offered was wrong\b|"
+     r"\bthis paper named (?:the|a) repair\b"),
 ]
 
 REQUIRED = [

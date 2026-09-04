@@ -50,53 +50,44 @@ and what the curves look like without it.
 
 The decision-curve family is declared separately from the scalar surface and
 carries its own max-$t$ critical value, because net benefit and a scalar
-instrument are not the same scale. That critical value does not reach the
-level it is named for, and Section~\ref{sec:simband} measures by how much on
-families matched to this one in size, draw count, cross-cell correlation and
-tail. The widening it measures is applied here rather than reported: the
-operative critical value below is \dcaQWidened, not the \dcaQ\ the multiplier
-bootstrap returns.
+instrument are not the same scale. Its critical value is the empirical
+quantile of Section~\ref{sec:simbands}, taken over the \emph{admissible}
+family: a cell whose net-benefit difference is exactly zero in at least nine
+draws of ten is zero by arithmetic, not by estimation, and is excluded before
+the quantile is taken because it is not a statement about the register while
+its vanishing spread inflates the value every other cell is judged by
+(Section~\ref{sec:simband}). On this estate's family that rule excludes
+\nDcaCellsExcludedDegenerate\ of \nDcaFamily\ cells and gives a critical
+value of \dcaQEmp\ [\dcaQEmpLo, \dcaQEmpHi], against \dcaQEmpAll\ with those
+cells kept and \dcaQ\ from the multiplier approximation.
+Section~\ref{sec:simband} measures this estimator at \covEmpHeavyCaseAtDesign\
+on a family matched to this one and the multiplier at
+\covMultHeavyCaseAtDesign, so the band below is the better of the two and is
+still about a point short of nominal on the matched family, which is stated
+here rather than in a footnote.
 
 Across the \nDcGrid\ operating points of this estate's curve \textbf{the
 pointwise interval declares the increment resolvably positive at
-\nBeneficialPointwise\ of them and the widened simultaneous band at
-\nBeneficialSimultaneousWidened}, every one of the second at or above $\theta
-= \thetaBeneficialWidenedMin$; the harmful counts are \nHarmfulPointwise\
-against \nHarmfulSimultaneousWidened. All are built from the same draws, so
-what differs is the family and the level it is bought at: those points are
-the price of a statement about a \emph{range} of thresholds rather than about
-each one separately, and a paper that reads a decision curve across its range
-while pricing it pointwise has claimed the first and paid for the second.
-
-\textbf{The widening costs \nBeneficialLostToWidening\ of the \nDcGrid\
-operating points}, and the uncorrected count is printed beside the corrected
-one rather than dropped: the same draws declared \nBeneficialSimultaneous\
-before the widening, and the median band width goes from \dcBandWidth\ to
-\dcBandWidthWidened\ against the pointwise interval's \dcPointWidth. The
-factor applied is \dcaWidenFactor, the upper end of the range
-Section~\ref{sec:simband} measures on families that carry this corpus's tails
-and no degenerate cells. \textbf{Which end of that range is taken does move
-the count}: the lower end \shortfallDcaMin\ leaves
-\nBeneficialSimultaneousLowEnd\ of the \nDcGrid\ operating points resolved
-against the applied factor's \nBeneficialSimultaneousWidened, so the
-conservative end is reported and the other is printed here rather than argued
-away. \textbf{The choice between the two kinds of matched family does not
-move it}: the all-cells factor \dcaWidenFactorAll, measured on families built
-to carry degenerate cells (Section~\ref{sec:simband}), is the smaller of the
-two and returns the same count, \nBeneficialSimultaneousAllCells. The admissible factor is the operative one
-because this family is not the degenerate case --- \nDegenerateCellsBand\ of
-its \nDcaFamily\ cells are zero in at least nine draws of ten --- and the
-all-cells count is
-printed beside it because that argument is a judgement rather than a
-measurement.
-
-The pointwise interval is not widened by a family-wise factor; what it covers
-is a separate measurement and Section~\ref{sec:simband} reports it. What the
-decision curve still does not receive is the $(n,K)$ calibration of
-Section~\ref{sec:regions}, which is estimated for the scalar family and is
-fitted to restore pointwise rather than family-wise coverage.
-Supplement~\ref{app:dcabandsfull} carries the comparison and
-Figure~\ref{fig:dca}; Table~\ref{tab:dca} prints the curve.
+\nBeneficialPointwise\ of them and the simultaneous band at
+\nBeneficialSimultaneousEmp}, the lowest of the second at $\theta =
+\thetaBeneficialEmpMin$; the harmful counts are \nHarmfulPointwise\ against
+\nHarmfulSimultaneousEmp. All are built from the same draws, so what differs
+is the family and the level it is bought at: those points are the price of a
+statement about a \emph{range} of thresholds rather than about each one
+separately, and a paper that reads a decision curve across its range while
+pricing it pointwise has claimed the first and paid for the second. The
+multiplier approximation would have declared \nBeneficialSimultaneous\ of the
+\nDcGrid\ resolved, at a median band width of \dcBandWidth\ against the
+reported band's \dcBandWidthEmp\ and the pointwise interval's
+\dcPointWidth; the order-statistic upper end of the reported critical value
+leaves \nBeneficialSimultaneousEmpHi, and keeping the excluded cells leaves
+\nBeneficialSimultaneousEmpAll, so the exclusion rule does not carry the
+result. Supplement~\ref{app:dcabandsfull} prints the whole ladder,
+including the measured widening of the multiplier value that an earlier
+construction used, and Figure~\ref{fig:dca} and Table~\ref{tab:dca} the
+curve. The pointwise interval is not widened by a family-wise factor; what
+it covers is a separate measurement, and the $(n,K)$ calibration of
+Section~\ref{sec:regions} is not applied to this family either.
 
 \subsection{The decision, in units a service desk uses}
 \label{sec:nbregret}

@@ -116,6 +116,17 @@ def _a2(R, P):
 
 @corruption("A3 a misreport rate", "result file")
 def _a3(R, P):
+    #  ROUND TWENTY-EIGHT: the master table's sign-disagreement column and
+    #  the headline rate come from s34_misreport since round twenty-two;
+    #  s04_rules is the round-nineteen file, which nothing in the manuscript
+    #  reads any more, so corrupting it was a test that could not fail.
+    p = R / "s34_misreport.csv"
+    if p.exists():
+        d = pd.read_csv(p)
+        i = d[d.measure == "equal-level"].index[0]
+        d.loc[i, "misreport_all"] = 0.999
+        d.to_csv(p, index=False)
+        return
     p = R / "s04_rules.csv"
     d = pd.read_csv(p)
     d.loc[0, "one_number_misreport_conventional"] = 0.999
@@ -165,7 +176,14 @@ def _e1(R, P):
     #  test that cannot fail, which is the same defect the correction
     #  register calls Class A.  It corrupts whichever of the two the
     #  verifier actually reads, preferring the newer.
-    p = R / "s21_regions.csv"
+    #  ROUND TWENTY-EIGHT: the manuscript's labels come from s48w_regions
+    #  since round twenty-seven, and this case went on corrupting s21_regions
+    #  -- a file nothing reads -- and was reported MISSED for exactly the
+    #  reason the comment above gives.  The newest file the verifier reads
+    #  is corrupted first.
+    p = R / "s48w_regions.csv"
+    if not p.exists():
+        p = R / "s21_regions.csv"
     if not p.exists():
         p = R / "s03_regions.csv"
     if not p.exists():

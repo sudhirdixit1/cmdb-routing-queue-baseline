@@ -150,9 +150,27 @@ def emit(mn):
         put("inferenceShareMedianPct", None)
         put("inferenceShareAdmissibleMedianPct", None)
 
-    put("maxTSurfaceMedian", num(first(F21, "q_median"), 2))
-    put("maxTSurfaceMin", num(first(F21, "q_min"), 2))
-    put("maxTSurfaceMax", num(first(F21, "q_max"), 2))
+    #  ROUND TWENTY-EIGHT.  The critical value the article quotes is the
+    #  OPERATIVE one -- whichever estimator s21 was run with -- and the two
+    #  estimators are quoted by name beside it.  `q_op_median' is absent from
+    #  a bands run older than this round, in which case the operative value
+    #  is the multiplier's, as it was then.
+    _qop = first(F21, "q_op_median") if F21 is not None and "q_op_median" in F21.columns else None
+    put("maxTSurfaceMedian", num(_qop if _qop is not None else first(F21, "q_median"), 2))
+    put("maxTSurfaceMultMedian", num(first(F21, "q_median"), 2))
+    put("maxTSurfaceEmpMedian", num(first(F21, "q_emp_median"), 2))
+    put("bandOperative", str(first(F21, "operative"))
+        if F21 is not None and "operative" in F21.columns else "mult")
+    #  the operative value's range, from the critical-value file, which
+    #  carries `q_op' per family since round twenty-eight
+    _qc = load("s48w_critical.csv")
+    if _qc is not None and "q_op" in _qc.columns:
+        _qw = _qc[_qc.family == "whole-surface"].q_op
+        put("maxTSurfaceMin", num(float(_qw.min()), 2))
+        put("maxTSurfaceMax", num(float(_qw.max()), 2))
+    else:
+        put("maxTSurfaceMin", num(first(F21, "q_min"), 2))
+        put("maxTSurfaceMax", num(first(F21, "q_max"), 2))
     put("maxTWithinMedian", num(first(F21, "q_within_instrument_median"), 2))
     put("familySizeMedian", thousands(first(F21, "family_size_median")))
     put("nRegionChangedByFamily",

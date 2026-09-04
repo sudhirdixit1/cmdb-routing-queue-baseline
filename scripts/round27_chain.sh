@@ -47,8 +47,11 @@ fi
 #  objects to compare rather than one overwritten one.
 for arg in "s44_weighted s48w" "s44_multinomial s48m"; do
   set -- $arg
-  echo "-- s21_bands.py --draws-dir $1 --prefix $2"
-  $PY s21_bands.py --draws-dir "$1" --prefix "$2" > "../logs/${2}_r27.log" 2>&1
+  #  ROUND TWENTY-EIGHT: the empirical quantile is the operative critical
+  #  value (PLAN-ROUND28.md 1.4, decided by s41's measurement); both
+  #  estimators' edges and labels are written whichever is operative.
+  echo "-- s21_bands.py --draws-dir $1 --prefix $2 --operative emp"
+  $PY s21_bands.py --draws-dir "$1" --prefix "$2" --operative emp > "../logs/${2}_r27.log" 2>&1
   tail -2 "../logs/${2}_r27.log"
   #  Validate the bands on their own terms before anything quotes them.  The
   #  condition that earns this is that the region labels are counted at the
@@ -69,8 +72,10 @@ tail -4 ../logs/s47_r27.log
 #  Family-wise coverage, now with the non-zero-truth regime.  Heaviest of the
 #  readers -- 58,000 replicates of matrix arithmetic, no pipeline refitted.
 #
-#  --draws-dir IS NOT OPTIONAL HERE.  s41 matches its synthetic families to a
-#  real surface's shape, and its default is the OLD surface, `s20'.  Running it
+#  --draws-dir names the surface the synthetic families are matched to; since
+#  round twenty-eight its default IS s44_weighted, and the grid, the tail
+#  calibration (kurtosis AND the corpus's own q_emp/q ratio) and the
+#  non-zero-truth regime are all matched to that design.  Running it
 #  without this flag measures the coverage of families matched to a surface the
 #  manuscript no longer reports, and the number looks entirely reasonable.  The
 #  profile is cached per source, so a run interrupted after stage 1 resumes

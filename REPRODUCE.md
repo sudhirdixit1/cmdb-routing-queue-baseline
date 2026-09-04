@@ -179,12 +179,30 @@ manuscript whose `\nSimReps` reads 200; the submitted one reads the full
 count, and `results/s31_facts.csv` in the archive carries it.
 
 Two things about the draw count are worth stating because a reader will ask.
-First, the critical value of a max-*t* band is **not** taken as the empirical
-quantile of those few hundred maxima: `s21_bands.py` estimates it by a
-Gaussian multiplier bootstrap over the standardised draw matrix, 20,000 times,
-so the fitting budget fixes *B* and not the precision of *q*. Second, the five
-planned contrasts of `s24_confirm.py` live on one cell each and are therefore
-affordable at 2,000 draws, which is where the plus-one *p*-values come from.
+First, the critical value of a max-*t* band **is** the empirical quantile of
+the 400 observed maxima --- the Romano--Wolf construction --- since round
+twenty-eight: `s21_bands.py --operative emp` writes it as the operative value
+and writes the Gaussian multiplier estimate (20,000 multiplier draws over the
+standardised draw matrix) beside it, under `mult_*`, because
+`s41_bandcoverage.py` measures the empirical quantile at its nominal level on
+the family matched to this design and the multiplier three points short, and
+the multiplier's shortfall does not close at any draw budget. Through round
+twenty-seven the multiplier was operative; running `s21_bands.py --operative
+mult` reproduces that version's labels. Second, the five planned contrasts of
+`s24_confirm.py` live on one cell each and are therefore affordable at 2,000
+draws, which is where the plus-one *p*-values come from.
+
+**The coverage grid is matched to the design the corpus runs.** Round
+twenty-eight re-declared `s41_bandcoverage.py`'s grid to the balanced
+surface (180 cells at 400 draws), the modal decision-curve family (1,100 at
+400) and the case study's own curve family (248 at 200), under four regimes,
+and calibrated the synthetic tails at that design to the corpus's kurtosis
+*and* to its own ratio of the two critical-value estimators --- the statistic
+the band's verdict turns on, which a kurtosis match alone did not reproduce.
+`results/s41_calibration.csv` records the fitted ratio against the corpus's
+interquartile range; the surface family is inside it, the curve family is
+not, and the manuscript says so. `results/s41_r27_*` and `results/s41_r28a_*`
+keep the two earlier grids for the record.
 
 `s18_bias_scaling.py --legacy-target` regenerates the pre-correction figures of Supplement S6's
 pre-correction figures. It is not needed for the manuscript's numbers; it is
@@ -215,7 +233,7 @@ python scripts/check_claims.py            # no document that speaks for this
 python scripts/check_sources.py           # no generator reads a RETIRED
                                           # surface by name -- round 27's
                                           # recurring defect, now a gate
-python scripts/check_bands.py --prefix s48w   # the bands file's own five
+python scripts/check_bands.py --prefix s48w   # the bands file's own eight
                                           # internal consistency conditions
 python scripts/check_response_refs.py     # every section the cover letter
                                           # cites exists, and what it lands on

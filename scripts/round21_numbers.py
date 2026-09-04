@@ -144,9 +144,16 @@ def emit(mn):
     #  a register that lists the model which finished the work and not the
     #  one that started it is not a register.  `AI-USE.md' carries the same
     #  pair and the same dates.
-    put("aiModelId", "claude-fable-5")
-    put("aiModelIdPrev", "claude-opus-5")
-    put("aiModelDate", "2026-08-24 to 2026-08-29")
+    #  ROUND TWENTY-EIGHT.  The declaration gives the FULL span of use --
+    #  the register in AI-USE.md starts on 2026-08-18, and rounds whose
+    #  identifier was not recorded are still uses -- and names every
+    #  identifier that was recorded, in order.  It also names the third use,
+    #  internal review of the manuscript, which the eighth referee found
+    #  undeclared (submission/review_round28.md, R28.5).
+    put("aiModelId", "claude-fable-5-1")
+    put("aiModelIdPrev", "claude-opus-5, then claude-fable-5")
+    put("aiModelDate", "2026-08-18 to 2026-09-03; identifiers recorded "
+        "from 2026-08-24")
 
     # ================================================================
     # the family-relative separation (Proposition 2, Remark 3)
@@ -1418,7 +1425,43 @@ def emit_round25(mn):
     P41 = load("s41_profile.csv")
     put("nBandCoverageReps", thousands(first(F41, "n_reps")))
     put("nBandCoverageCells", thousands(first(F41, "n_cells")))
+    #  ROUND TWENTY-EIGHT: the grid is three matched families under four
+    #  regimes; the draw-count ladder adds cells that are not grid cells,
+    #  and a sentence counting "cells" says which of the two it means
+    put("nBandCoverageCellsAll",
+        thousands(first(F41, "n_cells_all"))
+        if F41 is not None and "n_cells_all" in F41.columns else None)
+    put("nBandCoverageFamilies",
+        thousands(first(F41, "n_matched_families"))
+        if F41 is not None and "n_matched_families" in F41.columns else None)
+    #  THE CALIBRATION'S MATCH ON THE ESTIMATOR RATIO.  A synthetic family is
+    #  matched only if its own q_emp/q reproduces the corpus's, within the
+    #  corpus's interquartile range; the article prints the fitted and the
+    #  target values so a reader can see where the match is thin.
+    for fam_tag, fam_mac in (("ws", "Whole"), ("dc", "Dca")):
+        for mac, col, fmt in (("ratioSynth" + fam_mac, "cal_fit_ratio_" + fam_tag, 2),
+                              ("ratioCorpus" + fam_mac, "cal_target_ratio_" + fam_tag, 2),
+                              ("ratioCorpus" + fam_mac + "Qone", "cal_target_ratio_q1_" + fam_tag, 2),
+                              ("ratioCorpus" + fam_mac + "Qthree", "cal_target_ratio_q3_" + fam_tag, 2),
+                              ("calEps" + fam_mac, "cal_eps_" + fam_tag, 3),
+                              ("calLam" + fam_mac, "cal_lam_" + fam_tag, 1)):
+            put(mac, num(first(F41, col), fmt)
+                if F41 is not None and col in F41.columns else None)
+        _m = ("cal_ratio_matched_" + fam_tag)
+        put("ratioMatched" + fam_mac,
+            ("inside" if bool(first(F41, _m)) else "outside")
+            if F41 is not None and _m in F41.columns else None)
+    #  the two matched decision-curve families' sizes and draw counts, as the
+    #  grid declares them (the modal family is rounded to the grid's cell)
+    for mac, col in (("nDcaFamilyModal", "design_dc_K"),
+                     ("nDcaDraws", "design_cs_B")):
+        put(mac, thousands(int(first(F41, col)))
+            if F41 is not None and col in F41.columns else None)
     put("bandCoverageSEMax", pct(first(F41, "coverage_se_max")))
+    #  ROUND TWENTY-EIGHT: these pool the three matched families and say so
+    #  in their names; the non-zero regime's pooled median is not minted at
+    #  all, because the name `\covMultNonzeroMedian' was quoted as a design
+    #  statement once and a verifier condition now forbids it
     for tag, key in (("Gauss", "gaussian"), ("Heavy", "heavy"),
                      ("Degen", "degenerate")):
         for mac, cand in (("Mult", "q_mult"), ("MultHi", "q_mult_hi"),
@@ -1436,6 +1479,41 @@ def emit_round25(mn):
         put("covMultBoot" + word, pct(first(F41, "cov_mult_B%d" % b)))
         put("covPercellBoot" + word, pct(first(F41, "cov_percell_B%d" % b)))
         put("nBoot" + word, thousands(b))
+        #  ROUND TWENTY-EIGHT: the empirical quantile along the same ladder,
+        #  and both estimators along it under a non-zero truth
+        for mac, col in (("covEmpBoot" + word, "cov_emp_B%d" % b),
+                         ("covMultBootNonzero" + word,
+                          "cov_mult_B%d_nonzero" % b),
+                         ("covEmpBootNonzero" + word,
+                          "cov_emp_B%d_nonzero" % b)):
+            put(mac, pct(first(F41, col))
+                if F41 is not None and col in F41.columns else None)
+    #  THE DESIGN-MATCHED VALUES.  One per candidate, regime and matched
+    #  family; a sentence about "the reported design" reads one of these and
+    #  nothing else.  `ws' is every pair's surface family (180 cells, 400
+    #  draws), `dc' the modal decision-curve family (1,100 at 400) and `cs'
+    #  the case study's own curve family (248 at 200).
+    for fam_tag, fam_mac in (("ws", "Whole"), ("dc", "Dca"), ("cs", "Case")):
+        for reg_tag, reg_key in (("Gauss", "gaussian"), ("Heavy", "heavy"),
+                                 ("Degen", "degenerate"),
+                                 ("Nonzero", "nonzero")):
+            for mac, cand in (("Mult", "q_mult"), ("MultHi", "q_mult_hi"),
+                              ("Emp", "q_emp"), ("EmpHi", "q_emp_hi"),
+                              ("Rad", "q_rad")):
+                base = "%s_%s_%s" % (cand, reg_key, fam_tag)
+                name = "cov%s%s%sAtDesign" % (mac, reg_tag, fam_mac)
+                if F41 is not None and ("cov_" + base) in F41.columns:
+                    put(name, pct(first(F41, "cov_" + base)))
+                    put(name + "SE", pct(first(F41, "covse_" + base)))
+                    put("shortfall%s%s%sAtDesign" % (mac, reg_tag, fam_mac),
+                        num(first(F41, "shortfall_" + base), 2))
+                    put("falseCells%s%s%sAtDesign" % (mac, reg_tag, fam_mac),
+                        num(first(F41, "false_" + base), 2))
+                    put("resolvedCells%s%s%sAtDesign"
+                        % (mac, reg_tag, fam_mac),
+                        num(first(F41, "resolved_" + base), 1))
+                else:
+                    put(name, None)
     put("widthEmpHiOverMult", num(first(F41, "width_q_emp_hi_over_mult_heavy"),
                                   2))
     put("nDegenerateCellsDca", thousands(first(F41, "n_degenerate_dca")))

@@ -471,7 +471,7 @@ def _tables(mn, AX, P, M, RG):
         #  break it anyway.  It is inserted BEFORE to_latex escapes the cell,
         #  so the marker has to survive escaping -- hence the sentinel and
         #  the substitution below.
-        t["axes: pipe/split/qual/rung"] = [
+        t["axes: pipe/split/qual/adm. rungs"] = [
             "%d/%d/%d/%d" % (a, b, c, d) for a, b, c, d in
             zip(t.n_pipeline, t.n_split, t.n_quality, t.n_rung)]
         #  RULE: to_latex(escape=True) escapes what a call site pre-escapes,
@@ -482,28 +482,28 @@ def _tables(mn, AX, P, M, RG):
         for c in ("register_field", "free_field"):
             t[c] = t[c].astype(str).str.replace(":", ":@@", regex=False)
         t = t[["log", "target", "ITSM", "register_field f", "free field g",
-               "axes: pipe/split/qual/rung", "cases", "levels of f"]] \
+               "axes: pipe/split/qual/adm. rungs", "cases", "levels of f"]] \
             if "register_field f" in t.columns else t.rename(
                 columns={"register_field": "register_field f",
                          "free_field": "free field g"})[
                 ["log", "target", "ITSM", "register_field f", "free field g",
-                 "axes: pipe/split/qual/rung", "cases", "levels of f"]]
+                 "axes: pipe/split/qual/adm. rungs", "cases", "levels of f"]]
         _roles = tex_table(t.sort_values(["log", "target"]),
                       "ROLES AND LEVELS, PER PAIR. Which recorded attribute "
                       "plays the register $f$ and which the free field $g$ on "
                       "each admitted pair, whether the pair is IT service "
                       "management, and how many levels each varied axis "
                       "carries: pipeline, split, register-quality condition, "
-                      "baseline rung. Every pair also carries the "
+                      "admissible baseline rung --- the intercept-only "
+                      "rung is in the surface and in no admissible set, "
+                      "and is not counted here. Every pair also carries the "
                       "\\nInstruments\\ scalar instruments, so the per-pair "
                       "factorial is \\nPerPairAxes\\ axes wide and not the "
                       "\\nAxes\\ of Definition~\\ref{def:space}; "
                       "Section~\\ref{sec:design} says which axes are fixed on "
                       "which pairs and why. `cases' is the admitted case "
                       "count and `levels of $f$' the register's cardinality. "
-                      "This table was Supplement Table~S11 through round "
-                      "twenty-five; the master table cannot be read without "
-                      "it.",
+                      "The master table cannot be read without it.",
                       "tab:roles",
                       textcols={"register field f": 0.21,
                                 "free field g": 0.16})
