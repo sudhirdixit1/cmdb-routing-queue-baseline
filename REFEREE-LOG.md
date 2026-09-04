@@ -2901,8 +2901,9 @@ round-27 source before passing on this one.
 
 ## R28.4 Length. **CONCEDED IN PART — measured, not met**
 
-63 → 61 pages; body source 21,400 → 19,900 words with the round's own
-substance added. The moves and compressions are listed in
+63 → 57 pages; body source 21,400 → 18,300 words with the round's own
+substance added. The plan's 52-page target was not reached without cutting
+a protected float or a concession, which the plan forbids. The moves and compressions are listed in
 `submission/summary_of_changes.md` §4 with the next cuts and their costs.
 
 ## R28.5 The package presented internal reviews as if they were referees. **CONCEDED IN FULL**

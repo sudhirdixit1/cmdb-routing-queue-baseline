@@ -26,21 +26,18 @@ asserts.
 \input{tables/master}
 
 Table~\ref{tab:master} is the frozen master table: one row per log--target
-pair, the increment at the reference specification with its simultaneous band,
-the region label, the robustness index and the sign-disagreement rate of a
-conventional one-number report. The reference specification is declared and is
-the same everywhere --- one-hot logistic regression, the single temporal
-holdout, the clean register, the intake block plus the free field as the
-baseline, ROC AUC --- and its region and $\rho$ columns are the
-ones Section~\ref{sec:regions} reports while its
-sign-disagreement column is the all-cells rate of Table~\ref{tab:misreport}
-under the equal-level measure. The reference cell's sign and the
-region label need not agree, and on several pairs they do not: a surface can
-be conditionally beneficial while the one cell an analyst would have stood on
-is negative, because the label ranges over the whole inference family and the
-reference cell is one member of it. Table~\ref{tab:triple} prints the counts
-each label rests on, and Table~\ref{tab:roles} which attribute plays the
-register on each row.
+pair, the increment at the reference specification with its simultaneous
+band, the region label, the robustness index and the sign-disagreement rate
+of a conventional one-number report. The reference specification is the same
+everywhere --- one-hot logistic regression, the single temporal holdout, the
+clean register, the intake block plus the free field as the baseline, ROC AUC
+--- and its region and $\rho$ columns are the ones Section~\ref{sec:regions}
+reports. The reference cell's sign and the region label need not agree, and
+on several pairs they do not: a surface can be conditionally beneficial while
+the one cell an analyst would have stood on is negative, because the label
+ranges over the whole inference family and the reference cell is one member
+of it. Table~\ref{tab:triple} prints the counts each label rests on, and
+Table~\ref{tab:roles} which attribute plays the register on each row.
 
 \subsection{What the choices are worth}
 \label{sec:axes2}
@@ -119,22 +116,17 @@ condition on \nFoldLeadPairsQuality\ and the pipeline on
 \nFoldLeadPairsPipeline\ --- so an analyst cannot learn from somebody else's
 paper which of their own choices their answer turns on.
 
-The pooled decomposition is reported beside it, because it is what
-the specification-curve literature computes and the difference between the two
-is this subsection's result --- not because it answers the question as asked.
-Supplement~\ref{app:measures} gives the four pooled first-order medians, the
-largest per-instrument first-order index, the pooled higher-order share with
-its spread over pairs, and the largest per-axis \emph{involvement}, which is a
-different quantity again.
-
-The measure is not neutral, and one conclusion does not survive it:
-across the three product measures the higher-order share moves by
+The pooled decomposition is reported beside it because it is what the
+specification-curve literature computes, and the difference between the two
+is this subsection's result; Supplement~\ref{app:measures} gives its four
+first-order medians, the largest per-instrument first-order index, the
+higher-order share with its spread, and the largest per-axis
+\emph{involvement}, which is a different quantity again. The measure is not
+neutral: across the three product measures the higher-order share moves by
 \measureSpreadPct, and under the measure concentrated on the reference cell
-the interactions no longer carry more than the largest first-order index.
-\emph{The interactions carry more than any main effect} is therefore a claim
-about a measure and not only about a surface.
-Supplement~\ref{app:measures} carries the per-measure shares, the target
-axis, which axis leads on which pair, and both invariance tests.
+the interactions no longer carry more than the largest first-order index, so
+\emph{the interactions carry more than any main effect} is a claim about a
+measure and not only about a surface (Supplement~\ref{app:measures}).
 
 \textbf{The baseline axis moves the answer by more than the answer, on the
 pairs where an analyst has more than one baseline to choose between.} Holding
@@ -221,27 +213,24 @@ determine any sign at all, every sign they determine points the same way; on
 the remaining \nPairsResolveBothSigns\ they do not.
 
 \textbf{One surface of the \nPairs\ is uniformly beneficial, over a family
-that is \shareUniformFamilyPct\ of that pair's admissible cells.} Section~\ref{sec:regionsdef}
-poses the question this answers: $\rho = 1$ is the only state in which one
-positive number is a safe summary of a surface, and how often it obtains is an
-empirical matter. It obtains \nUniformlyBeneficial\ time here, on the pair
-carrying the richest declared grid in the corpus --- and the
-denominator belongs in the same breath as the label. The state is reached over
-an inference family of \nCellsPerPairMedian\ cells against that pair's
-\nCellsUniformPair\ admissible ones --- the smallest share in the corpus,
-which \nPairsAtLargestGrid\ pairs attain jointly rather than this one alone
---- and the label requires every cell of \emph{that} set to resolve
-beneficial (Definition~\ref{def:regions}) --- a claim about every cell being
-correspondingly easier to sustain over fewer of them. So the one case
-in which a single number is safe is a case where the claim ranges over
-\shareUniformFamilyPct\ of the specifications an analyst could have chosen, which is a
-statement about a denominator rather than a counterexample to one. It is also not an
-artefact of the critical value: the label holds under the multiplier band,
-under the empirical band this paper reports, under that band's
-order-statistic upper end, and under every widening the $(n, K)$ calibration
-could ask for (Supplement~\ref{app:foursettings}) --- the same pair every
-time. What the reported band costs the rest of the corpus is in the paragraph
-above, and Supplement~\ref{app:uniformly} gives the whole reckoning.
+that is \shareUniformFamilyPct\ of that pair's admissible cells.}
+Section~\ref{sec:regionsdef} poses the question this answers: $\rho = 1$ is
+the only state in which one positive number is a safe summary of a surface,
+and it obtains \nUniformlyBeneficial\ time here, on the pair carrying the
+richest declared grid --- over an inference family of \nCellsPerPairMedian\
+cells against that pair's \nCellsUniformPair\ admissible ones, the smallest
+share in the corpus, which \nPairsAtLargestGrid\ pairs attain jointly. The
+label requires every cell of \emph{that} set to resolve beneficial, and a
+claim about every cell is correspondingly easier to sustain over fewer of
+them, so the one case in which a single number is safe is a case where the
+claim ranges over \shareUniformFamilyPct\ of the specifications an analyst
+could have chosen: a statement about a denominator rather than a
+counterexample to one. It is not an artefact of the critical value: the label
+holds under the multiplier band, under the empirical band this paper reports,
+under that band's order-statistic upper end, and under every widening the
+$(n, K)$ calibration could ask for (Supplement~\ref{app:foursettings}) ---
+the same pair every time. Supplement~\ref{app:uniformly} gives the whole
+reckoning.
 
 \subsection{What one number costs}
 \label{sec:results-regret}
@@ -250,76 +239,47 @@ above, and Supplement~\ref{app:uniformly} gives the whole reckoning.
 A conventional report --- one pipeline, the clean register, the single
 holdout, ROC AUC --- disagrees in \emph{sign} with a median
 \misreportEqualPct\ of the other admissible specifications under the
-equal-level measure. Three things are wrong with reading that as
-\emph{what a one-number report exposes a reader to}, and this section
-corrects each of them, then all three at once: the axes are not all the same
-kind of thing, most cells are not cells whose sign the data determine, and a
-disagreement counted at any magnitude is not a disagreement worth acting on.
-Correcting them one at a time is not enough --- each correction moves the
-denominator the next one is computed on --- so the rate that survives is the
-one taken under all three together.
-
-The axes are not all the same kind of thing. The design space mixes
-choices an analyst makes with things that are not choices at all, and
-Table~\ref{tab:axiskind} partitions the decomposition accordingly:
-\emph{analyst latitude} is the pipeline and the baseline rung;
-\emph{resampling} is the split, five of whose six levels are expanding-origin
-folds on the same data; \emph{counterfactual} is the register-quality
-condition, a different state of the world rather than a different way of
-analysing this one. On the primary scale, analyst latitude carries a median
-\shareLatitudePct\ of the variance, resampling \shareResamplingPct\ and the
-counterfactual \shareCounterfactualPct, and resampling is the larger of the
-first two on \nPairsResamplingOverLatitude\ of the \nPairs\ pairs.
-
-Whether the split moves the increment more than the analytic axes
-depends on which scale the partition is taken under, and we report both
-rather than the one that reads better. The primary scale decomposes
-\emph{inside} each instrument and takes the median across the five, so the
-instrument is a stratum and its own contribution is in none of the three
-columns. Making it a sixth axis needs the headroom rescaling of
-Section~\ref{sec:sobol}, because raw AUC and raw average precision do not
-share units --- and on that scale the ordering reverses: analyst latitude
-carries \shareLatitudeCrossPct, resampling \shareResamplingCrossPct\ and the
-counterfactual \shareCounterfactualCrossPct, with resampling the larger on
-\nPairsResamplingOverLatitudeCross\ pairs. The instrument is an analyst's
-choice, so the second number is the one that answers the question as asked;
-the first is the one taken on the units the rest of Section~\ref{sec:multilog}
-uses, and neither is a corpus fact independent of the scale. Restricted
-to the analyst-latitude cells --- the pipeline by the admissible rungs by the
-\nInstruments\ instruments, with the register clean and the split at the
-single holdout, a median \nCellsLatitude\ cells per pair and
-\nCellsLatitudeTotal\ over the corpus, because the pipeline and the rung do
-not carry the same number of levels on every pair (Table~\ref{tab:roles}) ---
-the median per-pair disagreement rate is \misreportLatitudePct\ against the
-all-cells \misreportEqualPct, both medians over pairs: the first is what a
-one-number report exposes a reader to,
-the second what a claim ranging also over degraded registers and resampled
-splits is exposed to.
-
-The reference specification is itself a choice, and moving it moves
-the headline by less than the corrections above. Varying the reference one axis at a time over every level that axis
+equal-level measure. Three things are wrong with reading that as what a
+one-number report exposes a reader to, and each correction moves the
+denominator the next is computed on, so the rate that survives is the one
+taken under all three together. \textbf{The axes are not all the same kind of
+thing.} Table~\ref{tab:axiskind} partitions the decomposition into
+\emph{analyst latitude} (the pipeline and the baseline rung),
+\emph{resampling} (the split, five of whose six levels are folds on the same
+data) and the \emph{counterfactual} (the register-quality condition, a
+different state of the world): on the primary scale, which decomposes inside
+each instrument, analyst latitude carries a median \shareLatitudePct\ of the
+variance, resampling \shareResamplingPct\ and the counterfactual
+\shareCounterfactualPct, with resampling the larger on
+\nPairsResamplingOverLatitude\ of the \nPairs\ pairs; on the headroom scale,
+which makes the instrument a sixth axis, the ordering reverses
+(\shareLatitudeCrossPct, \shareResamplingCrossPct\ and
+\shareCounterfactualCrossPct, resampling larger on
+\nPairsResamplingOverLatitudeCross\ pairs), and neither is a corpus fact
+independent of the scale. Restricted to the analyst-latitude cells --- the
+pipeline by the admissible rungs by the \nInstruments\ instruments, register
+clean, split at the single holdout, a median \nCellsLatitude\ cells per pair
+--- the median disagreement rate is \misreportLatitudePct\ against the
+all-cells \misreportEqualPct: the first is what a one-number report exposes a
+reader to, the second what a claim ranging also over degraded registers and
+resampled splits is exposed to. Varying the reference one axis at a time over every level that axis
 carries --- \nRefSensVariants\ variants in all, Table~\ref{tab:refsens} ---
 the corpus median runs \refSensMinPct\ to \refSensMaxPct\ against the
 declared \refSensDeclaredPct, so the headline is not an artefact of which
 cell we called conventional.
 
-And most cells are not cells whose sign the data determine. The
+\textbf{And most cells are not cells whose sign the data determine.} The
 median pair resolves \nResolvedMedian\ cells of the \nCellsPerPairMedian\ it
-carries, and sign agreement between two draws from a distribution centred near
-zero is one half by construction, so a rate computed over unresolved cells is
-partly measuring that.
-
-And a sign flip between two increments that both round to zero is not
-a misstatement anybody would act on. The rate counts a cell whenever its sign differs from
-the reference cell's, at any magnitude, and \nRefBelowMpid\ of the \nPairs\
-reference increments are themselves inside a hundredth of an AUC point. A
-\emph{minimal practically important difference} is therefore declared ---
-$\mathrm{MPID} = \mpidAuc$ AUC --- and a disagreement is counted only when the
-reference increment and the cell's own increment both exceed it. The MPID is
-declared in AUC and Remark~\ref{prop:nonid} forbids carrying it to
-another instrument, so the restriction is applied on the AUC sub-surface and
-the unrestricted AUC rate is reported beside it, in
-Table~\ref{tab:mpid}.
+carries, and sign agreement between two draws from a distribution centred
+near zero is one half by construction. \textbf{And a sign flip between two
+increments that both round to zero is not a misstatement anybody would act
+on}: \nRefBelowMpid\ of the \nPairs\ reference increments are themselves
+inside a hundredth of an AUC point, so a \emph{minimal practically important
+difference} is declared --- $\mathrm{MPID} = \mpidAuc$ AUC --- and a
+disagreement is counted only when the reference increment and the cell's own
+increment both exceed it, on the AUC sub-surface, because Remark~\ref{prop:nonid}
+forbids carrying an AUC threshold to another instrument
+(Table~\ref{tab:mpid}).
 
 \input{tables/mpid}
 

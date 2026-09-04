@@ -31,32 +31,21 @@ feature is \emph{well posed} only relative to a declared $\mathcal{S}$.
 Declaring a design space means writing down every axis, its levels, the
 measure over those levels, and every level deliberately excluded with the
 reason. Table~\ref{tab:axes} is that declaration, generated from the code that
-walks the space. Not every axis is a factor of the cell count, and the
-table's `in the product' column says which are. The admissible cell counts of
-Section~\ref{sec:denominator} are the product of the rows the table marks
-\textsc{yes} --- the learner, the split, the register-quality condition, the
-admissible baseline and the scalar instrument --- and that multiplication,
+walks the space, and its caption says which rows multiply into the admissible
+cell counts of Section~\ref{sec:denominator} --- the learner, the split, the
+register-quality condition, the admissible baseline and the scalar instrument
+--- and where each of the others is counted instead; that multiplication,
 re-done pair by pair from the same file the table is generated from, is a
-condition the verification harness checks. The rows marked \textsc{no} are not
-omissions and are not free to be multiplied in: the encoding is fixed by the
-learner, so the learner row already counts the pipeline and multiplying the
-two would count it twice; the ladder-rung row is the admissible row plus the
-intercept-only baseline, which is in the surface and in no admissible set; the
-decision time indexes a second surface on the case study's log rather than a
-further factor of the first, and Section~\ref{sec:twodecision} reports it; and
-the operating point multiplies the decision-curve grid, which
-Section~\ref{sec:denominator} counts separately from the scalar cells.
-Not all \nAxes\ axes are varied in this study;
-Table~\ref{tab:roles} states per pair which ran and at how many levels, and
-Section~\ref{sec:lim} carries the gap. The
-\emph{measure} column names which of the three declared product measures a
-quantity is taken under --- \textsc{equal}, \textsc{ref.} and \textsc{conc.},
-placing equal, half and four fifths of the mass on the reference level ---
-and Section~\ref{sec:sobol} reports every decomposition under all three.
-The measure is a modelling choice, declared rather than left implicit;
-Supplement~\ref{app:measurechoice} states it, and says why the decision time
-and the register's quality are axes of the estimand rather than preliminaries
-to it.
+condition the verification harness checks. Not all \nAxes\ axes are varied in
+this study: Table~\ref{tab:roles} states per pair which ran and at how many
+levels, and Section~\ref{sec:lim} carries the gap. The \emph{measure} column
+names which of the three declared product measures a quantity is taken under
+--- \textsc{equal}, \textsc{ref.} and \textsc{conc.}, placing equal, half and
+four fifths of the mass on the reference level --- and
+Section~\ref{sec:sobol} reports every decomposition under all three; the
+measure is a modelling choice, declared rather than left implicit
+(Supplement~\ref{app:measurechoice}, which also says why the decision time and
+the register's quality are axes of the estimand rather than preliminaries).
 
 \subsection{What the surface estimates}
 \label{sec:estimand}
@@ -153,11 +142,9 @@ spread across metrics as though both lived on one scale.
 \subsection{Two facts about the metric, and why they are remarks}
 \label{sec:props}
 
-Two properties of the reduction are used later. The first is used in this
-article and is stated here; the second is used where it is proved, and is
-stated there. Supplement~\ref{app:props} carries both in full, their
-constructions, the richness assumption the second needs, and the witness that
-separates it from rank-basedness.
+Two properties of the reduction are used later; Supplement~\ref{app:props}
+carries both in full, with their constructions and the richness assumption
+the second needs.
 
 \begin{remark}[The metric is an argument of the estimand]
 \label{prop:nonid}
@@ -170,8 +157,7 @@ practically important difference of Section~\ref{sec:results-regret} is
 declared in one instrument's units and applied there only.
 \end{remark}
 
-\noindent The second --- \textbf{Remark~\ref{prop:rank}}, that a reduction is
+\noindent The second --- Remark~\ref{prop:rank}, that a reduction is
 invariant to a declared family of recalibrations exactly when the metric is
-\emph{affine} under it, so that one violating map rules the invariance out
-everywhere --- is stated and proved in Supplement~\ref{app:props}, with the
-\nCertificates\ certificates it licenses.
+\emph{affine} under it --- is stated and proved in
+Supplement~\ref{app:props}, with the \nCertificates\ certificates it licenses.

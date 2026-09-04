@@ -17,7 +17,7 @@ how to work; three rules round twenty-seven added are in §0 below.
 | 2 · operative critical value → empirical quantile, every band-dependent number regenerated | **done** — `s21 --operative emp`, `s49` on the admissible family, chain re-run, 168 macros / 41 conditions / 0 failures |
 | 3 · the rewrite: §4.3, §6.3, §8.3, §9.4, §10, contribution 2, abstract, highlights | **done**, and audited against the built PDF (§8.2) |
 | 4 · revision narrative out of the article; voice | **done** — texlint check 16 widened; §6 bold lead-ins 36 → 10 |
-| 5 · length | **done, short of target** — 63 → 61 pp; body 21,400 → 19,900 words with ~600 added; next cuts and costs in `submission/summary_of_changes.md` §4 |
+| 5 · length | **done, short of target** — 63 → 57 pp; body 21,400 → 18,300 words with ~600 added; the 52-page target is not reachable without a protected float or a concession; next cuts and costs in `submission/summary_of_changes.md` §4 |
 | 6 · the package: cover letter, uploads, AI declaration | **done** |
 | 7 · ten small items (R28.6) | **done** (item 9 is the owner's DOI) |
 | 8 · gates, red-team of every rewrite, build | **done** — all gates clean except the DOI placeholder `final_search` reports; attack suite 11 of 11 caught after two cases were re-pointed and one independent re-derivation added (§10) |
@@ -405,6 +405,22 @@ be submitted with "DOI reserved" in reference [11].
 
 *(newest first after the baseline; per phase: what ran, what it found, what
 changed in the paper, what it cost; numbers checked against result files.)*
+
+### 2026-09-04, 01:30 — the length pass, measured
+
+Three passes. Section 9's pointwise simulation is one subsection (its plane
+and worlds already live in S9.5 and S6, so nothing was duplicated); §8.1 and
+§8.2 merged; §§1, 2, 3, 4, 5, 6, 7 and 10 compressed paragraph by paragraph
+with every macro kept; §6.6 a paragraph; §4.1's comparison and §3.4's rules in
+the supplement. Article **63 → 57 pages** (body to page 51), source
+**21,400 → 18,300 words** with about 600 added for the round's substance.
+Gates after the pass: texlint 0, verify_numbers 168 / 41 / 0, build 0 errors.
+The 52-page target is not reachable without a protected float or a
+concession; `submission/summary_of_changes.md` §4 gives the editor the next
+three cuts and their costs. Section renumbering (9.4 → 9.2, 8.3 → 8.2) is
+followed in the current package documents; the historical letters keep the
+numbers of the versions they answered and are exempt in
+`check_response_refs`.
 
 ### 2026-09-04, 00:30 — Phases 2 to 8 executed on the second run's decision
 

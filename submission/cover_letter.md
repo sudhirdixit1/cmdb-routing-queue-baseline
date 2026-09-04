@@ -25,16 +25,16 @@ where a sign is determined and withhold a direction where too little of the
 surface resolves to support one.
 
 **What the evidence says.** On 19 log--target pairs from 13 public event
-logs, a median {{RESAMPLING}} of a pooled specification surface's variance is
+logs, a median 71.7% of a pooled specification surface's variance is
 resampling rather than analyst latitude, and net of it which analyst choice
 leads is a property of the pair. A conventional one-number report is usually
 right about the sign and usually silent about the size: where the data
-determine a sign, admissible specifications sit a median {{MAD}} AUC from the
+determine a sign, admissible specifications sit a median 0.0600 AUC from the
 conventional report. In a case study on a bank's configuration management
 database, the register's worth turns on the decision time and its sign on the
 target, and a desk that adopted the register on its first-touch number and
-deployed it at incident creation would be promised {{PROMISED}} true positives
-per thousand cases and receive {{DELIVERED}}.
+deployed it at incident creation would be promised 1.71 true positives
+per thousand cases and receive 0.003.
 
 **Why this journal.** *Information Systems* publishes evaluation methodology
 for data-intensive systems, and this is one: a formal object, an estimator,
@@ -70,8 +70,8 @@ tolerance outside that container, because the results are not bit-reproducible
 across processor architectures and a reproduction claim that holds only on
 the author's machine is not one.
 
-**Length.** The article is {{PAGES}} pages with {{TABLES}} tables and
-{{FIGURES}} figures; the appendices are a separate supplementary document.
+**Length.** The article is 57 pages with 8 tables and
+3 figures; the appendices are a separate supplementary document.
 The body's length is measured rather than defended: `summary_of_changes.md`
 gives the per-section word counts and names, in order, what the editor could
 cut next and what each cut would cost.

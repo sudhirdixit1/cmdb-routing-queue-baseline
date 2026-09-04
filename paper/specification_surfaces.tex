@@ -242,14 +242,14 @@ share.
 \item \textbf{A registered multi-log benchmark and a register at three
 decision times.} The surface is computed through one frozen pipeline on every
 log--target pair a pre-registered protocol admits --- \nPairs\ of them, not
-only the ones where the answer resolves --- and every corpus statistic is
+only the ones where the answer resolves --- with every corpus statistic
 reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
-maintained one (Section~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
-that a decision time fixes which cases are in scope, what is known about them
-and which fields are admissible at once, reconciles the two values the case
-study's log has been reported to give, and finds the difference is the
-\emph{target}: over the cohort $\times$ target design the target carries
-\shareTargetPct\ of the variance and the cohort \shareCohortPct.
+maintained one (Section~\ref{sec:family}); and Section~\ref{sec:cmdb} shows
+that a decision time fixes at once which cases are in scope, what is known
+about them and which fields are admissible, and that the two values the case
+study's log has been reported to give differ by the \emph{target}, which
+carries \shareTargetPct\ of the variance over the cohort $\times$ target
+design against the cohort's \shareCohortPct.
 \end{enumerate}
 
 \noindent Figure~\ref{fig:overview} sets the method out once, from the three
@@ -467,32 +467,21 @@ feature is \emph{well posed} only relative to a declared $\mathcal{S}$.
 Declaring a design space means writing down every axis, its levels, the
 measure over those levels, and every level deliberately excluded with the
 reason. Table~\ref{tab:axes} is that declaration, generated from the code that
-walks the space. Not every axis is a factor of the cell count, and the
-table's `in the product' column says which are. The admissible cell counts of
-Section~\ref{sec:denominator} are the product of the rows the table marks
-\textsc{yes} --- the learner, the split, the register-quality condition, the
-admissible baseline and the scalar instrument --- and that multiplication,
+walks the space, and its caption says which rows multiply into the admissible
+cell counts of Section~\ref{sec:denominator} --- the learner, the split, the
+register-quality condition, the admissible baseline and the scalar instrument
+--- and where each of the others is counted instead; that multiplication,
 re-done pair by pair from the same file the table is generated from, is a
-condition the verification harness checks. The rows marked \textsc{no} are not
-omissions and are not free to be multiplied in: the encoding is fixed by the
-learner, so the learner row already counts the pipeline and multiplying the
-two would count it twice; the ladder-rung row is the admissible row plus the
-intercept-only baseline, which is in the surface and in no admissible set; the
-decision time indexes a second surface on the case study's log rather than a
-further factor of the first, and Section~\ref{sec:twodecision} reports it; and
-the operating point multiplies the decision-curve grid, which
-Section~\ref{sec:denominator} counts separately from the scalar cells.
-Not all \nAxes\ axes are varied in this study;
-Table~\ref{tab:roles} states per pair which ran and at how many levels, and
-Section~\ref{sec:lim} carries the gap. The
-\emph{measure} column names which of the three declared product measures a
-quantity is taken under --- \textsc{equal}, \textsc{ref.} and \textsc{conc.},
-placing equal, half and four fifths of the mass on the reference level ---
-and Section~\ref{sec:sobol} reports every decomposition under all three.
-The measure is a modelling choice, declared rather than left implicit;
-Supplement~\ref{app:measurechoice} states it, and says why the decision time
-and the register's quality are axes of the estimand rather than preliminaries
-to it.
+condition the verification harness checks. Not all \nAxes\ axes are varied in
+this study: Table~\ref{tab:roles} states per pair which ran and at how many
+levels, and Section~\ref{sec:lim} carries the gap. The \emph{measure} column
+names which of the three declared product measures a quantity is taken under
+--- \textsc{equal}, \textsc{ref.} and \textsc{conc.}, placing equal, half and
+four fifths of the mass on the reference level --- and
+Section~\ref{sec:sobol} reports every decomposition under all three; the
+measure is a modelling choice, declared rather than left implicit
+(Supplement~\ref{app:measurechoice}, which also says why the decision time and
+the register's quality are axes of the estimand rather than preliminaries).
 
 \subsection{What the surface estimates}
 \label{sec:estimand}
@@ -589,11 +578,9 @@ spread across metrics as though both lived on one scale.
 \subsection{Two facts about the metric, and why they are remarks}
 \label{sec:props}
 
-Two properties of the reduction are used later. The first is used in this
-article and is stated here; the second is used where it is proved, and is
-stated there. Supplement~\ref{app:props} carries both in full, their
-constructions, the richness assumption the second needs, and the witness that
-separates it from rank-basedness.
+Two properties of the reduction are used later; Supplement~\ref{app:props}
+carries both in full, with their constructions and the richness assumption
+the second needs.
 
 \begin{remark}[The metric is an argument of the estimand]
 \label{prop:nonid}
@@ -606,11 +593,10 @@ practically important difference of Section~\ref{sec:results-regret} is
 declared in one instrument's units and applied there only.
 \end{remark}
 
-\noindent The second --- \textbf{Remark~\ref{prop:rank}}, that a reduction is
+\noindent The second --- Remark~\ref{prop:rank}, that a reduction is
 invariant to a declared family of recalibrations exactly when the metric is
-\emph{affine} under it, so that one violating map rules the invariance out
-everywhere --- is stated and proved in Supplement~\ref{app:props}, with the
-\nCertificates\ certificates it licenses.
+\emph{affine} under it --- is stated and proved in
+Supplement~\ref{app:props}, with the \nCertificates\ certificates it licenses.
 % ---- paper/parts/20_inference.tex ----
 \section{Estimation and inference}
 \label{sec:inference}
@@ -621,32 +607,25 @@ everywhere --- is stated and proved in Supplement~\ref{app:props}, with the
 The pipeline is frozen and identical on every log, and the \emph{pipeline}
 axis spans encodings as well as model families; every learner, encoder and
 calibrator is the \texttt{scikit-learn} implementation
-\citep{pedregosa2011scikit} at the version \texttt{requirements.lock} pins,
-so the axis varies what this paper declares and nothing underneath it.
+\citep{pedregosa2011scikit} at the version \texttt{requirements.lock} pins.
 Attributes are assigned to roles by the pre-registered rules of
 Section~\ref{sec:design}, cases are ordered by their first timestamp, and the
-split is temporal (Supplement~\ref{app:pipeline}). The usual interval for such an increment resamples test rows
-with the models held fixed, which excludes training-sample, model-selection,
-encoder and split variability and the temporal dependence between cases.
-
-Every interval here is instead a \emph{nested moving-block bootstrap}: one
-draw resamples the training half by moving blocks
-\citep{kunsch1989jackknife} of length $\lceil n^{1/3} \rceil$, refits every
-arm of every rung under every learner and quality mechanism, and evaluates on
-a moving-block resample of the test half, with encoders, frequency tables,
-target encodings, register rankings and calibrators rebuilt inside the draw.
-On the simulation of Section~\ref{sec:sim} the fixed-model interval covers a
-median \coverageNaiveMedian\ and the nested basic interval
-\coverageNestedBasicMedian\ --- \textbf{a gap of about
-\nestedGainInSe\ Monte Carlo standard errors} at the \simMcSe\ standard
-error that design attains (Section~\ref{sec:simcoverage}), which is not a
-difference this evidence can resolve. The nested construction is retained because the
-variability it admits is variability the estimand contains and the fixed-model
-interval excludes by construction, not because it measures better here; and
-the price it charges is the subject of the next two paragraphs.
-The comparison a reader would want --- against a \emph{weighted} bootstrap,
-which removes that price at source --- is below, and what it found is not what
-this construction's defence predicted.
+split is temporal (Supplement~\ref{app:pipeline}). The usual interval for
+such an increment resamples test rows with the models held fixed, which
+excludes training-sample, model-selection, encoder and split variability and
+the temporal dependence between cases. Every interval here is instead a
+\emph{nested moving-block bootstrap}: one draw resamples the training half by
+moving blocks \citep{kunsch1989jackknife} of length $\lceil n^{1/3} \rceil$,
+refits every arm of every rung under every learner and quality mechanism,
+and evaluates on a moving-block resample of the test half, with encoders,
+frequency tables, target encodings, register rankings and calibrators
+rebuilt inside the draw. On the simulation of Section~\ref{sec:sim} the
+fixed-model interval covers a median \coverageNaiveMedian\ and the nested
+basic interval \coverageNestedBasicMedian\ --- about \nestedGainInSe\ Monte
+Carlo standard errors apart, which that design cannot resolve --- so the
+nested construction is retained because the variability it admits is
+variability the estimand contains, not because it measures better here; the
+price it charges is the subject of the next two paragraphs.
 
 \noindent Throughout, $K$ denotes the \textbf{cardinality of the register
 field} --- the number of distinct values $f$ takes on a pair, \cardFMedian\ at
@@ -830,26 +809,22 @@ are outside it, and Section~\ref{sec:lim} carries both.
 \subsection{Planned contrasts, and a $p$-value the design can produce}
 \label{sec:planned}
 
-Five contrasts on the primary log are \emph{planned for this analysis round} ---
-that the register adds to the intake baseline, that it still adds once the free
-field is admitted, that it adds at the later decision time, that the absorption
-$D$ is positive, and that a half-empty register is worth less than a full one
---- each stated with its complete estimand in Table~\ref{tab:confirm}.
-\textbf{They are not confirmatory}: they were fixed before this analysis round,
-not before the data were seen, so the Holm-adjusted one-sided bootstrap
-$p$-values \citep{holm1979simple} they carry are reported for legibility and
-not as a confirmatory test. \nPlannedReject\ of them reject at
-$\alpha = 0.05$ on the $p$-value --- but \textbf{a contrast is called resolved
-only when the interval says so}, and on \textsf{PC3} the one-sided $p$-value
-and the two-sided basic interval disagree, its interval containing zero. So
-the count that follows this paper's own rule is \nPlannedResolved, and the
-$p$-value count is printed beside it rather than instead of it. The other
-detail is in Supplement~\ref{app:pcdetail}: at \nDrawsPlanned\ draws the
-smallest attainable Holm-adjusted value is \pMinAttainableHolm, because the
-plus-one estimator $\hat p = (k+1)/(B+1)$ is the only one a finite bootstrap
-can support. Every other comparison in this paper is \emph{exploratory}
-and carries no multiplicity correction, because none would be meaningful over
-a surface enumerated in full.
+Five contrasts on the primary log were fixed before this analysis round ---
+that the register adds to the intake baseline, that it still adds once the
+free field is admitted, that it adds at the later decision time, that the
+absorption $D$ is positive, and that a half-empty register is worth less than
+a full one --- each with its complete estimand in Table~\ref{tab:confirm}.
+They are not confirmatory, because they were fixed after the data were seen,
+so their Holm-adjusted one-sided bootstrap $p$-values \citep{holm1979simple}
+are reported for legibility: \nPlannedReject\ reject at $\alpha = 0.05$, but
+a contrast is called resolved only when its interval says so, and on
+\textsf{PC3} the one-sided $p$-value and the two-sided basic interval
+disagree, so the count under this paper's own rule is \nPlannedResolved\
+(Supplement~\ref{app:pcdetail}, which also gives the smallest attainable
+adjusted value, \pMinAttainableHolm\ at \nDrawsPlanned\ draws). Every other
+comparison in this paper is \emph{exploratory} and carries no multiplicity
+correction, because none would be meaningful over a surface enumerated in
+full.
 
 \subsection{The sensitivity decomposition}
 \label{sec:sobol}
@@ -862,11 +837,10 @@ measure $\mathbb{P} = \bigotimes_i w_i$, with first-order and total indices
 $S_i$ and $S_{T_i}$ computed exactly rather than estimated
 (Supplement~\ref{app:sobolest}). The closest
 precedent is \citet{hutter2014efficient}, who decompose an algorithm's
-performance over its \emph{configuration} space by the same device; what
-differs here is that the axes are analysis decisions rather than
-hyperparameters, that the components are exact over a complete factorial
-rather than estimated from a surrogate over a sampled design, and that the
-decomposition is one of three reporting objects rather than the conclusion.
+performance over its \emph{configuration} space by the same device; here the
+axes are analysis decisions, the components are exact over a complete
+factorial rather than estimated from a surrogate, and the decomposition is
+one of three reporting objects rather than the conclusion.
 
 \paragraph{The split is an error stratum, and the primary decomposition treats
 it as one}
@@ -938,29 +912,23 @@ and every directional label is reported with the counts of beneficial,
 harmful and unresolved cells it rests on.
 \end{definition}
 
-\noindent \textbf{The minimum resolved share is not free.} Without it a
-surface earns a direction from as few as two resolved
-cells of a hundred and eighty: \emph{conditionally beneficial} then means
-``nothing resolved harmful'', which on a family the data barely touch is a
-statement about the band's width and not about the register.
-\nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs that carry a
-direction lose it under the condition (Table~\ref{tab:triple}), and $\rho$ is
-printed beside the triple everywhere because $\rho$ alone cannot distinguish
-two resolved cells from ninety. The threshold is a declared convention, and moving it is cheap to inspect:
-at a \minShareLowPct\ minimum \nLabelsLostMinOne\ directions are withdrawn,
-at the declared \minResolvedSharePct\ it is \nLabelsLostToMinShare, and at
-\minShareHighPct\ it is \nLabelsLostMinTen. Table~\ref{tab:triple}'s source file carries all
-three, so a reader who prefers another threshold can see what it costs.
-
-\noindent \textbf{The label is relative to $\mathcal{F}$ and not to the whole
-admissible set, and the direction of that is not neutral.} A label computed on
-a sixth of a pair's cells is systematically cleaner than one computed on all
-of them, and \emph{uniformly beneficial} is the label most helped by it: a
-claim about every cell is easier to sustain over fewer cells. The manuscript
-therefore never says a surface is uniformly beneficial without this
-restriction being in force, and Section~\ref{sec:regions} reports the one pair
-that reaches it together with the share of that pair's admissible cells the
-label was earned over --- which is the smallest such share in the corpus.
+\noindent \textbf{The minimum resolved share is not free, and the family the
+label is relative to is not neutral.} Without the share a surface earns a
+direction from as few as two resolved cells of a hundred and eighty, which on
+a family the data barely touch is a statement about the band's width and not
+about the register; \nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs
+that carry a direction lose it under the condition (Table~\ref{tab:triple}),
+and $\rho$ is printed beside the triple everywhere because $\rho$ alone cannot
+distinguish two resolved cells from ninety. The threshold is a declared
+convention: at \minShareLowPct\ it withdraws \nLabelsLostMinOne\ directions,
+at the declared \minResolvedSharePct\ \nLabelsLostToMinShare, at
+\minShareHighPct\ \nLabelsLostMinTen, and Table~\ref{tab:triple}'s source
+file carries all three. And a label computed on a sixth of a pair's cells is
+systematically cleaner than one computed on all of them, with \emph{uniformly
+beneficial} the label most helped, so the manuscript never says a surface is
+uniformly beneficial without this restriction being in force, and
+Section~\ref{sec:regions} reports the one pair that reaches it together with
+the share of its admissible cells the label was earned over.
 
 \noindent The two harmful labels are not decoration, and what this corpus
 does with them is a case of the minimum share doing its work.
@@ -1023,23 +991,16 @@ log at all.
 
 The rules that turn an arbitrary event log into an instance of this problem
 were committed before any result on a new log existed, in \texttt{PROTOCOL.md}
-for the corpus and \texttt{AUDIT-PROTOCOL-2.md} for the practice pilot. The
+for the corpus and \texttt{AUDIT-PROTOCOL-2.md} for the practice pilot; the
 version history shows the registering commit adding one file and no result
-file; \texttt{git log -{}-stat} is the check, and \texttt{REPRODUCE.md}
-names the commit. Six amendments were declared afterwards, each with its date,
-its cause and the result it changed, and all six are in
-Supplement~\ref{app:protocol} rather than folded silently into the rules.
-
-\textbf{This is not a timestamped third-party registration, and the
-difference matters.} A registration on a public registry is attested by a
-party with no stake in the result; what is offered here is a file in a
-repository whose history the authors control, so a reader who does not trust
-that history has nothing else to check. Any claim in this paper that a rule
-was fixed in advance is therefore a claim about the repository and no
-stronger than the repository. We say so plainly instead of letting the word
-\emph{registered} carry a weight it has not earned: what the design buys is
-that the rules are legible, dated and amendable only on the record, not that
-an outside party watched them being written.
+file, and six amendments were declared afterwards, each with its date, its
+cause and the result it changed (Supplement~\ref{app:protocol}). \textbf{This
+is not a timestamped third-party registration}: what is offered is a file in
+a repository whose history the authors control, so any claim that a rule was
+fixed in advance is a claim about the repository and no stronger than the
+repository. What the design buys is that the rules are legible, dated and
+amendable only on the record, not that an outside party watched them being
+written.
 
 \subsection{Roles}
 
@@ -1073,22 +1034,17 @@ Section~\ref{sec:programme}.
 
 \input{tables/roles}
 
-Table~\ref{tab:roles} is what the rules found, and it is also the
-design space as it was actually varied. It names, per pair, the attribute
-that plays each role and the number of levels each axis carries. Two things
-are visible there that Definition~\ref{def:space} and
-Table~\ref{tab:axes} do not say. The \emph{target} is not an axis of any
-surface: the surface is computed per log--target pair, so each of the two
-targets a log carries has a surface of its own, and the cohort $\times$ target
-design exists only in Section~\ref{sec:cohort}. And the per-pair factorial is
-\nPerPairAxes\ axes wide --- pipeline, split, register quality, baseline rung,
-instrument --- not the \nAxes\ of Definition~\ref{def:space}: the decision
-time varies only on the case study's log, the operating point only in the
-decision-curve family, and the cohort only in
-Section~\ref{sec:cohort}. Definition~\ref{def:space} declares what the
-estimand's arguments \emph{are}; Table~\ref{tab:roles} declares which of them
-this study \emph{varied}, and Section~\ref{sec:lim} carries the difference as
-a limitation rather than leaving a reader to find it.
+Table~\ref{tab:roles} is what the rules found, and it is the design space as
+it was actually varied: per pair, the attribute playing each role and the
+number of levels each axis carries. Two things are visible there that
+Definition~\ref{def:space} does not say. The \emph{target} is not an axis of
+any surface --- each of a log's two targets has a surface of its own, and the
+cohort $\times$ target design exists only in Section~\ref{sec:cohort} --- and
+the per-pair factorial is \nPerPairAxes\ axes wide, not the \nAxes\ of the
+definition: the decision time varies only on the case study's log, the
+operating point only in the decision-curve family, and the cohort only in
+Section~\ref{sec:cohort}. Section~\ref{sec:lim} carries the difference as a
+limitation.
 
 \subsection{Targets, splits and exclusions}
 \label{sec:targets}
@@ -1170,21 +1126,18 @@ asserts.
 \input{tables/master}
 
 Table~\ref{tab:master} is the frozen master table: one row per log--target
-pair, the increment at the reference specification with its simultaneous band,
-the region label, the robustness index and the sign-disagreement rate of a
-conventional one-number report. The reference specification is declared and is
-the same everywhere --- one-hot logistic regression, the single temporal
-holdout, the clean register, the intake block plus the free field as the
-baseline, ROC AUC --- and its region and $\rho$ columns are the
-ones Section~\ref{sec:regions} reports while its
-sign-disagreement column is the all-cells rate of Table~\ref{tab:misreport}
-under the equal-level measure. The reference cell's sign and the
-region label need not agree, and on several pairs they do not: a surface can
-be conditionally beneficial while the one cell an analyst would have stood on
-is negative, because the label ranges over the whole inference family and the
-reference cell is one member of it. Table~\ref{tab:triple} prints the counts
-each label rests on, and Table~\ref{tab:roles} which attribute plays the
-register on each row.
+pair, the increment at the reference specification with its simultaneous
+band, the region label, the robustness index and the sign-disagreement rate
+of a conventional one-number report. The reference specification is the same
+everywhere --- one-hot logistic regression, the single temporal holdout, the
+clean register, the intake block plus the free field as the baseline, ROC AUC
+--- and its region and $\rho$ columns are the ones Section~\ref{sec:regions}
+reports. The reference cell's sign and the region label need not agree, and
+on several pairs they do not: a surface can be conditionally beneficial while
+the one cell an analyst would have stood on is negative, because the label
+ranges over the whole inference family and the reference cell is one member
+of it. Table~\ref{tab:triple} prints the counts each label rests on, and
+Table~\ref{tab:roles} which attribute plays the register on each row.
 
 \subsection{What the choices are worth}
 \label{sec:axes2}
@@ -1263,22 +1216,17 @@ condition on \nFoldLeadPairsQuality\ and the pipeline on
 \nFoldLeadPairsPipeline\ --- so an analyst cannot learn from somebody else's
 paper which of their own choices their answer turns on.
 
-The pooled decomposition is reported beside it, because it is what
-the specification-curve literature computes and the difference between the two
-is this subsection's result --- not because it answers the question as asked.
-Supplement~\ref{app:measures} gives the four pooled first-order medians, the
-largest per-instrument first-order index, the pooled higher-order share with
-its spread over pairs, and the largest per-axis \emph{involvement}, which is a
-different quantity again.
-
-The measure is not neutral, and one conclusion does not survive it:
-across the three product measures the higher-order share moves by
+The pooled decomposition is reported beside it because it is what the
+specification-curve literature computes, and the difference between the two
+is this subsection's result; Supplement~\ref{app:measures} gives its four
+first-order medians, the largest per-instrument first-order index, the
+higher-order share with its spread, and the largest per-axis
+\emph{involvement}, which is a different quantity again. The measure is not
+neutral: across the three product measures the higher-order share moves by
 \measureSpreadPct, and under the measure concentrated on the reference cell
-the interactions no longer carry more than the largest first-order index.
-\emph{The interactions carry more than any main effect} is therefore a claim
-about a measure and not only about a surface.
-Supplement~\ref{app:measures} carries the per-measure shares, the target
-axis, which axis leads on which pair, and both invariance tests.
+the interactions no longer carry more than the largest first-order index, so
+\emph{the interactions carry more than any main effect} is a claim about a
+measure and not only about a surface (Supplement~\ref{app:measures}).
 
 \textbf{The baseline axis moves the answer by more than the answer, on the
 pairs where an analyst has more than one baseline to choose between.} Holding
@@ -1365,27 +1313,24 @@ determine any sign at all, every sign they determine points the same way; on
 the remaining \nPairsResolveBothSigns\ they do not.
 
 \textbf{One surface of the \nPairs\ is uniformly beneficial, over a family
-that is \shareUniformFamilyPct\ of that pair's admissible cells.} Section~\ref{sec:regionsdef}
-poses the question this answers: $\rho = 1$ is the only state in which one
-positive number is a safe summary of a surface, and how often it obtains is an
-empirical matter. It obtains \nUniformlyBeneficial\ time here, on the pair
-carrying the richest declared grid in the corpus --- and the
-denominator belongs in the same breath as the label. The state is reached over
-an inference family of \nCellsPerPairMedian\ cells against that pair's
-\nCellsUniformPair\ admissible ones --- the smallest share in the corpus,
-which \nPairsAtLargestGrid\ pairs attain jointly rather than this one alone
---- and the label requires every cell of \emph{that} set to resolve
-beneficial (Definition~\ref{def:regions}) --- a claim about every cell being
-correspondingly easier to sustain over fewer of them. So the one case
-in which a single number is safe is a case where the claim ranges over
-\shareUniformFamilyPct\ of the specifications an analyst could have chosen, which is a
-statement about a denominator rather than a counterexample to one. It is also not an
-artefact of the critical value: the label holds under the multiplier band,
-under the empirical band this paper reports, under that band's
-order-statistic upper end, and under every widening the $(n, K)$ calibration
-could ask for (Supplement~\ref{app:foursettings}) --- the same pair every
-time. What the reported band costs the rest of the corpus is in the paragraph
-above, and Supplement~\ref{app:uniformly} gives the whole reckoning.
+that is \shareUniformFamilyPct\ of that pair's admissible cells.}
+Section~\ref{sec:regionsdef} poses the question this answers: $\rho = 1$ is
+the only state in which one positive number is a safe summary of a surface,
+and it obtains \nUniformlyBeneficial\ time here, on the pair carrying the
+richest declared grid --- over an inference family of \nCellsPerPairMedian\
+cells against that pair's \nCellsUniformPair\ admissible ones, the smallest
+share in the corpus, which \nPairsAtLargestGrid\ pairs attain jointly. The
+label requires every cell of \emph{that} set to resolve beneficial, and a
+claim about every cell is correspondingly easier to sustain over fewer of
+them, so the one case in which a single number is safe is a case where the
+claim ranges over \shareUniformFamilyPct\ of the specifications an analyst
+could have chosen: a statement about a denominator rather than a
+counterexample to one. It is not an artefact of the critical value: the label
+holds under the multiplier band, under the empirical band this paper reports,
+under that band's order-statistic upper end, and under every widening the
+$(n, K)$ calibration could ask for (Supplement~\ref{app:foursettings}) ---
+the same pair every time. Supplement~\ref{app:uniformly} gives the whole
+reckoning.
 
 \subsection{What one number costs}
 \label{sec:results-regret}
@@ -1394,76 +1339,47 @@ above, and Supplement~\ref{app:uniformly} gives the whole reckoning.
 A conventional report --- one pipeline, the clean register, the single
 holdout, ROC AUC --- disagrees in \emph{sign} with a median
 \misreportEqualPct\ of the other admissible specifications under the
-equal-level measure. Three things are wrong with reading that as
-\emph{what a one-number report exposes a reader to}, and this section
-corrects each of them, then all three at once: the axes are not all the same
-kind of thing, most cells are not cells whose sign the data determine, and a
-disagreement counted at any magnitude is not a disagreement worth acting on.
-Correcting them one at a time is not enough --- each correction moves the
-denominator the next one is computed on --- so the rate that survives is the
-one taken under all three together.
-
-The axes are not all the same kind of thing. The design space mixes
-choices an analyst makes with things that are not choices at all, and
-Table~\ref{tab:axiskind} partitions the decomposition accordingly:
-\emph{analyst latitude} is the pipeline and the baseline rung;
-\emph{resampling} is the split, five of whose six levels are expanding-origin
-folds on the same data; \emph{counterfactual} is the register-quality
-condition, a different state of the world rather than a different way of
-analysing this one. On the primary scale, analyst latitude carries a median
-\shareLatitudePct\ of the variance, resampling \shareResamplingPct\ and the
-counterfactual \shareCounterfactualPct, and resampling is the larger of the
-first two on \nPairsResamplingOverLatitude\ of the \nPairs\ pairs.
-
-Whether the split moves the increment more than the analytic axes
-depends on which scale the partition is taken under, and we report both
-rather than the one that reads better. The primary scale decomposes
-\emph{inside} each instrument and takes the median across the five, so the
-instrument is a stratum and its own contribution is in none of the three
-columns. Making it a sixth axis needs the headroom rescaling of
-Section~\ref{sec:sobol}, because raw AUC and raw average precision do not
-share units --- and on that scale the ordering reverses: analyst latitude
-carries \shareLatitudeCrossPct, resampling \shareResamplingCrossPct\ and the
-counterfactual \shareCounterfactualCrossPct, with resampling the larger on
-\nPairsResamplingOverLatitudeCross\ pairs. The instrument is an analyst's
-choice, so the second number is the one that answers the question as asked;
-the first is the one taken on the units the rest of Section~\ref{sec:multilog}
-uses, and neither is a corpus fact independent of the scale. Restricted
-to the analyst-latitude cells --- the pipeline by the admissible rungs by the
-\nInstruments\ instruments, with the register clean and the split at the
-single holdout, a median \nCellsLatitude\ cells per pair and
-\nCellsLatitudeTotal\ over the corpus, because the pipeline and the rung do
-not carry the same number of levels on every pair (Table~\ref{tab:roles}) ---
-the median per-pair disagreement rate is \misreportLatitudePct\ against the
-all-cells \misreportEqualPct, both medians over pairs: the first is what a
-one-number report exposes a reader to,
-the second what a claim ranging also over degraded registers and resampled
-splits is exposed to.
-
-The reference specification is itself a choice, and moving it moves
-the headline by less than the corrections above. Varying the reference one axis at a time over every level that axis
+equal-level measure. Three things are wrong with reading that as what a
+one-number report exposes a reader to, and each correction moves the
+denominator the next is computed on, so the rate that survives is the one
+taken under all three together. \textbf{The axes are not all the same kind of
+thing.} Table~\ref{tab:axiskind} partitions the decomposition into
+\emph{analyst latitude} (the pipeline and the baseline rung),
+\emph{resampling} (the split, five of whose six levels are folds on the same
+data) and the \emph{counterfactual} (the register-quality condition, a
+different state of the world): on the primary scale, which decomposes inside
+each instrument, analyst latitude carries a median \shareLatitudePct\ of the
+variance, resampling \shareResamplingPct\ and the counterfactual
+\shareCounterfactualPct, with resampling the larger on
+\nPairsResamplingOverLatitude\ of the \nPairs\ pairs; on the headroom scale,
+which makes the instrument a sixth axis, the ordering reverses
+(\shareLatitudeCrossPct, \shareResamplingCrossPct\ and
+\shareCounterfactualCrossPct, resampling larger on
+\nPairsResamplingOverLatitudeCross\ pairs), and neither is a corpus fact
+independent of the scale. Restricted to the analyst-latitude cells --- the
+pipeline by the admissible rungs by the \nInstruments\ instruments, register
+clean, split at the single holdout, a median \nCellsLatitude\ cells per pair
+--- the median disagreement rate is \misreportLatitudePct\ against the
+all-cells \misreportEqualPct: the first is what a one-number report exposes a
+reader to, the second what a claim ranging also over degraded registers and
+resampled splits is exposed to. Varying the reference one axis at a time over every level that axis
 carries --- \nRefSensVariants\ variants in all, Table~\ref{tab:refsens} ---
 the corpus median runs \refSensMinPct\ to \refSensMaxPct\ against the
 declared \refSensDeclaredPct, so the headline is not an artefact of which
 cell we called conventional.
 
-And most cells are not cells whose sign the data determine. The
+\textbf{And most cells are not cells whose sign the data determine.} The
 median pair resolves \nResolvedMedian\ cells of the \nCellsPerPairMedian\ it
-carries, and sign agreement between two draws from a distribution centred near
-zero is one half by construction, so a rate computed over unresolved cells is
-partly measuring that.
-
-And a sign flip between two increments that both round to zero is not
-a misstatement anybody would act on. The rate counts a cell whenever its sign differs from
-the reference cell's, at any magnitude, and \nRefBelowMpid\ of the \nPairs\
-reference increments are themselves inside a hundredth of an AUC point. A
-\emph{minimal practically important difference} is therefore declared ---
-$\mathrm{MPID} = \mpidAuc$ AUC --- and a disagreement is counted only when the
-reference increment and the cell's own increment both exceed it. The MPID is
-declared in AUC and Remark~\ref{prop:nonid} forbids carrying it to
-another instrument, so the restriction is applied on the AUC sub-surface and
-the unrestricted AUC rate is reported beside it, in
-Table~\ref{tab:mpid}.
+carries, and sign agreement between two draws from a distribution centred
+near zero is one half by construction. \textbf{And a sign flip between two
+increments that both round to zero is not a misstatement anybody would act
+on}: \nRefBelowMpid\ of the \nPairs\ reference increments are themselves
+inside a hundredth of an AUC point, so a \emph{minimal practically important
+difference} is declared --- $\mathrm{MPID} = \mpidAuc$ AUC --- and a
+disagreement is counted only when the reference increment and the cell's own
+increment both exceed it, on the AUC sub-surface, because Remark~\ref{prop:nonid}
+forbids carrying an AUC threshold to another instrument
+(Table~\ref{tab:mpid}).
 
 \input{tables/mpid}
 
@@ -1604,28 +1520,22 @@ values on every row, so it is not a data-preparation difference; and they run
 the same pipeline at the same reference cell, so it is not a modelling
 difference.
 
-An axis nobody declares, and this paper was standing on it. Both
-analyses sort the log in time and split at seventy per cent of the row order,
-and \nTiedTimestamps\ incidents share their timestamp with another; the sort
-this estate's analysis first used was not stable, so its tie order was
-neither declared nor reproducible, and it printed \VpublishedTauTwo\ where the
-two declared rules both give \VTtwoKnow. That first number was never
-published and is not cited here as though it were: it is recomputed in the
-archive from that analysis's own loader
-(\texttt{scripts/s32\_cohort.py}, \textsf{published\_cell}), so the
-reconciliation below anchors on the object rather than on a recollection of
-it. Over \nTiebreakDraws\ random tie-breaks
-the increment ranges over \tiebreakRange\ AUC without changing sign
-(\nTiebreakPositive\ of \nTiebreakDraws\ draws positive), so no conclusion
-turns on it --- but that range is \tiebreakRangeSharePct\ of the magnitude of
-the increment the declared rules give, produced by a choice no reporting
-standard asks anyone to state, which is why
-Supplement~\ref{app:standard} now asks. Every number in this section is computed
-under a declared tie-break, by incident identifier, on the estate's cohort and
-reassignment target; the registered cohort's answers are in
-Section~\ref{sec:multilog}, among the \nPairs\ pairs, so the decision-time
-result below is a statement about a routing decision on this estate and not
-about handover in general.
+An axis nobody declares. Both analyses sort the log in time and split at
+seventy per cent of the row order, and \nTiedTimestamps\ incidents share
+their timestamp with another; the sort this estate's analysis first used was
+not stable, so its tie order was neither declared nor reproducible, and it
+printed \VpublishedTauTwo\ where the two declared rules both give
+\VTtwoKnow\ (recomputed in the archive from that analysis's own loader,
+\texttt{scripts/s32\_cohort.py}). Over \nTiebreakDraws\ random tie-breaks the
+increment ranges over \tiebreakRange\ AUC without changing sign, so no
+conclusion turns on it --- but that range is \tiebreakRangeSharePct\ of the
+increment's magnitude, produced by a choice no reporting standard asks anyone
+to state, which is why Supplement~\ref{app:standard} now asks. Every number
+in this section is computed under a declared tie-break, by incident
+identifier, on the estate's cohort and reassignment target; the registered
+cohort's answers are among the \nPairs\ pairs of Section~\ref{sec:multilog},
+so the decision-time result below is a statement about a routing decision on
+this estate and not about handover in general.
 
 \subsection{Three decision times}
 \label{sec:twodecision}
@@ -1678,64 +1588,50 @@ in the estate's own vocabulary. It is a reading of \emph{one} estate on
 \emph{one} public log and it is offered as one; Section~\ref{sec:lim} says
 what a second would need.
 
-\paragraph{Which field is which}
-The prediction is: \emph{will this case be reassigned to another group before
-it is resolved?} The register $f$ is the affected configuration item
-(\cardTauTwo\ distinct values at incident creation on this estate's cohort,
-\cardF\ on the registered cohort the layer ladder below uses); its
-coarsenings are the item's type (\nLayerTypeLevels\ values) and subtype
-(\nLayerSubtypeLevels), each given its own role. The free field $g$ is the
-assignment group --- the routing queue, recorded without a configuration
-management database and the field the register has to beat. The intake block
-$B_0$ is what the desk records when the case arrives: category, impact,
-urgency and priority. The knowledge reference is a pointer to a
-knowledge-base article, admitted as a further rung because whether it is
-available at the moment of decision is exactly the question
-Section~\ref{sec:quality} cannot settle.
-
 \paragraph{The three moments, in service-desk terms}
-$\tau_0$ is \emph{an interaction is logged}: every call is in scope, and
-\nTauZero\ of them are. $\tau_1$ is the same moment restricted to the calls
-that will escalate. $\tau_2$ is \emph{an incident record is created}:
-\nTauTwo\ cases, more known about each, \nTauTwoUnmatched\ of them with no
-interaction record. Read down Table~\ref{tab:tau} and the register's worth
-falls from \VtauZero\ AUC to \VtauOne\ to \VTtwoGroup\ once the routing queue
-is in the baseline, and to \VTtwoKnow\ --- not resolvably different from zero
---- once the knowledge reference is admitted too. A programme that justifies
-the register on a first-touch number and deploys the model at incident
-creation is quoting the top of a ladder and standing on the bottom of it;
-Section~\ref{sec:nbregret} prices that at \promisedPerThousand\ true positives
-promised per thousand cases against \deliveredPerThousand\ delivered.
+The prediction is: \emph{will this case be reassigned to another group before
+it is resolved?} The register is the affected configuration item, the free
+field the assignment group --- the routing queue, recorded without a
+configuration management database and the field the register has to beat ---
+the intake block what the desk records when the case arrives, and the
+knowledge reference a pointer to a knowledge-base article whose availability
+at the moment of decision is exactly what Section~\ref{sec:quality} cannot
+settle. $\tau_0$ is \emph{an interaction is logged}: every call is in scope,
+\nTauZero\ of them. $\tau_1$ is the same moment restricted to the calls that
+will escalate. $\tau_2$ is \emph{an incident record is created}: \nTauTwo\
+cases, \nTauTwoUnmatched\ of them with no interaction record. Read down
+Table~\ref{tab:tau} and the register's worth falls from \VtauZero\ AUC to
+\VtauOne\ to \VTtwoGroup\ once the routing queue is in the baseline, and to
+\VTtwoKnow\ --- not resolvably different from zero --- once the knowledge
+reference is admitted too. A programme that justifies the register on a
+first-touch number and deploys the model at incident creation is quoting the
+top of a ladder and standing on the bottom of it;
+Section~\ref{sec:nbregret} prices that at \promisedPerThousand\ true
+positives promised per thousand cases against \deliveredPerThousand\
+delivered.
 
 \paragraph{Which layer of the register pays}
 A programme does not choose whether to have a configuration management
-database; it chooses how much of one to populate and maintain, and that is a
-choice among \emph{layers}. On the \emph{registered} cohort of
-Section~\ref{sec:design} and under its registered handover rule ---
-\layerLadderN\ cases, one-hot logistic
-regression at the fixed temporal holdout, against the intake block at base AUC
-\layerBaseHandover\ --- the item's \emph{type} is worth \layerTypeHandover\
-AUC over intake, its \emph{subtype} \layerSubtypeHandover, and the item itself
-\layerItemHandover; with the subtype already in the model the item still adds
-\layerItemMarginalHandover. That ladder is not
-Table~\ref{tab:tau}'s cell and does not reconcile with it arithmetically,
-because the table is on the estate's own cohort and its reassignment target
---- the pair Section~\ref{sec:cohort} shows disagree about this register ---
-so the increment over intake is \layerItemHandover\ here and \VtauTwo\ there
-and neither is the other one mismeasured (Supplement~\ref{app:layers}).
-\textbf{On this estate and the handover question the coarse layers are not
-free, and the finest layer is not redundant}: \layerTypeSharePctHandover\ of what the
-item is worth over the intake block is already reachable from a thirteen-value
-type field, and the item still adds \layerItemMarginalHandover\ once the
-subtype is in the model. On the duration question the same ladder gives
-\layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration, with
-\layerItemMarginalDuration\ marginal, and the type reaches
-\layerTypeSharePctDuration. So the split between the layers is a
-property of the target and not of the register, and
-Supplement~\ref{app:layers} carries two further logs on which every coarse
-layer is worth essentially nothing while the finest one is not. It is not a
-procurement conclusion: nothing here prices what a layer costs to populate or
-to keep accurate, and Section~\ref{sec:lim} says so.
+database; it chooses how much of one to populate and maintain, which is a
+choice among \emph{layers}. On the registered cohort and handover rule ---
+\layerLadderN\ cases, one-hot logistic regression at the temporal holdout,
+against the intake block at base AUC \layerBaseHandover\ --- the item's
+\emph{type} (\nLayerTypeLevels\ values) is worth \layerTypeHandover\ AUC over
+intake, its \emph{subtype} (\nLayerSubtypeLevels) \layerSubtypeHandover, and
+the item itself \layerItemHandover, adding \layerItemMarginalHandover\ once
+the subtype is in the model; that ladder is on a different cohort and target
+from Table~\ref{tab:tau} and does not reconcile with it arithmetically
+(Supplement~\ref{app:layers}). \textbf{The coarse layers are not free, and
+the finest layer is not redundant}: \layerTypeSharePctHandover\ of what the
+item is worth is reachable from a thirteen-value type field, and the item
+still adds once the subtype is known. On the duration target the ladder
+gives \layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration, with
+\layerItemMarginalDuration\ marginal and the type reaching
+\layerTypeSharePctDuration, so the split between the layers is a property of
+the target and not of the register; Supplement~\ref{app:layers} carries two
+further logs on which every coarse layer is worth essentially nothing while
+the finest one is not. Nothing here prices what a layer costs to populate or
+to keep accurate.
 
 \paragraph{What would have to change for the answer to move}
 Three things, in the order a programme could act on them. A
@@ -1773,7 +1669,8 @@ reads the same surface in net benefit, which is: the number of correctly
 nominated cases per thousand arrivals, net of the false nominations, at a
 declared exchange rate between the two.
 
-\subsection{The operating point is a cost ratio, not a knob}
+\subsection{The operating point is a cost ratio, and calibration comes first}
+\label{sec:calibfirst}
 
 At threshold $\theta$ the net benefit of a rule that nominates when
 $\hat p \geq \theta$ is
@@ -1781,35 +1678,22 @@ $\hat p \geq \theta$ is
 \mathrm{NB}(\theta) \;=\; \frac{\mathrm{TP}(\theta)}{n}
 \;-\; \frac{\mathrm{FP}(\theta)}{n}\cdot\frac{\theta}{1-\theta},
 \]
-so $(1-\theta)/\theta$ is the number of false nominations the desk is willing
-to accept for one true one. Choosing $\theta$ is choosing an operational cost
-ratio, and it belongs to the analyst's declaration rather than to a grid
-search. We report the whole grid --- \nGrid\ points from \gridLo\ to
-\gridHi\ --- and name three points a desk might occupy: $\theta =
-\thetaCheap$, or \ratioCheap\ false nominations accepted per true one, where a
-review is cheap and the desk nominates liberally; $\thetaBase$, or
-\ratioBase, where a review and a miss cost about the same; and $\thetaDear$,
-or \ratioDear, where review capacity is scarce. A reader whose desk sits at a
-ratio not in that list reads their own point off Figure~\ref{fig:dca}: the
-operating point is the reader's to choose, so the analyst reports the curve
-rather than a point on it.
-
-\subsection{Calibration comes first, or the threshold means nothing}
-\label{sec:calibfirst}
-
-A threshold is a statement about probability, so a model whose probabilities
-are wrong is being read at a threshold it does not have. Every decision curve
-here is therefore computed on \emph{calibrated} scores, with the calibrator
-fitted inside the training half and rebuilt inside every bootstrap refit, and
-a registered rule excludes an arm whose calibration slope leaves
-\calSlopeWindow.
-
-The window is a declared convention and not a derived bound, and the exclusion
-is deliberately not repaired by recalibrating the failing arm: recalibration is
-already a level of the pipeline axis, so repairing an arm with it would replace
-one specification by another and report the result under the first one's name.
-Supplement~\ref{app:dcadetail} gives the argument, the rule, what it removes
-and what the curves look like without it.
+so $(1-\theta)/\theta$ is the number of false nominations the desk accepts
+for one true one, and choosing $\theta$ is choosing an operational cost ratio
+that belongs to the analyst's declaration rather than to a grid search. We
+report the whole grid --- \nGrid\ points from \gridLo\ to \gridHi\ --- and
+name three points a desk might occupy: $\theta = \thetaCheap$ (\ratioCheap\
+false nominations per true one, a cheap review), $\thetaBase$ (\ratioBase, a
+review and a miss costing about the same) and $\thetaDear$ (\ratioDear,
+scarce review capacity); a reader whose desk sits elsewhere reads their own
+point off Figure~\ref{fig:dca}. A threshold is a statement about
+probability, so every decision curve here is computed on \emph{calibrated}
+scores, with the calibrator fitted inside the training half and rebuilt
+inside every bootstrap refit, and a registered rule excludes an arm whose
+calibration slope leaves \calSlopeWindow; the exclusion is deliberately not
+repaired by recalibrating the failing arm, because recalibration is already a
+level of the pipeline axis and repairing an arm with it would report one
+specification under another's name (Supplement~\ref{app:dcadetail}).
 
 \subsection{Simultaneous bands change what can be said}
 \label{sec:dcabands}
@@ -1895,85 +1779,49 @@ known. This section measures the estimator where it is. The full tables are in
 Supplement~\ref{app:tables} and the diagnosis of the one world that failed is
 in Supplement~\ref{app:noisy}.
 
-\subsection{Six worlds, two estimands}
+\subsection{What the simulation certifies of the pointwise interval}
 \label{sec:simworlds}
+\label{sec:simcoverage}
+\label{sec:simsensitivity}
 
 The simulation uses \nWorlds\ worlds --- four of them misspecified for the
 estimator --- at \nSimReps\ replicates each, with the covariate space finite
-so that the population AUC of any scoring rule is computed in closed form
-rather than simulated. Two estimands are separated because under
-misspecification they differ: $V_{\mathrm{oracle}}$, the increment between
-the two Bayes-optimal rules, and $V_{\mathrm{limit}}$, the increment between
-the two fitted pipelines' limits. A resampling interval can only cover the
-second, and reporting its coverage of the first as the estimator's coverage
-is a category error. Supplement~\ref{app:worlds} describes the worlds and the
-marginalisation a corrupted register forces; Table~\ref{tab:sim31} reports
-both estimands.
+so that the population AUC of any scoring rule is computed in closed form.
+Two estimands are separated because under misspecification they differ:
+$V_{\mathrm{oracle}}$, the increment between the two Bayes-optimal rules, and
+$V_{\mathrm{limit}}$, the increment between the two fitted pipelines' limits;
+a resampling interval can only cover the second (Supplement~\ref{app:worlds},
+Table~\ref{tab:sim31}). Coverage estimates carry a Monte Carlo standard error
+of about $\simCoverageSE$ percentage points, which is the resolution every
+comparison here should be read at (Figure~\ref{fig:coverage}).
 
-\subsection{Coverage, bias and width}
-\label{sec:simcoverage}
-
-Coverage estimates carry a Monte Carlo standard error of about
-$\simCoverageSE$ percentage points at \nSimReps\ replicates, which is the
-resolution every comparison here should be read at;
-Figure~\ref{fig:coverage} draws them by construction and world.
-
-\textbf{Where the refit helps, and where the percentile interval fails.} The
-nested basic interval covers a median \coverageNestedBasicMedian\ against the
-fixed-model interval's \coverageNaiveMedian; on the sparse world the
-\emph{percentile} interval collapses to \coverageSparsePct\ and the basic
+Three things are established and one is not. The nested basic interval
+covers a median \coverageNestedBasicMedian\ against the fixed-model
+interval's \coverageNaiveMedian, and on the sparse world the
+\emph{percentile} interval collapses to \coverageSparsePct\ while the basic
 construction restores it to \coverageSparseBasic, which is why every interval
-and band here is the basic one (Supplement~\ref{app:refit};
-Table~\ref{tab:sim31}).
-
-\textbf{What no interval repairs.} Against $V_{\mathrm{oracle}}$ rather than
-$V_{\mathrm{limit}}$, every construction undercovers on the drifting world ---
-\coverageDriftOracle\ at best --- and it should: when the coefficients move
-between eras the estimator is not consistent for the oracle quantity, and the
-largest gap is \biasOracleMax\ in AUC units. Under misspecification an
-interval around the estimator's own limit is not an interval around the
-quantity a reader cares about, and no resampling scheme repairs that.
-
-\subsection{Sample size, register cardinality and block length}
-\label{sec:simsensitivity}
-
-A construction that works at one sample size, one register cardinality and one
-block length has been validated at a point, not in a regime. Sample size and
-register cardinality are therefore varied \emph{jointly}, up to $K = \simKMax$
-levels --- the case study's cardinality on the registered cohort of
-Section~\ref{sec:design} --- and the block length is varied around its rule
-of thumb.
-
-\textbf{The ratio $K/n$ captures most of the dependence, and not all of it.}
-Across the plane the basic interval covers a median \coverageGridMedian\ and
-a minimum \coverageGridMin, the last at a ratio of \simGridWorstRatio, and it
-is short of nominal everywhere. It is not sufficient: two cells at nearly the
-same ratio cover \simGridSameRatioCovA\ and \simGridSameRatioCovB, a gap of
-\simGridSameRatioGapSE\ combined Monte Carlo standard errors, and holding the
-register fixed while moving the training half from \simGridFixedNa\ rows to
-\simGridFixedNb\ moves coverage from \simGridFixedCovA\ to
-\simGridFixedCovB. \textbf{This corpus sits in the regime where that
-matters}: its median pair has $K/n = \corpusRatioMedian$ and
-\nPairsRatioAboveTenth\ of \nPairs\ pairs are above a tenth, so a nominal
-band on them is \emph{narrower} than a $95\%$ interval should be.
-Supplement~\ref{app:calibration} derives a calibration against the plane in
-full, and Section~\ref{sec:simband} reports the measurement that keeps it
-from being applied.
-
-\textbf{Where the interval stops containing its own estimate.} On the denser
-plane Supplement~\ref{app:calibration} is fitted on, at a fixed ratio of
-\straddleRatio\ the basic interval straddles its own point estimate in every
-replicate up to \nStraddleAllMax\ training rows and in only
-\shareStraddleAtHalfPct\ of them by \nStraddleHalfMin, because the bootstrap
-displacement is a bias that does not shrink with $n$ while the half-width
-does; past that crossing a widening about the estimate is undefined, which
-is the case on \nPlaneCellsUndefined\ of the plane's \nPlaneCellsOffered\
-cells, all at \nStraddleHalfMin\ rows or more. \textbf{Block length.} Of the
-\nSimBlockLengths\ lengths examined --- half the rule
-$\lceil n^{1/3} \rceil$, the rule, and twice it --- coverage moves by up to
-\coverageBlockSpreadMax\ within a world, and the basic interval beats the
-percentile interval on the sparse register by at least \blockSparseGapMin\ at
-every one.
+and band here is the basic one (Supplement~\ref{app:refit}). Against
+$V_{\mathrm{oracle}}$ every construction undercovers on the drifting world
+--- \coverageDriftOracle\ at best --- and it should, because when the
+coefficients move between eras the estimator is not consistent for the
+oracle quantity, and no resampling scheme repairs that. Varying sample size
+and register cardinality jointly, up to $K = \simKMax$ levels, the ratio
+$K/n$ governs the basic interval's coverage --- a median
+\coverageGridMedian\ and a minimum \coverageGridMin\ across the plane, short
+of nominal everywhere --- and does not exhaust it: holding the register at
+one cardinality while the training half grows from \simGridFixedNa\ to
+\simGridFixedNb\ rows moves coverage from \simGridFixedCovA\ to
+\simGridFixedCovB\ (Supplement~\ref{app:calibration}). This corpus sits in
+the regime where that matters, its median pair at $K/n = \corpusRatioMedian$
+with \nPairsRatioAboveTenth\ of \nPairs\ pairs above a tenth, so a nominal
+pointwise interval on them is narrower than it should be; past a crossing
+in $n$ the basic interval stops containing its own point estimate
+(\shareStraddleAtHalfPct\ of replicates still straddle it by
+\nStraddleHalfMin\ training rows at a ratio of \straddleRatio), which is
+where the widening of Supplement~\ref{app:calibration} is undefined. The
+block length, varied over \nSimBlockLengths\ settings around
+$\lceil n^{1/3} \rceil$, moves coverage by up to \coverageBlockSpreadMax\
+within a world without changing any comparison the paper rests on.
 
 \subsection{The band's family-wise coverage}
 \label{sec:simband}
@@ -2108,29 +1956,24 @@ summary should read them where they are established.
 \paragraph{Construct --- this is predictive performance, not value}
 Nothing here measures what a register costs to acquire or maintain, whether
 acting on a prediction changes an outcome, or what a data programme is worth;
-that includes Section~\ref{sec:programme}'s layer comparison, which prices no
-layer's upkeep. The corpus is also a family of related questions rather than
-replications --- the two registered targets label the same case identically on
-a median \targetAgreement\ of cases, and the registers run from a
-configuration item to a legal article --- so every corpus statistic is about
-\emph{sensitivity} and every one is reported on the \nItsmPairs\ ITSM pairs as
-well (Table~\ref{tab:family}); Table~\ref{tab:construct} names each pair's own
-construct threat. The registered handover target on the case study's log is
-close to degenerate at prevalence \prevAdmittedMax, it carries
-\nCellsBpicFourteenHandover\ of \nDeclaredAdmissibleScalar\ admissible
-cells --- the largest count in the corpus, which it shares with the other
-target on the same log --- and
-Section~\ref{sec:cohort} shows the register's sign turns exactly there.
-Whether a generic handover rule is a meaningful target on ITSM logs, where
-reassignment is what a desk acts on, and whether the prevalence window should
-close below \prevHi, are open; we did not narrow the rule retrospectively,
-because doing so after seeing which pair it admits is what a registered
-protocol exists to prevent. The quality mechanisms are applied to both halves
-with their parameters estimated from training alone
+that includes Section~\ref{sec:programme}'s layer comparison. The corpus is a
+family of related questions rather than replications --- the two registered
+targets label the same case identically on a median \targetAgreement\ of
+cases, and the registers run from a configuration item to a legal article ---
+so every corpus statistic is about \emph{sensitivity}, every one is reported
+on the \nItsmPairs\ ITSM pairs as well (Table~\ref{tab:family}), and
+Table~\ref{tab:construct} names each pair's own construct threat. The
+registered handover target on the case study's log is close to degenerate at
+prevalence \prevAdmittedMax, carries \nCellsBpicFourteenHandover\ of
+\nDeclaredAdmissibleScalar\ admissible cells, and is where
+Section~\ref{sec:cohort} shows the register's sign turns; whether a generic
+handover rule is a meaningful target on ITSM logs and whether the prevalence
+window should close below \prevHi\ are open, and the rule was not narrowed
+after seeing which pair it admits. The quality mechanisms are applied to both
+halves with parameters estimated from training alone
 (Section~\ref{sec:quality}), so they are the operational counterfactual and
-not a train--test mismatch --- but they remain \emph{constructed}, and
-validating them against a genuinely incomplete register is the obvious next
-study.
+not a train--test mismatch, but they remain constructed, and validating them
+against a genuinely incomplete register is the obvious next study.
 
 \paragraph{Internal --- what the band's coverage does and does not establish}
 Section~\ref{sec:simband} measures family-wise coverage against a known
@@ -2214,23 +2057,18 @@ regret comparison.
 
 \paragraph{Conclusion --- two claims a specification surface invites and
 this evidence does not support}
-Section~\ref{sec:conclusion} states what the decomposition and the
-disagreement rate leave standing once the pooled surface's resampling is
-netted out and the three restrictions are imposed; both readings a pooled
-surface invites are withdrawn there rather than here, together with the
-sign-disagreement rate's withdrawal as a headline. Three qualifications
-belong to this section because they are limits and not results. Both
-decompositions are reported under all three declared measures because
-there is no neutral measure --- across the three the higher-order share
-moves by \measureSpreadPct\ --- and the within-instrument decomposition
-is primary because the decomposition inherits the metric's scale
-(Proposition~\ref{prop:scale}). Region labels remain relative to an
-inference family of a median \inferenceShareAdmissibleMedianPct\ of a
-pair's admissible cells, now under a minimum resolved share that withdraws
-the direction on \nLabelsLostToMinShare\ of \nDirectionalLabels\ pairs,
-and they are not partitioned by axis kind, so they stay conditional on the
-quality axis being averaged over. And specification regret reports a null
-and is retained as a robustness check rather than a contribution.
+Section~\ref{sec:conclusion} withdraws both readings a pooled surface invites,
+together with the sign-disagreement rate as a headline. Three qualifications
+are limits rather than results: both decompositions are reported under all
+three declared measures because there is no neutral one (the higher-order
+share moves by \measureSpreadPct\ across them), the within-instrument
+decomposition being primary because the decomposition inherits the metric's
+scale (Proposition~\ref{prop:scale}); region labels are relative to an
+inference family of a median \inferenceShareAdmissibleMedianPct\ of a pair's
+admissible cells, under a minimum resolved share that withdraws the direction
+on \nLabelsLostToMinShare\ of \nDirectionalLabels\ pairs, and stay
+conditional on the quality axis being averaged over; and specification regret
+reports a null and is a robustness check rather than a contribution.
 
 \paragraph{External --- the design space is declared, not complete}
 $\mathcal{S}$ has \nAxes\ axes in Definition~\ref{def:space} and the per-pair
@@ -2255,24 +2093,18 @@ reporting from the two ends of that axis would differ by a factor of
 sequence encoder is a pilot, and the omission stands.
 
 \paragraph{External --- three narrower limits, named}
-The \emph{inference surface} is smaller than the declared one and always will
-be, because a draw refits every arm of every cell
-(Section~\ref{sec:threesurfaces}), so every region label is a claim about a
-fraction of the space the point estimates cover --- and a smaller set is a set
-on which \emph{uniformly beneficial} is easier to earn, which is exactly what
-the one label of Section~\ref{sec:regions} that reaches it turns on.
-The \emph{pipeline axis} is now crossed on the \nItsmCrossed\ ITSM pairs and
-not only on the case study's log, which narrows this limitation rather than
-removing it: the pairs outside that family still carry family and encoding
-confounded, and what the wider crossing found is not a clean replication
-(Section~\ref{sec:axes2}), so the case study's ordering should be read as the
-common case and not as a corpus fact. And the
-\emph{case study} is one bank's estate on one public log, with the
-availability question at its centre settled by probability rather than by a
-timestamped field-value history; Section~\ref{sec:programme} names the three
-changes that would move which answer. Finally, we do not measure reporting
-practice: the pilot that attempted it is in the archive, and it is a
-hypothesis rather than evidence.
+The inference surface is smaller than the declared one and always will be,
+because a draw refits every arm of every cell (Section~\ref{sec:threesurfaces}),
+so every region label is a claim about a fraction of the space the point
+estimates cover, on which \emph{uniformly beneficial} is easier to earn. The
+pipeline axis is crossed on the \nItsmCrossed\ ITSM pairs and not elsewhere,
+and what the crossing found is not a clean replication
+(Section~\ref{sec:axes2}), so the case study's ordering is the common case
+and not a corpus fact. The case study is one bank's estate on one public log,
+with the availability question at its centre settled by probability rather
+than by a timestamped field-value history; Section~\ref{sec:programme} names
+the three changes that would move which answer. And reporting practice is not
+measured: the pilot that attempted it is in the archive as a hypothesis.
 
 \section{Conclusion}
 \label{sec:conclusion}

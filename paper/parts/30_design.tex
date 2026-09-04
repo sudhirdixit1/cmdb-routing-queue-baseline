@@ -6,23 +6,16 @@
 
 The rules that turn an arbitrary event log into an instance of this problem
 were committed before any result on a new log existed, in \texttt{PROTOCOL.md}
-for the corpus and \texttt{AUDIT-PROTOCOL-2.md} for the practice pilot. The
+for the corpus and \texttt{AUDIT-PROTOCOL-2.md} for the practice pilot; the
 version history shows the registering commit adding one file and no result
-file; \texttt{git log -{}-stat} is the check, and \texttt{REPRODUCE.md}
-names the commit. Six amendments were declared afterwards, each with its date,
-its cause and the result it changed, and all six are in
-Supplement~\ref{app:protocol} rather than folded silently into the rules.
-
-\textbf{This is not a timestamped third-party registration, and the
-difference matters.} A registration on a public registry is attested by a
-party with no stake in the result; what is offered here is a file in a
-repository whose history the authors control, so a reader who does not trust
-that history has nothing else to check. Any claim in this paper that a rule
-was fixed in advance is therefore a claim about the repository and no
-stronger than the repository. We say so plainly instead of letting the word
-\emph{registered} carry a weight it has not earned: what the design buys is
-that the rules are legible, dated and amendable only on the record, not that
-an outside party watched them being written.
+file, and six amendments were declared afterwards, each with its date, its
+cause and the result it changed (Supplement~\ref{app:protocol}). \textbf{This
+is not a timestamped third-party registration}: what is offered is a file in
+a repository whose history the authors control, so any claim that a rule was
+fixed in advance is a claim about the repository and no stronger than the
+repository. What the design buys is that the rules are legible, dated and
+amendable only on the record, not that an outside party watched them being
+written.
 
 \subsection{Roles}
 
@@ -56,22 +49,17 @@ Section~\ref{sec:programme}.
 
 \input{tables/roles}
 
-Table~\ref{tab:roles} is what the rules found, and it is also the
-design space as it was actually varied. It names, per pair, the attribute
-that plays each role and the number of levels each axis carries. Two things
-are visible there that Definition~\ref{def:space} and
-Table~\ref{tab:axes} do not say. The \emph{target} is not an axis of any
-surface: the surface is computed per log--target pair, so each of the two
-targets a log carries has a surface of its own, and the cohort $\times$ target
-design exists only in Section~\ref{sec:cohort}. And the per-pair factorial is
-\nPerPairAxes\ axes wide --- pipeline, split, register quality, baseline rung,
-instrument --- not the \nAxes\ of Definition~\ref{def:space}: the decision
-time varies only on the case study's log, the operating point only in the
-decision-curve family, and the cohort only in
-Section~\ref{sec:cohort}. Definition~\ref{def:space} declares what the
-estimand's arguments \emph{are}; Table~\ref{tab:roles} declares which of them
-this study \emph{varied}, and Section~\ref{sec:lim} carries the difference as
-a limitation rather than leaving a reader to find it.
+Table~\ref{tab:roles} is what the rules found, and it is the design space as
+it was actually varied: per pair, the attribute playing each role and the
+number of levels each axis carries. Two things are visible there that
+Definition~\ref{def:space} does not say. The \emph{target} is not an axis of
+any surface --- each of a log's two targets has a surface of its own, and the
+cohort $\times$ target design exists only in Section~\ref{sec:cohort} --- and
+the per-pair factorial is \nPerPairAxes\ axes wide, not the \nAxes\ of the
+definition: the decision time varies only on the case study's log, the
+operating point only in the decision-curve family, and the cohort only in
+Section~\ref{sec:cohort}. Section~\ref{sec:lim} carries the difference as a
+limitation.
 
 \subsection{Targets, splits and exclusions}
 \label{sec:targets}

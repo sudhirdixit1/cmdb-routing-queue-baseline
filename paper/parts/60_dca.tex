@@ -7,7 +7,8 @@ reads the same surface in net benefit, which is: the number of correctly
 nominated cases per thousand arrivals, net of the false nominations, at a
 declared exchange rate between the two.
 
-\subsection{The operating point is a cost ratio, not a knob}
+\subsection{The operating point is a cost ratio, and calibration comes first}
+\label{sec:calibfirst}
 
 At threshold $\theta$ the net benefit of a rule that nominates when
 $\hat p \geq \theta$ is
@@ -15,35 +16,22 @@ $\hat p \geq \theta$ is
 \mathrm{NB}(\theta) \;=\; \frac{\mathrm{TP}(\theta)}{n}
 \;-\; \frac{\mathrm{FP}(\theta)}{n}\cdot\frac{\theta}{1-\theta},
 \]
-so $(1-\theta)/\theta$ is the number of false nominations the desk is willing
-to accept for one true one. Choosing $\theta$ is choosing an operational cost
-ratio, and it belongs to the analyst's declaration rather than to a grid
-search. We report the whole grid --- \nGrid\ points from \gridLo\ to
-\gridHi\ --- and name three points a desk might occupy: $\theta =
-\thetaCheap$, or \ratioCheap\ false nominations accepted per true one, where a
-review is cheap and the desk nominates liberally; $\thetaBase$, or
-\ratioBase, where a review and a miss cost about the same; and $\thetaDear$,
-or \ratioDear, where review capacity is scarce. A reader whose desk sits at a
-ratio not in that list reads their own point off Figure~\ref{fig:dca}: the
-operating point is the reader's to choose, so the analyst reports the curve
-rather than a point on it.
-
-\subsection{Calibration comes first, or the threshold means nothing}
-\label{sec:calibfirst}
-
-A threshold is a statement about probability, so a model whose probabilities
-are wrong is being read at a threshold it does not have. Every decision curve
-here is therefore computed on \emph{calibrated} scores, with the calibrator
-fitted inside the training half and rebuilt inside every bootstrap refit, and
-a registered rule excludes an arm whose calibration slope leaves
-\calSlopeWindow.
-
-The window is a declared convention and not a derived bound, and the exclusion
-is deliberately not repaired by recalibrating the failing arm: recalibration is
-already a level of the pipeline axis, so repairing an arm with it would replace
-one specification by another and report the result under the first one's name.
-Supplement~\ref{app:dcadetail} gives the argument, the rule, what it removes
-and what the curves look like without it.
+so $(1-\theta)/\theta$ is the number of false nominations the desk accepts
+for one true one, and choosing $\theta$ is choosing an operational cost ratio
+that belongs to the analyst's declaration rather than to a grid search. We
+report the whole grid --- \nGrid\ points from \gridLo\ to \gridHi\ --- and
+name three points a desk might occupy: $\theta = \thetaCheap$ (\ratioCheap\
+false nominations per true one, a cheap review), $\thetaBase$ (\ratioBase, a
+review and a miss costing about the same) and $\thetaDear$ (\ratioDear,
+scarce review capacity); a reader whose desk sits elsewhere reads their own
+point off Figure~\ref{fig:dca}. A threshold is a statement about
+probability, so every decision curve here is computed on \emph{calibrated}
+scores, with the calibrator fitted inside the training half and rebuilt
+inside every bootstrap refit, and a registered rule excludes an arm whose
+calibration slope leaves \calSlopeWindow; the exclusion is deliberately not
+repaired by recalibrating the failing arm, because recalibration is already a
+level of the pipeline axis and repairing an arm with it would report one
+specification under another's name (Supplement~\ref{app:dcadetail}).
 
 \subsection{Simultaneous bands change what can be said}
 \label{sec:dcabands}

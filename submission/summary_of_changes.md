@@ -39,7 +39,7 @@ public bank log.
 computed on every family: the empirical quantile of the observed bootstrap
 maxima (the Romano--Wolf construction) and a Gaussian-multiplier
 approximation adopted for Monte Carlo precision. Earlier versions reported the
-multiplier. Section 9.4 now measures both on synthetic families matched to
+multiplier. Section 9.2 now measures both on synthetic families matched to
 the design the corpus runs --- 180 cells at 400 draws on every pair --- under
 four regimes, with the tails calibrated to the corpus's kurtosis *and* to its
 own observed ratio of the two estimators (median 1.50 on the surface
@@ -105,8 +105,8 @@ existing under the regime named.
 | §4.3 | two estimators of the critical value, which is operative and why; the coverage paragraph reads the matched rows only |
 | §6.3 | labels under the operative band; what the multiplier would have resolved; the two shortfalls that remain |
 | §6.5 | the pair on which the sub-surface and the full surface disagree is named |
-| §8.3 | the decision curve under the empirical quantile of the admissible family; the measured widening becomes the supplement's comparison |
-| §9.4 | rewritten around the re-matched grid, the ratio match, the four regimes and the draw-count ladder for both estimators |
+| §8.2 | the decision curve under the empirical quantile of the admissible family; the measured widening becomes the supplement's comparison |
+| §9.2 | rewritten around the re-matched grid, the ratio match, the four regimes and the draw-count ladder for both estimators |
 | §10 | the band paragraph states what the coverage measurement does and does not establish; the "two repairs" paragraph is two retired mechanisms |
 | Tables 3, 4 | the rungs column is labelled as admissible rungs; the last column of the master table is the sign-disagreement rate; captions describe the operative band |
 | Supplement S3.5, S3.8, S9, S14.7, S14.18 | the estimator comparison, the moved scheme comparison, the calibration as a sensitivity for the pointwise channel, the curve family's ladder |
@@ -114,12 +114,13 @@ existing under the regime named.
 
 ## 4. Length
 
-The article is 61 pages (53 of body through the conclusion, 8 of back
-matter and references), from 63; the body's source is about 19,900 words,
-from about 21,400. What came out: the scheme comparison of §4.1 and the rules
-for the reduction of §3.4 to the supplement; §6.6 to a paragraph; §§2, 4.2,
-5.4, 6.2, 6.4, 7.4, 7.5, 9.3 and 10 compressed; 26 bold lead-ins removed
-from §6 alone. What came in: the coverage measurement's re-matched design and
+The article is 57 pages (51 through the conclusion, 6 of back matter and
+references), from 63; the body's source is about 18,300 words, from about
+21,400. What came out: the scheme comparison of §4.1 and the rules
+for the reduction of §3.4 to the supplement; §6.6 to a paragraph; the pointwise
+simulation of §9 to one subsection, its plane and worlds living in the
+supplement; §8.1 and §8.2 merged; §§1, 2, 3, 4, 5, 6, 7 and 10 compressed
+paragraph by paragraph; 26 bold lead-ins removed from §6 alone. What came in: the coverage measurement's re-matched design and
 the two estimators, which is the round's substance. The eleven floats stay.
 If the editor needs the article shorter, the next cuts in order, with what
 each costs: §6.5's comparison against specification-curve analysis to the

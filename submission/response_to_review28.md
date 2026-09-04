@@ -70,7 +70,7 @@ table prints what the multiplier would have resolved beside the reported
 band. The decision-curve family excludes cells that are exactly zero in at
 least nine draws of ten by a declared rule before the quantile is taken (2 of
 248 on the case study), and the measured widening of the multiplier that
-Section 8.3 previously applied becomes the supplement's comparison. The
+Section 8.2 previously applied becomes the supplement's comparison. The
 numbers that moved, multiplier → empirical: resolved cells 890 → 698; median
 ρ 0.039 → 0.000; pairs resolving nothing 2 → 8; pairs resolving anything
 17 → 11, of which one sign only 12 → 9 (7 beneficial, 2 harmful) and both
@@ -117,12 +117,13 @@ round-27 source, and passes on this one.
 ## R28.4 Length
 
 **Conceded in part; the yield is measured, and the target is not met.** The
-article is 61 pages from 63, and the body's source about 19,900 words from
+article is 57 pages from 63, and the body's source about 18,300 words from
 about 21,400, while the round's own substance --- the re-matched coverage
 measurement and the two estimators --- added about 600 words. Out: the
 scheme comparison of Section 4.1 and the reduction's rules of Section 3.4 to
-the supplement; Section 6.6 to a paragraph; Sections 2, 4.2, 5.4, 6.2, 6.4,
-7.4, 7.5, 9.3 and 10 compressed; 26 bold lead-ins removed from Section 6
+the supplement; Section 6.6 to a paragraph; the pointwise simulation of Section 9 to one
+subsection; Sections 8.1 and 8.2 merged; Sections 1 to 7 and 10 compressed
+paragraph by paragraph; 26 bold lead-ins removed from Section 6
 alone and the meta-commentary the report quoted removed. The eleven floats
 stay. `summary_of_changes.md` §4 names the next three cuts in order and what
 each costs, for the editor to take if the count is binding.
@@ -155,7 +156,7 @@ prose; `AI-USE.md` gains the review row and the round-28 row.
 4. Table 3's header reads "adm. rungs" and its caption says the intercept-
    only rung is not counted; the caption's own revision history ("this table
    was Supplement Table S11 through round twenty-five") is gone. **Done.**
-5. Section 9.4's cell and replicate counts are macros, and the article
+5. Section 9.2's cell and replicate counts are macros, and the article
    distinguishes grid cells from the draw-count ladder. **Done.**
 6. The two quantities that were both "1.35" are in separate sentences with
    their own names. **Done.**

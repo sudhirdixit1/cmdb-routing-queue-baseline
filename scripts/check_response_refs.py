@@ -45,7 +45,13 @@ SUPPLEMENT = ROOT / "paper" / "supplement.tex"
 #  numbers are still checked, and because `response_to_blueprint` carries the
 #  per-section word-count table, which must track the manuscript.
 HISTORICAL = {"response_to_referee.md", "response_to_review21.md",
-              "response_to_review23.md", "response_to_review26.md"}
+              "response_to_review23.md", "response_to_review26.md",
+              #  round twenty-eight: the round-27 letter answers a version
+              #  whose Section 9 had four subsections
+              "response_to_review27.md",
+              #  and the second developmental review's letter, whose section
+              #  numbers describe the round-20 manuscript
+              "response_to_blueprint.md"}
 
 DOCS = [ROOT / "submission" / "response_to_referee.md",
         ROOT / "submission" / "response_to_blueprint.md",

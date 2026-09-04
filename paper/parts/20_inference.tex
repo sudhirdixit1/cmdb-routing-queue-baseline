@@ -7,32 +7,25 @@
 The pipeline is frozen and identical on every log, and the \emph{pipeline}
 axis spans encodings as well as model families; every learner, encoder and
 calibrator is the \texttt{scikit-learn} implementation
-\citep{pedregosa2011scikit} at the version \texttt{requirements.lock} pins,
-so the axis varies what this paper declares and nothing underneath it.
+\citep{pedregosa2011scikit} at the version \texttt{requirements.lock} pins.
 Attributes are assigned to roles by the pre-registered rules of
 Section~\ref{sec:design}, cases are ordered by their first timestamp, and the
-split is temporal (Supplement~\ref{app:pipeline}). The usual interval for such an increment resamples test rows
-with the models held fixed, which excludes training-sample, model-selection,
-encoder and split variability and the temporal dependence between cases.
-
-Every interval here is instead a \emph{nested moving-block bootstrap}: one
-draw resamples the training half by moving blocks
-\citep{kunsch1989jackknife} of length $\lceil n^{1/3} \rceil$, refits every
-arm of every rung under every learner and quality mechanism, and evaluates on
-a moving-block resample of the test half, with encoders, frequency tables,
-target encodings, register rankings and calibrators rebuilt inside the draw.
-On the simulation of Section~\ref{sec:sim} the fixed-model interval covers a
-median \coverageNaiveMedian\ and the nested basic interval
-\coverageNestedBasicMedian\ --- \textbf{a gap of about
-\nestedGainInSe\ Monte Carlo standard errors} at the \simMcSe\ standard
-error that design attains (Section~\ref{sec:simcoverage}), which is not a
-difference this evidence can resolve. The nested construction is retained because the
-variability it admits is variability the estimand contains and the fixed-model
-interval excludes by construction, not because it measures better here; and
-the price it charges is the subject of the next two paragraphs.
-The comparison a reader would want --- against a \emph{weighted} bootstrap,
-which removes that price at source --- is below, and what it found is not what
-this construction's defence predicted.
+split is temporal (Supplement~\ref{app:pipeline}). The usual interval for
+such an increment resamples test rows with the models held fixed, which
+excludes training-sample, model-selection, encoder and split variability and
+the temporal dependence between cases. Every interval here is instead a
+\emph{nested moving-block bootstrap}: one draw resamples the training half by
+moving blocks \citep{kunsch1989jackknife} of length $\lceil n^{1/3} \rceil$,
+refits every arm of every rung under every learner and quality mechanism,
+and evaluates on a moving-block resample of the test half, with encoders,
+frequency tables, target encodings, register rankings and calibrators
+rebuilt inside the draw. On the simulation of Section~\ref{sec:sim} the
+fixed-model interval covers a median \coverageNaiveMedian\ and the nested
+basic interval \coverageNestedBasicMedian\ --- about \nestedGainInSe\ Monte
+Carlo standard errors apart, which that design cannot resolve --- so the
+nested construction is retained because the variability it admits is
+variability the estimand contains, not because it measures better here; the
+price it charges is the subject of the next two paragraphs.
 
 \noindent Throughout, $K$ denotes the \textbf{cardinality of the register
 field} --- the number of distinct values $f$ takes on a pair, \cardFMedian\ at
@@ -216,26 +209,22 @@ are outside it, and Section~\ref{sec:lim} carries both.
 \subsection{Planned contrasts, and a $p$-value the design can produce}
 \label{sec:planned}
 
-Five contrasts on the primary log are \emph{planned for this analysis round} ---
-that the register adds to the intake baseline, that it still adds once the free
-field is admitted, that it adds at the later decision time, that the absorption
-$D$ is positive, and that a half-empty register is worth less than a full one
---- each stated with its complete estimand in Table~\ref{tab:confirm}.
-\textbf{They are not confirmatory}: they were fixed before this analysis round,
-not before the data were seen, so the Holm-adjusted one-sided bootstrap
-$p$-values \citep{holm1979simple} they carry are reported for legibility and
-not as a confirmatory test. \nPlannedReject\ of them reject at
-$\alpha = 0.05$ on the $p$-value --- but \textbf{a contrast is called resolved
-only when the interval says so}, and on \textsf{PC3} the one-sided $p$-value
-and the two-sided basic interval disagree, its interval containing zero. So
-the count that follows this paper's own rule is \nPlannedResolved, and the
-$p$-value count is printed beside it rather than instead of it. The other
-detail is in Supplement~\ref{app:pcdetail}: at \nDrawsPlanned\ draws the
-smallest attainable Holm-adjusted value is \pMinAttainableHolm, because the
-plus-one estimator $\hat p = (k+1)/(B+1)$ is the only one a finite bootstrap
-can support. Every other comparison in this paper is \emph{exploratory}
-and carries no multiplicity correction, because none would be meaningful over
-a surface enumerated in full.
+Five contrasts on the primary log were fixed before this analysis round ---
+that the register adds to the intake baseline, that it still adds once the
+free field is admitted, that it adds at the later decision time, that the
+absorption $D$ is positive, and that a half-empty register is worth less than
+a full one --- each with its complete estimand in Table~\ref{tab:confirm}.
+They are not confirmatory, because they were fixed after the data were seen,
+so their Holm-adjusted one-sided bootstrap $p$-values \citep{holm1979simple}
+are reported for legibility: \nPlannedReject\ reject at $\alpha = 0.05$, but
+a contrast is called resolved only when its interval says so, and on
+\textsf{PC3} the one-sided $p$-value and the two-sided basic interval
+disagree, so the count under this paper's own rule is \nPlannedResolved\
+(Supplement~\ref{app:pcdetail}, which also gives the smallest attainable
+adjusted value, \pMinAttainableHolm\ at \nDrawsPlanned\ draws). Every other
+comparison in this paper is \emph{exploratory} and carries no multiplicity
+correction, because none would be meaningful over a surface enumerated in
+full.
 
 \subsection{The sensitivity decomposition}
 \label{sec:sobol}
@@ -248,11 +237,10 @@ measure $\mathbb{P} = \bigotimes_i w_i$, with first-order and total indices
 $S_i$ and $S_{T_i}$ computed exactly rather than estimated
 (Supplement~\ref{app:sobolest}). The closest
 precedent is \citet{hutter2014efficient}, who decompose an algorithm's
-performance over its \emph{configuration} space by the same device; what
-differs here is that the axes are analysis decisions rather than
-hyperparameters, that the components are exact over a complete factorial
-rather than estimated from a surrogate over a sampled design, and that the
-decomposition is one of three reporting objects rather than the conclusion.
+performance over its \emph{configuration} space by the same device; here the
+axes are analysis decisions, the components are exact over a complete
+factorial rather than estimated from a surrogate, and the decomposition is
+one of three reporting objects rather than the conclusion.
 
 \paragraph{The split is an error stratum, and the primary decomposition treats
 it as one}
@@ -324,29 +312,23 @@ and every directional label is reported with the counts of beneficial,
 harmful and unresolved cells it rests on.
 \end{definition}
 
-\noindent \textbf{The minimum resolved share is not free.} Without it a
-surface earns a direction from as few as two resolved
-cells of a hundred and eighty: \emph{conditionally beneficial} then means
-``nothing resolved harmful'', which on a family the data barely touch is a
-statement about the band's width and not about the register.
-\nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs that carry a
-direction lose it under the condition (Table~\ref{tab:triple}), and $\rho$ is
-printed beside the triple everywhere because $\rho$ alone cannot distinguish
-two resolved cells from ninety. The threshold is a declared convention, and moving it is cheap to inspect:
-at a \minShareLowPct\ minimum \nLabelsLostMinOne\ directions are withdrawn,
-at the declared \minResolvedSharePct\ it is \nLabelsLostToMinShare, and at
-\minShareHighPct\ it is \nLabelsLostMinTen. Table~\ref{tab:triple}'s source file carries all
-three, so a reader who prefers another threshold can see what it costs.
-
-\noindent \textbf{The label is relative to $\mathcal{F}$ and not to the whole
-admissible set, and the direction of that is not neutral.} A label computed on
-a sixth of a pair's cells is systematically cleaner than one computed on all
-of them, and \emph{uniformly beneficial} is the label most helped by it: a
-claim about every cell is easier to sustain over fewer cells. The manuscript
-therefore never says a surface is uniformly beneficial without this
-restriction being in force, and Section~\ref{sec:regions} reports the one pair
-that reaches it together with the share of that pair's admissible cells the
-label was earned over --- which is the smallest such share in the corpus.
+\noindent \textbf{The minimum resolved share is not free, and the family the
+label is relative to is not neutral.} Without the share a surface earns a
+direction from as few as two resolved cells of a hundred and eighty, which on
+a family the data barely touch is a statement about the band's width and not
+about the register; \nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs
+that carry a direction lose it under the condition (Table~\ref{tab:triple}),
+and $\rho$ is printed beside the triple everywhere because $\rho$ alone cannot
+distinguish two resolved cells from ninety. The threshold is a declared
+convention: at \minShareLowPct\ it withdraws \nLabelsLostMinOne\ directions,
+at the declared \minResolvedSharePct\ \nLabelsLostToMinShare, at
+\minShareHighPct\ \nLabelsLostMinTen, and Table~\ref{tab:triple}'s source
+file carries all three. And a label computed on a sixth of a pair's cells is
+systematically cleaner than one computed on all of them, with \emph{uniformly
+beneficial} the label most helped, so the manuscript never says a surface is
+uniformly beneficial without this restriction being in force, and
+Section~\ref{sec:regions} reports the one pair that reaches it together with
+the share of its admissible cells the label was earned over.
 
 \noindent The two harmful labels are not decoration, and what this corpus
 does with them is a case of the minimum share doing its work.

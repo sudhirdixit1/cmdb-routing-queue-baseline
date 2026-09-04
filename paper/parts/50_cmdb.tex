@@ -48,28 +48,22 @@ values on every row, so it is not a data-preparation difference; and they run
 the same pipeline at the same reference cell, so it is not a modelling
 difference.
 
-An axis nobody declares, and this paper was standing on it. Both
-analyses sort the log in time and split at seventy per cent of the row order,
-and \nTiedTimestamps\ incidents share their timestamp with another; the sort
-this estate's analysis first used was not stable, so its tie order was
-neither declared nor reproducible, and it printed \VpublishedTauTwo\ where the
-two declared rules both give \VTtwoKnow. That first number was never
-published and is not cited here as though it were: it is recomputed in the
-archive from that analysis's own loader
-(\texttt{scripts/s32\_cohort.py}, \textsf{published\_cell}), so the
-reconciliation below anchors on the object rather than on a recollection of
-it. Over \nTiebreakDraws\ random tie-breaks
-the increment ranges over \tiebreakRange\ AUC without changing sign
-(\nTiebreakPositive\ of \nTiebreakDraws\ draws positive), so no conclusion
-turns on it --- but that range is \tiebreakRangeSharePct\ of the magnitude of
-the increment the declared rules give, produced by a choice no reporting
-standard asks anyone to state, which is why
-Supplement~\ref{app:standard} now asks. Every number in this section is computed
-under a declared tie-break, by incident identifier, on the estate's cohort and
-reassignment target; the registered cohort's answers are in
-Section~\ref{sec:multilog}, among the \nPairs\ pairs, so the decision-time
-result below is a statement about a routing decision on this estate and not
-about handover in general.
+An axis nobody declares. Both analyses sort the log in time and split at
+seventy per cent of the row order, and \nTiedTimestamps\ incidents share
+their timestamp with another; the sort this estate's analysis first used was
+not stable, so its tie order was neither declared nor reproducible, and it
+printed \VpublishedTauTwo\ where the two declared rules both give
+\VTtwoKnow\ (recomputed in the archive from that analysis's own loader,
+\texttt{scripts/s32\_cohort.py}). Over \nTiebreakDraws\ random tie-breaks the
+increment ranges over \tiebreakRange\ AUC without changing sign, so no
+conclusion turns on it --- but that range is \tiebreakRangeSharePct\ of the
+increment's magnitude, produced by a choice no reporting standard asks anyone
+to state, which is why Supplement~\ref{app:standard} now asks. Every number
+in this section is computed under a declared tie-break, by incident
+identifier, on the estate's cohort and reassignment target; the registered
+cohort's answers are among the \nPairs\ pairs of Section~\ref{sec:multilog},
+so the decision-time result below is a statement about a routing decision on
+this estate and not about handover in general.
 
 \subsection{Three decision times}
 \label{sec:twodecision}
@@ -122,64 +116,50 @@ in the estate's own vocabulary. It is a reading of \emph{one} estate on
 \emph{one} public log and it is offered as one; Section~\ref{sec:lim} says
 what a second would need.
 
-\paragraph{Which field is which}
-The prediction is: \emph{will this case be reassigned to another group before
-it is resolved?} The register $f$ is the affected configuration item
-(\cardTauTwo\ distinct values at incident creation on this estate's cohort,
-\cardF\ on the registered cohort the layer ladder below uses); its
-coarsenings are the item's type (\nLayerTypeLevels\ values) and subtype
-(\nLayerSubtypeLevels), each given its own role. The free field $g$ is the
-assignment group --- the routing queue, recorded without a configuration
-management database and the field the register has to beat. The intake block
-$B_0$ is what the desk records when the case arrives: category, impact,
-urgency and priority. The knowledge reference is a pointer to a
-knowledge-base article, admitted as a further rung because whether it is
-available at the moment of decision is exactly the question
-Section~\ref{sec:quality} cannot settle.
-
 \paragraph{The three moments, in service-desk terms}
-$\tau_0$ is \emph{an interaction is logged}: every call is in scope, and
-\nTauZero\ of them are. $\tau_1$ is the same moment restricted to the calls
-that will escalate. $\tau_2$ is \emph{an incident record is created}:
-\nTauTwo\ cases, more known about each, \nTauTwoUnmatched\ of them with no
-interaction record. Read down Table~\ref{tab:tau} and the register's worth
-falls from \VtauZero\ AUC to \VtauOne\ to \VTtwoGroup\ once the routing queue
-is in the baseline, and to \VTtwoKnow\ --- not resolvably different from zero
---- once the knowledge reference is admitted too. A programme that justifies
-the register on a first-touch number and deploys the model at incident
-creation is quoting the top of a ladder and standing on the bottom of it;
-Section~\ref{sec:nbregret} prices that at \promisedPerThousand\ true positives
-promised per thousand cases against \deliveredPerThousand\ delivered.
+The prediction is: \emph{will this case be reassigned to another group before
+it is resolved?} The register is the affected configuration item, the free
+field the assignment group --- the routing queue, recorded without a
+configuration management database and the field the register has to beat ---
+the intake block what the desk records when the case arrives, and the
+knowledge reference a pointer to a knowledge-base article whose availability
+at the moment of decision is exactly what Section~\ref{sec:quality} cannot
+settle. $\tau_0$ is \emph{an interaction is logged}: every call is in scope,
+\nTauZero\ of them. $\tau_1$ is the same moment restricted to the calls that
+will escalate. $\tau_2$ is \emph{an incident record is created}: \nTauTwo\
+cases, \nTauTwoUnmatched\ of them with no interaction record. Read down
+Table~\ref{tab:tau} and the register's worth falls from \VtauZero\ AUC to
+\VtauOne\ to \VTtwoGroup\ once the routing queue is in the baseline, and to
+\VTtwoKnow\ --- not resolvably different from zero --- once the knowledge
+reference is admitted too. A programme that justifies the register on a
+first-touch number and deploys the model at incident creation is quoting the
+top of a ladder and standing on the bottom of it;
+Section~\ref{sec:nbregret} prices that at \promisedPerThousand\ true
+positives promised per thousand cases against \deliveredPerThousand\
+delivered.
 
 \paragraph{Which layer of the register pays}
 A programme does not choose whether to have a configuration management
-database; it chooses how much of one to populate and maintain, and that is a
-choice among \emph{layers}. On the \emph{registered} cohort of
-Section~\ref{sec:design} and under its registered handover rule ---
-\layerLadderN\ cases, one-hot logistic
-regression at the fixed temporal holdout, against the intake block at base AUC
-\layerBaseHandover\ --- the item's \emph{type} is worth \layerTypeHandover\
-AUC over intake, its \emph{subtype} \layerSubtypeHandover, and the item itself
-\layerItemHandover; with the subtype already in the model the item still adds
-\layerItemMarginalHandover. That ladder is not
-Table~\ref{tab:tau}'s cell and does not reconcile with it arithmetically,
-because the table is on the estate's own cohort and its reassignment target
---- the pair Section~\ref{sec:cohort} shows disagree about this register ---
-so the increment over intake is \layerItemHandover\ here and \VtauTwo\ there
-and neither is the other one mismeasured (Supplement~\ref{app:layers}).
-\textbf{On this estate and the handover question the coarse layers are not
-free, and the finest layer is not redundant}: \layerTypeSharePctHandover\ of what the
-item is worth over the intake block is already reachable from a thirteen-value
-type field, and the item still adds \layerItemMarginalHandover\ once the
-subtype is in the model. On the duration question the same ladder gives
-\layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration, with
-\layerItemMarginalDuration\ marginal, and the type reaches
-\layerTypeSharePctDuration. So the split between the layers is a
-property of the target and not of the register, and
-Supplement~\ref{app:layers} carries two further logs on which every coarse
-layer is worth essentially nothing while the finest one is not. It is not a
-procurement conclusion: nothing here prices what a layer costs to populate or
-to keep accurate, and Section~\ref{sec:lim} says so.
+database; it chooses how much of one to populate and maintain, which is a
+choice among \emph{layers}. On the registered cohort and handover rule ---
+\layerLadderN\ cases, one-hot logistic regression at the temporal holdout,
+against the intake block at base AUC \layerBaseHandover\ --- the item's
+\emph{type} (\nLayerTypeLevels\ values) is worth \layerTypeHandover\ AUC over
+intake, its \emph{subtype} (\nLayerSubtypeLevels) \layerSubtypeHandover, and
+the item itself \layerItemHandover, adding \layerItemMarginalHandover\ once
+the subtype is in the model; that ladder is on a different cohort and target
+from Table~\ref{tab:tau} and does not reconcile with it arithmetically
+(Supplement~\ref{app:layers}). \textbf{The coarse layers are not free, and
+the finest layer is not redundant}: \layerTypeSharePctHandover\ of what the
+item is worth is reachable from a thirteen-value type field, and the item
+still adds once the subtype is known. On the duration target the ladder
+gives \layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration, with
+\layerItemMarginalDuration\ marginal and the type reaching
+\layerTypeSharePctDuration, so the split between the layers is a property of
+the target and not of the register; Supplement~\ref{app:layers} carries two
+further logs on which every coarse layer is worth essentially nothing while
+the finest one is not. Nothing here prices what a layer costs to populate or
+to keep accurate.
 
 \paragraph{What would have to change for the answer to move}
 Three things, in the order a programme could act on them. A
