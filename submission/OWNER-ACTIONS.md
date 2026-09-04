@@ -67,7 +67,7 @@ Zenodo DOI. There is nothing to cite yet, so the macro currently renders as
 *"a Zenodo deposit whose DOI is reserved and is inserted at proof"* rather
 than as the `??` marker — a number that does not
 exist yet is a different thing from a number that is missing, and the
-manuscript says which. `.zenodo.json` carries `"version": "v27.0"`, moved there in round twenty-seven so the manuscript names the release it describes, and its numeric claims are
+manuscript says which. `.zenodo.json` carries `"version": "v28.0"` (round twenty-eight), so the manuscript names the release it describes, and its numeric claims are
 checked against `paper/numbers.tex` by `check_response_refs.py` --- seven
 of them had gone stale before round twenty-five added that check.
 
@@ -75,17 +75,17 @@ of them had gone stale before round twenty-five added that check.
    `sudhirdixit1/cmdb-routing-queue-baseline`.
 2. **Settings → GitHub**, and switch the repository **on**. Zenodo will then
    archive every future release.
-3. **Tag the commit this manuscript was built from as `v27.0`** and push it.
-   Its message should record the gate results at that commit:
+3. **Push the tag `v28.0`**, which round twenty-eight cut locally on the commit
+   this manuscript was built from (`git tag -n1 v28.0` shows its message and the
+   gate results). If you rebuild first, move the tag to the rebuilt commit:
 
    ```bash
-   git tag -a v27.0 -m "round twenty-seven: the weighted bootstrap on a balanced designed surface; both named repairs run and neither did what it was named for"
-   git push origin v27.0
+   git push origin round28-band v28.0        # or merge to main first, then push main and the tag
    git ls-remote --tags origin
    ```
 
 4. On GitHub, **Releases → Draft a new release**, choose the tag
-   `v27.0` — the same tag as step 3, not an earlier one — title it
+   `v28.0` — the same tag as step 3, not an earlier one — title it
    *Specification Surfaces for Incremental Predictive Performance*, and
    publish. Zenodo mints the DOI within a minute or two.
 5. Paste the minted DOI into one command:
@@ -145,7 +145,7 @@ is done; this needs the depositing account.
 
 ### 1.2 Decide what to do about the branch
 
-The work is on **`round27-inference`**, which branches from `main`. (This
+The work is on **`round28-band`**, which branches from `round27-inference` (= local `main`). (This
 file named `round25-coverage` for two rounds after the work had moved off it;
 the branch is checked here rather than remembered.) Merge it to the default
 branch before tagging if the release should sit on the mainline; the archive
