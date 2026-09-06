@@ -5,15 +5,15 @@
 \renewcommand{\arraystretch}{1.15}%
 \hyphenpenalty=50 \exhyphenpenalty=50 \emergencystretch=1em\relax%
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{l>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}r>{\raggedright\arraybackslash}p{0.170\linewidth}rrr}
+\begin{tabular}{l>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}r>{\raggedright\arraybackslash}p{0.170\linewidth}rll}
 \toprule
 contrast & cell a & cell b & estimate & interval & p Holm & Holm & resolved \\
 \midrule
-PC1 & intake & -- & 0.25718 & [+0.23556, +0.27809] & 0.00250 & True & True \\
-PC2 & intake + g & -- & 0.16727 & [+0.14456, +0.20735] & 0.00250 & True & True \\
-PC3 & intake + g + km & -- & 0.00768 & [-0.00059, +0.01210] & 0.00250 & True & False \\
-PC4 & intake & intake + g & 0.08991 & [+0.04844, +0.11706] & 0.00250 & True & True \\
-PC5 & intake + g & intake + g, long tail 50\% & 0.06339 & [+0.05368, +0.07740] & 0.00250 & True & True \\
+PC1 & intake & -- & 0.25718 & [+0.23556, +0.27809] & 0.00250 & yes & yes \\
+PC2 & intake + g & -- & 0.16727 & [+0.14456, +0.20735] & 0.00250 & yes & yes \\
+PC3 & intake + g + km & -- & 0.00768 & [$-$0.00059, +0.01210] & 0.00250 & yes & no \\
+PC4 & intake & intake + g & 0.08991 & [+0.04844, +0.11706] & 0.00250 & yes & yes \\
+PC5 & intake + g & intake + g, long tail 50\% & 0.06339 & [+0.05368, +0.07740] & 0.00250 & yes & yes \\
 \bottomrule
 \end{tabular}%
 }

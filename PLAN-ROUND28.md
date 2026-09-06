@@ -406,6 +406,70 @@ be submitted with "DOI reserved" in reference [11].
 *(newest first after the baseline; per phase: what ran, what it found, what
 changed in the paper, what it cost; numbers checked against result files.)*
 
+### 2026-09-06 — the final pre-submission read
+
+A full read of the built article, with three independent passes beside it
+(journal-rule compliance, number and directional-claim consistency against
+the result files, prose and typesetting), before upload. What it found and
+what changed:
+
+- **A duplicated block in §1.** The specification-curve figure, the
+  Contributions list and the regret paragraph appeared twice (introduced at
+  `a7d6a7d`; `fig:speccurve` multiply defined; Figure 1 and Figure 2 with
+  one caption; the cover letter's "3 figures" against 4). One copy removed,
+  the fuller regret paragraph kept, the two-sentence form of contribution 3
+  kept. Article **57 → 56 pages**.
+- **Elsevier's generative-AI section**, re-read from the policy page on
+  2026-09-06: the required title is now "Declaration of generative AI and
+  AI-assisted technologies in the manuscript preparation process" and the
+  section must sit immediately before the references. Renamed and moved
+  after Code availability; `texlint` matches the whole title; the date span
+  runs to 2026-09-06 and `AI-USE.md` records this pass. Funding sentence set
+  to Elsevier's boilerplate.
+- **Reference style.** `elsarticle-harv` in numeric mode gave numeric
+  citations against an alphabetical Harvard list. Both documents now use
+  `elsarticle-num`; its `.bbl` wraps every DOI in `\href`, which needs
+  hyperref and otherwise replaces `\path` by an identity macro that typesets
+  a DOI's underscore as a subscript, so `build_journal.py` unwraps the
+  `\href` and keeps the url package's `\path` after bibtex. Five `\citet`
+  uses became "Author et al.~\cite{}". The Semenova entry became
+  `@inproceedings` (its journal field had put the pages against the DOI).
+- **Claims.** The curve-family transfer caveat (fitted estimator ratio 1.49
+  against the corpus's 2.24, IQR 2.07–2.55) is now stated in §8.2 where the
+  93.6% is quoted, in §9.2 with the IQR printed, and in §10's coverage
+  paragraph as the exception to "measured at its level". The prefix factor
+  3.7 now sits beside the +0.069 it is computed from (prefix 8), not the
+  +0.064 (prefix 2). The τ-ladder steps (−0.0297, −0.0099, −0.0076) are
+  stated in §7.2 before the conclusion quotes them, and "costs −0.0297" became
+  "moves the increment by −0.0297". The 28.7% pooled largest first-order
+  index sentence no longer promises a number the article does not quote. The
+  conclusion's "on every pair at least one admissible specification makes the
+  register worth less than nothing" was checked against `s01_surface.csv.gz`
+  (min V < 0 on 19 of 19 admissible scalar sets) and stands.
+- **Wording.** Abstract: "admissible specifications sit …" → "the resolved
+  specifications sit …", AUC expanded (199 words after two trims). "Section
+  S14.17" → "Supplement S14.17" (three places); "pre-registered" →
+  "registered" (§5.1 says it is not a third-party registration); "the
+  authors" → "the author"; ITSM and BPIC14 expanded at first use; Figure 1's
+  scale note points at Remark 1, not §4.7. Highlight 4 no longer carries the
+  acronym.
+- **Generated tables.** Booleans print as yes/no; negative numbers carry a
+  minus, not a hyphen; the master table's header is ρ; the decision-time
+  table prints τ₀–τ₂, thousands separators and four decimals to match the
+  text; axis ranges are en dashes; shouted caption phrases are bold sentence
+  case. The supplement's title page carries the city and country.
+- **Package.** Cover letter and `summary_of_changes.md` §4 give the new page
+  arithmetic; `response_to_blueprint.md`'s structure table re-synced.
+
+Gates after the pass: texlint 0, verify_numbers 168 / 41 / 0, check_package
+23 / 0, check_highlights 5 / 0, check_claims 0, check_response_refs 0,
+check_sources 0, build 0 errors / 0 undefined / 56 + 110 pages;
+`final_search` fails only on the DOI placeholder, as it must. Not done, and
+deliberately: long-sentence splitting and sentences opening with a symbol
+(a rewrite pass this late needs its own audit); decimal-place harmonisation
+across macros; the natbib "multiply defined citation" warnings, which come
+from `xr` reading the other document's `.aux` and are harmless.
+
 ### 2026-09-04, 01:30 — the length pass, measured
 
 Three passes. Section 9's pointwise simulation is one subsection (its plane

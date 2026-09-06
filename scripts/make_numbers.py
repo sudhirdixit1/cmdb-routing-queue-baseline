@@ -1047,6 +1047,14 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
     for c in d.columns:
         if d[c].dtype.kind in "if" and np.isfinite(d[c]).all()                 and (d[c] == d[c].round()).all():
             d[c] = d[c].map(lambda v: "%d" % int(round(v)))
+    #  A boolean column printed as `True'/`False' is a Python literal in a
+    #  journal table.  It is printed as a word instead, and the rule lives
+    #  here so that every generated table -- article and supplement -- gets
+    #  the same one.
+    for c in d.columns:
+        vals = set(d[c].dropna().unique().tolist())
+        if vals and vals <= {True, False, "True", "False"}:
+            d[c] = d[c].map(lambda v: "yes" if v in (True, "True") else "no")
     #  A value that rounds to zero from below prints as `-0.000', which
     #  asserts a sign the number does not have -- in a paper whose subject is
     #  the sign of an increment.  The formatter adds zero to kill the negative
@@ -1058,6 +1066,11 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
 
     body = d.to_latex(index=False, escape=True, float_format=_ff,
                       na_rep="--")
+    #  A negative number set in text mode carries a hyphen where the body
+    #  text sets a minus; the cell is a number and gets the minus.  Only a
+    #  sign that opens a cell or an interval is touched, so a range such as
+    #  `2-4' and an identifier are left alone.
+    body = re.sub(r"(?<=[\s\[(&])-(?=\d)", r"$-$", body)
     #  `to_latex(escape=True)` has ALREADY escaped every underscore.  Escaping
     #  again turns `NO\_HEADROOM` into `NO\\_HEADROOM`, which LaTeX reads as a
     #  line break followed by a subscript, and the build dies in the middle of
@@ -1254,17 +1267,17 @@ def write_tables(D):
                       "pair. `pointwise' is the 95\\% interval at the "
                       "reference cell, basic (pivotal) construction; "
                       "`simultaneous' is that same cell's "
-                      "WHOLE-SURFACE simultaneous band at the empirical "
+                      "\\emph{whole-surface} simultaneous band at the empirical "
                       "critical value of Section~\\ref{sec:simbands}, the "
                       "construction Section~\\ref{sec:simband} measures at its "
                       "nominal level on the family matched to this design. They "
                       "are different objects, and the region label uses only "
                       "the second. Then the resolution region and the "
-                      "robustness index $\\rho$. NO $(n,K)$ CALIBRATION IS "
-                      "APPLIED: that factor widens the pointwise interval "
+                      "robustness index $\\rho$. \\textbf{No $(n,K)$ calibration is "
+                      "applied}: that factor widens the pointwise interval "
                       "underneath the band and is reported as a sensitivity in "
                       "Table~\\ref{tab:calbands}, which also prints what the "
-                      "multiplier approximation would have resolved. THE REGION IS THE LABEL Definition~\\ref{def:regions} YIELDS, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one. Table~\\ref{tab:triple} MARKS \\nMarkedBelowMinShare\\ rows: a pair the band already left unresolved is not marked, and \\nSignChangingBelowMinShare\\ of the marked rows are sign-changing, which carry no direction to withdraw. Last, the share of "
+                      "multiplier approximation would have resolved. \\textbf{The region is the label Definition~\\ref{def:regions} yields}, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one. Table~\\ref{tab:triple} marks \\nMarkedBelowMinShare\\ rows: a pair the band already left unresolved is not marked, and \\nSignChangingBelowMinShare\\ of the marked rows are sign-changing, which carry no direction to withdraw. Last, the share of "
                       "admissible specifications whose sign disagrees with a "
                       "conventional one-number report, under the equal-level "
                       "measure, which is the `all-cells rate' column of "
@@ -1279,7 +1292,11 @@ def write_tables(D):
                       colnames={"V": "V at reference",
                                 "rho": "rho",
                                 "one_number_misreport_conventional":
-                                    "sign-disagreement rate"}),
+                                    "sign-disagreement rate"})
+            #  the header row is escaped by pandas, so the symbol is put back
+            #  after the fact: the column is the robustness index, and the
+            #  caption already calls it $\\rho$
+            .replace(" & rho & ", " & $\\rho$ & "),
             encoding="utf-8")
     else:
         blank("master", "The master table.", "tab:master")

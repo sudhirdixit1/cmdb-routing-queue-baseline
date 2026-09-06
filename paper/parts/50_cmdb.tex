@@ -48,7 +48,7 @@ values on every row, so it is not a data-preparation difference; and they run
 the same pipeline at the same reference cell, so it is not a modelling
 difference.
 
-An axis nobody declares. Both analyses sort the log in time and split at
+\textbf{An axis nobody declares.} Both analyses sort the log in time and split at
 seventy per cent of the row order, and \nTiedTimestamps\ incidents share
 their timestamp with another; the sort this estate's analysis first used was
 not stable, so its tie order was neither declared nor reproducible, and it
@@ -88,6 +88,11 @@ only on the matched population: \nTauTwoUnmatched\ of the \nTauTwo\
 incidents have no interaction record, so the \tauMatchedRow\ row of
 Table~\ref{tab:tau} restricts $\tau_2$ to $\tau_1$'s own cases and it is that
 row, not the \tauPlainRow, that isolates the information.
+Read as steps, the ladder moves by \deltaCohortAtTau\ AUC from $\tau_0$ to
+$\tau_1$, which is the population; by \deltaSnapshotAtTau\ from $\tau_1$ to
+$\tau_2$ on the matched population, which is the information; and by
+\deltaPopulationResidual\ more from the matched population to the full one,
+which is the incidents without an interaction record.
 Supplement~\ref{app:taudetail} gives each moment's population, register and
 admissible set.
 

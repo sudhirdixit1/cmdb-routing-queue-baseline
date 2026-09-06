@@ -10,7 +10,7 @@ DIFFERENCES FROM THE AAAI BUILD, each of which cost a failed run:
   1. `elsarticle` is a CTAN class, not a downloaded author kit.  Nothing is
      fetched; a TeX distribution supplies it.  MiKTeX installs it on first
      use if `--enable-installer` is passed, which it is.
-  2. The bibliography style is `elsarticle-harv`, set by the DOCUMENT, not
+  2. The bibliography style is `elsarticle-num`, set by the DOCUMENT, not
      by the class.  The AAAI class set its own and a second
      \\bibliographystyle was an error there; here its absence is the error.
   3. `elsarticle` does not load `amsmath`, and \\text inside math needs it.
@@ -117,6 +117,22 @@ def main():
         if "I couldn't open" in blog or "Illegal" in blog:
             print(blog)
             sys.exit(f"bibtex failed on {stem}")
+        #  `elsarticle-num' writes every DOI as \href{URL}{\path{doi:...}},
+        #  which needs hyperref; neither document loads it, and a fallback
+        #  that takes two arguments hands \path a DOI whose underscore has
+        #  already been read as a subscript, which is a LaTeX error in the
+        #  reference list.  The DOI is kept and the link wrapper removed, so
+        #  \path reads the DOI itself, as it does under `elsarticle-harv'.
+        bbl = out / f"{stem}.bbl"
+        if bbl.exists():
+            t = bbl.read_text(encoding="utf-8")
+            t2 = re.sub(r"\\href\s*\{[^{}]*\}\s*\{(\\path\{[^{}]*\})\}", r"\1", t)
+            #  the same .bbl replaces \path by an identity macro whenever
+            #  \href is undefined, which is what typesets the underscore as a
+            #  subscript; the url package's \path is kept instead
+            t2 = t2.replace("\\def\\path#1{#1}", "")
+            if t2 != t:
+                bbl.write_text(t2, encoding="utf-8")
         run(tex_for(stem), out, f"{tag}2.log")
         return run(tex_for(stem), out, f"{tag}3.log")
 

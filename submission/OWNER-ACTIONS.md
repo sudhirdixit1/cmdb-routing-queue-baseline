@@ -223,7 +223,7 @@ The appendices are a separate supplementary document, which is the change
 that review asked for. **The first of the two cuts this file used to name has
 been taken**: the reporting standard and software section moved to the
 supplement in full, keeping the prescription itself in the body as a
-paragraph, and the article is **63 pages** with a 57-page body. If the editor
+paragraph, and the article is **56 pages**, the conclusion ending on page 48. If the editor
 asks for a shorter article still, the next two are the partial-identification
 passage of the decision-analytic section and section 6.5, the head-to-head
 against specification-curve analysis --- in that order, and with the caveat

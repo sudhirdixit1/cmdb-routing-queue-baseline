@@ -70,7 +70,7 @@ tolerance outside that container, because the results are not bit-reproducible
 across processor architectures and a reproduction claim that holds only on
 the author's machine is not one.
 
-**Length.** The article is 57 pages with 8 tables and
+**Length.** The article is 56 pages with 8 tables and
 3 figures; the appendices are a separate supplementary document.
 The body's length is measured rather than defended: `summary_of_changes.md`
 gives the per-section word counts and names, in order, what the editor could

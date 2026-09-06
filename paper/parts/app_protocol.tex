@@ -208,7 +208,7 @@ alphabet; reconciliation failure, in which a share of identities exist twice;
 and staleness, in which an identity is present only if the register had
 already seen it by the split point. The first three model coverage, the next
 two accuracy, the last discovery; the taxonomy follows the event-log
-imperfection patterns of \citet{suriadi2017imperfection} where they apply.
+imperfection patterns of Suriadi et al.~\cite{suriadi2017imperfection} where they apply.
 
 Real registers do not fail at random, so three \emph{further} mechanisms make
 the missingness depend on something: on \emph{time}, where a row's probability
@@ -237,7 +237,7 @@ timestamp and split $70/30$; the rolling-origin scheme adds \nFolds\
 expanding-window folds. Fields that are determined only at closure are excluded by name, which is the
 standard leakage discipline \citep{kaufman2012leakage,kapoor2023leakage} and,
 for event logs specifically, the discipline of
-\citet{weytjens2022leakage}. A log--target pair is excluded only for a
+Weytjens and De Weerdt~\cite{weytjens2022leakage}. A log--target pair is excluded only for a
 registered reason --- too few cases, no variation in the test half, a prevalence outside
 $[\prevLo, \prevHi]$, or the absence of one of the three roles --- and every
 exclusion is reported with its code in Table~\ref{tab:corpus}, which accounts

@@ -106,15 +106,16 @@ taken, how completely the register behind the field is populated, and the
 metric. We define incremental predictive performance as a \emph{specification
 surface} $V_s(f)$ over a design space the analyst declares, and give three
 objects for reporting one: an exact functional-ANOVA decomposition of its
-variance that separates analyst choices from the resampling a design
-contains; simultaneous max-$t$ bands from a pipeline-refitting bootstrap,
-at a critical value whose coverage we measure against a known answer; and
+variance that separates analyst choices from resampling; simultaneous
+max-$t$ bands from a pipeline-refitting bootstrap, at a critical value with
+measured coverage; and
 \emph{resolution regions}, which say where a sign is determined. On
 \nPairs\ pairs from \nLogs\ public event logs, resampling carries a median
 \shareResamplingStratumPct\ of the variance, and net of it which analyst
 choice leads is a property of the pair. Most specifications leave the sign
-undetermined; where the data determine one, admissible specifications sit a
-median \madResolvedMedian\ AUC from the conventional report. In a case study on \nCohort\ bank incidents, a register's
+undetermined; where the data determine one, the resolved specifications sit a
+median \madResolvedMedian\ from the conventional report in area under the
+receiver operating characteristic curve (AUC). In a case study on \nCohort\ bank incidents, a register's
 worth turns on the decision time and its sign on the target.
 \end{abstract}
 
@@ -202,7 +203,7 @@ exchange rate, which is as close to economic value as this evidence gets.
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\linewidth]{figS1_speccurve.png}
-\caption{The specification curve for the configuration item on BPIC14, at the
+\caption{The specification curve for the configuration item on BPI Challenge 2014 (BPIC14), at the
 registered handover target: \nCellsFigOne\ admissible scalar cells,
 \nPipelineLevelsCase\ pipelines $\times$ \nRungsFigOne\ baseline rungs $\times$
 \nInstruments\ instruments $\times$ \nQualityFigOne\ register-quality
@@ -213,7 +214,7 @@ specification occupies. The intercept-only rung is excluded. Every point is a
 point estimate; the simultaneous bands that decide the region labels are in
 Table~\ref{tab:calbands}. \textbf{The five scalar instruments are plotted on
 one axis and their increments are not on a common scale}
-(Section~\ref{sec:regretdef}); what the panel supports is the \emph{sign}
+(Remark~\ref{prop:nonid}); what the panel supports is the \emph{sign}
 statement, which is unit-free, and not a comparison of magnitudes across
 instruments. The panel shows the increment rather than the reduction, so a
 cell where the register is worth almost nothing looks the same as one where
@@ -241,72 +242,10 @@ regions} with a robustness index $\rho$ under a declared minimum resolved
 share.
 \item \textbf{A registered multi-log benchmark and a register at three
 decision times.} The surface is computed through one frozen pipeline on every
-log--target pair a pre-registered protocol admits --- \nPairs\ of them, not
-only the ones where the answer resolves --- with every corpus statistic
-reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
-maintained one (Section~\ref{sec:family}); and Section~\ref{sec:cmdb} shows
-that a decision time fixes at once which cases are in scope, what is known
-about them and which fields are admissible, and that the two values the case
-study's log has been reported to give differ by the \emph{target}, which
-carries \shareTargetPct\ of the variance over the cohort $\times$ target
-design against the cohort's \shareCohortPct.
-\end{enumerate}
-
-\noindent Figure~\ref{fig:overview} sets the method out once, from the three
-roles a log is read into to the three denominators a claim may quantify over.
-
-\noindent \emph{Specification regret} --- what choosing one specification
-costs against the best, on a scale a decision can use --- is reported in full
-and is \emph{not} among the contributions above: it returns a null on this
-corpus (Sections~\ref{sec:rules} and~\ref{sec:nbregret}) and is carried as a
-robustness check on the other two arguments (Section~\ref{sec:regretdef}).
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\linewidth]{figS1_speccurve.png}
-\caption{The specification curve for the configuration item on BPIC14, at the
-registered handover target: \nCellsFigOne\ admissible scalar cells,
-\nPipelineLevelsCase\ pipelines $\times$ \nRungsFigOne\ baseline rungs $\times$
-\nInstruments\ instruments $\times$ \nQualityFigOne\ register-quality
-conditions $\times$ \nSplits\ splits. \textbf{(a)} Each point is one
-admissible specification --- a complete assignment to those five axes ---
-sorted by the increment. \textbf{(b)} Which level of which axis each
-specification occupies. The intercept-only rung is excluded. Every point is a
-point estimate; the simultaneous bands that decide the region labels are in
-Table~\ref{tab:calbands}. \textbf{The five scalar instruments are plotted on
-one axis and their increments are not on a common scale}
-(Section~\ref{sec:regretdef}); what the panel supports is the \emph{sign}
-statement, which is unit-free, and not a comparison of magnitudes across
-instruments. The panel shows the increment rather than the reduction, so a
-cell where the register is worth almost nothing looks the same as one where
-the free field absorbs almost everything.}
-\label{fig:speccurve}
-\end{figure}
-
-\paragraph{Contributions}
-\begin{enumerate}
-\item \textbf{An estimand, a declared surface and an exact decomposition}
-(Table~\ref{tab:objects}). The surface over a design space the reader can
-enumerate; three \emph{denominators} distinguished and audited from the files,
-so that a claim's quantifier is a counted set rather than a phrase; and an
-exact functional-ANOVA decomposition of the surface's variance in which the
-split is an \emph{error stratum}, so that resampling is separated from the
-choices an analyst makes (Section~\ref{sec:sobol}).
-\item \textbf{Simultaneous inference whose coverage is measured, and the
-labels that rest on it.} Simultaneous max-$t$ bands over the whole family a
-claim ranges over, from a pipeline-refitting bootstrap, at a critical value
-whose family-wise coverage is measured against a known answer in
-Section~\ref{sec:simband} --- \covEmpHeavyWholeAtDesign\ on the family
-matched to this design, under an ideal bootstrap that bounds the critical
-value's contribution and not the resampling's --- and \emph{resolution
-regions} with a robustness index $\rho$ under a declared minimum resolved
-share.
-\item \textbf{A registered multi-log benchmark and a register at three
-decision times.} The surface is computed through one frozen pipeline on every
-log--target pair a pre-registered protocol admits --- \nPairs\ of them, not
+log--target pair a registered protocol admits --- \nPairs\ of them, not
 only the ones where the answer resolves --- and every corpus statistic is
 reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
-maintained one (Section~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
+maintained one (Supplement~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
 that a decision time fixes which cases are in scope, what is known about them
 and which fields are admissible at once, reconciles the two values the case
 study's log has been reported to give, and finds the difference is the
@@ -369,7 +308,7 @@ permutation importance \citep{strobl2008conditional,fisher2019models},
 Shapley attributions \citep{lundberg2017unified,covert2020sage} and
 nonparametric formulations of importance as a population quantity
 \citep{williamson2021vimp}; the clinical-prediction literature has said for
-two decades that the increment in AUC from adding a predictor depends on the
+two decades that the increment in the area under the ROC curve (AUC) from adding a predictor depends on the
 existing model \citep{pencina2008evaluating,cook2007roc}, is a poor guide to
 clinical usefulness \citep{cook2007roc,vickers2008decision} and is routinely
 misread \citep{kerr2011evaluating}; the same argument is made about
@@ -608,7 +547,7 @@ The pipeline is frozen and identical on every log, and the \emph{pipeline}
 axis spans encodings as well as model families; every learner, encoder and
 calibrator is the \texttt{scikit-learn} implementation
 \citep{pedregosa2011scikit} at the version \texttt{requirements.lock} pins.
-Attributes are assigned to roles by the pre-registered rules of
+Attributes are assigned to roles by the registered rules of
 Section~\ref{sec:design}, cases are ordered by their first timestamp, and the
 split is temporal (Supplement~\ref{app:pipeline}). The usual interval for
 such an increment resamples test rows with the models held fixed, which
@@ -836,7 +775,7 @@ decomposition \citep{sobol2001global,saltelli2010variance} under a product
 measure $\mathbb{P} = \bigotimes_i w_i$, with first-order and total indices
 $S_i$ and $S_{T_i}$ computed exactly rather than estimated
 (Supplement~\ref{app:sobolest}). The closest
-precedent is \citet{hutter2014efficient}, who decompose an algorithm's
+precedent is Hutter et al.~\cite{hutter2014efficient}, who decompose an algorithm's
 performance over its \emph{configuration} space by the same device; here the
 axes are analysis decisions, the components are exact over a complete
 factorial rather than estimated from a surrogate, and the decomposition is
@@ -996,7 +935,7 @@ version history shows the registering commit adding one file and no result
 file, and six amendments were declared afterwards, each with its date, its
 cause and the result it changed (Supplement~\ref{app:protocol}). \textbf{This
 is not a timestamped third-party registration}: what is offered is a file in
-a repository whose history the authors control, so any claim that a rule was
+a repository whose history the author controls, so any claim that a rule was
 fixed in advance is a claim about the repository and no stronger than the
 repository. What the design buys is that the rules are legible, dated and
 amendable only on the record, not that an outside party watched them being
@@ -1073,8 +1012,8 @@ window that closes at \prevHi, which excludes other logs at
 \prevExcludedAboveMin. That pair carries \nCellsBpicFourteenHandover\ of the
 corpus's \nDeclaredAdmissibleScalar\ admissible cells --- the log carries
 \nCellsBpicFourteen\ across its two targets --- so a corpus statistic pooled
-over cells is partly a statement about it; Section~\ref{sec:family} reports
-every headline on the ITSM family separately for this reason, and
+over cells is partly a statement about it; Supplement~\ref{sec:family} reports
+every headline on the IT service management (ITSM) family separately for this reason, and
 Section~\ref{sec:lim} asks whether the window should be tightened.
 
 \subsection{What the corpus does and does not have in common}
@@ -1096,7 +1035,7 @@ several organisations, and two disciplines follow: no effect magnitude is
 averaged across domains as though it estimated one universal register value,
 and the \nITSMPairs\ ITSM-like pairs, the closest family to the case study,
 are analysed as a group as well, with every headline corpus statistic
-reported on both populations in Section~\ref{sec:family}.
+reported on both populations in Supplement~\ref{sec:family}.
 % ---- paper/parts/40_multilog.tex ----
 
 \section{Multi-log results}
@@ -1164,8 +1103,8 @@ computed within each instrument in that instrument's own units, under the
 equal-level measure. The table's first four columns are, per pair, the median
 over the five instruments of each axis's first-order index; its last column is
 the largest per-axis interaction \emph{involvement}. Three aggregations of
-this table are quoted below and they are not interchangeable, so each is named
-where it appears: the median over pairs of a column of this table; the
+this table are used here and in Supplement~\ref{app:measures} and they are
+not interchangeable, so each is named where it appears: the median over pairs of a column of this table; the
 \largestFirstOrderPct\ figure, which is the median over pairs of the median
 over instruments of the \emph{per-instrument} largest first-order index, and
 which is therefore not obtainable by taking a maximum across the four printed
@@ -1520,7 +1459,7 @@ values on every row, so it is not a data-preparation difference; and they run
 the same pipeline at the same reference cell, so it is not a modelling
 difference.
 
-An axis nobody declares. Both analyses sort the log in time and split at
+\textbf{An axis nobody declares.} Both analyses sort the log in time and split at
 seventy per cent of the row order, and \nTiedTimestamps\ incidents share
 their timestamp with another; the sort this estate's analysis first used was
 not stable, so its tie order was neither declared nor reproducible, and it
@@ -1560,6 +1499,11 @@ only on the matched population: \nTauTwoUnmatched\ of the \nTauTwo\
 incidents have no interaction record, so the \tauMatchedRow\ row of
 Table~\ref{tab:tau} restricts $\tau_2$ to $\tau_1$'s own cases and it is that
 row, not the \tauPlainRow, that isolates the information.
+Read as steps, the ladder moves by \deltaCohortAtTau\ AUC from $\tau_0$ to
+$\tau_1$, which is the population; by \deltaSnapshotAtTau\ from $\tau_1$ to
+$\tau_2$ on the matched population, which is the information; and by
+\deltaPopulationResidual\ more from the matched population to the full one,
+which is the incidents without an interaction record.
 Supplement~\ref{app:taudetail} gives each moment's population, register and
 admissible set.
 
@@ -1665,7 +1609,7 @@ Table~\ref{tab:absorption}.
 \label{sec:dca}
 
 An increment in AUC is not a quantity a service desk can act on. This section
-reads the same surface in net benefit, which is: the number of correctly
+reads the same surface in net benefit, which is the number of correctly
 nominated cases per thousand arrivals, net of the false nominations, at a
 declared exchange rate between the two.
 
@@ -1713,8 +1657,11 @@ cells kept and \dcaQ\ from the multiplier approximation.
 Section~\ref{sec:simband} measures this estimator at \covEmpHeavyCaseAtDesign\
 on a family matched to this one and the multiplier at
 \covMultHeavyCaseAtDesign, so the band below is the better of the two and is
-still about a point short of nominal on the matched family, which is stated
-here rather than in a footnote.
+still about a point short of nominal on the matched family --- a family that
+reproduces the corpus's estimator ratio at \ratioSynthDca\ against
+\ratioCorpusDca\ and so transfers less well than the surface family
+(Section~\ref{sec:simband}) --- which is stated here rather than in a
+footnote.
 
 Across the \nDcGrid\ operating points of this estate's curve \textbf{the
 pointwise interval declares the increment resolvably positive at
@@ -1851,7 +1798,8 @@ quantile to the multiplier on the corpus's own families, by grid search
 against the corpus's draw files. The surface family reproduces that ratio at
 \ratioSynthWhole\ against the corpus's median \ratioCorpusWhole\ (interquartile
 range \ratioCorpusWholeQone\ to \ratioCorpusWholeQthree), inside the range;
-the curve family reaches \ratioSynthDca\ against \ratioCorpusDca, outside it,
+the curve family reaches \ratioSynthDca\ against \ratioCorpusDca\ (interquartile
+range \ratioCorpusDcaQone\ to \ratioCorpusDcaQthree), outside it,
 so its numbers below transfer less well and are read with that stated. Four regimes
 are run: Gaussian draws, the case the multiplier is derived for; draws
 carrying this corpus's tails, whose median cell has an excess kurtosis of
@@ -1998,7 +1946,12 @@ measurably misspecified. The level is bought with width:
 here, and \nUnresolvedPairs\ pairs resolve nothing. And the decision-curve
 families carry cells that are zero by arithmetic, which a declared rule
 excludes from the family before the quantile is taken
-(Section~\ref{sec:dcabands}).
+(Section~\ref{sec:dcabands}). The decision-curve region of that section is
+the exception to the first sentence of this paragraph's verdict: its family's
+empirical quantile covers \covEmpHeavyCaseAtDesign\ on a matched family that
+reproduces the corpus's estimator ratio at \ratioSynthDca\ against
+\ratioCorpusDca, so that label rests on a critical value about a point short
+of its level.
 
 \paragraph{Internal --- two mechanisms this evidence retires}
 A multinomial resample holds about $1 - e^{-1}$ of a high-cardinality
@@ -2085,7 +2038,7 @@ claim no result about that literature's own benchmark. A prefix axis is
 nonetheless run on one log (Supplement~\ref{app:prefix}): holding the
 register and the estate fixed and moving only the prefix, the increment falls
 from \VPrefixZero\ AUC at case creation to \VPrefixTwo\ two events later and
-is undetermined in sign at \nPrefixUnresolved\ of \nPrefixLevels\ prefixes,
+\VPrefixEight\ at the longest prefix run, and is undetermined in sign at \nPrefixUnresolved\ of \nPrefixLevels\ prefixes,
 so case creation --- the point every other result here occupies --- is the
 most favourable prefix for a creation-time register, and two studies
 reporting from the two ends of that axis would differ by a factor of
@@ -2164,10 +2117,10 @@ its own cell at all.
 \textbf{The decision time is an argument of the estimand, not a preliminary.}
 It fixes which cases are in scope, what is known about them, and which fields
 are admissible. On the case study, moving the prediction from first touch to
-incident creation costs \deltaCohortAtTau\ AUC through the population, a
-further \deltaSnapshotAtTau\ through the information once the population is
-held fixed, and \deltaPopulationResidual\ more through the incidents that have
-no interaction record at all --- before any baseline changes; and the same
+incident creation moves the increment by \deltaCohortAtTau\ AUC through the
+population, by a further \deltaSnapshotAtTau\ through the information once the
+population is held fixed, and by \deltaPopulationResidual\ more through the
+incidents that have no interaction record at all --- before any baseline changes; and the same
 log's answer changes sign when the target changes, with \shareTargetPct\ of
 the difference on the target and \shareCohortPct\ on the cohort. A desk that
 adopted this register on its \emph{first-touch} number and deployed it at
@@ -2205,14 +2158,56 @@ mining software.
 
 \section*{Funding}
 
-This research received no specific grant from any funding agency in the
-public, commercial or not-for-profit sectors.
+This research did not receive any specific grant from funding agencies in
+the public, commercial, or not-for-profit sectors.
 
-%%  ROUND TWENTY-SIX.  Elsevier's required section title, verbatim.  It is on
+\section*{Data availability}
+
+All data are public. Event logs are obtained by DOI: BPI Challenge 2014
+(\doiBPICfourteen), BPI Challenge 2013 incidents (\doiBPICthirteen), and the
+further public logs whose DOIs and SHA-256 checksums are listed in
+\texttt{data/corpus/CHECKSUMS.txt} --- \nCorpusDownloaded\ files are
+downloaded and checksummed in all, of which the registered role-assignment
+rules of Section~\ref{sec:design} admit \nLogs, yielding the \nPairs\
+log--target pairs analysed here. The counts are different quantities and
+Table~\ref{tab:corpus} accounts for every downloaded log that is not among the
+admitted pairs, in one of two ways: with the registered exclusion code the
+rules gave it, or with the code \textsf{HELD\_OUT}, which marks the held-out
+set --- \nHeldOutLogs\ of the checksummed files, downloaded for the
+out-of-corpus test and never offered to the admission rules. The literature pilot's frame, sample,
+codes, adjudications and evidence dossiers are in the archive; the retrieved
+full texts are other publishers' copyrighted PDFs and are not redistributed,
+but \texttt{scripts/s06\_audit2.py -{}-fetch} re-retrieves them from the DOIs
+in \texttt{results/s06\_sample.csv}. All derived results
+(\texttt{results/*.csv}), all figures and all code are in the archive below.
+
+\section*{Code availability}
+
+Code, derived results, the registered protocols, the amendment log and the
+verification harness are archived at \zenodoDOI\ (release \releaseTag) and
+developed at \url{https://github.com/sudhirdixit1/cmdb-routing-queue-baseline}.
+The archive contains a \texttt{Dockerfile} and a \texttt{requirements.lock}
+pinning every transitive dependency; \texttt{REPRODUCE.md} gives the exact
+commands and the expected runtime. \textbf{Bit-exact reproduction is claimed
+inside that container --- \imageDigest\ --- and not outside it.} On a different processor architecture, cells whose design carries no
+high-cardinality register agree to floating-point tolerance, while cells that
+carry one can differ materially in every metric --- the register ties test
+rows to equal predictions, and a difference in the last bit unties them, so a
+rank-based metric steps. The divergence tracks the register's cardinality and
+not the learner: it is present in both model families and absent from the
+low-cardinality rungs of each. \texttt{REPRODUCE.md} measures it for both
+families and states a tolerance per condition, and
+\texttt{scripts/check\_reproduction.py} re-runs part of the surface and fails
+if one is exceeded. A reader checking a \emph{digit} therefore needs the
+container; a reader checking a \emph{conclusion} does not.
+
+%%  ROUND TWENTY-SIX.  Elsevier's required section title, verbatim; the
+%%  wording and the placement immediately before the references are the
+%%  policy's as read on 2026-09-06.  It is on
 %%  ONE source line deliberately: texlint records each section's name and word
 %%  count into results/section_words.csv, and a title wrapped across two lines
 %%  put a newline inside a CSV field, which broke check_response_refs.
-\section*{Declaration of Generative AI and AI-assisted technologies in the writing process}
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
 
 During the preparation of this work the author used Anthropic Claude
 (\texttt{\aiModelIdPrev}, then \texttt{\aiModelId}; \aiModelDate) in order
@@ -2243,47 +2238,7 @@ judgement enters a study is the literature pilot of
 Supplement~\ref{app:standard}, which is declared where it is described, and no
 claim in this paper rests on it.
 
-\section*{Data availability}
-
-All data are public. Event logs are obtained by DOI: BPI Challenge 2014
-(\doiBPICfourteen), BPI Challenge 2013 incidents (\doiBPICthirteen), and the
-further public logs whose DOIs and SHA-256 checksums are listed in
-\texttt{data/corpus/CHECKSUMS.txt} --- \nCorpusDownloaded\ files are
-downloaded and checksummed in all, of which the registered role-assignment
-rules of Section~\ref{sec:design} admit \nLogs, yielding the \nPairs\
-log--target pairs analysed here. The counts are different quantities and
-Table~\ref{tab:corpus} accounts for every downloaded log that is not among the
-admitted pairs, in one of two ways: with the registered exclusion code the
-rules gave it, or with the code \textsf{HELD\_OUT}, which marks the held-out
-set --- \nHeldOutLogs\ of the checksummed files, downloaded for the
-out-of-corpus test and never offered to the admission rules. The literature pilot's frame, sample,
-codes, adjudications and evidence dossiers are in the archive; the retrieved
-full texts are other publishers' copyrighted PDFs and are not redistributed,
-but \texttt{scripts/s06\_audit2.py -{}-fetch} re-retrieves them from the DOIs
-in \texttt{results/s06\_sample.csv}. All derived results
-(\texttt{results/*.csv}), all figures and all code are in the archive below.
-
-\section*{Code availability}
-
-Code, derived results, the pre-registered protocols, the amendment log and the
-verification harness are archived at \zenodoDOI\ (release \releaseTag) and
-developed at \url{https://github.com/sudhirdixit1/cmdb-routing-queue-baseline}.
-The archive contains a \texttt{Dockerfile} and a \texttt{requirements.lock}
-pinning every transitive dependency; \texttt{REPRODUCE.md} gives the exact
-commands and the expected runtime. \textbf{Bit-exact reproduction is claimed
-inside that container --- \imageDigest\ --- and not outside it.} On a different processor architecture, cells whose design carries no
-high-cardinality register agree to floating-point tolerance, while cells that
-carry one can differ materially in every metric --- the register ties test
-rows to equal predictions, and a difference in the last bit unties them, so a
-rank-based metric steps. The divergence tracks the register's cardinality and
-not the learner: it is present in both model families and absent from the
-low-cardinality rungs of each. \texttt{REPRODUCE.md} measures it for both
-families and states a tolerance per condition, and
-\texttt{scripts/check\_reproduction.py} re-runs part of the surface and fails
-if one is exceeded. A reader checking a \emph{digit} therefore needs the
-container; a reader checking a \emph{conclusion} does not.
-
-\bibliographystyle{elsarticle-harv}
+\bibliographystyle{elsarticle-num}
 \bibliography{references}
 
 \end{document}

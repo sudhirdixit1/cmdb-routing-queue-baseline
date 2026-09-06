@@ -31,7 +31,7 @@ def write(mn):
             "encoding": "encoding",
             "split": "split",
             "decision_time": "decision time (availability)",
-            "quality_level": "register quality x severity",
+            "quality_level": "register quality by severity",
             "rung": "baseline (ladder rung)",
             "admissible_rung": "baseline, admissible only",
             "scalar_metric": "scalar instrument",
@@ -88,7 +88,7 @@ def write(mn):
             lo, hi = int(g.n_levels.min()), int(g.n_levels.max())
             rows.append(dict(
                 axis=LABEL[ax],
-                levels=("%d" % lo) if lo == hi else ("%d-%d" % (lo, hi)),
+                levels=("%d" % lo) if lo == hi else ("%d--%d" % (lo, hi)),
                 factor=FACTOR[ax],
                 measure=MEASURE[ax],
                 exclusions=EXCL.get(ax, "none")))
@@ -96,11 +96,11 @@ def write(mn):
             tex_table(pd.DataFrame(rows),
                       "The declared design space. One row per axis: the "
                       "number of levels (a range where it differs by log), "
-                      "whether the axis is a FACTOR OF THE ADMISSIBLE CELL "
-                      "COUNT, the measure the paper places on those levels, "
+                      "whether the axis is a \\textbf{factor of the admissible cell "
+                      "count}, the measure the paper places on those levels, "
                       "and every level excluded by declaration with its "
                       "reason. Generated from the code that walks the space. "
-                      "NOT EVERY ROW MULTIPLIES: only the rows marked `yes' "
+                      "\\textbf{Not every row multiplies}: only the rows marked `yes' "
                       "do, and their product is learner $\\times$ split "
                       "$\\times$ register "
                       "quality $\\times$ admissible baseline $\\times$ "
@@ -118,7 +118,7 @@ def write(mn):
                       "already counts the pipeline and multiplying by the "
                       "encoding would count it twice; "
                       "Table~\\ref{tab:axes2} separates the two where they "
-                      "can be separated. The decision time indexes a SECOND "
+                      "can be separated. The decision time indexes a \\emph{second} "
                       "surface on the case-study log rather than a further "
                       "factor of the first, and "
                       "Section~\\ref{sec:twodecision} reports it. "

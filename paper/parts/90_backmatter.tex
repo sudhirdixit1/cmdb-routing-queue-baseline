@@ -15,14 +15,56 @@ mining software.
 
 \section*{Funding}
 
-This research received no specific grant from any funding agency in the
-public, commercial or not-for-profit sectors.
+This research did not receive any specific grant from funding agencies in
+the public, commercial, or not-for-profit sectors.
 
-%%  ROUND TWENTY-SIX.  Elsevier's required section title, verbatim.  It is on
+\section*{Data availability}
+
+All data are public. Event logs are obtained by DOI: BPI Challenge 2014
+(\doiBPICfourteen), BPI Challenge 2013 incidents (\doiBPICthirteen), and the
+further public logs whose DOIs and SHA-256 checksums are listed in
+\texttt{data/corpus/CHECKSUMS.txt} --- \nCorpusDownloaded\ files are
+downloaded and checksummed in all, of which the registered role-assignment
+rules of Section~\ref{sec:design} admit \nLogs, yielding the \nPairs\
+log--target pairs analysed here. The counts are different quantities and
+Table~\ref{tab:corpus} accounts for every downloaded log that is not among the
+admitted pairs, in one of two ways: with the registered exclusion code the
+rules gave it, or with the code \textsf{HELD\_OUT}, which marks the held-out
+set --- \nHeldOutLogs\ of the checksummed files, downloaded for the
+out-of-corpus test and never offered to the admission rules. The literature pilot's frame, sample,
+codes, adjudications and evidence dossiers are in the archive; the retrieved
+full texts are other publishers' copyrighted PDFs and are not redistributed,
+but \texttt{scripts/s06\_audit2.py -{}-fetch} re-retrieves them from the DOIs
+in \texttt{results/s06\_sample.csv}. All derived results
+(\texttt{results/*.csv}), all figures and all code are in the archive below.
+
+\section*{Code availability}
+
+Code, derived results, the registered protocols, the amendment log and the
+verification harness are archived at \zenodoDOI\ (release \releaseTag) and
+developed at \url{https://github.com/sudhirdixit1/cmdb-routing-queue-baseline}.
+The archive contains a \texttt{Dockerfile} and a \texttt{requirements.lock}
+pinning every transitive dependency; \texttt{REPRODUCE.md} gives the exact
+commands and the expected runtime. \textbf{Bit-exact reproduction is claimed
+inside that container --- \imageDigest\ --- and not outside it.} On a different processor architecture, cells whose design carries no
+high-cardinality register agree to floating-point tolerance, while cells that
+carry one can differ materially in every metric --- the register ties test
+rows to equal predictions, and a difference in the last bit unties them, so a
+rank-based metric steps. The divergence tracks the register's cardinality and
+not the learner: it is present in both model families and absent from the
+low-cardinality rungs of each. \texttt{REPRODUCE.md} measures it for both
+families and states a tolerance per condition, and
+\texttt{scripts/check\_reproduction.py} re-runs part of the surface and fails
+if one is exceeded. A reader checking a \emph{digit} therefore needs the
+container; a reader checking a \emph{conclusion} does not.
+
+%%  ROUND TWENTY-SIX.  Elsevier's required section title, verbatim; the
+%%  wording and the placement immediately before the references are the
+%%  policy's as read on 2026-09-06.  It is on
 %%  ONE source line deliberately: texlint records each section's name and word
 %%  count into results/section_words.csv, and a title wrapped across two lines
 %%  put a newline inside a CSV field, which broke check_response_refs.
-\section*{Declaration of Generative AI and AI-assisted technologies in the writing process}
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
 
 During the preparation of this work the author used Anthropic Claude
 (\texttt{\aiModelIdPrev}, then \texttt{\aiModelId}; \aiModelDate) in order
@@ -53,47 +95,7 @@ judgement enters a study is the literature pilot of
 Supplement~\ref{app:standard}, which is declared where it is described, and no
 claim in this paper rests on it.
 
-\section*{Data availability}
-
-All data are public. Event logs are obtained by DOI: BPI Challenge 2014
-(\doiBPICfourteen), BPI Challenge 2013 incidents (\doiBPICthirteen), and the
-further public logs whose DOIs and SHA-256 checksums are listed in
-\texttt{data/corpus/CHECKSUMS.txt} --- \nCorpusDownloaded\ files are
-downloaded and checksummed in all, of which the registered role-assignment
-rules of Section~\ref{sec:design} admit \nLogs, yielding the \nPairs\
-log--target pairs analysed here. The counts are different quantities and
-Table~\ref{tab:corpus} accounts for every downloaded log that is not among the
-admitted pairs, in one of two ways: with the registered exclusion code the
-rules gave it, or with the code \textsf{HELD\_OUT}, which marks the held-out
-set --- \nHeldOutLogs\ of the checksummed files, downloaded for the
-out-of-corpus test and never offered to the admission rules. The literature pilot's frame, sample,
-codes, adjudications and evidence dossiers are in the archive; the retrieved
-full texts are other publishers' copyrighted PDFs and are not redistributed,
-but \texttt{scripts/s06\_audit2.py -{}-fetch} re-retrieves them from the DOIs
-in \texttt{results/s06\_sample.csv}. All derived results
-(\texttt{results/*.csv}), all figures and all code are in the archive below.
-
-\section*{Code availability}
-
-Code, derived results, the pre-registered protocols, the amendment log and the
-verification harness are archived at \zenodoDOI\ (release \releaseTag) and
-developed at \url{https://github.com/sudhirdixit1/cmdb-routing-queue-baseline}.
-The archive contains a \texttt{Dockerfile} and a \texttt{requirements.lock}
-pinning every transitive dependency; \texttt{REPRODUCE.md} gives the exact
-commands and the expected runtime. \textbf{Bit-exact reproduction is claimed
-inside that container --- \imageDigest\ --- and not outside it.} On a different processor architecture, cells whose design carries no
-high-cardinality register agree to floating-point tolerance, while cells that
-carry one can differ materially in every metric --- the register ties test
-rows to equal predictions, and a difference in the last bit unties them, so a
-rank-based metric steps. The divergence tracks the register's cardinality and
-not the learner: it is present in both model families and absent from the
-low-cardinality rungs of each. \texttt{REPRODUCE.md} measures it for both
-families and states a tolerance per condition, and
-\texttt{scripts/check\_reproduction.py} re-runs part of the surface and fails
-if one is exceeded. A reader checking a \emph{digit} therefore needs the
-container; a reader checking a \emph{conclusion} does not.
-
-\bibliographystyle{elsarticle-harv}
+\bibliographystyle{elsarticle-num}
 \bibliography{references}
 
 \end{document}

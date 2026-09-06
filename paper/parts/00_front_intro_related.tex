@@ -105,15 +105,16 @@ taken, how completely the register behind the field is populated, and the
 metric. We define incremental predictive performance as a \emph{specification
 surface} $V_s(f)$ over a design space the analyst declares, and give three
 objects for reporting one: an exact functional-ANOVA decomposition of its
-variance that separates analyst choices from the resampling a design
-contains; simultaneous max-$t$ bands from a pipeline-refitting bootstrap,
-at a critical value whose coverage we measure against a known answer; and
+variance that separates analyst choices from resampling; simultaneous
+max-$t$ bands from a pipeline-refitting bootstrap, at a critical value with
+measured coverage; and
 \emph{resolution regions}, which say where a sign is determined. On
 \nPairs\ pairs from \nLogs\ public event logs, resampling carries a median
 \shareResamplingStratumPct\ of the variance, and net of it which analyst
 choice leads is a property of the pair. Most specifications leave the sign
-undetermined; where the data determine one, admissible specifications sit a
-median \madResolvedMedian\ AUC from the conventional report. In a case study on \nCohort\ bank incidents, a register's
+undetermined; where the data determine one, the resolved specifications sit a
+median \madResolvedMedian\ from the conventional report in area under the
+receiver operating characteristic curve (AUC). In a case study on \nCohort\ bank incidents, a register's
 worth turns on the decision time and its sign on the target.
 \end{abstract}
 
@@ -201,7 +202,7 @@ exchange rate, which is as close to economic value as this evidence gets.
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\linewidth]{figS1_speccurve.png}
-\caption{The specification curve for the configuration item on BPIC14, at the
+\caption{The specification curve for the configuration item on BPI Challenge 2014 (BPIC14), at the
 registered handover target: \nCellsFigOne\ admissible scalar cells,
 \nPipelineLevelsCase\ pipelines $\times$ \nRungsFigOne\ baseline rungs $\times$
 \nInstruments\ instruments $\times$ \nQualityFigOne\ register-quality
@@ -212,7 +213,7 @@ specification occupies. The intercept-only rung is excluded. Every point is a
 point estimate; the simultaneous bands that decide the region labels are in
 Table~\ref{tab:calbands}. \textbf{The five scalar instruments are plotted on
 one axis and their increments are not on a common scale}
-(Section~\ref{sec:regretdef}); what the panel supports is the \emph{sign}
+(Remark~\ref{prop:nonid}); what the panel supports is the \emph{sign}
 statement, which is unit-free, and not a comparison of magnitudes across
 instruments. The panel shows the increment rather than the reduction, so a
 cell where the register is worth almost nothing looks the same as one where
@@ -240,72 +241,10 @@ regions} with a robustness index $\rho$ under a declared minimum resolved
 share.
 \item \textbf{A registered multi-log benchmark and a register at three
 decision times.} The surface is computed through one frozen pipeline on every
-log--target pair a pre-registered protocol admits --- \nPairs\ of them, not
-only the ones where the answer resolves --- with every corpus statistic
-reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
-maintained one (Section~\ref{sec:family}); and Section~\ref{sec:cmdb} shows
-that a decision time fixes at once which cases are in scope, what is known
-about them and which fields are admissible, and that the two values the case
-study's log has been reported to give differ by the \emph{target}, which
-carries \shareTargetPct\ of the variance over the cohort $\times$ target
-design against the cohort's \shareCohortPct.
-\end{enumerate}
-
-\noindent Figure~\ref{fig:overview} sets the method out once, from the three
-roles a log is read into to the three denominators a claim may quantify over.
-
-\noindent \emph{Specification regret} --- what choosing one specification
-costs against the best, on a scale a decision can use --- is reported in full
-and is \emph{not} among the contributions above: it returns a null on this
-corpus (Sections~\ref{sec:rules} and~\ref{sec:nbregret}) and is carried as a
-robustness check on the other two arguments (Section~\ref{sec:regretdef}).
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\linewidth]{figS1_speccurve.png}
-\caption{The specification curve for the configuration item on BPIC14, at the
-registered handover target: \nCellsFigOne\ admissible scalar cells,
-\nPipelineLevelsCase\ pipelines $\times$ \nRungsFigOne\ baseline rungs $\times$
-\nInstruments\ instruments $\times$ \nQualityFigOne\ register-quality
-conditions $\times$ \nSplits\ splits. \textbf{(a)} Each point is one
-admissible specification --- a complete assignment to those five axes ---
-sorted by the increment. \textbf{(b)} Which level of which axis each
-specification occupies. The intercept-only rung is excluded. Every point is a
-point estimate; the simultaneous bands that decide the region labels are in
-Table~\ref{tab:calbands}. \textbf{The five scalar instruments are plotted on
-one axis and their increments are not on a common scale}
-(Section~\ref{sec:regretdef}); what the panel supports is the \emph{sign}
-statement, which is unit-free, and not a comparison of magnitudes across
-instruments. The panel shows the increment rather than the reduction, so a
-cell where the register is worth almost nothing looks the same as one where
-the free field absorbs almost everything.}
-\label{fig:speccurve}
-\end{figure}
-
-\paragraph{Contributions}
-\begin{enumerate}
-\item \textbf{An estimand, a declared surface and an exact decomposition}
-(Table~\ref{tab:objects}). The surface over a design space the reader can
-enumerate; three \emph{denominators} distinguished and audited from the files,
-so that a claim's quantifier is a counted set rather than a phrase; and an
-exact functional-ANOVA decomposition of the surface's variance in which the
-split is an \emph{error stratum}, so that resampling is separated from the
-choices an analyst makes (Section~\ref{sec:sobol}).
-\item \textbf{Simultaneous inference whose coverage is measured, and the
-labels that rest on it.} Simultaneous max-$t$ bands over the whole family a
-claim ranges over, from a pipeline-refitting bootstrap, at a critical value
-whose family-wise coverage is measured against a known answer in
-Section~\ref{sec:simband} --- \covEmpHeavyWholeAtDesign\ on the family
-matched to this design, under an ideal bootstrap that bounds the critical
-value's contribution and not the resampling's --- and \emph{resolution
-regions} with a robustness index $\rho$ under a declared minimum resolved
-share.
-\item \textbf{A registered multi-log benchmark and a register at three
-decision times.} The surface is computed through one frozen pipeline on every
-log--target pair a pre-registered protocol admits --- \nPairs\ of them, not
+log--target pair a registered protocol admits --- \nPairs\ of them, not
 only the ones where the answer resolves --- and every corpus statistic is
 reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
-maintained one (Section~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
+maintained one (Supplement~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
 that a decision time fixes which cases are in scope, what is known about them
 and which fields are admissible at once, reconciles the two values the case
 study's log has been reported to give, and finds the difference is the
@@ -368,7 +307,7 @@ permutation importance \citep{strobl2008conditional,fisher2019models},
 Shapley attributions \citep{lundberg2017unified,covert2020sage} and
 nonparametric formulations of importance as a population quantity
 \citep{williamson2021vimp}; the clinical-prediction literature has said for
-two decades that the increment in AUC from adding a predictor depends on the
+two decades that the increment in the area under the ROC curve (AUC) from adding a predictor depends on the
 existing model \citep{pencina2008evaluating,cook2007roc}, is a poor guide to
 clinical usefulness \citep{cook2007roc,vickers2008decision} and is routinely
 misread \citep{kerr2011evaluating}; the same argument is made about

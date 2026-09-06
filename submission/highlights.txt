@@ -17,7 +17,7 @@ if one is wrong or over the limit.
 [73] A field's incremental predictive performance is a surface, not one number
 [64] An exact decomposition separates analyst choices from resampling
 [73] Simultaneous bands over the whole declared family, with coverage measured
-[56] Resolved cells sit 0.0600 AUC from the one-number report
+[76] Resolved cells sit 0.0600 in area under the curve from the one-number report
 [72] A register's worth turns on the decision time and on which target is set
 
 
@@ -26,5 +26,5 @@ if one is wrong or over the limit.
 A field's incremental predictive performance is a surface, not one number
 An exact decomposition separates analyst choices from resampling
 Simultaneous bands over the whole declared family, with coverage measured
-Resolved cells sit 0.0600 AUC from the one-number report
+Resolved cells sit 0.0600 in area under the curve from the one-number report
 A register's worth turns on the decision time and on which target is set

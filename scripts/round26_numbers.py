@@ -489,7 +489,7 @@ def _tables(mn, AX, P, M, RG):
                 ["log", "target", "ITSM", "register_field f", "free field g",
                  "axes: pipe/split/qual/adm. rungs", "cases", "levels of f"]]
         _roles = tex_table(t.sort_values(["log", "target"]),
-                      "ROLES AND LEVELS, PER PAIR. Which recorded attribute "
+                      "\\textbf{Roles and levels, per pair.} Which recorded attribute "
                       "plays the register $f$ and which the free field $g$ on "
                       "each admitted pair, whether the pair is IT service "
                       "management, and how many levels each varied axis "
@@ -527,7 +527,7 @@ def _tables(mn, AX, P, M, RG):
                               "share_resampling": "resampling"})
         (TABLES / "strata.tex").write_text(
             tex_table(t.sort_values(["log", "target"]),
-                      "THE DECOMPOSITION WITH THE SPLIT AS AN ERROR STRATUM. "
+                      "\\textbf{The decomposition with the split as an error stratum.} "
                       "Per cent of the pooled variance of $V_s$, per pair, "
                       "median over the \\nInstruments\\ instruments, under "
                       "the equal-level measure. The four columns are an exact "
@@ -576,7 +576,7 @@ def _tables(mn, AX, P, M, RG):
                 "resolved and above MPID", "mean deviation, AUC"]
         (TABLES / "mpid.tex").write_text(
             tex_table(t[cols].sort_values(["log", "target"]),
-                      "SIGN DISAGREEMENT ONCE MAGNITUDE IS REQUIRED. On the "
+                      "\\textbf{Sign disagreement once magnitude is required.} On the "
                       "AUC sub-surface, because the minimal practically "
                       "important difference is declared in AUC and "
                       "Remark~\\ref{prop:nonid} forbids carrying it to "
@@ -612,7 +612,7 @@ def _tables(mn, AX, P, M, RG):
                 "region_calibrated", "label under minimum share"]
         (TABLES / "triple.tex").write_text(
             tex_table(t[cols].sort_values(["log", "target"]),
-                      "WHAT A REGION LABEL RESTS ON. $|\\mathcal{F}|$ is the "
+                      "\\textbf{What a region label rests on.} $|\\mathcal{F}|$ is the "
                       "inference family's size; the triple counts its cells "
                       "the whole-surface band calls "
                       "beneficial, harmful and unresolved. A directional "

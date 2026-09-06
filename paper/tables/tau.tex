@@ -2,19 +2,19 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{lllrlrrrlr}
+\begin{tabular}{lllrlrrlll}
 \toprule
-decision time & baseline & n & prevalence & register levels & base auc & with auc & V & interval & resolved \\
+decision time & baseline & n & prevalence & register levels & base AUC & with AUC & V & interval & resolved \\
 \midrule
-T0 first touch, every call & intake & 145478 & 0.146 & 4034 & 0.554 & 0.785 & 0.231 & [+0.220, +0.262] & True \\
-T1 first touch, escalating only & intake & 44513 & 0.402 & 2445 & 0.552 & 0.754 & 0.201 & [+0.193, +0.222] & True \\
-T2 incident creation & intake & 45455 & 0.400 & 2929 & 0.562 & 0.746 & 0.184 & [+0.172, +0.204] & True \\
-T2 incident creation & intake + group & 45455 & 0.400 & 2929 & 0.644 & 0.748 & 0.103 & [+0.095, +0.130] & True \\
-T2 incident creation & intake + group + knowledge & 45455 & 0.400 & 2929 & 0.805 & 0.802 & -0.003 & [-0.007, +0.002] & False \\
-T2 incident creation, T1's population & intake & 44513 & 0.402 & 2887 & 0.559 & 0.750 & 0.191 & [+0.183, +0.213] & True \\
+$\tau_0$ first touch, every call & intake & 145,478 & 0.146 & 4,034 & 0.554 & 0.785 & +0.2310 & [+0.2204, +0.2618] & yes \\
+$\tau_1$ first touch, escalating only & intake & 44,513 & 0.402 & 2,445 & 0.552 & 0.754 & +0.2013 & [+0.1930, +0.2224] & yes \\
+$\tau_2$ incident creation & intake & 45,455 & 0.400 & 2,929 & 0.562 & 0.746 & +0.1838 & [+0.1725, +0.2040] & yes \\
+$\tau_2$ incident creation & intake + group & 45,455 & 0.400 & 2,929 & 0.644 & 0.748 & +0.1034 & [+0.0949, +0.1295] & yes \\
+$\tau_2$ incident creation & intake + group + knowledge & 45,455 & 0.400 & 2,929 & 0.805 & 0.802 & $-$0.0029 & [$-$0.0074, +0.0019] & no \\
+$\tau_2$ incident creation, $\tau_1$'s population & intake & 44,513 & 0.402 & 2,887 & 0.559 & 0.750 & +0.1914 & [+0.1832, +0.2135] & yes \\
 \bottomrule
 \end{tabular}%
 }
-\caption{The decision time implemented as an axis. Each moment carries its own population, its own register and its own admissible set; the PREDICTED TARGET is the same at all of them. $\tau_0$ and $\tau_1$ differ only in which cases are in scope. $\tau_1$ and $\tau_2$ differ in what is known AND in which cases are in scope, because \nTauTwoUnmatched\ incidents have no interaction record; the sixth row is $\tau_2$ restricted to $\tau_1$'s own population, and it is that row, not the third, that makes the $\tau_1$-to-$\tau_2$ step an information step alone. Every row is on the estate's own cohort and the reassignment target, under a declared tie-break, and every interval is the pointwise basic construction at \nTauDraws\ draws.}
+\caption{The decision time implemented as an axis. Each moment carries its own population, its own register and its own admissible set; the \emph{predicted target} is the same at all of them. $\tau_0$ and $\tau_1$ differ only in which cases are in scope. $\tau_1$ and $\tau_2$ differ in what is known AND in which cases are in scope, because \nTauTwoUnmatched\ incidents have no interaction record; the sixth row is $\tau_2$ restricted to $\tau_1$'s own population, and it is that row, not the third, that makes the $\tau_1$-to-$\tau_2$ step an information step alone. Every row is on the estate's own cohort and the reassignment target, under a declared tie-break, and every interval is the pointwise basic construction at \nTauDraws\ draws.}
 \label{tab:tau}
 \end{table}

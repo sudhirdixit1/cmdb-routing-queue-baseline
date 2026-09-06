@@ -152,7 +152,7 @@ def emit(mn):
     #  undeclared (submission/review_round28.md, R28.5).
     put("aiModelId", "claude-fable-5-1")
     put("aiModelIdPrev", "claude-opus-5, then claude-fable-5")
-    put("aiModelDate", "2026-08-18 to 2026-09-03; identifiers recorded "
+    put("aiModelDate", "2026-08-18 to 2026-09-06; identifiers recorded "
         "from 2026-08-24")
 
     # ================================================================

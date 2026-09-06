@@ -54,7 +54,7 @@ BULLETS = [
     #  headline (section 6.4): under the three restrictions the paper's own
     #  argument implies it is one cell in forty-two.  What replaces it is the
     #  magnitude, which is the quantity that survives every restriction.
-    "Resolved cells sit {madResolvedMedian} AUC from the one-number report",
+    "Resolved cells sit {madResolvedMedian} in area under the curve from the one-number report",
     "A register's worth turns on the decision time and on which target is set",
 ]
 

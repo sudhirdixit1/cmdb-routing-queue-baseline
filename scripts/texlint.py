@@ -120,14 +120,14 @@ REQUIRED = [
     ("competing interests", r"Declaration of competing interest"),
     ("funding", r"\\section\*\{Funding\}"),
     ("data availability", r"\\section\*\{Data availability\}"),
-    #  ROUND TWENTY-SEVEN.  Capital G, and the check is case-sensitive on it
-    #  deliberately.  Elsevier's policy page gives the section title verbatim
-    #  as "Declaration of Generative AI and AI-assisted technologies in the
-    #  writing process", and this is a REQUIRED section whose title an
-    #  editorial check reads literally.  This pattern held the lower-case
+    #  ROUND TWENTY-EIGHT, final pass.  Elsevier's policy page (read
+    #  2026-09-06) gives the section title verbatim as "Declaration of
+    #  generative AI and AI-assisted technologies in the manuscript
+    #  preparation process", and this is a REQUIRED section whose title an
+    #  editorial check reads literally, so the whole title is matched.  This pattern held the lower-case
     #  form for ten rounds and would have failed the build the moment the
     #  title was corrected, so the wrong spelling was being enforced.
-    ("generative AI", r"Declaration of Generative AI"),
+    ("generative AI", r"Declaration of generative AI and AI-assisted technologies in the manuscript preparation process"),
 ]
 
 BANNED_OPENERS = [

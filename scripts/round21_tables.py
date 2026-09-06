@@ -105,8 +105,13 @@ def write(mn):
         d = L.copy()
         d["decision time"] = d.decision_time.map(_TAU_LABEL)
         d["baseline"] = d.rung.map(_RUNG_LABEL)
-        d["interval"] = ["[%+.3f, %+.3f]" % (a, b)
+        d["interval"] = ["[%+.4f, %+.4f]" % (a, b)
                          for a, b in zip(d.lo, d.hi)]
+        #  the body text quotes these rows to four places, and a table that
+        #  prints three cannot be checked against it by eye
+        d["V"] = ["%+.4f" % v for v in d.V]
+        d["n"] = ["{:,}".format(int(v)) for v in d.n]
+        d["card_register"] = ["{:,}".format(int(v)) for v in d.card_register]
         d = d[["decision time", "baseline", "n", "prevalence",
                "card_register", "base_auc", "with_auc", "V", "interval",
                "resolved"]]
@@ -131,7 +136,7 @@ def write(mn):
             tex_table(d, "The decision time implemented as an axis. Each "
                          "moment carries its own population, its own "
                          "register and its own admissible set; the "
-                         "PREDICTED TARGET is the same at all of them. "
+                         "\\emph{predicted target} is the same at all of them. "
                          "$\\tau_0$ and $\\tau_1$ differ only in which "
                          "cases are in scope. $\\tau_1$ and $\\tau_2$ "
                          "differ in what is known AND in which cases "
@@ -148,8 +153,14 @@ def write(mn):
                          "\\nTauDraws\\ draws." % (_matched, _plain),
                       "tab:tau",
                       colnames={"card_register": "register levels",
-                                "base_auc": "base auc",
-                                "with_auc": "with auc"}),
+                                "base_auc": "base AUC",
+                                "with_auc": "with AUC"})
+            #  the caption and the body text write the moments as tau; the
+            #  cells are escaped by pandas, so the symbol is put back here
+            .replace("T0 first", "$\\tau_0$ first")
+            .replace("T1 first", "$\\tau_1$ first")
+            .replace("T2 incident", "$\\tau_2$ incident")
+            .replace("T1's population", "$\\tau_1$'s population"),
             encoding="utf-8")
     else:
         blank("tau", "The decision time as an axis.", "tab:tau")
@@ -880,7 +891,7 @@ def write_round25(mn):
         "what it costs \\\\\n\\midrule\n"
         + body +
         "\n\\bottomrule\n\\end{tabular}\n"
-        "\\caption{THE REPORTING OBJECTS. The three this paper supplies and "
+        "\\caption{\\textbf{The reporting objects.} The three this paper supplies and "
         "the fourth it retains as a robustness check, what each "
         "is for, where it is defined, where it is reported on this corpus, "
         "and what it costs; the two middle columns are the section it is "

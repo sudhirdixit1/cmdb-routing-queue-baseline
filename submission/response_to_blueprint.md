@@ -482,17 +482,17 @@ than counted by hand.
 
 | § | section | words | requested | |
 |---|---|---:|---|---|
-| 1 | Introduction | 1,753 | 1,200–1,500 | just under |
-| 2 | Related work | 560 | 1,200–1,500 | under |
+| 1 | Introduction | 1,221 | 1,200–1,500 | just under |
+| 2 | Related work | 566 | 1,200–1,500 | under |
 | 3 | The specification surface | 1,125 | ~1,500 | ✓ |
-| 4 | Estimation and inference | 3,142 | 2,000–2,500 | **over** |
-| 5 | The registered benchmark design | 982 | 1,200–1,500 | ✓ |
-| 6 | Multi-log results | 3,233 | 2,000–2,500 | **over** |
-| 7 | Case study: a configuration management database | 1,645 | 1,500–2,000 | ✓ |
-| 8 | Decision-analytic evaluation | 918 | — | added |
-| 9 | Simulation against a known answer | 1,560 | 1,000–1,500 | just over |
-| 10 | Threats to validity | 1,556 | 1,200–1,500 | **over** |
-| 11 | Conclusion | 730 | 400–600 | just over |
+| 4 | Estimation and inference | 3,145 | 2,000–2,500 | **over** |
+| 5 | The registered benchmark design | 985 | 1,200–1,500 | ✓ |
+| 6 | Multi-log results | 3,236 | 2,000–2,500 | **over** |
+| 7 | Case study: a configuration management database | 1,694 | 1,500–2,000 | ✓ |
+| 8 | Decision-analytic evaluation | 943 | — | added |
+| 9 | Simulation against a known answer | 1,565 | 1,000–1,500 | just over |
+| 10 | Threats to validity | 1,615 | 1,200–1,500 | **over** |
+| 11 | Conclusion | 735 | 400–600 | just over |
 
 **The body is about 21,285 words against the 13,000–15,000 requested, and we
 are not going to pretend that is inside the band.** In pages, in the

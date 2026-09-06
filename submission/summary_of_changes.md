@@ -114,8 +114,9 @@ existing under the regime named.
 
 ## 4. Length
 
-The article is 57 pages (51 through the conclusion, 6 of back matter and
-references), from 63; the body's source is about 18,300 words, from about
+The article is 56 pages, from 63: the conclusion ends on page 48, the
+declarations and availability statements run to page 49, and the references
+occupy pages 50 to 56; the body's source is about 17,900 words, from about
 21,400. What came out: the scheme comparison of §4.1 and the rules
 for the reduction of §3.4 to the supplement; §6.6 to a paragraph; the pointwise
 simulation of §9 to one subsection, its plane and worlds living in the
