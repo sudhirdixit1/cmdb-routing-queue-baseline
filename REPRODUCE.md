@@ -302,17 +302,17 @@ arm64, at the pinned versions, reproduces some of the surface exactly and some
 of it only to a tolerance — and the reader is owed the measurement rather than
 the claim. **Bit-exact reproduction is claimed only inside the container**,
 which fixes the interpreter, the artefact hashes and the thread counts, and
-and whose base image is pinned **by digest**:
+whose base image is pinned **by digest**:
 `python:3.10.0-slim-bullseye@sha256:ad540a47...88f0d8`. That digest is the
 multi-architecture manifest list, so a build still selects the host's
 platform while the content is fixed; the canonical environment for a check
 against a printed digit is its `linux/amd64` variant. A tag is mutable and a
 digest is not, so an image built from this `Dockerfile` today and one built
-from it next year are the same image. What remains outstanding is the second
-half: the digest of the **built** image, published alongside the release, is
-what closes the loop from this file to a specific artefact, and it is recorded
-in `submission/OWNER-ACTIONS.md` §4.7 and in the archived release at deposit. Outside that image, this is what a reader should
-expect.
+from it next year are the same image. No built image is distributed: a reader
+builds it from this `Dockerfile` by the command above, and the manuscript's
+code-availability statement says so in those words (the decision is recorded
+in `submission/OWNER-ACTIONS.md` §4.7). Outside that image, this is what a
+reader should expect.
 
 Four candidate causes were eliminated by measurement, not by argument. Thread
 count is not it: one thread and four give bit-identical answers, and every
