@@ -24,7 +24,7 @@ releases made *after* its integration is switched on.
 
 | # | step | how | done when |
 |---|---|---|---|
-| 1 | Push main, the branch and the tag | The machine's GitHub identity is `Ardbiu`, which cannot push to `sudhirdixit1/cmdb-routing-queue-baseline`. Either `gh auth login` as sudhirdixit1 or add Ardbiu as a collaborator, then `git push origin main round28-band v28.0` | `git ls-remote --tags origin` lists `v28.0` |
+| 1 | Push main, the branch and the tag | **Done 2026-09-06**: `Ardbiu` was added as a collaborator and `main`, `round28-band` and `v28.0` are on the remote at one commit. If the tag is ever moved (step 10), push again with `git push origin main round28-band v28.0` | `git ls-remote --tags origin` lists `v28.0` at the intended commit |
 | 2 | Switch on Zenodo's GitHub integration | zenodo.org → Settings → GitHub → toggle the repository **on** (never done; the `v19.0` tag was never archived for this reason) | the repository shows as enabled |
 | 3 | Publish the GitHub release | Releases → Draft a new release → tag `v28.0`, title *Specification Surfaces for Incremental Predictive Performance* → Publish | Zenodo shows a record within minutes |
 | 4 | Insert the DOI | `python scripts/insert_doi.py 10.5281/zenodo.XXXXXXX` (verifies the record is this archive's, then rebuilds and re-runs every gate itself). If it refuses, the DOI was mistyped or belongs to another deposit: open the Zenodo record page, copy the DOI from it, and run `--dry-run` first | `final_search.py` reports 0 failures |
