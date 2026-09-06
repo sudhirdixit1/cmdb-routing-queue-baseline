@@ -1011,9 +1011,13 @@ def read_release(what):
         except OSError:
             base = ""
         if base:
-            return (r"built from a \texttt{Dockerfile} whose base is pinned "
-                    r"by digest, \texttt{%s...%s}, with the built image's own "
-                    r"digest recorded by the archive at release"
+            #  2026-09-06.  The author does not publish a built image, so the
+            #  sentence no longer promises a digest the archive would record:
+            #  the image is built from the archive by the command REPRODUCE.md
+            #  gives, and the claim is about that build.
+            return (r"built from the archive's \texttt{Dockerfile}, whose base "
+                    r"is pinned by digest, \texttt{%s...%s}, by the one command "
+                    r"\texttt{REPRODUCE.md} gives; no built image is distributed"
                     % (base[:14], base[-6:]))
         return ("whose image digest the archive records at release, the "
                 r"\texttt{Dockerfile} in the meantime pinning by tag")

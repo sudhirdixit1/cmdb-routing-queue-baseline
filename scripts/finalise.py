@@ -75,13 +75,11 @@ def status() -> list[str]:
             "availability statements.  Mint it at zenodo.org against the "
             "GitHub release (submission/OWNER-ACTIONS.md §1.1), then:\n"
             "        python scripts/finalise.py --doi 10.5281/zenodo.XXXXXXX")
-    if not j.get("image_digest"):
-        out.append(
-            "THE BUILT IMAGE'S DIGEST is not recorded.  The base is already "
-            "pinned by digest and verified; this is the digest of the image "
-            "built FROM it, which exists only once the image is pushed "
-            "(§4.7).  Then:\n"
-            "        python scripts/finalise.py --image-digest sha256:<64 hex>")
+    #  2026-09-06.  The author does not publish a built image, so its digest
+    #  is not owed: the code-availability statement says the image is built
+    #  from the archive's Dockerfile (base pinned by digest) and that no
+    #  built image is distributed.  `--image-digest` still works if one is
+    #  ever pushed, and adding the key changes the sentence back.
 
     rev = ROOT / "submission" / "suggested_reviewers.md"
     if rev.exists() and "@" not in rev.read_text(encoding="utf-8"):

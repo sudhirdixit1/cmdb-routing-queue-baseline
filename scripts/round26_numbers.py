@@ -26,7 +26,10 @@ _RUNG = {"B_half": "half of intake", "B_intake": "intake",
 #: names and numbers from.  Setting either to None resolves it to the visible
 #: ?? marker, exactly as a missing result does, so an omission would be on the
 #: page rather than in a checklist.
+AFFILIATION_STREET = "2546 Adams Pond Ln."
 AFFILIATION_CITY = "Apex"
+#: state and postcode, as the author gives them; the postcode is still owed
+AFFILIATION_REGION = "NC"
 AFFILIATION_COUNTRY = "United States"
 
 
@@ -42,7 +45,9 @@ def emit(mn):
     RG = load("s42_regions.csv")
     SP = load("s42_spread.csv")
 
+    put("affiliationStreet", AFFILIATION_STREET)
     put("affiliationCity", AFFILIATION_CITY)
+    put("affiliationRegion", AFFILIATION_REGION)
     put("affiliationCountry", AFFILIATION_COUNTRY)
 
     #  M2.  THE REFIT'S JUSTIFICATION, IN THE UNITS THE SIMULATION RESOLVES.

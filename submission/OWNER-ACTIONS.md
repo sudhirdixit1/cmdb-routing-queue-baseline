@@ -410,7 +410,7 @@ the missing identifier itself; it is closed. The identifier is still owed.
 PDF's generative-AI declaration differs in substance from the one now in the
 source of record. Whatever is uploaded must be rebuilt from the current tree.
 
-### 4.7 Mint and record the Docker image digest  *(step 1 DONE by agent; step 2 owner)*
+### 4.7 Mint and record the Docker image digest  *(step 1 DONE by agent; step 2 DECIDED 2026-09-06: no image is published, and the code-availability statement says so instead of promising a digest)*
 
 > **Step 1 is done.** The base is pinned by digest:
 > `FROM python:3.10.0-slim-bullseye@sha256:ad540a47...88f0d8`, the
