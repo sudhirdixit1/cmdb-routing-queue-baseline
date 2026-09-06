@@ -73,7 +73,7 @@ AI declaration names, archived and not correspondence.
 | mistake | consequence |
 |---|---|
 | Tagging or releasing before step 2 | Zenodo archives nothing; no DOI |
-| Uploading with the DOI placeholder | reference [11] and Code availability read "reserved and inserted at proof"; the second internal review says do not submit like that |
+| Uploading with the DOI placeholder | reference [46] and Code availability read "reserved and inserted at proof"; the second internal review says do not submit like that |
 | Pushing the image after recording a digest | the digest names an image that does not exist |
 | Hand-editing `paper/numbers.tex` or `paper/tables/*.tex` | `verify_release.py` fails; numbers reach the paper only through macros |
 | Converting the declaration .docx to another format | the guide forbids it explicitly |

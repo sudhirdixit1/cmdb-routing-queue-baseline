@@ -6,7 +6,7 @@ the author's own knowledge and cannot be done from inside the repository: the
 archive DOI, the built container's digest, the suggested reviewers' e-mail
 addresses, the author's full postal address, and a push.  Every one of them is a small edit, and every one of
 them has to reach several files at once --- the DOI alone appears in the
-data-availability statement, the code-availability statement, reference [11]
+data-availability statement, the code-availability statement, reference [46]
 and the archive metadata.
 
 Doing that by hand is how a placeholder ships.  So this file does two things.
@@ -71,7 +71,7 @@ def status() -> list[str]:
 
     if not j.get("doi"):
         out.append(
-            "THE ARCHIVE DOI is not minted.  It is reference [11] and both "
+            "THE ARCHIVE DOI is not minted.  It is reference [46] and both "
             "availability statements.  Mint it at zenodo.org against the "
             "GitHub release (submission/OWNER-ACTIONS.md §1.1), then:\n"
             "        python scripts/finalise.py --doi 10.5281/zenodo.XXXXXXX")

@@ -49,7 +49,7 @@ python scripts/finalise.py --image-digest sha256:<64 hex>
 Either flag writes the value into `.zenodo.json`, **regenerates every macro,
 rebuilds both documents and re-runs the verifiers** --- because the DOI alone
 has to reach the data-availability statement, the code-availability statement,
-reference [11] and the archive metadata, and doing that by hand is how a
+reference [46] and the archive metadata, and doing that by hand is how a
 placeholder ships. The gate output, not your memory, is what says it landed.
 The path was tested end to end against a dummy DOI: it reached the built PDF,
 and the dummy was reverted.
@@ -381,7 +381,7 @@ address in `scripts/round26_numbers.py` beside `AFFILIATION_CITY`.
 
 ### 4.5 The archive DOI is now a placeholder inside the reference list  *(owner — the circularity is fixed; the DOI itself is still yours)*
 
-> **The loop is gone.** Reference [11] used to read *"the archived release
+> **The loop is gone.** Reference [46] used to read *"the archived release
 > cited in the data-availability statement (DOI reserved, inserted at
 > proof)"* — and that statement carried the same macro, so a desk check
 > following the reference arrived back where it started. The entry now carries
@@ -396,7 +396,7 @@ address in `scripts/round26_numbers.py` beside `AFFILIATION_CITY`.
 
 Already §1.1 above, with one thing that section did not know: the placeholder
 does not only appear in the code-availability statement. It is also
-**reference [11]**, the `fieldvalue` software citation. The guide requires a
+**reference [46]**, the `fieldvalue` software citation. The guide requires a
 software citation to carry a "global persistent identifier", and until the DOI
 exists this entry does not have one — so the entry now carries a resolvable
 `url` to the repository the release is cut from, and states the DOI's status
