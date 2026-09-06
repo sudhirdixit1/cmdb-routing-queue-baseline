@@ -25,8 +25,8 @@ releases made *after* its integration is switched on.
 | # | step | how | done when |
 |---|---|---|---|
 | 1 | Push main, the branch and the tag | **Done 2026-09-06**: `Ardbiu` was added as a collaborator and `main`, `round28-band` and `v28.0` are on the remote at one commit. If the tag is ever moved (step 10), push again with `git push origin main round28-band v28.0` | `git ls-remote --tags origin` lists `v28.0` at the intended commit |
-| 2 | Switch on Zenodo's GitHub integration | zenodo.org → Settings → GitHub → toggle the repository **on** (never done; the `v19.0` tag was never archived for this reason) | the repository shows as enabled |
-| 3 | Publish the GitHub release | Releases → Draft a new release → tag `v28.0`, title *Specification Surfaces for Incremental Predictive Performance* → Publish | Zenodo shows a record within minutes |
+| 2 | Switch on Zenodo's GitHub integration | **Done 2026-09-06**: the repository shows ON under Enabled Repositories at zenodo.org/account/settings/github/ | the repository shows as enabled |
+| 3 | Publish the GitHub release | **Done 2026-09-06**: github.com/sudhirdixit1/cmdb-routing-queue-baseline/releases/tag/v28.0, published after the toggle | Zenodo shows a record within minutes |
 | 4 | Insert the DOI | `python scripts/insert_doi.py 10.5281/zenodo.XXXXXXX` (verifies the record is this archive's, then rebuilds and re-runs every gate itself). If it refuses, the DOI was mistyped or belongs to another deposit: open the Zenodo record page, copy the DOI from it, and run `--dry-run` first | `final_search.py` reports 0 failures |
 | 5 | Record the built image's digest | build and push the image per `submission/OWNER-ACTIONS.md` §4.7, then `python scripts/finalise.py --image-digest sha256:<64 hex>` | `finalise.py` no longer lists it |
 | 6 | Reviewer e-mails | add each suggested reviewer's institutional e-mail in `submission/suggested_reviewers.md` | six addresses present |
