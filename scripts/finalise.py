@@ -172,8 +172,8 @@ def main(argv=None):
     left = status()
     if not left:
         print("  Nothing. Both documents build, every gate passes, the DOI "
-              "and the image digest are recorded, the reviewers carry "
-              "addresses, and main is pushed.")
+              "is recorded, no built image is distributed by decision, the "
+              "reviewers carry addresses, and main is pushed.")
         print("finalise: ready to upload "
               "(submission/OWNER-ACTIONS.md §1.4 lists the files).")
         return 0
