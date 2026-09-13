@@ -1,3 +1,10 @@
+> **SUPERSEDED — 2026-09-12.** This file answered the *Information Systems*
+> referee's report on *Four Choices Behind One Number* and was written for
+> the manuscript submitted to that journal (tag `v28.0`). The manuscript was
+> retargeted to the *International Journal of Forecasting* after a desk
+> decision (`../REFEREE-LOG.md`); its section numbers are the round-28
+> manuscript's and are not re-synced. Kept as the record; not uploaded.
+
 # Summary of changes since the referee report
 
 *Manuscript:* Specification Surfaces for Incremental Predictive Performance:

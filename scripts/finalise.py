@@ -105,6 +105,38 @@ def status() -> list[str]:
                 "beside AFFILIATION_CITY in scripts/round26_numbers.py.  It "
                 "is your address; this file does not guess it.")
 
+    #  IJF RETARGET, 2026-09-12.  Four items the new journal adds, none of
+    #  which a script can clear.
+    #  The affiliation line: the guide wants the FULL postal address, and a
+    #  region without a postcode is not one.  The postcode is the author's.
+    if nums.exists():
+        _region = re.search(r"newcommand\{\\affiliationRegion\}\{([^}]*)\}", _n)
+        if not (_region and re.search(r"\d{5}", _region.group(1))):
+            out.append(
+                "THE AFFILIATION CARRIES NO POSTCODE.  The IJF title page asks "
+                "for the full postal address.  Add it to AFFILIATION_REGION in "
+                "scripts/round26_numbers.py (e.g. `NC 275xx`), then "
+                "make_numbers --strict, assemble, build.")
+    #  The IIF's authors page links a LaTeX template as a Google Drive
+    #  download; the build assumes elsarticle with the authoryear option
+    #  (DECISIONS.md §IJF.5).  The author downloads it and records the diff.
+    if not (ROOT / "submission" / "IJF-TEMPLATE-CHECKED.md").exists():
+        out.append(
+            "THE IJF TEMPLATE HAS NOT BEEN DIFFED.  Download `this template' "
+            "from forecasters.org/ijf/authors, compare its preamble with "
+            "paper/parts/00_preamble.tex, apply any class-option difference, "
+            "and write what you found to submission/IJF-TEMPLATE-CHECKED.md "
+            "(the file's existence clears this item).")
+    #  The blind build is a claim; check_blind reads the PDFs.
+    r = subprocess.run([PY, str(ROOT / "scripts" / "check_blind.py")],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        out.append("THE BLIND PDFS NAME THE AUTHOR, or are not built:\n"
+                   + "\n".join("        " + l for l in r.stdout.splitlines()[-4:]))
+    #  the ORCID lives in the Editorial Manager profile, not in the source;
+    #  nothing here can see it, so it is listed in OWNER-ACTIONS.md and not
+    #  here.
+
     #  the push is a fact about the remote, not about the tree
     try:
         r = subprocess.run(["git", "rev-list", "--count", "origin/main..main"],
@@ -156,9 +188,10 @@ def main(argv=None):
         bad = 0
         bad += _run([PY, "scripts/make_numbers.py"], "make_numbers")
         bad += _run([PY, "scripts/assemble_paper.py"], "assemble_paper")
-        bad += _run([PY, "scripts/build_journal.py"], "build_journal")
+        bad += _run([PY, "scripts/build_journal.py", "--target", "ijf"],
+                    "build_journal")
         for g in ("verify_numbers", "texlint", "check_claims",
-                  "check_response_refs", "check_package"):
+                  "check_response_refs", "check_package", "check_blind"):
             bad += _run([PY, "scripts/%s.py" % g], g)
         if bad:
             print("\nfinalise: something above failed; do not upload until it "
@@ -171,7 +204,8 @@ def main(argv=None):
     print("=" * 74)
     left = status()
     if not left:
-        print("  Nothing. Both documents build, every gate passes, the DOI "
+        print("  Nothing. All three documents build, every gate passes, the "
+              "blind PDFs name nobody, the template is diffed, the DOI "
               "is recorded, no built image is distributed by decision, the "
               "reviewers carry addresses, and main is pushed.")
         print("finalise: ready to upload "

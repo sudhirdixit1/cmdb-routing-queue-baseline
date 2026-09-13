@@ -6,8 +6,13 @@ and of how much that answer depends on choices the analyst usually leaves
 implicit.
 
 **Paper:** `paper/specification_surfaces.tex` — *Specification Surfaces for
-Incremental Predictive Performance: Estimation, Uncertainty, and Multi-Log
-Evaluation*. Targeted at *Information Systems* (Elsevier).
+Incremental Forecast Performance: Estimation, Uncertainty, and Multi-Log
+Evaluation*. Submitted to the *International Journal of Forecasting*
+(Elsevier / IIF), which reviews double-blind: `python
+scripts/build_journal.py --target ijf` builds the blind manuscript, the blind
+supplement and a separate title page. The version submitted to *Information
+Systems* (declined at the editorial stage, 2026-09-10) is tag `v28.0`, the
+Zenodo archive of the results.
 
 **The previous version** — *Four Choices Behind One Number* — is retained at
 `paper/iaai27_empty_cmdb.tex`. A referee for this journal recommended

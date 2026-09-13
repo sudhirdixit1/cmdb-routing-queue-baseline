@@ -6,6 +6,27 @@ it is not mistaken for done.
 
 ---
 
+## IJF — the current list (2026-09-12)
+
+The manuscript is now for the *International Journal of Forecasting*
+(`PLAN-IJF.md`); the sections below this one are the *Information Systems*
+history and stay as the record. `python scripts/finalise.py` lists what is
+still owed; the project skill `.claude/skills/submitting-to-ijf/SKILL.md`
+gives every step with its command. In one table:
+
+| # | step | done when |
+|---|---|---|
+| 1 | Download the IJF LaTeX template (forecasters.org/ijf/authors, "this template", a Google Drive file); diff its preamble against `paper/parts/00_preamble.tex`; record the diff in `submission/IJF-TEMPLATE-CHECKED.md` | the file exists |
+| 2 | Postcode into `AFFILIATION_REGION` (`scripts/round26_numbers.py`); rebuild with `--target ijf` | `title_page.pdf` shows the full line |
+| 3 | Editorial Manager IJF account; ORCID in the profile | profile complete |
+| 4 | Elsevier's declaration-of-interests `.docx` | attached |
+| 5 | Confirm `cover_letter.md`'s related-manuscript sentence: nothing else under review; the conference draft never submitted | true |
+| 6 | Read the five statements on `build/journal/title_page.pdf` | you agree with every sentence |
+| 7 | `git push origin main ijf-retarget`; **do not move the tag** | `origin/main` = `main` |
+| 8 | Upload the files the skill lists (blind manuscript, title page, blind supplement, Highlights, cover letter, declaration, referees) | confirmed |
+
+---
+
 ## 0. The one-line item round twenty-six added
 
 ### 0.1 The affiliation's city and country  *(done)*

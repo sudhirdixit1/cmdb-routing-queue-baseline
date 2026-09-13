@@ -29,6 +29,7 @@ result or any citation.
 | 22–26 | 2026-08-25 to 2026-08-26 | **not recorded** | code, prose |
 | 27 | 2026-08-28 to 2026-08-29 | `claude-opus-5`, then `claude-fable-5` | code, prose, review |
 | 28 (this revision) | 2026-09-03 to 2026-09-06 | `claude-fable-5-1` | code, prose, **review** (`submission/review_round28.md`); final pre-submission read on 2026-09-06 |
+| IJF retarget | 2026-09-11 to 2026-09-12 | `claude-opus-5` | code (blind build, `check_blind`, `retarget_ijf`), prose (abstract, introduction, related work, section openings, cover letter), **review** (`submission/review_round29.md`); after the *Information Systems* desk decision of 2026-09-10 |
 
 **The gap is stated rather than filled.** The identifiers for rounds 1–20 and
 22–26 were not recorded at the time and are not reconstructible from the

@@ -93,11 +93,20 @@ def main(argv=None):
                 "who receives the package cannot follow any of them" % n_app)
 
     # 3.  a built PDF may not be older than the source it is built from
-    for stem in ("specification_surfaces", "supplement"):
-        src, pdf = PAPER / (stem + ".tex"), PAPER / (stem + ".pdf")
+    #  IJF RETARGET.  Three documents now, under the upload names build_journal
+    #  --target ijf writes into build/journal; each is compared with the
+    #  assembled source it is built from.
+    OUTD = ROOT / "build" / "journal"
+    for src_stem, pdf_name in (("specification_surfaces", "manuscript.pdf"),
+                               ("supplement", "supplement.pdf"),
+                               ("title_page", "title_page.pdf")):
+        src, pdf = PAPER / (src_stem + ".tex"), OUTD / pdf_name
         if src.exists() and pdf.exists() and pdf.stat().st_mtime < src.stat().st_mtime:
-            FAILS.append("%s.pdf is older than %s.tex; the package would ship "
-                         "a stale document" % (stem, stem))
+            FAILS.append("%s is older than %s.tex; the package would ship "
+                         "a stale document" % (pdf_name, src_stem))
+        elif src.exists() and not pdf.exists():
+            FAILS.append("%s is not built; run build_journal.py --target ijf"
+                         % pdf_name)
 
     # 4.  the licence exists and agrees with the archive metadata
     lic = ROOT / "LICENSE"

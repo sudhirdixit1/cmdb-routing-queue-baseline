@@ -10,8 +10,9 @@ paths do not exist here.
 
 ## 1. What this is, in one paragraph
 
-An evaluation-methodology paper for Elsevier's *Information Systems*: what a
-recorded field is worth to a prediction is not one number but a **surface**
+An evaluation-methodology paper for the *International Journal of
+Forecasting* (retargeted from *Information Systems* on 2026-09-12,
+`PLAN-IJF.md`): what a recorded field adds to a forecast is not one number but a **surface**
 over a declared design space, and the paper supplies four objects for
 reporting one (an exact functional-ANOVA decomposition, simultaneous max-$t$
 bands from a pipeline-refitting bootstrap, *resolution regions* with a
