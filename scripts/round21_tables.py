@@ -59,7 +59,7 @@ def write(mn):
         d = d[["step", "cohort", "target", "V", "lo", "hi", "delta"]]
         (TABLES / "cohort.tex").write_text(
             tex_table(d, "The two published values of the register's "
-                         "increment at the later decision time, reconciled "
+                         "increment at the later forecast origin, reconciled "
                          "one factor at a time. Each row changes exactly one "
                          "thing from the row above; `delta' is what that "
                          "change is worth. The first row is the number "
@@ -103,7 +103,7 @@ def write(mn):
         #  they are printed as one; that and a wrapping first column let the
         #  table be set at the body font instead of shrunk to fit.
         d = L.copy()
-        d["decision time"] = d.decision_time.map(_TAU_LABEL)
+        d["forecast origin"] = d.decision_time.map(_TAU_LABEL)
         d["baseline"] = d.rung.map(_RUNG_LABEL)
         d["interval"] = ["[%+.4f, %+.4f]" % (a, b)
                          for a, b in zip(d.lo, d.hi)]
@@ -112,7 +112,7 @@ def write(mn):
         d["V"] = ["%+.4f" % v for v in d.V]
         d["n"] = ["{:,}".format(int(v)) for v in d.n]
         d["card_register"] = ["{:,}".format(int(v)) for v in d.card_register]
-        d = d[["decision time", "baseline", "n", "prevalence",
+        d = d[["forecast origin", "baseline", "n", "prevalence",
                "card_register", "base_auc", "with_auc", "V", "interval",
                "resolved"]]
         #  THE CAPTION MUST NOT COUNT ROWS BY HAND.  It called the matched
@@ -133,7 +133,7 @@ def write(mn):
         _plain = _ordinal_of((L.decision_time == "t2_incident_creation")
                              & (L.rung == "B_intake"))
         (TABLES / "tau.tex").write_text(
-            tex_table(d, "The decision time implemented as an axis. Each "
+            tex_table(d, "The forecast origin implemented as an axis. Each "
                          "moment carries its own population, its own "
                          "register and its own admissible set; the "
                          "\\emph{predicted target} is the same at all of them. "
@@ -163,7 +163,7 @@ def write(mn):
             .replace("T1's population", "$\\tau_1$'s population"),
             encoding="utf-8")
     else:
-        blank("tau", "The decision time as an axis.", "tab:tau")
+        blank("tau", "The forecast origin as an axis.", "tab:tau")
 
     # ------------------------------------------------------ misreport
     M = load("s34_misreport.csv")

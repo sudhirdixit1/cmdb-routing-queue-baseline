@@ -101,7 +101,7 @@
 
 \begin{frontmatter}
 
-\title{Specification Surfaces for Incremental Predictive Performance:
+\title{Specification Surfaces for Incremental forecast performance:
 Estimation, Uncertainty, and Multi-Log Evaluation}
 
 %%  ROUND TWENTY-SIX.  The Guide for Authors asks for a complete affiliation
@@ -118,9 +118,9 @@ Estimation, Uncertainty, and Multi-Log Evaluation}
 \begin{abstract}
 What a recorded field is worth to a prediction is reported as one number, but
 it is a functional of choices the report rarely states: the baseline,
-the pipeline, the outcome predicted, the split, the moment the decision is
+the pipeline, the forecast target, the split, the moment the decision is
 taken, how completely the register behind the field is populated, and the
-metric. We define incremental predictive performance as a \emph{specification
+metric. We define incremental forecast performance as a \emph{specification
 surface} $V_s(f)$ over a design space the analyst declares, and give three
 objects for reporting one: an exact functional-ANOVA decomposition of its
 variance that separates analyst choices from resampling; simultaneous
@@ -133,7 +133,7 @@ choice leads is a property of the pair. Most specifications leave the sign
 undetermined; where the data determine one, the resolved specifications sit a
 median \madResolvedMedian\ from the conventional report in area under the
 receiver operating characteristic curve (AUC). In a case study on \nCohort\ bank incidents, a register's
-worth turns on the decision time and its sign on the target.
+worth turns on the forecast origin and its sign on the target.
 \end{abstract}
 
 %%  Six keywords: the Elsevier template caps them at six and an earlier
@@ -149,7 +149,7 @@ worth turns on the decision time and its sign on the target.
 %%  topical membership, so it follows what Section 11 says the paper reports:
 %%  case-level outcome prediction from event-log attributes.
 \begin{keyword}
-specification surface \sep incremental predictive performance \sep
+specification surface \sep incremental forecast performance \sep
 event logs \sep simultaneous inference \sep
 sensitivity analysis \sep configuration management database
 \end{keyword}
@@ -212,7 +212,7 @@ the cohort. The \emph{specification surface} is the map
 $s \mapsto V_s(f)$ over a design space $\mathcal{S}$ that the analyst declares
 and the reader can enumerate; Figure~\ref{fig:speccurve} draws one.
 
-We say \emph{incremental predictive performance} and not \emph{value}:
+We say \emph{incremental forecast performance} and not \emph{value}:
 \eqref{eq:estimand} measures how much better a model predicts, not what the
 field costs to acquire or maintain, whether acting on the prediction changes
 the outcome, or what an organisation would pay for either.
@@ -260,12 +260,12 @@ value's contribution and not the resampling's --- and \emph{resolution
 regions} with a robustness index $\rho$ under a declared minimum resolved
 share.
 \item \textbf{A registered multi-log benchmark and a register at three
-decision times.} The surface is computed through one frozen pipeline on every
+forecast origins.} The surface is computed through one frozen pipeline on every
 log--target pair a registered protocol admits --- \nPairs\ of them, not
 only the ones where the answer resolves --- and every corpus statistic is
 reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
 maintained one (Supplement~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
-that a decision time fixes which cases are in scope, what is known about them
+that a forecast origin fixes which cases are in scope, what is known about them
 and which fields are admissible at once, reconciles the two values the case
 study's log has been reported to give, and finds the difference is the
 \emph{target}: over the cohort $\times$ target design the target carries
@@ -365,7 +365,7 @@ the form Section~\ref{sec:quality}'s leakage tipping point takes.
 \paragraph{The novelty gap, precisely}
 Every component used here is established and none is claimed. What none of
 them supplies is the object this paper reports, and the gap is in four
-places: the estimand is not declared completely, the decision time and the
+places: the estimand is not declared completely, the forecast origin and the
 register's quality being treated as preliminaries rather than arguments; the
 measure is left implicit, a specification curve being summarised uniformly
 over whatever cells were enumerated, which moves the answer
@@ -409,7 +409,7 @@ s \;=\; \bigl(\;
 \underbrace{E}_{\text{encoding}},\;
 \underbrace{Y}_{\text{target}},\;
 \underbrace{\Pi}_{\text{split}},\;
-\underbrace{\tau}_{\text{decision time}},\; \\[2pt]
+\underbrace{\tau}_{\text{forecast origin}},\; \\[2pt]
 &\underbrace{q}_{\text{register quality}},\;
 \underbrace{B}_{\text{baseline}},\;
 \underbrace{m}_{\text{metric}},\;
@@ -438,7 +438,7 @@ names which of the three declared product measures a quantity is taken under
 four fifths of the mass on the reference level --- and
 Section~\ref{sec:sobol} reports every decomposition under all three; the
 measure is a modelling choice, declared rather than left implicit
-(Supplement~\ref{app:measurechoice}, which also says why the decision time and
+(Supplement~\ref{app:measurechoice}, which also says why the forecast origin and
 the register's quality are axes of the estimand rather than preliminaries).
 
 \subsection{What the surface estimates}
@@ -455,7 +455,7 @@ bootstrap targets.
 \label{def:estimand}
 Let the cases of a log be a sample from a population $P$, and let the
 specification $s$ fix the fitting procedure $A_s$, the cohort and eligibility
-rule, the split rule $\Pi$, the decision time, the register-quality mechanism,
+rule, the split rule $\Pi$, the forecast origin, the register-quality mechanism,
 the baseline and the instrument. Write $A_s(P)$ for the limit of the fitted
 scoring rule as the sample grows under $P$ with $s$ held fixed. That
 limit needs an assumption, and it is stated here rather than where it is
@@ -769,7 +769,7 @@ are outside it, and Section~\ref{sec:lim} carries both.
 
 Five contrasts on the primary log were fixed before this analysis round ---
 that the register adds to the intake baseline, that it still adds once the
-free field is admitted, that it adds at the later decision time, that the
+free field is admitted, that it adds at the later forecast origin, that the
 absorption $D$ is positive, and that a half-empty register is worth less than
 a full one --- each with its complete estimand in Table~\ref{tab:confirm}.
 They are not confirmatory, because they were fixed after the data were seen,
@@ -999,7 +999,7 @@ Definition~\ref{def:space} does not say. The \emph{target} is not an axis of
 any surface --- each of a log's two targets has a surface of its own, and the
 cohort $\times$ target design exists only in Section~\ref{sec:cohort} --- and
 the per-pair factorial is \nPerPairAxes\ axes wide, not the \nAxes\ of the
-definition: the decision time varies only on the case study's log, the
+definition: the forecast origin varies only on the case study's log, the
 operating point only in the decision-curve family, and the cohort only in
 Section~\ref{sec:cohort}. Section~\ref{sec:lim} carries the difference as a
 limitation.
@@ -1415,7 +1415,7 @@ resolved? The estate is a bank's and the log is BPI Challenge 2014
 item, which takes \cardTauTwo\ distinct values on this estate's cohort at
 incident creation. It is reported at greater length than any of the \nPairs\
 log--target pairs of Section~\ref{sec:multilog} because it is the case that
-motivated the study and the one on which the decision time --- when in the
+motivated the study and the one on which the forecast origin --- when in the
 service-desk process the prediction is made --- decides the answer.
 
 \subsection{One log, two answers, and what separates them}
@@ -1470,10 +1470,10 @@ cohort's answers are among the \nPairs\ pairs of Section~\ref{sec:multilog},
 so the decision-time result below is a statement about a routing decision on
 this estate and not about handover in general.
 
-\subsection{Three decision times}
+\subsection{Three forecast origins}
 \label{sec:twodecision}
 
-A decision time fixes three things at once --- which cases are in scope, what
+A forecast origin fixes three things at once --- which cases are in scope, what
 is known about them, and which fields are admissible --- and the estate's
 surface is estimated at each of three moments.
 
@@ -1523,7 +1523,7 @@ estimated from training alone (Supplement~\ref{app:degrade}).
 
 Supplement~\ref{app:programmeread} gives the reading a service-management
 audience will want, stated in the estate's own vocabulary: the three
-decision times in service-desk terms, which layer of the register pays, and
+forecast origins in service-desk terms, which layer of the register pays, and
 what would have to change for the answer to move. It is a reading of
 \emph{one} estate on \emph{one} public log and it is offered as one;
 Section~\ref{sec:lim} says what a second would need. Its one sentence for
@@ -1653,7 +1653,7 @@ the worst on \nOneNumberWorstDesk\ and tied for worst on
 thousand.
 \textbf{The case against one-number reporting does not rest on this design.}
 Larger than anything the choice of collapse rule costs a one-number report is
-the decision time: the register promises \promisedPerThousand\ per thousand
+the forecast origin: the register promises \promisedPerThousand\ per thousand
 at the earlier moment and delivers \deliveredPerThousand\ at the later one, a
 shortfall of \shortfallPerThousand. Supplement~\ref{app:deskfull} carries the
 rules, the exchange-rate distribution and the exclusions;
@@ -1842,7 +1842,7 @@ file, as the section that establishes it, so the two cannot disagree --- but
 many are quoted twice, and a reader who wants the argument rather than the
 summary should read them where they are established.
 
-\paragraph{Construct --- this is predictive performance, not value}
+\paragraph{Construct --- this is forecast performance, not value}
 Nothing here measures what a register costs to acquire or maintain, whether
 acting on a prediction changes an outcome, or what a data programme is worth;
 that includes Section~\ref{sec:programme}'s layer comparison. The corpus is a
@@ -1935,7 +1935,7 @@ measured: the pilot that attempted it is in the archive as a hypothesis.
 \label{sec:conclusion}
 \label{sec:conc}
 
-The incremental predictive performance of a recorded field is a functional of
+The incremental forecast performance of a recorded field is a functional of
 design choices, not a number. This paper made that operational: a declared
 design space, a surface over it, an exact decomposition of the surface's
 variance that separates the choices an analyst makes from the resampling the
@@ -1986,7 +1986,7 @@ stands on, and that on
 \nRefUnresolvedCell\ of \nPairs\ pairs the data do not determine the sign of
 its own cell at all.
 
-\textbf{The decision time is an argument of the estimand, not a preliminary.}
+\textbf{The forecast origin is an argument of the estimand, not a preliminary.}
 It fixes which cases are in scope, what is known about them, and which fields
 are admissible. On the case study, moving the prediction from first touch to
 incident creation moves the increment by \deltaCohortAtTau\ AUC through the
@@ -2007,7 +2007,7 @@ interpreted as the cost ratio the decision-analytic argument requires
 
 The practical recommendation is narrow and cheap once the surface exists:
 report the surface, the decomposition with the resampling stratum separated,
-the region and $\rho$ with the triple they rest on; state the decision time
+the region and $\rho$ with the triple they rest on; state the forecast origin
 and the target as parts of the estimand; declare a minimal practically
 important difference before reporting any disagreement rate; make the absolute
 increments primary; and use a ratio last, with a Fieller set, and only where

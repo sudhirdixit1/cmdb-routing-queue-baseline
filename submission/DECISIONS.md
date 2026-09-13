@@ -483,3 +483,17 @@ uses `\documentclass[preprint,12pt,authoryear]{elsarticle}` with
 `elsarticle-harv`. The author downloads the template (owner step 6.1) and
 records the diff in `submission/IJF-TEMPLATE-CHECKED.md`; any class-option
 difference is applied then.
+
+## 6. The object is *incremental forecast performance*, not *forecast value* — settled during execution
+
+**Chosen:** the vocabulary map renames *incremental predictive performance*
+to *incremental forecast performance*. **Rejected:** *incremental forecast
+value*, which the approved design named. **Why:** Section 1 says "we say
+incremental predictive performance and not value" and Section 10's construct
+paragraph is titled "this is predictive performance, not value"; in
+forecasting, *forecast value* is the decision-based quantity (Murphy 1993;
+Granger and Pesaran 2000), which only Section 8's net benefit computes. The
+name would have claimed what the paper disclaims (rule 6). The introduction
+says that the object is what the forecasting literature calls the value of a
+predictor and why the word is reserved. **What would overturn it:** nothing
+short of the paper measuring value.

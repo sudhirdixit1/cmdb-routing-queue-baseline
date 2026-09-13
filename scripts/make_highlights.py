@@ -41,7 +41,7 @@ LIMIT = 85
 #: LaTeX (math mode, escaped percents) is cleaned to plain text, because
 #: Elsevier's highlights field takes prose and not markup.
 BULLETS = [
-    "A field's incremental predictive performance is a surface, not one number",
+    "A field's incremental forecast performance is a surface, not one number",
     #  ROUND TWENTY-SIX.  The decomposition's headline changed when the split
     #  became an error stratum, so the bullet that advertises it changed too.
     "An exact decomposition separates analyst choices from resampling",
@@ -55,7 +55,7 @@ BULLETS = [
     #  argument implies it is one cell in forty-two.  What replaces it is the
     #  magnitude, which is the quantity that survives every restriction.
     "Resolved cells sit {madResolvedMedian} in area under the curve from the one-number report",
-    "A register's worth turns on the decision time and on which target is set",
+    "A register's worth turns on the forecast origin and on which target is set",
 ]
 
 PREAMBLE = """HIGHLIGHTS

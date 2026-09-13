@@ -4,7 +4,7 @@
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lllrlrrlll}
 \toprule
-decision time & baseline & n & prevalence & register levels & base AUC & with AUC & V & interval & resolved \\
+forecast origin & baseline & n & prevalence & register levels & base AUC & with AUC & V & interval & resolved \\
 \midrule
 $\tau_0$ first touch, every call & intake & 145,478 & 0.146 & 4,034 & 0.554 & 0.785 & +0.2310 & [+0.2204, +0.2618] & yes \\
 $\tau_1$ first touch, escalating only & intake & 44,513 & 0.402 & 2,445 & 0.552 & 0.754 & +0.2013 & [+0.1930, +0.2224] & yes \\
@@ -15,6 +15,6 @@ $\tau_2$ incident creation, $\tau_1$'s population & intake & 44,513 & 0.402 & 2,
 \bottomrule
 \end{tabular}%
 }
-\caption{The decision time implemented as an axis. Each moment carries its own population, its own register and its own admissible set; the \emph{predicted target} is the same at all of them. $\tau_0$ and $\tau_1$ differ only in which cases are in scope. $\tau_1$ and $\tau_2$ differ in what is known AND in which cases are in scope, because \nTauTwoUnmatched\ incidents have no interaction record; the sixth row is $\tau_2$ restricted to $\tau_1$'s own population, and it is that row, not the third, that makes the $\tau_1$-to-$\tau_2$ step an information step alone. Every row is on the estate's own cohort and the reassignment target, under a declared tie-break, and every interval is the pointwise basic construction at \nTauDraws\ draws.}
+\caption{The forecast origin implemented as an axis. Each moment carries its own population, its own register and its own admissible set; the \emph{predicted target} is the same at all of them. $\tau_0$ and $\tau_1$ differ only in which cases are in scope. $\tau_1$ and $\tau_2$ differ in what is known AND in which cases are in scope, because \nTauTwoUnmatched\ incidents have no interaction record; the sixth row is $\tau_2$ restricted to $\tau_1$'s own population, and it is that row, not the third, that makes the $\tau_1$-to-$\tau_2$ step an information step alone. Every row is on the estate's own cohort and the reassignment target, under a declared tie-break, and every interval is the pointwise basic construction at \nTauDraws\ draws.}
 \label{tab:tau}
 \end{table}

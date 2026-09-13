@@ -30,7 +30,7 @@ def write(mn):
             "learner": "learner",
             "encoding": "encoding",
             "split": "split",
-            "decision_time": "decision time (availability)",
+            "decision_time": "forecast origin (availability)",
             "quality_level": "register quality by severity",
             "rung": "baseline (ladder rung)",
             "admissible_rung": "baseline, admissible only",
@@ -118,7 +118,7 @@ def write(mn):
                       "already counts the pipeline and multiplying by the "
                       "encoding would count it twice; "
                       "Table~\\ref{tab:axes2} separates the two where they "
-                      "can be separated. The decision time indexes a \\emph{second} "
+                      "can be separated. The forecast origin indexes a \\emph{second} "
                       "surface on the case-study log rather than a further "
                       "factor of the first, and "
                       "Section~\\ref{sec:twodecision} reports it. "
