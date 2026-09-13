@@ -225,6 +225,7 @@ CHECKS = (
     "that no phrase is repeated immediately",
     "that no backslash escape was interpreted by a scripted edit",
     "that neither document narrates its own revision history",
+    "that the journal line names the venue the build is for",
 )
 
 FAILS, NOTES = [], []
@@ -265,6 +266,13 @@ def main(argv=None):
         sys.exit("assembled manuscript not found; run assemble_paper.py")
     raw = TEX.read_text(encoding="utf-8")
     t = strip_comments(raw)
+    #  IJF RETARGET.  The five author statements live in parts/statements.tex,
+    #  which the unblinded article \input{}s and the blind build omits, so the
+    #  assembled .tex no longer carries their text.  They are still required
+    #  of the submission (they go on the title page), so check 4 reads the
+    #  part as if it were inline.
+    t += strip_comments((PAPER / "parts" / "statements.tex")
+                        .read_text(encoding="utf-8"))
 
     # 1 abstract
     m = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", t, re.S)
@@ -315,6 +323,10 @@ def main(argv=None):
     for name, pat in REQUIRED:
         if not re.search(pat, t):
             FAILS.append("missing statement: %s" % name)
+    #  the journal line names the venue the build is for; a retarget that
+    #  forgets it ships the previous journal's name in the running head
+    if not re.search(r"\\journal\{International Journal of Forecasting\}", t):
+        FAILS.append("journal line is not the International Journal of Forecasting")
 
     # 5 the duplicated-appendix defect
     if "Appendix Appendix" in t:

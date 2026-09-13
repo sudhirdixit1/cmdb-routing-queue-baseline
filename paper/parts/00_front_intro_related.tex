@@ -79,6 +79,13 @@
 \theoremstyle{definition}
 \newtheorem{assumption}{Assumption}
 
+%%  IJF reviews double-blind.  build_journal.py --target ijf writes
+%%  blindflag.tex (\blindtrue) into the build directory; without it the
+%%  document is the unblinded one.  check_blind.py reads the built PDF.
+\newif\ifblind
+\blindfalse
+\InputIfFileExists{blindflag}{}{}
+
 \journal{International Journal of Forecasting}
 
 \begin{document}
@@ -93,9 +100,11 @@ Estimation, Uncertainty, and Multi-Log Evaluation}
 %%  are here; the ORCID is registered through the submission system, where
 %%  Elsevier collects it from the corresponding author's profile rather than
 %%  from the manuscript source.
+\ifblind\else
 \author[ind]{Sudhir Dixit}
 \ead{sudhir.dixit1@gmail.com}
 \address[ind]{Independent Researcher, \affiliationStreet, \affiliationCity, \affiliationRegion, \affiliationCountry}
+\fi
 
 \begin{abstract}
 What a recorded field is worth to a prediction is reported as one number, but

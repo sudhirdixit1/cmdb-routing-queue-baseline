@@ -76,6 +76,13 @@
 \renewcommand{\theassumption}{S\arabic{assumption}}
 \renewcommand{\theremark}{S\arabic{remark}}
 
+%%  IJF reviews double-blind.  build_journal.py --target ijf writes
+%%  blindflag.tex (\blindtrue) into the build directory; without it the
+%%  document is the unblinded one.  check_blind.py reads the built PDF.
+\newif\ifblind
+\blindfalse
+\InputIfFileExists{blindflag}{}{}
+
 \journal{International Journal of Forecasting}
 
 \begin{document}
@@ -86,9 +93,11 @@
 \emph{Specification Surfaces for Incremental Predictive Performance:
 Estimation, Uncertainty, and Multi-Log Evaluation}}
 
+\ifblind\else
 \author[ind]{Sudhir Dixit}
 \ead{sudhir.dixit1@gmail.com}
 \address[ind]{Independent Researcher, \affiliationStreet, \affiliationCity, \affiliationRegion, \affiliationCountry}
+\fi
 
 \begin{abstract}
 This document holds the protocol and its amendments, the proofs, the
