@@ -163,14 +163,19 @@ specification surface \sep event logs
 \section{Introduction}
 \label{sec:intro}
 
-A claim that a recorded field is worth something is a comparison. Its second
-arm --- performance \emph{without} the field --- is a choice the analyst
-makes, and so are the learner that makes the comparison, the encoding it uses,
-the outcome it predicts, the way the data are split in time, whether the field
-is available at the moment the decision is taken, how completely the register
-behind the field is populated, the metric the difference is read in, and the
-operating point at which that metric is evaluated. Each is routinely left
-implicit, and the result is reported as one number.
+A service desk issues a forecast when a case arrives: will this case be
+handed over to another resource group before it is resolved, will it run
+longer than cases usually do. A recorded field --- here a \emph{register}, the
+organisation's inventory of the things its cases concern --- is a candidate
+predictor for that forecast, and the claim that it is worth something is a
+comparison. Its second arm --- forecast performance \emph{without} the field
+--- is a choice the analyst makes, and so are the learner that makes the
+comparison, the encoding it uses, the forecast target, the way the data are
+split in time, the \emph{forecast origin} (the decision time at which the
+forecast is issued, which fixes what is known about a case), how completely
+the register behind the field is populated, the score the difference is read
+in, and the operating point at which that score is evaluated. Each is
+routinely left implicit, and the result is reported as one number.
 
 This paper's position is not that such a number depends on those choices ---
 that is known, and Section~\ref{sec:related} says by whom --- but that the
@@ -203,12 +208,27 @@ the cohort. The \emph{specification surface} is the map
 $s \mapsto V_s(f)$ over a design space $\mathcal{S}$ that the analyst declares
 and the reader can enumerate; Figure~\ref{fig:speccurve} draws one.
 
-We say \emph{incremental forecast performance} and not \emph{value}:
-\eqref{eq:estimand} measures how much better a model predicts, not what the
-field costs to acquire or maintain, whether acting on the prediction changes
+We say \emph{incremental forecast performance} and not \emph{value}, though
+the forecasting literature would call the question the value of a predictor:
+\eqref{eq:estimand} measures how much better a model forecasts, not what the
+field costs to acquire or maintain, whether acting on the forecast changes
 the outcome, or what an organisation would pay for either.
 Section~\ref{sec:dca} converts the increment into net benefit at a declared
-exchange rate, which is as close to economic value as this evidence gets.
+exchange rate, which is as close to economic value as this evidence gets, and
+is the sense in which \citet{murphy1993good} and \citet{granger2000economic}
+use the word.
+
+\paragraph{What kind of forecast this is}
+Every forecast here is a probability forecast of a binary event --- that a
+case will be handed over, or will run longer than the training period's
+median --- issued once, at a declared origin, from the attributes recorded by that
+moment; it is scored on a held-out later period by \nInstruments\ declared
+scalar instruments, the area under the ROC curve first among them, and in
+Section~\ref{sec:dca} by net benefit at a declared operating point. It is not a time series. Nothing in the objects that follow
+assumes one: the surface, its decomposition, the bands and the regions apply
+to any increment in a score between two nested forecasting pipelines, and
+the moving-block bootstrap that produces the bands is there because event
+logs are ordered in time, not because the forecast is.
 
 \begin{figure}[!t]
 \centering
@@ -411,6 +431,12 @@ its uncertainty quantified, and that on this corpus it is far from constant.
 \section{The specification surface}
 \label{sec:surface}
 
+This section defines the object. A forecaster comparing two nested
+forecasting pipelines --- one with the candidate predictor, one without ---
+reports the difference in a score; the surface is that difference as a
+function of every choice the comparison rests on, and the design space is
+the set of those choices, declared before the comparison is run.
+
 \subsection{The design space}
 
 \begin{definition}[Design space]
@@ -574,6 +600,15 @@ Supplement~\ref{app:props}, with the \nCertificates\ certificates it licenses.
 \section{Estimation and inference}
 \label{sec:inference}
 
+This section gives the estimator of one cell of the surface and an interval
+that includes the pipeline's own variability, then the objects that read the
+surface as a whole: which of three surfaces a claim may range over,
+simultaneous bands over a declared family --- the nearest relative in the
+forecasting literature is the model confidence set of
+Section~\ref{sec:related}, and the difference is stated where the band is
+defined --- the decomposition of the surface's variance, and the resolution
+regions that say where a sign is determined.
+
 \subsection{The estimator, and uncertainty that includes the model}
 \label{sec:boot}
 
@@ -709,7 +744,14 @@ q_{1-\alpha} = \text{the } (1-\alpha)\text{ quantile of } \{T^{(b)}\},
 \]
 and report $\hat{V}_c \pm q_{1-\alpha}\hat\sigma_c$. This is the max-$t$
 (Romano--Wolf) construction \citep{romano2005stepdown} and has family-wise
-coverage over $\mathcal{F}$ asymptotically, and over nothing larger.
+coverage over $\mathcal{F}$ asymptotically, and over nothing larger. It
+differs from the model confidence set \citep{hansen2011mcs} in what it
+returns: the confidence set is the subset of a family not rejected as
+inferior to its best member, a statement about \emph{which} specifications
+survive; the band is a simultaneous interval for \emph{every} member's
+increment, from which a region label reads where the sign is determined and
+a robustness index how much of the family agrees. Both rest on a bootstrap
+of the maximum over the family; the objects read off it are different.
 
 \paragraph{The family must be the family}
 Within-cell bands, each covering five members, do not cover the several
@@ -960,6 +1002,12 @@ log at all.
 \section{The registered benchmark design}
 \label{sec:design}
 
+The benchmark is a registered one: which event logs enter, which recorded
+attribute plays the predictor, which plays the forecast target and which the
+baseline were fixed by written rules before any result on a new log existed.
+This section says what was fixed and when, what the rules found, and what the
+corpus does and does not have in common.
+
 \subsection{What was fixed, and when}
 
 The rules that turn an arbitrary event log into an instance of this problem
@@ -1068,6 +1116,9 @@ interpretation and the construct threat that pair carries.
 \label{sec:multilog}
 
 \label{sec:denominator}
+This section reports the surface on every admitted pair: what each analyst
+choice is worth, where a sign is determined and with what coverage, and what
+the conventional one-number report costs.
 Every point estimate in this section comes from one master surface ---
 one file, named in the code-availability statement --- computed by one pass of
 one pipeline over
@@ -1425,13 +1476,13 @@ A configuration management database is the register an IT estate keeps of the
 items it contains, and it is bought partly on the argument that operational
 analytics need it. This section evaluates one against a named decision on a
 public log: will this case be reassigned to another group before it is
-resolved? The estate is a bank's and the log is BPI Challenge 2014
+resolved? --- a binary forecast issued at a declared origin. The estate is a bank's and the log is BPI Challenge 2014
 \citep{vandongen2014bpic}; the register field is the affected configuration
 item, which takes \cardTauTwo\ distinct values on this estate's cohort at
 incident creation. It is reported at greater length than any of the \nPairs\
 log--target pairs of Section~\ref{sec:multilog} because it is the case that
 motivated the study and the one on which the forecast origin --- when in the
-service-desk process the prediction is made --- decides the answer.
+service-desk process the forecast is issued --- decides the answer.
 
 \subsection{One log, two answers, and what separates them}
 \label{sec:cohort}
@@ -1565,9 +1616,11 @@ and the reason the ratio is secondary are in Supplement~\ref{app:absorption}.
 \label{sec:dca}
 
 An increment in AUC is not a quantity a service desk can act on. This section
-reads the same surface in net benefit, which is the number of correctly
-nominated cases per thousand arrivals, net of the false nominations, at a
-declared exchange rate between the two.
+reads the same surface in net benefit --- the decision-based value of a
+forecast in the sense of \citet{murphy1993good} and
+\citet{granger2000economic} --- which is the number of correctly nominated
+cases per thousand arrivals, net of the false nominations, at a declared
+exchange rate between the two.
 
 \subsection{The operating point is a cost ratio, and calibration comes first}
 \label{sec:calibfirst}
@@ -1678,7 +1731,8 @@ Tables~\ref{tab:desk} and~\ref{tab:rules} the numbers.
 \label{sec:sim}
 
 Everything so far has been measured on real logs, where the answer is not
-known. This section measures the estimator where it is. The full tables are in
+known. This section measures the interval and the band where it is, against
+worlds whose population increment is computed in closed form. The full tables are in
 Supplement~\ref{app:tables} and the diagnosis of the one world that failed is
 in Supplement~\ref{app:noisy}.
 
@@ -1950,8 +2004,8 @@ measured: the pilot that attempted it is in the archive as a hypothesis.
 \label{sec:conclusion}
 \label{sec:conc}
 
-The incremental forecast performance of a recorded field is a functional of
-design choices, not a number. This paper made that operational: a declared
+What a predictor adds to a forecast is a functional of design choices, not a
+number. This paper made that operational: a declared
 design space, a surface over it, an exact decomposition of the surface's
 variance that separates the choices an analyst makes from the resampling the
 design also contains, simultaneous bands whose coverage is measured rather
@@ -2003,7 +2057,7 @@ its own cell at all.
 
 \textbf{The forecast origin is an argument of the estimand, not a preliminary.}
 It fixes which cases are in scope, what is known about them, and which fields
-are admissible. On the case study, moving the prediction from first touch to
+are admissible. On the case study, moving the forecast from first touch to
 incident creation moves the increment by \deltaCohortAtTau\ AUC through the
 population, by a further \deltaSnapshotAtTau\ through the information once the
 population is held fixed, and by \deltaPopulationResidual\ more through the

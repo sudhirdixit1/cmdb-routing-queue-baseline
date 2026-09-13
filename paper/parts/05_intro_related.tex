@@ -14,14 +14,19 @@
 \section{Introduction}
 \label{sec:intro}
 
-A claim that a recorded field is worth something is a comparison. Its second
-arm --- performance \emph{without} the field --- is a choice the analyst
-makes, and so are the learner that makes the comparison, the encoding it uses,
-the outcome it predicts, the way the data are split in time, whether the field
-is available at the moment the decision is taken, how completely the register
-behind the field is populated, the metric the difference is read in, and the
-operating point at which that metric is evaluated. Each is routinely left
-implicit, and the result is reported as one number.
+A service desk issues a forecast when a case arrives: will this case be
+handed over to another resource group before it is resolved, will it run
+longer than cases usually do. A recorded field --- here a \emph{register}, the
+organisation's inventory of the things its cases concern --- is a candidate
+predictor for that forecast, and the claim that it is worth something is a
+comparison. Its second arm --- forecast performance \emph{without} the field
+--- is a choice the analyst makes, and so are the learner that makes the
+comparison, the encoding it uses, the forecast target, the way the data are
+split in time, the \emph{forecast origin} (the decision time at which the
+forecast is issued, which fixes what is known about a case), how completely
+the register behind the field is populated, the score the difference is read
+in, and the operating point at which that score is evaluated. Each is
+routinely left implicit, and the result is reported as one number.
 
 This paper's position is not that such a number depends on those choices ---
 that is known, and Section~\ref{sec:related} says by whom --- but that the
@@ -54,12 +59,27 @@ the cohort. The \emph{specification surface} is the map
 $s \mapsto V_s(f)$ over a design space $\mathcal{S}$ that the analyst declares
 and the reader can enumerate; Figure~\ref{fig:speccurve} draws one.
 
-We say \emph{incremental forecast performance} and not \emph{value}:
-\eqref{eq:estimand} measures how much better a model predicts, not what the
-field costs to acquire or maintain, whether acting on the prediction changes
+We say \emph{incremental forecast performance} and not \emph{value}, though
+the forecasting literature would call the question the value of a predictor:
+\eqref{eq:estimand} measures how much better a model forecasts, not what the
+field costs to acquire or maintain, whether acting on the forecast changes
 the outcome, or what an organisation would pay for either.
 Section~\ref{sec:dca} converts the increment into net benefit at a declared
-exchange rate, which is as close to economic value as this evidence gets.
+exchange rate, which is as close to economic value as this evidence gets, and
+is the sense in which \citet{murphy1993good} and \citet{granger2000economic}
+use the word.
+
+\paragraph{What kind of forecast this is}
+Every forecast here is a probability forecast of a binary event --- that a
+case will be handed over, or will run longer than the training period's
+median --- issued once, at a declared origin, from the attributes recorded by that
+moment; it is scored on a held-out later period by \nInstruments\ declared
+scalar instruments, the area under the ROC curve first among them, and in
+Section~\ref{sec:dca} by net benefit at a declared operating point. It is not a time series. Nothing in the objects that follow
+assumes one: the surface, its decomposition, the bands and the regions apply
+to any increment in a score between two nested forecasting pipelines, and
+the moving-block bootstrap that produces the bands is there because event
+logs are ordered in time, not because the forecast is.
 
 \begin{figure}[!t]
 \centering
