@@ -40,7 +40,7 @@ NUMBERS = PAPER / "numbers.tex"
 
 #: the places whose numbers a reader trusts most, and which the --check gate
 #: requires to be independently re-derived by verify_numbers.
-HEADLINE_PARTS = ("00_front_intro_related.tex", "80_limits.tex")
+HEADLINE_PARTS = ("01_frontmatter.tex", "05_intro_related.tex", "80_limits.tex")
 
 
 def macro_values():

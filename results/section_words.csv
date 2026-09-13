@@ -3,7 +3,7 @@ section,words
 "Introduction",1221
 "Related work",566
 "The specification surface",1125
-"Estimation and inference",3145
+"Estimation and inference",3142
 "The registered benchmark design",985
 "Multi-log results",3236
 "Case study: a configuration management database",1694
@@ -11,9 +11,5 @@ section,words
 "Simulation against a known answer",1565
 "Threats to validity",1615
 "Conclusion",735
-"CRediT authorship contribution statement",29
-"Declaration of competing interest",54
-"Funding",20
-"Data availability",186
-"Code availability",188
-"Declaration of generative AI and AI-assisted technologies in the manuscript preparation process",336
+"Data availability",191
+"Code availability",75

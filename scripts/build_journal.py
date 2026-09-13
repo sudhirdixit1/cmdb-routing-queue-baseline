@@ -1,4 +1,25 @@
-"""Build the Information Systems (Elsevier) submission PDF.
+"""Build the submission PDFs.
+
+IJF RETARGET (PLAN-IJF.md).  The document was retargeted from Information
+Systems to the International Journal of Forecasting, which reviews
+DOUBLE-BLIND and wants the title page as a separate file.  So:
+
+    python scripts/build_journal.py --target ijf     (the default)
+
+builds THREE documents into build/journal/:
+    manuscript.pdf    the article, blind: no author block, no statements,
+                      the archive pointed at from the title page, the
+                      software self-citation printed as Anonymous (2026)
+    supplement.pdf    the supplement, blind the same way
+    title_page.pdf    title, author, affiliation, abstract, keywords and
+                      the five statements -- everything a referee must not see
+The blind is a switch (\\ifblind in the sources) that this script turns on
+by writing blindflag.tex into the build directory.  check_blind.py reads
+what was BUILT.  paper/specification_surfaces.pdf and paper/supplement.pdf
+stay the UNBLINDED documents, for the archive; `--target is` builds only
+those, as the Information Systems submission did.
+
+The rest of this docstring is the Information Systems history.
 
 The document was retargeted from IAAI-27 to Information Systems in round
 fifteen; `scripts/build_paper.py` builds the superseded AAAI version and is
@@ -66,6 +87,27 @@ def run(cmd, cwd, log):
     return (cwd / log).read_text(encoding="utf-8", errors="replace")
 
 
+#  The one reference that names the author is the software self-citation.
+#  IJF's guide: cite it as `[Anonymous, 2007]' and list it as `Details
+#  omitted for double-blind reviewing'.  The .bbl is where both the label
+#  and the entry live, so that is where the blind is applied, after bibtex
+#  and before the second pdflatex run.  Only entries whose author label is
+#  Dixit are touched; the regex ends at the next \bibitem or the end of
+#  the list so a following entry is never swallowed.
+_SELF = re.compile(
+    r"\\bibitem\[\{?Dixit\((\d{4})\)\}?\]\{([^}]*)\}.*?"
+    r"(?=\\bibitem|\\end\{thebibliography\})", re.S)
+
+
+def anonymise_bbl(text):
+    return _SELF.sub(
+        lambda m: "\\bibitem[{Anonymous(%s)}]{%s}\n"
+                  "\\bibinfo{author}{Anonymous}, \\bibinfo{year}{%s}.\n"
+                  "\\newblock Details omitted for double-blind reviewing.\n"
+                  % (m.group(1), m.group(2), m.group(1)),
+        text)
+
+
 def main():
     global STEM
     ap = argparse.ArgumentParser()
@@ -73,7 +115,11 @@ def main():
     ap.add_argument("--paper", default=None,
                     help="stem of the .tex to build; default is the "
                          "round-nineteen manuscript")
+    ap.add_argument("--target", choices=("is", "ijf"), default="ijf",
+                    help="ijf: blind article + blind supplement + title "
+                         "page (default); is: the unblinded pair only")
     a = ap.parse_args()
+    blind = a.target == "ijf"
     if a.paper:
         STEM = a.paper
     out = Path(a.outdir)
@@ -87,8 +133,10 @@ def main():
     #  to a supplement section resolves to the number the supplement settled
     #  on rather than to the one it had on the first pass.
     supp = "supplement" if (PAPER / "supplement.tex").exists() else None
+    title = "title_page" if blind and (PAPER / "title_page.tex").exists() else None
     for f in [f"{STEM}.tex", "references.bib"] + \
              ([f"{supp}.tex"] if supp else []) + \
+             ([f"{title}.tex"] if title else []) + \
              [p.name for p in sorted(PAPER.glob("*.png"))]:
         shutil.copy2(PAPER / f, out / f)
     #  ROUND NINETEEN.  The manuscript \input's a GENERATED macro file and a
@@ -102,7 +150,7 @@ def main():
             (out / sub).mkdir(exist_ok=True)
             for f in (PAPER / sub).glob("*.tex"):
                 shutil.copy2(f, out / sub / f.name)
-    for stem in [STEM] + ([supp] if supp else []):
+    for stem in [STEM] + ([supp] if supp else []) + ([title] if title else []):
         for f in out.glob(f"{stem}.*"):
             if f.suffix in (".aux", ".bbl", ".blg", ".pdf", ".log"):
                 f.unlink()
@@ -111,7 +159,7 @@ def main():
         return [pdflatex, "-interaction=nonstopmode", "--enable-installer",
                 f"{stem}.tex"]
 
-    def build_one(stem, tag):
+    def build_one(stem, tag, anonymise=False):
         run(tex_for(stem), out, f"{tag}1.log")
         blog = run([bibtex, stem], out, f"{tag}b.log")
         if "I couldn't open" in blog or "Illegal" in blog:
@@ -131,18 +179,26 @@ def main():
             #  \href is undefined, which is what typesets the underscore as a
             #  subscript; the url package's \path is kept instead
             t2 = t2.replace("\\def\\path#1{#1}", "")
+            if anonymise:
+                t2 = anonymise_bbl(t2)
             if t2 != t:
                 bbl.write_text(t2, encoding="utf-8")
         run(tex_for(stem), out, f"{tag}2.log")
         return run(tex_for(stem), out, f"{tag}3.log")
 
-    log = build_one(STEM, "p")
+    flag = out / "blindflag.tex"
+    if blind:
+        flag.write_text("\\blindtrue\n", encoding="utf-8")
+    elif flag.exists():
+        flag.unlink()
+
+    log = build_one(STEM, "p", anonymise=blind)
     if supp:
-        slog = build_one(supp, "s")
+        slog = build_one(supp, "s", anonymise=blind)
         #  the article again, now that the supplement's numbers exist, and
         #  the supplement again, now that the article's do
-        log = build_one(STEM, "p")
-        slog = build_one(supp, "s")
+        log = build_one(STEM, "p", anonymise=blind)
+        slog = build_one(supp, "s", anonymise=blind)
         serrs = [l for l in slog.splitlines() if l.startswith("!")]
         sundef = [l for l in slog.splitlines()
                   if "Warning" in l and "undefined" in l.lower()
@@ -217,6 +273,34 @@ def main():
         sys.exit("undefined references -- fix before submitting")
     print(f"    0 errors, 0 undefined references"
           + (f", {m.group(1)} pages" if m else ""))
+
+    if blind:
+        #  the blind outputs under the names the upload table uses; the
+        #  paper/*.pdf copies made above are the same blind builds, which
+        #  is deliberate: nothing under paper/ names the author either way
+        shutil.copy2(pdf, out / "manuscript.pdf")
+        #  the supplement's stem is already its upload name
+        flag.unlink()
+        if title:
+            tlog = build_one(title, "t")
+            terrs = [l for l in tlog.splitlines() if l.startswith("!")]
+            tpdf = out / f"{title}.pdf"
+            if terrs or not tpdf.exists():
+                print("\n".join(terrs) or "no title page produced")
+                sys.exit("TITLE PAGE BUILD FAILED")
+            tundef = [l for l in tlog.splitlines()
+                      if "Warning" in l and "undefined" in l.lower()
+                      and "Font" not in l]
+            tpages = next((l for l in tlog.splitlines()
+                           if "Output written" in l), "")
+            print(f"OK  {tpdf}")
+            print(f"    {tpages.strip()}")
+            if tundef:
+                for u in tundef[:10]:
+                    print(f"      {u.strip()}")
+                sys.exit("undefined references in the title page")
+        print("    blind: manuscript.pdf, supplement.pdf; unblinded: "
+              "title_page.pdf")
 
 
 if __name__ == "__main__":

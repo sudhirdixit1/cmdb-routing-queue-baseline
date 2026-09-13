@@ -485,7 +485,7 @@ than counted by hand.
 | 1 | Introduction | 1,221 | 1,200–1,500 | just under |
 | 2 | Related work | 566 | 1,200–1,500 | under |
 | 3 | The specification surface | 1,125 | ~1,500 | ✓ |
-| 4 | Estimation and inference | 3,145 | 2,000–2,500 | **over** |
+| 4 | Estimation and inference | 3,142 | 2,000–2,500 | **over** |
 | 5 | The registered benchmark design | 985 | 1,200–1,500 | ✓ |
 | 6 | Multi-log results | 3,236 | 2,000–2,500 | **over** |
 | 7 | Case study: a configuration management database | 1,694 | 1,500–2,000 | ✓ |

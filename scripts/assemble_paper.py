@@ -20,7 +20,9 @@ OUT = ROOT / "paper" / "specification_surfaces.tex"
 OUT_SUPP = ROOT / "paper" / "supplement.tex"
 
 ORDER = [
-    "00_front_intro_related.tex",
+    "00_preamble.tex",
+    "01_frontmatter.tex",
+    "05_intro_related.tex",
     "10_surface.tex",
     "20_inference.tex",
     "30_design.tex",
@@ -42,7 +44,20 @@ ORDER_SUPP = [
     "S9_supplement_back.tex",
 ]
 
-DOCS = {OUT: ORDER, OUT_SUPP: ORDER_SUPP}
+#  IJF RETARGET.  The journal reviews double-blind and wants the title page
+#  as a separate file.  It is a third document built from the SAME front
+#  parts, so the title, the abstract and the keywords exist once, plus the
+#  statements part the blind article omits.
+OUT_TITLE = ROOT / "paper" / "title_page.tex"
+ORDER_TITLE = [
+    "00_preamble.tex",
+    "T0_unblind.tex",
+    "01_frontmatter.tex",
+    "statements.tex",
+    "T9_title_back.tex",
+]
+
+DOCS = {OUT: ORDER, OUT_SUPP: ORDER_SUPP, OUT_TITLE: ORDER_TITLE}
 
 
 def build(order):

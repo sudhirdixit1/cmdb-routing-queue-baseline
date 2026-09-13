@@ -1,6 +1,11 @@
-% ---- paper/parts/00_front_intro_related.tex ----
-%% Information Systems (Elsevier) -- research article.
-%% Compile: python scripts/build_journal.py --paper specification_surfaces
+% ---- paper/parts/00_preamble.tex ----
+%% International Journal of Forecasting (Elsevier/IIF) -- research article.
+%% Compile: python scripts/build_journal.py --target ijf
+%%
+%% IJF RETARGET (PLAN-IJF.md).  The front part is three: 00_preamble (this
+%% file), 01_frontmatter (title, author block, abstract, keywords), and
+%% 05_intro_related.  The title-page document reuses the first two by
+%% assembly, so the title, abstract and keywords exist once.
 %%
 %% ROUND TWENTY-ONE.  Three reviews have been answered: a referee's report for
 %% Information Systems (response_to_referee.md), a developmental review of the
@@ -89,6 +94,9 @@
 
 \journal{International Journal of Forecasting}
 
+% ---- paper/parts/01_frontmatter.tex ----
+%%  Title, author block (omitted under \ifblind), abstract and keywords.
+%%  Shared by assembly with the title-page document (assemble_paper.py).
 \begin{document}
 
 \begin{frontmatter}
@@ -147,7 +155,9 @@ sensitivity analysis \sep configuration management database
 \end{keyword}
 
 \end{frontmatter}
-
+% ---- paper/parts/05_intro_related.tex ----
+%%  Highlights (printed for a reviewer holding only the PDF), Introduction
+%%  and Related work.
 %%  Highlights.  Elsevier collects these in a separate file; they are printed
 %%  here as well so that a reviewer holding only the PDF can see them.  The
 %%  text is generated into numbers.tex from submission/highlights.txt by

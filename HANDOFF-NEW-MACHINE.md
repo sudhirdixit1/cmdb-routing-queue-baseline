@@ -181,7 +181,7 @@ because `--strict` once certified a build reading a two-replicate smoke test.
   `figS7_calibration.png` `fig_signature.png` (plus older `figJ*`, `figK*`)
 
 ### `paper/parts/` — edit the manuscript **here**
-Article, in order: `00_front_intro_related.tex` (preamble, abstract,
+Article, in order: `00_preamble.tex`, `01_frontmatter.tex`, `05_intro_related.tex` (preamble, abstract,
 highlights, intro, related work) · `10_surface.tex` (design space, estimand,
 propositions) · `20_inference.tex` (bootstrap, bands, contrasts, Sobol,
 regions, regret) · `30_design.tex` (registered benchmark) ·
