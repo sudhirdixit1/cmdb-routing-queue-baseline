@@ -236,6 +236,18 @@ def main():
             sys.exit("undefined references in the supplement")
 
     errs = [l for l in log.splitlines() if l.startswith("!")]
+    #  IJF RETARGET.  A subsection moved to the supplement kept its \label
+    #  while the article's pointer paragraph kept it too, and `xr' imports
+    #  the other document's labels, so both documents warned `multiply
+    #  defined' and the build said OK: the undefined-reference gate cannot
+    #  see a label that is defined twice.  The citation warnings of the same
+    #  wording are xr importing \bibcite lines and are not this gate's.
+    dup = [l for l in (log + (slog if supp else "")).splitlines()
+           if "LaTeX Warning: Label" in l and "multiply defined" in l]
+    if dup:
+        for u in sorted(set(dup))[:10]:
+            print(f"      {u.strip()}")
+        sys.exit("labels defined twice -- a moved section kept its label")
     #  A `Font shape ... undefined' warning is a substitution, not a broken
     #  cross-reference, and treating it as one made the gate fire on a build
     #  whose references were all resolved.  Font problems are still reported,

@@ -1038,23 +1038,15 @@ Section~\ref{sec:lim} asks whether the window should be tightened.
 \subsection{What the corpus does and does not have in common}
 \label{sec:construct}
 
-
-The corpus is \nLogs\ public logs spanning \nDomains\ domains, including the
-further ITSM logs the literature uses \citep{steeman2013bpic,amaral2018incident},
-and it is heterogeneous: the registers are a configuration item, a caller, a
-product, a vendor, a diagnosis and a legal article, and the targets mean
-different things in a bank's incident queue, a hospital's admissions and a
-municipality's permits. Table~\ref{tab:construct} names, for every pair, the
-domain, the field playing each role, the target's interpretation and the
-construct threat that pair carries --- a diagnosis code is admitted by a
-cardinality-and-reuse rule and is not a configuration management database.
-This is therefore a \emph{benchmark of specification sensitivity across
+The corpus is \nLogs\ public logs spanning \nDomains\ domains, and it is
+heterogeneous: this is a \emph{benchmark of specification sensitivity across
 heterogeneous prediction problems}, not a replication of one finding on
-several organisations, and two disciplines follow: no effect magnitude is
-averaged across domains as though it estimated one universal register value,
-and the \nITSMPairs\ ITSM-like pairs, the closest family to the case study,
-are analysed as a group as well, with every headline corpus statistic
-reported on both populations in Supplement~\ref{sec:family}.
+several organisations, so no effect magnitude is averaged across domains as
+though it estimated one universal register value, and the \nITSMPairs\
+ITSM-like pairs are analysed as a group as well. Supplement~\ref{app:construct}
+names, for every pair, the domain, the field playing each role, the target's
+interpretation and the construct threat that pair carries.
+
 % ---- paper/parts/40_multilog.tex ----
 
 \section{Multi-log results}
@@ -1386,33 +1378,16 @@ it does not say which.
 The closest existing practice is specification-curve analysis
 \citep{simonsohn2020specification}: enumerate the reasonable specifications,
 plot the curve, and test it against a sharp null by permutation.
-Table~\ref{tab:sca} runs it unchanged on \emph{every} admitted pair ---
-\nScaPairs\ of them, \nScaPerms\ permutations of a declared
-\nScaCells-cell sub-surface, under budgets Supplement~\ref{app:tables}
-declares --- beside the region label computed on the same cells, which makes
-``how often do the two verdicts part company'' a measurement rather than an
-illustration.
-
-\textbf{They part company on \nScaDisagree\ of the \nScaPairs\ pairs}, close
-to half: the permutation test rejects the sharp null --- the surface is
-decisively unlike one with no signal --- and the same cells contain
-increments of \emph{both} signs, so a reader given only the test would
-conclude that the register matters and have no way to learn that whether it
-helps or hurts depends on choices nobody told them about. On
-\nScaAgreeNull\ of the \nScaPairs\ pairs neither resolves and the cheaper
-instrument suffices. And a specification curve is a statement about the
-cells it enumerates: on \nScaSubSurfaceDisagree\ of the \nScaPairs\ pairs
---- \scaSubSurfacePair\ --- every cell of the sub-surface has one sign while
-the \emph{full} surface is \scaSubSurfaceRegion, and nothing is wrong with
-either, because they are claims about different sets; without a declared
-denominator and a simultaneous band a curve cannot distinguish ``the sign
-holds'' from ``the sign holds on the cells I drew''.
-
-Neither subsumes the other. The permutation test answers \emph{is there
-anything here}, costs one refit per permutation per cell and needs no band;
-the region answers \emph{may I quote a sign}, costs a nested bootstrap, and is
-what a reader deciding whether to act needs. This paper's contribution is the
-second, and the first should be reported beside it.
+Supplement~\ref{app:sca} runs it unchanged on \emph{every} admitted pair
+beside the region label computed on the same cells. \textbf{They part
+company on \nScaDisagree\ of the \nScaPairs\ pairs}, close to half: the
+permutation test rejects the sharp null and the same cells contain
+increments of \emph{both} signs. Neither subsumes the other. The permutation
+test answers \emph{is there anything here}, costs one refit per permutation
+per cell and needs no band; the region answers \emph{may I quote a sign},
+costs a nested bootstrap, and is what a reader deciding whether to act
+needs. This paper's contribution is the second, and the first should be
+reported beside it.
 
 \subsection{Decision rules, in sample and out}
 \label{sec:rules}
@@ -1546,68 +1521,17 @@ estimated from training alone (Supplement~\ref{app:degrade}).
 \subsection{What this says to a configuration management programme}
 \label{sec:programme}
 
-This subsection is the reading a service-management audience will want, stated
-in the estate's own vocabulary. It is a reading of \emph{one} estate on
-\emph{one} public log and it is offered as one; Section~\ref{sec:lim} says
-what a second would need.
-
-\paragraph{The three moments, in service-desk terms}
-The prediction is: \emph{will this case be reassigned to another group before
-it is resolved?} The register is the affected configuration item, the free
-field the assignment group --- the routing queue, recorded without a
-configuration management database and the field the register has to beat ---
-the intake block what the desk records when the case arrives, and the
-knowledge reference a pointer to a knowledge-base article whose availability
-at the moment of decision is exactly what Section~\ref{sec:quality} cannot
-settle. $\tau_0$ is \emph{an interaction is logged}: every call is in scope,
-\nTauZero\ of them. $\tau_1$ is the same moment restricted to the calls that
-will escalate. $\tau_2$ is \emph{an incident record is created}: \nTauTwo\
-cases, \nTauTwoUnmatched\ of them with no interaction record. Read down
-Table~\ref{tab:tau} and the register's worth falls from \VtauZero\ AUC to
-\VtauOne\ to \VTtwoGroup\ once the routing queue is in the baseline, and to
-\VTtwoKnow\ --- not resolvably different from zero --- once the knowledge
-reference is admitted too. A programme that justifies the register on a
-first-touch number and deploys the model at incident creation is quoting the
-top of a ladder and standing on the bottom of it;
-Section~\ref{sec:nbregret} prices that at \promisedPerThousand\ true
-positives promised per thousand cases against \deliveredPerThousand\
-delivered.
-
-\paragraph{Which layer of the register pays}
-A programme does not choose whether to have a configuration management
-database; it chooses how much of one to populate and maintain, which is a
-choice among \emph{layers}. On the registered cohort and handover rule ---
-\layerLadderN\ cases, one-hot logistic regression at the temporal holdout,
-against the intake block at base AUC \layerBaseHandover\ --- the item's
-\emph{type} (\nLayerTypeLevels\ values) is worth \layerTypeHandover\ AUC over
-intake, its \emph{subtype} (\nLayerSubtypeLevels) \layerSubtypeHandover, and
-the item itself \layerItemHandover, adding \layerItemMarginalHandover\ once
-the subtype is in the model; that ladder is on a different cohort and target
-from Table~\ref{tab:tau} and does not reconcile with it arithmetically
-(Supplement~\ref{app:layers}). \textbf{The coarse layers are not free, and
-the finest layer is not redundant}: \layerTypeSharePctHandover\ of what the
-item is worth is reachable from a thirteen-value type field, and the item
-still adds once the subtype is known. On the duration target the ladder
-gives \layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration, with
-\layerItemMarginalDuration\ marginal and the type reaching
-\layerTypeSharePctDuration, so the split between the layers is a property of
-the target and not of the register; Supplement~\ref{app:layers} carries two
-further logs on which every coarse layer is worth essentially nothing while
-the finest one is not. Nothing here prices what a layer costs to populate or
-to keep accurate.
-
-\paragraph{What would have to change for the answer to move}
-Three things, in the order a programme could act on them. A
-\emph{timestamped field history}: the knowledge reference decides this
-estate's answer and its admissibility is settled here by probability, and a
-register that records when each value was written turns
-Section~\ref{sec:quality}'s tipping point into a measurement. A
-\emph{complete population at the decision time}: \nTauTwoUnmatched\ incidents
-have no interaction record, so the $\tau_1$-to-$\tau_2$ step is an
-information step only on the cases that have both. And a \emph{target the
-desk actually acts on}: the register's sign changes with the target on this
-log (Section~\ref{sec:cohort}), and a programme evaluating a register against
-a generic handover rule is answering a question nobody asked it.
+Supplement~\ref{app:programmeread} gives the reading a service-management
+audience will want, stated in the estate's own vocabulary: the three
+decision times in service-desk terms, which layer of the register pays, and
+what would have to change for the answer to move. It is a reading of
+\emph{one} estate on \emph{one} public log and it is offered as one;
+Section~\ref{sec:lim} says what a second would need. Its one sentence for
+this section: a programme that justifies the register on a first-touch
+number and deploys the model at incident creation is quoting the top of a
+ladder and standing on the bottom of it; Section~\ref{sec:nbregret} prices
+that at \promisedPerThousand\ true positives promised per thousand cases
+against \deliveredPerThousand\ delivered.
 
 \subsection{The absorption, and why the ratio is secondary}
 \label{sec:absorption}
@@ -1616,12 +1540,10 @@ The quantity a report of this kind usually leads with is the \emph{relative}
 reduction $R$: the share of the register's apparent value that a single free
 field absorbs. The absolute absorption $D = V(f \mid B_0) - V(f \mid B_1)$ is
 reported first, with its own interval, and $R$ second with a Fieller set and
-the set's kind. On this estate at the reference cell $D$ is \Dabs\ [\DabsLo,
-\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set; \nFiellerUnboundedCase\
-of the \nFiellerCase\ reductions this ladder produces have a non-bounded set,
-because the denominator is resolvably positive at every rung, which across the
-corpus is not so (Section~\ref{sec:reduction}). The full ladder is
-Table~\ref{tab:absorption}.
+the set's kind; on this estate at the reference cell $D$ is \Dabs\ [\DabsLo,
+\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set. The full ladder
+and the reason the ratio is secondary are in Supplement~\ref{app:absorption}.
+
 % ---- paper/parts/60_dca.tex ----
 
 \section{Decision-analytic evaluation}
@@ -1954,78 +1876,9 @@ $95\%$, at a Monte Carlo standard error of about
 \covMultHeavyWholeAtDesign\ and \covMultNonzeroWholeAtDesign, and no draw
 budget closes that gap. So the region labels and $\rho$ rest on a critical
 value measured at its level, with three qualifications that are limits
-rather than results. The measurement switches the resampling off, so it
-bounds the critical value's contribution and not the bootstrap's: the
-pointwise interval underneath is governed by $K/n$ and undercovers where
-this corpus lives (Section~\ref{sec:simsensitivity}), and the $(n, K)$
-calibration that would widen it is reported as a sensitivity and not
-applied, because it is fitted pointwise, applied simultaneously and
-measurably misspecified. The level is bought with width:
-\nResolvedLostToEmp\ cells the multiplier would have resolved are unresolved
-here, and \nUnresolvedPairs\ pairs resolve nothing. And the decision-curve
-families carry cells that are zero by arithmetic, which a declared rule
-excludes from the family before the quantile is taken
-(Section~\ref{sec:dcabands}). The decision-curve region of that section is
-the exception to the first sentence of this paragraph's verdict: its family's
-empirical quantile covers \covEmpHeavyCaseAtDesign\ on a matched family that
-reproduces the corpus's estimator ratio at \ratioSynthDca\ against
-\ratioCorpusDca, so that label rests on a critical value about a point short
-of its level.
-
-\paragraph{Internal --- two mechanisms this evidence retires}
-A multinomial resample holds about $1 - e^{-1}$ of a high-cardinality
-register's levels, which is the natural explanation of a displaced bootstrap
-distribution. Under weights every row has positive weight in every draw and
-the level share is \levelShareWeighted\ against \levelShareMult\ --- the
-mechanism is gone by construction --- and the displacement's median moves
-only from \dispMedianMult\ to \dispMedianWeighted\ (Section~\ref{sec:boot}).
-What the change does remove is a defect the mechanism genuinely caused:
-cells a draw drops entirely, which get no band at all and were counted as
-\emph{unresolved} beside cells that were banded and straddled zero ---
-\nUnbandableSameDesign\ under the multinomial scheme on this design,
-\nUnbandableCells\ under weights. And the draw count is not what governs the
-multiplier's coverage: on families matched to this design it is
-\covMultBootOneFifty\ at \nBootOneFifty\ draws, \covMultBootFourHundred\ at
-\nBootFourHundred\ and \covMultBootOneThousand\ at \nBootOneThousand\ ---
-it plateaus --- while the empirical quantile's coverage is what rises with
-$B$, from \covEmpBootThirtyThree\ at \nBootThirtyThree\ draws to
-\covEmpBootFourHundred\ at \nBootFourHundred. A mechanism can be removed
-completely and leave its supposed consequence standing, which is a caution
-about every explanation of a resampling artefact offered without the
-counterfactual, including the two here.
-
-\paragraph{Internal --- further assumptions, named, and one of them
-measured}
-The split point is fixed within a draw, so split-position uncertainty is
-outside every interval here. A second sort is undeclared and is not repaired:
-the register-quality mechanisms cut a cumulative-count curve inside a group
-of tied identities, so \emph{which} identities a degradation removes rests on
-an order nothing pins; the affected quantity is the quality axis and not the
-increment at the reference cell, and repairing it moves every number on that
-axis, which is why it is recorded here and why
-Supplement~\ref{app:standard}'s tie-break item ranges over every sort a
-procedure cuts on. The moving-block construction needs stationarity and
-mixing that an event log is not guaranteed to have, and the same assumption
-makes Definition~\ref{def:estimand}'s population limit well defined under a
-temporal split. Stationarity is measured and does not hold everywhere:
-cutting each pair's test half into \nDriftBlocks\ consecutive blocks and
-reading the spread of the increment against a null that re-partitions the
-same rows at random, \nDrifts\ of \nDriftPairs\ pairs sit in the upper tail
-of that null at $\alpha = 0.05$, \nDriftSignVaries\ carry both signs between
-blocks of one test half, and only \nDriftTrend\ shows a monotone trend, so
-this is heterogeneity and not decay (Supplement~\ref{app:drift}). On those
-pairs the interval and the band understate what a reader would see on a
-different stretch of the same log, by an amount this design cannot sign;
-time is not a declared axis of $\mathcal{S}$. Mixing is not tested. The
-band's family-wise coverage is asymptotic, the block length is a convention,
-$\lceil n^{1/3}\rceil$, which moves coverage by up to
-\coverageBlockSpreadMax\ within a world, and the $(n, K)$ calibration of
-Supplement~\ref{app:calibration} corrects the studentised statistic's
-\emph{scale} and not the shape of the maximum's distribution and is
-measurably misspecified ($\log n$ enters at $t = \planeNdependenceT$). A
-reader who rejects any of these should rely on the objects that need no
-band: the point estimates, the decomposition, the disagreement rates and the
-regret comparison.
+rather than results; Supplement~\ref{app:threats} states them, with the
+mechanisms this evidence retires and the further assumptions it names, one
+of them measured.
 
 \paragraph{Conclusion --- two claims a specification surface invites and
 this evidence does not support}

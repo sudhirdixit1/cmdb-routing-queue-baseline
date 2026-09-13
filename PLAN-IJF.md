@@ -67,9 +67,9 @@ taken during execution go to `submission/DECISIONS.md` §IJF.
 
 | phase | state |
 |---|---|
-| 0 · branch, decisions, this plan | not started |
-| 1 · mechanical: journal, author–year, blind switch, title page, `check_blind` | not started |
-| 2 · length: seven subsections to the supplement | not started |
+| 0 · branch, decisions, this plan | **done** |
+| 1 · mechanical: journal, author–year, blind switch, title page, `check_blind` | **done** — blind article 54 pp, title page 3 pp, `check_blind` 0 hits on first run |
+| 2 · length: seven subsections to the supplement | **done, short of target** — 54 → **50 pp** (43 body + 7 references). Moved: §5.4, §6.5, §7.4, §7.5 and the three internal-validity paragraphs of §10 (1,860 words). Not moved, and why: §4.7 (145 words), §6.6 (99) — nothing to gain; §9.1 — the source five sections cite for the $K/n$ finding, a pointer would copy most of it; Tables 3 and 5 — referenced eight and three times, the design space and the headline decomposition. Next candidates if 44 is required: §9.2's per-family detail (~1.5 pp), §6.2's second half (~1.5 pp), the printed Highlights (0.3 pp); each is a results paragraph and each cut is a claim to re-audit |
 | 3 · full reframe: vocabulary map, title, abstract, keywords, intro, related work, openings, conclusion | not started |
 | 4 · package: cover letter, referees, manifest, skill, highlights, logs | not started |
 | 5 · gates, internal referee read (round 29), final build | not started |

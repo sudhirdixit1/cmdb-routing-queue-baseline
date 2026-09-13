@@ -4,12 +4,12 @@ section,words
 "Related work",566
 "The specification surface",1125
 "Estimation and inference",3142
-"The registered benchmark design",985
-"Multi-log results",3236
-"Case study: a configuration management database",1694
+"The registered benchmark design",900
+"Multi-log results",3075
+"Case study: a configuration management database",1174
 "Decision-analytic evaluation",943
 "Simulation against a known answer",1565
-"Threats to validity",1615
+"Threats to validity",948
 "Conclusion",735
 "Data availability",191
 "Code availability",75

@@ -1,0 +1,65 @@
+%  Moved from the article (50_cmdb.tex, \subsection{What this says to a configuration management programme}) in the IJF retarget, PLAN-IJF.md
+%  Task 2.1; the article keeps a pointer paragraph.
+This subsection is the reading a service-management audience will want, stated
+in the estate's own vocabulary. It is a reading of \emph{one} estate on
+\emph{one} public log and it is offered as one; Section~\ref{sec:lim} says
+what a second would need.
+
+\paragraph{The three moments, in service-desk terms}
+The prediction is: \emph{will this case be reassigned to another group before
+it is resolved?} The register is the affected configuration item, the free
+field the assignment group --- the routing queue, recorded without a
+configuration management database and the field the register has to beat ---
+the intake block what the desk records when the case arrives, and the
+knowledge reference a pointer to a knowledge-base article whose availability
+at the moment of decision is exactly what Section~\ref{sec:quality} cannot
+settle. $\tau_0$ is \emph{an interaction is logged}: every call is in scope,
+\nTauZero\ of them. $\tau_1$ is the same moment restricted to the calls that
+will escalate. $\tau_2$ is \emph{an incident record is created}: \nTauTwo\
+cases, \nTauTwoUnmatched\ of them with no interaction record. Read down
+Table~\ref{tab:tau} and the register's worth falls from \VtauZero\ AUC to
+\VtauOne\ to \VTtwoGroup\ once the routing queue is in the baseline, and to
+\VTtwoKnow\ --- not resolvably different from zero --- once the knowledge
+reference is admitted too. A programme that justifies the register on a
+first-touch number and deploys the model at incident creation is quoting the
+top of a ladder and standing on the bottom of it;
+Section~\ref{sec:nbregret} prices that at \promisedPerThousand\ true
+positives promised per thousand cases against \deliveredPerThousand\
+delivered.
+
+\paragraph{Which layer of the register pays}
+A programme does not choose whether to have a configuration management
+database; it chooses how much of one to populate and maintain, which is a
+choice among \emph{layers}. On the registered cohort and handover rule ---
+\layerLadderN\ cases, one-hot logistic regression at the temporal holdout,
+against the intake block at base AUC \layerBaseHandover\ --- the item's
+\emph{type} (\nLayerTypeLevels\ values) is worth \layerTypeHandover\ AUC over
+intake, its \emph{subtype} (\nLayerSubtypeLevels) \layerSubtypeHandover, and
+the item itself \layerItemHandover, adding \layerItemMarginalHandover\ once
+the subtype is in the model; that ladder is on a different cohort and target
+from Table~\ref{tab:tau} and does not reconcile with it arithmetically
+(Supplement~\ref{app:layers}). \textbf{The coarse layers are not free, and
+the finest layer is not redundant}: \layerTypeSharePctHandover\ of what the
+item is worth is reachable from a thirteen-value type field, and the item
+still adds once the subtype is known. On the duration target the ladder
+gives \layerTypeDuration, \layerSubtypeDuration\ and \layerItemDuration, with
+\layerItemMarginalDuration\ marginal and the type reaching
+\layerTypeSharePctDuration, so the split between the layers is a property of
+the target and not of the register; Supplement~\ref{app:layers} carries two
+further logs on which every coarse layer is worth essentially nothing while
+the finest one is not. Nothing here prices what a layer costs to populate or
+to keep accurate.
+
+\paragraph{What would have to change for the answer to move}
+Three things, in the order a programme could act on them. A
+\emph{timestamped field history}: the knowledge reference decides this
+estate's answer and its admissibility is settled here by probability, and a
+register that records when each value was written turns
+Section~\ref{sec:quality}'s tipping point into a measurement. A
+\emph{complete population at the decision time}: \nTauTwoUnmatched\ incidents
+have no interaction record, so the $\tau_1$-to-$\tau_2$ step is an
+information step only on the cases that have both. And a \emph{target the
+desk actually acts on}: the register's sign changes with the target on this
+log (Section~\ref{sec:cohort}), and a programme evaluating a register against
+a generic handover rule is answering a question nobody asked it.
+

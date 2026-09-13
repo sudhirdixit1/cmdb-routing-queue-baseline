@@ -41,78 +41,9 @@ $95\%$, at a Monte Carlo standard error of about
 \covMultHeavyWholeAtDesign\ and \covMultNonzeroWholeAtDesign, and no draw
 budget closes that gap. So the region labels and $\rho$ rest on a critical
 value measured at its level, with three qualifications that are limits
-rather than results. The measurement switches the resampling off, so it
-bounds the critical value's contribution and not the bootstrap's: the
-pointwise interval underneath is governed by $K/n$ and undercovers where
-this corpus lives (Section~\ref{sec:simsensitivity}), and the $(n, K)$
-calibration that would widen it is reported as a sensitivity and not
-applied, because it is fitted pointwise, applied simultaneously and
-measurably misspecified. The level is bought with width:
-\nResolvedLostToEmp\ cells the multiplier would have resolved are unresolved
-here, and \nUnresolvedPairs\ pairs resolve nothing. And the decision-curve
-families carry cells that are zero by arithmetic, which a declared rule
-excludes from the family before the quantile is taken
-(Section~\ref{sec:dcabands}). The decision-curve region of that section is
-the exception to the first sentence of this paragraph's verdict: its family's
-empirical quantile covers \covEmpHeavyCaseAtDesign\ on a matched family that
-reproduces the corpus's estimator ratio at \ratioSynthDca\ against
-\ratioCorpusDca, so that label rests on a critical value about a point short
-of its level.
-
-\paragraph{Internal --- two mechanisms this evidence retires}
-A multinomial resample holds about $1 - e^{-1}$ of a high-cardinality
-register's levels, which is the natural explanation of a displaced bootstrap
-distribution. Under weights every row has positive weight in every draw and
-the level share is \levelShareWeighted\ against \levelShareMult\ --- the
-mechanism is gone by construction --- and the displacement's median moves
-only from \dispMedianMult\ to \dispMedianWeighted\ (Section~\ref{sec:boot}).
-What the change does remove is a defect the mechanism genuinely caused:
-cells a draw drops entirely, which get no band at all and were counted as
-\emph{unresolved} beside cells that were banded and straddled zero ---
-\nUnbandableSameDesign\ under the multinomial scheme on this design,
-\nUnbandableCells\ under weights. And the draw count is not what governs the
-multiplier's coverage: on families matched to this design it is
-\covMultBootOneFifty\ at \nBootOneFifty\ draws, \covMultBootFourHundred\ at
-\nBootFourHundred\ and \covMultBootOneThousand\ at \nBootOneThousand\ ---
-it plateaus --- while the empirical quantile's coverage is what rises with
-$B$, from \covEmpBootThirtyThree\ at \nBootThirtyThree\ draws to
-\covEmpBootFourHundred\ at \nBootFourHundred. A mechanism can be removed
-completely and leave its supposed consequence standing, which is a caution
-about every explanation of a resampling artefact offered without the
-counterfactual, including the two here.
-
-\paragraph{Internal --- further assumptions, named, and one of them
-measured}
-The split point is fixed within a draw, so split-position uncertainty is
-outside every interval here. A second sort is undeclared and is not repaired:
-the register-quality mechanisms cut a cumulative-count curve inside a group
-of tied identities, so \emph{which} identities a degradation removes rests on
-an order nothing pins; the affected quantity is the quality axis and not the
-increment at the reference cell, and repairing it moves every number on that
-axis, which is why it is recorded here and why
-Supplement~\ref{app:standard}'s tie-break item ranges over every sort a
-procedure cuts on. The moving-block construction needs stationarity and
-mixing that an event log is not guaranteed to have, and the same assumption
-makes Definition~\ref{def:estimand}'s population limit well defined under a
-temporal split. Stationarity is measured and does not hold everywhere:
-cutting each pair's test half into \nDriftBlocks\ consecutive blocks and
-reading the spread of the increment against a null that re-partitions the
-same rows at random, \nDrifts\ of \nDriftPairs\ pairs sit in the upper tail
-of that null at $\alpha = 0.05$, \nDriftSignVaries\ carry both signs between
-blocks of one test half, and only \nDriftTrend\ shows a monotone trend, so
-this is heterogeneity and not decay (Supplement~\ref{app:drift}). On those
-pairs the interval and the band understate what a reader would see on a
-different stretch of the same log, by an amount this design cannot sign;
-time is not a declared axis of $\mathcal{S}$. Mixing is not tested. The
-band's family-wise coverage is asymptotic, the block length is a convention,
-$\lceil n^{1/3}\rceil$, which moves coverage by up to
-\coverageBlockSpreadMax\ within a world, and the $(n, K)$ calibration of
-Supplement~\ref{app:calibration} corrects the studentised statistic's
-\emph{scale} and not the shape of the maximum's distribution and is
-measurably misspecified ($\log n$ enters at $t = \planeNdependenceT$). A
-reader who rejects any of these should rely on the objects that need no
-band: the point estimates, the decomposition, the disagreement rates and the
-regret comparison.
+rather than results; Supplement~\ref{app:threats} states them, with the
+mechanisms this evidence retires and the further assumptions it names, one
+of them measured.
 
 \paragraph{Conclusion --- two claims a specification surface invites and
 this evidence does not support}
