@@ -49,8 +49,13 @@ HIGH = ROOT / "submission" / "highlights.txt"
 #  caps keywords at SIX, not seven, and asks for an abstract that a reader
 #  finishes -- the limit here is the one the review set, 200 words, which is
 #  stricter than the journal's and is the point.
-ABSTRACT_LIMIT = 200
-KEYWORD_LIMIT = 6
+#  IJF RETARGET.  The Guide for Authors: an abstract of 100-150 words, no
+#  notation; at least five keywords.  The upper keyword bound is this
+#  project's own, so a list does not grow by accretion.
+ABSTRACT_LIMIT = 150
+ABSTRACT_MIN = 100
+KEYWORD_LIMIT = 8
+KEYWORD_MIN = 5
 HIGHLIGHT_LIMIT = 85
 
 #  the changelog belongs in the repository, not in the article.  These are the
@@ -290,6 +295,12 @@ def main(argv=None):
         if n_abs > ABSTRACT_LIMIT:
             FAILS.append("abstract is %d words, limit %d" % (n_abs,
                                                              ABSTRACT_LIMIT))
+        if n_abs < ABSTRACT_MIN:
+            FAILS.append("abstract is %d words, minimum %d" % (n_abs,
+                                                               ABSTRACT_MIN))
+        if "$" in m.group(1):
+            FAILS.append("the abstract carries mathematical notation, "
+                         "which the guide forbids")
 
     # 2 keywords
     m = re.search(r"\\begin\{keyword\}(.*?)\\end\{keyword\}", t, re.S)
@@ -300,6 +311,8 @@ def main(argv=None):
         n_kw = len([k for k in m.group(1).split("\\sep") if k.strip()])
         if n_kw > KEYWORD_LIMIT:
             FAILS.append("%d keywords, limit %d" % (n_kw, KEYWORD_LIMIT))
+        if n_kw < KEYWORD_MIN:
+            FAILS.append("%d keywords, minimum %d" % (n_kw, KEYWORD_MIN))
 
     # 3 highlights
     n_hi = 0

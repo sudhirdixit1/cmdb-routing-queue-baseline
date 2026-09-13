@@ -14,7 +14,7 @@ verification harness could not see.
 if one is wrong or over the limit.
 
 
-[71] A field's incremental forecast performance is a surface, not one number
+[75] A predictor's incremental forecast performance is a surface, not one number
 [64] An exact decomposition separates analyst choices from resampling
 [73] Simultaneous bands over the whole declared family, with coverage measured
 [76] Resolved cells sit 0.0600 in area under the curve from the one-number report
@@ -23,7 +23,7 @@ if one is wrong or over the limit.
 
 -- paste-ready, without the length prefixes --
 
-A field's incremental forecast performance is a surface, not one number
+A predictor's incremental forecast performance is a surface, not one number
 An exact decomposition separates analyst choices from resampling
 Simultaneous bands over the whole declared family, with coverage measured
 Resolved cells sit 0.0600 in area under the curve from the one-number report
