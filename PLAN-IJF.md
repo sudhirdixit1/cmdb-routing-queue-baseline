@@ -70,10 +70,10 @@ taken during execution go to `submission/DECISIONS.md` §IJF.
 | 0 · branch, decisions, this plan | **done** |
 | 1 · mechanical: journal, author–year, blind switch, title page, `check_blind` | **done** — blind article 54 pp, title page 3 pp, `check_blind` 0 hits on first run |
 | 2 · length: seven subsections to the supplement | **done, short of target** — 54 → **50 pp** (43 body + 7 references). Moved: §5.4, §6.5, §7.4, §7.5 and the three internal-validity paragraphs of §10 (1,860 words). Not moved, and why: §4.7 (145 words), §6.6 (99) — nothing to gain; §9.1 — the source five sections cite for the $K/n$ finding, a pointer would copy most of it; Tables 3 and 5 — referenced eight and three times, the design space and the headline decomposition. Next candidates if 44 is required: §9.2's per-family detail (~1.5 pp), §6.2's second half (~1.5 pp), the printed Highlights (0.3 pp); each is a results paragraph and each cut is a claim to re-audit |
-| 3 · full reframe: vocabulary map, title, abstract, keywords, intro, related work, openings, conclusion | not started |
-| 4 · package: cover letter, referees, manifest, skill, highlights, logs | not started |
-| 5 · gates, internal referee read (round 29), final build | not started |
-| 6 · author-only steps | owner — `python scripts/finalise.py` |
+| 3 · full reframe: vocabulary map, title, abstract, keywords, intro, related work, openings, conclusion | **done** — 43 replacements by `retarget_ijf.py`; object named *incremental forecast performance*, not *value* (DECISIONS §IJF.6); abstract 150 words, no notation; 8 keywords; ten lineage references verified by DOI; one invented target caught in the audit; article **53 pp** |
+| 4 · package: cover letter, referees, manifest, skill, highlights, logs | **done** — five referees with sourced addresses; `submitting-to-ijf` skill; `finalise.py` lists the postcode and the template diff |
+| 5 · gates, internal referee read (round 29), final build | **done** — every gate at 0, `verify_release` byte-identical, `review_round29.md` |
+| 6 · author-only steps | **owner** — `python scripts/finalise.py` lists two: the postcode and the IJF template diff; then ORCID, the declaration `.docx`, the two confirmations, the push, the upload |
 
 ---
 
@@ -486,4 +486,58 @@ Do one move at a time; after each: assemble, build `--target ijf`, note the page
 
 ## 7. Execution record
 
-(appended per phase: what ran, what it found, what changed, what it cost)
+**2026-09-12, one session, branch `ijf-retarget` (13 commits), executed
+inline.**
+
+*Phase 1.* Author–year references: the software entry's bib note carried a
+trailing `\ ` that `elsarticle-harv` closed as `\zenodoDOI\}` and broke the
+supplement build; fixed at the source. The 40 natbib "multiply defined"
+warnings pre-date the change (xr importing `\bibcite`). The front part was
+split in three so the title page shares the title, abstract and keywords by
+assembly. `--target ijf` builds three documents; the `.bbl` anonymiser
+rewrites the one entry whose label is `Dixit`. `check_blind` found 0 hits on
+the first blind build — the switch had removed every occurrence. 54 pp.
+
+*Phase 2.* Premise corrected: no `app_*` part was in the article, so the
+relocation is of subsections. Five moved (§5.4, §6.5, §7.4, §7.5, the three
+internal-validity paragraphs of §10; 1,860 words); three not (§4.7 and §6.6
+too short to gain, §9.1 cited five times for the $K/n$ finding). Two defects
+the build could not see — a moved body keeping its `\label` beside the
+pointer's, and a new key colliding with `app:programme` in `app_secondary`
+— made `xr` warn "multiply defined" while the gate only read "undefined";
+`build_journal` now fails on a label defined twice. 54 → 50 pp.
+
+*Phase 3.* The map, applied by script over the parts, the two table
+generators and the highlight templates: 43 replacements, none excluded.
+The object is *incremental forecast performance*: the plan's *forecast
+value* would have asserted what §1 and §10 disclaim. Abstract at 150 words
+by `texlint`'s counter, without notation or abbreviation; ten
+forecast-evaluation references looked up on Crossref, two working-paper
+first hits replaced by the journal versions, every DOI resolved. The
+introduction, four section leads, the band's contrast with the model
+confidence set, §8's naming of net benefit as decision-based value, and
+the conclusion's frame were rewritten; the audit caught one invented
+target ("breach its deadline") before the build. 50 → 53 pp with the new
+prose and references.
+
+*Phase 4.* Cover letter (every typed number checked against
+`numbers.tex`), five referees with addresses read from the pages named
+beside them (Patton's page shows none; Clark is emeritus with a personal
+address), manifest on three documents, `finalise.py` with the postcode
+(a region without one is not a postal address), the template diff and a
+failing `check_blind` as owed items, the `submitting-to-ijf` skill.
+
+*Phase 5.* `final_search` forbids the previous venue as a venue and lists
+every *predict* for a human read (three prose uses changed; 37 remain as
+names). `verify_release` on HEAD: byte-identical. Round-29 read: five
+references still pointed at moved content, re-pointed. Final: article
+53 pp, supplement 115 pp, title page 3 pp; every gate at 0.
+
+**What it cost.** Length target missed: 53 against ≤ 44. The moves that
+would close it are results paragraphs, each a claim to re-audit; recorded
+in the STATUS table and the round-29 read, not done.
+
+**Owner items** (`python scripts/finalise.py`): the postcode; the IJF
+template diff (a Google Drive download the session did not make without
+the author). Then ORCID, the declaration `.docx`, the two confirmations in
+the letter and on the title page, the push (no tag), the upload.
