@@ -491,7 +491,7 @@ than counted by hand.
 | 7 | Case study: a configuration management database | 1,183 | 1,500–2,000 | ✓ |
 | 8 | Decision-analytic evaluation | 956 | — | added |
 | 9 | Simulation against a known answer | 1,578 | 1,000–1,500 | just over |
-| 10 | Threats to validity | 948 | 1,200–1,500 | **over** |
+| 10 | Threats to validity | 947 | 1,200–1,500 | **over** |
 | 11 | Conclusion | 734 | 400–600 | just over |
 
 **The body is about 21,285 words against the 13,000–15,000 requested, and we

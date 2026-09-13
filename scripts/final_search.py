@@ -30,7 +30,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PARTS = ROOT / "paper" / "parts"
-PDF = ROOT / "build" / "journal" / "specification_surfaces.pdf"
+#  IJF RETARGET: the document that is uploaded is the blind manuscript
+PDF = ROOT / "build" / "journal" / "manuscript.pdf"
 
 FORBIDDEN = [
     (r"\bp\s*=\s*0\b(?!\.)", "a p-value written as exactly zero"),
@@ -46,6 +47,15 @@ FORBIDDEN = [
      r"\b(?:asked|asks|wrote|writes|says|said|requested|objected)\b",
      "referee-facing narrative"),
     (r"\bthis round\b", "round-facing narrative"),
+    #  IJF RETARGET.  The previous venue's name must not survive in the
+    #  sources or the built manuscript; the history lives in the cover
+    #  letter and REFEREE-LOG.md, not in the article.
+    #  Two reference-list entries are legitimately in that journal, so the
+    #  pattern is the prose form (a venue named as a venue) and the
+    #  \journal line, not the bare title.
+    (r"\\journal\{Information Systems\}|"
+     r"\b(?:for|to|in|at|of|by) \*?Information Systems\*?(?! Engineering)(?! \d)",
+     "the previous journal's name, as a venue"),
 ]
 
 WITHDRAWN = [
@@ -74,6 +84,11 @@ REVIEW = [
     (r"\bcorrection~?C\d+", "each must exist in the register"),
     (r"\buniformly beneficial\b", "must be a whole-surface claim"),
     (r"\bmedian\b", "must name the unit of analysis"),
+    #  IJF RETARGET.  `predict' survives where it is the right word (a model
+    #  predicts; predictive process monitoring is a field's name); every
+    #  occurrence is listed so a human reads it once against the forecast
+    #  vocabulary rather than assuming the map caught it.
+    (r"\bpredict(?:s|ed|ion|ions|ive)?\b", "read against the forecast vocabulary"),
 ]
 
 
