@@ -17,7 +17,7 @@
 %% therefore cannot disagree between the abstract, a table and the
 %% conclusion: there is one of it.  scripts/verify_paper.py checks each
 %% macro against the result file it came from.
-\documentclass[preprint,12pt]{elsarticle}
+\documentclass[preprint,12pt,authoryear]{elsarticle}
 
 %%  Latin Modern carries the bold and small-caps typewriter shapes that
 %%  Computer Modern lacks -- which is what thirty font-substitution warnings
@@ -80,7 +80,7 @@
 \theoremstyle{definition}
 \newtheorem{assumption}{Assumption}
 
-\journal{Information Systems}
+\journal{International Journal of Forecasting}
 
 \begin{document}
 
@@ -775,7 +775,7 @@ decomposition \citep{sobol2001global,saltelli2010variance} under a product
 measure $\mathbb{P} = \bigotimes_i w_i$, with first-order and total indices
 $S_i$ and $S_{T_i}$ computed exactly rather than estimated
 (Supplement~\ref{app:sobolest}). The closest
-precedent is Hutter et al.~\cite{hutter2014efficient}, who decompose an algorithm's
+precedent is \citet{hutter2014efficient}, who decompose an algorithm's
 performance over its \emph{configuration} space by the same device; here the
 axes are analysis decisions, the components are exact over a complete
 factorial rather than estimated from a surrogate, and the decomposition is
@@ -2238,7 +2238,7 @@ judgement enters a study is the literature pilot of
 Supplement~\ref{app:standard}, which is declared where it is described, and no
 claim in this paper rests on it.
 
-\bibliographystyle{elsarticle-num}
+\bibliographystyle{elsarticle-harv}
 \bibliography{references}
 
 \end{document}
