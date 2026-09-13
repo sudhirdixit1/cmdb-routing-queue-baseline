@@ -163,6 +163,30 @@ each.
 \section{Related work}
 \label{sec:related}
 
+In the forecasting literature the question is an old one and is asked of a
+single specification at a time. Whether one forecast is more accurate than
+another is tested by \citet{diebold1995comparing} and \citet{west1996asymptotic};
+whether a predictor adds accuracy to a model that nests the one without it
+--- the incremental question, exactly --- by \citet{clark2001nested}; whether
+it adds accuracy \emph{conditionally}, at a given origin and state, by
+\citet{giacomini2006conditional}. When the comparison ranges over a
+\emph{family} of specifications, the reality check \citep{white2000reality},
+the test for superior predictive ability \citep{hansen2005spa} and the model
+confidence set \citep{hansen2011mcs} control the search: the first two ask
+whether the best member of a family beats a benchmark once the search is
+accounted for, the third returns the set of members not rejected as inferior
+at a declared level. What a forecast is worth to a decision, as distinct from
+how accurate it is, is the subject of \citet{murphy1993good} and
+\citet{granger2000economic}, and the scoring of a probability forecast of
+\citet{gneiting2007scoring}. This paper sits beside the family tests and
+takes a different object from them: not whether the family contains a member
+that beats the benchmark, nor which members survive, but the shape of the
+family's increment --- how much of its variation is the analyst's and how
+much is resampling, where its sign is determined, and how far its members
+sit from the one that would conventionally be reported --- with the
+decision-based value of Section~\ref{sec:dca} reported beside the accuracy
+increment rather than in place of it.
+
 Every component used here is established. That a feature's apparent
 importance depends on what else is in the model motivates conditional and
 permutation importance \citep{strobl2008conditional,fisher2019models},

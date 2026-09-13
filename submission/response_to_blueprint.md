@@ -483,7 +483,7 @@ than counted by hand.
 | § | section | words | requested | |
 |---|---|---:|---|---|
 | 1 | Introduction | 1,221 | 1,200–1,500 | just under |
-| 2 | Related work | 566 | 1,200–1,500 | under |
+| 2 | Related work | 816 | 1,200–1,500 | under |
 | 3 | The specification surface | 1,125 | ~1,500 | ✓ |
 | 4 | Estimation and inference | 3,142 | 2,000–2,500 | **over** |
 | 5 | The registered benchmark design | 900 | 1,200–1,500 | ✓ |
