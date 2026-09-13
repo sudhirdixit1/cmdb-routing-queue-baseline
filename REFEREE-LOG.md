@@ -2932,3 +2932,14 @@ reproduces itself. 11 of 11 caught. Six provenance entries were stale or never a
 output's timestamp before acceptance, and `s35` was re-run because its output
 predated its source by a minute.
 
+
+## 2026-09-10 — *Information Systems*, editorial decision on INFOSYS-D-26-00926
+
+**Source:** Dennis Shasha, Editor-in-Chief, by e-mail; no referee report.
+**Verbatim:** "Your very nice paper should be sent to a forecasting journal
+where your treatment of the value of a feature may give new insight."
+**Reading:** a desk decision on scope, not on quality; the second time the
+journal has declined this line of work (the first, *Four Choices Behind One
+Number*, after review).
+**Disposition:** retargeted to the *International Journal of Forecasting*;
+`PLAN-IJF.md`; decisions in `submission/DECISIONS.md` §IJF.

@@ -418,3 +418,68 @@ detail, and §12's per-log narrative. That is about four pages and it would
 reach the target. It is not done because each of the three states a
 measurement the main text's argument leans on, and the venue has no hard page
 limit.
+
+---
+
+# IJF retarget — 2026-09-12
+
+*Information Systems* desk-rejected INFOSYS-D-26-00926 on 2026-09-10 with
+no referee comments; the Editor-in-Chief wrote that the paper "should be
+sent to a forecasting journal where your treatment of the value of a
+feature may give new insight." The manuscript is retargeted to the
+*International Journal of Forecasting*. `PLAN-IJF.md` is the plan. Five
+decisions were taken with the author before it was written; each is
+recorded with what would overturn it.
+
+## 1. Full reframe, not a targeted pass — settled (author, 2026-09-12)
+
+**Chosen:** the register is treated as a *predictor* and its incremental
+predictive performance as *incremental forecast value* throughout: title,
+abstract, keywords, introduction, related work, section openings and
+conclusion, with a vocabulary map applied by script to the body.
+**Rejected:** a targeted pass on the front matter only (cheaper; leaves a
+body that never says "forecast" for a screen that checks scope); the
+minimum the guide forces (highest desk-reject risk).
+**What would overturn it:** a rewrite that needed a new claim to read as a
+forecasting paper. None is permitted; the rewrite is vocabulary and
+framing, audited sentence by sentence against the built PDF.
+
+## 2. Length by relocation, target ≤ 44 pp, aim 40 — settled
+
+**Chosen:** whole subsections move to the supplement behind pointer
+paragraphs (§4.7, §5.4, §6.5, §6.6, §7.5, §9.1, the detail of §10); the
+blinding removes the two pages of statements.
+**Rejected:** keeping 56 pp (IJF tells referees to weigh value against
+length); cutting to ~30 pp (real rewriting of the case study and the
+simulation, each cut a claim to re-audit).
+**Corrected premise:** the plan was first described as moving "in-article
+appendices"; there are none — every `app_*` part is already in the
+supplement. The relocation is of subsections.
+**What would overturn it:** the seven moves leaving the article above
+44 pp, in which case the count is recorded and the next candidate named,
+not moved.
+
+## 3. Archive stays at v28.0 / 10.5281/zenodo.22557927 — settled (author)
+
+**Chosen:** no new release. Results are byte-identical (`verify_release.py`);
+the title page and the cover letter cite v28.0 as the results archive and
+say the manuscript source at HEAD post-dates it.
+**Rejected:** cutting v29.0 with a new version DOI so the archived source
+matches the submitted text.
+**What would overturn it:** any result file or number-producing script
+changing, which would make v28.0 no longer the archive of these numbers.
+
+## 4. No graphical abstract — settled
+
+Optional at Elsevier; the paper's figure 1 is the surface and would need a
+new, caption-free rendering. Not supplied. Overturned if the submission
+form makes it mandatory.
+
+## 5. IJF LaTeX template assumed to be `elsarticle` — provisional
+
+The IIF's authors page says "please use this template" and links a Google
+Drive file; the page's own text says the class is `elsarticle`. The build
+uses `\documentclass[preprint,12pt,authoryear]{elsarticle}` with
+`elsarticle-harv`. The author downloads the template (owner step 6.1) and
+records the diff in `submission/IJF-TEMPLATE-CHECKED.md`; any class-option
+difference is applied then.
