@@ -211,8 +211,8 @@ def write(mn):
                       "other table prints --- the register's "
                       "cardinality and its ratio to the training row count, "
                       "which Section~\\ref{sec:simsensitivity} shows is what "
-                      "governs whether the bands cover at their nominal "
-                      "level.",
+                      "governs the pointwise interval's coverage underneath "
+                      "the bands.",
                       "tab:denominator",
                       colnames={"n_learners": "learners",
                                 "n_splits": "splits",
@@ -723,7 +723,12 @@ def write(mn):
                           "Three block lengths around $n^{1/3}$: the "
                           "multiplier column is the factor applied to the "
                           "rule of thumb, so $0.5$ halves the block and $2$ "
-                          "doubles it. Coverage of $V_{\\mathrm{limit}}$.",
+                          "doubles it. Coverage of $V_{\\mathrm{limit}}$, in a "
+                          "run of its own at fewer replicates than "
+                          "Table~\\ref{tab:sim31}'s \\nSimReps, so its "
+                          "default-block cells are not that table's cells "
+                          "and can differ from them by more than the block "
+                          "effect read down a column here.",
                           "tab:sim31block", floatfmt="%.3f",
                           colnames={"block_mult": "block multiplier"}),
                 encoding="utf-8")

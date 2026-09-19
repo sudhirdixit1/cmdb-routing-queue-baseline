@@ -13,12 +13,16 @@ the manuscript.
 
 ## Statement for the submission system
 
-> All data used in this study are publicly available benchmark event logs,
-> cited in the manuscript by persistent identifier. No new data were
+> All data used in this study are publicly available: the event logs are
+> benchmark logs cited in the manuscript by persistent identifier, and the
+> worked example's dataset (UCI Adult) is a public repository dataset named
+> in the supplement and listed by identifier below. No new data were
 > generated. The fetch scripts in the accompanying repository (`scripts/fetch_corpus.py`
 > for the corpus, `scripts/r42_holdout_fetch.py` for the two held-out logs,
-> `examples/worked_example.py` for the worked example's dataset) resolve every
-> dataset's DOI, download the named file and record its SHA-256, so a reader can verify that the corpus they hold is the corpus the
+> `examples/worked_example.py` for the worked example's dataset, which it
+> downloads from the repository's own URL) fetch every dataset, and the
+> corpus scripts resolve each log's DOI, download the named file and record
+> its SHA-256, so a reader can verify that the corpus they hold is the corpus the
 > paper was written against. Analysis code, the pre-registered protocol,
 > derived result files and a verification harness that recomputes every
 > number reported in the paper are openly available at the repository named

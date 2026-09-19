@@ -205,3 +205,17 @@ three fetch scripts; the cover letter says which reviews the archive holds
 verbatim; and a handful of duplicated clauses and pointers. 54 / 122 / 3
 pages; every gate at zero.
 
+## The eleventh read (2026-09-19)
+
+The supplement's fifth cold read, the fix-checker and the package check
+(which found nothing above cosmetic). Fixed: the paragraph under Figure S1,
+now written against the figure's generator (the two model families at the
+reference rung; the slopes' tables named for what they print); the form
+text's data statement distinguishes the event logs cited by DOI from the
+worked example's dataset; S3.8's displacement median says which scheme, which
+cells and which units it is in, beside the weighted scheme's absolute median
+S3.9 quotes; Table S33's endpoint columns are named by level with the same
+convention as Table S36; Table S40's caption says it is a run of its own at
+fewer replicates; and a handful of pointer and wording items. 54 / 122 / 3
+pages; every gate at zero.
+

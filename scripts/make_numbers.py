@@ -1571,9 +1571,10 @@ def write_tables(D):
         (TABLES / "sim.tex").write_text(
             tex_table(body, "Simulation: coverage of the estimator's own "
                       "limit at the nominal 95\\%, by world, for the "
-                      "fixed-model and the nested bootstrap under the "
-                      "percentile, basic and bias-corrected "
-                      "constructions. The nested percentile interval "
+                      "fixed-model bootstrap under the percentile and basic "
+                      "constructions and the nested bootstrap under the "
+                      "percentile, basic and bias-corrected ones. The nested "
+                      "percentile interval "
                       "is the one that fails, on the sparse world, and "
                       "the basic construction is the repair; the "
                       "bias-corrected percentile is not. The last column is "

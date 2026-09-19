@@ -4,7 +4,7 @@
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{lllrrrrrr}
 \toprule
-mechanism & levels & seeds & integral & coarse & grid shift & seed s.d. & V complete & V empty \\
+mechanism & levels & seeds & integral & coarse & grid shift & seed s.d. & V at top level & V at level 0 \\
 \midrule
 content & 11 & 3 & 0.049 & 0.047 & 0.001 & 0.002 & 0.085 & $-$0.001 \\
 mask\_rare & 11 & 1 & 0.069 & 0.066 & 0.003 & 0.000 & 0.103 & $-$0.003 \\
@@ -13,6 +13,6 @@ time & 11 & 1 & 0.077 & 0.088 & 0.011 & 0.000 & 0.115 & $-$0.001 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Register-quality mechanisms as severity CURVES rather than points, on the case study's cohort and reassignment target. The integral is taken against a uniform measure on severity over \nCaseSweepLevels\ levels; `grid shift' is how much coarsening that grid to five levels moves it, which is the check that the summary is a property of the curve and not of the grid.}
+\caption{Register-quality mechanisms as severity CURVES rather than points, on the case study's cohort and reassignment target. The integral is taken against a uniform measure on severity over \nCaseSweepLevels\ levels; `grid shift' is how much coarsening that grid to five levels moves it, which is the check that the summary is a property of the curve and not of the grid. The last two columns are the endpoints of each mechanism's sweep, $V$ at the top of its level grid and at level 0: for the population mechanisms the top level is the complete register and level 0 the empty one, for accuracy and reconciliation level 0 is the clean register, and for the dependent mechanisms and the discovery lag the top level still leaves part of the register unpopulated, so neither endpoint is the complete register there (Table~\ref{tab:quality2} prints it).}
 \label{tab:quality3}
 \end{table}

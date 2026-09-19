@@ -74,7 +74,7 @@ model identifiers and dates in `AI-USE.md`.
 
 **Related manuscripts.** No other manuscript based on these methods or data
 is published or under review. An earlier conference-format draft, kept in
-the repository's history, was never submitted.
+the repository, was never submitted.
 
 **Data and code.** Every event log is public and obtained by DOI. Code,
 derived results, the registered protocols, the amendment log and the

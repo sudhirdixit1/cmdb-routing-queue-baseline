@@ -498,8 +498,12 @@ inside every draw sees a sparser register than the real training half and
 returns a smaller increment. The bootstrap distribution is then displaced
 relative to the estimate, and a percentile interval taken from a displaced
 distribution is a correct interval for the wrong quantity: it misses no matter
-how wide it is. On this corpus the displacement is small --- negative in
-\shiftNegativePct\ of cells, by a median \shiftMedian\ AUC --- but it bites in
+how wide it is. On this corpus the displacement is small --- under the
+multinomial scheme this section compares against, negative in
+\shiftNegativePct\ of cells over every instrument, by a signed median
+\shiftMedian\ in each instrument's own units (the absolute median under the
+reported weighted scheme is the one Section~\ref{app:schemes} quotes) ---
+but it bites in
 the regime the mechanism predicts: on the sparse world of
 Section~\ref{sec:sim} the percentile interval covers \coverageSparsePct\
 against a nominal $95\%$, \emph{worse} than the fixed-model interval refitting

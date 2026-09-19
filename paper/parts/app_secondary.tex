@@ -77,7 +77,7 @@ is precisely what an axis that fuses them cannot express.
 
 \textbf{So the fused index is not the sum of two indices.} It is a statement
 about a two-level axis whose levels move two things at once, and
-Table~\ref{tab:sobol}'s pipeline column should be read as that and nothing
+Table~\ref{tab:sobol}'s learner column, the pipeline axis, should be read as that and nothing
 more. Section~\ref{sec:axes2} reports what the same crossing found on the
 \nItsmCrossed\ ITSM pairs, where it does not fully replicate; the remaining
 \nPairsOther\ pairs are not crossed, and Section~\ref{sec:lim} carries that
@@ -189,12 +189,13 @@ behind the metric axis's contribution to Table~\ref{tab:sobol}.}
 \end{figure}
 
 The figure draws the reliability curve under raw scores, Platt scaling and
-isotonic regression, averaged over the pipelines at the reference cell; the
-per-pipeline slopes are in Table~\ref{tab:calibration}'s row for this pair
-and in the calibration result file. A pipeline whose calibration differs
-while its ranking does not moves the two proper scoring rules and not the
-rank-based instruments, which is the interaction between the pipeline axis
-and the metric axis.
+isotonic regression on the reference pair, averaged over the two model
+families at the reference rung; the per-family slopes are in the
+calibration result file (Table~\ref{tab:calibration} prints the reference
+cell's slope, Table~\ref{tab:calib2} the ladder's medians). A pipeline whose
+calibration differs while its ranking does not moves the two proper scoring
+rules and not the rank-based instruments, which is the interaction between
+the pipeline axis and the metric axis.
 
 Rolling-origin results are in \texttt{results/s01\_surface.csv.gz} under
 \texttt{split = rolling$k$} and enter the decomposition as the split axis;

@@ -673,14 +673,24 @@ def write(mn):
                          "\\nCaseSweepLevels\\ levels; `grid shift' is how "
                          "much coarsening that grid to five levels moves it, "
                          "which is the check that the summary is a property "
-                         "of the curve and not of the grid.",
+                         "of the curve and not of the grid. The last two "
+                         "columns are the endpoints of each mechanism's "
+                         "sweep, $V$ at the top of its level grid and at "
+                         "level 0: for the population mechanisms the top "
+                         "level is the complete register and level 0 the "
+                         "empty one, for accuracy and reconciliation level "
+                         "0 is the clean register, and for the dependent "
+                         "mechanisms and the discovery lag the top level "
+                         "still leaves part of the register unpopulated, so "
+                         "neither endpoint is the complete register there "
+                         "(Table~\\ref{tab:quality2} prints it).",
                       "tab:quality3",
                       colnames={"n_levels": "levels", "n_seeds": "seeds",
                                 "integral_coarse": "coarse",
                                 "grid_shift": "grid shift",
                                 "seed_sd_median": "seed s.d.",
-                                "V_at_clean": "V complete",
-                                "V_at_empty": "V empty"}),
+                                "V_at_clean": "V at top level",
+                                "V_at_empty": "V at level 0"}),
             encoding="utf-8")
 
     # -------------------------------------------------------- desk utility
