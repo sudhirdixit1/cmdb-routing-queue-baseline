@@ -33,8 +33,8 @@ leads is a property of the pair. A conventional one-number report is usually
 right about the sign and usually silent about the size: where the data
 determine a sign, admissible specifications sit a median 0.0600 AUC from the
 conventional report. In a case study on a bank's configuration management
-database, the register's worth turns on the forecast origin and its sign on
-the target, and a desk that adopted the register on its first-touch number
+database, the register's worth turns on the forecast origin and the sign of its
+point estimate on the target, and a desk that adopted the register on its first-touch number
 and deployed it at incident creation would be promised 1.71 true positives
 per thousand cases and receive 0.003.
 
