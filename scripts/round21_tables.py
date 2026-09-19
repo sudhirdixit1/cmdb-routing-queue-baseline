@@ -136,7 +136,7 @@ def write(mn):
             tex_table(d, "The forecast origin implemented as an axis. Each "
                          "moment carries its own population, its own "
                          "register and its own admissible set; the "
-                         "\\emph{predicted target} is the same at all of them. "
+                         "\\emph{forecast target} is the same at all of them. "
                          "$\\tau_0$ and $\\tau_1$ differ only in which "
                          "cases are in scope. $\\tau_1$ and $\\tau_2$ "
                          "differ in what is known AND in which cases "

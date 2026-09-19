@@ -268,16 +268,19 @@ a partition rather than a model: every component either involves the split or
 does not, so
 \begin{equation}
 \label{eq:strata}
-1 \;=\; \underbrace{\textstyle\sum_{\emptyset \neq u \subseteq \mathcal{A}} S_u}_{\text{analyst choice}}
-\;+\; \underbrace{S_{\{\text{quality}\}}}_{\text{counterfactual}}
-\;+\; \underbrace{\textstyle\sum_{u \not\ni \text{split}} S_u - (\cdots)}_{\text{mixed}}
-\;+\; \underbrace{\textstyle\sum_{u \ni \text{split}} S_u}_{\text{resampling}},
+1 = \underbrace{\textstyle\sum_{\emptyset \neq u \subseteq \mathcal{A}} S_u}_{\text{analyst choice}}
++ \underbrace{S_{\{\text{quality}\}}}_{\text{counterfactual}}
++ \underbrace{\textstyle\sum_{u \ni \text{quality},\, u \cap \mathcal{A} \neq \emptyset,\, u \not\ni \text{split}} S_u}_{\text{mixed}}
++ \underbrace{\textstyle\sum_{u \ni \text{split}} S_u}_{\text{resampling}},
 \end{equation}
-where $\mathcal{A} = \{\text{pipeline}, \text{rung}\}$ and the third term
-is what the split-free components carry beyond the first two,
-and the four terms are computed, not estimated (Table~\ref{tab:strata}); the
-identity holds to \stratumPartitionError. The first three are what survives
-fold-averaging, and they are decomposed again \emph{on} the fold-averaged
+where $\mathcal{A} = \{\text{pipeline}, \text{rung}\}$, the axes are
+$\mathcal{A}$, the register-quality condition and the split, and the third
+term collects the split-free components that join the register-quality
+condition to an analyst axis --- what the split-free components carry beyond
+the first two; the four terms are computed, not estimated
+(Table~\ref{tab:strata}), and the identity holds to \stratumPartitionError.
+The first three are what survives fold-averaging, and they are decomposed
+again \emph{on} the fold-averaged
 surface, where each index is a share of the variance that fold-averaging
 leaves and the higher-order share is net of resampling.
 \textbf{Section~\ref{sec:axes2} reports that decomposition as the primary one}
@@ -297,8 +300,9 @@ which this paper computes together with every disjoint component, so the
 identity $\sum_u S_u = 1$ is asserted numerically rather than assumed
 (Supplement~\ref{app:sobolest}). The other quantity is retained as the
 \emph{largest per-axis interaction involvement}; the two differ
-substantially, at \largestInvolvementPct\ against \interactionTotalPct\ at
-the median pair.
+substantially: at the median pair the largest involvement is
+\largestInvolvementPct\ and the interaction share $S_{\mathrm{int}}$ is
+\interactionTotalPct.
 
 \subsection{Resolution regions and the robustness index}
 \label{sec:regionsdef}
@@ -394,7 +398,7 @@ such; the region and $\rho$ under the band's own family, with the counts they
 rest on; and the reduction $R$ last if at all, and only where its denominator
 is resolvably positive. Supplement~\ref{app:standard} states the standard in
 full, together with the errors this study made before it got them right, a
-six-step recipe, the \texttt{fieldvalue} package
-\citep{fieldvalue} that implements the objects and refuses by construction to
+six-step recipe, \pkgname\ \citep{fieldvalue} that implements the objects
+and refuses by construction to
 emit a single number, and a worked example on a dataset that is not an event
 log at all.
