@@ -167,7 +167,8 @@ calibration intercept and slope, the Brier score, and the share of test cases
 carrying at least one level unseen in training. The unseen-category rate is
 the mechanism behind much of the register's behaviour: a register whose
 identities do not recur across the split cannot help a model that has never
-seen them, and the rate ranges from \unseenMin\ to \unseenMax. Calibration is
+seen them, and across the \nPairs\ pairs of Table~\ref{tab:calibration} the
+rate ranges from \unseenMin\ to \unseenMax. Calibration is
 reported because discrimination alone is not a sufficient description of a
 model \citep{vancalster2019calibration}; slopes below one indicate the
 overfitting that high-cardinality one-hot encodings produce, and are the
@@ -271,7 +272,8 @@ of Section~\ref{app:measurechoice} plus a discovery lag, and sweeps the accuracy
 reconciliation mechanisms rather than reporting one level of each. Everything
 here is on the estate's cohort and reassignment target;
 Table~\ref{tab:quality3} carries the severity curves, over \nCaseSweepLevels\
-severities and \nQualitySeeds\ seeds per stochastic mechanism, and
+severities and \nCaseQualitySeeds\ seeds per stochastic mechanism (fewer than
+the \nQualitySeeds\ of the corpus run), and
 Table~\ref{tab:quality2corpus} the same mechanisms on the registered cohort.
 Four things follow, and two of them are nulls we did not expect.
 
@@ -303,7 +305,10 @@ identities the register had not seen by the split point moves the increment by
 the training half already ignores levels it has never seen, so a test row
 carrying an undiscovered identity contributes an all-zero encoding either way.
 Under an encoder that keeps missingness as an explicit indicator the effect is
-non-zero; Section~\ref{app:tables} measures that on the registered cohort.
+\qStaleKeepsDelta\ as well, because the training half then contains no missing
+values for the indicator to learn from; that encoder was run on the registered
+cohort only, and its rows are in \texttt{results/s09\_mechanisms.csv} rather
+than in Table~\ref{tab:quality2corpus}, which prints the one-hot encoder.
 A \emph{discovery lag} --- identities first used in the last half of the
 training window absent everywhere, leaving \qLagHalfPopulated\ of rows
 populated --- moves it by \qLagHalfDelta. Whether a data-quality defect is
@@ -483,8 +488,8 @@ The higher-order share is \itsmHigherOrderPct\ on the ITSM family against
 \interactionTotalPct\ on the whole corpus, the largest first-order index
 \itsmLargestFirstOrderPct\ against \largestFirstOrderPct, and the all-cells
 sign-disagreement rate \misreportItsmPct\ against \misreportEqualPct. One
-difference runs against the paper. \textbf{The headline is lower on the
-population this paper is about}: of the resolved cells,
+difference runs against the paper. \textbf{The sign-disagreement rate is
+lower on the population this paper is about}: of the resolved cells,
 \misreportPooledItsmPct\ disagree in sign on the ITSM family against
 \misreportPooledOtherPct\ on the other eleven and
 \misreportPooledResolvedPct\ pooled. The corpus-wide figure is therefore
@@ -518,10 +523,13 @@ threshold can be read as a cost ratio at all.
 $0.05$ to $0.80$ is not a desk's belief. For a decision about pre-empting a
 reassignment the false positive costs a specialist's few minutes and the false
 negative costs a re-triage, a second queue wait and the service-level exposure
-that goes with it; ratios between three and ten to one put the indifference
-threshold between \deskQlo\ and \deskQhi, with a median of \deskQmid. A Beta
-distribution with that support is declared as the \emph{desk distribution},
-and single exchange rates are reported beside it.
+that goes with it. A false negative costing $r$ times a false positive puts
+the indifference threshold at $1/(1+r)$ (Section~\ref{sec:calibfirst}), so
+ratios between three and ten to one put it between one in eleven and one in
+four. A Beta distribution centred on that range --- median \deskQmid, with
+ninety per cent of its mass between \deskQlo\ and \deskQhi\ --- is declared
+as the \emph{desk distribution}, and single exchange rates are reported
+beside it.
 
 \textbf{Which unit.} Net benefit per case is a rate near zero, and three
 decimal places of it look like a tie, so Table~\ref{tab:desk} reports it per
@@ -654,8 +662,8 @@ and on \nPairsNoResolvedCell\ nothing resolves.
 %%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
 
 The register in this log is layered, and the layers are the ones a common
-service data model uses: an item belongs to a class, a class to a subtype, and
-a subtype rolls up to a service component. Section~\ref{app:layers}
+service data model uses: an item belongs to a subtype, a subtype to a type,
+and a type rolls up to a service component. Section~\ref{app:layers}
 estimates the increment at each layer against the intake block, on the
 registered targets. The coarse layers are \emph{not} free --- on the handover
 target the item's type alone is worth \layerTypeHandover\ and its subtype
@@ -781,14 +789,15 @@ flip the sign most often.
 Every corpus statistic is reported on the \nItsmPairs\ ITSM-like pairs as
 well as on all \nPairs\ (Table~\ref{tab:family}), because the register there
 is a maintained one and the construct is what the paper is about.
-\textbf{The headline is lower on the population this paper is about}: the
-sign-disagreement rate is \misreportItsmPct\ against \misreportEqualPct\ over
+\textbf{The sign-disagreement rate is lower on the population this paper is
+about}: it is \misreportItsmPct\ against \misreportEqualPct\ over
 the corpus, and on resolved cells \misreportPooledItsmPct\ against
-\misreportPooledOtherPct\ on the rest. The decomposition moves with it, and
-against the paper's headline: the higher-order share is
-\itsmHigherOrderPct\ against \interactionTotalPct\ on the corpus, the largest
-first-order index \itsmLargestFirstOrderPct\ against \largestFirstOrderPct,
-so on these pairs a main effect leads where the corpus's interactions do.
+\misreportPooledOtherPct\ on the rest. The decomposition moves with it: the
+higher-order share is \itsmHigherOrderPct\ against \interactionTotalPct\ on
+the corpus and the largest first-order index \itsmLargestFirstOrderPct\
+against \largestFirstOrderPct, so the two are close on these pairs where
+they are far apart on the corpus, though the higher-order share still leads
+at the median.
 Section~\ref{app:itsmfamily} carries every statistic on both populations.
 
 \subsection{The one surface that is uniformly beneficial, and what it cost to

@@ -650,8 +650,14 @@ def main(argv=None):
 
     # ---- calibration / unseen -------------------------------------------
     if FIT is not None and len(FIT):
+        #  THE REFERENCE CELL INCLUDES THE RUNG.  Without it the minimum was
+        #  read from the intercept-only rung -- the free field alone on
+        #  RoadFines, 0.05% -- a row Table~\ref{tab:calibration} does not
+        #  print and every admissible set excludes, and it printed as 0%, a
+        #  rate no pair has.  Same filter as the calibration table below.
         ref = FIT[(FIT.split == "holdout70") & (FIT.quality == "clean")
-                  & (FIT.learner == "logit") & (FIT.arm == "with_f")]
+                  & (FIT.learner == "logit") & (FIT.arm == "with_f")
+                  & (FIT.rung == "B_intake_g")]
         put("unseenMin", pct(float(ref.unseen.min()), 0) if len(ref) else None)
         put("unseenMax", pct(float(ref.unseen.max()), 0) if len(ref) else None)
     else:
@@ -1873,8 +1879,13 @@ def write_tables(D):
                       "\\ref{sec:design} admit. \\nLayerRowsExcluded\\ rows "
                       "on excluded pairs are not printed. "
                       "\\emph{Columns.} \\textsf{levels from coarse} is the "
-                      "layer's depth, counting from the coarsest layer at "
-                      "0 inward; the value $-1$ is not a depth but marks "
+                      "layer's position in the hierarchy declared for that "
+                      "log before the ladder was run, counting from the "
+                      "declared-coarsest layer at 0 inward; it is a depth "
+                      "only where the levels nest, which on BPIC19 they do "
+                      "not (the item category has fewer values than the "
+                      "vendor declared above it), so there it is an order "
+                      "and nothing more; the value $-1$ is not a depth but marks "
                       "the \\emph{marginal} row, which adds the finest "
                       "layer on top of the second finest. "
                       "\\textsf{base auc} is the AUC of the model this row "
@@ -1981,7 +1992,7 @@ def write_tables(D):
         if HO is not None and len(HO):
             rows = [dict(log=str(lg), domain=str(dm), code="HELD_OUT",
                          detail="downloaded as a held-out log for the "
-                                "out-of-corpus test; never offered to the "
+                                "registered prediction outside this paper; never offered to the "
                                 "admission rules")
                     for lg, dm in HO[["log", "domain"]].drop_duplicates()
                     .itertuples(index=False)]

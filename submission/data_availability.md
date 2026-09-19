@@ -76,10 +76,12 @@ Section 5 of the manuscript summarises them.
 The repository holds every script, every derived `results/*.csv`, the LaTeX
 source, `requirements.lock` (every dependency pinned by artefact hash), a
 `Dockerfile` that additionally pins the BLAS thread counts, and
-`scripts/verify_paper.py`, which recomputes each numeric literal in the
-manuscript from a result file or from the raw data and fails if any literal is
-unaccounted for. `scripts/attack_verifier.py` is that checker's own regression
-suite: 255 corruptions.
+`scripts/verify_numbers.py`, which re-derives every checked macro in the
+manuscript from its result file with independent code and enforces the
+manuscript's own directional claims as conditions (the manuscript carries no
+numeric literal: every number is a generated macro). `scripts/s13_attack_numbers.py`
+is that checker's own regression suite: eleven corruptions of result files,
+each of which the checker must catch.
 
 The checker guards **numbers** thoroughly and **prose** only where a guard was
 written by hand. It cannot tell you that an interpretation is sound. The
@@ -103,7 +105,7 @@ the frame that selects them is machine-enumerable so a reader can rebuild it.
 | the sample | `results/s06_sample.csv` — 600 works, drawn under the pre-registered design of `AUDIT-PROTOCOL-2.md` |
 | the coding sheet | `results/s06_coding.csv` — every sampled work with its codes |
 | the agreement | `results/s06_agreement.csv` — per-code agreement and $\kappa$ from the two-screen design, with `results/s06_two_screens.csv` behind it |
-| the adjudication | `results/s06_applicability.csv` and `results/s06_missing.csv`, with `data/audit/adjudication/*.txt`, the deterministic extract each was coded from |
+| the adjudication | `results/s06_applicability.csv` and `results/s06_missing.csv`, with the evidence dossiers each was coded from, which are extracts of copyrighted full texts and are rebuilt under `data/audit2/dossiers/` by `scripts/s06_audit2.py --dossiers` rather than committed |
 
 **Full texts are not redistributed.** `scripts/s06_audit2.py --fetch`
 retrieves them from each work's own open-access location and caches them under

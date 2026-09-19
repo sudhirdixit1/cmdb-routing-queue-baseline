@@ -102,9 +102,10 @@ paper depends on it.
 Every adjudication was made from an evidence dossier extracted from the paper's
 full text: the sentences the screen fired on, the sentences carrying a
 performance metric beside a number, and the neighbourhood of every mention of
-each coded concept. The dossiers are committed to
-\texttt{data/audit2/dossiers/} and the judgements to
-\texttt{data/audit2/adjudication\_in.csv} and
+each coded concept. The dossiers are extracts of copyrighted full texts and
+are not committed; the pilot's frame script rebuilds them under
+\texttt{data/audit2/dossiers/} from the retrieved texts, and the judgements
+are committed to \texttt{data/audit2/adjudication\_in.csv} and
 \texttt{adjudication\_out.csv}, with a free-text reason for every one. There
 is one adjudicator, machine-assisted; that is transparency, not independence,
 and Section~\ref{sec:practice} says so.
@@ -146,11 +147,11 @@ within stratum and recomputing the ratio, \nPilotBoot\ times --- as the
 primary interval, because with \nAuditOutSampled\ adjudicated papers in the
 second stratum a linearisation is not to be trusted, and the
 \textbf{design-based} linearised interval beside it. The design-based interval
-has a median width of \auditDesignWidthPct\ percentage points and the
+has a median width of \auditDesignWidthPct\ and the
 bootstrap \auditBootWidthPct, against the Wilson interval's
 \auditWilsonWidthPct; and \emph{none} of the five Wilson intervals is
 contained in its design-based counterpart, the endpoints differing by up to
-\auditMaxGapPct\ percentage points. That is correction~C28 in
+\auditMaxGapPct. That is correction~C28 in
 Section~\ref{app:corrections}.
 
 \subsection*{Four limits, stated rather than buried}
@@ -170,7 +171,7 @@ under the extreme assumptions that none or all of them are eligible the
 eligibility rate moves between \auditBoundLo\ and \auditBoundHi.
 
 There is one adjudicator, machine-assisted, not two independent human raters.
-Every adjudication was made from an evidence dossier committed to the
-repository, so the judgements can be re-examined against exactly what they
+Every adjudication was made from an evidence dossier rebuilt by script from the retrieved
+text, so the judgements can be re-examined against exactly what they
 were made from; that is transparency, not independence, and no inter-rater
 reliability statistic reported here is a substitute for a second human.

@@ -72,8 +72,9 @@ def write(mn):
                          "reconciled "
                          "one factor at a time. Each row changes exactly one "
                          "thing from the row above; `delta' is what that "
-                         "change is worth. The first row is the number "
-                         "Section~\\ref{sec:cmdb} reported and the last is "
+                         "change is worth. The first row is the number the "
+                         "earlier, unpublished analysis reported, which "
+                         "Section~\\ref{sec:cmdb} quotes as such, and the last is "
                          "the planned contrast \\textsf{PC3} of "
                          "Table~\\ref{tab:confirm}. Intervals are the "
                          "pointwise basic construction at "
@@ -634,7 +635,9 @@ def write(mn):
                          "share corrupted for accuracy, the share of "
                          "identities split for reconciliation and the lag "
                          "for discovery. Stochastic mechanisms are averaged "
-                         "over \\nQualitySeeds\\ seeds and the spread across "
+                         "over \\nCaseQualitySeeds\\ seeds, fewer than the "
+                         "\\nQualitySeeds\\ of the corpus run in "
+                         "Table~\\ref{tab:quality3corpus}, and the spread across "
                          "seeds is printed beside the mean, because "
                          "mechanism variability and sampling variability are "
                          "different quantities. The corpus-cohort version of "
@@ -866,7 +869,7 @@ def write_round25(mn):
                    "misreport_all_min": "min over pairs",
                    "misreport_all_max": "max over pairs"})
         (TABLES / "refsens.tex").write_text(
-            tex_table(d, "The headline sign-disagreement rate under a "
+            tex_table(d, "The sign-disagreement rate, which the article withdraws as a headline, under a "
                          "different declared reference specification. Each "
                          "row moves the reference ONE axis at a time and "
                          "holds the rest at the declared cell, then "

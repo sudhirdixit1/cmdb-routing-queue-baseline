@@ -1,11 +1,13 @@
 
-The simulation of Section~\ref{sec:sim} reports that every
-interval construction fails on the noisy world:
-coverage \coverageNoisyBefore\ against a nominal $95\%$, with the estimator
+The first version of the simulation of Section~\ref{sec:sim} reported that
+every interval construction failed on the noisy world:
+coverage \coverageNoisyBefore\ against a nominal $95\%$ --- where the
+corrected simulation that Section~\ref{sec:sim} now reports covers
+\coverageNoisyAfter\ (Table~\ref{tab:sim31}) --- with the estimator
 sitting \biasNoisyBefore\ below $V_{\mathrm{limit}}$ and a mean interval width
 of \widthNoisyBefore. A gap the size of the whole interval is not something a
-resampling scheme repairs, and the natural write-up was that the estimator is
-biased in that world and the interval inherits the bias.
+resampling scheme repairs, and the natural write-up was that the estimator was
+biased in that world and the interval inherited the bias.
 
 That write-up would have been wrong, and the two experiments below are what
 stopped it. Both were designed so that either could refute the bias reading,

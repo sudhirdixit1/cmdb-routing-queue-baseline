@@ -1119,7 +1119,7 @@ and nothing about the log's content --- and the further BPIC15 targets, the
 BPIC20 logs and BPIC12 are excluded under \textsc{no\_headroom} or
 \textsc{no\_g}, which are prevalence and role failures. And the
 registered handover target on the case study's log sits at the upper edge of
-the admission window: test prevalence \prevAdmittedMax\ against a
+the admission window: full-log prevalence \prevAdmittedMax\ against a
 window that closes at \prevHi, which excludes other logs at
 \prevExcludedAboveMin. That pair carries \nCellsBpicFourteenHandover\ of the
 corpus's \nDeclaredAdmissibleScalar\ admissible cells --- the log carries
@@ -1550,8 +1550,9 @@ manuscript from the first to the second one factor at a time.
 design the target carries \shareTargetPct\ of the variance in the increment,
 the cohort \shareCohortPct, and their interaction \shareCohortTargetPct.
 Reassignment to another group before resolution has prevalence
-\casePrevalenceTest\ in the test half; handover between activity groups,
-under the registered rule, has prevalence \prevRegisteredHandover\ there. They are not the same question and the
+\casePrevalence\ over the estate's cohort; handover between activity groups,
+under the registered rule, has prevalence \prevRegisteredHandover\ over the
+registered cohort. They are not the same question and the
 register is not worth the same to them. Two further candidate explanations
 were checked and neither is one: the two analyses reach the same attribute
 values on every row, so it is not a data-preparation difference; and they run
@@ -2153,9 +2154,10 @@ held-out log for a registered prediction outside this paper and never
 offered to the admission rules (\nHeldOutLogs\ of the checksummed files); the
 second log downloaded for it was offered to the rules and is listed under
 the codes that excluded it. The literature pilot's frame, sample,
-codes, adjudications and evidence dossiers are in the archive; the retrieved
-full texts are other publishers' copyrighted PDFs and are not redistributed,
-but \pilotfetch\ re-retrieves them from the DOIs
+codes and adjudications are in the archive; the retrieved full texts and
+the evidence dossiers extracted from them are other publishers' copyrighted
+material and are not redistributed, but \pilotfetch\ re-retrieves the texts
+from the DOIs and rebuilds the dossiers
 in \pilotsamplefile. All derived results
 (\texttt{results/*.csv}), all figures and all code are in the archive named in the
 code-availability statement.

@@ -237,7 +237,7 @@ is one of it.
 |---|---|
 | `scripts/make_numbers.py` | generates `paper/numbers.tex` and `paper/tables/*.tex` from `results/*.csv` |
 | `scripts/verify_numbers.py` | re-derives each macro from its source with independent code and compares |
-| `scripts/texlint.py` | fifteen compliance checks: abstract length, keyword count, highlight lengths, required statements, **no numeric literal anywhere in the prose**, five typographic checks each of which caught a defect already in a compiled PDF, and one that catches a backslash escape interpreted by a scripted edit |
+| `scripts/texlint.py` | seventeen compliance checks: abstract length, keyword count, highlight lengths, required statements, **no numeric literal anywhere in the prose**, five typographic checks each of which caught a defect already in a compiled PDF, and one that catches a backslash escape interpreted by a scripted edit |
 | `scripts/provenance.py` | records which version of each analysis script produced the results in the tree; `make_numbers.py --strict` refuses a build whose numbers come from a script changed since |
 | `scripts/check_response_refs.py` | every section the cover material cites exists, and prints the heading each lands on |
 | `scripts/attack_verifier.py`, `scripts/s13_attack_numbers.py` | inject corruptions and require the verifier to catch every one; 265 across the two |

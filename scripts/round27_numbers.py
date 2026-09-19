@@ -50,16 +50,30 @@ def emit(mn):
                                      "support_section"))
                      if v is not None], default=None), 3))
         put("layerHelpdeskItem", sig(lay("Helpdesk", "duration", "product"), 3))
-        put("layerBpicNineteenCoarseMax",
-            sig(max([v for v in (lay("BPIC19", "handover",
+        #  2026-09-19.  These were on BPIC19/HANDOVER, a pair the registered
+        #  rules exclude (r33_excluded.csv: NO_HEADROOM, prevalence 0.963)
+        #  and Table S1 therefore does not print, while the sentence quoting
+        #  them says "in the table".  They are on the admitted pair now,
+        #  duration, as the Helpdesk macros above already are.  And the
+        #  "coarse max" left out case:Vendor -- the log's own registered
+        #  register field and the one layer on BPIC19 worth anything -- so
+        #  the vendor is its own macro and the max ranges over the other
+        #  three.  `CoarseMax' is retired rather than left standing: BPIC19's
+        #  declared levels do not nest (r34_layer_determinism.csv), so the
+        #  log has no coarse layers to take a maximum over.
+        put("layerBpicNineteenVendor",
+            sig(lay("BPIC19", "duration", "case:Vendor"), 3))
+        put("layerBpicNineteenOthersMax",
+            sig(max([v for v in (lay("BPIC19", "duration",
+                                     "case:Spend area text"),
+                                 lay("BPIC19", "duration",
                                      "case:Item Category"),
-                                 lay("BPIC19", "handover",
-                                     "case:Spend area text"))
+                                 lay("BPIC19", "duration", "case:Item"))
                      if v is not None], default=None), 3))
         put("layerBpicNineteenItem",
-            sig(lay("BPIC19", "handover", "case:Item"), 3))
+            sig(lay("BPIC19", "duration", "case:Item"), 3))
         put("layerBpicNineteenItemMarginal",
-            sig(lay("BPIC19", "handover",
+            sig(lay("BPIC19", "duration",
                     "case:Item marginal over case:Item Category"), 3))
         #  the share of the item's increment the coarsest layer reaches, on
         #  the case study's two targets -- the quantity the withdrawn claim
@@ -71,8 +85,8 @@ def emit(mn):
                 pct(ty / it, 0) if it and ty else None)
     else:
         for k in ("layerHelpdeskCoarseMax", "layerHelpdeskItem",
-                  "layerBpicNineteenCoarseMax", "layerBpicNineteenItem",
-                  "layerBpicNineteenItemMarginal",
+                  "layerBpicNineteenVendor", "layerBpicNineteenOthersMax",
+                  "layerBpicNineteenItem", "layerBpicNineteenItemMarginal",
                   "layerTypeSharePctHandover", "layerTypeSharePctDuration"):
             put(k, None)
 

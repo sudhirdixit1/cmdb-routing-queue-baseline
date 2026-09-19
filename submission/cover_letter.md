@@ -60,8 +60,8 @@ answered in a revision, which became the present paper. The present paper
 was then declined by that journal's Editor-in-Chief at the editorial stage
 on 10 September 2026 without referee comments, with the sentence: "Your very
 nice paper should be sent to a forecasting journal where your treatment of
-the value of a feature may give new insight." Both the referee report and
-the answers to it are in the archive. Between those two decisions the
+the value of a feature may give new insight." The referee's ten major comments, as
+summarised, and the answers to each are in the archive. Between those two decisions the
 manuscript was revised through internal adversarial reviews that I conducted
 with a large-language-model assistant reading each built PDF against the
 repository in the role of a referee; the archive carries those reviews and
@@ -73,8 +73,8 @@ adjudication, which the supplement declares where it is described), with
 model identifiers and dates in `AI-USE.md`.
 
 **Related manuscripts.** No other manuscript based on these methods or data
-is published or under review. An earlier conference-format draft in the
-archive was never submitted.
+is published or under review. An earlier conference-format draft, kept in
+the repository's history, was never submitted.
 
 **Data and code.** Every event log is public and obtained by DOI. Code,
 derived results, the registered protocols, the amendment log and the
@@ -84,7 +84,7 @@ verification harness are archived at Zenodo, DOI 10.5281/zenodo.22557927
 the one the results were computed from; the manuscript source at the
 repository's head post-dates it with the retargeting edits, and the archive's
 own script `scripts/verify_release.py` demonstrates that a clean checkout
-reproduces every number in both documents to the digit. The reproducibility
+reproduces every analysis number in both documents to the digit. The reproducibility
 check the journal runs at acceptance can be run from `REPRODUCE.md` with one
 command against a lockfile and a container whose base is pinned by digest;
 the archive records the measured tolerance outside that container, because

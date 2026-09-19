@@ -260,8 +260,9 @@ nothing are in the same tables as the rest.
 %%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
 
 \paragraph{The pair carrying the most cells sits closest to the admission
-edge} \logAdmittedMaxPrev\ has the highest prevalence of any admitted pair,
-\prevAdmittedMax, against the window's upper bound of \prevHi; the nearest
+edge} \logAdmittedMaxPrev\ has the highest full-log prevalence of any
+admitted pair, \prevAdmittedMax\ (the rule reads the full log; the test half
+sits higher), against the window's upper bound of \prevHi; the nearest
 pair the headroom rule turns away, \logExcludedAboveMin, is at
 \prevExcludedAboveMin, and \nExcludedAbove\ pairs in all are excluded above
 the bound. That pair is also the largest single contributor to the corpus,
@@ -269,6 +270,6 @@ carrying \nCellsLargestPair\ of the \nComputationalCells\ admissible scalar
 cells. A rule with a sharp edge decides some case narrowly, and this is that
 case: the corpus's biggest component is admitted on a margin narrower than
 the gap to the pairs excluded beside it. Table~\ref{tab:family} reports every
-headline statistic on the ITSM-like subset as well, which is the population
-that does not turn on this decision.
+headline statistic on the ITSM-like subset as well; that subset contains the
+pair in question and turns on the decision as much as the corpus does.
 

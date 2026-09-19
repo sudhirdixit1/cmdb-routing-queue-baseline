@@ -488,7 +488,7 @@ than counted by hand.
 | 4 | Estimation and inference | 3,351 | 2,000–2,500 | **over** |
 | 5 | The registered benchmark design | 1,068 | 1,200–1,500 | ✓ |
 | 6 | Multi-log results | 3,190 | 2,000–2,500 | **over** |
-| 7 | Case study: a configuration management database | 1,199 | 1,500–2,000 | ✓ |
+| 7 | Case study: a configuration management database | 1,202 | 1,500–2,000 | ✓ |
 | 8 | Decision-analytic evaluation | 899 | — | added |
 | 9 | Simulation against a known answer | 1,677 | 1,000–1,500 | just over |
 | 10 | Threats to validity | 991 | 1,200–1,500 | under |

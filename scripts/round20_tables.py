@@ -696,9 +696,9 @@ def write(mn):
                           "\\simGridSEMax, against the "
                           "\\simCoverageSE\\ that "
                           "Section~\\ref{sec:simsensitivity} quotes for the "
-                          "core. It is \\simGridSERatio\\ times larger, it "
-                          "is computed at each cell's own observed rate "
-                          "rather than at the nominal one, and it is a "
+                          "core at the nominal rate. It is computed at each "
+                          "cell's own observed rate rather than at the "
+                          "nominal one, and it is a "
                           "column here rather than a sentence because the "
                           "differences down this table are read row against "
                           "row.",
@@ -776,14 +776,23 @@ def write(mn):
                       "seeds, the integral of the increment against a "
                       "uniform measure on severity, how much coarsening the "
                       "severity grid by a factor of four moves that "
-                      "integral, the spread across seeds, and the endpoints.",
+                      "integral, the spread across seeds, and the two "
+                      "endpoints of the sweep: $V$ at the top of the level "
+                      "grid and at level 0. `level' is the share populated "
+                      "for the population, discovery and propensity "
+                      "mechanisms, so on those rows the top level is the "
+                      "complete register and level 0 the empty one; it is "
+                      "the share of rows corrupted for accuracy and the "
+                      "share of identities split for reconciliation, so on "
+                      "those two rows level 0 is the clean register and the "
+                      "top level the most degraded one.",
                       "tab:quality3corpus",
                       colnames={"meaning": "operational failure mode",
                                 "integral_fine": "integral",
                                 "grid_shift": "grid shift",
                                 "seed_sd_median": "seed s.d.",
-                                "V_at_clean": "V complete",
-                                "V_at_empty": "V empty"},
+                                "V_at_clean": "V at top level",
+                                "V_at_empty": "V at level 0"},
                       #  ROUND TWENTY-TWO.  `mask_common' is wider than a
                       #  0.115\linewidth column and spilled past its edge on
                       #  five rows; the mechanism names are a natural-width

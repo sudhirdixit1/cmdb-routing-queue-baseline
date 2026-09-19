@@ -2944,6 +2944,18 @@ Number*, after review).
 **Disposition:** retargeted to the *International Journal of Forecasting*;
 `PLAN-IJF.md`; decisions in `submission/DECISIONS.md` §IJF.
 
+# Round twenty-nine — the IJF read (2026-09-12)
+
+The internal read of the first blind IJF build (`submission/review_round29.md`,
+LLM-assisted, declared in `AI-USE.md`) asked four questions — does the
+paper read as a forecasting paper by page 3; is any claim stronger than at
+`v28.0`; is anything identifying; is the length justified — and found three
+defects: five references still pointed at sections whose content had moved
+to the supplement (re-pointed); three prose uses of *predict* had survived
+the vocabulary map (changed); the previous venue's name survived only in
+two legitimate reference-list entries (the search pattern narrowed).
+Dispositions in `submission/response_to_review29.md`.
+
 # Round thirty — the pre-upload read (2026-09-18)
 
 An internal read of the whole package as the journal receives it
@@ -3013,4 +3025,37 @@ fix found.
 ## R30.11 Sign-disagreement shares in §6.4 read against §6.2; two numbers unnamed; "28.7%" undefined as pooled. **CONCEDED**
 
 One clause each.
+
+## R30.12 The reads of 2026-09-19. **CONCEDED, in seven rounds**
+
+The revision of 2026-09-18 was read again the next day by independent
+readers — a fix-checker, cold referee reads of the blind article (four)
+and of the blind supplement (one), and a package check — in rounds that
+stopped only when a round returned nothing above cosmetic. What they found
+and what changed is in `submission/response_to_review30.md` ("The
+2026-09-19 reads", "The fourth and fifth reads", and the sixth and seventh);
+the classes were: right numbers with wrong words around them (a
+stationarity contradiction, "barely moves" for a nineteen-point move,
+"arms" for models, "every table prints" for a column no table printed);
+pointers to sections whose content had moved (§10 for Supplement S20;
+§3.4 for S2; §6.3 for S9.4 and S9.7); claims about the archive that are
+true of the repository (the model register, the objection log, the
+dossiers); one rounding rule that differed between a generated table and
+the macros (Table S41); and one table the article quoted but never printed
+(the primary decomposition per pair, now Supplement Table S9). Two of the
+corrections were themselves refuted by the next round and corrected again
+(a prevalence base, an inference from two shares), which is the reason the
+loop ran until dry.
+
+## R30.13 Two generator errors the supplement's cold read exposed. **MEASURED, CONCEDED**
+
+The BPIC19 layer macros were computed on the handover pair, which the
+registered rules exclude and Table S1 does not print; on the printed
+duration pair the sentence they fed was false (the vendor, not the finest
+layer, carries the log's value, and the declared hierarchy does not nest).
+The unseen-rate minimum was read without the rung filter, from the
+intercept-only rung no table prints, and printed as a rate no pair has.
+Both are the "under-specified reference cell" class the round-27 note
+records; both generators now carry the table's own filter, and the
+supplement prints what its tables show.
 

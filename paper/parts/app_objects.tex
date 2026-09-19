@@ -211,8 +211,8 @@ over five declared monotone utility maps fixing zero. The misreport rate has a
 second difficulty, which Section~\ref{sec:results-regret} answers rather than
 notes: a cell whose sign the data do not resolve contributes a coin flip to
 it. The rate is therefore reported over all cells, over the cells the
-band resolves, and weighted by $|V|$, and the article's headline is
-the second. No coverage calibration enters any of the three
+band resolves, and weighted by $|V|$; the article quotes the second and
+withdraws it as a headline (Section~\ref{sec:results-regret}). No coverage calibration enters any of the three
 (Section~\ref{sec:simband}).
 
 Saying that a surface report asserts a sign only where the region is uniform,
@@ -283,7 +283,8 @@ compared under them.
 \textbf{The rule that selects the inference surface, in full.} It is one
 design, and it is the
 same design on every pair: two learners, two splits, three register-quality
-conditions and three admissible rungs, crossed --- \nCellsPerDecomposition\ cells a pair,
+conditions and three admissible rungs, crossed --- \nCellsPerDecomposition\ cells a pair
+per instrument,
 \nInferenceScalar\ scalar family members across the corpus --- at
 \nDrawsSurface\ draws. Nothing in the rule reads a result, and nothing in it
 reads the log: the size classes that chose the previous surface's levels are
@@ -387,7 +388,7 @@ says where those draws lie --- their central ninety-five per cent runs
 \pcThreeQlo\ to \pcThreeQhi, entirely above zero --- while the interval says
 where the \emph{estimand} lies, obtained by pivoting that distribution about
 the estimate; the draws sit \pcThreeShift\ AUC \emph{above} the estimate, the
-upward shift Section~\ref{sec:boot} diagnoses, so pivoting moves the interval
+displacement Section~\ref{sec:boot} discusses, so pivoting moves the interval
 down by twice that shift and its lower limit crosses zero even though almost
 no draw does. \textbf{A contrast is called resolved only when the interval
 says so}, and \textsf{PC3} is not resolved on any of the four

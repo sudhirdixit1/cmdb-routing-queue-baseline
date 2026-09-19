@@ -48,7 +48,7 @@ Table~\ref{tab:plane} prints the two curves side by side.
 
 \paragraph{Three candidate curves, on the criterion that chose the monotone
 one} The widened plane makes $\log n$ a significant
-term (Section~\ref{sec:regions}), so the obvious repair is a two-covariate
+term (Section~\ref{app:planereach} below), so the obvious repair is a two-covariate
 parametric fit in $\log(K/n)$ and $\log n$. It is not one. On the plane's
 fitted cells the weighted residual sum of squares is \wrssRatioOnly\ for the
 ratio-only fit, \wrssWithN\ with $\log n$ added, and \wrssIsotonic\ for the
@@ -68,12 +68,13 @@ the studentised statistic, which is the channel the plane identifies. It does
 not correct a change in the shape of the maximum's distribution, and it
 assumes that the simulated worlds' dependence on $K/n$ transfers to logs whose
 dependence structure and signal are not the simulation's. Because that
-transfer is an assumption, Section~\ref{sec:regions} reports the corpus counts
-at three settings --- nominal, calibrated, and every factor pushed to the
+transfer is an assumption, Section~\ref{app:foursettings} reports the corpus
+counts at three settings --- nominal, calibrated, and every factor pushed to the
 upper end of its own Monte Carlo interval --- and Section~\ref{app:threats}
 carries the transfer as a limitation.
 
 \subsection{The plane's reach in $n$, and where the factor is undefined}
+\label{app:planereach}
 
 %%  ROUND TWENTY-FIVE.  Moved from Section 6.4 for length, unchanged.
 
@@ -102,8 +103,8 @@ than fitted away.
 
 \textbf{And on \nPlaneCellsUndefined\ of the \nPlaneCellsOffered\ cells the
 factor does not exist at all.} The inflation factor is a widening \emph{about
-the point estimate}, and Section~\ref{sec:boot} shows that past a crossing in
-$n$ the basic interval stops containing the point estimate. Where it does,
+the point estimate}, and Section~\ref{sec:simsensitivity} shows that past a
+crossing in $n$ the basic interval stops containing the point estimate. Where it does,
 there is no widening about $\hat{V}$ that attains nominal coverage and the
 quantity this calibration estimates is undefined. All
 \nPlaneCellsUndefined\ such cells are at \nStraddleHalfMin\ training rows or
@@ -134,8 +135,9 @@ Definition~\ref{def:regions} this corpus carries \nCondHarmfulMinShare\
 conditionally harmful surfaces.
 
 \noindent Had the widening been applied on top of it, the same definition
-would give \nCondBeneficialCal, \nSignChangingCal, \nCondHarmfulCal,
-\nUniformlyBeneficialCal\ and \nUnresolvedCalibrated\ in that order, at a
+before its minimum resolved share would give \nCondBeneficialCal,
+\nSignChangingCal, \nCondHarmfulCal, \nUniformlyBeneficialCal\ and
+\nUnresolvedCalibrated\ in that order, at a
 median robustness index of \rhoMedianCalibrated. That is the column
 Table~\ref{tab:calbands} prints beside the reported one, and it is what the
 pointwise channel would cost if its correction transferred from the

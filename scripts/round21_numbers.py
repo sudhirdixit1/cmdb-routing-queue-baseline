@@ -166,9 +166,9 @@ def emit(mn):
     #  recorded; \aiModelId names the two used again at the end, and
     #  statements.tex prints it followed by `again'.  AI-USE.md carries
     #  the same identifiers and the same dates.
-    put("aiModelId", "claude-fable-5-1 and claude-opus-5")
-    put("aiModelIdPrev", "claude-opus-5, then claude-fable-5, "
-        "then claude-fable-5-1, then claude-opus-5")
+    put("aiModelId", "\\texttt{claude-fable-5-1} and \\texttt{claude-opus-5}")
+    put("aiModelIdPrev", "\\texttt{claude-opus-5}, then \\texttt{claude-fable-5}, "
+        "then \\texttt{claude-fable-5-1}, then \\texttt{claude-opus-5}")
     put("aiModelDate", "2026-08-18 to 2026-09-19; identifiers recorded "
         "from 2026-08-24, with gaps the register states")
 
@@ -1098,12 +1098,16 @@ def emit(mn):
             thousands(first(F39, "n_fieller_unbounded")))
         put("nCaseQualityPoints", thousands(first(F39, "n_quality_points")))
         put("nCaseSweepLevels", thousands(first(F39, "n_sweep_levels")))
+        #  the case-study re-run uses ITS OWN seed count (s39 SEEDS), not the
+        #  corpus run's \nQualitySeeds; the quality2 caption and S14.5 read this
+        put("nCaseQualitySeeds", thousands(first(F39, "n_seeds")))
     else:
         #  a macro whose source is absent must still EXIST, or the build dies
         #  on an undefined control sequence instead of printing the visible
         #  `??' marker that makes a partial build visibly partial
         for k in ("nFiellerCase", "nFiellerUnboundedCase",
-                  "nCaseQualityPoints", "nCaseSweepLevels"):
+                  "nCaseQualityPoints", "nCaseSweepLevels",
+                  "nCaseQualitySeeds"):
             put(k, None)
     if Q39 is not None and len(Q39):
         q = Q39.set_index(["mechanism", "level"])

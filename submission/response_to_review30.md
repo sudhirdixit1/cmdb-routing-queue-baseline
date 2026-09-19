@@ -116,3 +116,33 @@ empirical-over-multiplier ratios (1.24, 1.25) are named as a width ratio and
 a critical-value ratio; and a dozen smaller pointer, naming and record
 items. 54 / 119 / 3 pages; every gate at zero.
 
+## The sixth and seventh reads (2026-09-19)
+
+A cold read of the blind supplement — its first — and the fix and package
+checks found, and the following fixed: two generator errors that changed what
+the supplement prints (the BPIC19 layer macros had been computed on the
+handover pair the registered rules exclude and Table S1 never prints, and the
+"coarse max" left out the vendor, the one layer on that log worth anything;
+the unseen-rate minimum had been read from the intercept-only rung no table
+prints, so "0%" is now the admissible reference cell's 5%); a caption that
+said twenty seeds where the case-study run used three (a new macro reads the
+run's own count); a caption ratio (3.7) that divided quantities its own text
+did not name (dropped); the noisy world's withdrawn 7.0% attributed to
+Section 9 in the present tense (attributed to the first version, with the
+corrected coverage beside it); a clause that pointed at a table for a
+measurement no table prints (the indicator encoder's zero, now stated with
+its macro and its result file); the desk distribution's thresholds derived
+from cost ratios that do not give them (the mapping is now stated and the
+quantiles named as the Beta's); reversed column headers on two rows of Table
+S36 (the endpoints are named by level); S4 and S18 rewritten so BPIC19 is
+described as the table shows it, with its non-nesting hierarchy said; the
+sign-disagreement rate no longer called the headline the article withdrew;
+S9.4's calibrated counts qualified as before the minimum resolved share; the
+prevalence bases of §5.3, §7.1 and S1.4 named; the dossiers described as
+rebuilt by script rather than committed; the form text's harness description
+brought to the current scripts; the cover letter's archive claims made true
+of the repository; stale pointers to §3.4, §6.3 and §4.1 for content in S2,
+S9.4, S9.7 and §9.1; and a dozen grammar and pointer items. Two of the
+previous round's own corrections (a prevalence base, an inference from two
+shares) were refuted and corrected again.
+
