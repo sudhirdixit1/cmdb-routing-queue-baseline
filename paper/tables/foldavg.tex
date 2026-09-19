@@ -1,0 +1,33 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllllllll}
+\toprule
+log & target & pipeline & quality & rung & largest first-order & higher-order total & leading axis & share of pooled variance \\
+\midrule
+BPIC13\_closed & handover & 0.348 & 0.074 & 0.223 & 0.348 & 0.306 & pipeline & 0.402 \\
+BPIC13\_incidents & duration & 0.270 & 0.220 & 0.179 & 0.416 & 0.235 & pipeline & 0.204 \\
+BPIC13\_incidents & handover & 0.029 & 0.197 & 0.292 & 0.601 & 0.098 & rung & 0.577 \\
+BPIC14 & duration & 0.254 & 0.159 & 0.377 & 0.377 & 0.204 & rung & 0.949 \\
+BPIC14 & handover & 0.325 & 0.131 & 0.319 & 0.327 & 0.218 & pipeline & 0.964 \\
+BPIC15\_1 & duration & 0.115 & 0.199 & 0.225 & 0.330 & 0.385 & rung & 0.195 \\
+BPIC15\_1 & handover & 0.044 & 0.069 & 0.301 & 0.452 & 0.265 & rung & 0.374 \\
+BPIC15\_3 & duration & 0.019 & 0.364 & 0.132 & 0.364 & 0.524 & quality & 0.224 \\
+BPIC15\_3 & handover & 0.007 & 0.013 & 0.441 & 0.441 & 0.539 & rung & 0.239 \\
+BPIC15\_4 & duration & 0.327 & 0.122 & 0.126 & 0.327 & 0.466 & pipeline & 0.184 \\
+BPIC15\_4 & handover & 0.133 & 0.192 & 0.108 & 0.291 & 0.455 & rung & 0.283 \\
+BPIC15\_5 & duration & 0.344 & 0.144 & 0.219 & 0.411 & 0.263 & pipeline & 0.301 \\
+BPIC17 & duration & 0.002 & 0.386 & 0.009 & 0.389 & 0.602 & quality & 0.159 \\
+BPIC19 & duration & 0.160 & 0.197 & 0.094 & 0.319 & 0.492 & quality & 0.091 \\
+Helpdesk & duration & 0.492 & 0.247 & 0.016 & 0.492 & 0.120 & pipeline & 0.464 \\
+RoadFines & duration & 0.025 & 0.764 & 0.093 & 0.764 & 0.089 & quality & 0.383 \\
+Sepsis & duration & 0.079 & 0.440 & 0.027 & 0.549 & 0.177 & quality & 0.281 \\
+UCI498 & duration & 0.269 & 0.192 & 0.297 & 0.374 & 0.242 & rung & 0.189 \\
+UCI498 & handover & 0.152 & 0.127 & 0.498 & 0.498 & 0.187 & rung & 0.576 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{\textbf{The primary decomposition: on the fold-averaged surface, net of the resampling stratum.} Per pair, the median over the \nInstruments\ instruments of each index, under the equal-level measure, after averaging over the expanding-origin folds so that each index is a share of the variance fold-averaging leaves; as in Table~\ref{tab:strata}, a row of medians need not sum to one. `leading axis' is the axis carrying the largest first-order index on the most instruments, and `share of pooled variance' is the fold-averaged variance over the pooled one (corpus median \foldVarRatioPct). The corpus medians of the first five numeric columns are \foldSPipelinePct, \foldSQualityPct, \foldSRungPct, \foldLargestFirstOrderPct\ and \foldInteractionTotalPct; the leader is the rung on \nFoldLeadPairsRung\ pairs, the register-quality condition on \nFoldLeadPairsQuality\ and the pipeline on \nFoldLeadPairsPipeline, and the higher-order total exceeds the largest first-order index on \nFoldInteractionExceeds\ of \nFoldPairs\ pairs. Table~\ref{tab:sobol} is the same decomposition on the pooled surface, split included.}
+\label{tab:foldavg}
+\end{table}

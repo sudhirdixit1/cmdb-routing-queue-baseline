@@ -483,7 +483,7 @@ The template (`IJFTemplate.zip` from forecasters.org/ijf/authors, kept under
 build had `[preprint,12pt,authoryear]` with `elsarticle-harv`. **Chosen:**
 the article takes the template's options and both documents its bibliography
 style; the supplement keeps `preprint,12pt` (no template governs an online
-supplement, and its 120 pages at 1.5 spacing would be about 175). Diff and
+supplement, and its 119 pages at 1.5 spacing would be about 175). Diff and
 consequences in `submission/IJF-TEMPLATE-CHECKED.md`. **What would overturn
 it:** production asking for other options at acceptance.
 
@@ -521,7 +521,9 @@ in §1 and §4, because a null reported is part of the paper's honesty. The
 article keeps its definition of the absolute absorption and the relative
 reduction (equation 2), which §4.4, §6.4 and §7.5 use; the first cut had
 dropped it and three independent reads caught that. Pages: 53 → 52 (the
-template's options) → 52 after the moves; the supplement 115 → 120.
+template's options) → 52 after the moves → 53 after the 2026-09-19 read added
+the primary decomposition's per-pair table and several glosses; the
+supplement 115 → 119.
 
 ## 9. The widest supplement tables in landscape — settled 2026-09-18
 

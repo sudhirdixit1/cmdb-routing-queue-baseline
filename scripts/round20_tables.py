@@ -49,7 +49,7 @@ def write(mn):
         EXCL = {
             "rung": "intercept-only: in the surface, out of every "
                     "admissible set",
-            "decision_time": "two times on the primary log, one elsewhere",
+            "decision_time": "two moments on the primary log, one elsewhere",
             "operating_point": "outside the declared range"}
         #  ROUND TWENTY-SEVEN, S5.  THE PRODUCT THIS TABLE CLAIMED DID NOT
         #  WORK.  The caption said the level counts multiply to the cell
@@ -118,10 +118,16 @@ def write(mn):
                       "already counts the pipeline and multiplying by the "
                       "encoding would count it twice; "
                       "Table~\\ref{tab:axes2} separates the two where they "
-                      "can be separated. The forecast origin indexes a \\emph{second} "
-                      "surface on the case-study log rather than a further "
-                      "factor of the first, and "
-                      "Section~\\ref{sec:twodecision} reports it. "
+                      "can be separated. The forecast origin's levels are the "
+                      "corpus surface's --- two moments on the primary log, read "
+                      "off its ladder as which rungs are admissible, and one "
+                      "elsewhere; on the case-study log the origin indexes a "
+                      "\\emph{second} surface rather than a further factor of the "
+                      "first, estimated at three moments on the estate's own "
+                      "cohort and target, the first of which (first touch, every "
+                      "call) is a population no registered pair contains, and "
+                      "Section~\\ref{sec:twodecision} reports it "
+                      "(Table~\\ref{tab:tau}). "
                       #  NOT Table~\ref{tab:decisiontime}: that table is
                       #  generated but is \input by no part of the
                       #  manuscript, so a reference to it resolves to `??'.

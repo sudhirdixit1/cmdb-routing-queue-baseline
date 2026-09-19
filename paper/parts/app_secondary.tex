@@ -121,8 +121,8 @@ expect a different ordering.
 Table~\ref{tab:rules} compares the four rules of
 Section~\ref{app:regretfull} --- \emph{one-number}, \emph{uniform},
 \emph{majority} and \emph{weighted mean} --- under the loss defined there,
-inside one instrument at a time and in that instrument's own units. No average
-in this paper crosses an instrument.
+inside one instrument at a time and in that instrument's own units. No loss in
+this paper is averaged across instruments.
 
 The weighted-mean rule is optimal in sample by construction --- its excess
 regret is \identityMaxExcess\ everywhere, as the lemma requires --- so the
@@ -407,10 +407,13 @@ Figure~\ref{fig:dca} draws the register's net-benefit increment across the
 grid at the reference cell on \emph{calibrated} probabilities, with the
 pointwise interval and the simultaneous max-$t$ band. The band's family is
 declared separately from the scalar family and spans every admissible
-net-benefit cell of the pair --- \nDcaFamily\ members, nominal critical value
-\dcaQ, widened by the measured factor \dcaWidenFactor\ of
-Section~\ref{sec:dcabands} to \dcaQWidened\ --- and the difference from a
-pointwise reading is not cosmetic. Its median width is
+net-benefit cell of the pair, \nDcaFamily\ members. The band the article
+reports (Section~\ref{sec:dcabands}) uses the admissible empirical quantile
+\dcaQEmp; the ladder in this section also carries an earlier construction,
+the multiplier's nominal value \dcaQ\ widened by a measured factor
+\dcaWidenFactor\ to \dcaQWidened, as the comparison, and the difference
+from a pointwise reading is not cosmetic under either. Under the widened
+construction the median width is
 \dcBandWidthWidened\ against the pointwise interval's
 \dcPointWidth\ (\dcBandWidth\ before the widening), and across the
 \nDcGrid\ operating points of this estate's

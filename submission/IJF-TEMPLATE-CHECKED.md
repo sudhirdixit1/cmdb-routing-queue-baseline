@@ -132,7 +132,7 @@ lines 71–86:
 The supplement keeps `\documentclass[preprint,12pt,authoryear]{elsarticle}`
 (decision taken by the integrator before this revision). The template is
 for the article; the journal publishes an online supplement as supplied
-and has no template for it; and this document is 120 pages at single
+and has no template for it; and this document is 119 pages at single
 spacing (115 before the same day's revision) — at the article's 1.5 spacing it would be about 175. It takes the
 same bibliography options as the article (`model5-names`,
 `longnamesfirst`), so a reference reads the same in both documents and
@@ -143,8 +143,8 @@ the anonymised entry heads both lists. The comment above its
 
 | document | before (`preprint,12pt`) | after |
 |---|---|---|
-| `manuscript.pdf` | 53 | 52 (A4, 11pt, 1.5-spaced; the 3p text block is wider and taller than the letter-size preprint block) |
-| `supplement.pdf` | 115 | 120 (unchanged options; the day's relocations and landscape pages) |
+| `manuscript.pdf` | 53 | 52 (A4, 11pt, 1.5-spaced; the 3p text block is wider and taller than the letter-size preprint block); 53 after the 2026-09-19 read added a table and glosses |
+| `supplement.pdf` | 115 | 119 (unchanged options; the day's relocations and landscape pages) |
 | `title_page.pdf` | 3 | 3 |
 
 Build summary after the change: article 0 overfull hboxes, 0 floats too

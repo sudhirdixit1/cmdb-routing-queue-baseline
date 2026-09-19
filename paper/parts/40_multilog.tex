@@ -63,7 +63,7 @@ addition.}
 \label{fig:sobol}
 \end{figure}
 
-Table~\ref{tab:sobol} and Figure~\ref{fig:sobol} give the decomposition,
+Table~\ref{tab:sobol} and Figure~\ref{fig:sobol} give the pooled decomposition,
 computed within each instrument in that instrument's own units, under the
 equal-level measure. The table's first four columns are, per pair, the median
 over the five instruments of each axis's first-order index; its last column is
@@ -101,7 +101,8 @@ grids in the corpus --- \nPipelineLevelsCase\ pipelines and
 
 \textbf{Net of resampling, no single axis dominates --- and this is a weaker
 statement than the pooled surface makes it look.} On the fold-averaged
-surface, which carries \foldVarRatioPct\ of the pooled variance, the median
+surface (Table~\ref{tab:foldavg}), which carries \foldVarRatioPct\ of the
+pooled variance, the median
 first-order index is \foldSRungPct\ for the baseline rung, \foldSQualityPct\
 for the register-quality condition and \foldSPipelinePct\ for the pipeline,
 and at the median pair the largest first-order index \emph{within an
@@ -111,9 +112,13 @@ largest, and so not the largest of the three medians just quoted. The total
 higher-order share is \foldInteractionTotalPct\ once resampling is removed,
 against
 \pooledInteractionMedianPct\ on the pooled surface, and it no longer exceeds
-the largest first-order index: pooled, the interactions carry more than any
-main effect on \nPooledInteractionExceeds\ of \nPairs\ pairs; net of
-resampling, on \nFoldInteractionExceeds. \emph{Most of the variance belongs to
+the largest first-order index: pooled, the interactions carry more than the
+largest first-order index \emph{within an instrument} --- the per-instrument
+quantity that \largestFirstOrderPct\ is the median of, which is never below
+the largest of Table~\ref{tab:sobol}'s four column medians, so a count read
+off those columns is larger --- on \nPooledInteractionExceeds\ of \nPairs\
+pairs; net of resampling, by the same comparison, on
+\nFoldInteractionExceeds. \emph{Most of the variance belongs to
 no single axis} is a property of a surface that counts five folds as five
 specifications, and it does not survive treating them as what they are. What
 does survive is the weaker and still sufficient claim: which axis leads is a
@@ -182,7 +187,10 @@ members per pair and a median critical value of \maxTSurfaceMedian, against
 the narrower family the same draws give a different region label on
 \nRegionChangedByFamily\ of the \nPairs\ pairs, and the whole-surface family
 resolves \nResolvedWhole\ cells against the narrow family's
-\nResolvedWithin.
+\nResolvedWithin\ (resolved-cell counts summed over the \nPairs\ pairs;
+Table~\ref{tab:regions} prints the narrow family's labels, and
+Supplement~\ref{app:families} names the file that carries its per-pair
+counts).
 
 \textbf{What the choice of critical value costs, and what it buys.} The
 multiplier approximation, which every table prints beside the reported band,
@@ -261,7 +269,9 @@ included, to a stratum: on the primary scale, which decomposes inside
 each instrument, analyst latitude carries a median \shareLatitudePct\ of the
 variance, resampling \shareResamplingPct\ and the counterfactual
 \shareCounterfactualPct, with resampling the larger on
-\nPairsResamplingOverLatitude\ of the \nPairs\ pairs; on the headroom scale,
+\nPairsResamplingOverLatitude\ of the \nPairs\ pairs; on the headroom scale
+(the increment divided by the baseline's headroom, which puts instruments
+on one scale; Supplement~\ref{app:decompmeasure}),
 which makes the instrument a sixth axis, the ordering reverses
 (\shareLatitudeCrossPct, \shareResamplingCrossPct\ and
 \shareCounterfactualCrossPct, resampling larger on
@@ -273,7 +283,8 @@ clean, split at the single holdout, a median \nCellsLatitude\ cells per pair
 all-cells \misreportEqualPct: the first is what a one-number report exposes a
 reader to, the second what a claim ranging also over degraded registers and
 resampled splits is exposed to. Varying the reference one axis at a time over every level that axis
-carries --- \nRefSensVariants\ variants in all, Table~\ref{tab:refsens} ---
+carries --- \nRefSensVariants\ settings in all, the declared reference among
+them, Table~\ref{tab:refsens} ---
 the corpus median runs \refSensMinPct\ to \refSensMaxPct\ against the
 declared \refSensDeclaredPct, so the headline is not an artefact of which
 cell we called conventional.

@@ -1,8 +1,9 @@
 This section derives a widening calibrated at the pair's own ratio of
 register cardinality to training row count. \textbf{The article reports it
 as a sensitivity and does not apply it.} The factor is fitted to restore
-\emph{pointwise} coverage on the $(n, K)$ plane of
-Section~\ref{sec:simsensitivity}: it addresses the channel the family-wise
+\emph{pointwise} coverage on an $(n, K)$ plane denser than the
+\nSimGridCells-cell grid of Section~\ref{sec:simsensitivity}
+(Table~\ref{tab:plane}): it addresses the channel the family-wise
 measurement of Section~\ref{sec:simband} switches off --- the interval
 underneath the band, which is governed by $K/n$ --- and not the critical
 value, which that measurement settles. It is fitted pointwise and applied
@@ -110,7 +111,8 @@ more. The admission rule --- a cell enters the plane when the interval
 straddles its estimate in at least \straddleMin\ of replicates --- decides
 nothing: the rejected cells reach \straddleGapLo\ and the admitted ones start
 at \straddleGapHi, so any threshold between those two gives this plane.
-Section~\ref{sec:lim} carries what that leaves the corpus's largest pairs.
+Section~\ref{app:threats} carries what that leaves the corpus's largest
+pairs.
 
 Under the band the article reports --- the empirical critical value, no
 widening applied --- the region counts, the labels
@@ -145,7 +147,9 @@ rather than a result.
 %%  ROUND TWENTY-FIVE.  Moved from Section 10.3 for length, unchanged.
 
 \textbf{The ratio $K/n$ captures most of the dependence, and not all of it.}
-Across the plane the basic interval covers a median \coverageGridMedian\ and a
+Across the \nSimGridCells-cell grid of Table~\ref{tab:sim31grid} --- the
+grid of Section~\ref{sec:simsensitivity}, not the calibration plane above ---
+the basic interval covers a median \coverageGridMedian\ and a
 minimum \coverageGridMin, the last at a ratio of \simGridWorstRatio. Below
 $K/n = \simGridRatioSafe$ its coverage lies between \coverageGridSafeMin\ and
 \coverageGridSafeMax\ --- short of nominal everywhere, by about two Monte
@@ -153,7 +157,7 @@ Carlo standard errors at \nPlaneGridReps\ replicates --- and it has fallen
 below three quarters by \simGridRatioBad. The ratio is the right first-order
 summary --- the mechanism of Section~\ref{sec:boot} is why, and
 varying $n$ alone would not have exposed the regime the corpus occupies ---
-but it is not sufficient, and the plane says so in two places. The two cells
+but it is not sufficient, and the grid says so in two places. The two cells
 closest to each other in ratio --- a register of \simGridSameRatioKa\ levels
 at \simGridSameRatioNa\ training rows, and one of \simGridSameRatioKb\ at
 \simGridSameRatioNb\ --- cover \simGridSameRatioCovA\ and
@@ -226,5 +230,5 @@ multiplier, and it is the same pair every time. Across the corpus
 \nRegionsChangedByCalibration\ region labels change under the widening, and
 that one is not among them. The transfer from a pointwise interval in a
 simulation to a simultaneous band on real logs is an assumption, and
-Section~\ref{sec:lim} carries it as a limitation.
+Section~\ref{app:threats} carries it as a limitation.
 

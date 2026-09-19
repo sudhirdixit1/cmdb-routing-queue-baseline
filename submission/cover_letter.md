@@ -67,9 +67,10 @@ with a large-language-model assistant reading each built PDF against the
 repository in the role of a referee; the archive carries those reviews and
 the letters that answer them, and they are my own reviews made with a tool,
 not reports from any journal's referees. The generative-AI declaration on
-the title page names that use beside the two others (drafting and editing
-prose; writing the analysis and verification code), with model identifiers
-and dates in `AI-USE.md`.
+the title page names that use beside the others (drafting and editing
+prose; writing the analysis and verification code; the literature pilot's
+adjudication, which the supplement declares where it is described), with
+model identifiers and dates in `AI-USE.md`.
 
 **Related manuscripts.** No other manuscript based on these methods or data
 is published or under review. An earlier conference-format draft in the
@@ -96,7 +97,7 @@ appears in the prose. A separate checker re-derives each macro from its
 source with independent code and enforces the manuscript's own directional
 claims as conditions.
 
-**Length.** The article is 52 pages in the journal template's setting
+**Length.** The article is 53 pages in the journal template's setting
 (11-point, 1.5 line spacing), with 8 tables and 3 figures; the appendices
 are a separate supplementary document, and nine passages were moved there
 for this submission. All three figures in the article are greyscale and

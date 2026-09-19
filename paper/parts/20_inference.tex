@@ -76,7 +76,7 @@ pivotal interval excludes its own estimate falls from
 displacement that remains is unexplained: the level-loss mechanism of
 Supplement~\ref{app:pctfail} is the reason the percentile interval is not
 used, and it is not a diagnosis of the residual, which
-Section~\ref{sec:lim} carries as an open defect.
+Supplement~\ref{app:threats} carries as an open defect.
 
 \subsection{Three surfaces, and which one a claim may quantify over}
 \label{sec:threesurfaces}
@@ -143,7 +143,8 @@ T^{(b)} \;=\; \max_{c \in \mathcal{F}}
 \qquad
 q_{1-\alpha} = \text{the } (1-\alpha)\text{ quantile of } \{T^{(b)}\},
 \]
-and report $\hat{V}_c \pm q_{1-\alpha}\hat\sigma_c$. This is the max-$t$
+and report $\hat{V}_c \pm q_{1-\alpha}\hat\sigma_c$, recentred by the basic
+construction's shift as above. This is the max-$t$
 (Romano--Wolf) construction \citep{romano2005stepdown} and has family-wise
 coverage over $\mathcal{F}$ asymptotically, and over nothing larger. It
 differs from the model confidence set \citep{hansen2011mcs} in what it
@@ -188,9 +189,10 @@ here it lies below the empirical quantile's whole order-statistic interval
 (Supplement~\ref{app:twoq}). \textbf{The operative critical value is the
 empirical quantile}, at a median \maxTSurfaceMedian\ on the whole-surface
 families against the multiplier's \maxTSurfaceMultMedian;
-Section~\ref{sec:simband} is the measurement that decides it, and every
-table prints what the multiplier would have resolved beside what the
-reported band does. A max-$t$ band also inherits the coverage of the
+Section~\ref{sec:simband} is the measurement that decides it; the
+multiplier's critical value is printed beside the operative one in the
+supplement's region tables (Table~\ref{tab:calbands} among them), and both
+estimators' band edges and labels are in the archive. A max-$t$ band also inherits the coverage of the
 interval it is built from, which Section~\ref{sec:simsensitivity} shows is
 governed by the ratio of register cardinality to training size;
 Supplement~\ref{app:calibration} derives a widening calibrated at each pair's
@@ -220,7 +222,7 @@ is \widthEmpOverMultAtDesign\ times as wide on the matched family and
 not cover is stated with it: the bootstrap is ideal there, so the
 $K/n$-governed shortfall of the pointwise interval underneath
 (Section~\ref{sec:simsensitivity}) and whatever the real resampling adds
-are outside it, and Section~\ref{sec:lim} carries both.
+are outside it, and Supplement~\ref{app:threats} carries both.
 
 \subsection{Planned contrasts, and a $p$-value the design can produce}
 \label{sec:planned}
@@ -234,7 +236,8 @@ They are not confirmatory, because they were fixed after the data were seen,
 so their Holm-adjusted one-sided bootstrap $p$-values \citep{holm1979simple}
 are reported for legibility: \nPlannedReject\ reject at $\alpha = 0.05$, but
 a contrast is called resolved only when its interval says so, and on
-\textsf{PC3} the one-sided $p$-value and the two-sided basic interval
+the planned contrast \textsf{PC3} (Table~\ref{tab:confirm}) the one-sided
+$p$-value and the two-sided basic interval
 disagree, so the count under this paper's own rule is \nPlannedResolved\
 (Supplement~\ref{app:pcdetail}, which also gives the smallest attainable
 adjusted value, \pMinAttainableHolm\ at \nDrawsPlanned\ draws). Every other
@@ -367,8 +370,11 @@ let a single extreme threshold decide the label of a whole surface, so the
 decision curve gets its own region (Section~\ref{sec:dca}). The
 intercept-only rung is excluded from every admissible set, because a reduction
 measured against a model with no features is inflated by construction; the
-master surface file \emph{does} carry that rung, which is why the two counts
-in Table~\ref{tab:denominator} differ.
+master surface file \emph{does} carry that rung, which is why the `model
+fits' column of Table~\ref{tab:denominator} --- fitted arms counted before
+the expansion over the \nInstruments\ instruments --- includes it, while the
+two admissible scalar counts beside it, declared and computed, exclude it and
+agree on every pair.
 
 \noindent \emph{Specification regret} --- what choosing one specification
 costs against the best one --- is computed from the same surface and is

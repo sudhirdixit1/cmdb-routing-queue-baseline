@@ -388,7 +388,7 @@ def emit(mn):
     # ==================================================================
     # the three tables the report asks for in the main text
     # ==================================================================
-    _tables(mn, AX, P, M, RG)
+    _tables(mn, AX, P, M, RG, FA)
 
 
 # --------------------------------------------------------------------------
@@ -437,7 +437,7 @@ GLOSSARY = [
 ]
 
 
-def _tables(mn, AX, P, M, RG):
+def _tables(mn, AX, P, M, RG, FA=None):
     tex_table, TABLES = mn.tex_table, mn.TABLES
 
     #  ---- C2: the glossary ------------------------------------------------
@@ -537,9 +537,11 @@ def _tables(mn, AX, P, M, RG):
                       "median over the \\nInstruments\\ instruments, under "
                       "the equal-level measure. The four columns are an exact "
                       "partition of the orthogonal decomposition's "
-                      "components, and on \\emph{each} of the "
-                      "\\nDecompositions\\ decompositions they sum to 100 to "
-                      "within \\stratumPartitionError. \\textbf{The printed "
+                      "components, and on \\emph{each} of the \\nPairs\\ $\\times$ "
+                      "\\nInstruments\\ per-instrument decompositions the medians are "
+                      "taken over (and on the same number with the holdout dropped, "
+                      "below) they sum to 100 to within \\stratumPartitionError. "
+                      "\\textbf{The printed "
                       "rows are medians over instruments and therefore need "
                       "not sum to 100}, for the same reason "
                       "Figure~\\ref{fig:sobol}'s right panel is not stacked: "
@@ -555,6 +557,67 @@ def _tables(mn, AX, P, M, RG):
                       "from \\shareResamplingStratumPct\\ to "
                       "\\shareResamplingRollingPct.",
                       "tab:strata"),
+            encoding="utf-8")
+
+    #  ---- 2026-09-19: the primary decomposition, per pair ---------------
+    #  The article calls the fold-averaged decomposition primary (Section
+    #  4.5) and quotes its per-pair counts (which axis leads on how many
+    #  pairs; on how many the higher-order total exceeds the largest
+    #  first-order index), but no table printed the per-pair values: Table 1
+    #  sent the reader to the POOLED table.  This one uses EXACTLY the
+    #  aggregation the foldavg macros above use -- split_set == "all", the
+    #  per-pair median over instruments, the leader as the per-pair mode --
+    #  so its columns and its caption's macros agree by construction.
+    if FA is not None and len(FA):
+        fa = FA[FA.split_set == "all"] if "split_set" in FA.columns else FA
+        per = (fa.groupby(["log", "target"]).median(numeric_only=True)
+               .reset_index())
+        lead = (fa.groupby(["log", "target"]).largest_first_order_axis
+                .agg(lambda x: x.value_counts().idxmax()).reset_index())
+        per = per.merge(lead, on=["log", "target"])
+        t = per[["log", "target", "S_learner", "S_quality", "S_rung",
+                 "largest_first_order", "interaction_total",
+                 "largest_first_order_axis", "var_ratio"]].copy()
+        t["largest_first_order_axis"] = t.largest_first_order_axis.map(
+            {"learner": "pipeline", "quality_level": "quality",
+             "rung": "rung"}).fillna(t.largest_first_order_axis)
+        for c in ("S_learner", "S_quality", "S_rung", "largest_first_order",
+                  "interaction_total", "var_ratio"):
+            t[c] = [mn.fmt_fixed(v, 3) for v in t[c]]
+        t = t.rename(columns={"S_learner": "pipeline", "S_quality": "quality",
+                              "S_rung": "rung",
+                              "largest_first_order": "largest first-order",
+                              "interaction_total": "higher-order total",
+                              "largest_first_order_axis": "leading axis",
+                              "var_ratio": "share of pooled variance"})
+        (TABLES / "foldavg.tex").write_text(
+            tex_table(t.sort_values(["log", "target"]),
+                      "\\textbf{The primary decomposition: on the "
+                      "fold-averaged surface, net of the resampling "
+                      "stratum.} Per pair, the median over the "
+                      "\\nInstruments\\ instruments of each index, under the "
+                      "equal-level measure, after averaging over the "
+                      "expanding-origin folds so that each index is a share "
+                      "of the variance fold-averaging leaves; as in "
+                      "Table~\\ref{tab:strata}, a row of medians need not "
+                      "sum to one. `leading axis' is the axis carrying the "
+                      "largest first-order index on the most instruments, and "
+                      "`share of pooled variance' is the fold-averaged "
+                      "variance over the pooled one (corpus median "
+                      "\\foldVarRatioPct). The corpus medians of the first "
+                      "five numeric columns are \\foldSPipelinePct, "
+                      "\\foldSQualityPct, \\foldSRungPct, "
+                      "\\foldLargestFirstOrderPct\\ and "
+                      "\\foldInteractionTotalPct; the leader is the rung on "
+                      "\\nFoldLeadPairsRung\\ pairs, the register-quality "
+                      "condition on \\nFoldLeadPairsQuality\\ and the "
+                      "pipeline on \\nFoldLeadPairsPipeline, and the "
+                      "higher-order total exceeds the largest first-order "
+                      "index on \\nFoldInteractionExceeds\\ of "
+                      "\\nFoldPairs\\ pairs. Table~\\ref{tab:sobol} is the "
+                      "same decomposition on the pooled surface, split "
+                      "included.",
+                      "tab:foldavg"),
             encoding="utf-8")
 
     #  ---- A4: the MPID ---------------------------------------------------

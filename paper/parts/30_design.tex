@@ -12,12 +12,13 @@ corpus does and does not have in common.
 
 The rules that turn an arbitrary event log into an instance of this problem
 were committed before any result on a new log existed, in \protocolfile\
-for the corpus and \pilotprotocolfile\ for the practice pilot; the
+for the corpus and \pilotprotocolfile\ for the literature pilot; the
 version history shows the registering commit adding one file and no result
-file, and six amendments were declared afterwards, each with its date, its
-cause and the result it changed (Supplement~\ref{app:protocol}). \textbf{This
+file, and six amendments were declared afterwards, each with its cause and
+the result it changed (Supplement~\ref{app:protocol}); their dates are in
+the protocol file. \textbf{This
 is not a timestamped third-party registration}: what is offered is a file in
-a repository whose history the author controls, so any claim that a rule was
+a repository whose history is under the analyst's own control, so any claim that a rule was
 fixed in advance is a claim about the repository and no stronger than the
 repository. What the design buys is that the rules are legible, dated and
 amendable only on the record, not that an outside party watched them being
@@ -47,6 +48,15 @@ the features.
 most \maxCardBZero\ that is neither an outcome, nor a timestamp, nor a
 relabelling of the activity, nor a deterministic coarsening of $f$.
 \end{description}
+
+The baseline \emph{rungs} are the nested ladder built from these roles: the
+intercept-only model; half of the intake block (its lower-cardinality half,
+fixed by a deterministic order before any outcome is seen); the whole intake
+block; the block plus the free field $g$; and, where a log admits a further
+field, that field as a rung of its own --- on the primary log the knowledge
+reference, a pointer to a knowledge-base article. The intercept-only rung is
+in the surface and excluded from every admissible set (Table~\ref{tab:axes});
+Figure~\ref{fig:speccurve} labels the primary log's ladder.
 
 Coarsenings of $f$ --- its type, its subtype, the service it belongs to ---
 are given their own role rather than being swept into $B_0$, because which
@@ -79,8 +89,9 @@ beside it, and fields determined only at closure are excluded by name
 excluded only for a registered reason, and every admitted pair is
 analysed and reported --- running the surface only where the reduction
 resolves would condition the analysis on the outcome.
-Supplement~\ref{app:targets} gives the rules, the exclusion codes and the
-admission margin at the upper edge of the prevalence window.
+Supplement~\ref{app:targets} gives the rules and the exclusion codes, and
+Supplement~\ref{app:margin} the admission margin at the upper edge of the
+prevalence window.
 
 Two exclusions a reader of Table~\ref{tab:roles} will ask about.
 BPIC15\_2 is excluded under \textsc{small\_n} at \nBpicFifteenTwoRows\ cases

@@ -1040,9 +1040,10 @@ LANDSCAPE_TABLES = {
     "denominator",       # Table S14, the surface denominator audit
     "regions",           # Table S16, regions from the whole-surface band
     "sca",               # Table S22, specification-curve analysis as practised
-    "measures",          # Table S26, the declared measures
-    "rules",             # Table S27, four decision rules inside one instrument
 }
+#  Tables S26 (measures) and S27 (rules) were in this set on 2026-09-18 and
+#  came out on 2026-09-19: with their headings stacked they fit a portrait
+#  line at body size, and each had a rotated page to itself.
 #  A table whose width is set by its HEADERS rather than by its cells -- ten
 #  numeric columns of one to four digits under headings such as `inference
 #  cells / instrument' -- is wider than it needs to be by the length of the
@@ -1421,8 +1422,8 @@ def write_tables(D):
                       "robustness index $\\rho$. \\textbf{No $(n,K)$ calibration is "
                       "applied}: that factor widens the pointwise interval "
                       "underneath the band and is reported as a sensitivity in "
-                      "Table~\\ref{tab:calbands}, which also prints what the "
-                      "multiplier approximation would have resolved. \\textbf{The region is the label Definition~\\ref{def:regions} yields}, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one. Table~\\ref{tab:triple} marks \\nMarkedBelowMinShare\\ rows: a pair the band already left unresolved is not marked, and \\nSignChangingBelowMinShare\\ of the marked rows are sign-changing, which carry no direction to withdraw. Last, the share of "
+                      "Table~\\ref{tab:calbands}, beside the multiplier "
+                      "approximation's critical value. \\textbf{The region is the label Definition~\\ref{def:regions} yields}, minimum resolved share included: `resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \\minResolvedSharePct\\ of it, which withdraws the direction on \\nLabelsLostToMinShare\\ of the \\nDirectionalLabels\\ pairs that carry one. Table~\\ref{tab:triple} marks \\nMarkedBelowMinShare\\ rows: a pair the band already left unresolved is not marked, and \\nSignChangingBelowMinShare\\ of the marked rows are sign-changing, which carry no direction to withdraw. Last, the share of "
                       "admissible specifications whose sign disagrees with a "
                       "conventional one-number report, under the equal-level "
                       "measure, which is the `all-cells rate' column of "

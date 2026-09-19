@@ -163,7 +163,11 @@ over the cell table rather than $2^k$ table joins.
 
 Three checks run on every decomposition and are recorded rather than assumed.
 The disjoint components must sum to the variance, which is asserted
-numerically on all \nDecompositions\ decompositions. Duplicating a level with
+numerically on all \nDecompositions\ decompositions: \nPairs\ pairs $\times$
+\nInstruments\ instruments under each of the three declared product measures
+of Section~\ref{app:decompmeasure} (the envelope's draws are not counted), plus
+one decomposition per pair on the headroom scale with the instrument as an
+axis. Duplicating a level with
 its weight split must leave every component unchanged, and does, to
 \invarianceDuplicateShift. Refining the operating-point grid under the same
 underlying continuous measure must leave the threshold axis's index unchanged,
@@ -345,7 +349,11 @@ hundred cells a surface-level label ranges over. Four interval objects are
 therefore declared, and every table says which it prints: \textsc{pointwise},
 the per-cell interval, with no multiplicity control; \textsc{within-instrument},
 max-$t$ over the scalar instruments at one cell, reported only so that the
-cost of the wider family is visible; \textsc{whole-surface}, max-$t$ over
+cost of the wider family is visible --- the \nResolvedWithin\ cells it
+resolves corpus-wide, against the whole-surface family's \nResolvedWhole,
+are the column sums of \texttt{n\_resolved\_within} and
+\texttt{n\_resolved\_whole} in \texttt{results/s48w\_regions.csv}, which
+Table~\ref{tab:regions} does not print; \textsc{whole-surface}, max-$t$ over
 \emph{every} scalar cell of the pair's inference family --- a median
 \inferenceShareAdmissibleMedianPct\ of its admissible scalar cells --- which
 is the only family a surface-level claim may use; and
@@ -541,7 +549,7 @@ which is better and is not zero. The displacement's own median barely moves,
 \noindent\textbf{Level loss is therefore not the main cause of the
 displacement.} Removing it entirely leaves most of the displacement standing,
 and this paper does not know what the remainder is.
-Section~\ref{sec:lim} carries that rather than a claim that the scheme is now
+Section~\ref{app:threats} carries that rather than a claim that the scheme is now
 unbiased. \textbf{The comparison is also not symmetric, and it leans the way
 that flatters the old scheme}: where a draw is missing, the band construction
 refuses the cell while the comparison drops the missing draws and computes
@@ -564,5 +572,5 @@ them by \nStraddleHalfMin. This corpus reaches a ratio of
 \textbf{The argument does not carry to the bands reported here.} Weights
 remove the mechanism it rests on, and a displacement survives them anyway
 (above), so what remains under the reported scheme is not bounded by this
-reasoning and is not explained by it. Section~\ref{sec:lim} carries it as an
-open defect rather than a controlled one.
+reasoning and is not explained by it. Section~\ref{app:threats} carries it as
+an open defect rather than a controlled one.

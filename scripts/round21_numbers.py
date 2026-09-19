@@ -159,15 +159,17 @@ def emit(mn):
     #  the role of a referee under claude-fable-5-1
     #  (submission/review_round30.md) and the revision that read prompted
     #  ran under claude-opus-5, so two identifiers that had already been
-    #  recorded were used again and the span closes on 2026-09-18.
+    #  recorded were used again; three independent reads of that revision
+    #  and the corrections they prompted ran under claude-opus-5 on
+    #  2026-09-19, which closes the span.
     #  \aiModelIdPrev lists every identifier in the order it was first
     #  recorded; \aiModelId names the two used again at the end, and
     #  statements.tex prints it followed by `again'.  AI-USE.md carries
     #  the same identifiers and the same dates.
-    put("aiModelId", "claude-opus-5 and claude-fable-5-1")
+    put("aiModelId", "claude-fable-5-1 and claude-opus-5")
     put("aiModelIdPrev", "claude-opus-5, then claude-fable-5, "
         "then claude-fable-5-1")
-    put("aiModelDate", "2026-08-18 to 2026-09-18; identifiers recorded "
+    put("aiModelDate", "2026-08-18 to 2026-09-19; identifiers recorded "
         "from 2026-08-24")
 
     # ================================================================

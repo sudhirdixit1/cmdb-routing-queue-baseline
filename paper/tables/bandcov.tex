@@ -2,25 +2,25 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{llllrrrrrr}
+\begin{tabular}{llllllllll}
 \toprule
 family & draws are & K & draws & multiplier & mult., MC upper & empirical & emp., OS upper & Rademacher & per-cell \\
 \midrule
-decision-curve & degenerate & 248 & 200 & 0.803 & 0.805 & 0.935 & 0.964 & 0.785 & 0.937 \\
-decision-curve & degenerate & 1100 & 400 & 0.929 & 0.930 & 0.948 & 0.962 & 0.773 & 0.940 \\
-decision-curve & gaussian & 248 & 200 & 0.932 & 0.933 & 0.918 & 0.959 & 0.921 & 0.941 \\
-decision-curve & gaussian & 1100 & 400 & 0.932 & 0.936 & 0.920 & 0.954 & 0.925 & 0.945 \\
-decision-curve & heavy & 248 & 200 & 0.912 & 0.914 & 0.936 & 0.961 & 0.900 & 0.940 \\
-decision-curve & heavy & 1100 & 400 & 0.913 & 0.915 & 0.938 & 0.955 & 0.904 & 0.944 \\
-decision-curve & nonzero & 248 & 200 & 0.903 & 0.906 & 0.932 & 0.964 & 0.889 & 0.940 \\
-decision-curve & nonzero & 1100 & 400 & 0.921 & 0.921 & 0.943 & 0.957 & 0.915 & 0.946 \\
-whole-surface & degenerate & 180 & 400 & 0.923 & 0.924 & 0.945 & 0.966 & 0.920 & 0.946 \\
-whole-surface & gaussian & 180 & 400 & 0.943 & 0.945 & 0.936 & 0.959 & 0.936 & 0.946 \\
-whole-surface & heavy & 180 & 400 & 0.915 & 0.919 & 0.947 & 0.967 & 0.913 & 0.945 \\
-whole-surface & nonzero & 180 & 400 & 0.925 & 0.927 & 0.946 & 0.971 & 0.920 & 0.946 \\
+decision-curve & degenerate & 248 & 200 & 0.803 & 0.805 & 0.936 & 0.964 & 0.785 & 0.937 \\
+decision-curve & degenerate & 1100 & 400 & 0.929 & 0.930 & 0.948 & 0.962 & 0.774 & 0.940 \\
+decision-curve & gaussian & 248 & 200 & 0.932 & 0.934 & 0.918 & 0.959 & 0.921 & 0.941 \\
+decision-curve & gaussian & 1100 & 400 & 0.932 & 0.937 & 0.920 & 0.954 & 0.926 & 0.945 \\
+decision-curve & heavy & 248 & 200 & 0.912 & 0.914 & 0.936 & 0.961 & 0.901 & 0.940 \\
+decision-curve & heavy & 1100 & 400 & 0.913 & 0.915 & 0.938 & 0.955 & 0.905 & 0.944 \\
+decision-curve & nonzero & 248 & 200 & 0.903 & 0.907 & 0.933 & 0.964 & 0.890 & 0.940 \\
+decision-curve & nonzero & 1100 & 400 & 0.921 & 0.921 & 0.943 & 0.957 & 0.916 & 0.946 \\
+whole-surface & degenerate & 180 & 400 & 0.924 & 0.924 & 0.945 & 0.966 & 0.920 & 0.946 \\
+whole-surface & gaussian & 180 & 400 & 0.943 & 0.945 & 0.937 & 0.959 & 0.936 & 0.946 \\
+whole-surface & heavy & 180 & 400 & 0.915 & 0.919 & 0.947 & 0.967 & 0.914 & 0.945 \\
+whole-surface & nonzero & 180 & 400 & 0.926 & 0.927 & 0.946 & 0.971 & 0.921 & 0.946 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Family-wise coverage of the max-$t$ band against a known answer, over synthetic families matched to this corpus in size, cross-cell correlation and per-cell excess kurtosis, and spanning draw counts around the one it runs. EVERY ROW IS A FAMILY THE CORPUS RUNS: \textsf{whole-surface} at $K = \nCellsPerPairMedian$ and \nDrawsSurface\ draws is every pair's surface family, \textsf{decision-curve} at $K = \nDcaFamilyModal$ and \nDrawsSurface\ draws the modal curve family, and the \nDcaFamily-cell row at \nDcaDraws\ draws the case study's own curve family; the draw-count ladder the text quotes is a sensitivity around the first and is not printed here. Nominal is $0.95$; the five middle columns are the five candidate critical values and the last is the control. \emph{The bootstrap here is ideal} --- the draws come from the sampling distribution itself --- so every coverage in this table is an upper bound on what the real procedure attains, and the control says why: \emph{per-cell} is the basic interval the band is built from, on the same draws, and it is short of nominal before any multiplicity correction is applied. \emph{Regimes.} \textsf{gaussian} is the case the multiplier bootstrap is derived for; \textsf{heavy} carries this corpus's measured tails; \textsf{degenerate} adds the cells whose net-benefit difference is zero by arithmetic, which the corpus's decision-curve families contain and its surface families do not; \textsf{nonzero} is heavy with a fixed heterogeneous non-zero truth, the regime under which a cell can be resolved correctly and a region label is actually being asked to hold. Every cell is \nBandCoverageReps\ replicates, so no coverage here is determined worse than \bandCoverageSEMax.}
+\caption{Family-wise coverage of the max-$t$ band against a known answer, over synthetic families matched to this corpus in size, cross-cell correlation and per-cell excess kurtosis, and spanning draw counts around the one it runs. EVERY ROW IS A FAMILY THE CORPUS RUNS: \textsf{whole-surface} at $K = \nCellsPerPairMedian$ and \nDrawsSurface\ draws is every pair's surface family, \textsf{decision-curve} at $K = \nDcaFamilyModal$ (the grid's rounding of the corpus's modal curve family) and \nDrawsSurface\ draws that family, and the \nDcaFamily-cell row at \nDcaDraws\ draws the case study's own curve family; the draw-count ladder the text quotes is a sensitivity around the first and is not printed here. Nominal is $0.95$; the five middle columns are the five candidate critical values and the last is the control. \emph{The bootstrap here is ideal} --- the draws come from the sampling distribution itself --- so every coverage in this table is an upper bound on what the real procedure attains, and the control says why: \emph{per-cell} is the basic interval the band is built from, on the same draws, and it is short of nominal before any multiplicity correction is applied. \emph{Regimes.} \textsf{gaussian} is the case the multiplier bootstrap is derived for; \textsf{heavy} carries this corpus's measured tails; \textsf{degenerate} adds the cells whose net-benefit difference is zero by arithmetic, which the corpus's decision-curve families contain and its surface families do not; \textsf{nonzero} is heavy with a fixed heterogeneous non-zero truth, the regime under which a cell can be resolved correctly and a region label is actually being asked to hold. Every cell is \nBandCoverageReps\ replicates, so no coverage here is determined worse than \bandCoverageSEMax.}
 \label{tab:bandcov}
 \end{table}

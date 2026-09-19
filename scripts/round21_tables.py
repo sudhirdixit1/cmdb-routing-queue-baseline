@@ -774,6 +774,17 @@ def write_round25(mn):
              "Rademacher", "per-cell"]
     d = piv[[c for c in order if c in piv.columns]].sort_values(
         ["family", "draws are", "K"])
+    #  2026-09-19.  Every coverage here is k/2,000, so a cell whose k is odd
+    #  sits EXACTLY on a half at three decimals, and `%.3f' rounds the
+    #  binary double: 0.9255 printed as 0.925 in this table while the same
+    #  number, through `pct', printed as 92.6\% in the text.  The cells go
+    #  through the helper every macro uses (common.fmt_fixed, half away
+    #  from zero), so the text and the table agree on the last digit.
+    for c in ("multiplier", "mult., MC upper", "empirical", "emp., OS upper",
+              "Rademacher", "per-cell"):
+        if c in d.columns:
+            d[c] = d[c].map(lambda v: mn.fmt_fixed(v, 3)
+                            if pd.notna(v) else "--")
     (TABLES / "bandcov.tex").write_text(
         tex_table(d, "Family-wise coverage of the max-$t$ band against a "
                      "known answer, over synthetic families matched to this "
@@ -783,8 +794,9 @@ def write_round25(mn):
                      "\\textsf{whole-surface} at $K = \\nCellsPerPairMedian$ "
                      "and \\nDrawsSurface\\ draws is every pair's surface "
                      "family, \\textsf{decision-curve} at $K = "
-                     "\\nDcaFamilyModal$ and \\nDrawsSurface\\ draws the "
-                     "modal curve family, and the \\nDcaFamily-cell row at "
+                     "\\nDcaFamilyModal$ (the grid's rounding of the "
+                     "corpus's modal curve family) and \\nDrawsSurface\\ "
+                     "draws that family, and the \\nDcaFamily-cell row at "
                      "\\nDcaDraws\\ draws the case study's own curve family; "
                      "the draw-count ladder the text quotes is a "
                      "sensitivity around the first and is not printed here. "
@@ -886,7 +898,7 @@ def write_round25(mn):
         ("Sensitivity decomposition",
          "how much of the disagreement each analysis choice explains, and "
          "how much belongs to no single one",
-         r"\ref{sec:sobol}", r"\ref{tab:sobol}",
+         r"\ref{sec:sobol}", r"\ref{tab:foldavg}",
          r"exact; no refit. A M\"obius sum over the surface already "
          r"computed"),
         ("Simultaneous band",

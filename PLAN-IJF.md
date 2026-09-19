@@ -557,7 +557,7 @@ Three independent reads refuted that pass on five points (the article had
 lost its definition of D and R; a paragraph was duplicated into the desk's-decision appendix;
 four pointers landed one subsection short; the gathered paragraph
 overstated; the gloss misdescribed Table 2), all corrected the same day and
-re-read. Decisions §IJF.5 and §IJF.7–12. Final: article 52 pp under the
-template's options (11pt, 1.5 spacing), supplement 120, title page 3; every
+re-read. Decisions §IJF.5 and §IJF.7–12. Final: article 53 pp under the
+template's options (11pt, 1.5 spacing), supplement 119, title page 3; every
 gate at 0; `verify_release` unaffected (no result file changed).
 

@@ -33,7 +33,7 @@ is the disposition of each item.
 | Deanonymisation by search | The package name and seven file names print generically in the blind build (`blindnames.tex`); `check_blind` scans for the package name. The harness section keeps its script names by decision. |
 | Uncited prior results | "an earlier, unpublished analysis of this log" in the article, Table S11 and S15.1. |
 | Supplement tables | Six widest on landscape pages; the `q` column named for what it holds and the captions cite the operative quantile beside it; S15's headings carry a sentence each; Table S20's caption points at the article's §6.4; S18 says "section"; S20 opens by naming the measurement; S1's contrasts sentence weakened to what Table S15 and Class L state. |
-| Length | §3.4, §4.7, §6.6 and the §8.3 rules paragraph moved behind pointers; the article keeps the definition of D and R. 52 pages under the template's options. |
+| Length | §3.4, §4.7, §6.6 and the §8.3 rules paragraph moved behind pointers; the article keeps the definition of D and R. 53 pages under the template's options after the 2026-09-19 read added the primary decomposition's per-pair table (Supplement Table S9) and glosses. |
 | AUC as primary instrument | One run-in paragraph at the end of §3.4, restating §1, §2, the remarks, §6.2 and §8; refuted once for overstating, cut back. |
 | 43.7% vs 56.0%; the 28.7% figure | Each number's quantity named; "pooled" said where it applies. |
 
@@ -55,4 +55,39 @@ from its history. Table S8's caption cited an article equation by bare
 number from inside the supplement; it now says "of the article".
 
 Gates after everything: all nine at zero; `verify_release` untouched
-(no result file changed); article 52 pages, supplement 120, title page 3.
+(no result file changed); article 53 pages, supplement 119, title page 3.
+
+## The 2026-09-19 reads
+
+Three independent reads of the revised build (a fix-checker, a cold referee
+read of the blind article, a package check) and eight read-only
+investigations of the number-backed items found: the article said both that
+stationarity is tested (§3.2) and not tested (§9) — the §9 sentence now says
+mixing is assumed and stationarity tested; six pointers sent the reader to
+§10 for internal-validity detail that lives in Supplement S20; "every table
+prints what the multiplier would have resolved" was unsupported and now says
+what is printed (the multiplier's critical value beside the operative one)
+and what is in the archive (both estimators' edges and labels); the
+amendments' dates are in the protocol file, not in S1, and both texts now
+say so; the baseline rungs are enumerated once (§5.2) and the four decision
+rules defined once (S3.1) and glossed at first use (§1, §4.6); "40 of 118
+arms" is "models", a model being a pair–pipeline–baseline triple; S14.7
+opens on the band the article reports; the plane/grid of §9.1 are named apart
+(10-cell grid, Table S38; 33-cell calibration plane, Table S41) with each
+number attributed to its source; "13 of 19 pairs" says what it counts (the
+higher-order total against the largest first-order index within an
+instrument, not against Table S8's column medians); Table 5's "304
+decompositions" is now the 19 × 5 the strata identity was checked on, and S3
+derives 304; the two 1,100s are named apart (a resolved-cell count; the
+grid's rounding of the modal curve family); Table 2's origin row and caption
+say the corpus surface has two origins on the primary log and the case
+study's second surface three; Table S40 now rounds half-cases the way the
+macros do (sixteen cells moved by one in the last digit); and the primary
+decomposition's per-pair values, which the article quoted but no table
+printed, are Supplement Table S9 (`tables/foldavg.tex`, generated from the
+same aggregation as the macros). Also the headroom scale, PC3, the Fieller
+set (now cited), the conservative and one-number rules, and "collapse rule"
+glossed or renamed at first use; "the author" removed from a blind sentence;
+one name for the literature pilot. The all-caps emphasis in several
+generated supplement captions is a house style production may query; it is
+left as is.
