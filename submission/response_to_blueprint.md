@@ -482,14 +482,14 @@ than counted by hand.
 
 | § | section | words | requested | |
 |---|---|---:|---|---|
-| 1 | Introduction | 1,480 | 1,200–1,500 | just under |
+| 1 | Introduction | 1,482 | 1,200–1,500 | just under |
 | 2 | Related work | 818 | 1,200–1,500 | under |
-| 3 | The specification surface | 1,170 | ~1,500 | ✓ |
-| 4 | Estimation and inference | 3,254 | 2,000–2,500 | **over** |
+| 3 | The specification surface | 1,211 | ~1,500 | ✓ |
+| 4 | Estimation and inference | 3,267 | 2,000–2,500 | **over** |
 | 5 | The registered benchmark design | 959 | 1,200–1,500 | ✓ |
 | 6 | Multi-log results | 3,063 | 2,000–2,500 | **over** |
 | 7 | Case study: a configuration management database | 1,183 | 1,500–2,000 | ✓ |
-| 8 | Decision-analytic evaluation | 871 | — | added |
+| 8 | Decision-analytic evaluation | 872 | — | added |
 | 9 | Simulation against a known answer | 1,583 | 1,000–1,500 | just over |
 | 10 | Threats to validity | 949 | 1,200–1,500 | **over** |
 | 11 | Conclusion | 734 | 400–600 | just over |

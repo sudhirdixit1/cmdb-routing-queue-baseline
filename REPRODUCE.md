@@ -204,8 +204,7 @@ interquartile range; the surface family is inside it, the curve family is
 not, and the manuscript says so. `results/s41_r27_*` and `results/s41_r28a_*`
 keep the two earlier grids for the record.
 
-`s18_bias_scaling.py --legacy-target` regenerates the pre-correction figures of Supplement S6's
-pre-correction figures. It is not needed for the manuscript's numbers; it is
+`s18_bias_scaling.py --legacy-target` regenerates the pre-correction figures of Supplement S6. It is not needed for the manuscript's numbers; it is
 needed if you want to check the correction rather than take it on trust.
 
 To run one stage:

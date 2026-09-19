@@ -364,7 +364,7 @@ def write(mn):
                       "instrument, under the equal-level measure. The four "
                       "first-order indices, then the TOTAL higher-order "
                       "share $1-\\sum_i S_i$ of "
-                      "Equation~\\eqref{eq:inttotal}, then the largest "
+                      "Equation~\\eqref{eq:inttotal} of the article, then the largest "
                       "per-axis interaction involvement "
                       "$\\max_i(S_{T_i}-S_i)$ --- which is the quantity an "
                       "earlier version reported as the interaction share and "

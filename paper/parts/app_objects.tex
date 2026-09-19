@@ -176,29 +176,6 @@ as the resampling unit, because pairs and not cells are the independent
 objects. No axis is called dominant anywhere in this paper where those
 intervals overlap.
 
-%  Moved from the article (20_inference.tex, \subsection{Specification regret,
-%  as a robustness check}) for the IJF upload, so that the definition of the
-%  check precedes the three designs; the article keeps a pointer sentence at
-%  the end of its resolution-regions subsection.
-\subsection{Specification regret, as a robustness check}
-\label{sec:regretdef}
-
-\textbf{This subsection defines a check and not a reporting object.} What
-\emph{specification regret} reports is a null --- the one-number rule's median
-excess regret is zero in every instrument, the out-of-sample ordering reverses
-under rolling folds (Section~\ref{sec:rules}), and on calibrated net benefit
-what separates the rules is the conservative one rather than the one-number
-one (Section~\ref{sec:nbregret}) --- and a null is a check on
-the paper's other two arguments rather than a result of its own. It is
-reported in full, and it is not a contribution.
-
-The construction asks what choosing one specification costs against the best
-one, on a scale a decision can use; the identity map's maximum excess is
-\identityMaxExcess. Section~\ref{app:regretfull} below gives the three declared
-designs --- metric-specific, calibrated net benefit, and partially identified
-over a declared set of monotone utility maps --- and the four decision rules
-compared under them.
-
 \subsection{Specification regret: the three designs}
 \label{app:regretfull}
 
@@ -263,6 +240,29 @@ rule is wrong, not merely cautious, whenever the harm mass is smaller than the
 benefit mass it forgoes; and a one-number report is optimal exactly when the
 sign of its cell agrees with the sign of the mean, which is a coincidence
 rather than a property of the cell.
+
+%  Moved from the article (20_inference.tex, \subsection{Specification regret,
+%  as a robustness check}) for the IJF upload, placed after the three designs it
+%  summarises; the article keeps a pointer sentence at
+%  the end of its resolution-regions subsection.
+\subsection{Specification regret, as a robustness check}
+\label{sec:regretdef}
+
+\textbf{This subsection defines a check and not a reporting object.} What
+\emph{specification regret} reports is a null --- the one-number rule's median
+excess regret is zero in every instrument, the out-of-sample ordering reverses
+under rolling folds (Section~\ref{sec:rules}), and on calibrated net benefit
+what separates the rules is the conservative one rather than the one-number
+one (Section~\ref{sec:nbregret}) --- and a null is a check on
+the paper's other two arguments rather than a result of its own. It is
+reported in full, and it is not a contribution.
+
+The construction asks what choosing one specification costs against the best
+one, on a scale a decision can use; the identity map's maximum excess is
+\identityMaxExcess. Section~\ref{app:regretfull} above gives the three declared
+designs --- metric-specific, calibrated net benefit, and partially identified
+over a declared set of monotone utility maps --- and the four decision rules
+compared under them.
 
 \subsection{The pipeline, and what the estimator holds fixed}
 \label{app:pipeline}

@@ -6,14 +6,13 @@
 \label{sec:reduction}
 
 Comparisons between two baselines are often stated as a proportion. Write
-$B_0 \subset B_1$ and
-\begin{equation}
+$B_0 \subset B_1$ and, as in Section~\ref{sec:surface} of the article,
+\begin{equation*}
 D_s(f) \;=\; V_s(f \mid B_0) - V_s(f \mid B_1),
 \quad
 R_s(f) \;=\; 1 - \frac{V_s(f \mid B_1)}{V_s(f \mid B_0)}
 \;=\; \frac{D_s(f)}{V_s(f \mid B_0)} .
-\label{eq:reduction}
-\end{equation}
+\end{equation*}
 $D$ is an absolute difference in the metric's own units. $R$ is a ratio and
 inherits every pathology of one: the denominator can be small, zero or
 negative; $R$ is not comparable across metrics, because
