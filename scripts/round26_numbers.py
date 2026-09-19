@@ -29,7 +29,7 @@ _RUNG = {"B_half": "half of intake", "B_intake": "intake",
 AFFILIATION_STREET = "2546 Adams Pond Ln."
 AFFILIATION_CITY = "Apex"
 #: state and postcode, as the author gives them; the postcode is still owed
-AFFILIATION_REGION = "NC"
+AFFILIATION_REGION = "NC 27523"
 AFFILIATION_COUNTRY = "United States"
 
 
