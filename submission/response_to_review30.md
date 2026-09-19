@@ -16,7 +16,7 @@ is the disposition of each item.
 | 2 Anonymous entry sorted under the surname | `build_journal.py` cuts the anonymised `\bibitem` out of its slot and inserts it at the head of the list; first entry in both blind reference lists, nothing under D. |
 | 3 "a referee for this journal" (S22) | "a referee of an earlier version"; the log sentence no longer implies this journal's referees. |
 | 4 S21.3's pointer to the omitted declaration | Points at the declaration that accompanies the article on its title page; "the author" singular removed. |
-| 5 Empty duplicate headings S1.3 / S14.13 | Removed; labels carried to the surviving subsections; S1 has four subsections, S14 seventeen. |
+| 5 Empty duplicate headings S1.3 / S14.13 | Removed; labels carried to the surviving subsections; S1 has four subsections, S14 seventeen after the compressed copy of S14.3 went too. |
 | 6 `BPIC13\_closed` in Table S6 | The generator escaped once; no `textbackslash` in any generated table. |
 | 7 Stale data-availability statement | S18 → S23 for the pilot, "Acknowledgements" → the title page's code-availability statement; the amendment count corrected to the protocol's six; `check_response_refs` now parses "(Supplement S<n>)". |
 | 8 Three residues (Definition 1, Table 8's caption, equation 3) | "incremental-performance claim"; "forecast target"; the mixed stratum written out as the sum over split-free components that contain quality and an analyst axis. |
