@@ -15,6 +15,8 @@ claim, drawn.
 
 Outputs: paper/figS1_speccurve.png, figS2_sobol.png, figS3_regions.png,
          figS4_dca.png, figS5_tipping.png, figS6_coverage.png
+         -- and, beside each PNG, a vector PDF of the same name.  The journal
+         asks for vector art; the PNG stays because other documents embed it.
 """
 from __future__ import annotations
 
@@ -33,8 +35,12 @@ import spec as S  # noqa: E402
 from common import RESULTS  # noqa: E402
 
 PAPER = HERE.parent / "paper"
+#  pdf.fonttype 42 embeds the text as TrueType so it stays text in the vector
+#  file (type 3, the default, outlines every glyph and production cannot
+#  search or re-set it).
 plt.rcParams.update({"font.size": 8, "axes.linewidth": 0.6,
-                     "figure.dpi": 400, "savefig.bbox": "tight"})
+                     "figure.dpi": 400, "savefig.bbox": "tight",
+                     "pdf.fonttype": 42, "ps.fonttype": 42})
 
 GREY = "0.35"
 DARK = "0.15"
@@ -50,6 +56,16 @@ def load(n):
             except Exception:  # noqa: BLE001
                 return None
     return None
+
+
+def save(fig, stem):
+    """Write paper/<stem>.png (400 dpi, for the documents that embed raster)
+    and paper/<stem>.pdf (vector, what the journal build includes)."""
+    p = PAPER / (stem + ".png")
+    fig.savefig(p)
+    fig.savefig(p.with_suffix(".pdf"))
+    plt.close(fig)
+    return p
 
 
 # --------------------------------------------------------------------------
@@ -83,18 +99,21 @@ def fig_speccurve():
                          hspace=0.05))
 
     pos = d.V.values > 0
+    share = float(pos.mean())
     ax0.axhline(0, color=DARK, lw=0.8)
+    #  IJF: no title above the plot.  The title used to carry the cell count
+    #  and the positive share.  The count is in the caption, from a macro
+    #  (\nCellsFigOne); the share has no macro and texlint forbids a literal
+    #  in the caption, so it stays INSIDE the plot area, in the legend that
+    #  already sits at the upper left.
     ax0.scatter(x[pos], d.V.values[pos], s=3, color=DARK, marker="o",
-                linewidths=0, label="increment $>0$")
+                linewidths=0,
+                label="increment $>0$: %.0f%% of cells" % (100 * share))
     ax0.scatter(x[~pos], d.V.values[~pos], s=3, color="0.6", marker="x",
-                linewidths=0.5, label="increment $\\leq 0$")
+                linewidths=0.5,
+                label="increment $\\leq 0$: %.0f%%" % (100 * (1 - share)))
     ax0.set_ylabel("increment $V_s(f)$")
     ax0.legend(frameon=False, loc="upper left", fontsize=7)
-    share = float(pos.mean())
-    ax0.set_title("Every admissible specification for one register on one "
-                  "log, sorted by the increment\n"
-                  "(%d cells; %.0f%% positive, %.0f%% not)"
-                  % (len(d), 100 * share, 100 * (1 - share)), fontsize=8.5)
 
     for i, (col, lv) in enumerate(levels):
         hit = (d[col].values == lv)
@@ -134,10 +153,7 @@ def fig_speccurve():
     for a, tag in ((ax0, "(a)"), (ax1, "(b)")):
         a.text(0.995, 0.97, tag, transform=a.transAxes, fontsize=9,
                fontweight="bold", va="top", ha="right")
-    p = PAPER / "figS1_speccurve.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    return save(fig, "figS1_speccurve")
 
 
 def fig_sobol():
@@ -171,10 +187,7 @@ def fig_sobol():
               loc="upper center", bbox_to_anchor=(0.5, -0.13))
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    p = PAPER / "figS2_sobol.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    return save(fig, "figS2_sobol")
 
 
 def fig_regions():
@@ -196,10 +209,7 @@ def fig_regions():
     ax.set_xlim(-1.05, 1.05)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    p = PAPER / "figS3_regions.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    return save(fig, "figS3_regions")
 
 
 def fig_dca():
@@ -234,10 +244,7 @@ def fig_dca():
     ax.legend(frameon=False, fontsize=7, loc="best")
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    p = PAPER / "figS4_dca.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    return save(fig, "figS4_dca")
 
 
 def fig_tipping():
@@ -262,10 +269,7 @@ def fig_tipping():
     ax.set_ylabel("increment of the register (AUC)")
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    p = PAPER / "figS5_tipping.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    return save(fig, "figS5_tipping")
 
 
 def fig_coverage():
@@ -307,10 +311,7 @@ def fig_coverage():
     ax.legend(frameon=False, fontsize=7)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    p = PAPER / "figS6_coverage.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    return save(fig, "figS6_coverage")
 
 
 def main():

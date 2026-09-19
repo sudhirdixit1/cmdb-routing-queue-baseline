@@ -128,10 +128,9 @@
     "sha": "14e32c3d936d6556"
   },
   "s12_figures.py": {
-    "at": "2026-08-25T01:58:31Z",
-    "note": "round twenty-two: panel labels moved inside the axes and the axis-level legend enlarged and spelled out",
-    "renormalised": "2026-08-25T21:21:27Z",
-    "sha": "7b5a1d055bfcfa55"
+    "at": "2026-09-19T01:50:19Z",
+    "note": "IJF figures: vector PDF beside each PNG with text kept as text; no title above a plot (Figure 1's share into its legend, Figure 3's titles into the caption and panel letters); the overview's section pointers in one dict, 9.4 corrected to 9.2",
+    "sha": "883033ac27749cdd"
   },
   "s13_attack_numbers.py": {
     "at": "2026-09-04T03:51:18Z",
@@ -204,9 +203,9 @@
     "sha": "87e16a598d49c7d9"
   },
   "s28_figures.py": {
-    "at": "2026-09-04T03:28:43Z",
-    "note": "round 28: coverage grid re-matched to the balanced design and calibrated to the corpus's estimator ratio; operative critical value = emp",
-    "sha": "f26ab5eafefcbc62"
+    "at": "2026-09-19T01:50:19Z",
+    "note": "IJF figures: vector PDF beside each PNG with text kept as text; no title above a plot (Figure 1's share into its legend, Figure 3's titles into the caption and panel letters); the overview's section pointers in one dict, 9.4 corrected to 9.2",
+    "sha": "e8093e20710f1db0"
   },
   "s29_props.py": {
     "at": "2026-08-24T13:10:37Z",
@@ -281,9 +280,9 @@
     "sha": "9f7da3a05b11375e"
   },
   "s43_overview.py": {
-    "at": "2026-08-30T11:37:19Z",
-    "note": "round 27: the final read's pointer corrections",
-    "sha": "c0b657620b1f9281"
+    "at": "2026-09-19T01:50:19Z",
+    "note": "IJF figures: vector PDF beside each PNG with text kept as text; no title above a plot (Figure 1's share into its legend, Figure 3's titles into the caption and panel letters); the overview's section pointers in one dict, 9.4 corrected to 9.2",
+    "sha": "6f03526a79582fe4"
   },
   "s44_designed.py": {
     "at": "2026-09-04T03:30:43Z",

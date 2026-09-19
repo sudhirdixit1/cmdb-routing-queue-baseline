@@ -487,7 +487,7 @@ than counted by hand.
 | 3 | The specification surface | 1,183 | ~1,500 | ✓ |
 | 4 | Estimation and inference | 3,316 | 2,000–2,500 | **over** |
 | 5 | The registered benchmark design | 961 | 1,200–1,500 | ✓ |
-| 6 | Multi-log results | 3,106 | 2,000–2,500 | **over** |
+| 6 | Multi-log results | 3,114 | 2,000–2,500 | **over** |
 | 7 | Case study: a configuration management database | 1,183 | 1,500–2,000 | ✓ |
 | 8 | Decision-analytic evaluation | 956 | — | added |
 | 9 | Simulation against a known answer | 1,578 | 1,000–1,500 | just over |

@@ -10,10 +10,15 @@ from it.
 It is a schematic and carries no result, which is why it lives in its own file
 and reads no result file: nothing here can go stale against a number, and the
 provenance guard has nothing to certify.  Every quantity a reader might want
-beside it is in Table~1 (the objects), Table~2 (the axes) and Table~4 (the
+beside it is in Table~1 (the objects), Table~2 (the axes) and Table~3 (the
 roles per pair).
 
-    python s43_overview.py     -> paper/figS8_overview.png
+What CAN go stale is a pointer: the boxes name sections, tables, definitions
+and an equation by number, and the article's numbering moves when a section
+is cut or added.  Every such string is in POINTERS below, in one place, and is
+checked against the built manuscript's headings before a submission.
+
+    python s43_overview.py     -> paper/figS8_overview.png and .pdf
 """
 from __future__ import annotations
 
@@ -29,11 +34,33 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch  # noqa: E402
 
 PAPER = HERE.parent / "paper"
+#  pdf.fonttype 42 embeds the text as TrueType so it stays text in the vector
+#  file (type 3, the default, outlines every glyph).
 plt.rcParams.update({"font.size": 7.4, "figure.dpi": 400,
                      "savefig.bbox": "tight", "savefig.pad_inches": 0.02,
-                     "axes.grid": False})
+                     "axes.grid": False,
+                     "pdf.fonttype": 42, "ps.fonttype": 42})
 DARK = "0.20"
 MID = "0.45"
+
+#  EVERY section, table, definition and equation number the diagram prints.
+#  These are literals: the figure is drawn outside LaTeX and cannot \ref.
+#  CHECK EACH against the built manuscript's headings before a submission --
+#      pdftotext -layout build/journal/manuscript.pdf - | grep -n "^ *[0-9]"
+#  -- and against its table captions and definitions, and re-run this script
+#  whenever the article's numbering moves.  The keys name the box; the values
+#  are printed verbatim.
+POINTERS = {
+    "roles": "Section 5.2, Table 3",          # 5.2 Roles; Table 3 roles per pair
+    "design_space": "Definition 1, Table 2",  # Def. 1 design space; Table 2 axes
+    "surface": "Equation 1",                  # (1) the increment V_s(f)
+    "denominators": "Section 4.2",            # 4.2 three surfaces / denominators
+    "decomposition": "Section 4.5, Table 5",  # 4.5 decomposition; Table 5
+    "band": "Sections 4.3, 9.2",              # 4.3 bands; 9.2 family-wise coverage
+    "region": "Definition 3, Table 6",        # Def. 3 regions; Table 6 labels
+    "standard": "Section 4.8",                # 4.8 a reporting standard
+    "regret": "Section 4.7",                  # 4.7 regret, as a robustness check
+}
 
 
 def box(ax, x, y, w, h, title, body, fill="0.97", edge=DARK, lw=0.9):
@@ -66,21 +93,21 @@ def main():
         "BPIC14: incidents at\na bank's service desk")
     box(ax, 0.245, 0.660, 0.235, 0.320, "roles, by rule",
         "register $f$\nfree field $g$\nintake block $B_0$\n\n"
-        "(Section 5.2, Table 3)")
+        "(%s)" % POINTERS["roles"])
     box(ax, 0.515, 0.660, 0.235, 0.320, "design space $\\mathcal{S}$",
         "pipeline $\\times$ split\n"
         "$\\times$ quality $\\times$ rung\n$\\times$ instrument\n\n"
-        "(Definition 1, Table 2)")
+        "(%s)" % POINTERS["design_space"])
     box(ax, 0.785, 0.660, 0.210, 0.320, "the surface",
         "$s \\mapsto V_s(f)$\none increment per cell\n\n"
-        "(Equation 1)")
+        "(%s)" % POINTERS["surface"])
 
     for x0, x1 in ((0.210, 0.245), (0.480, 0.515), (0.750, 0.785)):
         arrow(ax, (x0, 0.820), (x1, 0.820))
 
     #  ---- the denominator gate -------------------------------------------
     box(ax, 0.150, 0.430, 0.700, 0.175,
-        "three denominators, audited apart  (Section 4.2)",
+        "three denominators, audited apart  (%s)" % POINTERS["denominators"],
         "declared  |  computational  |  inference \u2014 a claim\n"
         "quantifies over exactly one",
         fill="0.93")
@@ -91,21 +118,22 @@ def main():
         "decomposition",
         "which choice moves\nthe answer, with the\n"
         "split as an $\\bf{error}$\n$\\bf{stratum}$\n\n"
-        "Section 4.5, Table 5")
+        + POINTERS["decomposition"])
     box(ax, 0.255, 0.045, 0.240, 0.345,
         "simultaneous band",
         "max-$t$ over the whole\nfamily the claim ranges\n"
         "over, $\\bf{coverage}$\n$\\bf{measured}$\n\n"
-        "Sections 4.3, 9.4")
+        + POINTERS["band"])
     box(ax, 0.505, 0.045, 0.240, 0.345,
         "region and $\\rho$",
         "where the sign is\ndetermined, with the\n"
         "counts and a minimum\nresolved share\n\n"
-        "Definition 3, Table 6")
+        + POINTERS["region"])
     box(ax, 0.755, 0.045, 0.240, 0.345,
         "reporting standard",
         "the minimum form a\nclaim must carry, and\n"
-        "the package that\nemits it\n\nSection 4.8", fill="0.93")
+        "the package that\nemits it\n\n" + POINTERS["standard"],
+        fill="0.93")
 
     for x in (0.125, 0.375, 0.625):
         arrow(ax, (0.500, 0.430), (x, 0.390), rad=0.12)
@@ -114,13 +142,14 @@ def main():
     ax.text(0.5, -0.035,
             "Specification regret \u2014 what one specification costs against "
             "the best \u2014 is computed from the same surface and reported "
-            "as a robustness check (Section 4.7).",
+            "as a robustness check (%s)." % POINTERS["regret"],
             fontsize=6.4, color=MID, ha="center", va="top")
 
     p = PAPER / "figS8_overview.png"
     fig.savefig(p)
+    fig.savefig(p.with_suffix(".pdf"))
     plt.close(fig)
-    print("  wrote %s" % p)
+    print("  wrote %s and %s" % (p, p.with_suffix(".pdf").name))
 
 
 if __name__ == "__main__":
