@@ -214,7 +214,14 @@ the second. No coverage calibration enters any of the three
 Saying that a surface report asserts a sign only where the region is uniform,
 and therefore misreports nothing, is a definitional win and not a measured
 one, so the paper compares explicit \emph{decision rules} under the loss
-above.
+above. Four are compared, each choosing one action for every reader: the
+\emph{one-number} rule adopts when the conventional cell's increment is
+positive; the \emph{uniform} rule --- the conservative one, as it is called
+where its cost is reported --- adopts only when every admissible cell's
+increment is positive; the \emph{majority} rule adopts when more than half
+of the admissible cells, under the weighting, have a positive increment; and
+the \emph{weighted-mean} rule adopts when the weighted mean increment is
+positive.
 
 \begin{lemma}[The decision-optimal collapse]
 \label{prop:optimal}

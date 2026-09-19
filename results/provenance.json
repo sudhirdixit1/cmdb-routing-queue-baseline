@@ -280,9 +280,9 @@
     "sha": "9f7da3a05b11375e"
   },
   "s43_overview.py": {
-    "at": "2026-09-19T02:27:11Z",
-    "note": "overview pointers after the IJF relocations",
-    "sha": "15754109d956da93"
+    "at": "2026-09-19T03:02:58Z",
+    "note": "regret pointer at S3.2 after the S3 reorder",
+    "sha": "03007f97942827f3"
   },
   "s44_designed.py": {
     "at": "2026-09-04T03:30:43Z",

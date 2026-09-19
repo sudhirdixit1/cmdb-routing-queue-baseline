@@ -2994,7 +2994,7 @@ It was an unpublished draft's; the article, Table S11 and S15.1 now say so.
 Four passages moved (§3.4, §4.7, §6.6, the §8.3 rules paragraph); 52 pages
 under the template's options against the plan's 44. The first cut of the
 move dropped the article's definition of D and R and duplicated a paragraph
-into S14.10; three independent reads caught both and the cut was corrected
+into the desk's-decision appendix; three independent reads caught both and the cut was corrected
 the same day.
 
 ## R30.9 The primary-instrument question answered nowhere in one place. **CONCEDED**

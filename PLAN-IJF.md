@@ -554,7 +554,7 @@ built and gated before merging; one sequential pass moved §3.4, §4.7, §6.6
 and the §8.3 rules paragraph to the supplement, gathered the primary-
 instrument answer into one paragraph and renumbered the overview figure.
 Three independent reads refuted that pass on five points (the article had
-lost its definition of D and R; a paragraph was duplicated into S14.10;
+lost its definition of D and R; a paragraph was duplicated into the desk's-decision appendix;
 four pointers landed one subsection short; the gathered paragraph
 overstated; the gloss misdescribed Table 2), all corrected the same day and
 re-read. Decisions §IJF.5 and §IJF.7–12. Final: article 52 pp under the

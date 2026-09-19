@@ -89,7 +89,7 @@ build will refuse, which is the point of it.
 
 **And read the compiled PDF end to end afterwards.** On the previous round
 that pass found seven defects that produced no wrong number and that every
-checker above passed on; Appendix D and section 24 of `../HANDOFF.md` list
+checker above passed on; section 24 of `../HANDOFF.md` lists
 them. On this one it found twelve more, of which five could not have been
 caught by any checker that existed at the time: a 57-row table that LaTeX
 reported as a float 309 pt too tall and then set anyway with its caption

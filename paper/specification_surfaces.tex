@@ -565,9 +565,10 @@ R_s(f) \;=\; 1 - \frac{V_s(f \mid B_1)}{V_s(f \mid B_0)}
 $D$ is an absolute difference in the metric's own units. $R$ is a ratio and
 inherits every pathology of one, so $D$ and the two increments are primary
 throughout and $R$ is a secondary descriptive statistic, reported under three
-rules declared before any $R$ in this paper was computed; the pathologies and
-the rules are in Supplement~\ref{sec:reduction} and
-Supplement~\ref{app:fieller}.
+rules declared before any $R$ in this paper was computed, with an interval
+that is a Fieller set whose \emph{kind} --- bounded, unbounded, or the
+complement of an interval --- is printed beside it; the pathologies and the
+rules are in Supplement~\ref{sec:reduction} and Supplement~\ref{app:fieller}.
 
 \subsection{Two facts about the metric, and why they are remarks}
 \label{sec:props}
@@ -595,15 +596,16 @@ Supplement~\ref{app:props}, with the \nCertificates\ certificates it licenses.
 \paragraph{Why the area under the curve is the primary instrument}
 Every forecast here is a probability forecast of a binary event, and the
 area under the ROC curve is first among the \nInstruments\ declared
-instruments: it is the instrument of the conventional report this paper
+scalar instruments: it is the instrument of the conventional report this paper
 measures against, and its increment is the quantity the clinical-prediction
 literature has criticised for two decades as a guide to usefulness
 (Section~\ref{sec:related}); the Brier and log-loss skill scores are among
 the other declared instruments (Figure~\ref{fig:speccurve}). The metric is
 an argument of the estimand (Remark~\ref{prop:nonid}), so every table names
-its instrument and the decomposition is computed within each instrument in
-that instrument's own units (Section~\ref{sec:axes2}); Remark~\ref{prop:rank}
-says which instruments a recalibration moves. An AUC increment is not a
+its instrument and the primary decomposition is computed within each
+instrument in that instrument's own units (Section~\ref{sec:axes2});
+Remark~\ref{prop:rank} says which instruments' reductions a recalibration
+moves. An AUC increment is not a
 quantity a desk can act on, so Section~\ref{sec:dca} reads the same surface
 in net benefit on calibrated scores, beside the accuracy increment rather
 than in place of it.
@@ -984,10 +986,10 @@ in Table~\ref{tab:denominator} differ.
 costs against the best one --- is computed from the same surface and is
 reported as a robustness check rather than as a reporting object, because
 what it reports on this corpus is a null (Supplement~\ref{sec:regretdef}).
-The four decision rules it compares --- one-number, uniform, majority and
-weighted mean --- are defined in Supplement~\ref{app:regretfull} and
-compared in Supplement~\ref{sec:rules}; their reading in net benefit is in
-Section~\ref{sec:nbregret}.
+The four decision rules it compares --- one-number, uniform (the
+conservative one), majority and weighted mean --- are defined in
+Supplement~\ref{app:regretfull} and compared in Supplement~\ref{sec:rules};
+their reading in net benefit is in Section~\ref{sec:nbregret}.
 
 \subsection{A reporting standard, in one paragraph}
 \label{sec:standard}
@@ -1714,7 +1716,7 @@ the forecast origin: the register promises \promisedPerThousand\ per thousand
 at the earlier moment and delivers \deliveredPerThousand\ at the later one, a
 shortfall of \shortfallPerThousand. Supplement~\ref{app:deskfull} carries the
 rules, the exchange-rate distribution and the exclusions;
-Tables~\ref{tab:desk} and~\ref{tab:rules} of the supplement the numbers.
+Tables~\ref{tab:desk} and~\ref{tab:rules} the numbers.
 % ---- paper/parts/75_simulation.tex ----
 \section{Simulation against a known answer}
 \label{sec:sim}

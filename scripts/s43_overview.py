@@ -62,7 +62,7 @@ POINTERS = {
     #  IJF upload: the regret subsection moved to the supplement, so the
     #  pointer carries the supplement number (build/journal/supplement.aux,
     #  \newlabel{sec:regretdef}).
-    "regret": "Supplement S3.1",              # S3.1 regret, as a robustness check
+    "regret": "Supplement S3.2",              # S3.2 regret, as a robustness check (\newlabel{sec:regretdef}); S3.1 is the designs
 }
 
 

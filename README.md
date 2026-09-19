@@ -152,14 +152,14 @@ Recorded here as prominently as the claims.
 After every one of the referee's ten comments was answered, the apparatus
 found four defects in this round's own work and reading the compiled pages
 found seven more. All eleven are in the manuscript, most of them in
-Appendix C.
+the correction register, Supplement S22.
 
 - **The simulation's own truth was wrong in one world.** It reported that
   every interval construction fails on the noisy world. The estimator was
   being scored against a population it never samples from. Found by testing
   the two finite-sample explanations an apparent bias implies — sample size
   and regularisation strength, with the sparse world as a control that a real
-  finite-sample gap does close — and having both refuse. Appendix G;
+  finite-sample gap does close — and having both refuse. Supplement S6;
   `scripts/s18_bias_scaling.py --legacy-target` regenerates the evidence.
 - **The pilot's frame was 600 and the manuscript said 54,910**, from a
   stratum-size column summed over rows rather than strata. Correcting it
