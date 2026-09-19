@@ -80,7 +80,7 @@ source, `requirements.lock` (every dependency pinned by artefact hash), a
 manuscript from its result file with independent code and enforces the
 manuscript's own directional claims as conditions (the manuscript carries no
 numeric literal: every number is a generated macro). `scripts/s13_attack_numbers.py`
-is that checker's own regression suite: eleven corruptions of result files,
+is that checker's own regression suite: eleven corruptions of result files and generated macro files,
 each of which the checker must catch.
 
 The checker guards **numbers** thoroughly and **prose** only where a guard was

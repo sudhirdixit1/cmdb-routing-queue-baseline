@@ -23,6 +23,7 @@ gives every step with its command. In one table:
 | 5 | Confirm `cover_letter.md`'s related-manuscript sentence: nothing else under review; the conference draft never submitted | true |
 | 6 | Read the five statements on `build/journal/title_page.pdf` | you agree with every sentence |
 | 7 | `git push origin main ijf-retarget`; **do not move the tag** | `origin/main` = `main` |
+| 7a | **Decide the archive** (DECISIONS §IJF.3, status 2026-09-19): the archived v28.0 would print three summaries the submitted supplement does not (S22 C32–C34). Recommended: after the push, draft a GitHub release `v29.0` on `main`, let Zenodo mint the version DOI, then `python scripts/insert_doi.py <new DOI>` and rebuild with `--target ijf`; the statements then describe an archive that matches the submission. Or keep v28.0: the statements are written to be true either way. | decided, and if v29.0, the new DOI on the title page |
 | 8 | Upload the files the skill lists (blind manuscript, title page, blind supplement, Highlights, cover letter, declaration, referees) | confirmed |
 
 ---

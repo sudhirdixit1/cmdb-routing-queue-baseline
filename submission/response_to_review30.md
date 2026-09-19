@@ -55,7 +55,7 @@ from its history. Table S8's caption cited an article equation by bare
 number from inside the supplement; it now says "of the article".
 
 Gates after everything: all nine at zero; `verify_release` untouched
-(no analysis result changed); article 54 pages, supplement 119, title page 3.
+(no analysis result changed); article 54 pages, supplement 121, title page 3.
 
 ## The 2026-09-19 reads
 
@@ -145,4 +145,29 @@ of the repository; stale pointers to §3.4, §6.3 and §4.1 for content in S2,
 S9.4, S9.7 and §9.1; and a dozen grammar and pointer items. Two of the
 previous round's own corrections (a prevalence base, an inference from two
 shares) were refuted and corrected again.
+
+## The eighth read (2026-09-19)
+
+The supplement's second cold read, the fix-checker and the package check.
+Fixed: three of the previous batch's own sentences overreached (a caption that
+generalised the endpoints of a severity sweep to rows where the top level is
+not the complete register; a determinism test invoked as if it singled out
+BPIC19 when the cardinality inversion is the only log-specific fact; a
+misplaced modifier that had the dossiers rebuilt "in the sample file"); the
+supplement's abstract credited the article with the calibration's derivation;
+Table S5's prevalence column is named as the test half's; S9.4's two
+under-covered cells and the largest shortfall are attributed to the cells
+they belong to; S8.1's "every family at 400 draws" is confined to the corpus
+families; S5 says which folds enter the inference family; S13 says the two
+drift mechanisms are in the result file, not Table S6; S6 says which table
+holds the limit's coverage and where the oracle rows are; Table S1's case
+counts are explained; negative numbers in text mode get a real minus sign
+(the register had listed that as a fixed defect while six macros still
+printed a hyphen); and the archive question: the archived release would
+print three summaries the submitted supplement does not (corrections
+C32–C34, now in the register's Class N), so the title page, the article's
+data-availability paragraph and the cover letter say so, and `DECISIONS.md`
+§IJF.3 records that the condition for re-cutting the archive is met and
+leaves the choice to the author (`OWNER-ACTIONS.md` step 7a).
+54 / 121 / 3 pages; every gate at zero.
 

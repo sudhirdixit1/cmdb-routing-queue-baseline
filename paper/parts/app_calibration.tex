@@ -69,7 +69,7 @@ not correct a change in the shape of the maximum's distribution, and it
 assumes that the simulated worlds' dependence on $K/n$ transfers to logs whose
 dependence structure and signal are not the simulation's. Because that
 transfer is an assumption, Section~\ref{app:foursettings} reports the corpus
-counts at three settings --- nominal, calibrated, and every factor pushed to the
+counts at four settings --- the multiplier, nominal, calibrated, and every factor pushed to the
 upper end of its own Monte Carlo interval --- and Section~\ref{app:threats}
 carries the transfer as a limitation.
 
@@ -95,8 +95,8 @@ magnitude, and along it the measured factor moves by \ladderSpreadMax\ ---
 itself moves by \ladderCoverageSpreadPct. The curve is a function of
 the ratio alone, so it carries that dependence as a residual: it sits below
 the measured factor's own lower confidence limit on \nCellsUnderApplied\ of
-the plane's cells, by at most \maxShortfallApplied, and both are large-$n$
-cells. A two-covariate fit in $\log(K/n)$ and $\log n$ does not repair it
+the plane's cells, and the largest shortfall from any cell's measured factor,
+\maxShortfallApplied, is at the plane's largest $n$. A two-covariate fit in $\log(K/n)$ and $\log n$ does not repair it
 --- it is worse than the monotone curve on every cell-weighted criterion
 (Section~\ref{app:curves}) --- so the residual is reported rather
 than fitted away.

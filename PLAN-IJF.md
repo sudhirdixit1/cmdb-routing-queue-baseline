@@ -558,6 +558,6 @@ lost its definition of D and R; a paragraph was duplicated into the desk's-decis
 four pointers landed one subsection short; the gathered paragraph
 overstated; the gloss misdescribed Table 2), all corrected the same day and
 re-read. Decisions §IJF.5 and §IJF.7–12. Final: article 54 pp under the
-template's options (11pt, 1.5 spacing), supplement 119, title page 3; every
+template's options (11pt, 1.5 spacing), supplement 121, title page 3; every
 gate at 0; `verify_release` unaffected (no analysis result changed).
 

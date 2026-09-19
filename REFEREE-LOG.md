@@ -3026,7 +3026,7 @@ fix found.
 
 One clause each.
 
-## R30.12 The reads of 2026-09-19. **CONCEDED, in seven rounds**
+## R30.12 The reads of 2026-09-19. **CONCEDED, in eight rounds**
 
 The revision of 2026-09-18 was read again the next day by independent
 readers — a fix-checker, cold referee reads of the blind article (four)

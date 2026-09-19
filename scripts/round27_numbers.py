@@ -888,7 +888,7 @@ def tables(mn):
                       "under the block-weighted bootstrap at "
                       "\\nPrefixDraws\\ draws.",
                       "tab:prefix",
-                      colnames={"prevalence_test": "prevalence",
+                      colnames={"prevalence_test": "prevalence (test half)",
                                 "card_register": "register levels",
                                 "base_auc": "base auc",
                                 "with_auc": "with auc"}),

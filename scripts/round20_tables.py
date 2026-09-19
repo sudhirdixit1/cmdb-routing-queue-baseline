@@ -779,13 +779,16 @@ def write(mn):
                       "integral, the spread across seeds, and the two "
                       "endpoints of the sweep: $V$ at the top of the level "
                       "grid and at level 0. `level' is the share populated "
-                      "for the population, discovery and propensity "
-                      "mechanisms, so on those rows the top level is the "
-                      "complete register and level 0 the empty one; it is "
-                      "the share of rows corrupted for accuracy and the "
-                      "share of identities split for reconciliation, so on "
-                      "those two rows level 0 is the clean register and the "
-                      "top level the most degraded one.",
+                      "for the three population mechanisms, so on those rows "
+                      "the top level is the complete register and level 0 "
+                      "the empty one; it is the share of rows corrupted for "
+                      "accuracy and the share of identities split for "
+                      "reconciliation, so on those two rows level 0 is the "
+                      "clean register and the top level the most degraded "
+                      "one; and for the discovery lag and the dependent "
+                      "mechanisms it is a severity parameter whose top level "
+                      "leaves part of the register unpopulated, so neither "
+                      "endpoint is the complete register there.",
                       "tab:quality3corpus",
                       colnames={"meaning": "operational failure mode",
                                 "integral_fine": "integral",

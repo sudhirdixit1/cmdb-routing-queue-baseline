@@ -80,11 +80,14 @@ the repository's history, was never submitted.
 derived results, the registered protocols, the amendment log and the
 verification harness are archived at Zenodo, DOI 10.5281/zenodo.22557927
 (release v28.0), and developed at
-`https://github.com/sudhirdixit1/cmdb-routing-queue-baseline`. The archive is
-the one the results were computed from; the manuscript source at the
-repository's head post-dates it with the retargeting edits, and the archive's
-own script `scripts/verify_release.py` demonstrates that a clean checkout
-reproduces every analysis number in both documents to the digit. The reproducibility
+`https://github.com/sudhirdixit1/cmdb-routing-queue-baseline`. The archive holds
+every derived result byte for byte, and its own script
+`scripts/verify_release.py` demonstrates that a clean checkout regenerates
+every analysis number from those results; the manuscript source, the figures
+and the generators as submitted are at the repository's head, which
+post-dates the archive with the retargeting edits and with three corrections
+to how a summary is computed (a rate's minimum, two layer values, a seed
+count) that the supplement's correction register records. The reproducibility
 check the journal runs at acceptance can be run from `REPRODUCE.md` with one
 command against a lockfile and a container whose base is pinned by digest;
 the archive records the measured tolerance outside that container, because

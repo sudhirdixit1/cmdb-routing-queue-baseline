@@ -149,7 +149,16 @@ def sig(x, d=4):
 
 
 def num(x, d=4):
-    return None if x is None or not np.isfinite(x) else fmt_fixed(x, d)
+    """An unsigned-looking number in text mode; a NEGATIVE one gets a real
+    minus sign.  In text mode LaTeX sets a leading `-' as a hyphen, and the
+    supplement's own correction register lists "a minus sign set as a
+    hyphen" as a fixed defect while six macros through this helper still
+    printed one (2026-09-19).  Every use of a negative `num' macro is in
+    text mode (checked), so the sign alone goes into math mode."""
+    if x is None or not np.isfinite(x):
+        return None
+    t = fmt_fixed(x, d)
+    return "$-$" + t[1:] if t.startswith("-") else t
 
 
 def thousands(x):
@@ -1877,7 +1886,10 @@ def write_tables(D):
                       "register over the same baseline, on the log--target "
                       "pairs the registered rules of Section~"
                       "\\ref{sec:design} admit. \\nLayerRowsExcluded\\ rows "
-                      "on excluded pairs are not printed. "
+                      "on excluded pairs are not printed. `n' and `n test' "
+                      "count the cases populated on every layer of the "
+                      "ladder, which can be fewer than the pair's admitted "
+                      "cases. "
                       "\\emph{Columns.} \\textsf{levels from coarse} is the "
                       "layer's position in the hierarchy declared for that "
                       "log before the ladder was run, counting from the "

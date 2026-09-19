@@ -39,9 +39,10 @@ uploaded.
 - 4–6 suggested referees outside the author's institution
   (`submission/suggested_reviewers.md`, five, addresses sourced).
 - Code and data mandatory; a reproducibility check at acceptance. The
-  archive is `10.5281/zenodo.22557927` (release `v28.0`), by decision not
-  re-cut (`submission/DECISIONS.md` §IJF.3); `scripts/verify_release.py`
-  proves a clean checkout reproduces every number.
+  archive is `10.5281/zenodo.22557927` (release `v28.0`); whether to re-cut
+  it as `v29.0` is the owner's open decision (`submission/DECISIONS.md`
+  §IJF.3, status 2026-09-19); `scripts/verify_release.py` proves a clean
+  checkout regenerates every analysis number from the committed results.
 - Submit the PDF; sources are requested at acceptance.
 - Submission system: `https://www.editorialmanager.com/ijf`.
 
@@ -56,6 +57,7 @@ uploaded.
 | 5 | Related-manuscript sentence | `cover_letter.md` says no other manuscript on these methods or data is under review and the conference-format draft was never submitted; confirm both are true | you agree |
 | 6 | Read the title-page statements | CRediT, competing interest, funding, code availability, generative-AI declaration — `build/journal/title_page.pdf` — they are claims about you | you agree with every sentence |
 | 7 | Push | `git push origin main ijf-retarget` — **no tag**: `v28.0` stays where the published release points | `origin/main` = `main` |
+| 7a | Decide the archive | `DECISIONS.md` §IJF.3, status 2026-09-19: v28.0's generators would print three summaries the submitted supplement does not (S22 C32–C34). Recommended: draft a GitHub release `v29.0` on the pushed `main`, let Zenodo mint the DOI, `python scripts/insert_doi.py <DOI>`, rebuild `--target ijf`, re-run the gates. Keeping v28.0 is also consistent with every statement as written | decided |
 | 8 | Upload | the table below | submission confirmed |
 
 ## Rebuild and gate before upload

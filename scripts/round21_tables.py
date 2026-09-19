@@ -316,7 +316,7 @@ def write(mn):
                                "contribution appears in no column. "
                                "\\textsf{headroom, instrument as an axis} is "
                                "the secondary scale of "
-                               "Supplement~\\ref{app:decompmeasure}: raw "
+                               "Section~\\ref{app:decompmeasure}: raw "
                                "AUC and raw "
                                "average precision do not share units, so "
                                "making the instrument a fifth axis requires "
