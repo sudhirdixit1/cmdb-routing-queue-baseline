@@ -1,10 +1,11 @@
+\begin{landscape}
 \begin{table}[t]
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{llrrrrlrlrl}
 \toprule
-log & target & K / n & q & c & q calibrated & cells (nominal) & rho & cells (cal) & rho (cal) & region (cal) \\
+log & target & K / n & q (multiplier) & c & q calibrated & cells (nominal) & rho & cells (cal) & rho (cal) & region (cal) \\
 \midrule
 BPIC13\_closed & handover & 0.324 & 3.380 & 1.767 & 7.437 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
 BPIC13\_incidents & duration & 0.133 & 3.372 & 1.456 & 6.027 & 12 / 0 / 168 & 0.067 & 2 / 0 / 178 & 0.011 & conditionally beneficial \\
@@ -28,6 +29,7 @@ UCI498 & handover & 0.301 & 3.339 & 1.756 & 9.666 & 0 / 0 / 180 & 0.000 & 0 / 0 
 \bottomrule
 \end{tabular}%
 }
-\caption{Resolution regions under the nominal critical value and under one calibrated for the register's cardinality. $c$ is the inflation factor the $(n, K)$ plane of Section~\ref{sec:simsensitivity} gives at that pair's own $K/n$; a calibrated critical value would be $c$ times the nominal one. `q' is the operative critical value the article's labels rest on (Section~\ref{sec:simbands} says which estimator that is); the labels are computed at the operative critical value of Section~\ref{sec:simbands}, which is the value $c$ multiplies. The cell columns are beneficial / harmful / unresolved, and the admissible count is the same under both critical values. THE NOMINAL COLUMNS ARE THE ONES THE ARTICLE'S COUNTS USE: no widening is applied (Section~\ref{sec:simband}), and the calibrated columns are printed beside them to show what applying one would cost --- not what was done. The widening these families actually need is larger than the $c$ printed here.}
+\caption{Resolution regions under the nominal critical value and under one calibrated for the register's cardinality. $c$ is the inflation factor the $(n, K)$ plane of Section~\ref{sec:simsensitivity} gives at that pair's own $K/n$. THE NOMINAL COLUMNS ARE THE ONES THE ARTICLE'S COUNTS USE: their labels and cell counts are computed at the operative critical value of Section~\ref{sec:simbands}, the empirical Romano--Wolf quantile of the pair's whole-surface family (corpus median \maxTSurfaceMedian), which is not printed here. `q (multiplier)' is the multiplier estimator's critical value for the same family (median \maxTSurfaceMultMedian), printed for comparison; no label in this table rests on it. `q calibrated' is $c$ times the operative empirical quantile --- not $c$ times the multiplier column --- and the calibrated cell columns are the labels that wider band would give. The cell columns are beneficial / harmful / unresolved, and the admissible count is the same under both critical values. No widening is applied (Section~\ref{sec:simband}); the calibrated columns are printed beside the nominal ones to show what applying one would cost --- not what was done. The widening these families actually need is larger than the $c$ printed here.}
 \label{tab:calbands}
 \end{table}
+\end{landscape}

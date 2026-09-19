@@ -1,10 +1,13 @@
 \begin{table}[t]
 \centering
-\small
+\footnotesize
+\setlength{\tabcolsep}{5pt}%
+\renewcommand{\arraystretch}{1.15}%
+\hyphenpenalty=50 \exhyphenpenalty=50 \emergencystretch=1em\relax%
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{lllllllrrr}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{0.240\linewidth}llllrrr}
 \toprule
-log & target & level & levels from coarse & cardinality & n & n test & base auc & auc & gain over base \\
+log & target & level & \multicolumn{1}{l}{\begin{tabular}[b]{@{}l@{}}levels from\\coarse\end{tabular}} & cardinality & n & n test & base auc & auc & \multicolumn{1}{r}{\begin{tabular}[b]{@{}r@{}}gain over\\base\end{tabular}} \\
 \midrule
 Helpdesk & duration & service\_type & 0 & 3 & 4580 & 1374 & 0.629 & 0.629 & 0.001 \\
 Helpdesk & duration & support\_section & 1 & 7 & 4580 & 1374 & 0.629 & 0.629 & 0.000 \\

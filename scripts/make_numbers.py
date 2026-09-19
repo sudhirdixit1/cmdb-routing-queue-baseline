@@ -1025,8 +1025,135 @@ def read_release(what):
 
 
 # ==========================================================================
+#  2026-09-18, pre-upload review.  The guarded \resizebox below shrinks a
+#  table that is wider than the text block until it fits, and the widest
+#  tables in the supplement -- rows of two hundred characters -- came out at
+#  about four-point type, which is not legible on paper.  These tables are
+#  set on a LANDSCAPE page instead (pdflscape, loaded by both preambles), where
+#  the line is the page's height rather than its width; the guarded
+#  \resizebox stays, so a table shrinks only if it is still wider than the
+#  landscape line.  The set is declared by the table FILE name -- every entry
+#  is paper/tables/<name>.tex, whose label is tab:<name> -- so that a reader
+#  of this list can find the table.
+LANDSCAPE_TABLES = {
+    "calbands",          # Table S9, regions under the nominal and calibrated q
+    "denominator",       # Table S14, the surface denominator audit
+    "regions",           # Table S16, regions from the whole-surface band
+    "sca",               # Table S22, specification-curve analysis as practised
+    "measures",          # Table S26, the declared measures
+    "rules",             # Table S27, four decision rules inside one instrument
+}
+#  A table whose width is set by its HEADERS rather than by its cells -- ten
+#  numeric columns of one to four digits under headings such as `inference
+#  cells / instrument' -- is wider than it needs to be by the length of the
+#  longest heading.  For the tables named here a heading longer than the
+#  given number of characters is broken at spaces (and after a hyphen inside
+#  a long word) into a stacked heading, and the column separation drops from
+#  the class's 6pt to 4pt, so the shrink the guarded \resizebox applies is
+#  smaller and the type larger.  Two of these are still portrait tables:
+#  `layers' wraps its one long text column instead and keeps its page, and
+#  `absorptioncorpus' has forty rows, which is taller than a landscape page.
+HEADWRAP_TABLES = {
+    "layers": 11,            # Table S1
+    "denominator": 10,       # Table S14
+    "sca": 10,               # Table S22
+    "measures": 11,          # Table S26
+    "rules": 10,             # Table S27
+    "absorptioncorpus": 9,   # Table S36
+}
+
+
+def _column_kinds(spec):
+    """The one-letter kind of each column of a tabular spec: `l', `r' or
+    `c' for a plain column and `p' for a paragraph column (with or without a
+    >{...} prefix), so a header can be wrapped only where wrapping is safe."""
+    kinds, i = [], 0
+    while i < len(spec):
+        ch = spec[i]
+        if ch in "lrc":
+            kinds.append(ch)
+            i += 1
+        elif ch in ">p":
+            #  skip the balanced brace groups of >{...} and p{...}
+            j, depth = i + 1, 0
+            while j < len(spec):
+                if spec[j] == "{":
+                    depth += 1
+                elif spec[j] == "}":
+                    depth -= 1
+                    if depth == 0 and (j + 1 >= len(spec)
+                                       or spec[j + 1] not in "{"):
+                        break
+                j += 1
+            if ch == "p":
+                kinds.append("p")
+            i = j + 1
+        else:
+            i += 1
+    return kinds
+
+
+def _break_heading(text, maxlen):
+    """Break a heading into lines of at most `maxlen` characters at spaces,
+    and after a hyphen inside a word that is itself too long; the pieces of
+    a hyphenated word are rejoined without a space when they fit."""
+    toks = []
+    for w in text.split(" "):
+        glue = " "
+        while len(w) > maxlen and "-" in w[:maxlen]:
+            k = w[:maxlen].rfind("-") + 1
+            toks.append((glue, w[:k]))
+            w, glue = w[k:], ""
+        toks.append((glue, w))
+    lines, cur = [], ""
+    for glue, t in toks:
+        if cur and len(cur) + len(glue) + len(t) > maxlen:
+            lines.append(cur)
+            cur = t
+        else:
+            cur = (cur + glue + t) if cur else t
+    if cur:
+        lines.append(cur)
+    return lines
+
+
+def _wrap_headings(body, maxlen):
+    """Stack every over-long heading of a plain column as a one-column
+    tabular inside a multicolumn cell, which is how a booktabs table breaks
+    a heading without a package.  Paragraph columns wrap on their own."""
+    start = body.find("\\begin{tabular}{")
+    if start < 0:
+        return body
+    i, depth = start + len("\\begin{tabular}"), 0
+    j = i
+    while j < len(body):
+        if body[j] == "{":
+            depth += 1
+        elif body[j] == "}":
+            depth -= 1
+            if depth == 0:
+                break
+        j += 1
+    kinds = _column_kinds(body[i + 1:j])
+    h = re.search(r"(\\toprule\n)(.*?)( \\\\\n\\midrule)", body, re.S)
+    if not h:
+        return body
+    cells = h.group(2).split(" & ")
+    out = []
+    for i, c in enumerate(cells):
+        kind = kinds[i] if i < len(kinds) else "l"
+        if kind in "lrc" and len(c) > maxlen:
+            lines = _break_heading(c, maxlen)
+            if len(lines) > 1:
+                c = ("\\multicolumn{1}{%s}{\\begin{tabular}[b]{@{}%s@{}}%s"
+                     "\\end{tabular}}" % (kind, kind, "\\\\".join(lines)))
+        out.append(c)
+    return body.replace(h.group(0),
+                        h.group(1) + " & ".join(out) + h.group(3), 1)
+
+
 def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
-              note=None, textcols=None, size=None):
+              note=None, textcols=None, size=None, headwrap=None):
     """`textcols` maps a RENAMED column name to a width in fractions of
     \\linewidth.  A table with a free-text column cannot be set by shrinking
     it: \\resizebox scales the glyphs and the leading together, so at the
@@ -1123,6 +1250,10 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
         #  the p{} columns still WRAP, so rows cannot touch, and the shrink
         #  only has to absorb whatever a single unbreakable token exceeds its
         #  column by.
+        if headwrap is None and label.startswith("tab:"):
+            headwrap = HEADWRAP_TABLES.get(label[4:])
+        if headwrap:
+            body = _wrap_headings(body, headwrap)
         body = ("\\setlength{\\tabcolsep}{5pt}%\n"
                 "\\renewcommand{\\arraystretch}{1.15}%\n"
                 "\\hyphenpenalty=50 \\exhyphenpenalty=50 "
@@ -1130,6 +1261,11 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
                 "\\resizebox{\\ifdim\\width>\\linewidth\\linewidth\\else"
                 "\\width\\fi}{!}{%%\n" + body.rstrip() + "%\n}")
     else:
+        if headwrap is None and label.startswith("tab:"):
+            headwrap = HEADWRAP_TABLES.get(label[4:])
+        if headwrap:
+            body = ("\\setlength{\\tabcolsep}{4pt}%\n"
+                    + _wrap_headings(body, headwrap))
         body = ("\\resizebox{\\ifdim\\width>\\linewidth\\linewidth\\else"
                 "\\width\\fi}{!}{%%\n" + body.rstrip() + "%\n}")
     #  `size` overrides the body font for a table whose HEIGHT is the
@@ -1142,6 +1278,11 @@ def tex_table(df, caption, label, floatfmt="%.3f", colnames=None,
     if note:
         out.insert(-2, "")
     out.append("\\end{table}")
+    if label.startswith("tab:") and label[4:] in LANDSCAPE_TABLES:
+        #  the float is placed on the landscape page the environment opens;
+        #  inside it \linewidth is the page's height, which is what the
+        #  guarded \resizebox above compares against.
+        out = ["\\begin{landscape}"] + out + ["\\end{landscape}"]
     return "\n".join(out) + "\n"
 
 
@@ -1460,6 +1601,15 @@ def write_tables(D):
 
     EV = load("s08_evidence.csv")
     if EV is not None and len(EV):
+        #  2026-09-18.  One `value' column holds four COUNTS of interactions
+        #  and three PROPORTIONS, so the frame-wide float format printed
+        #  `147004.000' and `5.000' beside `0.911'.  The column is formatted
+        #  per row: a row whose evidence counts interactions is an integer,
+        #  the rest keep three decimals.  Values unchanged.
+        EV = EV.copy()
+        _is_count = EV.evidence.astype(str).str.startswith("interactions")
+        EV["value"] = [("%d" % int(round(v))) if k else fmt_fixed(v, 3)
+                       for v, k in zip(EV.value, _is_count)]
         (TABLES / "availability.tex").write_text(
             tex_table(EV, "What the interaction file establishes, and what it "
                       "does not. Case study cohort, reassignment target.",
@@ -1472,8 +1622,22 @@ def write_tables(D):
     if S8T is not None and len(S8T):
         (TABLES / "tipping.tex").write_text(
             tex_table(S8T, "The register's increment against the share of "
-                      "knowledge references assumed post-hoc.",
-                      "tab:tipping"), encoding="utf-8")
+                      "knowledge references assumed post-hoc. `share "
+                      "post-hoc' is the share $\\lambda$ of knowledge "
+                      "references treated as written after the incident "
+                      "existed and therefore masked; `V (AUC)' is the "
+                      "register's increment in ROC AUC at that share, the "
+                      "mean over the random maskings counted in the last "
+                      "column, and `sd over seeds' their standard "
+                      "deviation.",
+                      "tab:tipping",
+                      #  2026-09-18.  `lambda posthoc' and `V auc' were the
+                      #  CSV's column names with the underscores dropped.
+                      colnames={"lambda_posthoc": "share post-hoc",
+                                "V_auc": "V (AUC)",
+                                "sd": "sd over seeds",
+                                "n_seeds": "seeds"}),
+            encoding="utf-8")
     else:
         blank("tipping", "Leakage tipping point.", "tab:tipping")
 
@@ -1608,9 +1772,18 @@ def write_tables(D):
         blank("screenacc", "Screen accuracy.", "tab:screenacc")
     AP = load("s06_applicability.csv")
     if AP is not None and len(AP):
+        #  2026-09-18.  The first row is the fractional two-stratum estimate
+        #  and the other two are counts of papers, so the column is
+        #  formatted per row exactly as the PRISMA table's is: `3.000'
+        #  papers is not a count.
         (TABLES / "applicability.tex").write_text(
-            tex_table(AP, "Applicability-specific denominators.",
-                      "tab:applicability"), encoding="utf-8")
+            tex_table(AP.assign(n=AP.n.map(
+                lambda v: ("%d" % round(v)) if float(v) == int(v)
+                else fmt_fixed(v, 3))),
+                "Applicability-specific denominators. The first row is the "
+                "two-stratum estimate of Table~\\ref{tab:prisma} and is "
+                "fractional; the other two are counts.",
+                "tab:applicability"), encoding="utf-8")
     else:
         blank("applicability", "Applicability.", "tab:applicability")
     MI = load("s06_missing.csv")
@@ -1624,14 +1797,21 @@ def write_tables(D):
             if MI[c].dtype.kind in "if":
                 MI[c] = MI[c].map(lambda v: ("%d" % int(round(v)))
                                   if float(v) == int(v) else fmt_fixed(v, 3))
-        body = tex_table(MI, "Retrieved against unretrieved records, and the "
-                         "bounds on the eligibility rate under the extreme "
-                         "assumptions about the unretrieved.", "tab:missing")
+        body = tex_table(MI, "Retrieved against unretrieved records (upper "
+                         "block), and the bounds on the eligibility rate "
+                         "under the extreme assumptions about the "
+                         "unretrieved (lower block).", "tab:missing")
         if MB2 is not None and len(MB2):
-            body = body.replace("\end{table}",
-                                MB2.to_latex(index=False, escape=True,
-                                             float_format="%.3f")
-                                + "\end{table}")
+            #  2026-09-18.  The bounds block used to be appended AFTER the
+            #  caption, so the caption sat between the two tabulars and the
+            #  second carried a raw column name.  It now goes before the
+            #  caption, separated by a little space, with a readable header.
+            second = MB2.rename(columns={"p_eligible": "eligibility rate"}
+                                ).to_latex(index=False, escape=True,
+                                           float_format="%.3f")
+            body = body.replace("\\caption{",
+                                "\\par\\medskip\n" + second.rstrip() + "\n"
+                                "\\caption{", 1)
         (TABLES / "missing.tex").write_text(body, encoding="utf-8")
     else:
         blank("missing", "Missing full text.", "tab:missing")
@@ -1708,7 +1888,13 @@ def write_tables(D):
                       "above it and is not meant to be: it answers what the "
                       "finest layer is worth once the coarser one is "
                       "already in the model.", "tab:layers",
-                      colnames={"gain_over_b0": "gain_over_base"}),
+                      colnames={"gain_over_b0": "gain_over_base"},
+                      #  2026-09-18.  `CI Name (aff) marginal over CI
+                      #  Subtype (aff)' is one cell of the level column and
+                      #  it set the width of the whole table, which was
+                      #  shrunk to seven-point type.  The column wraps now,
+                      #  and the table keeps the body font.
+                      textcols={"level": 0.24}),
             encoding="utf-8")
     else:
         blank("layers", "Register layers.", "tab:layers")
@@ -1824,7 +2010,11 @@ def write_tables(D):
                       "other code is a rule of Section~\\ref{sec:design}. "
                       "Some logs appear here under one target and among the "
                       "admitted pairs under the other, which is what a "
-                      "per-pair admission rule does.", "tab:corpus"),
+                      "per-pair admission rule does.", "tab:corpus",
+                      #  2026-09-18.  One held-out row's detail is a
+                      #  ninety-character sentence and it shrank the whole
+                      #  ledger to seven-point type; the column wraps now.
+                      textcols={"detail": 0.42}),
             encoding="utf-8")
     else:
         blank("corpus", "The corpus.", "tab:corpus")

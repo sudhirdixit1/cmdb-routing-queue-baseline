@@ -4,7 +4,7 @@
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
 \begin{tabular}{rrrl}
 \toprule
-lambda posthoc & V auc & sd & n seeds \\
+share post-hoc & V (AUC) & sd over seeds & seeds \\
 \midrule
 0.000 & $-$0.003 & 0.000 & 5 \\
 0.100 & 0.000 & 0.001 & 5 \\
@@ -20,6 +20,6 @@ lambda posthoc & V auc & sd & n seeds \\
 \bottomrule
 \end{tabular}%
 }
-\caption{The register's increment against the share of knowledge references assumed post-hoc.}
+\caption{The register's increment against the share of knowledge references assumed post-hoc. `share post-hoc' is the share $\lambda$ of knowledge references treated as written after the incident existed and therefore masked; `V (AUC)' is the register's increment in ROC AUC at that share, the mean over the random maskings counted in the last column, and `sd over seeds' their standard deviation.}
 \label{tab:tipping}
 \end{table}

@@ -15,6 +15,13 @@ _STEP_ORDER = ["the case study as published",
                "then the registered cohort",
                "then the registered target"]
 
+#: how each step is PRINTED.  The result file's first step says `as
+#: published'; the value it carries is from an earlier, unpublished analysis
+#: of this log, so the table says `as first reported' (2026-09-18).  The
+#: file's own step names are left alone: they are data.
+_STEP_LABEL = {"the case study as published":
+               "the case study as first reported"}
+
 _TAU_LABEL = {"t0_first_touch_all": "T0 first touch, every call",
               "t1_first_touch_escalating": "T1 first touch, escalating only",
               "t2_matched": "T2 incident creation, T1's population",
@@ -56,10 +63,13 @@ def write(mn):
         d = P.copy()
         d["step"] = pd.Categorical(d.step, _STEP_ORDER, ordered=True)
         d = d.sort_values("step")
+        d["step"] = d.step.astype(str).map(lambda x: _STEP_LABEL.get(x, x))
         d = d[["step", "cohort", "target", "V", "lo", "hi", "delta"]]
         (TABLES / "cohort.tex").write_text(
-            tex_table(d, "The two published values of the register's "
-                         "increment at the later forecast origin, reconciled "
+            tex_table(d, "The value an earlier, unpublished analysis of this "
+                         "log reported for the register's increment at the "
+                         "later forecast origin, and this paper's, "
+                         "reconciled "
                          "one factor at a time. Each row changes exactly one "
                          "thing from the row above; `delta' is what that "
                          "change is worth. The first row is the number "
@@ -305,7 +315,8 @@ def write(mn):
                                "contribution appears in no column. "
                                "\\textsf{headroom, instrument as an axis} is "
                                "the secondary scale of "
-                               "Section~\\ref{sec:sobol}: raw AUC and raw "
+                               "Supplement~\\ref{app:decompmeasure}: raw "
+                               "AUC and raw "
                                "average precision do not share units, so "
                                "making the instrument a sixth axis requires "
                                "the headroom rescaling. Every row is the "
@@ -313,8 +324,19 @@ def write(mn):
                                "\\emph{analyst latitude} against "
                                "\\emph{resampling} oppositely, which is a "
                                "property of the scale and not of the corpus; "
-                               "Section~\\ref{sec:family} says so rather "
-                               "than choosing one.",
+                               #  2026-09-18.  Two references re-pointed.
+                               #  `sec:family' labelled the article's 6.5
+                               #  when this caption was written and that
+                               #  section then reported both orderings; the
+                               #  paragraph has since moved to 6.4 (What one
+                               #  number costs) and `sec:family' now labels
+                               #  the supplement's `eight pairs' subsection,
+                               #  which says nothing about scales.  The
+                               #  headroom scale itself is defined in the
+                               #  supplement's `measure the decomposition is
+                               #  taken under', not in the article's 4.5.
+                               "Section~\\ref{sec:results-regret} says so "
+                               "rather than choosing one.",
                       "tab:axiskind"),
             encoding="utf-8")
     else:
@@ -344,28 +366,48 @@ def write(mn):
                "cells_nominal", "rho", "cells_cal", "rho_calibrated",
                "region_calibrated"]]
         (TABLES / "calbands.tex").write_text(
+            #  2026-09-18, pre-upload review.  WHAT EACH COLUMN HOLDS, read
+            #  from the files rather than from the headers.  `q' comes from
+            #  s48w_regions.csv and is the MULTIPLIER estimator's point
+            #  estimate (3.21 to 3.43 on this corpus); that file's
+            #  `operative' column is `emp' on every row, so the labels and
+            #  the nominal cell counts are the EMPIRICAL quantile's (q_emp,
+            #  median 5.03), which this table does not print.  `c' and
+            #  `q_calibrated' come from s33_regions.csv, where s33 forms
+            #  q_calibrated = c * q_op with q_op the operative empirical
+            #  quantile -- so `q calibrated' is NOT c times the printed `q'
+            #  (7.437 against 1.767 * 3.380).  The caption used to call `q'
+            #  the operative value and `q calibrated' c times it; both were
+            #  wrong.  The header now names the estimator and the caption
+            #  says what multiplies what.  No number changed.
             tex_table(d, "Resolution regions under the nominal critical "
                          "value and under one calibrated for the register's "
                          "cardinality. $c$ is the inflation factor the "
                          "$(n, K)$ plane of "
                          "Section~\\ref{sec:simsensitivity} gives at that "
-                         "pair's own $K/n$; a calibrated critical value "
-                         "would be $c$ times the nominal one. `q' is the "
-                         "operative critical value the article's labels rest "
-                         "on (Section~\\ref{sec:simbands} says which "
-                         "estimator that is); "
-                         "the labels are computed at the operative critical "
-                         "value of Section~\\ref{sec:simbands}, which is "
-                         "the value $c$ multiplies. The "
+                         "pair's own $K/n$. THE NOMINAL COLUMNS ARE THE "
+                         "ONES THE ARTICLE'S COUNTS USE: their labels and "
+                         "cell counts are computed at the operative "
+                         "critical value of Section~\\ref{sec:simbands}, "
+                         "the empirical Romano--Wolf quantile of the pair's "
+                         "whole-surface family (corpus median "
+                         "\\maxTSurfaceMedian), which is not printed here. "
+                         "`q (multiplier)' is the multiplier estimator's "
+                         "critical value for the same family (median "
+                         "\\maxTSurfaceMultMedian), printed for comparison; "
+                         "no label in this table rests on it. `q "
+                         "calibrated' is $c$ times the operative empirical "
+                         "quantile --- not $c$ times the multiplier column "
+                         "--- and the calibrated cell columns are the labels "
+                         "that wider band would give. The "
                          "cell columns are beneficial / harmful / "
                          "unresolved, and the admissible count is the same "
-                         "under both critical values. THE NOMINAL COLUMNS "
-                         "ARE THE ONES THE ARTICLE'S COUNTS USE: no widening "
-                         "is applied (Section~\\ref{sec:simband}), and the "
-                         "calibrated columns are printed beside them to show "
-                         "what applying one would cost --- not what was "
-                         "done. The widening these families actually need is "
-                         "larger than the $c$ printed here.",
+                         "under both critical values. No widening "
+                         "is applied (Section~\\ref{sec:simband}); the "
+                         "calibrated columns are printed beside the nominal "
+                         "ones to show what applying one would cost --- not "
+                         "what was done. The widening these families "
+                         "actually need is larger than the $c$ printed here.",
                       "tab:calbands",
                       colnames={"k_over_n": "K / n",
                                 "q_calibrated": "q calibrated",
@@ -379,7 +421,7 @@ def write(mn):
                                 #  different one and is not printed here, so
                                 #  the caption says so rather than the header
                                 #  claiming to be it.
-                                "q": "q",
+                                "q": "q (multiplier)",
                                 "cells_nominal": "cells (nominal)",
                                 "cells_cal": "cells (cal)",
                                 "rho_calibrated": "rho (cal)",

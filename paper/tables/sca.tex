@@ -1,10 +1,12 @@
+\begin{landscape}
 \begin{table}[t]
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\setlength{\tabcolsep}{4pt}%
 \begin{tabular}{llllrrrrlllr}
 \toprule
-log & target & cases & capped & observed median & null median & p (median) & share positive & SCA verdict & region & resolved share & rho \\
+log & target & cases & capped & \multicolumn{1}{r}{\begin{tabular}[b]{@{}r@{}}observed\\median\end{tabular}} & \multicolumn{1}{r}{\begin{tabular}[b]{@{}r@{}}null\\median\end{tabular}} & p (median) & \multicolumn{1}{r}{\begin{tabular}[b]{@{}r@{}}share\\positive\end{tabular}} & \multicolumn{1}{l}{\begin{tabular}[b]{@{}l@{}}SCA\\verdict\end{tabular}} & region & \multicolumn{1}{l}{\begin{tabular}[b]{@{}l@{}}resolved\\share\end{tabular}} & rho \\
 \midrule
 BPIC13\_closed & handover & 1487 & no & $-$0.010 & $-$0.008 & 0.327 & 0.208 & not distinguishable from null & unresolved & 0.0 & 0.000 \\
 BPIC13\_incidents & duration & 7554 & no & 0.010 & $-$0.012 & 0.673 & 0.625 & not distinguishable from null & conditionally beneficial & 6.7 & 0.067 \\
@@ -31,3 +33,4 @@ UCI498 & handover & 20000 & yes & 0.000 & $-$0.002 & 1.000 & 0.500 & not disting
 \caption{Specification-curve analysis as practised, beside this paper's region label. The permutation test asks whether the surface as a whole differs from one with no signal in it; the region asks, of each cell, whether the sign of that cell's own increment is determined. Where the two part company is what the extra machinery is for. The permutation test runs on the declared \nScaCells-cell sub-surface at \nScaPerms\ permutations, and `cases' is the number of cases it ran on, which is the pair's own count unless the declared cap of \nScaMaxCases\ bound on it. THE REGION IS NOT COMPUTED ON THAT SUB-SURFACE: it is the label Definition~\ref{def:regions} yields on the pair's whole inference family, minimum resolved share included, under the NOMINAL critical value of Section~\ref{sec:regions}. `Resolved share' is the percentage of the inference family the band resolves, and a direction is withheld below \minResolvedSharePct\ of it. THE TWO UNRESOLVED LABELS ARE NOT THE SAME STATE: a plain `unresolved' is a pair on which the band resolves no cell at all, and `unresolved (below minimum share)' one on which it resolves some but too few to carry a direction --- which is why the count of pairs where neither instrument resolves anything is taken over the first label only. It is the same label, from the same column of the same file, as the `region' column of Table~\ref{tab:master}, and Table~\ref{tab:triple} prints the counts underneath it.}
 \label{tab:sca}
 \end{table}
+\end{landscape}

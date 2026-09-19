@@ -2,9 +2,10 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\setlength{\tabcolsep}{4pt}%
 \begin{tabular}{lllrrrrrrrrl}
 \toprule
-metric & b lo & b hi & V lo & V hi & D & D lo & D hi & R & R fieller lo & R fieller hi & fieller kind \\
+metric & b lo & b hi & V lo & V hi & D & D lo & D hi & R & \multicolumn{1}{r}{\begin{tabular}[b]{@{}r@{}}R fieller\\lo\end{tabular}} & \multicolumn{1}{r}{\begin{tabular}[b]{@{}r@{}}R fieller\\hi\end{tabular}} & \multicolumn{1}{l}{\begin{tabular}[b]{@{}l@{}}fieller\\kind\end{tabular}} \\
 \midrule
 ap & B\_half & B\_intake & 0.031 & 0.030 & 0.000 & 0.000 & 0.002 & 0.014 & $-$0.027 & 0.052 & bounded \\
 ap & B\_half & B\_intake\_g & 0.031 & 0.019 & 0.012 & 0.009 & 0.016 & 0.390 & 0.276 & 0.498 & bounded \\

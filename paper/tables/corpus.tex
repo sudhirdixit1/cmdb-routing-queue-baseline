@@ -1,8 +1,11 @@
 \begin{table}[t]
 \centering
-\small
+\footnotesize
+\setlength{\tabcolsep}{5pt}%
+\renewcommand{\arraystretch}{1.15}%
+\hyphenpenalty=50 \exhyphenpenalty=50 \emergencystretch=1em\relax%
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{llll}
+\begin{tabular}{lll>{\raggedright\arraybackslash}p{0.420\linewidth}}
 \toprule
 log & domain & code & detail \\
 \midrule
