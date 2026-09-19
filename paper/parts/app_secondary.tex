@@ -188,7 +188,7 @@ between the pipeline axis and the metric axis, drawn.
 
 Rolling-origin results are in \texttt{results/s01\_surface.csv} under
 \texttt{split = rolling$k$} and enter the decomposition as the split axis;
-Supplement~\ref{app:rolling} prints them per fold. The single holdout is not
+Section~\ref{app:rolling} prints them per fold. The single holdout is not
 the best estimate of the increment, and reporting it alone would be a
 limitation.
 
@@ -298,7 +298,7 @@ identities the register had not seen by the split point moves the increment by
 the training half already ignores levels it has never seen, so a test row
 carrying an undiscovered identity contributes an all-zero encoding either way.
 Under an encoder that keeps missingness as an explicit indicator the effect is
-non-zero; Supplement~\ref{app:tables} measures that on the registered cohort.
+non-zero; Section~\ref{app:tables} measures that on the registered cohort.
 A \emph{discovery lag} --- identities first used in the last half of the
 training window absent everywhere, leaving \qLagHalfPopulated\ of rows
 populated --- moves it by \qLagHalfDelta. Whether a data-quality defect is
@@ -492,7 +492,7 @@ The four rules of Section~\ref{sec:regretdef} --- \emph{one-number},
 \emph{uniform}, \emph{majority} and \emph{weighted mean} --- are compared
 under the loss defined there, inside one instrument at a time and in that
 instrument's own units. Table~\ref{tab:rules} and
-Supplement~\ref{app:rulesfull} carries it in full. The weighted mean is optimal
+Section~\ref{app:rulesfull} carries it in full. The weighted mean is optimal
 in sample by construction, so what matters is out of sample: choosing on a
 random half of the admissible cells and paying on the other half, the
 one-number rule costs \oosOneNumberAuc\ AUC of expected excess regret against
@@ -666,17 +666,15 @@ earlier reports of this statistic the concentration cannot be a budget effect. O
 cell contradicts the reference, on \nPairsSomeResolvedDisagreement\ some do,
 and on \nPairsNoResolvedCell\ nothing resolves.
 
-\subsection{What the case study says to a configuration management programme}
+\subsection{What this says to a configuration management programme}
 \label{app:programme}
+\label{sec:csdm}
 
 %%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
 
-\subsection{What this says to a configuration management programme}
-\label{sec:csdm}
-
 The register in this log is layered, and the layers are the ones a common
 service data model uses: an item belongs to a class, a class to a subtype, and
-a subtype rolls up to a service component. Supplement~\ref{app:layers}
+a subtype rolls up to a service component. Section~\ref{app:layers}
 estimates the increment at each layer against the intake block, on the
 registered targets. The coarse layers are \emph{not} free --- on the handover
 target the item's type alone is worth \layerTypeHandover\ and its subtype
@@ -689,8 +687,8 @@ quantity a populated hierarchy does not buy, and it is
 duration. A programme that populates the class hierarchy and stops has bought
 a real part of the value and left the larger marginal part on the table; it
 has not bought nothing. These figures are on the registered targets rather
-than this section's reassignment target, and Supplement~\ref{app:layers} says
-so.
+than the reassignment target of the case study in Section~\ref{sec:cmdb},
+and Section~\ref{app:layers} says so.
 
 The three dependent quality mechanisms map onto how a configuration management
 database actually decays, which is why they are in the design space rather
@@ -808,7 +806,7 @@ the corpus, and on resolved cells \misreportPooledItsmPct\ against
 \misreportPooledOtherPct\ on the rest. The decomposition barely moves ---
 higher-order \itsmHigherOrderPct\ against \interactionTotalPct, largest
 first-order \itsmLargestFirstOrderPct\ against \largestFirstOrderPct.
-Supplement~\ref{app:itsmfamily} carries every statistic on both populations.
+Section~\ref{app:itsmfamily} carries every statistic on both populations.
 
 \subsection{The one surface that is uniformly beneficial, and what it cost to
 reach}
@@ -829,7 +827,7 @@ whose point estimate is negative can never qualify at any critical value,
 and the pair in question carries none inside its family; the label holds
 under the multiplier, under the empirical quantile the article reports,
 under its order-statistic upper end and under every widening the $(n, K)$
-calibration could ask for (Supplement~\ref{app:foursettings}). So the state
+calibration could ask for (Section~\ref{app:foursettings}). So the state
 is genuinely reached, and reached over \shareUniformFamilyPct\ of the
 specifications the declaration admits.
 
