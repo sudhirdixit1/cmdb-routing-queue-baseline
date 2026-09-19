@@ -883,7 +883,11 @@ def tables(mn):
     D = load("s46_summary.csv")
     if D is not None and len(D):
         d = D.sort_values(["log", "target"]).copy()
-        d["log"] = d.log.astype(str).str.replace("_", "\\_", regex=False)
+        #  2026-09-18.  The log name is NOT escaped here: tex_table calls
+        #  to_latex(escape=True), which escapes every underscore itself, so
+        #  a name escaped here came out escaped twice and printed as
+        #  `BPIC13\textbackslash \_closed'.
+        d["log"] = d.log.astype(str)
         d["range over blocks"] = ["[%+.3f, %+.3f]" % (a, b)
                                   for a, b in zip(d.V_min, d.V_max)]
         d["spread"] = [fmt(v, 3) for v in d.spread]

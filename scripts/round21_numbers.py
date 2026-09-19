@@ -18,8 +18,12 @@ import pandas as pd
 #: the file Elsevier collects cannot drift apart.
 HIGHLIGHTS_FILE = "submission/highlights.txt"
 
-#: how the reconciliation's factors are named in prose
-_STEP = {"the case study as published": "as published",
+#: how the reconciliation's factors are named in prose.  The keys are the
+#: step names s32_path.csv carries; the first step's value is what an
+#: earlier, unpublished analysis of this log reported, so it is named `as
+#: first reported' -- `published' was inaccurate, and under double-blind
+#: review it pointed at the author (2026-09-18).
+_STEP = {"the case study as published": "as first reported",
          "the case study, tie-break declared": "tie-break declared",
          "then the other tie-break rule": "the other tie-break rule",
          "then the registered cohort": "the registered cohort",

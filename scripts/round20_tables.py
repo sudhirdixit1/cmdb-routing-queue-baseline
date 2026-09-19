@@ -382,11 +382,25 @@ def write(mn):
         d = R21[["log", "target", "n_cells", "n_beneficial", "n_harmful",
                  "n_unresolved", "rho", "region", "q",
                  "region_within_instrument"]].copy()
+        #  2026-09-18, pre-upload review.  The `q' column of s48w_regions.csv
+        #  is the MULTIPLIER estimator's point estimate; the file's
+        #  `operative' column is `emp' on every row, so the labels and the
+        #  counts printed beside it are the EMPIRICAL quantile's (q_emp,
+        #  which the file also carries and this table does not print).  The
+        #  caption used to call the column "its critical value", which is
+        #  the value the labels do NOT rest on.  Header and caption now say
+        #  which estimator it is; no number changed.
         (TABLES / "regions.tex").write_text(
             tex_table(d.sort_values(["log", "target"]),
                       "Resolution regions from the whole-surface "
-                      "simultaneous band, with its critical value $q$ and, "
-                      "for comparison, the label a narrower "
+                      "simultaneous band at the operative critical value of "
+                      "Section~\\ref{sec:simbands} --- the empirical "
+                      "Romano--Wolf quantile, corpus median "
+                      "\\maxTSurfaceMedian, which is not printed here --- "
+                      "with, for comparison, the multiplier estimator's "
+                      "critical value for the same family (`q "
+                      "(multiplier)', median \\maxTSurfaceMultMedian; no "
+                      "label rests on it) and the label a narrower "
                       "within-instrument family would have given the same "
                       "draws. THESE ARE THE LABELS THE BAND YIELDS BEFORE "
                       "THE MINIMUM RESOLVED SHARE of Definition~"
@@ -409,6 +423,7 @@ def write(mn):
                                 "n_beneficial": "beneficial",
                                 "n_harmful": "harmful",
                                 "n_unresolved": "unresolved",
+                                "q": "q (multiplier)",
                                 "region_within_instrument":
                                     "label under the narrow family"}),
             encoding="utf-8")
@@ -423,18 +438,31 @@ def write(mn):
         bad = (g.assign(bad=lambda d: d.excess > 1e-9)
                .pivot_table(index=["metric"], columns="rule", values="bad",
                             aggfunc="sum").reset_index())
-        bad = bad.rename(columns=lambda c: (c + " (n suboptimal)")
+        #  2026-09-18, pre-upload review.  Four headings of the form
+        #  `uniform-beneficial (n suboptimal)' made this ten-column table
+        #  three times wider than its cells and it was shrunk to five-point
+        #  type.  The count columns are now named `<rule> (n)' and a group
+        #  row above the headings says what the two blocks of four are;
+        #  the caption glosses both.
+        bad = bad.rename(columns=lambda c: (c + " (n)")
                          if c != "metric" else c)
         tab = ins.merge(bad, on="metric", how="left")
-        (TABLES / "rules.tex").write_text(
-            tex_table(tab,
-                      "Four decision rules, INSIDE one instrument at a time. "
-                      "Mean excess regret across log--target pairs in that "
-                      "instrument's own units, and the number of pairs on "
-                      "which each rule is strictly suboptimal. No column "
-                      "averages across instruments, because there is no unit "
-                      "in which such an average would be expressed.",
-                      "tab:rules"), encoding="utf-8")
+        _rules = tex_table(tab,
+                           "Four decision rules, INSIDE one instrument at a "
+                           "time. The first block of four columns is the "
+                           "mean excess regret across log--target pairs in "
+                           "that instrument's own units; the second, marked "
+                           "`(n)', is the number of pairs on which each rule "
+                           "is strictly suboptimal. No column averages "
+                           "across instruments, because there is no unit in "
+                           "which such an average would be expressed.",
+                           "tab:rules")
+        _rules = _rules.replace(
+            "\\toprule\n",
+            "\\toprule\n & & \\multicolumn{4}{c}{mean excess regret} & "
+            "\\multicolumn{4}{c}{pairs strictly suboptimal} \\\\\n"
+            "\\cmidrule(lr){3-6} \\cmidrule(lr){7-10}\n", 1)
+        (TABLES / "rules.tex").write_text(_rules, encoding="utf-8")
     if H23 is not None and len(H23):
         oo = (H23.pivot_table(index=["design", "metric", "unit"],
                               columns="rule", values="excess",
@@ -529,11 +557,18 @@ def write(mn):
                       "fixed before this analysis round, not before the data "
                       "were seen.",
                       "tab:confirm", floatfmt="%.5f",
-                      colnames={"reject_holm_05": "Holm",
-                                "p_holm": "p Holm",
-                                "interval resolves": "resolved"},
-                      textcols={"cell a": 0.16, "cell b": 0.16,
-                                "interval": 0.17}),
+                      #  2026-09-18, pre-upload review.  `Holm' was the
+                      #  Holm-adjusted rejection at the declared level, a
+                      #  yes/no column beside the adjusted p it is read from,
+                      #  and a one-word header did not say so; the raw p is
+                      #  in s24_contrasts.csv and is not printed.  The
+                      #  interval column was a wrapping p{} column and broke
+                      #  every interval inside its brackets; it is a plain
+                      #  column now, and the two cell columns take the width.
+                      colnames={"reject_holm_05": "Holm rejects",
+                                "p_holm": "p (Holm)",
+                                "interval resolves": "interval resolves"},
+                      textcols={"cell a": 0.15, "cell b": 0.15}),
             encoding="utf-8")
 
     # ------------------------------------------------ the simulation, s31
