@@ -370,24 +370,12 @@ measured against a model with no features is inflated by construction; the
 master surface file \emph{does} carry that rung, which is why the two counts
 in Table~\ref{tab:denominator} differ.
 
-\subsection{Specification regret, as a robustness check}
-\label{sec:regretdef}
-
-\textbf{This subsection defines a check and not a reporting object.} What
-\emph{specification regret} reports is a null --- the one-number rule's median
-excess regret is zero in every instrument, the out-of-sample ordering reverses
-under rolling folds (Section~\ref{sec:rules}), and on calibrated net benefit
-what separates the rules is the conservative one rather than the one-number
-one (Section~\ref{sec:nbregret}) --- and a null is a check on
-the paper's other two arguments rather than a result of its own. It is
-reported in full, and it is not a contribution.
-
-The construction asks what choosing one specification costs against the best
-one, on a scale a decision can use; the identity map's maximum excess is
-\identityMaxExcess. Supplement~\ref{app:regretfull} gives the three declared
-designs --- metric-specific, calibrated net benefit, and partially identified
-over a declared set of monotone utility maps --- and the four decision rules
-compared under them.
+\noindent \emph{Specification regret} --- what choosing one specification
+costs against the best one --- is computed from the same surface and is
+reported as a robustness check rather than as a reporting object, because
+what it reports on this corpus is a null (Supplement~\ref{sec:regretdef};
+the decision rules it compares are in Supplement~\ref{sec:rules}, and
+their reading in net benefit is in Section~\ref{sec:nbregret}).
 
 \subsection{A reporting standard, in one paragraph}
 \label{sec:standard}

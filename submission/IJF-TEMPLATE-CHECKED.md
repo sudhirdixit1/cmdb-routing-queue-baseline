@@ -85,7 +85,7 @@ by definition (`T0_unblind.tex`) and stays at three pages.
    `\newblock`). In both blind PDFs the first reference is
    "Anonymous (2026). Details omitted for double-blind reviewing." and
    nothing for it remains under D; the in-text citations still print
-   "(Anonymous, 2026)" (article §4.8; supplement §S21.2).
+   "(Anonymous, 2026)" (article §4.7; supplement §S21.2).
 5. The title page's empty "References" heading. `T9_title_back.tex` had a
    `\bibliographystyle` and a `\bibliography` for a document that cites
    nothing, and `elsarticle` printed the heading with nothing under it on

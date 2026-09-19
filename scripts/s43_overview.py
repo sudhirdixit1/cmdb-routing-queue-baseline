@@ -58,8 +58,11 @@ POINTERS = {
     "decomposition": "Section 4.5, Table 5",  # 4.5 decomposition; Table 5
     "band": "Sections 4.3, 9.2",              # 4.3 bands; 9.2 family-wise coverage
     "region": "Definition 3, Table 6",        # Def. 3 regions; Table 6 labels
-    "standard": "Section 4.8",                # 4.8 a reporting standard
-    "regret": "Section 4.7",                  # 4.7 regret, as a robustness check
+    "standard": "Section 4.7",                # 4.7 a reporting standard
+    #  IJF upload: the regret subsection moved to the supplement, so the
+    #  pointer carries the supplement number (build/journal/supplement.aux,
+    #  \newlabel{sec:regretdef}).
+    "regret": "Supplement S3.1",              # S3.1 regret, as a robustness check
 }
 
 

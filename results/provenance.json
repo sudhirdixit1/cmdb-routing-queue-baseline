@@ -280,9 +280,9 @@
     "sha": "9f7da3a05b11375e"
   },
   "s43_overview.py": {
-    "at": "2026-09-19T01:50:19Z",
-    "note": "IJF figures: vector PDF beside each PNG with text kept as text; no title above a plot (Figure 1's share into its legend, Figure 3's titles into the caption and panel letters); the overview's section pointers in one dict, 9.4 corrected to 9.2",
-    "sha": "6f03526a79582fe4"
+    "at": "2026-09-19T02:27:11Z",
+    "note": "overview pointers after the IJF relocations",
+    "sha": "15754109d956da93"
   },
   "s44_designed.py": {
     "at": "2026-09-04T03:30:43Z",

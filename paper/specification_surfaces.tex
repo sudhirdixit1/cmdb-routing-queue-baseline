@@ -176,7 +176,10 @@ comparison. Its second arm --- forecast performance \emph{without} the field
 --- is a choice the analyst makes, and so are the learner that makes the
 comparison, the encoding it uses, the forecast target, the way the data are
 split in time, the \emph{forecast origin} (the decision time at which the
-forecast is issued, which fixes what is known about a case), how completely
+forecast is issued, which fixes what is known about a case;
+Table~\ref{tab:axes} names the axis \emph{availability}, after what the
+origin fixes, and the case study's tables call an origin a \emph{moment}),
+how completely
 the register behind the field is populated, the score the difference is read
 in, and the operating point at which that score is evaluated. Each is
 routinely left implicit, and the result is reported as one number.
@@ -294,12 +297,12 @@ roles a log is read into to the three denominators a claim may quantify over.
 \noindent \emph{Specification regret} --- what choosing one specification
 costs against the best, on a scale a decision can use --- is reported in full
 and is \emph{not} among the contributions above.
-Sections~\ref{sec:rules} and~\ref{sec:nbregret} report that the one-number
+Supplement~\ref{sec:rules} and Section~\ref{sec:nbregret} report that the one-number
 rule's median excess regret is zero in every instrument, that the
 out-of-sample ordering reverses under rolling folds, and that in net benefit
 the rules separate on most pairs with the excess falling on the conservative
 rule rather than on the one-number rule. It is carried as a \emph{robustness check} on the other
-two arguments (Section~\ref{sec:regretdef}): an object that reports a null is
+two arguments (Supplement~\ref{sec:regretdef}): an object that reports a null is
 a check and not a result.
 
 \begin{figure}[!t]
@@ -549,35 +552,12 @@ same side of zero with simultaneous confidence, a positive number is a lower
 bound on a robust conclusion. Section~\ref{sec:regionsdef} makes that a
 definition.
 
-\subsection{The relative reduction, and its pathologies}
-\label{sec:reduction}
-
-Comparisons between two baselines are often stated as a proportion. Write
-$B_0 \subset B_1$ and
-\begin{equation}
-D_s(f) \;=\; V_s(f \mid B_0) - V_s(f \mid B_1),
-\quad
-R_s(f) \;=\; 1 - \frac{V_s(f \mid B_1)}{V_s(f \mid B_0)}
-\;=\; \frac{D_s(f)}{V_s(f \mid B_0)} .
-\label{eq:reduction}
-\end{equation}
-$D$ is an absolute difference in the metric's own units. $R$ is a ratio and
-inherits every pathology of one: the denominator can be small, zero or
-negative; $R$ is not comparable across metrics, because
-Remark~\ref{prop:nonid} says the two are not functions of each other; and
-$R$ can exceed $1$ or fall below $0$, so reading it as ``the share absorbed''
-is a category error whenever it leaves $[0,1]$.
-
-We therefore make $D$ and the two increments primary throughout and treat $R$
-as a secondary descriptive statistic under three rules declared before any
-$R$ in this paper was computed (Supplement~\ref{app:fieller}): it is reported
-only where $V_s(f \mid B_0)$ is resolvably positive under the
-\emph{simultaneous} band; its interval is a Fieller set whose \emph{kind} ---
-bounded, unbounded, or the complement of an interval --- is printed beside
-it, and of the \nFieller\ reductions this paper computes \nFiellerUnbounded\
-have a non-bounded set where a percentile interval would report a bounded one
-for every single one of them; and its magnitude is never compared with its
-spread across metrics as though both lived on one scale.
+\noindent Comparisons between two baselines are often stated as a proportion,
+the \emph{relative reduction} $R$. It is a ratio and inherits a ratio's
+pathologies, so the absolute difference $D$ and the two increments are
+primary throughout and the ratio is a secondary descriptive statistic,
+reported under three rules declared before any ratio in this paper was
+computed (Supplement~\ref{sec:reduction}; Supplement~\ref{app:fieller}).
 
 \subsection{Two facts about the metric, and why they are remarks}
 \label{sec:props}
@@ -601,6 +581,19 @@ declared in one instrument's units and applied there only.
 invariant to a declared family of recalibrations exactly when the metric is
 \emph{affine} under it --- is stated and proved in
 Supplement~\ref{app:props}, with the \nCertificates\ certificates it licenses.
+
+\paragraph{Why the area under the curve is the primary instrument}
+Every forecast here is a probability forecast of a binary event, the object
+\citet{gneiting2007scoring} score; the area under the ROC curve is first
+among the declared instruments because it is the conventional report's
+instrument, whose increment the clinical literature has long disputed
+(Section~\ref{sec:related}). The metric is an argument of the estimand
+(Remark~\ref{prop:nonid}), so every table names its instrument and nothing
+is averaged across instruments (Section~\ref{sec:sobol}), and
+Remark~\ref{prop:rank} says which instruments a recalibration moves. An AUC
+increment is not a quantity a desk can act on, so Section~\ref{sec:dca}
+reads the same surface in net benefit on calibrated scores, beside the
+accuracy increment rather than in place of it.
 % ---- paper/parts/20_inference.tex ----
 \section{Estimation and inference}
 \label{sec:inference}
@@ -974,24 +967,12 @@ measured against a model with no features is inflated by construction; the
 master surface file \emph{does} carry that rung, which is why the two counts
 in Table~\ref{tab:denominator} differ.
 
-\subsection{Specification regret, as a robustness check}
-\label{sec:regretdef}
-
-\textbf{This subsection defines a check and not a reporting object.} What
-\emph{specification regret} reports is a null --- the one-number rule's median
-excess regret is zero in every instrument, the out-of-sample ordering reverses
-under rolling folds (Section~\ref{sec:rules}), and on calibrated net benefit
-what separates the rules is the conservative one rather than the one-number
-one (Section~\ref{sec:nbregret}) --- and a null is a check on
-the paper's other two arguments rather than a result of its own. It is
-reported in full, and it is not a contribution.
-
-The construction asks what choosing one specification costs against the best
-one, on a scale a decision can use; the identity map's maximum excess is
-\identityMaxExcess. Supplement~\ref{app:regretfull} gives the three declared
-designs --- metric-specific, calibrated net benefit, and partially identified
-over a declared set of monotone utility maps --- and the four decision rules
-compared under them.
+\noindent \emph{Specification regret} --- what choosing one specification
+costs against the best one --- is computed from the same surface and is
+reported as a robustness check rather than as a reporting object, because
+what it reports on this corpus is a null (Supplement~\ref{sec:regretdef};
+the decision rules it compares are in Supplement~\ref{sec:rules}, and
+their reading in net benefit is in Section~\ref{sec:nbregret}).
 
 \subsection{A reporting standard, in one paragraph}
 \label{sec:standard}
@@ -1470,20 +1451,6 @@ per cell and needs no band; the region answers \emph{may I quote a sign},
 costs a nested bootstrap, and is what a reader deciding whether to act
 needs. This paper's contribution is the second, and the first should be
 reported beside it.
-
-\subsection{Decision rules, in sample and out}
-\label{sec:rules}
-
-The four rules of Section~\ref{sec:regretdef} are compared under the loss
-defined there, inside one instrument at a time, in Table~\ref{tab:rules} and
-Supplement~\ref{app:rulesfull}. Three results run against the surface's
-advocate: the conservative rule is worst in \nInstrumentsUniformWorst\
-instruments of \nInstruments, the one-number rule's median excess regret is
-\emph{zero} in every instrument, and under rolling-origin folds the
-out-of-sample ordering does not hold, at \oostOneNumber\ against
-\oostMajority. We therefore do not conclude that a surface report is a
-better decision rule than a number; the case rests on the decomposition and
-the sign disagreement, and this is a check on those.
 % ---- paper/parts/50_cmdb.tex ----
 \section{Case study: a configuration management database}
 \label{sec:cmdb}
@@ -1723,24 +1690,15 @@ registered calibration rule --- which excludes \nModelsDcaExcluded\ of
 decision curve read off a model whose probabilities are wrong is read at a
 threshold the model does not have.
 
-\textbf{And the rules separate on most pairs, with the excess falling on the
-conservative rule rather than the one-number rule.} The one-number rule's
-median excess is \excessOneNumberDesk\ per thousand against the conservative
-rule's \excessUniformDesk, and the cross-pair means are
-\meanExcessOneNumberDesk\ and \meanExcessUniformDesk: what the medians hide
-is a tail, and it is the conservative rule's. The four rules do not all lose
-the same amount on \nSeparatingDesk\ of the \nPairsDesk\ pairs the
-calibration rule leaves, and all four are identical on the other
-\nAllRulesTieDesk. Where they do separate, the one-number rule is strictly
-the worst on \nOneNumberWorstDesk\ and tied for worst on
-\nOneNumberTiedWorstDesk, at a maximum of \maxExcessOneNumberDesk\ per
-thousand.
+\textbf{And the four decision rules separate on most pairs, with the excess
+falling on the conservative rule rather than the one-number rule}
+(Supplement~\ref{app:deskfull}).
 \textbf{The case against one-number reporting does not rest on this design.}
 Larger than anything the choice of collapse rule costs a one-number report is
 the forecast origin: the register promises \promisedPerThousand\ per thousand
 at the earlier moment and delivers \deliveredPerThousand\ at the later one, a
 shortfall of \shortfallPerThousand. Supplement~\ref{app:deskfull} carries the
-rules, the exchange-rate distribution and the exclusions;
+rules, the exchange-rate distribution and the exclusions; its
 Tables~\ref{tab:desk} and~\ref{tab:rules} the numbers.
 % ---- paper/parts/75_simulation.tex ----
 \section{Simulation against a known answer}
