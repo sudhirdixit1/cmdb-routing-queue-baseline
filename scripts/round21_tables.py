@@ -676,13 +676,12 @@ def write(mn):
                          "of the curve and not of the grid. The last two "
                          "columns are the endpoints of each mechanism's "
                          "sweep, $V$ at the top of its level grid and at "
-                         "level 0: for the population mechanisms the top "
+                         "level 0: for the population mechanism the top "
                          "level is the complete register and level 0 the "
-                         "empty one, for accuracy and reconciliation level "
-                         "0 is the clean register, and for the dependent "
-                         "mechanisms and the discovery lag the top level "
-                         "still leaves part of the register unpopulated, so "
-                         "neither endpoint is the complete register there "
+                         "empty one, and for the dependent mechanisms and "
+                         "the discovery lag the top level still leaves part "
+                         "of the register unpopulated, so neither endpoint "
+                         "is the complete register there "
                          "(Table~\\ref{tab:quality2} prints it).",
                       "tab:quality3",
                       colnames={"n_levels": "levels", "n_seeds": "seeds",

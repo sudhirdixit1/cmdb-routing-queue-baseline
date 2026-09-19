@@ -20,9 +20,8 @@ the manuscript.
 > generated. The fetch scripts in the accompanying repository (`scripts/fetch_corpus.py`
 > for the corpus, `scripts/r42_holdout_fetch.py` for the two held-out logs,
 > `examples/worked_example.py` for the worked example's dataset, which it
-> downloads from the repository's own URL) fetch every dataset, and the
-> corpus scripts resolve each log's DOI, download the named file and record
-> its SHA-256, so a reader can verify that the corpus they hold is the corpus the
+> downloads from the repository's own URL) fetch every dataset from its
+> published location, download the named file and record its SHA-256, so a reader can verify that the corpus they hold is the corpus the
 > paper was written against. Analysis code, the pre-registered protocol,
 > derived result files and a verification harness that recomputes every
 > number reported in the paper are openly available at the repository named

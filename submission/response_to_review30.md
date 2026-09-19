@@ -219,3 +219,20 @@ convention as Table S36; Table S40's caption says it is a run of its own at
 fewer replicates; and a handful of pointer and wording items. 54 / 122 / 3
 pages; every gate at zero.
 
+## The twelfth read (2026-09-19)
+
+The supplement's sixth cold read and the fix-checker. Fixed: S1.4's
+duplicated tail (the held-out log's rows are in Table S1; the admitted pair
+at the edge is the largest contributor); Table S33's caption now describes
+its own four rows rather than its nine-row twin's; S3.8's displacement
+population is stated (scalar instruments and net-benefit operating points
+together, each cell in its own units); §9.1 says that the coverage
+simulation resamples by subset moving blocks whereas the reported intervals
+draw Dirichlet weights per block, so what it certifies is the subset
+construction, with Supplement S6 comparing the schemes; S6.2 names that
+subset resample as the cause of the shortfall the weighted scheme removes;
+S14.4's unseen rate is qualified as any model column's, with the register's
+own share left to the drift diagnostic; and pointer and wording items
+(S23 as the pilot's home, the multiplier's band, S9.4's pointer to §9.1,
+S19.2's pointer to the Fieller appendix, the confirm table's pointer to the
+prediction-check detail). 54 / 122 / 3 pages; every gate at zero.

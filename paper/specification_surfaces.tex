@@ -1781,7 +1781,12 @@ estimator --- at \nSimReps\ replicates each, with the covariate space finite
 so that the population AUC of any scoring rule is computed in closed form.
 Two estimands are separated because under misspecification they differ:
 $V_{\mathrm{oracle}}$, the increment between the two Bayes-optimal rules, and
-$V_{\mathrm{limit}}$, the increment between the two fitted pipelines' limits;
+$V_{\mathrm{limit}}$, the increment between the two fitted pipelines' limits
+(the simulation resamples by subset moving blocks, whereas the intervals
+and bands the article reports draw Dirichlet weights per block,
+Section~\ref{sec:boot}, so what is certified here is the subset
+construction, and Supplement~\ref{app:schemes} compares the two schemes on
+the corpus's own design);
 a resampling interval can only cover the second (Supplement~\ref{app:worlds},
 Table~\ref{tab:sim31}). Coverage estimates carry a Monte Carlo standard error
 of about $\simCoverageSE$ percentage points, which is the resolution every

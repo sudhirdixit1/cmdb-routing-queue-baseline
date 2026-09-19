@@ -148,9 +148,10 @@ more than the Monte Carlo resolution.
 
 \textbf{Where the percentile interval fails, and why.} On the sparse world it
 collapses to \coverageSparsePct, and the \emph{nested} percentile interval is
-worse there than the fixed-model one. The cause is Section~\ref{sec:boot}: a
-bootstrap training resample holds about $63\%$ of the distinct register
-levels, so every refit sees a sparser register and the bootstrap distribution
+worse there than the fixed-model one. The cause is the subset resample the
+simulation runs, the mechanism Section~\ref{sec:boot} names and the weighted
+scheme the article reports removes: a bootstrap training resample holds about
+$63\%$ of the distinct register levels, so every refit sees a sparser register and the bootstrap distribution
 shifts below the estimate. The basic interval pivots that shift out and
 restores coverage --- \coverageSparseBasic\ --- and costs nothing where there
 was nothing to repair, at a median \coverageNestedBasicMedian\ and a minimum

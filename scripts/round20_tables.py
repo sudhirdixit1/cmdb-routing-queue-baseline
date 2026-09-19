@@ -557,7 +557,7 @@ def write(mn):
                       "says whether the interval resolves --- which is the "
                       "criterion this paper uses and is not the same as the "
                       "$p$-value's. \\textsf{PC3} is the contrast on which "
-                      "they differ, and Section~\\ref{sec:planned} derives "
+                      "they differ, and Section~\\ref{app:pcdetail} derives "
                       "why. The contrasts are not confirmatory: they were "
                       "fixed before this analysis round, not before the data "
                       "were seen.",

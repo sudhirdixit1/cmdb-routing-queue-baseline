@@ -169,7 +169,9 @@ carrying at least one level unseen in training. The unseen-category rate is
 the mechanism behind much of the register's behaviour: a register whose
 identities do not recur across the split cannot help a model that has never
 seen them, and across the \nPairs\ pairs of Table~\ref{tab:calibration} the
-rate ranges from \unseenMin\ to \unseenMax. Calibration is
+share of test rows carrying, in any model column, a level unseen in training
+ranges from \unseenMin\ to \unseenMax\ (the register's own share is the
+drift diagnostic's, Section~\ref{app:drift}). Calibration is
 reported because discrimination alone is not a sufficient description of a
 model \citep{vancalster2019calibration}; slopes below one indicate the
 overfitting that high-cardinality one-hot encodings produce, and are the
@@ -409,7 +411,7 @@ where the nominal band's lower edge reaches \dcaDipValue\ --- under the widened
 band the dip is at $\theta = \dcaDipThetaWidened$ and reaches
 \dcaDipValueWidened. Either way the dip is not a harm the evidence resolves:
 \nHarmfulPointwise\ of the \nDcGrid\ operating points resolve as harmful
-pointwise, \nHarmfulSimultaneous\ under the nominal band and
+pointwise, \nHarmfulSimultaneous\ under the multiplier's band and
 \nHarmfulSimultaneousWidened\ under the widened one.}
 \label{fig:dca}
 \end{figure}
@@ -431,7 +433,7 @@ construction the median width is
 decision curve the pointwise interval declares the increment resolvably
 positive at \nBeneficialPointwise\ of them while the simultaneous band
 declares it at \nBeneficialSimultaneousWidened\
-(\nBeneficialSimultaneous\ under the nominal band). Both are built from the same draws,
+(\nBeneficialSimultaneous\ under the multiplier's band). Both are built from the same draws,
 so the only thing that differs is the family: those points are the price of a
 statement about a \emph{range} of thresholds rather than about each threshold
 separately, and a paper that reads a decision curve across its range and
@@ -684,7 +686,7 @@ has not bought nothing. These figures are on the registered targets rather
 than the reassignment target of the case study in Section~\ref{sec:cmdb},
 and Section~\ref{app:layers} says so.
 
-The three dependent quality mechanisms map onto how a configuration management
+Three of the quality mechanisms map onto how a configuration management
 database actually decays, which is why they are in the design space rather
 than independent coin flips. \emph{Discovery lag} is the interval between a
 service going live and the discovery tooling finding its items, which is why a
