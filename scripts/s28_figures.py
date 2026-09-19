@@ -12,6 +12,9 @@ cites, so a figure cannot be a stale picture of a withdrawn number.
   figS6_coverage.png    simulation coverage with Monte Carlo error bars
   figS7_calibration.png calibration before and after, on the case study
 
+Beside each PNG a vector PDF of the same name is written: the journal asks
+for vector art, and the PNG stays because other documents embed it.
+
     python s28_figures.py
 """
 from __future__ import annotations
@@ -31,9 +34,12 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 PAPER = HERE.parent / "paper"
+#  pdf.fonttype 42 embeds the text as TrueType so it stays text in the vector
+#  file (type 3, the default, outlines every glyph).
 plt.rcParams.update({"font.size": 8, "figure.dpi": 400,
                      "savefig.bbox": "tight", "savefig.pad_inches": 0.02,
-                     "axes.grid": False})
+                     "axes.grid": False,
+                     "pdf.fonttype": 42, "ps.fonttype": 42})
 DARK = "0.20"
 
 
@@ -45,6 +51,24 @@ def load(n):
             except Exception:  # noqa: BLE001
                 return None
     return None
+
+
+def save(fig, stem):
+    """Write paper/<stem>.png (400 dpi, for the documents that embed raster)
+    and paper/<stem>.pdf (vector, what the journal build includes)."""
+    p = PAPER / (stem + ".png")
+    fig.savefig(p)
+    fig.savefig(p.with_suffix(".pdf"))
+    plt.close(fig)
+    return p
+
+
+def panel_letter(ax, tag):
+    """The panel letter, inside the axes at the top right, where Figure 1
+    puts its own; the journal wants no title above a plot, so what the two
+    titles said is in the caption and the letters are how it points."""
+    ax.text(0.995, 0.97, tag, transform=ax.transAxes, fontsize=9,
+            fontweight="bold", va="top", ha="right")
 
 
 # --------------------------------------------------------------------------
@@ -123,8 +147,10 @@ def fig_sobol():
     axL.set_ylim(0, 1.0)
     axL.set_xticks([])
     axL.set_ylabel("share of the variance of $V_s$")
-    axL.set_title("%s / %s, %s\n(one decomposition: the parts sum to one)"
-                  % (big[0], big[1], REF_METRIC), fontsize=7.2)
+    #  IJF: no title above the plot.  The pair, the instrument and the
+    #  one-decomposition note the title carried are in the caption, which
+    #  names this panel as (a).
+    panel_letter(axL, "(a)")
     for sp in ("top", "right"):
         axL.spines[sp].set_visible(False)
 
@@ -149,7 +175,9 @@ def fig_sobol():
     axR.set_xlabel("first-order index across the \\nPairs\\ pairs"
                    .replace("\\nPairs\\", "%d" % per.groupby(
                        ["log", "target"]).ngroups))
-    axR.set_title("the corpus: median, middle half, full range", fontsize=7.2)
+    #  IJF: no title above the plot; "the corpus: median, middle half, full
+    #  range" is in the caption, which names this panel as (b).
+    panel_letter(axR, "(b)")
     axR.grid(axis="x", color="0.9", lw=0.5, zorder=0)
     for sp in ("top", "right", "left"):
         axR.spines[sp].set_visible(False)
@@ -159,11 +187,8 @@ def fig_sobol():
     h, l = axL.get_legend_handles_labels()
     fig.legend(h, l, frameon=False, ncol=5, fontsize=6.4,
                loc="lower center", bbox_to_anchor=(0.5, 0.0))
-    fig.subplots_adjust(bottom=0.30, top=0.84, wspace=0.30)
-    p = PAPER / "figS2_sobol.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    fig.subplots_adjust(bottom=0.30, top=0.96, wspace=0.30)
+    return save(fig, "figS2_sobol")
 
 def fig_regions():
     #  ROUND TWENTY-ONE.  The article's regions and rho are computed under a
@@ -215,10 +240,7 @@ def fig_regions():
     ax.set_xlim(-1.05, 1.05)
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
-    p = PAPER / "figS3_regions.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    return save(fig, "figS3_regions")
 
 
 def fig_dca():
@@ -243,10 +265,7 @@ def fig_dca():
     ax.legend(frameon=False, fontsize=6.6, loc="best")
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
-    p = PAPER / "figS4_dca.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    return save(fig, "figS4_dca")
 
 
 def fig_coverage():
@@ -301,10 +320,7 @@ def fig_coverage():
     ax.legend(frameon=False, fontsize=6.4, ncol=2, loc="lower right")
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
-    p = PAPER / "figS6_coverage.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    return save(fig, "figS6_coverage")
 
 
 def fig_calibration():
@@ -327,10 +343,7 @@ def fig_calibration():
     ax.legend(frameon=False, fontsize=6.8, loc="best")
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
-    p = PAPER / "figS7_calibration.png"
-    fig.savefig(p)
-    plt.close(fig)
-    return p
+    return save(fig, "figS7_calibration")
 
 
 def main():

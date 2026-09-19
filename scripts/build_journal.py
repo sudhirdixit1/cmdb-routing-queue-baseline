@@ -154,11 +154,16 @@ def main():
     #  on rather than to the one it had on the first pass.
     supp = "supplement" if (PAPER / "supplement.tex").exists() else None
     title = "title_page" if blind and (PAPER / "title_page.tex").exists() else None
+    #  IJF: the figures are included as vector PDFs (paper/fig*.pdf, written
+    #  beside each PNG by the figure scripts).  The glob is fig*.pdf and not
+    #  *.pdf because paper/ also holds the built documents, which are not
+    #  figures and must not be copied over the build's own output.
     for f in [f"{STEM}.tex", "references.bib"] + \
              ([f"{supp}.tex"] if supp else []) + \
              ([f"{title}.tex"] if title else []) + \
              [p.name for p in sorted(PAPER.glob("*.png"))] + \
-             [p.name for p in sorted(PAPER.glob("*.bst"))]:
+             [p.name for p in sorted(PAPER.glob("*.bst"))] + \
+             [p.name for p in sorted(PAPER.glob("fig*.pdf"))]:
         shutil.copy2(PAPER / f, out / f)
     #  ROUND NINETEEN.  The manuscript \input's a GENERATED macro file and a
     #  directory of GENERATED tables, and the appendices \input the section

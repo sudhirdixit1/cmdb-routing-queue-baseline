@@ -33,6 +33,11 @@ build/
 #  article and its supplement without having to run LaTeX first.
 !paper/specification_surfaces.pdf
 !paper/supplement.pdf
+#  The figures as vector PDFs, written beside each PNG by the figure scripts
+#  (s12_figures, s28_figures, s43_overview) and what the journal build
+#  \includegraphics.  Generated, but a clone must be able to build without
+#  first re-running the figure scripts, exactly as the PNGs are committed.
+!paper/fig*.pdf
 
 # Superseded workbooks from a withdrawn analysis; kept on disk, out of the repo.
 capability_readiness_matrix.xlsx
