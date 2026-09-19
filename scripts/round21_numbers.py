@@ -154,9 +154,20 @@ def emit(mn):
     #  identifier that was recorded, in order.  It also names the third use,
     #  internal review of the manuscript, which the eighth referee found
     #  undeclared (submission/review_round28.md, R28.5).
-    put("aiModelId", "claude-fable-5-1")
-    put("aiModelIdPrev", "claude-opus-5, then claude-fable-5")
-    put("aiModelDate", "2026-08-18 to 2026-09-06; identifiers recorded "
+    #  ROUND THIRTY (2026-09-18).  After the IJF retarget (2026-09-11 to
+    #  2026-09-12, claude-opus-5) the built package was read once more in
+    #  the role of a referee under claude-fable-5-1
+    #  (submission/review_round30.md) and the revision that read prompted
+    #  ran under claude-opus-5, so two identifiers that had already been
+    #  recorded were used again and the span closes on 2026-09-18.
+    #  \aiModelIdPrev lists every identifier in the order it was first
+    #  recorded; \aiModelId names the two used again at the end, and
+    #  statements.tex prints it followed by `again'.  AI-USE.md carries
+    #  the same identifiers and the same dates.
+    put("aiModelId", "claude-opus-5 and claude-fable-5-1")
+    put("aiModelIdPrev", "claude-opus-5, then claude-fable-5, "
+        "then claude-fable-5-1")
+    put("aiModelDate", "2026-08-18 to 2026-09-18; identifiers recorded "
         "from 2026-08-24")
 
     # ================================================================
