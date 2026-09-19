@@ -64,8 +64,8 @@ the value of a feature may give new insight." The referee's ten major comments, 
 summarised, and the answers to each are in the archive. Between those two decisions the
 manuscript was revised through internal adversarial reviews that I conducted
 with a large-language-model assistant reading each built PDF against the
-repository in the role of a referee; the archive carries those reviews and
-the letters that answer them, and they are my own reviews made with a tool,
+repository in the role of a referee; the archive carries those reviews (two verbatim, the rest summarised in
+the referee log) and the letters that answer them, and they are my own reviews made with a tool,
 not reports from any journal's referees. The generative-AI declaration on
 the title page names that use beside the others (drafting and editing
 prose; writing the analysis and verification code; the literature pilot's
@@ -81,8 +81,8 @@ derived results, the registered protocols, the amendment log and the
 verification harness are archived at Zenodo, DOI 10.5281/zenodo.22557927
 (release v28.0), and developed at
 `https://github.com/sudhirdixit1/cmdb-routing-queue-baseline`. The archive holds
-every analysis result file byte for byte (its harness's bookkeeping files
-post-date it), and its own script
+every analysis result file byte for byte (the harness's bookkeeping files
+under the results directory post-date it), and its own script
 `scripts/verify_release.py` demonstrates that a clean checkout regenerates
 every analysis number from those results; the manuscript source, the figures
 and the generators as submitted are at the repository's head, which

@@ -473,9 +473,10 @@ changing, which would make v28.0 no longer the archive of these numbers.
 changed, but three number-producing generators did (corrections C32–C34 in
 Supplement S22: the BPIC19 layer macros on the excluded pair, the unseen
 minimum without the rung filter, the case-study seed count), so v28.0's
-generators would print three summaries the submitted supplement does not.
-The statements on the title page, in the article's data availability and in
-the cover letter now say exactly that. The choice is the author's: cut
+generators would print three result summaries (and the harness's own check
+count) differently from the submitted supplement. The statements on the
+title page, in the article's data availability and in the cover letter say
+what the archive holds and what the head post-dates. The choice is the author's: cut
 `v29.0` from the pushed head and paste the new DOI with
 `python scripts/insert_doi.py <DOI>` (recommended; every statement then
 describes an archive that matches the submission), or keep v28.0 with the
@@ -495,7 +496,7 @@ The template (`IJFTemplate.zip` from forecasters.org/ijf/authors, kept under
 build had `[preprint,12pt,authoryear]` with `elsarticle-harv`. **Chosen:**
 the article takes the template's options and both documents its bibliography
 style; the supplement keeps `preprint,12pt` (no template governs an online
-supplement, and its 121 pages at 1.5 spacing would be about 180). Diff and
+supplement, and its 122 pages at 1.5 spacing would be about 180). Diff and
 consequences in `submission/IJF-TEMPLATE-CHECKED.md`. **What would overturn
 it:** production asking for other options at acceptance.
 
@@ -536,7 +537,7 @@ dropped it and three independent reads caught that. Pages: 53 → 52 (the
 template's options) → 52 after the moves → 54 after the 2026-09-19 reads added
 the primary decomposition's per-pair table, two table columns and several
 glosses; the
-supplement 115 → 121.
+supplement 115 → 122.
 
 ## 9. The widest supplement tables in landscape — settled 2026-09-18
 

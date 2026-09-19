@@ -188,10 +188,13 @@ behind the metric axis's contribution to Table~\ref{tab:sobol}.}
 \label{fig:calibration}
 \end{figure}
 
-The frequency-encoded pipeline is the one that is visibly miscalibrated, with
-a slope well below one, and it is also the one whose increment differs most
-from the others on the two proper scoring rules. That is the interaction
-between the pipeline axis and the metric axis, drawn.
+The figure draws the reliability curve under raw scores, Platt scaling and
+isotonic regression, averaged over the pipelines at the reference cell; the
+per-pipeline slopes are in Table~\ref{tab:calibration}'s row for this pair
+and in the calibration result file. A pipeline whose calibration differs
+while its ranking does not moves the two proper scoring rules and not the
+rank-based instruments, which is the interaction between the pipeline axis
+and the metric axis.
 
 Rolling-origin results are in \texttt{results/s01\_surface.csv.gz} under
 \texttt{split = rolling$k$} and enter the decomposition as the split axis;

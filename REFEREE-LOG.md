@@ -3026,14 +3026,14 @@ fix found.
 
 One clause each.
 
-## R30.12 The reads of 2026-09-19. **CONCEDED, in nine rounds**
+## R30.12 The reads of 2026-09-19. **CONCEDED, in ten rounds**
 
 The revision of 2026-09-18 was read again the next day by independent
 readers — a fix-checker, cold referee reads of the blind article (four)
-and of the blind supplement (one), and a package check — in rounds that
+and of the blind supplement (four), and a package check — in rounds that
 stopped only when a round returned nothing above cosmetic. What they found
 and what changed is in `submission/response_to_review30.md` ("The
-2026-09-19 reads", "The fourth and fifth reads", and the sixth and seventh);
+2026-09-19 reads" and the sections that follow it, one per round);
 the classes were: right numbers with wrong words around them (a
 stationarity contradiction, "barely moves" for a nineteen-point move,
 "arms" for models, "every table prints" for a column no table printed);

@@ -4,7 +4,8 @@ All twenty-four event logs this study fetches (twenty-six files, one log
 shipping as three) are public and none is
 redistributed by the author. The registered admission rules of Section 5 admit
 thirteen of them, giving nineteen log--target pairs; the eleven that are
-excluded are listed with their exclusion code in Table S13 of the supplement, so
+not admitted are listed with their code in Table S13 of the supplement (ten
+excluded by a rule, one held out and never offered), so
 a reader can see what was screened out as well as what was kept. The analysis code, the pre-registered protocol,
 the intermediate result files, the figures and the checker that recomputes
 every quantity printed in the paper are available in the repository cited in
@@ -14,9 +15,10 @@ the manuscript.
 
 > All data used in this study are publicly available benchmark event logs,
 > cited in the manuscript by persistent identifier. No new data were
-> generated. `scripts/fetch_corpus.py` in the accompanying repository
-> resolves every dataset's DOI, downloads the named file and records its
-> SHA-256, so a reader can verify that the corpus they hold is the corpus the
+> generated. The fetch scripts in the accompanying repository (`scripts/fetch_corpus.py`
+> for the corpus, `scripts/r42_holdout_fetch.py` for the two held-out logs,
+> `examples/worked_example.py` for the worked example's dataset) resolve every
+> dataset's DOI, download the named file and record its SHA-256, so a reader can verify that the corpus they hold is the corpus the
 > paper was written against. Analysis code, the pre-registered protocol,
 > derived result files and a verification harness that recomputes every
 > number reported in the paper are openly available at the repository named
@@ -70,7 +72,8 @@ Six amendments were made after running the outcome-free role assignment and
 before fitting any model; each is recorded in that file with its reason, and
 Section 5 of the manuscript summarises them.
 
-`PROTOCOL.md` is offered as supplementary material.
+`PROTOCOL.md` is in the archive and the repository, and can be supplied as a
+supplementary file on request.
 
 ## What is in the repository, and what it does not cover
 

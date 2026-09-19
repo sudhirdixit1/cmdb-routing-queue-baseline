@@ -55,7 +55,7 @@ from its history. Table S8's caption cited an article equation by bare
 number from inside the supplement; it now says "of the article".
 
 Gates after everything: all nine at zero; `verify_release` untouched
-(no analysis result changed); article 54 pages, supplement 121, title page 3.
+(no analysis result changed); article 54 pages, supplement 122, title page 3.
 
 ## The 2026-09-19 reads
 
@@ -176,7 +176,7 @@ leaves the choice to the author (`OWNER-ACTIONS.md` step 7a).
 The supplement's third cold read, the fix-checker and the package check.
 Fixed: the previous batch's "three summaries" (a fourth macro, the harness's
 check count, also differs from the tag) and "all derived results byte for
-byte" (four bookkeeping files differ) — both statements now name what the
+byte" (five bookkeeping files differ) — both statements now name what the
 archive holds exactly; the supplement's S2 still called Remark S1 "the
 proposition" in three places; S1 listed as its sixth amendment a nulling of
 the pilot's topical filter that never happened (the code applies the filter
@@ -188,4 +188,20 @@ availability no longer sends the reader to the checksum list for DOIs it does
 not carry; S23's enumeration cache is described as rebuilt, not archived; the
 form text names the three tracked files under `data/`; and a dozen smaller
 pointer and wording items. 54 / 121 / 3 pages; every gate at zero.
+
+## The tenth read (2026-09-19)
+
+The supplement's fourth cold read, the fix-checker and the package check.
+Fixed: two of the ninth round's own edits (a sentence inside Proposition S1's
+proof had been changed to speak of a remark; a pointer had been moved to a
+second wrong target, and now lands on S14.7 where the counts are); the
+data-availability paragraph's fetch-script pointer covers the held-out logs'
+script and counts logs as logs and files as files; the glossary's
+"on the case study's log" column gives the case study's own cell counts
+with the corpus's beside them; the paragraph under Figure S1 describes the
+figure that is drawn rather than one that was; the form text no longer
+offers the protocol as a supplementary file it does not upload and names all
+three fetch scripts; the cover letter says which reviews the archive holds
+verbatim; and a handful of duplicated clauses and pointers. 54 / 122 / 3
+pages; every gate at zero.
 

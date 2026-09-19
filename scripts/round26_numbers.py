@@ -419,11 +419,13 @@ GLOSSARY = [
     ("declared / computational / inference surface",
      "what is admissible, what was computed, and what carries bootstrap "
      "draws --- three denominators, audited apart",
-     "\\nDeclaredAdmissibleScalar, the same, and \\nInferenceScalar"),
+     "\\nCellsBpicFourteenHandover, the same, and \\familySizeMedian\\ "
+     "(the corpus: \\nDeclaredAdmissibleScalar, the same, and "
+     "\\nInferenceScalar)"),
     ("resolved", "the cell's simultaneous band excludes zero, so the data "
      "determine the sign of that cell's increment",
-     "\\nCellsResolvedAuc\\ of the \\nInferenceCells\\ AUC cells that "
-     "carry a band"),
+     "see Table~\\ref{tab:triple} (the corpus: \\nCellsResolvedAuc\\ of "
+     "the \\nInferenceCells\\ AUC cells that carry a band)"),
     ("family $\\mathcal{F}$", "the set of cells a claim quantifies over, "
      "which is what a simultaneous band must cover",
      "a median \\familySizeMedian\\ cells per pair"),
