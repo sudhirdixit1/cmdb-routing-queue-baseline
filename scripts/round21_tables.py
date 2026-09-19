@@ -587,7 +587,7 @@ def write(mn):
                          "seeds is printed beside the mean, because "
                          "mechanism variability and sampling variability are "
                          "different quantities. The corpus-cohort version of "
-                         "this table is in Supplement~\\ref{app:tables}.",
+                         "this table is Table~\\ref{tab:quality2corpus}.",
                       "tab:quality2",
                       colnames={"V_sd": "spread over seeds",
                                 "n_seeds": "seeds"}),
