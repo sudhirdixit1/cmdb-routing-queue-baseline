@@ -25,7 +25,8 @@ the manuscript.
 
 ## The datasets, by persistent identifier
 
-Twenty-four logs, twenty-six files, across seven domains. The first three carry the primary
+Twenty-four logs, twenty-six files, across seven domains (eight counting
+the held-out agricultural log). The first three carry the primary
 analysis; the rest are the pre-registered corpus of Section 5.
 
 | Log | Domain | Identifier |

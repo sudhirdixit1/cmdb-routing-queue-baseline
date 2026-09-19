@@ -97,7 +97,7 @@ appears in the prose. A separate checker re-derives each macro from its
 source with independent code and enforces the manuscript's own directional
 claims as conditions.
 
-**Length.** The article is 53 pages in the journal template's setting
+**Length.** The article is 54 pages in the journal template's setting
 (11-point, 1.5 line spacing), with 8 tables and 3 figures; the appendices
 are a separate supplementary document, and nine passages were moved there
 for this submission. All three figures in the article are greyscale and

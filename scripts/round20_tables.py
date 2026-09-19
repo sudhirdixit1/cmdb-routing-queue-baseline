@@ -94,7 +94,7 @@ def write(mn):
                 exclusions=EXCL.get(ax, "none")))
         (TABLES / "axes.tex").write_text(
             tex_table(pd.DataFrame(rows),
-                      "The declared design space. One row per axis (the forecast target is not an axis of any surface; Section~\\ref{sec:targets} says why): the "
+                      "The declared design space. One row per axis (the forecast target is not an axis of any surface; Section~\\ref{sec:design} says why): the "
                       "number of levels (a range where it differs by log), "
                       "whether the axis is a \\textbf{factor of the admissible cell "
                       "count}, the measure the paper places on those levels, "

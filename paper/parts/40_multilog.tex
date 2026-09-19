@@ -7,7 +7,7 @@ This section reports the surface on every admitted pair: what each analyst
 choice is worth, where a sign is determined and with what coverage, and what
 the conventional one-number report costs.
 Every point estimate in this section comes from one master surface ---
-one file, named in the code-availability statement --- computed by one pass of
+one file in the archive --- computed by one pass of
 one pipeline over
 \nPairs\ log--target pairs, \nLearners\ learners, \nSplits\ splits, \nQuality\
 register-quality conditions, the nested baseline ladder and \nMetrics\
@@ -52,7 +52,8 @@ Table~\ref{tab:roles} which attribute plays the register on each row.
 \caption{The decomposition, within instrument, under the equal-level measure.
 \textbf{(a)} BPIC14/duration at AUC: one pair at one instrument, so the
 components are one decomposition and the parts sum to one exactly --- the
-pair with the most admissible cells, at the reference instrument, which is the cell
+pair, one of the two with the most admissible cells, at the reference
+instrument, which is the cell
 every other table reports at. The hatched segment is the total higher-order
 share $1 - \sum_i S_i$ of~\eqref{eq:inttotal}. \textbf{(b)} The corpus: each
 axis's first-order index across the pairs, as the median over pairs (the
@@ -74,9 +75,9 @@ not interchangeable, so each is named where it appears: the median over pairs of
 first-order index at the median pair --- the median over pairs of the median
 over instruments of the \emph{per-instrument} largest first-order index, and
 therefore not obtainable by taking a maximum across the four printed
-columns; and the corpus medians of the higher-order share. The corpus medians
-the second is built from are in Table~\ref{tab:measures}; the per-instrument
-values are in the archive's decomposition file.
+columns; and the corpus medians of the higher-order share. The second is the corpus
+median Table~\ref{tab:measures} prints as its largest first-order index; the
+per-instrument values behind it are in the archive.
 
 \input{tables/strata}
 
@@ -352,7 +353,8 @@ The closest existing practice is specification-curve analysis
 \citep{simonsohn2020specification}: enumerate the reasonable specifications,
 plot the curve, and test it against a sharp null by permutation.
 Supplement~\ref{app:sca} runs it unchanged on \emph{every} admitted pair
-beside the region label computed on the same cells. \textbf{They part
+beside the region label of the pair's whole inference family, which contains
+the permutation sub-surface. \textbf{They part
 company on \nScaDisagree\ of the \nScaPairs\ pairs}, close to half: the
 permutation test rejects the sharp null and the same cells contain
 increments of \emph{both} signs. Neither subsumes the other. The permutation

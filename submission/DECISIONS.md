@@ -521,8 +521,9 @@ in §1 and §4, because a null reported is part of the paper's honesty. The
 article keeps its definition of the absolute absorption and the relative
 reduction (equation 2), which §4.4, §6.4 and §7.5 use; the first cut had
 dropped it and three independent reads caught that. Pages: 53 → 52 (the
-template's options) → 52 after the moves → 53 after the 2026-09-19 read added
-the primary decomposition's per-pair table and several glosses; the
+template's options) → 52 after the moves → 54 after the 2026-09-19 reads added
+the primary decomposition's per-pair table, two table columns and several
+glosses; the
 supplement 115 → 120.
 
 ## 9. The widest supplement tables in landscape — settled 2026-09-18

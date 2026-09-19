@@ -143,7 +143,7 @@ the anonymised entry heads both lists. The comment above its
 
 | document | before (`preprint,12pt`) | after |
 |---|---|---|
-| `manuscript.pdf` | 53 | 52 (A4, 11pt, 1.5-spaced; the 3p text block is wider and taller than the letter-size preprint block); 53 after the 2026-09-19 read added a table and glosses |
+| `manuscript.pdf` | 53 | 52 (A4, 11pt, 1.5-spaced; the 3p text block is wider and taller than the letter-size preprint block); 54 after the 2026-09-19 reads added a table, two table columns and glosses |
 | `supplement.pdf` | 115 | 120 (unchanged options; the day's relocations, landscape pages and one added table) |
 | `title_page.pdf` | 3 | 3 |
 

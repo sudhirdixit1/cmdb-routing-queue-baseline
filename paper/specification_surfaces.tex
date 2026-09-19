@@ -488,7 +488,8 @@ levels, and Section~\ref{sec:lim} carries the gap. The \emph{measure} column
 names which of the three declared product measures a quantity is taken under
 --- \textsc{equal}, \textsc{ref.} and \textsc{conc.}, placing equal, half and
 four fifths of the mass on the reference level --- and
-Section~\ref{sec:sobol} reports every decomposition under all three; the
+Section~\ref{sec:axes2} reports the pooled decomposition's headline shares
+under all three (Table~\ref{tab:measures}); the
 measure is a modelling choice, declared rather than left implicit
 (Supplement~\ref{app:measurechoice}, which also says why the forecast origin and
 the register's quality are axes of the estimand rather than preliminaries).
@@ -829,7 +830,9 @@ families, several standard errors short, and no draw budget closes that gap:
 along a ladder of draw counts its coverage plateaus from \nBootOneFifty\
 draws on, while the empirical quantile's rises to its level by
 \nDrawsSurface. \textbf{The level is bought with width}: the empirical band
-is \widthEmpOverMultAtDesign\ times as wide on the matched family and
+is \widthEmpOverMultAtDesign\ times as wide on the matched family (the mean
+band-width ratio of the coverage run; the family was matched to the corpus
+at a critical-value ratio of \ratioSynthWhole) and
 \ratioCorpusWhole\ times on the corpus's own families, and it resolves
 \nResolvedWhole\ cells corpus-wide where the multiplier would resolve
 \nResolvedWholeMult\ (Section~\ref{sec:regions}). What the measurement does
@@ -1146,7 +1149,7 @@ This section reports the surface on every admitted pair: what each analyst
 choice is worth, where a sign is determined and with what coverage, and what
 the conventional one-number report costs.
 Every point estimate in this section comes from one master surface ---
-one file, named in the code-availability statement --- computed by one pass of
+one file in the archive --- computed by one pass of
 one pipeline over
 \nPairs\ log--target pairs, \nLearners\ learners, \nSplits\ splits, \nQuality\
 register-quality conditions, the nested baseline ladder and \nMetrics\
@@ -1191,7 +1194,8 @@ Table~\ref{tab:roles} which attribute plays the register on each row.
 \caption{The decomposition, within instrument, under the equal-level measure.
 \textbf{(a)} BPIC14/duration at AUC: one pair at one instrument, so the
 components are one decomposition and the parts sum to one exactly --- the
-pair with the most admissible cells, at the reference instrument, which is the cell
+pair, one of the two with the most admissible cells, at the reference
+instrument, which is the cell
 every other table reports at. The hatched segment is the total higher-order
 share $1 - \sum_i S_i$ of~\eqref{eq:inttotal}. \textbf{(b)} The corpus: each
 axis's first-order index across the pairs, as the median over pairs (the
@@ -1213,9 +1217,9 @@ not interchangeable, so each is named where it appears: the median over pairs of
 first-order index at the median pair --- the median over pairs of the median
 over instruments of the \emph{per-instrument} largest first-order index, and
 therefore not obtainable by taking a maximum across the four printed
-columns; and the corpus medians of the higher-order share. The corpus medians
-the second is built from are in Table~\ref{tab:measures}; the per-instrument
-values are in the archive's decomposition file.
+columns; and the corpus medians of the higher-order share. The second is the corpus
+median Table~\ref{tab:measures} prints as its largest first-order index; the
+per-instrument values behind it are in the archive.
 
 \input{tables/strata}
 
@@ -1491,7 +1495,8 @@ The closest existing practice is specification-curve analysis
 \citep{simonsohn2020specification}: enumerate the reasonable specifications,
 plot the curve, and test it against a sharp null by permutation.
 Supplement~\ref{app:sca} runs it unchanged on \emph{every} admitted pair
-beside the region label computed on the same cells. \textbf{They part
+beside the region label of the pair's whole inference family, which contains
+the permutation sub-surface. \textbf{They part
 company on \nScaDisagree\ of the \nScaPairs\ pairs}, close to half: the
 permutation test rejects the sharp null and the same cells contain
 increments of \emph{both} signs. Neither subsumes the other. The permutation
@@ -1612,7 +1617,7 @@ value at $\lambda = \lambdaHalf$. An unprovable admissibility assumption is
 therefore reported as a sensitivity analysis and not as a headline. The
 second is a
 register-quality axis under the \nQualityKinds\ declared mechanisms of
-Section~\ref{sec:surface} and, beside them, three dependent mechanisms and a
+Supplement~\ref{app:measurechoice} and, beside them, three dependent mechanisms and a
 discovery lag (Supplement~\ref{app:casedetail}), applied to both halves of
 the data with their parameters estimated from training alone
 (Supplement~\ref{app:degrade}).
@@ -1725,8 +1730,8 @@ leaves \nBeneficialSimultaneousEmpHi, and keeping the excluded cells leaves
 result. Supplement~\ref{app:dcabandsfull} carries the whole ladder,
 including the measured widening of the multiplier value that an earlier
 construction used, and Figure~\ref{fig:dca} draws the curve
-(Table~\ref{tab:dca} is the raw-score sensitivity analysis of
-Section~\ref{sec:calibfirst}, not this curve). The pointwise interval is not widened by a family-wise factor; what
+(Table~\ref{tab:dca} is a score-threshold sensitivity analysis on raw
+scores in the sense of Section~\ref{sec:calibfirst}, not this curve). The pointwise interval is not widened by a family-wise factor; what
 it covers is a separate measurement, and the $(n,K)$ calibration of
 Section~\ref{sec:regions} is not applied to this family either.
 
@@ -1887,7 +1892,8 @@ and would not have been at a third of it. The per-cell interval underneath
 moves \covPercellBootThirtyThree\ to \covPercellBootOneThousand\ over the
 same range, so part of what any band loses it loses before a critical value
 is chosen. What the level costs is width: the empirical band is
-\widthEmpOverMultAtDesign\ times as wide as the multiplier's, and
+\widthEmpOverMultAtDesign\ times as wide as the multiplier's (the mean
+band-width ratio of this run), and
 Section~\ref{sec:regions} prints what each resolves.
 
 \textbf{The decision-curve families, and the cells that are zero by
@@ -1992,10 +1998,11 @@ of them measured.
 this evidence does not support}
 Section~\ref{sec:conclusion} withdraws both readings a pooled surface invites,
 together with the sign-disagreement rate as a headline. Three qualifications
-of another kind are limits rather than results: both decompositions are reported under all
-three declared measures because there is no neutral one (the higher-order
-share moves by \measureSpreadPct\ across them), the within-instrument
-decomposition being primary because the decomposition inherits the metric's
+of another kind are limits rather than results: the pooled decomposition's
+headline shares are reported under all three declared measures because there
+is no neutral one (the higher-order share moves by \measureSpreadPct\ across
+them; Table~\ref{tab:measures}), the within-instrument decomposition on the
+fold-averaged surface, reported under the equal-level measure, being primary because the decomposition inherits the metric's
 scale (Proposition~\ref{prop:scale}); region labels are relative to an
 inference family of a median \inferenceShareAdmissibleMedianPct\ of a pair's
 admissible cells, under a minimum resolved share that withdraws the direction
@@ -2005,8 +2012,9 @@ reports a null and is a robustness check rather than a contribution.
 
 \paragraph{External --- the design space is declared, not complete}
 $\mathcal{S}$ has \nAxes\ axes in Definition~\ref{def:space} and the per-pair
-factorial varies \nPerPairAxes\ of them (Table~\ref{tab:roles}); the decision
-time, the operating point and the cohort vary on the case study's log alone,
+factorial varies \nPerPairAxes\ of them (Table~\ref{tab:roles}); the forecast
+origin varies on the case study's log alone, the operating point only inside
+the decision-curve family, the cohort only in the case study's cohort design,
 and the target indexes surfaces rather than varying within one. It could have
 more --- tuning protocol, missing-data treatment, target horizon, label-noise
 model --- so the honest claim is ``the increment moves this much over
@@ -2135,9 +2143,11 @@ rules of Section~\ref{sec:design} admit \nLogs, yielding the \nPairs\
 log--target pairs analysed here. The counts are different quantities and
 Table~\ref{tab:corpus} accounts for every downloaded log that is not among the
 admitted pairs, in one of two ways: with the registered exclusion code the
-rules gave it, or with the code \textsf{HELD\_OUT}, which marks the held-out
-set --- \nHeldOutLogs\ of the checksummed files, downloaded for the
-out-of-corpus test and never offered to the admission rules. The literature pilot's frame, sample,
+rules gave it, or with the code \textsf{HELD\_OUT}, which marks the log downloaded
+for the out-of-corpus test and never offered to the admission rules
+(\nHeldOutLogs\ of the checksummed files); the second log downloaded for
+that test was offered to the rules and is listed under the codes that
+excluded it. The literature pilot's frame, sample,
 codes, adjudications and evidence dossiers are in the archive; the retrieved
 full texts are other publishers' copyrighted PDFs and are not redistributed,
 but \pilotfetch\ re-retrieves them from the DOIs

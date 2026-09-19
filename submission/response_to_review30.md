@@ -33,7 +33,7 @@ is the disposition of each item.
 | Deanonymisation by search | The package name and seven file names print generically in the blind build (`blindnames.tex`); `check_blind` scans for the package name. The harness section keeps its script names by decision. |
 | Uncited prior results | "an earlier, unpublished analysis of this log" in the article, Table S11 and S15.1. |
 | Supplement tables | Six widest on landscape pages; the `q` column named for what it holds and the captions cite the operative quantile beside it; S15's headings carry a sentence each; Table S20's caption points at the article's §6.4; S18 says "section"; S20 opens by naming the measurement; S1's contrasts sentence weakened to what Table S15 and Class L state. |
-| Length | §3.4, §4.7, §6.6 and the §8.3 rules paragraph moved behind pointers; the article keeps the definition of D and R. 53 pages under the template's options after the 2026-09-19 read added the primary decomposition's per-pair table (Supplement Table S9) and glosses. |
+| Length | §3.4, §4.7, §6.6 and the §8.3 rules paragraph moved behind pointers; the article keeps the definition of D and R. 54 pages under the template's options after the 2026-09-19 reads added the primary decomposition's per-pair table (Supplement Table S9), two table columns and glosses. |
 | AUC as primary instrument | One run-in paragraph at the end of §3.4, restating §1, §2, the remarks, §6.2 and §8; refuted once for overstating, cut back. |
 | 43.7% vs 56.0%; the 28.7% figure | Each number's quantity named; "pooled" said where it applies. |
 
@@ -55,7 +55,7 @@ from its history. Table S8's caption cited an article equation by bare
 number from inside the supplement; it now says "of the article".
 
 Gates after everything: all nine at zero; `verify_release` untouched
-(no result file changed); article 53 pages, supplement 120, title page 3.
+(no result file changed); article 54 pages, supplement 120, title page 3.
 
 ## The 2026-09-19 reads
 
@@ -91,3 +91,28 @@ glossed or renamed at first use; "the author" removed from a blind sentence;
 one name for the literature pilot. The all-caps emphasis in several
 generated supplement captions is a house style production may query; it is
 left as is.
+
+## The fourth and fifth reads (2026-09-19)
+
+Two further rounds, each of a fix-checker, a cold referee read and a package
+check, found: the operative critical value was not printed in the region
+tables the article said print it beside the multiplier's — both tables now
+carry `q (operative)', so `q calibrated' is visibly $c$ times it; Table S38
+now prints the reported construction's coverage of the oracle increment,
+which §9.1 quoted; the six declared mechanisms, the three dependent ones and
+the discovery lag are named apart, and pointed at Supplement S1.2 where they
+are defined; the pipeline tiers are stated as the rule gives them (the
+primary log by designation, the rest by row count); the held-out set is
+described as the two logs it was, one scored and one excluded by the rules;
+the title page says the model register and the objection log are in the
+repository, whose head post-dates the archived release; §10 no longer says
+the operating point varies on the case study's log alone; §6.5 and S17 no
+longer say the region label is computed on the permutation sub-surface,
+which Table S23's caption denies; the three-measure claim is confined to the
+pooled decomposition's headline shares (Table S27); Table 2's caption points
+at §5 for why the target is not an axis; the glossary's case-study region
+value points at the master table instead of a stale label; the two
+empirical-over-multiplier ratios (1.24, 1.25) are named as a width ratio and
+a critical-value ratio; and a dozen smaller pointer, naming and record
+items. 54 / 120 / 3 pages; every gate at zero.
+

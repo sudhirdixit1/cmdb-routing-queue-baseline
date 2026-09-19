@@ -1705,8 +1705,8 @@ def write_tables(D):
         (TABLES / "dca.tex").write_text(
             tex_table(b[["metric", "V", "se", "sim_lo", "sim_hi",
                          "sim_resolved"]],
-                      "The decision curve of Figure~\\ref{fig:dca} as a "
-                      "table: BPIC14, the registered handover target, "
+                      "The operating points of Figure~\\ref{fig:dca}'s pair "
+                      "as a table, on raw scores: BPIC14, the registered handover target, "
                       "one-hot logistic regression, the clean register, the "
                       "single temporal holdout, the intake block plus the "
                       "free field as baseline. Every row is one operating "

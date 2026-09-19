@@ -429,7 +429,7 @@ GLOSSARY = [
      "a median \\familySizeMedian\\ cells per pair"),
     ("resolution region", "the label a surface earns from its resolved "
      "cells: uniformly or conditionally beneficial or harmful, "
-     "sign-changing, unresolved", "sign-changing"),
+     "sign-changing, unresolved", "see Table~\\ref{tab:master}"),
     ("robustness index $\\rho$", "(beneficial $-$ harmful) $/\\,|\\mathcal{F}|$, "
      "always printed with the counts behind it", "see Table~\\ref{tab:triple}"),
     ("MPID", "the minimal practically important difference, declared before "
