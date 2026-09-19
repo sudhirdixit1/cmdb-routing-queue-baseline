@@ -193,7 +193,7 @@ a slope well below one, and it is also the one whose increment differs most
 from the others on the two proper scoring rules. That is the interaction
 between the pipeline axis and the metric axis, drawn.
 
-Rolling-origin results are in \texttt{results/s01\_surface.csv} under
+Rolling-origin results are in \texttt{results/s01\_surface.csv.gz} under
 \texttt{split = rolling$k$} and enter the decomposition as the split axis;
 Section~\ref{app:rolling} prints them per fold. The single holdout is not
 the best estimate of the increment, and reporting it alone would be a
@@ -290,8 +290,8 @@ cleanly.
 
 \textbf{Accuracy costs about what coverage costs.} Corrupting three tenths of
 the identities --- the register is complete, and wrong --- leaves it worth
-\qCorruptThirty, a loss of \qCorruptThirtyDelta, about what losing a third of
-its population costs. A maturity assessment that counts populated rows and
+\qCorruptThirty, a loss of \qCorruptThirtyDelta, about what losing half of
+its population at random costs (Table~\ref{tab:quality2}). A maturity assessment that counts populated rows and
 does not sample them for correctness is measuring one of the two and reporting
 it as the whole.
 
@@ -368,8 +368,8 @@ half, so no test outcome touches the calibrator, and the calibration is
 rebuilt inside every resampling iteration. Table~\ref{tab:calib2} gives the
 diagnostics for the raw and the calibrated scores on every pair.
 
-The correction bites. Across the corpus the median calibration slope is
-\slopeRawMedian\ on raw scores and \slopeIsoMedian\ after isotonic
+The correction bites. Across the corpus, over every fitted arm, the median
+calibration slope is \slopeRawMedian\ on raw scores and \slopeIsoMedian\ after isotonic
 calibration; the median expected calibration error falls from \eceRawMedian\
 to \eceIsoMedian; and the number of arms whose slope lies outside $[0.5, 2]$
 falls from \nSlopeOutRaw\ to \nSlopeOutIso. It also changes conclusions: the
@@ -726,8 +726,8 @@ the incident is known, and so --- probably --- is the knowledge-article
 reference the desk consulted. Against the intake block the register is worth
 \VtauTwo; against intake plus group, \VTtwoGroup\ [\VTtwoGroupLo,
 \VTtwoGroupHi]; against intake plus group plus the knowledge reference,
-\VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] --- the one rung of the five that
-does not resolve.
+\VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] --- the one rung of the ladder at
+this origin that does not resolve.
 \end{description}
 
 The pairwise differences separate the mechanisms that a baseline ladder alone

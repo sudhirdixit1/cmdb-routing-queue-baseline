@@ -171,3 +171,21 @@ data-availability paragraph and the cover letter say so, and `DECISIONS.md`
 leaves the choice to the author (`OWNER-ACTIONS.md` step 7a).
 54 / 121 / 3 pages; every gate at zero.
 
+## The ninth read (2026-09-19)
+
+The supplement's third cold read, the fix-checker and the package check.
+Fixed: the previous batch's "three summaries" (a fourth macro, the harness's
+check count, also differs from the tag) and "all derived results byte for
+byte" (four bookkeeping files differ) — both statements now name what the
+archive holds exactly; the supplement's S2 still called Remark S1 "the
+proposition" in three places; S1 listed as its sixth amendment a nulling of
+the pilot's topical filter that never happened (the code applies the filter
+and the pilot's pre-registration records no amendment) while omitting the
+protocol's real sixth (outcome-field names normalised); S1.4's excluded-above
+count is confined to the corpus's candidate pairs; S14.5's "a third of its
+population" is the half-at-random cost the table prints; the article's data
+availability no longer sends the reader to the checksum list for DOIs it does
+not carry; S23's enumeration cache is described as rebuilt, not archived; the
+form text names the three tracked files under `data/`; and a dozen smaller
+pointer and wording items. 54 / 121 / 3 pages; every gate at zero.
+

@@ -677,7 +677,7 @@ def write(mn):
                       "tab:quality3",
                       colnames={"n_levels": "levels", "n_seeds": "seeds",
                                 "integral_coarse": "coarse",
-                                "grid_shift": "shift",
+                                "grid_shift": "grid shift",
                                 "seed_sd_median": "seed s.d.",
                                 "V_at_clean": "V complete",
                                 "V_at_empty": "V empty"}),

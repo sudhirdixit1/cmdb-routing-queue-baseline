@@ -3,8 +3,8 @@
 
 All data are public. Event logs are obtained by DOI: BPI Challenge 2014
 (\doiBPICfourteen), BPI Challenge 2013 incidents (\doiBPICthirteen), and the
-further public logs whose DOIs and SHA-256 checksums are listed in
-\checksumfile\ --- \nCorpusDownloaded\ files are
+further public logs whose DOIs the archive's corpus-fetch script carries
+and whose SHA-256 checksums are listed in \checksumfile\ --- \nCorpusDownloaded\ files are
 downloaded and checksummed in all, of which the registered role-assignment
 rules of Section~\ref{sec:design} admit \nLogs, yielding the \nPairs\
 log--target pairs analysed here. The counts are different quantities and
@@ -19,12 +19,12 @@ codes and adjudications are in the archive; the retrieved full texts and
 the evidence dossiers extracted from them are other publishers' copyrighted
 material and are not redistributed, but \pilotfetch\ re-retrieves the texts
 from the DOIs listed in \pilotsamplefile, and the same script's dossier
-stage rebuilds the dossiers. All derived results (\texttt{results/*.csv}) are
-in the archive named in the code-availability statement, byte for byte; the
-code, the figures and the manuscript source at the repository's head
-post-date the archive, and where an archived generator would print a summary
-differently the correction register (Supplement~\ref{app:corrections}) says
-so.
+stage rebuilds the dossiers. Every analysis result file is in the archive named in the code-availability
+statement, byte for byte (the harness's own bookkeeping files there post-date
+it); the code, the figures and the manuscript source at the repository's
+head post-date the archive, and where an archived generator would print a
+summary differently the correction register (Supplement~\ref{app:corrections})
+says so.
 
 \ifblind
 \section*{Code availability}

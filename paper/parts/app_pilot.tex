@@ -11,8 +11,9 @@ Table~\ref{tab:prisma} is the flow, laid out in the style
 not, and the appendix says so throughout; the layout is used because it makes
 what was excluded, and why, countable. Records were enumerated from
 a public index across \nAuditStrata\ strata --- venues, two citation seeds and
-a topic frame --- and the enumeration is cached per stratum in the archive so
-it can be re-run without re-querying.
+a topic frame --- and the script caches the enumeration per stratum on disk,
+so a re-run does not re-query; the cache is rebuilt by the script rather than
+archived.
 
 The allocation was declared before the enumeration finished: proportional to
 stratum size with a floor of \minPerStratum\ per stratum, up to a budget of

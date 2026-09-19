@@ -42,10 +42,12 @@ A caused-by attribution is the output of diagnosis, not an intake observation.
 Without this the registered rules made the caused-by configuration item the
 high-cost entity on the flagship log.
 
-\item[Amendment 6 --- the pilot frame's topical filter was nulled.]
-The frame's keyword filter was applied to titles and abstracts, which is a
-filter on how a paper describes itself rather than on what it does.
-\texttt{results/s06\_frame.csv} reports what nulling it does to the estimates.
+\item[Amendment 6 --- outcome-field names are normalised.]
+Entries in the outcome list are matched against a name with any
+\texttt{case:} prefix stripped, and some entries carried the prefix, so a
+goods-receipt field on one log was reaching the layer role; the list is now
+normalised the same way as the lookup. The literature pilot's own
+pre-registration records no amendment.
 \end{description}
 
 \paragraph{What the protocol fixed, before any of the results it governs}
@@ -264,8 +266,9 @@ edge} \logAdmittedMaxPrev\ has the highest full-log prevalence of any
 admitted pair, \prevAdmittedMax\ (the rule reads the full log; the test half
 sits higher), against the window's upper bound of \prevHi; the nearest
 pair the headroom rule turns away, \logExcludedAboveMin, is at
-\prevExcludedAboveMin, and \nExcludedAbove\ of the pairs offered to the rules
-are excluded above
+\prevExcludedAboveMin, and \nExcludedAbove\ of the corpus's candidate pairs
+are excluded above the bound (Table~\ref{tab:corpus} lists the held-out log's
+rows there too), all of them above
 the bound. That pair is also the largest single contributor to the corpus,
 carrying \nCellsLargestPair\ of the \nComputationalCells\ admissible scalar
 cells. A rule with a sharp edge decides some case narrowly, and this is that

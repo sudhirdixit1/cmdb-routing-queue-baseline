@@ -49,8 +49,9 @@ analysis; the rest are the pre-registered corpus of Section 5.
 The BPI Challenge collections are distributed by 4TU.ResearchData under the
 terms attached at each DOI; the UCI log is distributed under CC BY 4.0. The
 repository contains no row of any of them: `data/` is excluded from version
-control, and the one thing that is tracked —
-`data/corpus/CHECKSUMS.txt` — is a list of hashes.
+control except three files, the checksum list `data/corpus/CHECKSUMS.txt`
+and the literature pilot's two adjudication files
+(`data/audit2/adjudication_in.csv`, `adjudication_out.csv`).
 
 **One file is new to this version and is worth naming.** The BPI Challenge
 2014 collection ships `Detail_Interaction.csv`, which the previous version of
@@ -85,7 +86,7 @@ each of which the checker must catch.
 
 The checker guards **numbers** thoroughly and **prose** only where a guard was
 written by hand. It cannot tell you that an interpretation is sound. The
-README says so in the same words. The correction register in the archive
+supplement's harness section says so in the same words. The correction register in the archive
 carries twenty-eight corrections grouped by class, and **the largest class is
 sentences in which every printed number was correct and the relation asserted
 between them was not** --- which the generated-macro discipline cannot make

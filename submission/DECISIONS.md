@@ -469,9 +469,9 @@ matches the submitted text.
 **What would overturn it:** any result file or number-producing script
 changing, which would make v28.0 no longer the archive of these numbers.
 
-**Status 2026-09-19 — the overturn condition is met.** No result file
+**Status 2026-09-19 — the overturn condition is met.** No analysis result
 changed, but three number-producing generators did (corrections C32–C34 in
-Supplement S22, C32–C34: the BPIC19 layer macros on the excluded pair, the unseen
+Supplement S22: the BPIC19 layer macros on the excluded pair, the unseen
 minimum without the rung filter, the case-study seed count), so v28.0's
 generators would print three summaries the submitted supplement does not.
 The statements on the title page, in the article's data availability and in

@@ -133,7 +133,7 @@ The supplement keeps `\documentclass[preprint,12pt,authoryear]{elsarticle}`
 (decision taken by the integrator before this revision). The template is
 for the article; the journal publishes an online supplement as supplied
 and has no template for it; and this document is 121 pages at single
-spacing (115 before the same day's revision) — at the article's 1.5 spacing it would be about 175. It takes the
+spacing (115 before the same day's revision) — at the article's 1.5 spacing it would be about 180. It takes the
 same bibliography options as the article (`model5-names`,
 `longnamesfirst`), so a reference reads the same in both documents and
 the anonymised entry heads both lists. The comment above its
