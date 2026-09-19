@@ -55,7 +55,7 @@ from its history. Table S8's caption cited an article equation by bare
 number from inside the supplement; it now says "of the article".
 
 Gates after everything: all nine at zero; `verify_release` untouched
-(no result file changed); article 53 pages, supplement 119, title page 3.
+(no result file changed); article 53 pages, supplement 120, title page 3.
 
 ## The 2026-09-19 reads
 
@@ -73,7 +73,7 @@ say so; the baseline rungs are enumerated once (§5.2) and the four decision
 rules defined once (S3.1) and glossed at first use (§1, §4.6); "40 of 118
 arms" is "models", a model being a pair–pipeline–baseline triple; S14.7
 opens on the band the article reports; the plane/grid of §9.1 are named apart
-(10-cell grid, Table S38; 33-cell calibration plane, Table S41) with each
+(10-cell grid, Table S39; 33-cell calibration plane, Table S42) with each
 number attributed to its source; "13 of 19 pairs" says what it counts (the
 higher-order total against the largest first-order index within an
 instrument, not against Table S8's column medians); Table 5's "304
@@ -81,7 +81,7 @@ decompositions" is now the 19 × 5 the strata identity was checked on, and S3
 derives 304; the two 1,100s are named apart (a resolved-cell count; the
 grid's rounding of the modal curve family); Table 2's origin row and caption
 say the corpus surface has two origins on the primary log and the case
-study's second surface three; Table S40 now rounds half-cases the way the
+study's second surface three; Table S41 now rounds half-cases the way the
 macros do (sixteen cells moved by one in the last digit); and the primary
 decomposition's per-pair values, which the article quoted but no table
 printed, are Supplement Table S9 (`tables/foldavg.tex`, generated from the

@@ -3,33 +3,33 @@
 \centering
 \small
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
-\begin{tabular}{llrrrrlrlrl}
+\begin{tabular}{llrrrrrlrlrl}
 \toprule
-log & target & K / n & q (multiplier) & c & q calibrated & cells (nominal) & rho & cells (cal) & rho (cal) & region (cal) \\
+log & target & K / n & q (multiplier) & q (operative) & c & q calibrated & cells (nominal) & rho & cells (cal) & rho (cal) & region (cal) \\
 \midrule
-BPIC13\_closed & handover & 0.324 & 3.380 & 1.767 & 7.437 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
-BPIC13\_incidents & duration & 0.133 & 3.372 & 1.456 & 6.027 & 12 / 0 / 168 & 0.067 & 2 / 0 / 178 & 0.011 & conditionally beneficial \\
-BPIC13\_incidents & handover & 0.133 & 3.356 & 1.456 & 6.456 & 72 / 0 / 108 & 0.400 & 49 / 0 / 131 & 0.272 & conditionally beneficial \\
-BPIC14 & duration & 0.093 & 3.214 & 1.294 & 4.798 & 180 / 0 / 0 & 1.000 & 180 / 0 / 0 & 1.000 & uniformly beneficial \\
-BPIC14 & handover & 0.093 & 3.266 & 1.294 & 6.168 & 171 / 0 / 9 & 0.950 & 152 / 0 / 28 & 0.844 & conditionally beneficial \\
-BPIC15\_1 & duration & 0.106 & 3.362 & 1.343 & 7.368 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
-BPIC15\_1 & handover & 0.106 & 3.377 & 1.343 & 8.171 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
-BPIC15\_3 & duration & 0.095 & 3.362 & 1.300 & 6.066 & 2 / 0 / 178 & 0.011 & 0 / 0 / 180 & 0.000 & unresolved \\
-BPIC15\_3 & handover & 0.095 & 3.345 & 1.300 & 6.541 & 0 / 4 / 176 & $-$0.022 & 0 / 3 / 177 & $-$0.017 & conditionally harmful \\
-BPIC15\_4 & duration & 0.072 & 3.409 & 1.243 & 7.270 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
-BPIC15\_4 & handover & 0.072 & 3.430 & 1.243 & 7.545 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
-BPIC15\_5 & duration & 0.132 & 3.407 & 1.455 & 8.405 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
-BPIC17 & duration & 0.032 & 3.276 & 1.177 & 6.086 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
-BPIC19 & duration & 0.011 & 3.380 & 1.177 & 6.834 & 10 / 71 / 99 & $-$0.339 & 8 / 60 / 112 & $-$0.289 & sign-changing \\
-Helpdesk & duration & 0.123 & 3.325 & 1.431 & 5.625 & 0 / 2 / 178 & $-$0.011 & 0 / 0 / 180 & 0.000 & unresolved \\
-RoadFines & duration & 0.001 & 3.298 & 1.177 & 5.958 & 52 / 6 / 122 & 0.256 & 46 / 6 / 128 & 0.222 & sign-changing \\
-Sepsis & duration & 0.200 & 3.319 & 1.562 & 6.112 & 102 / 0 / 78 & 0.567 & 11 / 0 / 169 & 0.061 & conditionally beneficial \\
-UCI498 & duration & 0.301 & 3.296 & 1.756 & 7.040 & 14 / 0 / 166 & 0.078 & 2 / 0 / 178 & 0.011 & conditionally beneficial \\
-UCI498 & handover & 0.301 & 3.339 & 1.756 & 9.666 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC13\_closed & handover & 0.324 & 3.380 & 4.209 & 1.767 & 7.437 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC13\_incidents & duration & 0.133 & 3.372 & 4.138 & 1.456 & 6.027 & 12 / 0 / 168 & 0.067 & 2 / 0 / 178 & 0.011 & conditionally beneficial \\
+BPIC13\_incidents & handover & 0.133 & 3.356 & 4.433 & 1.456 & 6.456 & 72 / 0 / 108 & 0.400 & 49 / 0 / 131 & 0.272 & conditionally beneficial \\
+BPIC14 & duration & 0.093 & 3.214 & 3.709 & 1.294 & 4.798 & 180 / 0 / 0 & 1.000 & 180 / 0 / 0 & 1.000 & uniformly beneficial \\
+BPIC14 & handover & 0.093 & 3.266 & 4.768 & 1.294 & 6.168 & 171 / 0 / 9 & 0.950 & 152 / 0 / 28 & 0.844 & conditionally beneficial \\
+BPIC15\_1 & duration & 0.106 & 3.362 & 5.485 & 1.343 & 7.368 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_1 & handover & 0.106 & 3.377 & 6.084 & 1.343 & 8.171 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_3 & duration & 0.095 & 3.362 & 4.667 & 1.300 & 6.066 & 2 / 0 / 178 & 0.011 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_3 & handover & 0.095 & 3.345 & 5.032 & 1.300 & 6.541 & 0 / 4 / 176 & $-$0.022 & 0 / 3 / 177 & $-$0.017 & conditionally harmful \\
+BPIC15\_4 & duration & 0.072 & 3.409 & 5.847 & 1.243 & 7.270 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_4 & handover & 0.072 & 3.430 & 6.068 & 1.243 & 7.545 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC15\_5 & duration & 0.132 & 3.407 & 5.777 & 1.455 & 8.405 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC17 & duration & 0.032 & 3.276 & 5.172 & 1.177 & 6.086 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
+BPIC19 & duration & 0.011 & 3.380 & 5.808 & 1.177 & 6.834 & 10 / 71 / 99 & $-$0.339 & 8 / 60 / 112 & $-$0.289 & sign-changing \\
+Helpdesk & duration & 0.123 & 3.325 & 3.931 & 1.431 & 5.625 & 0 / 2 / 178 & $-$0.011 & 0 / 0 / 180 & 0.000 & unresolved \\
+RoadFines & duration & 0.001 & 3.298 & 5.063 & 1.177 & 5.958 & 52 / 6 / 122 & 0.256 & 46 / 6 / 128 & 0.222 & sign-changing \\
+Sepsis & duration & 0.200 & 3.319 & 3.911 & 1.562 & 6.112 & 102 / 0 / 78 & 0.567 & 11 / 0 / 169 & 0.061 & conditionally beneficial \\
+UCI498 & duration & 0.301 & 3.296 & 4.010 & 1.756 & 7.040 & 14 / 0 / 166 & 0.078 & 2 / 0 / 178 & 0.011 & conditionally beneficial \\
+UCI498 & handover & 0.301 & 3.339 & 5.506 & 1.756 & 9.666 & 0 / 0 / 180 & 0.000 & 0 / 0 / 180 & 0.000 & unresolved \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Resolution regions under the nominal critical value and under one calibrated for the register's cardinality. $c$ is the inflation factor the $(n, K)$ plane of Section~\ref{sec:simsensitivity} gives at that pair's own $K/n$. THE NOMINAL COLUMNS ARE THE ONES THE ARTICLE'S COUNTS USE: their labels and cell counts are computed at the operative critical value of Section~\ref{sec:simbands}, the empirical Romano--Wolf quantile of the pair's whole-surface family (corpus median \maxTSurfaceMedian), which is not printed here. `q (multiplier)' is the multiplier estimator's critical value for the same family (median \maxTSurfaceMultMedian), printed for comparison; no label in this table rests on it. `q calibrated' is $c$ times the operative empirical quantile --- not $c$ times the multiplier column --- and the calibrated cell columns are the labels that wider band would give. The cell columns are beneficial / harmful / unresolved, and the admissible count is the same under both critical values. No widening is applied (Section~\ref{sec:simband}); the calibrated columns are printed beside the nominal ones to show what applying one would cost --- not what was done. The widening these families actually need is larger than the $c$ printed here.}
+\caption{Resolution regions under the nominal critical value and under one calibrated for the register's cardinality. $c$ is the inflation factor the $(n, K)$ calibration plane of Section~\ref{app:calibration} (Table~\ref{tab:plane}) gives at that pair's own $K/n$. THE NOMINAL COLUMNS ARE THE ONES THE ARTICLE'S COUNTS USE: their labels and cell counts are computed at the operative critical value of Section~\ref{sec:simbands}, the empirical Romano--Wolf quantile of the pair's whole-surface family (corpus median \maxTSurfaceMedian), printed as `q (operative)'. `q (multiplier)' is the multiplier estimator's critical value for the same family (median \maxTSurfaceMultMedian), printed for comparison; no label in this table rests on it. `q calibrated' is $c$ times `q (operative)' --- not $c$ times the multiplier column --- and the calibrated cell columns are the labels that wider band would give. The cell columns are beneficial / harmful / unresolved, and the admissible count is the same under both critical values. No widening is applied (Section~\ref{sec:simband}); the calibrated columns are printed beside the nominal ones to show what applying one would cost --- not what was done. The widening these families actually need is larger than the $c$ printed here.}
 \label{tab:calbands}
 \end{table}
 \end{landscape}

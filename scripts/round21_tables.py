@@ -77,7 +77,7 @@ def write(mn):
                          "the planned contrast \\textsf{PC3} of "
                          "Table~\\ref{tab:confirm}. Intervals are the "
                          "pointwise basic construction at "
-                         "\\nCohortDraws\\ draws; the first row has none "
+                         "\\nCohortDraws\\ draws, a run of its own (Table~\\ref{tab:tau}'s intervals are at \\nTauDraws\\ draws); the first row has none "
                          "because the ordering it was computed under is not "
                          "reproducible by a rule, which is the subject of "
                          "the second row.",
@@ -318,7 +318,7 @@ def write(mn):
                                "Supplement~\\ref{app:decompmeasure}: raw "
                                "AUC and raw "
                                "average precision do not share units, so "
-                               "making the instrument a sixth axis requires "
+                               "making the instrument a fifth axis requires "
                                "the headroom rescaling. Every row is the "
                                "equal-level measure. The two scales order "
                                "\\emph{analyst latitude} against "
@@ -362,7 +362,14 @@ def write(mn):
                               in zip(d.beneficial, d.harmful, d.unresolved)]
         d["cells_cal"] = ["%d / %d / %d" % (b, h, n - b - h) for b, h, n
                           in zip(d.beneficial_cal, d.harmful_cal, n_cells)]
-        d = d[["log", "target", "k_over_n", "q", "c", "q_calibrated",
+        #  2026-09-19.  The operative quantile (q_op in s48w_regions.csv)
+        #  is printed beside the multiplier's, so `q calibrated' = c x q_op
+        #  is visible on the row and the article's "printed beside the
+        #  operative one" is true of this table.
+        if "q_op" not in d.columns and "q_op" in G.columns:
+            d = d.merge(G[["log", "target", "q_op"]], on=["log", "target"],
+                        how="left")
+        d = d[["log", "target", "k_over_n", "q", "q_op", "c", "q_calibrated",
                "cells_nominal", "rho", "cells_cal", "rho_calibrated",
                "region_calibrated"]]
         (TABLES / "calbands.tex").write_text(
@@ -383,21 +390,22 @@ def write(mn):
             tex_table(d, "Resolution regions under the nominal critical "
                          "value and under one calibrated for the register's "
                          "cardinality. $c$ is the inflation factor the "
-                         "$(n, K)$ plane of "
-                         "Section~\\ref{sec:simsensitivity} gives at that "
+                         "$(n, K)$ calibration plane of "
+                         "Section~\\ref{app:calibration} "
+                         "(Table~\\ref{tab:plane}) gives at that "
                          "pair's own $K/n$. THE NOMINAL COLUMNS ARE THE "
                          "ONES THE ARTICLE'S COUNTS USE: their labels and "
                          "cell counts are computed at the operative "
                          "critical value of Section~\\ref{sec:simbands}, "
                          "the empirical Romano--Wolf quantile of the pair's "
                          "whole-surface family (corpus median "
-                         "\\maxTSurfaceMedian), which is not printed here. "
+                         "\\maxTSurfaceMedian), printed as `q (operative)'. "
                          "`q (multiplier)' is the multiplier estimator's "
                          "critical value for the same family (median "
                          "\\maxTSurfaceMultMedian), printed for comparison; "
                          "no label in this table rests on it. `q "
-                         "calibrated' is $c$ times the operative empirical "
-                         "quantile --- not $c$ times the multiplier column "
+                         "calibrated' is $c$ times `q (operative)' --- not "
+                         "$c$ times the multiplier column "
                          "--- and the calibrated cell columns are the labels "
                          "that wider band would give. The "
                          "cell columns are beneficial / harmful / "
@@ -422,6 +430,7 @@ def write(mn):
                                 #  the caption says so rather than the header
                                 #  claiming to be it.
                                 "q": "q (multiplier)",
+                                "q_op": "q (operative)",
                                 "cells_nominal": "cells (nominal)",
                                 "cells_cal": "cells (cal)",
                                 "rho_calibrated": "rho (cal)",

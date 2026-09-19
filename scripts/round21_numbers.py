@@ -168,7 +168,7 @@ def emit(mn):
     #  the same identifiers and the same dates.
     put("aiModelId", "claude-fable-5-1 and claude-opus-5")
     put("aiModelIdPrev", "claude-opus-5, then claude-fable-5, "
-        "then claude-fable-5-1")
+        "then claude-fable-5-1, then claude-opus-5")
     put("aiModelDate", "2026-08-18 to 2026-09-19; identifiers recorded "
         "from 2026-08-24")
 

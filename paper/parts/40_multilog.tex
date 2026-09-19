@@ -52,7 +52,7 @@ Table~\ref{tab:roles} which attribute plays the register on each row.
 \caption{The decomposition, within instrument, under the equal-level measure.
 \textbf{(a)} BPIC14/duration at AUC: one pair at one instrument, so the
 components are one decomposition and the parts sum to one exactly --- the
-largest pair in the corpus, at the reference instrument, which is the cell
+pair with the most admissible cells, at the reference instrument, which is the cell
 every other table reports at. The hatched segment is the total higher-order
 share $1 - \sum_i S_i$ of~\eqref{eq:inttotal}. \textbf{(b)} The corpus: each
 axis's first-order index across the pairs, as the median over pairs (the
@@ -74,8 +74,9 @@ not interchangeable, so each is named where it appears: the median over pairs of
 first-order index at the median pair --- the median over pairs of the median
 over instruments of the \emph{per-instrument} largest first-order index, and
 therefore not obtainable by taking a maximum across the four printed
-columns; and the corpus medians of the higher-order share. The per-instrument
-quantities the second is built from are in Table~\ref{tab:measures}.
+columns; and the corpus medians of the higher-order share. The corpus medians
+the second is built from are in Table~\ref{tab:measures}; the per-instrument
+values are in the archive's decomposition file.
 
 \input{tables/strata}
 
@@ -160,9 +161,10 @@ are reported because either alone misleads.
 \paragraph{The pipeline axis is two axes, and it does not run at full width
 everywhere} Its levels are a model family together with an encoding and, in
 one case, a calibration; on the declared surface the case study's log carries
-\nPipelineLevelsCase\ levels, the two largest logs \nPipelineLevelsLarge\ and
-every other pair \nPipelineLevelsModal, by a rule that reads the log's row
-count and nothing else (Table~\ref{tab:roles}), while inside the inference
+\nPipelineLevelsCase\ levels by designation, and the other pairs
+\nPipelineLevelsLarge\ or \nPipelineLevelsModal\ by a rule that reads the
+log's row count and nothing else --- the two largest of them
+\nPipelineLevelsLarge\ (Table~\ref{tab:roles}) --- while inside the inference
 family every pair carries the same two levels, differing in model family.
 Crossed on the case study's log --- both families against all three
 encodings, \nCrossedPipelines\ complete factorial pipelines on each target
@@ -193,8 +195,8 @@ Supplement~\ref{app:families} names the file that carries its per-pair
 counts).
 
 \textbf{What the choice of critical value costs, and what it buys.} The
-multiplier approximation, which every table prints beside the reported band,
-would resolve \nResolvedWholeMult\ cells at a median robustness index of
+multiplier approximation, whose critical value the supplement's region
+tables print beside the operative one, would resolve \nResolvedWholeMult\ cells at a median robustness index of
 \rhoMedianMult\ against \rhoMedian\ here, with
 \nPairsResolvingNothingMult\ pairs resolving nothing against
 \nUnresolvedPairs; Section~\ref{sec:simband} measures it at
@@ -272,7 +274,7 @@ variance, resampling \shareResamplingPct\ and the counterfactual
 \nPairsResamplingOverLatitude\ of the \nPairs\ pairs; on the headroom scale
 (the increment divided by the baseline's headroom, which puts instruments
 on one scale; Supplement~\ref{app:decompmeasure}),
-which makes the instrument a sixth axis, the ordering reverses
+which makes the instrument a fifth axis, the ordering reverses
 (\shareLatitudeCrossPct, \shareResamplingCrossPct\ and
 \shareCounterfactualCrossPct, resampling larger on
 \nPairsResamplingOverLatitudeCross\ pairs), and neither is a corpus fact

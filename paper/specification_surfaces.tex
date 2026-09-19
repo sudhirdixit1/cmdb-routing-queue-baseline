@@ -177,9 +177,9 @@ comparison. Its second arm --- forecast performance \emph{without} the field
 comparison, the encoding it uses, the forecast target, the way the data are
 split in time, the \emph{forecast origin} (the decision time at which the
 forecast is issued, which fixes what is known about a case;
-Table~\ref{tab:axes} writes the axis as \emph{forecast origin
-(availability)}, after what the origin fixes, and the case study calls each
-origin a \emph{moment}),
+the design-space table of Section~\ref{sec:surface} writes the axis as
+\emph{forecast origin (availability)}, after what the origin fixes, and the
+case study calls each origin a \emph{moment}),
 how completely
 the register behind the field is populated, the score the difference is read
 in, and the operating point at which that score is evaluated. Each is
@@ -1028,8 +1028,8 @@ corpus does and does not have in common.
 The rules that turn an arbitrary event log into an instance of this problem
 were committed before any result on a new log existed, in \protocolfile\
 for the corpus and \pilotprotocolfile\ for the literature pilot; the
-version history shows the registering commit adding one file and no result
-file, and six amendments were declared afterwards, each with its cause and
+version history shows the registering commit adding the protocol and its
+fetch script and no result file, and six amendments were declared afterwards, each with its cause and
 the result it changed (Supplement~\ref{app:protocol}); their dates are in
 the protocol file. \textbf{This
 is not a timestamped third-party registration}: what is offered is a file in
@@ -1191,7 +1191,7 @@ Table~\ref{tab:roles} which attribute plays the register on each row.
 \caption{The decomposition, within instrument, under the equal-level measure.
 \textbf{(a)} BPIC14/duration at AUC: one pair at one instrument, so the
 components are one decomposition and the parts sum to one exactly --- the
-largest pair in the corpus, at the reference instrument, which is the cell
+pair with the most admissible cells, at the reference instrument, which is the cell
 every other table reports at. The hatched segment is the total higher-order
 share $1 - \sum_i S_i$ of~\eqref{eq:inttotal}. \textbf{(b)} The corpus: each
 axis's first-order index across the pairs, as the median over pairs (the
@@ -1213,8 +1213,9 @@ not interchangeable, so each is named where it appears: the median over pairs of
 first-order index at the median pair --- the median over pairs of the median
 over instruments of the \emph{per-instrument} largest first-order index, and
 therefore not obtainable by taking a maximum across the four printed
-columns; and the corpus medians of the higher-order share. The per-instrument
-quantities the second is built from are in Table~\ref{tab:measures}.
+columns; and the corpus medians of the higher-order share. The corpus medians
+the second is built from are in Table~\ref{tab:measures}; the per-instrument
+values are in the archive's decomposition file.
 
 \input{tables/strata}
 
@@ -1299,9 +1300,10 @@ are reported because either alone misleads.
 \paragraph{The pipeline axis is two axes, and it does not run at full width
 everywhere} Its levels are a model family together with an encoding and, in
 one case, a calibration; on the declared surface the case study's log carries
-\nPipelineLevelsCase\ levels, the two largest logs \nPipelineLevelsLarge\ and
-every other pair \nPipelineLevelsModal, by a rule that reads the log's row
-count and nothing else (Table~\ref{tab:roles}), while inside the inference
+\nPipelineLevelsCase\ levels by designation, and the other pairs
+\nPipelineLevelsLarge\ or \nPipelineLevelsModal\ by a rule that reads the
+log's row count and nothing else --- the two largest of them
+\nPipelineLevelsLarge\ (Table~\ref{tab:roles}) --- while inside the inference
 family every pair carries the same two levels, differing in model family.
 Crossed on the case study's log --- both families against all three
 encodings, \nCrossedPipelines\ complete factorial pipelines on each target
@@ -1332,8 +1334,8 @@ Supplement~\ref{app:families} names the file that carries its per-pair
 counts).
 
 \textbf{What the choice of critical value costs, and what it buys.} The
-multiplier approximation, which every table prints beside the reported band,
-would resolve \nResolvedWholeMult\ cells at a median robustness index of
+multiplier approximation, whose critical value the supplement's region
+tables print beside the operative one, would resolve \nResolvedWholeMult\ cells at a median robustness index of
 \rhoMedianMult\ against \rhoMedian\ here, with
 \nPairsResolvingNothingMult\ pairs resolving nothing against
 \nUnresolvedPairs; Section~\ref{sec:simband} measures it at
@@ -1411,7 +1413,7 @@ variance, resampling \shareResamplingPct\ and the counterfactual
 \nPairsResamplingOverLatitude\ of the \nPairs\ pairs; on the headroom scale
 (the increment divided by the baseline's headroom, which puts instruments
 on one scale; Supplement~\ref{app:decompmeasure}),
-which makes the instrument a sixth axis, the ordering reverses
+which makes the instrument a fifth axis, the ordering reverses
 (\shareLatitudeCrossPct, \shareResamplingCrossPct\ and
 \shareCounterfactualCrossPct, resampling larger on
 \nPairsResamplingOverLatitudeCross\ pairs), and neither is a corpus fact
@@ -1609,9 +1611,11 @@ writing $\lambda$ for the share of that field's values assumed written
 value at $\lambda = \lambdaHalf$. An unprovable admissibility assumption is
 therefore reported as a sensitivity analysis and not as a headline. The
 second is a
-register-quality axis under \nQualityKinds\ declared mechanisms, three of
-them dependent, applied to both halves of the data with their parameters
-estimated from training alone (Supplement~\ref{app:degrade}).
+register-quality axis under the \nQualityKinds\ declared mechanisms of
+Section~\ref{sec:surface} and, beside them, three dependent mechanisms and a
+discovery lag (Supplement~\ref{app:casedetail}), applied to both halves of
+the data with their parameters estimated from training alone
+(Supplement~\ref{app:degrade}).
 
 
 \subsection{What this says to a configuration management programme}
@@ -1718,10 +1722,11 @@ reported band's \dcBandWidthEmp\ and the pointwise interval's
 \dcPointWidth; the order-statistic upper end of the reported critical value
 leaves \nBeneficialSimultaneousEmpHi, and keeping the excluded cells leaves
 \nBeneficialSimultaneousEmpAll, so the exclusion rule does not carry the
-result. Supplement~\ref{app:dcabandsfull} prints the whole ladder,
+result. Supplement~\ref{app:dcabandsfull} carries the whole ladder,
 including the measured widening of the multiplier value that an earlier
-construction used, and Figure~\ref{fig:dca} and Table~\ref{tab:dca} the
-curve. The pointwise interval is not widened by a family-wise factor; what
+construction used, and Figure~\ref{fig:dca} draws the curve
+(Table~\ref{tab:dca} is the raw-score sensitivity analysis of
+Section~\ref{sec:calibfirst}, not this curve). The pointwise interval is not widened by a family-wise factor; what
 it covers is a separate measurement, and the $(n,K)$ calibration of
 Section~\ref{sec:regions} is not applied to this family either.
 
@@ -1798,7 +1803,7 @@ the regime where that matters, its median pair at $K/n = \corpusRatioMedian$
 with \nPairsRatioAboveTenth\ of \nPairs\ pairs above a tenth, so a nominal
 pointwise interval on them is narrower than it should be. The denser plane
 on which Supplement~\ref{app:calibration} fits its widening ---
-\nPlaneCellsOffered\ cells at \nPlaneReps\ replicates over \planeNtrainLo\
+\nPlaneCellsOffered\ cells at up to \nPlaneReps\ replicates over \planeNtrainLo\
 to \planeNtrainHi\ training rows, the \nPlaneCells\ fitted ones in
 Table~\ref{tab:plane} --- reaches far enough in $n$ to find that past a
 crossing the basic interval stops containing its own point estimate
@@ -1921,7 +1926,7 @@ register's cardinality over the training size, from the denser
 switches off, is fitted pointwise and applied simultaneously, and is
 measurably misspecified in $n$; the article reports the labels under it as
 a sensitivity ladder (Supplement~\ref{app:foursettings}) and does not apply
-it, and Section~\ref{sec:lim} says what that leaves open.
+it, and Supplement~\ref{app:threats} says what that leaves open.
 
 \paragraph{What the simulation does not establish}
 It certifies the pointwise constructions on \nWorlds\ worlds, a grid of

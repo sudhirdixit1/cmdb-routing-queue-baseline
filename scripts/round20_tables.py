@@ -94,7 +94,7 @@ def write(mn):
                 exclusions=EXCL.get(ax, "none")))
         (TABLES / "axes.tex").write_text(
             tex_table(pd.DataFrame(rows),
-                      "The declared design space. One row per axis: the "
+                      "The declared design space. One row per axis (the forecast target is not an axis of any surface; Section~\\ref{sec:targets} says why): the "
                       "number of levels (a range where it differs by log), "
                       "whether the axis is a \\textbf{factor of the admissible cell "
                       "count}, the measure the paper places on those levels, "
@@ -126,8 +126,7 @@ def write(mn):
                       "first, estimated at three moments on the estate's own "
                       "cohort and target, the first of which (first touch, every "
                       "call) is a population no registered pair contains, and "
-                      "Section~\\ref{sec:twodecision} reports it "
-                      "(Table~\\ref{tab:tau}). "
+                      "Section~\\ref{sec:twodecision} reports it. "
                       #  NOT Table~\ref{tab:decisiontime}: that table is
                       #  generated but is \input by no part of the
                       #  manuscript, so a reference to it resolves to `??'.
@@ -386,7 +385,7 @@ def write(mn):
     R21 = load("s48w_regions.csv")
     if R21 is not None and len(R21):
         d = R21[["log", "target", "n_cells", "n_beneficial", "n_harmful",
-                 "n_unresolved", "rho", "region", "q",
+                 "n_unresolved", "rho", "region", "q_op", "q",
                  "region_within_instrument"]].copy()
         #  2026-09-18, pre-upload review.  The `q' column of s48w_regions.csv
         #  is the MULTIPLIER estimator's point estimate; the file's
@@ -402,7 +401,7 @@ def write(mn):
                       "simultaneous band at the operative critical value of "
                       "Section~\\ref{sec:simbands} --- the empirical "
                       "Romano--Wolf quantile, corpus median "
-                      "\\maxTSurfaceMedian, which is not printed here --- "
+                      "\\maxTSurfaceMedian, printed as `q (operative)' --- "
                       "with, for comparison, the multiplier estimator's "
                       "critical value for the same family (`q "
                       "(multiplier)', median \\maxTSurfaceMultMedian; no "
@@ -425,7 +424,7 @@ def write(mn):
                       "same labels beside the widening that would be "
                       "needed to earn them.",
                       "tab:regions",
-                      colnames={"n_cells": "cells",
+                      colnames={"q_op": "q (operative)", "n_cells": "cells",
                                 "n_beneficial": "beneficial",
                                 "n_harmful": "harmful",
                                 "n_unresolved": "unresolved",
@@ -606,10 +605,21 @@ def write(mn):
             extra = (core[core.interval == "nested_basic"]
                      .set_index("world")[["bias", "mean_width"]])
             d = d.merge(extra.reset_index(), on="world", how="left")
+            #  2026-09-19.  The article quotes the reported construction's
+            #  coverage of the ORACLE increment on the drifting world; it
+            #  was computed here and printed nowhere.  One more column.
+            orc = C31[(C31.estimand == "V_oracle")
+                      & (ex == "core" if ex is not None
+                         else (C31.n_train == 4000))
+                      & (C31.interval == "nested_basic")]
+            if len(orc):
+                d = d.merge(orc[["world", "coverage"]]
+                            .rename(columns={"coverage": "oracle_basic"}),
+                            on="world", how="left")
             order = [c for c in ("world", "bias", "mean_width",
                                  "naive_pct", "naive_basic",
                                  "naive_bc", "nested_pct", "nested_basic",
-                                 "nested_bc", "nested_mofn")
+                                 "nested_bc", "nested_mofn", "oracle_basic")
                      if c in d.columns]
             (TABLES / "sim31.tex").write_text(
                 tex_table(d[order],
@@ -623,7 +633,11 @@ def write(mn):
                           "on a coverage is \\simCoverageSE\\ percentage "
                           "points, so differences below about a point are "
                           "not differences. An empty cell is a construction "
-                          "not priced on that world.",
+                          "not priced on that world. The last column is the "
+                          "reported construction's coverage of "
+                          "$V_{\\mathrm{oracle}}$, the Bayes increment, which "
+                          "the estimator is not consistent for on the "
+                          "drifting world.",
                           "tab:sim31", floatfmt="%.3f",
                           colnames={"bias": "bias vs limit",
                                     "mean_width": "width (basic)",
@@ -637,7 +651,8 @@ def write(mn):
                                     #  HEADER row too, so this printed as
                                     #  literal dollar signs.  A column
                                     #  heading cannot carry math here.
-                                    "nested_mofn": "m-out-of-n"}),
+                                    "nested_mofn": "m-out-of-n",
+                                    "oracle_basic": "basic vs oracle"}),
                 encoding="utf-8")
         grid = C31[(C31.estimand == "V_limit")
                    & (C31.interval.isin(["nested_basic", "nested_pct"]))

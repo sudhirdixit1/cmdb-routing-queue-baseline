@@ -1036,10 +1036,10 @@ def read_release(what):
 #  is paper/tables/<name>.tex, whose label is tab:<name> -- so that a reader
 #  of this list can find the table.
 LANDSCAPE_TABLES = {
-    "calbands",          # Table S9, regions under the nominal and calibrated q
-    "denominator",       # Table S14, the surface denominator audit
-    "regions",           # Table S16, regions from the whole-surface band
-    "sca",               # Table S22, specification-curve analysis as practised
+    "calbands",          # Table S10 (was S9), regions under the nominal and calibrated q
+    "denominator",       # Table S15 (was S14), the surface denominator audit
+    "regions",           # Table S17 (was S16), regions from the whole-surface band
+    "sca",               # Table S23 (was S22), specification-curve analysis as practised
 }
 #  Tables S26 (measures) and S27 (rules) were in this set on 2026-09-18 and
 #  came out on 2026-09-19: with their headings stacked they fit a portrait

@@ -483,7 +483,7 @@ The template (`IJFTemplate.zip` from forecasters.org/ijf/authors, kept under
 build had `[preprint,12pt,authoryear]` with `elsarticle-harv`. **Chosen:**
 the article takes the template's options and both documents its bibliography
 style; the supplement keeps `preprint,12pt` (no template governs an online
-supplement, and its 119 pages at 1.5 spacing would be about 175). Diff and
+supplement, and its 120 pages at 1.5 spacing would be about 175). Diff and
 consequences in `submission/IJF-TEMPLATE-CHECKED.md`. **What would overturn
 it:** production asking for other options at acceptance.
 
@@ -523,12 +523,15 @@ reduction (equation 2), which §4.4, §6.4 and §7.5 use; the first cut had
 dropped it and three independent reads caught that. Pages: 53 → 52 (the
 template's options) → 52 after the moves → 53 after the 2026-09-19 read added
 the primary decomposition's per-pair table and several glosses; the
-supplement 115 → 119.
+supplement 115 → 120.
 
 ## 9. The widest supplement tables in landscape — settled 2026-09-18
 
-Tables set by `\resizebox` below about 5-point type (S14, S22, S26, S27,
-S9, S16) are on landscape pages; S1 and S36 stay portrait because they
+Tables set by `\resizebox` below about 5-point type (the region tables, the
+denominator audit and the specification-curve table; S10, S15, S17 and S23
+after the 2026-09-19 insertion of Table S9) are on landscape pages; the
+measures and rules tables came back to portrait on 2026-09-19 (they fit at
+body size with stacked headings), and S1 and S36 stay portrait because they
 measured legible there and a landscape page cost each a stub or an
 oversized float. The declared set is `LANDSCAPE_TABLES` in
 `scripts/make_numbers.py`.

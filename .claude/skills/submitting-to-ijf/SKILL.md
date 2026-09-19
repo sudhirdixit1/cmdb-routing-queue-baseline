@@ -76,7 +76,7 @@ Every line must end in `0 failures` (or `0 unresolved` / `0 withdrawn`).
 |---|---|
 | `build/journal/manuscript.pdf` | manuscript (blind) |
 | `build/journal/title_page.pdf` | title page (separate file, not for review) |
-| `build/journal/supplement.pdf` | supplementary material (blind; the article points into it 65 times) |
+| `build/journal/supplement.pdf` | supplementary material (blind; the article points into it 75 times) |
 | `submission/upload/Highlights.txt` (pasted into Word if asked) | highlights. **Capital H, in `upload/`**; the lower-case `submission/highlights.txt` is the working copy and must not go |
 | `submission/cover_letter.md` | cover letter |
 | Elsevier's declaration `.docx` | declaration of interests |

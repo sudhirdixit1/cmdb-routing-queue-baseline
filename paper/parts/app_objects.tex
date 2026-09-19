@@ -38,8 +38,8 @@ construction inherits whatever dependence the moving-block resampling induced
 across cells, which is what a family-wise statement over a correlated surface
 requires. The approximation is asymptotic in the same sense the max-$t$ band
 is: it needs the high-dimensional central limit theorem to hold over a family
-whose size is comparable to the draw count, which Section~\ref{sec:lim} states
-as an assumption rather than a guarantee.
+whose size is comparable to the draw count, which Section~\ref{app:threats}
+states as an assumption rather than a guarantee.
 
 The Monte Carlo interval for $q$ itself is retained. Writing
 $[q^-, q^+]$ for the order-statistic interval of the multiplier quantile, a
@@ -440,7 +440,7 @@ Section~\ref{sec:dcabands} the decision-curve ones.
 
 \paragraph{The measure the decomposition is taken under}
 A variance decomposition is taken with respect to a distribution over
-specifications, and \emph{uniform over the cells I happened to enumerate} is a
+specifications, and \emph{uniform over the cells that happened to be enumerated} is a
 choice rather than a neutral default: it moves if an analyst adds a pipeline,
 writes five folds as five levels, or refines a threshold grid. Axis weights
 are therefore separated from within-axis level weights and every quantity is

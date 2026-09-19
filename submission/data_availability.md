@@ -1,9 +1,10 @@
 # Data availability statement
 
-All twenty-four event-log files this study fetches are public and none is
+All twenty-four event logs this study fetches (twenty-six files, one log
+shipping as three) are public and none is
 redistributed by the author. The registered admission rules of Section 5 admit
 thirteen of them, giving nineteen log--target pairs; the eleven that are
-excluded are listed with their exclusion code in Table S12 of the supplement, so
+excluded are listed with their exclusion code in Table S13 of the supplement, so
 a reader can see what was screened out as well as what was kept. The analysis code, the pre-registered protocol,
 the intermediate result files, the figures and the checker that recomputes
 every quantity printed in the paper are available in the repository cited in
@@ -24,7 +25,7 @@ the manuscript.
 
 ## The datasets, by persistent identifier
 
-Twenty-four files across seven domains. The first three carry the primary
+Twenty-four logs, twenty-six files, across seven domains. The first three carry the primary
 analysis; the rest are the pre-registered corpus of Section 5.
 
 | Log | Domain | Identifier |
