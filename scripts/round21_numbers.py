@@ -170,7 +170,7 @@ def emit(mn):
     put("aiModelIdPrev", "claude-opus-5, then claude-fable-5, "
         "then claude-fable-5-1, then claude-opus-5")
     put("aiModelDate", "2026-08-18 to 2026-09-19; identifiers recorded "
-        "from 2026-08-24")
+        "from 2026-08-24, with gaps the register states")
 
     # ================================================================
     # the family-relative separation (Proposition 2, Remark 3)

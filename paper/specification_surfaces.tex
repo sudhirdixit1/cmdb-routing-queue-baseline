@@ -714,7 +714,8 @@ multiplied by the draw count.
 \textbf{The rule that selects it reads neither a result nor the log}: one
 design on every pair --- two learners, two splits, three register-quality
 conditions and three admissible rungs, crossed, \nCellsPerDecomposition\
-cells a pair and \nInferenceScalar\ scalar family members across the corpus,
+cells a pair per instrument and \nInferenceScalar\ scalar family members
+across the corpus,
 at \nDrawsSurface\ draws --- and the audit checks rather than declares that
 it is a complete factorial, each combination present exactly once on every
 one of the \nPairs\ pairs, so a corpus median over these families is a
@@ -1151,9 +1152,10 @@ the conventional one-number report costs.
 Every point estimate in this section comes from one master surface ---
 one file in the archive --- computed by one pass of
 one pipeline over
-\nPairs\ log--target pairs, \nLearners\ learners, \nSplits\ splits, \nQuality\
-register-quality conditions, the nested baseline ladder and \nMetrics\
-instruments including the \nGrid-point decision-curve grid. Its
+\nPairs\ log--target pairs, up to \nLearners\ learners, \nSplits\ splits, up to
+\nQuality\ register-quality conditions, the nested baseline ladder and
+\nMetrics\ instruments including the \nGrid-point decision-curve grid
+(Table~\ref{tab:roles} gives each pair's own counts). Its
 \nSurfaceRows\ rows \emph{include} the intercept-only rung, so that the
 surface is complete; no admissible set contains it, and the
 \nDeclaredAdmissibleScalar\ admissible scalar cells every headline is computed
@@ -1548,8 +1550,8 @@ manuscript from the first to the second one factor at a time.
 design the target carries \shareTargetPct\ of the variance in the increment,
 the cohort \shareCohortPct, and their interaction \shareCohortTargetPct.
 Reassignment to another group before resolution has prevalence
-\casePrevalence; handover between activity groups, under the registered rule,
-has prevalence \prevRegisteredHandover. They are not the same question and the
+\casePrevalenceTest\ in the test half; handover between activity groups,
+under the registered rule, has prevalence \prevRegisteredHandover\ there. They are not the same question and the
 register is not worth the same to them. Two further candidate explanations
 were checked and neither is one: the two analyses reach the same attribute
 values on every row, so it is not a data-preparation difference; and they run
@@ -2001,9 +2003,11 @@ together with the sign-disagreement rate as a headline. Three qualifications
 of another kind are limits rather than results: the pooled decomposition's
 headline shares are reported under all three declared measures because there
 is no neutral one (the higher-order share moves by \measureSpreadPct\ across
-them; Table~\ref{tab:measures}), the within-instrument decomposition on the
-fold-averaged surface, reported under the equal-level measure, being primary because the decomposition inherits the metric's
-scale (Proposition~\ref{prop:scale}); region labels are relative to an
+them; Table~\ref{tab:measures}), the within-instrument decomposition being
+primary because the decomposition inherits the metric's scale
+(Proposition~\ref{prop:scale}) and the fold-averaged surface being primary
+because the split is a resampling stratum (Section~\ref{sec:axes2}), that
+decomposition reported under the equal-level measure; region labels are relative to an
 inference family of a median \inferenceShareAdmissibleMedianPct\ of a pair's
 admissible cells, under a minimum resolved share that withdraws the direction
 on \nLabelsLostToMinShare\ of \nDirectionalLabels\ pairs, and stay
@@ -2118,7 +2122,8 @@ incident creation would be promised \promisedPerThousand\ true positives per
 thousand cases and receive \deliveredPerThousand.
 
 \textbf{And a threshold is not always a cost ratio.} On \nModelsDcaExcluded\
-of \nModelsDca\ fitted models the calibration slope falls outside
+of \nModelsDca\ models --- pair--pipeline--baseline triples --- the
+calibration slope falls outside
 \calSlopeWindow, so the threshold at which a decision curve is read cannot be
 interpreted as the cost ratio the decision-analytic argument requires
 (Section~\ref{sec:calibfirst}).
@@ -2143,11 +2148,11 @@ rules of Section~\ref{sec:design} admit \nLogs, yielding the \nPairs\
 log--target pairs analysed here. The counts are different quantities and
 Table~\ref{tab:corpus} accounts for every downloaded log that is not among the
 admitted pairs, in one of two ways: with the registered exclusion code the
-rules gave it, or with the code \textsf{HELD\_OUT}, which marks the log downloaded
-for the out-of-corpus test and never offered to the admission rules
-(\nHeldOutLogs\ of the checksummed files); the second log downloaded for
-that test was offered to the rules and is listed under the codes that
-excluded it. The literature pilot's frame, sample,
+rules gave it, or with the code \textsf{HELD\_OUT}, which marks the log downloaded as a
+held-out log for a registered prediction outside this paper and never
+offered to the admission rules (\nHeldOutLogs\ of the checksummed files); the
+second log downloaded for it was offered to the rules and is listed under
+the codes that excluded it. The literature pilot's frame, sample,
 codes, adjudications and evidence dossiers are in the archive; the retrieved
 full texts are other publishers' copyrighted PDFs and are not redistributed,
 but \pilotfetch\ re-retrieves them from the DOIs

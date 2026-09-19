@@ -52,9 +52,11 @@ together with the sign-disagreement rate as a headline. Three qualifications
 of another kind are limits rather than results: the pooled decomposition's
 headline shares are reported under all three declared measures because there
 is no neutral one (the higher-order share moves by \measureSpreadPct\ across
-them; Table~\ref{tab:measures}), the within-instrument decomposition on the
-fold-averaged surface, reported under the equal-level measure, being primary because the decomposition inherits the metric's
-scale (Proposition~\ref{prop:scale}); region labels are relative to an
+them; Table~\ref{tab:measures}), the within-instrument decomposition being
+primary because the decomposition inherits the metric's scale
+(Proposition~\ref{prop:scale}) and the fold-averaged surface being primary
+because the split is a resampling stratum (Section~\ref{sec:axes2}), that
+decomposition reported under the equal-level measure; region labels are relative to an
 inference family of a median \inferenceShareAdmissibleMedianPct\ of a pair's
 admissible cells, under a minimum resolved share that withdraws the direction
 on \nLabelsLostToMinShare\ of \nDirectionalLabels\ pairs, and stay
@@ -169,7 +171,8 @@ incident creation would be promised \promisedPerThousand\ true positives per
 thousand cases and receive \deliveredPerThousand.
 
 \textbf{And a threshold is not always a cost ratio.} On \nModelsDcaExcluded\
-of \nModelsDca\ fitted models the calibration slope falls outside
+of \nModelsDca\ models --- pair--pipeline--baseline triples --- the
+calibration slope falls outside
 \calSlopeWindow, so the threshold at which a decision curve is read cannot be
 interpreted as the cost ratio the decision-analytic argument requires
 (Section~\ref{sec:calibfirst}).

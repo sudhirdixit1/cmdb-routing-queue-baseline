@@ -55,7 +55,7 @@ from its history. Table S8's caption cited an article equation by bare
 number from inside the supplement; it now says "of the article".
 
 Gates after everything: all nine at zero; `verify_release` untouched
-(no result file changed); article 54 pages, supplement 120, title page 3.
+(no analysis result changed); article 54 pages, supplement 119, title page 3.
 
 ## The 2026-09-19 reads
 
@@ -114,5 +114,5 @@ at §5 for why the target is not an axis; the glossary's case-study region
 value points at the master table instead of a stale label; the two
 empirical-over-multiplier ratios (1.24, 1.25) are named as a width ratio and
 a critical-value ratio; and a dozen smaller pointer, naming and record
-items. 54 / 120 / 3 pages; every gate at zero.
+items. 54 / 119 / 3 pages; every gate at zero.
 

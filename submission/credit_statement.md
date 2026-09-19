@@ -23,4 +23,4 @@ produced, imputed, augmented or selected any datum, any result or any citation
 behind a claim of this paper. The one place a machine-assisted judgement
 enters a study is the literature pilot's adjudication (Supplement S23), which
 is declared where it is described, and no claim in the paper rests on it.
-Every session's model identifier and dates are in `AI-USE.md` in the archive.
+Every session's model identifier and dates are in `AI-USE.md` in the repository; the archived release (v28.0) was cut before the sessions that followed it.
