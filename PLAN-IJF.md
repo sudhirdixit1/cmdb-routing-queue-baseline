@@ -73,7 +73,7 @@ taken during execution go to `submission/DECISIONS.md` §IJF.
 | 3 · full reframe: vocabulary map, title, abstract, keywords, intro, related work, openings, conclusion | **done** — 43 replacements by `retarget_ijf.py`; object named *incremental forecast performance*, not *value* (DECISIONS §IJF.6); abstract 150 words, no notation; 8 keywords; ten lineage references verified by DOI; one invented target caught in the audit; article **53 pp** |
 | 4 · package: cover letter, referees, manifest, skill, highlights, logs | **done** — five referees with sourced addresses; `submitting-to-ijf` skill; `finalise.py` lists the postcode and the template diff |
 | 5 · gates, internal referee read (round 29), final build | **done** — every gate at 0, `verify_release` byte-identical, `review_round29.md` |
-| 6 · author-only steps | **owner** — `python scripts/finalise.py` lists two: the postcode and the IJF template diff; then ORCID, the declaration `.docx`, the two confirmations, the push, the upload |
+| 6 · author-only steps | **owner** — after the 2026-09-18 pre-upload revision (`submission/review_round30.md`, `response_to_review30.md`; template applied, postcode in) `python scripts/finalise.py` lists only the push; then ORCID in Editorial Manager, the declaration `.docx`, the two confirmations, the upload |
 
 ---
 
@@ -541,3 +541,23 @@ in the STATUS table and the round-29 read, not done.
 template diff (a Google Drive download the session did not make without
 the author). Then ORCID, the declaration `.docx`, the two confirmations in
 the letter and on the title page, the push (no tag), the upload.
+
+**2026-09-18, the pre-upload revision (main, not pushed).**
+A read of the built package against the journal's guide and template
+(`submission/review_round30.md`) found the AI declaration stale, the
+anonymised self-citation sorted under the surname, a supplement sentence
+that named "this journal" for another journal's referee, and the template
+unapplied. Seven parallel worktrees fixed the file-disjoint groups (template
+and bibliography style; AI declaration and form texts; supplement prose;
+table generators; article body; front matter and references; figures), each
+built and gated before merging; one sequential pass moved §3.4, §4.7, §6.6
+and the §8.3 rules paragraph to the supplement, gathered the primary-
+instrument answer into one paragraph and renumbered the overview figure.
+Three independent reads refuted that pass on five points (the article had
+lost its definition of D and R; a paragraph was duplicated into S14.10;
+four pointers landed one subsection short; the gathered paragraph
+overstated; the gloss misdescribed Table 2), all corrected the same day and
+re-read. Decisions §IJF.5 and §IJF.7–12. Final: article 52 pp under the
+template's options (11pt, 1.5 spacing), supplement 120, title page 3; every
+gate at 0; `verify_release` unaffected (no result file changed).
+

@@ -475,14 +475,17 @@ Optional at Elsevier; the paper's figure 1 is the surface and would need a
 new, caption-free rendering. Not supplied. Overturned if the submission
 form makes it mandatory.
 
-## 5. IJF LaTeX template assumed to be `elsarticle` — provisional
+## 5. IJF LaTeX template — settled 2026-09-18
 
-The IIF's authors page says "please use this template" and links a Google
-Drive file; the page's own text says the class is `elsarticle`. The build
-uses `\documentclass[preprint,12pt,authoryear]{elsarticle}` with
-`elsarticle-harv`. The author downloads the template (owner step 6.1) and
-records the diff in `submission/IJF-TEMPLATE-CHECKED.md`; any class-option
-difference is applied then.
+The template (`IJFTemplate.zip` from forecasters.org/ijf/authors, kept under
+`submission/ijf-template/`) is `\documentclass[11pt,3p,review,authoryear]
+{elsarticle}` with `model5-names` and `\biboptions{longnamesfirst}`; the
+build had `[preprint,12pt,authoryear]` with `elsarticle-harv`. **Chosen:**
+the article takes the template's options and both documents its bibliography
+style; the supplement keeps `preprint,12pt` (no template governs an online
+supplement, and 115 pages at 1.5 spacing would be about 170). Diff and
+consequences in `submission/IJF-TEMPLATE-CHECKED.md`. **What would overturn
+it:** production asking for other options at acceptance.
 
 ## 6. The object is *incremental forecast performance*, not *forecast value* — settled during execution
 
@@ -497,3 +500,59 @@ name would have claimed what the paper disclaims (rule 6). The introduction
 says that the object is what the forecasting literature calls the value of a
 predictor and why the word is reserved. **What would overturn it:** nothing
 short of the paper measuring value.
+
+## 7. Names a search resolves to the author are blinded — settled 2026-09-18
+
+A web search for the package name with the paper's title returns the
+author's repository first. **Chosen:** the package name and seven repository
+file names print as generic descriptions in the blind build through
+`paper/parts/blindnames.tex`; `check_blind` scans for the package name.
+**Kept by decision:** the supplement's verification-harness section names
+its scripts, because the scripts are its content. **Rejected:** leaving the
+names (a one-search route to the author); scrubbing the harness section.
+
+## 8. Four more passages to the supplement — settled 2026-09-18
+
+§3.4 (the relative reduction's pathologies and rules), §4.7 (regret as a
+check), §6.6 (decision rules in and out of sample) and the rules paragraph
+of §8.3 moved behind pointers, after the pre-upload read named them as the
+first moves. The regret null stays reported, in the supplement with pointers
+in §1 and §4, because a null reported is part of the paper's honesty. The
+article keeps its definition of the absolute absorption and the relative
+reduction (equation 2), which §4.4, §6.4 and §7.5 use; the first cut had
+dropped it and three independent reads caught that. Pages: 53 → 52 (the
+template's options) → 52 after the moves; the supplement 115 → 120.
+
+## 9. The widest supplement tables in landscape — settled 2026-09-18
+
+Tables set by `\resizebox` below about 5-point type (S14, S22, S26, S27,
+S9, S16) are on landscape pages; S1 and S36 stay portrait because they
+measured legible there and a landscape page cost each a stub or an
+oversized float. The declared set is `LANDSCAPE_TABLES` in
+`scripts/make_numbers.py`.
+
+## 10. Keywords — settled 2026-09-18
+
+"Uncertainty" and "specification surface" repeated title words, which the
+guide says is pointless; replaced by "Decomposition" and "Statistical tests"
+from the IIF list. Seven of eight keywords are the journal's; "Event logs"
+is the paper's own.
+
+## 11. The earlier value is "an earlier, unpublished analysis" — settled 2026-09-18
+
+The case study reconciles its increment with one an earlier draft reported;
+the article, Table S11 and the supplement's S15.1 had called that value
+"published" or "reported". It was neither published nor citable, and the
+word pointed at the author. It is now "an earlier, unpublished analysis of
+this log", which is what it is.
+
+## 12. The primary instrument, answered in one place — settled 2026-09-18
+
+A forecasting referee's first question is why the area under the ROC curve
+is primary when proper scores exist. The answer was in §1, §2, §3.4's
+remarks, §6.2 and §8; it is gathered into one run-in paragraph at the end of
+§3.4 that restates those sentences and adds nothing. An independent read
+refuted the first draft of it ("nothing is averaged across instruments" is
+false of §6.2 and §6.4) and the paragraph was cut back to what the article
+says.
+

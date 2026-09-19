@@ -2943,3 +2943,74 @@ journal has declined this line of work (the first, *Four Choices Behind One
 Number*, after review).
 **Disposition:** retargeted to the *International Journal of Forecasting*;
 `PLAN-IJF.md`; decisions in `submission/DECISIONS.md` §IJF.
+
+# Round thirty — the pre-upload read (2026-09-18)
+
+An internal read of the whole package as the journal receives it
+(`submission/review_round30.md`; LLM-assisted, declared in `AI-USE.md`),
+combined with the journal's Guide for Authors and its LaTeX template. Nine
+must-fix items, eleven should-fix, and the smaller ones; every one
+dispositioned in `submission/response_to_review30.md`.
+
+## R30.1 The title page's AI declaration stopped at 2026-09-06. **CONCEDED**
+
+The one page that names the author carried a stale claim about the author.
+The macros now give every model in sequence and dates through 2026-09-18;
+the register has the row.
+
+## R30.2 The anonymised self-citation sorted under the surname. **CONCEDED**
+
+An in-place rewrite of the `.bbl` left "Anonymous (2026)" between Diebold
+and van Dongen. It now heads the list in both blind documents.
+
+## R30.3 "A referee for this journal" in the supplement. **CONCEDED**
+
+That referee was another journal's. Reworded; nothing in the blind pair
+names or implies prior review at this venue.
+
+## R30.4 The journal's template differs from the build. **MEASURED, CONCEDED**
+
+Downloaded, diffed, applied to the article (`[11pt,3p,review,authoryear]`,
+`model5-names`, `longnamesfirst`); the supplement keeps `preprint,12pt` by
+a recorded decision. 53 → 52 pages.
+
+## R30.5 Figures raster with titles above the plots. **CONCEDED**
+
+Vector PDF beside every PNG; no title above a plot; the overview diagram's
+stale "9.4" corrected and its pointers follow the renumbering.
+
+## R30.6 The package name is a one-search route to the author. **CONCEDED IN PART**
+
+Blinded in the article and the supplement's front matter and standard;
+the harness section keeps its script names by decision (`DECISIONS.md`
+§IJF.7).
+
+## R30.7 The earlier value called "published". **CONCEDED**
+
+It was an unpublished draft's; the article, Table S11 and S15.1 now say so.
+
+## R30.8 Length. **CONCEDED IN PART — measured, not met**
+
+Four passages moved (§3.4, §4.7, §6.6, the §8.3 rules paragraph); 52 pages
+under the template's options against the plan's 44. The first cut of the
+move dropped the article's definition of D and R and duplicated a paragraph
+into S14.10; three independent reads caught both and the cut was corrected
+the same day.
+
+## R30.9 The primary-instrument question answered nowhere in one place. **CONCEDED**
+
+One paragraph at the end of §3.4 gathers what §1, §2, the remarks, §6.2
+and §8 already say. Its first draft claimed "nothing is averaged across
+instruments", which §6.2 and §6.4 contradict; refuted on read, cut back.
+
+## R30.10 Supplement defects (empty headings, escaped underscores, a dangling pointer, 4-point tables, a `q` column misdescribed, stale literal section numbers). **CONCEDED**
+
+Each fixed at its generator or part; the widest tables on landscape pages;
+the verifier's header parser repaired after the stacked headings hid two
+columns from it — a defect the fix itself introduced and the read of the
+fix found.
+
+## R30.11 Sign-disagreement shares in §6.4 read against §6.2; two numbers unnamed; "28.7%" undefined as pooled. **CONCEDED**
+
+One clause each.
+

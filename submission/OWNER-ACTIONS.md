@@ -16,8 +16,8 @@ gives every step with its command. In one table:
 
 | # | step | done when |
 |---|---|---|
-| 1 | Download the IJF LaTeX template (forecasters.org/ijf/authors, "this template", a Google Drive file); diff its preamble against `paper/parts/00_preamble.tex`; record the diff in `submission/IJF-TEMPLATE-CHECKED.md` | the file exists |
-| 2 | Postcode into `AFFILIATION_REGION` (`scripts/round26_numbers.py`); rebuild with `--target ijf` | `title_page.pdf` shows the full line |
+| 1 | ~~Download the IJF LaTeX template and diff it~~ **done 2026-09-18**: `submission/IJF-TEMPLATE-CHECKED.md`; the article builds with the template's `[11pt,3p,review,authoryear]` and `model5-names` | — |
+| 2 | ~~Postcode~~ **done 2026-09-18** (Apex, NC 27523) | — |
 | 3 | Editorial Manager IJF account; ORCID in the profile | profile complete |
 | 4 | Elsevier's declaration-of-interests `.docx` | attached |
 | 5 | Confirm `cover_letter.md`'s related-manuscript sentence: nothing else under review; the conference draft never submitted | true |
@@ -223,13 +223,13 @@ editorial system also asks for a **full postal address and a telephone
 number**, which are personal details deliberately not committed to a public
 repository. Have them ready at upload; nothing in the build supplies them.
 
-### 1.6 Figures, if the production office asks for more
+### 1.6 Figures  *(done 2026-09-18)*
 
-Every figure is generated at 400 dpi, which is above the 300 dpi Elsevier asks
-for on combination art. If production wants vector files instead, change
-`savefig(p)` to also write `p.with_suffix(".pdf")` in `scripts/s12_figures.py`
-and `scripts/s28_figures.py` and re-run them; the manuscript's
-`\includegraphics` calls name the `.png` explicitly and do not need to change.
+Every figure is written twice by its generator: a 400 dpi PNG and a vector
+PDF with text kept as text (`pdf.fonttype 42`). The journal build includes
+the PDFs, which is what the IIF authors page asks for ("eps or pdf"); no
+figure carries a title above the plot. If production ever wants EPS,
+`matplotlib` writes it from the same `savefig` call.
 
 ### 1.7 Check the length against the journal's own guidance
 

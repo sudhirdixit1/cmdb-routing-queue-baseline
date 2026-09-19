@@ -96,10 +96,11 @@ appears in the prose. A separate checker re-derives each macro from its
 source with independent code and enforces the manuscript's own directional
 claims as conditions.
 
-**Length.** The article is 53 pages at the template's 12-point preprint
-setting, with 8 tables and 3 figures; the appendices are a separate
-supplementary document, and five passages were moved there for this
-submission.
+**Length.** The article is 52 pages in the journal template's setting
+(11-point, 1.5 line spacing), with 8 tables and 3 figures; the appendices
+are a separate supplementary document, and nine passages were moved there
+for this submission. All three figures in the article are greyscale and
+are supplied as vector PDF; online colour is not needed.
 
 **Where the argument is weaker than the apparatus.** The coverage
 measurement uses an ideal bootstrap, so it bounds the critical value's
