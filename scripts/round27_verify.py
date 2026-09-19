@@ -287,7 +287,17 @@ def _table_header(tables, name):
     if not m:
         return []
     line = m.group(1).strip().rstrip("\\").strip()
-    return [c.strip() for c in line.split("&")]
+    cells = [c.strip() for c in line.split("&")]
+    #  A stacked heading is \multicolumn{1}{l}{\begin{tabular}[b]{@{}l@{}}a\\b
+    #  \end{tabular}} (make_numbers.py, HEADWRAP_TABLES); its name is the
+    #  lines joined by a space, so a column found by name is still found.
+    out = []
+    for c in cells:
+        t = re.search(r"\\begin\{tabular\}(?:\[[^\]]*\])?\{(?:[^{}]|\{[^{}]*\})*\}(.*?)\\end\{tabular\}", c, re.S)
+        if t:
+            c = " ".join(x.strip() for x in t.group(1).split("\\\\") if x.strip())
+        out.append(c.strip())
+    return out
 
 
 def check(vn, M):

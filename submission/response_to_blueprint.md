@@ -490,7 +490,7 @@ than counted by hand.
 | 6 | Multi-log results | 3,170 | 2,000–2,500 | **over** |
 | 7 | Case study: a configuration management database | 1,183 | 1,500–2,000 | ✓ |
 | 8 | Decision-analytic evaluation | 956 | — | added |
-| 9 | Simulation against a known answer | 1,578 | 1,000–1,500 | just over |
+| 9 | Simulation against a known answer | 1,583 | 1,000–1,500 | just over |
 | 10 | Threats to validity | 949 | 1,200–1,500 | **over** |
 | 11 | Conclusion | 734 | 400–600 | just over |
 

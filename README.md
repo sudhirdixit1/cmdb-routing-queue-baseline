@@ -1,4 +1,4 @@
-# Specification surfaces for incremental predictive performance
+# Specification surfaces for incremental forecast performance
 
 Code, derived results, pre-registered protocols, a verification harness and a
 Python package for a study of what a recorded field is worth to a prediction,
