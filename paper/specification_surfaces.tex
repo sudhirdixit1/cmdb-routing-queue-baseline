@@ -2,27 +2,25 @@
 %% International Journal of Forecasting (Elsevier/IIF) -- research article.
 %% Compile: python scripts/build_journal.py --target ijf
 %%
-%% IJF RETARGET (PLAN-IJF.md).  The front part is three: 00_preamble (this
-%% file), 01_frontmatter (title, author block, abstract, keywords), and
-%% 05_intro_related.  The title-page document reuses the first two by
-%% assembly, so the title, abstract and keywords exist once.
-%%
-%% ROUND TWENTY-ONE.  Three reviews have been answered: a referee's report for
-%% Information Systems (response_to_referee.md), a developmental review of the
-%% round-nineteen manuscript (response_to_blueprint.md), and a second
-%% developmental review of the round-twenty manuscript, whose twelve major
-%% comments this round answers (response_to_review21.md).  REFEREE-LOG.md
-%% carries the objection behind every correction.
+%% THE CLASS OPTIONS ARE THE JOURNAL TEMPLATE'S, read 2026-09-18 from
+%% forecasters.org/ijf/authors -> `this template' (IJFTemplate.zip, kept
+%% under submission/ijf-template/; the diff is in
+%% submission/IJF-TEMPLATE-CHECKED.md).  In the installed elsarticle 3.5
+%% (2026/01/09) `review' sets \baselinestretch to 1.5 and no line numbers;
+%% `3p' selects the one-column A4 journal layout (468pt x 622pt text block)
+%% and, being processed after `review', leaves \preprintfalse, so the
+%% footer carries no `Preprint submitted to' line.  `authoryear' is natbib's
+%% round author--year form; \biboptions below adds the template's
+%% `longnamesfirst'.  The supplement (S0_supplement_front.tex) keeps the
+%% preprint layout: see the comment there.
 %%
 %% THE APPENDICES ARE A SEPARATE DOCUMENT, paper/supplement.tex, built by the
 %% same command.  Cross-references between the two resolve through `xr'.
 %%
 %% EVERY NUMBER IN THIS DOCUMENT IS A MACRO defined in paper/numbers.tex,
-%% which scripts/make_numbers.py generates from results/*.csv.  A number
-%% therefore cannot disagree between the abstract, a table and the
-%% conclusion: there is one of it.  scripts/verify_paper.py checks each
-%% macro against the result file it came from.
-\documentclass[preprint,12pt,authoryear]{elsarticle}
+%% which scripts/make_numbers.py generates from results/*.csv, so a number
+%% cannot disagree between the abstract, a table and the conclusion.
+\documentclass[11pt,3p,review,authoryear]{elsarticle}
 
 %%  Latin Modern carries the bold and small-caps typewriter shapes that
 %%  Computer Modern lacks -- which is what thirty font-substitution warnings
@@ -33,6 +31,7 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{graphicx}
+\usepackage{pdflscape}
 \usepackage{booktabs}
 %%  `array' supplies the >{...} column modifier, which is what lets a narrow
 %%  text column in a wide table be set ragged right instead of justified.
@@ -93,6 +92,7 @@
 \InputIfFileExists{blindflag}{}{}
 
 \journal{International Journal of Forecasting}
+\biboptions{longnamesfirst}
 \input{parts/blindnames}
 
 % ---- paper/parts/01_frontmatter.tex ----
@@ -281,8 +281,9 @@ only the ones where the answer resolves --- and every corpus statistic is
 reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
 maintained one (Supplement~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
 that a forecast origin fixes which cases are in scope, what is known about them
-and which fields are admissible at once, reconciles the two values the case
-study's log has been reported to give, and finds the difference is the
+and which fields are admissible at once, reconciles the value an earlier,
+unpublished analysis of the case study's log reported with the one this
+design gives, and finds the difference is the
 \emph{target}: over the cohort $\times$ target design the target carries
 \shareTargetPct\ of the variance and the cohort \shareCohortPct.
 \end{enumerate}
@@ -445,7 +446,7 @@ the set of those choices, declared before the comparison is run.
 
 \begin{definition}[Design space]
 \label{def:space}
-A \emph{design space} $\mathcal{S}$ for a feature-value claim is a finite set
+A \emph{design space} $\mathcal{S}$ for an incremental-performance claim is a finite set
 of specifications, each a complete assignment to the axes
 \[
 \begin{aligned}
@@ -871,16 +872,19 @@ a partition rather than a model: every component either involves the split or
 does not, so
 \begin{equation}
 \label{eq:strata}
-1 \;=\; \underbrace{\textstyle\sum_{\emptyset \neq u \subseteq \mathcal{A}} S_u}_{\text{analyst choice}}
-\;+\; \underbrace{S_{\{\text{quality}\}}}_{\text{counterfactual}}
-\;+\; \underbrace{\textstyle\sum_{u \not\ni \text{split}} S_u - (\cdots)}_{\text{mixed}}
-\;+\; \underbrace{\textstyle\sum_{u \ni \text{split}} S_u}_{\text{resampling}},
+1 = \underbrace{\textstyle\sum_{\emptyset \neq u \subseteq \mathcal{A}} S_u}_{\text{analyst choice}}
++ \underbrace{S_{\{\text{quality}\}}}_{\text{counterfactual}}
++ \underbrace{\textstyle\sum_{u \ni \text{quality},\, u \cap \mathcal{A} \neq \emptyset,\, u \not\ni \text{split}} S_u}_{\text{mixed}}
++ \underbrace{\textstyle\sum_{u \ni \text{split}} S_u}_{\text{resampling}},
 \end{equation}
-where $\mathcal{A} = \{\text{pipeline}, \text{rung}\}$ and the third term
-is what the split-free components carry beyond the first two,
-and the four terms are computed, not estimated (Table~\ref{tab:strata}); the
-identity holds to \stratumPartitionError. The first three are what survives
-fold-averaging, and they are decomposed again \emph{on} the fold-averaged
+where $\mathcal{A} = \{\text{pipeline}, \text{rung}\}$, the axes are
+$\mathcal{A}$, the register-quality condition and the split, and the third
+term collects the split-free components that join the register-quality
+condition to an analyst axis --- what the split-free components carry beyond
+the first two; the four terms are computed, not estimated
+(Table~\ref{tab:strata}), and the identity holds to \stratumPartitionError.
+The first three are what survives fold-averaging, and they are decomposed
+again \emph{on} the fold-averaged
 surface, where each index is a share of the variance that fold-averaging
 leaves and the higher-order share is net of resampling.
 \textbf{Section~\ref{sec:axes2} reports that decomposition as the primary one}
@@ -900,8 +904,9 @@ which this paper computes together with every disjoint component, so the
 identity $\sum_u S_u = 1$ is asserted numerically rather than assumed
 (Supplement~\ref{app:sobolest}). The other quantity is retained as the
 \emph{largest per-axis interaction involvement}; the two differ
-substantially, at \largestInvolvementPct\ against \interactionTotalPct\ at
-the median pair.
+substantially: at the median pair the largest involvement is
+\largestInvolvementPct\ and the interaction share $S_{\mathrm{int}}$ is
+\interactionTotalPct.
 
 \subsection{Resolution regions and the robustness index}
 \label{sec:regionsdef}
@@ -997,8 +1002,8 @@ such; the region and $\rho$ under the band's own family, with the counts they
 rest on; and the reduction $R$ last if at all, and only where its denominator
 is resolvably positive. Supplement~\ref{app:standard} states the standard in
 full, together with the errors this study made before it got them right, a
-six-step recipe, the \texttt{fieldvalue} package
-\citep{fieldvalue} that implements the objects and refuses by construction to
+six-step recipe, \pkgname\ \citep{fieldvalue} that implements the objects
+and refuses by construction to
 emit a single number, and a worked example on a dataset that is not an event
 log at all.
 % ---- paper/parts/30_design.tex ----
@@ -1015,8 +1020,8 @@ corpus does and does not have in common.
 \subsection{What was fixed, and when}
 
 The rules that turn an arbitrary event log into an instance of this problem
-were committed before any result on a new log existed, in \texttt{PROTOCOL.md}
-for the corpus and \texttt{AUDIT-PROTOCOL-2.md} for the practice pilot; the
+were committed before any result on a new log existed, in \protocolfile\
+for the corpus and \pilotprotocolfile\ for the practice pilot; the
 version history shows the registering commit adding one file and no result
 file, and six amendments were declared afterwards, each with its date, its
 cause and the result it changed (Supplement~\ref{app:protocol}). \textbf{This
@@ -1138,7 +1143,7 @@ construction of Section~\ref{sec:simbands}, and each table names which it
 prints. The denominator audit is in Table~\ref{tab:denominator}: declared
 equals computed on all \nPairs\ pairs, with \nDuplicateCells\ duplicates and
 \nMissingCells\ missing, and the inference surface (\nInferenceScalar\ scalar
-members) is a subset of it cell for cell, which \texttt{verify\_numbers}
+members) is a subset of it cell for cell, which the verifier
 asserts.
 
 \subsection{The master table}
@@ -1187,9 +1192,10 @@ over the five instruments of each axis's first-order index; its last column is
 the largest per-axis interaction \emph{involvement}. Three aggregations of
 this table are used here and in Supplement~\ref{app:measures} and they are
 not interchangeable, so each is named where it appears: the median over pairs of a column of this table; the
-\largestFirstOrderPct\ figure, which is the median over pairs of the median
+\largestFirstOrderPct\ figure, which is the pooled surface's largest
+first-order index at the median pair --- the median over pairs of the median
 over instruments of the \emph{per-instrument} largest first-order index, and
-which is therefore not obtainable by taking a maximum across the four printed
+therefore not obtainable by taking a maximum across the four printed
 columns; and the corpus medians of the higher-order share. The per-instrument
 quantities the second is built from are in Table~\ref{tab:measures}.
 
@@ -1221,10 +1227,11 @@ surface, which carries \foldVarRatioPct\ of the pooled variance, the median
 first-order index is \foldSRungPct\ for the baseline rung, \foldSQualityPct\
 for the register-quality condition and \foldSPipelinePct\ for the pipeline,
 and at the median pair the largest first-order index \emph{within an
-instrument} is \foldLargestFirstOrderPct\ --- a median over pairs of a median
-over instruments of the per-instrument largest, and so not the largest of the
-three medians just quoted. The total higher-order share is
-\foldInteractionTotalPct\ once resampling is removed, against
+instrument}, net of the resampling stratum, is \foldLargestFirstOrderPct\ ---
+a median over pairs of a median over instruments of the per-instrument
+largest, and so not the largest of the three medians just quoted. The total
+higher-order share is \foldInteractionTotalPct\ once resampling is removed,
+against
 \pooledInteractionMedianPct\ on the pooled surface, and it no longer exceeds
 the largest first-order index: pooled, the interactions carry more than any
 main effect on \nPooledInteractionExceeds\ of \nPairs\ pairs; net of
@@ -1368,7 +1375,11 @@ thing.} Table~\ref{tab:axiskind} partitions the decomposition into
 \emph{analyst latitude} (the pipeline and the baseline rung),
 \emph{resampling} (the split, five of whose six levels are folds on the same
 data) and the \emph{counterfactual} (the register-quality condition, a
-different state of the world): on the primary scale, which decomposes inside
+different state of the world), each column the sum of its axes' first-order
+indices and the higher-order remainder, which belongs to no single axis, a
+fourth column --- so these are not the stratum shares of
+Section~\ref{sec:axes2}, which assign every component, interactions
+included, to a stratum: on the primary scale, which decomposes inside
 each instrument, analyst latitude carries a median \shareLatitudePct\ of the
 variance, resampling \shareResamplingPct\ and the counterfactual
 \shareCounterfactualPct, with resampling the larger on
@@ -1526,11 +1537,11 @@ difference.
 
 \textbf{An axis nobody declares.} Both analyses sort the log in time and split at
 seventy per cent of the row order, and \nTiedTimestamps\ incidents share
-their timestamp with another; the sort this estate's analysis first used was
-not stable, so its tie order was neither declared nor reproducible, and it
-printed \VpublishedTauTwo\ where the two declared rules both give
-\VTtwoKnow\ (recomputed in the archive from that analysis's own loader,
-\texttt{scripts/s32\_cohort.py}). Over \nTiebreakDraws\ random tie-breaks the
+their timestamp with another; the sort an earlier, unpublished analysis of
+this log used was not stable, so its tie order was neither declared nor
+reproducible, and it printed \VpublishedTauTwo\ where the two declared rules
+both give \VTtwoKnow\ (recomputed in the archive from that analysis's own
+loader, \cohortloader). Over \nTiebreakDraws\ random tie-breaks the
 increment ranges over \tiebreakRange\ AUC without changing sign, so no
 conclusion turns on it --- but that range is \tiebreakRangeSharePct\ of the
 increment's magnitude, produced by a choice no reporting standard asks anyone
@@ -2093,7 +2104,7 @@ its denominator is resolvably positive.
 All data are public. Event logs are obtained by DOI: BPI Challenge 2014
 (\doiBPICfourteen), BPI Challenge 2013 incidents (\doiBPICthirteen), and the
 further public logs whose DOIs and SHA-256 checksums are listed in
-\texttt{data/corpus/CHECKSUMS.txt} --- \nCorpusDownloaded\ files are
+\checksumfile\ --- \nCorpusDownloaded\ files are
 downloaded and checksummed in all, of which the registered role-assignment
 rules of Section~\ref{sec:design} admit \nLogs, yielding the \nPairs\
 log--target pairs analysed here. The counts are different quantities and
@@ -2104,8 +2115,8 @@ set --- \nHeldOutLogs\ of the checksummed files, downloaded for the
 out-of-corpus test and never offered to the admission rules. The literature pilot's frame, sample,
 codes, adjudications and evidence dossiers are in the archive; the retrieved
 full texts are other publishers' copyrighted PDFs and are not redistributed,
-but \texttt{scripts/s06\_audit2.py -{}-fetch} re-retrieves them from the DOIs
-in \texttt{results/s06\_sample.csv}. All derived results
+but \pilotfetch\ re-retrieves them from the DOIs
+in \pilotsamplefile. All derived results
 (\texttt{results/*.csv}), all figures and all code are in the archive named in the
 code-availability statement.
 
@@ -2117,13 +2128,13 @@ verification harness are archived under a persistent identifier and
 developed in a public repository; both are given on the title page and are
 omitted here for double-blind reviewing. The archive contains a
 \texttt{Dockerfile} and a \texttt{requirements.lock} pinning every
-transitive dependency, and \texttt{REPRODUCE.md} gives the exact commands
+transitive dependency, and \reproduceguide\ gives the exact commands
 and the expected runtime.
 \else
 \input{parts/statements}
 \fi
 
-\bibliographystyle{elsarticle-harv}
+\bibliographystyle{model5-names}
 \bibliography{references}
 
 \end{document}
