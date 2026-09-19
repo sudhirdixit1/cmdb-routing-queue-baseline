@@ -1,7 +1,7 @@
-%%  The title-page document cites nothing itself; the statements it inputs
-%%  name the archive by macro.  The bibliography lines keep the class happy
-%%  and print nothing when no \cite occurred.
-\bibliographystyle{elsarticle-harv}
-\bibliography{references}
+%%  The title-page document cites nothing: the statements it inputs name
+%%  the archive by macro, not by \cite.  It therefore carries no
+%%  \bibliographystyle and no \bibliography -- with them, elsarticle
+%%  printed an empty `References' heading on the last page -- and
+%%  build_journal.py skips bibtex for a document whose .aux has no \bibdata.
 
 \end{document}

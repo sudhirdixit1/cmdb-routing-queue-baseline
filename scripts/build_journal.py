@@ -92,20 +92,40 @@ def run(cmd, cwd, log):
 #  omitted for double-blind reviewing'.  The .bbl is where both the label
 #  and the entry live, so that is where the blind is applied, after bibtex
 #  and before the second pdflatex run.  Only entries whose author label is
-#  Dixit are touched; the regex ends at the next \bibitem or the end of
-#  the list so a following entry is never swallowed.
+#  Dixit are touched; the regex ends at the next entry (its `%Type' comment
+#  or its \bibitem) or the end of the list so a following entry is never
+#  swallowed.  PRE-UPLOAD REVIEW, 2026-09-18.  The entry used to be
+#  rewritten IN PLACE, which left `Anonymous' in the D slot of an
+#  alphabetical list -- between Diebold and van Dongen -- which is both a
+#  mis-sorted list and a hint at the initial the blind removes.  The entry
+#  is now cut out and put at the head of the list, before the first
+#  remaining \bibitem, in the form model5-names prints for every other
+#  entry: `Author (year).' then the \newblock.
 _SELF = re.compile(
+    r"(?:%Type = \w+\n)?"
     r"\\bibitem\[\{?Dixit\((\d{4})\)\}?\]\{([^}]*)\}.*?"
-    r"(?=\\bibitem|\\end\{thebibliography\})", re.S)
+    r"(?=%Type = |\\bibitem|\\end\{thebibliography\})", re.S)
+_FIRST = re.compile(r"(?:%Type = \w+\n)?\\bibitem")
 
 
 def anonymise_bbl(text):
-    return _SELF.sub(
-        lambda m: "\\bibitem[{Anonymous(%s)}]{%s}\n"
-                  "\\bibinfo{author}{Anonymous}, \\bibinfo{year}{%s}.\n"
-                  "\\newblock Details omitted for double-blind reviewing.\n"
-                  % (m.group(1), m.group(2), m.group(1)),
-        text)
+    found = list(_SELF.finditer(text))
+    if not found:
+        return text
+    #  \bibinfo is what the .bbl \providecommand's for its own entries; a
+    #  style that does not define it gets a plain entry
+    info = ("\\bibinfo{author}{Anonymous} (\\bibinfo{year}{%s})."
+            if "\\providecommand{\\bibinfo}" in text else "Anonymous (%s).")
+    entries = "".join(
+        "%%Type = Misc\n\\bibitem[{Anonymous(%s)}]{%s}\n" % (m.group(1), m.group(2))
+        + info % m.group(1) + "\n"
+        + "\\newblock Details omitted for double-blind reviewing.\n"
+        for m in found)
+    rest = _SELF.sub("", text)
+    first = _FIRST.search(rest)
+    if not first:
+        sys.exit("anonymise_bbl: no \\bibitem left to put Anonymous before")
+    return rest[:first.start()] + entries + rest[first.start():]
 
 
 def main():
@@ -137,7 +157,8 @@ def main():
     for f in [f"{STEM}.tex", "references.bib"] + \
              ([f"{supp}.tex"] if supp else []) + \
              ([f"{title}.tex"] if title else []) + \
-             [p.name for p in sorted(PAPER.glob("*.png"))]:
+             [p.name for p in sorted(PAPER.glob("*.png"))] + \
+             [p.name for p in sorted(PAPER.glob("*.bst"))]:
         shutil.copy2(PAPER / f, out / f)
     #  ROUND NINETEEN.  The manuscript \input's a GENERATED macro file and a
     #  directory of GENERATED tables, and the appendices \input the section
@@ -161,16 +182,26 @@ def main():
 
     def build_one(stem, tag, anonymise=False):
         run(tex_for(stem), out, f"{tag}1.log")
-        blog = run([bibtex, stem], out, f"{tag}b.log")
-        if "I couldn't open" in blog or "Illegal" in blog:
-            print(blog)
-            sys.exit(f"bibtex failed on {stem}")
-        #  `elsarticle-num' writes every DOI as \href{URL}{\path{doi:...}},
-        #  which needs hyperref; neither document loads it, and a fallback
-        #  that takes two arguments hands \path a DOI whose underscore has
-        #  already been read as a subscript, which is a LaTeX error in the
-        #  reference list.  The DOI is kept and the link wrapper removed, so
-        #  \path reads the DOI itself, as it does under `elsarticle-harv'.
+        #  PRE-UPLOAD REVIEW, 2026-09-18.  The title page cites nothing and
+        #  no longer carries \bibliography, so its .aux has no \bibdata and
+        #  there is nothing for bibtex to do (run anyway, it exits 2 with
+        #  `I found no \bibdata command').  A document that does have one is
+        #  built as before.
+        aux = out / f"{stem}.aux"
+        if aux.exists() and "\\bibdata" in aux.read_text(encoding="utf-8",
+                                                          errors="replace"):
+            blog = run([bibtex, stem], out, f"{tag}b.log")
+            if "I couldn't open" in blog or "Illegal" in blog:
+                print(blog)
+                sys.exit(f"bibtex failed on {stem}")
+        #  `elsarticle-num' wrote every DOI as \href{URL}{\path{doi:...}},
+        #  and `model5-names' (the journal template's style) defines \doi as
+        #  \href{http://dx.doi.org/#1}{\path{#1}} in the .bbl's preamble;
+        #  either needs hyperref, which neither document loads, and the
+        #  fallback that takes two arguments hands \path a DOI whose
+        #  underscore has already been read as a subscript, which is a LaTeX
+        #  error in the reference list.  The DOI is kept and the link wrapper
+        #  removed, so \path reads the DOI itself.
         bbl = out / f"{stem}.bbl"
         if bbl.exists():
             t = bbl.read_text(encoding="utf-8")

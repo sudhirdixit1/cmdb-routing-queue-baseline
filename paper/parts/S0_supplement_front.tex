@@ -13,6 +13,11 @@
 %%  Cross-references INTO the main text resolve through the `xr' package, so
 %%  a reference here to Section 4 or Table 6 is a reference to that document's
 %%  own numbering.  Sections, tables and figures in THIS document carry an S.
+%%
+%%  The class options differ from the article's (the template's
+%%  [11pt,3p,review], 1.5-spaced): the template is for the article, an
+%%  online supplement has none, and this document at 1.5 spacing would
+%%  run to about 170 pages.  The bibliography options are the article's.
 %% ---------------------------------------------------------------------
 \documentclass[preprint,12pt,authoryear]{elsarticle}
 
@@ -85,6 +90,7 @@
 \input{parts/blindnames}
 
 \journal{International Journal of Forecasting}
+\biboptions{longnamesfirst}
 
 \begin{document}
 

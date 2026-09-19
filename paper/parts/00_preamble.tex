@@ -1,27 +1,25 @@
 %% International Journal of Forecasting (Elsevier/IIF) -- research article.
 %% Compile: python scripts/build_journal.py --target ijf
 %%
-%% IJF RETARGET (PLAN-IJF.md).  The front part is three: 00_preamble (this
-%% file), 01_frontmatter (title, author block, abstract, keywords), and
-%% 05_intro_related.  The title-page document reuses the first two by
-%% assembly, so the title, abstract and keywords exist once.
-%%
-%% ROUND TWENTY-ONE.  Three reviews have been answered: a referee's report for
-%% Information Systems (response_to_referee.md), a developmental review of the
-%% round-nineteen manuscript (response_to_blueprint.md), and a second
-%% developmental review of the round-twenty manuscript, whose twelve major
-%% comments this round answers (response_to_review21.md).  REFEREE-LOG.md
-%% carries the objection behind every correction.
+%% THE CLASS OPTIONS ARE THE JOURNAL TEMPLATE'S, read 2026-09-18 from
+%% forecasters.org/ijf/authors -> `this template' (IJFTemplate.zip, kept
+%% under submission/ijf-template/; the diff is in
+%% submission/IJF-TEMPLATE-CHECKED.md).  In the installed elsarticle 3.5
+%% (2026/01/09) `review' sets \baselinestretch to 1.5 and no line numbers;
+%% `3p' selects the one-column A4 journal layout (468pt x 622pt text block)
+%% and, being processed after `review', leaves \preprintfalse, so the
+%% footer carries no `Preprint submitted to' line.  `authoryear' is natbib's
+%% round author--year form; \biboptions below adds the template's
+%% `longnamesfirst'.  The supplement (S0_supplement_front.tex) keeps the
+%% preprint layout: see the comment there.
 %%
 %% THE APPENDICES ARE A SEPARATE DOCUMENT, paper/supplement.tex, built by the
 %% same command.  Cross-references between the two resolve through `xr'.
 %%
 %% EVERY NUMBER IN THIS DOCUMENT IS A MACRO defined in paper/numbers.tex,
-%% which scripts/make_numbers.py generates from results/*.csv.  A number
-%% therefore cannot disagree between the abstract, a table and the
-%% conclusion: there is one of it.  scripts/verify_paper.py checks each
-%% macro against the result file it came from.
-\documentclass[preprint,12pt,authoryear]{elsarticle}
+%% which scripts/make_numbers.py generates from results/*.csv, so a number
+%% cannot disagree between the abstract, a table and the conclusion.
+\documentclass[11pt,3p,review,authoryear]{elsarticle}
 
 %%  Latin Modern carries the bold and small-caps typewriter shapes that
 %%  Computer Modern lacks -- which is what thirty font-substitution warnings
@@ -92,5 +90,6 @@
 \InputIfFileExists{blindflag}{}{}
 
 \journal{International Journal of Forecasting}
+\biboptions{longnamesfirst}
 \input{parts/blindnames}
 
