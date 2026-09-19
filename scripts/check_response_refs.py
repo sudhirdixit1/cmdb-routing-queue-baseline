@@ -83,6 +83,11 @@ HEADING = re.compile(r"\\(appendix|section|subsection)(\*?)(?:\{([^}]*)\})?")
 REF = re.compile(r"(?:\u00a7\s?|\bSection~?\s)"
                  r"([0-9]+(?:\.[0-9]+)?|[A-G](?:\.[0-9]+)?)")
 APPREF = re.compile(r"Appendix\s+([A-G])\b")
+#  ROUND THIRTY.  "Supplement S18" in the data availability statement named
+#  a section the pilot had moved out of five sections earlier, because only
+#  the article-side spellings above were parsed.  The supplement's own
+#  numbering is checked in the same way.
+SUPREF = re.compile(r"\bSupplement~?\s?S([0-9]+(?:\.[0-9]+)?)\b")
 
 
 def numbering(text):
@@ -178,6 +183,7 @@ def main(argv=None):
     #  supplement, in the same order -- so the map is positional and is built
     #  here rather than leaving twelve stale references in two historical
     #  documents that answered earlier reviews correctly at the time.
+    S = {}
     if SUPPLEMENT.exists():
         S = numbering(SUPPLEMENT.read_text(encoding="utf-8"))
         tops = [k for k in S if "." not in k]
@@ -294,6 +300,15 @@ def main(argv=None):
                 else:
                     bad.append("%s:%d  %s names no heading in the manuscript"
                                % (doc.name, i, ref))
+            for m in ([] if doc.name in HISTORICAL else SUPREF.finditer(line)):
+                ref = m.group(1)
+                checked += 1
+                if ref in S:
+                    print("  %-28s S%-6s %s"
+                          % (doc.name + ":" + str(i), ref, S[ref][:52]))
+                else:
+                    bad.append("%s:%d  Supplement S%s names no heading in "
+                               "the supplement" % (doc.name, i, ref))
             for m in TABLE_REF.finditer(line):
                 ref = m.group(1) + m.group(2)
                 n_tables += 1

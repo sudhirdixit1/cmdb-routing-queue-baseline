@@ -18,8 +18,9 @@ the manuscript.
 > SHA-256, so a reader can verify that the corpus they hold is the corpus the
 > paper was written against. Analysis code, the pre-registered protocol,
 > derived result files and a verification harness that recomputes every
-> number reported in the paper are openly available at the repository cited
-> in the Acknowledgements, archived at the DOI given there.
+> number reported in the paper are openly available at the repository named
+> in the Code availability statement on the title page, archived at the DOI
+> given there.
 
 ## The datasets, by persistent identifier
 
@@ -51,8 +52,9 @@ control, and the one thing that is tracked —
 
 **One file is new to this version and is worth naming.** The BPI Challenge
 2014 collection ships `Detail_Interaction.csv`, which the previous version of
-this paper did not obtain and named as the evidence that would settle its
-Section 9. It is obtained, it settles it, and Section 7 reports the result.
+this paper did not obtain and named as the evidence that would settle a
+question it left open. It is obtained, it settles it, and Section 7 reports
+the result.
 
 ## Pre-registration
 
@@ -61,7 +63,7 @@ that assign every attribute to a role, the six exclusion codes, the estimator,
 the split, the seed, the instruments, the discriminators and the outcome that
 would falsify the claim. It was committed **before** any corpus result file
 existed, in a commit that adds no result file; `git log --stat` shows that.
-Eight amendments were made after running the outcome-free role assignment and
+Six amendments were made after running the outcome-free role assignment and
 before fitting any model; each is recorded in that file with its reason, and
 Section 5 of the manuscript summarises them.
 
@@ -88,7 +90,7 @@ is what the adversarial reading passes are for.
 
 ---
 
-## The literature audit's frame and coding sheet (Supplement S18)
+## The literature pilot's frame and coding sheet (Supplement S23)
 
 The audit does not analyse a dataset; it analyses **published papers**, and
 the frame that selects them is machine-enumerable so a reader can rebuild it.

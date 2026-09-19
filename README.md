@@ -15,10 +15,11 @@ Systems* (declined at the editorial stage, 2026-09-10) is tag `v28.0`, the
 Zenodo archive of the results.
 
 **The previous version** — *Four Choices Behind One Number* — is retained at
-`paper/iaai27_empty_cmdb.tex`. A referee for this journal recommended
+`paper/iaai27_empty_cmdb.tex`. A referee for *Information Systems* recommended
 rejecting it as submitted; `submission/response_to_referee.md` answers the ten
 major comments one by one, and every claim of that version which this one
-withdraws is a correction in Appendix C of the new manuscript.
+withdraws is a correction in the register, Supplement S22 of the new
+manuscript.
 
 **A second review**, of the round-nineteen manuscript, recommended *reject and
 invite resubmission* and listed eight submission-blocking problems, six
