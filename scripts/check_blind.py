@@ -38,7 +38,12 @@ def _macro(name):
 def patterns():
     p = ["Dixit", "sudhir", "sudhirdixit1", r"github\.com", "zenodo",
          r"10\.5281", "Independent Researcher", "ORCID", "Anthropic",
-         "Claude"]
+         "Claude",
+         #  the package's name: a search for it beside the paper's title
+         #  returns the author's repository first.  The blind documents
+         #  print \pkgname (paper/parts/blindnames.tex) instead; a \citep
+         #  key is not printed text, and the .bbl entry is anonymised.
+         "fieldvalue"]
     #  the street and the city are the author's; they live only in
     #  numbers.tex, so they are read from there rather than typed here
     for k in ("affiliationStreet", "affiliationCity"):

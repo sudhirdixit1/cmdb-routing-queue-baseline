@@ -3,3 +3,23 @@
 %%  the unblinded article and the title page print the real one.  Both
 %%  preambles \input this file after \ifblind is defined, so the article and
 %%  the supplement cannot disagree about what a name is called.
+%%
+%%  A search for the package's name together with the paper's title returns
+%%  the author's repository, so the blind documents describe the package
+%%  and the archive's files rather than naming them.  Each macro prints a
+%%  description when \blindtrue and the \texttt name otherwise; the sentence
+%%  around each use is written to read in both forms.  No macro name here
+%%  starts lowercase and carries a capital, so texlint does not take them
+%%  for numbers.tex macros.
+%%
+%%  The software package.  \Pkgname is the heading form.
+\newcommand{\pkgname}{\ifblind the accompanying software package\else the \texttt{fieldvalue} package\fi}
+\newcommand{\Pkgname}{\ifblind The accompanying software package\else\texttt{fieldvalue}\fi}
+%%  Files in the archive that the article names.
+\newcommand{\protocolfile}{\ifblind the registered protocol file\else\texttt{PROTOCOL.md}\fi}
+\newcommand{\pilotprotocolfile}{\ifblind the pilot's pre-registration file\else\texttt{AUDIT-PROTOCOL-2.md}\fi}
+\newcommand{\cohortloader}{\ifblind the cohort loader script\else\texttt{scripts/s32\_cohort.py}\fi}
+\newcommand{\checksumfile}{\ifblind the checksum list in the archive\else\texttt{data/corpus/CHECKSUMS.txt}\fi}
+\newcommand{\reproduceguide}{\ifblind the reproduction guide\else\texttt{REPRODUCE.md}\fi}
+\newcommand{\pilotfetch}{\ifblind the pilot's frame script\else\texttt{scripts/s06\_audit2.py -{}-fetch}\fi}
+\newcommand{\pilotsamplefile}{\ifblind the pilot's sample file\else\texttt{results/s06\_sample.csv}\fi}

@@ -21,7 +21,7 @@ construction of Section~\ref{sec:simbands}, and each table names which it
 prints. The denominator audit is in Table~\ref{tab:denominator}: declared
 equals computed on all \nPairs\ pairs, with \nDuplicateCells\ duplicates and
 \nMissingCells\ missing, and the inference surface (\nInferenceScalar\ scalar
-members) is a subset of it cell for cell, which \texttt{verify\_numbers}
+members) is a subset of it cell for cell, which the verifier
 asserts.
 
 \subsection{The master table}
@@ -69,9 +69,10 @@ over the five instruments of each axis's first-order index; its last column is
 the largest per-axis interaction \emph{involvement}. Three aggregations of
 this table are used here and in Supplement~\ref{app:measures} and they are
 not interchangeable, so each is named where it appears: the median over pairs of a column of this table; the
-\largestFirstOrderPct\ figure, which is the median over pairs of the median
+\largestFirstOrderPct\ figure, which is the pooled surface's largest
+first-order index at the median pair --- the median over pairs of the median
 over instruments of the \emph{per-instrument} largest first-order index, and
-which is therefore not obtainable by taking a maximum across the four printed
+therefore not obtainable by taking a maximum across the four printed
 columns; and the corpus medians of the higher-order share. The per-instrument
 quantities the second is built from are in Table~\ref{tab:measures}.
 
@@ -103,10 +104,11 @@ surface, which carries \foldVarRatioPct\ of the pooled variance, the median
 first-order index is \foldSRungPct\ for the baseline rung, \foldSQualityPct\
 for the register-quality condition and \foldSPipelinePct\ for the pipeline,
 and at the median pair the largest first-order index \emph{within an
-instrument} is \foldLargestFirstOrderPct\ --- a median over pairs of a median
-over instruments of the per-instrument largest, and so not the largest of the
-three medians just quoted. The total higher-order share is
-\foldInteractionTotalPct\ once resampling is removed, against
+instrument}, net of the resampling stratum, is \foldLargestFirstOrderPct\ ---
+a median over pairs of a median over instruments of the per-instrument
+largest, and so not the largest of the three medians just quoted. The total
+higher-order share is \foldInteractionTotalPct\ once resampling is removed,
+against
 \pooledInteractionMedianPct\ on the pooled surface, and it no longer exceeds
 the largest first-order index: pooled, the interactions carry more than any
 main effect on \nPooledInteractionExceeds\ of \nPairs\ pairs; net of
@@ -250,7 +252,11 @@ thing.} Table~\ref{tab:axiskind} partitions the decomposition into
 \emph{analyst latitude} (the pipeline and the baseline rung),
 \emph{resampling} (the split, five of whose six levels are folds on the same
 data) and the \emph{counterfactual} (the register-quality condition, a
-different state of the world): on the primary scale, which decomposes inside
+different state of the world), each column the sum of its axes' first-order
+indices and the higher-order remainder, which belongs to no single axis, a
+fourth column --- so these are not the stratum shares of
+Section~\ref{sec:axes2}, which assign every component, interactions
+included, to a stratum: on the primary scale, which decomposes inside
 each instrument, analyst latitude carries a median \shareLatitudePct\ of the
 variance, resampling \shareResamplingPct\ and the counterfactual
 \shareCounterfactualPct, with resampling the larger on

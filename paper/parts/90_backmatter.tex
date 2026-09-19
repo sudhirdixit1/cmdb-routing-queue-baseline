@@ -4,7 +4,7 @@
 All data are public. Event logs are obtained by DOI: BPI Challenge 2014
 (\doiBPICfourteen), BPI Challenge 2013 incidents (\doiBPICthirteen), and the
 further public logs whose DOIs and SHA-256 checksums are listed in
-\texttt{data/corpus/CHECKSUMS.txt} --- \nCorpusDownloaded\ files are
+\checksumfile\ --- \nCorpusDownloaded\ files are
 downloaded and checksummed in all, of which the registered role-assignment
 rules of Section~\ref{sec:design} admit \nLogs, yielding the \nPairs\
 log--target pairs analysed here. The counts are different quantities and
@@ -15,8 +15,8 @@ set --- \nHeldOutLogs\ of the checksummed files, downloaded for the
 out-of-corpus test and never offered to the admission rules. The literature pilot's frame, sample,
 codes, adjudications and evidence dossiers are in the archive; the retrieved
 full texts are other publishers' copyrighted PDFs and are not redistributed,
-but \texttt{scripts/s06\_audit2.py -{}-fetch} re-retrieves them from the DOIs
-in \texttt{results/s06\_sample.csv}. All derived results
+but \pilotfetch\ re-retrieves them from the DOIs
+in \pilotsamplefile. All derived results
 (\texttt{results/*.csv}), all figures and all code are in the archive named in the
 code-availability statement.
 
@@ -28,7 +28,7 @@ verification harness are archived under a persistent identifier and
 developed in a public repository; both are given on the title page and are
 omitted here for double-blind reviewing. The archive contains a
 \texttt{Dockerfile} and a \texttt{requirements.lock} pinning every
-transitive dependency, and \texttt{REPRODUCE.md} gives the exact commands
+transitive dependency, and \reproduceguide\ gives the exact commands
 and the expected runtime.
 \else
 \input{parts/statements}
