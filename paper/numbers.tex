@@ -52,19 +52,22 @@
 \newcommand{\affiliationRegion}{NC 27523}
 \newcommand{\affiliationStreet}{2546 Adams Pond Ln.}
 \newcommand{\agreeTolerance}{$1.1 \times 10^{-16}$}
-\newcommand{\aiModelDate}{2026-08-18 to 2026-09-19; identifiers recorded from 2026-08-24, with gaps the register states}
-\newcommand{\aiModelId}{\texttt{claude-fable-5-1} and \texttt{claude-opus-5}}
-\newcommand{\aiModelIdPrev}{\texttt{claude-opus-5}, then \texttt{claude-fable-5}, then \texttt{claude-fable-5-1}, then \texttt{claude-opus-5}}
+\newcommand{\aiModelDate}{2026-08-18 to 2026-09-25; identifiers recorded from 2026-08-24, with gaps the log states}
+\newcommand{\aiModelId}{\texttt{claude-opus-5}, \texttt{claude-fable-5}, \texttt{claude-fable-5-1} and \texttt{claude-opus-5-5}}
+\newcommand{\analystNullSharePct}{2.3\%}
 \newcommand{\auditBJustifiedPct}{18\%}
 \newcommand{\auditBStatedPct}{85\%}
 \newcommand{\auditBootWidthPct}{27\%}
+\newcommand{\auditBootWidthPts}{27 percentage points}
 \newcommand{\auditBoundHi}{48\%}
 \newcommand{\auditBoundLo}{9\%}
 \newcommand{\auditDesignWidthPct}{19\%}
+\newcommand{\auditDesignWidthPts}{19 percentage points}
 \newcommand{\auditHalfWidthPct}{18}
 \newcommand{\auditKappa}{0.20}
 \newcommand{\auditMJustifiedPct}{5\%}
 \newcommand{\auditMaxGapPct}{13\%}
+\newcommand{\auditMaxGapPts}{13 percentage points}
 \newcommand{\auditMaxWeight}{1.00}
 \newcommand{\auditPrec}{0.481}
 \newcommand{\auditPrecReg}{0.301}
@@ -82,6 +85,7 @@
 \newcommand{\auditWeightIn}{1.000}
 \newcommand{\auditWeightOut}{2.625}
 \newcommand{\auditWilsonWidthPct}{27\%}
+\newcommand{\auditWilsonWidthPts}{27 percentage points}
 \newcommand{\bandCoverageSEMax}{1.0\%}
 \newcommand{\bandOperative}{emp}
 \newcommand{\basePrefixZero}{0.641}
@@ -310,6 +314,7 @@
 \newcommand{\coverageBlockMax}{92.0\%}
 \newcommand{\coverageBlockMin}{83.6\%}
 \newcommand{\coverageBlockSpreadMax}{3.6\%}
+\newcommand{\coverageBlockSpreadMaxPts}{3.6 percentage points}
 \newcommand{\coverageDriftOracle}{65.8\%}
 \newcommand{\coverageGridMedian}{83.3\%}
 \newcommand{\coverageGridMin}{21.3\%}
@@ -333,6 +338,8 @@
 \newcommand{\coverageSparsePct}{37.2\%}
 \newcommand{\crossTargetAgreement}{45\%}
 \newcommand{\crossedHigherOrderPct}{27.5\%}
+\newcommand{\cwLagMax}{42}
+\newcommand{\cwLagMin}{6}
 \newcommand{\dcBandWidth}{0.0136}
 \newcommand{\dcBandWidthEmp}{0.0252}
 \newcommand{\dcBandWidthWidened}{0.0266}
@@ -477,6 +484,13 @@
 \newcommand{\foldSPipelinePct}{15.2\%}
 \newcommand{\foldSQualityPct}{19.2\%}
 \newcommand{\foldSRungPct}{21.9\%}
+\newcommand{\foldTrendAllMedian}{0.32}
+\newcommand{\foldTrendAllP}{0.020}
+\newcommand{\foldTrendExpected}{0.25}
+\newcommand{\foldTrendNullAll}{0.22}
+\newcommand{\foldTrendNullRef}{0.17}
+\newcommand{\foldTrendRefMedian}{0.38}
+\newcommand{\foldTrendRefP}{0.010}
 \newcommand{\foldVarRatioPct}{28.3\%}
 \newcommand{\fvVersion}{0.2.0}
 \newcommand{\gridHi}{0.80}
@@ -484,8 +498,8 @@
 \newcommand{\gridShiftMax}{0.0175}
 \newcommand{\gridShiftMaxCase}{0.0114}
 \newcommand{\gridShiftMedian}{0.0111}
-\newcommand{\highlightMaxChars}{76}
-\newcommand{\highlightsList}{\item A predictor's incremental forecast performance is a surface, not one number \item An exact decomposition separates analyst choices from resampling \item Simultaneous bands over the whole declared family, with coverage measured \item Resolved cells sit 0.0600 in area under the curve from the one-number report \item A register's worth turns on the forecast origin and on which target is set}
+\newcommand{\highlightMaxChars}{83}
+\newcommand{\highlightsList}{\item A predictor's incremental forecast accuracy is a surface, not one number \item An exact decomposition separates the evaluation split from other forecaster choices \item Simultaneous bands over a declared family, with coverage measured by simulation \item Resolved specifications sit a median 0.0600 AUC from the one-number report \item In service-desk forecasting, a predictor's value depends on the forecast origin}
 \newcommand{\identityMaxExcess}{exactly zero}
 \newcommand{\imageDigest}{built from the archive's \texttt{Dockerfile}, whose base is pinned by digest, \texttt{sha256:ad540a4...88f0d8}, by the one command \texttt{REPRODUCE.md} gives; no built image is distributed}
 \newcommand{\inferenceShareAdmissibleMedianPct}{16.7\%}
@@ -519,6 +533,7 @@
 \newcommand{\kmBaseAuc}{0.648}
 \newcommand{\kmOrphanPopulated}{100\%}
 \newcommand{\ladderCoverageSpreadPct}{21.7\%}
+\newcommand{\ladderCoverageSpreadPts}{21.7 percentage points}
 \newcommand{\ladderSpreadMax}{0.22}
 \newcommand{\ladderSpreadSE}{2.8}
 \newcommand{\lambdaHalf}{0.64}
@@ -556,6 +571,8 @@
 \newcommand{\logExcludedAboveMin}{BPIC15\_5/handover}
 \newcommand{\madAllMedian}{0.0303}
 \newcommand{\madFullyRestrictedMedian}{0.0511}
+\newcommand{\madResolvedBrierMedian}{0.0483}
+\newcommand{\madResolvedLoglossMedian}{0.0355}
 \newcommand{\madResolvedMax}{0.0876}
 \newcommand{\madResolvedMedian}{0.0600}
 \newcommand{\maxCardBZero}{200}
@@ -574,6 +591,7 @@
 \newcommand{\meanExcessUniformDesk}{6.092}
 \newcommand{\meanNoisyEstimate}{$+0.0781$}
 \newcommand{\measureSpreadPct}{24.3\%}
+\newcommand{\measureSpreadPts}{24.3 percentage points}
 \newcommand{\mechanismVsSamplingMedian}{0.21}
 \newcommand{\medianKoverN}{0.106}
 \newcommand{\minCardF}{50}
@@ -599,6 +617,7 @@
 \newcommand{\misreportMeasureSpreadPct}{19.4\%}
 \newcommand{\misreportMedianPct}{32.8\%}
 \newcommand{\misreportMinPct}{5.6\%}
+\newcommand{\misreportOwnMetricPct}{2.9\%}
 \newcommand{\misreportPooledItsmPct}{3.1\%}
 \newcommand{\misreportPooledOtherPct}{31.2\%}
 \newcommand{\misreportPooledResolvedLatitudePct}{12.7\%}
@@ -614,7 +633,8 @@
 \newcommand{\nAgreeQuantities}{266}
 \newcommand{\nAllRulesTieDesk}{5}
 \newcommand{\nAnovaComponents}{4{,}864}
-\newcommand{\nArticleTables}{8}
+\newcommand{\nArticleTables}{5}
+\newcommand{\nAucLoglossSignDiffer}{5}
 \newcommand{\nAuditApplicable}{3}
 \newcommand{\nAuditEffective}{29.6}
 \newcommand{\nAuditEligible}{54.9}
@@ -656,6 +676,12 @@
 \newcommand{\nBootOneThousand}{1{,}000}
 \newcommand{\nBootThirtyThree}{33}
 \newcommand{\nBpicFifteenTwoRows}{832}
+\newcommand{\nBpicNineteenBenAp}{2}
+\newcommand{\nBpicNineteenBenAuc}{8}
+\newcommand{\nBpicNineteenHarmBrier}{25}
+\newcommand{\nBpicNineteenHarmLogloss}{25}
+\newcommand{\nBpicNineteenHarmNagelkerke}{21}
+\newcommand{\nBrierWorseReference}{10}
 \newcommand{\nCaseQualityPoints}{16}
 \newcommand{\nCaseQualitySeeds}{3}
 \newcommand{\nCaseSweepLevels}{11}
@@ -698,11 +724,12 @@
 \newcommand{\nCondHarmfulEmpBand}{2}
 \newcommand{\nCondHarmfulMinShare}{0}
 \newcommand{\nCondHarmfulResolvedMax}{4}
-\newcommand{\nConditions}{25}
+\newcommand{\nConditions}{52}
 \newcommand{\nConfirmReject}{5}
 \newcommand{\nCorpusDownloaded}{26}
 \newcommand{\nCorpusLogs}{26}
 \newcommand{\nCrossedPipelines}{6}
+\newcommand{\nCwReverses}{3}
 \newcommand{\nDcGrid}{31}
 \newcommand{\nDcaCellsAdmissible}{246}
 \newcommand{\nDcaCellsExcludedDegenerate}{2}
@@ -724,9 +751,13 @@
 \newcommand{\nDegenerateCellsWhole}{0}
 \newcommand{\nDirectionalLabels}{9}
 \newcommand{\nDisagreeAuc}{1{,}538}
+\newcommand{\nDisagreeAucRefInferencePoint}{91}
 \newcommand{\nDisagreeFullyRestricted}{0}
 \newcommand{\nDisagreeLatitude}{17}
 \newcommand{\nDisagreeMpid}{434}
+\newcommand{\nDisagreeOwnBrier}{2}
+\newcommand{\nDisagreeOwnMetric}{20}
+\newcommand{\nDisagreeOwnRefInferencePoint}{20}
 \newcommand{\nDisagreeResolved}{91}
 \newcommand{\nDisagreeResolvedAuc}{4}
 \newcommand{\nDisagreeResolvedMpid}{0}
@@ -748,7 +779,9 @@
 \newcommand{\nDrifts}{6}
 \newcommand{\nDuplicateCells}{0}
 \newcommand{\nEncodingLargerItsm}{6}
+\newcommand{\nEnterOwnMetric}{0}
 \newcommand{\nEqualExceeds}{6}
+\newcommand{\nExactDeclaredAuc}{13}
 \newcommand{\nExcludedAbove}{5}
 \newcommand{\nExcludesMult}{965}
 \newcommand{\nExcludesWeighted}{322}
@@ -766,6 +799,7 @@
 \newcommand{\nFoldLeadPairsQuality}{5}
 \newcommand{\nFoldLeadPairsRung}{8}
 \newcommand{\nFoldPairs}{19}
+\newcommand{\nFoldTrendPerm}{10{,}000}
 \newcommand{\nFolds}{five}
 \newcommand{\nGrid}{31}
 \newcommand{\nHarmfulPointwise}{0}
@@ -796,7 +830,9 @@
 \newcommand{\nLayerSubtypeLevels}{65}
 \newcommand{\nLayerTypeLevels}{13}
 \newcommand{\nLearners}{4}
+\newcommand{\nLeaveBpicNineteenProper}{71}
 \newcommand{\nLeaveOneOut}{79}
+\newcommand{\nLeaveOwnMetric}{71}
 \newcommand{\nLintChecks}{17}
 \newcommand{\nLogs}{13}
 \newcommand{\nLogsBothTargets}{6}
@@ -816,10 +852,12 @@
 \newcommand{\nOneNumberTiedWorstDesk}{2}
 \newcommand{\nOneNumberWorstDesk}{3}
 \newcommand{\nOrphans}{94{,}250}
+\newcommand{\nPairBoot}{10{,}000}
 \newcommand{\nPairs}{19}
 \newcommand{\nPairsAbovePlaneN}{0}
 \newcommand{\nPairsAboveTenth}{10}
 \newcommand{\nPairsAtLargestGrid}{2}
+\newcommand{\nPairsAucLabelEqualsBrier}{11}
 \newcommand{\nPairsBanded}{19}
 \newcommand{\nPairsBelowPlaneN}{0}
 \newcommand{\nPairsDcaExcluded}{3}
@@ -828,11 +866,25 @@
 \newcommand{\nPairsFourPipelines}{2}
 \newcommand{\nPairsFourRungs}{2}
 \newcommand{\nPairsInsidePlaneN}{19}
+\newcommand{\nPairsLabelDiffersAny}{8}
+\newcommand{\nPairsLabelDiffersAp}{5}
+\newcommand{\nPairsLabelDiffersAuc}{5}
+\newcommand{\nPairsLabelDiffersBrier}{7}
+\newcommand{\nPairsLabelDiffersLogloss}{6}
+\newcommand{\nPairsLabelDiffersNagelkerke}{7}
+\newcommand{\nPairsLabelDiffersWithinAny}{14}
+\newcommand{\nPairsLabelDiffersWithinAuc}{10}
+\newcommand{\nPairsLabelDiffersWithinBrier}{7}
+\newcommand{\nPairsLabelDiffersWithinLogloss}{7}
+\newcommand{\nPairsLeaveOwnMetric}{1}
+\newcommand{\nPairsMadResolved}{9}
 \newcommand{\nPairsNoResolvedCell}{8}
 \newcommand{\nPairsNoResolvedDisagreement}{8}
 \newcommand{\nPairsOther}{11}
 \newcommand{\nPairsRatioAboveTenth}{10}
 \newcommand{\nPairsRefResolved}{5}
+\newcommand{\nPairsRefSignDiffersBrier}{5}
+\newcommand{\nPairsRefSignDiffersBrierResolved}{1}
 \newcommand{\nPairsResamplingOverLatitude}{10}
 \newcommand{\nPairsResamplingOverLatitudeCross}{7}
 \newcommand{\nPairsResolveBeneficialOnly}{7}
@@ -843,6 +895,7 @@
 \newcommand{\nPairsResolvingNothingEmp}{8}
 \newcommand{\nPairsResolvingNothingMult}{2}
 \newcommand{\nPairsSomeResolvedDisagreement}{3}
+\newcommand{\nPairsSplitBelowNull}{17}
 \newcommand{\nPairsSpreadUnmoved}{2}
 \newcommand{\nPairsThreePipelines}{2}
 \newcommand{\nPairsThreeRealisticRungs}{2}
@@ -896,8 +949,15 @@
 \newcommand{\nRegionChangedByMC}{7}
 \newcommand{\nRegionsChangedByCalibration}{2}
 \newcommand{\nRegisteredCohort}{46{,}606}
+\newcommand{\nRejectCw}{12}
+\newcommand{\nRejectCwAlt}{12}
+\newcommand{\nRejectDmBrier}{7}
+\newcommand{\nRejectDmBrierAlt}{7}
+\newcommand{\nRejectDmLogloss}{8}
+\newcommand{\nRejectDmLoglossAlt}{8}
 \newcommand{\nRepsBlock}{250}
 \newcommand{\nResamplingLargest}{17}
+\newcommand{\nResolvedBrier}{142}
 \newcommand{\nResolvedCorpus}{698}
 \newcommand{\nResolvedCorpusNominal}{698}
 \newcommand{\nResolvedDcaEmp}{672}
@@ -937,6 +997,7 @@
 \newcommand{\nSignChangingCal}{2}
 \newcommand{\nSignChangingEmpBand}{2}
 \newcommand{\nSignChangingMinShare}{2}
+\newcommand{\nSignChangingWithinMetric}{1}
 \newcommand{\nSignVaries}{18}
 \newcommand{\nSimBlockLengths}{3}
 \newcommand{\nSimGridCells}{10}
@@ -946,6 +1007,10 @@
 \newcommand{\nSizeGrid}{six}
 \newcommand{\nSlopeOutIso}{63}
 \newcommand{\nSlopeOutRaw}{92}
+\newcommand{\nSpecsSignAgree}{5{,}808}
+\newcommand{\nSplitLargestAuc}{12}
+\newcommand{\nSplitLargestBrier}{17}
+\newcommand{\nSplitLargestLogloss}{17}
 \newcommand{\nSplits}{6}
 \newcommand{\nSpreadExceedsIncrement}{15}
 \newcommand{\nSpreadExceedsRealistic}{7}
@@ -1081,6 +1146,7 @@
 \newcommand{\qEmpDcaMedian}{10.45}
 \newcommand{\qEmpWholeMedian}{5.03}
 \newcommand{\qEmpWidth}{1.35}
+\newcommand{\qEmpWithinAucMedian}{3.39}
 \newcommand{\qLagHalfDelta}{$+0.0039$}
 \newcommand{\qLagHalfDeltaCorpus}{$-0.0031$}
 \newcommand{\qLagHalfPopulated}{94.0\%}
@@ -1116,6 +1182,8 @@
 \newcommand{\refSensMetricMaxPct}{38.2\%}
 \newcommand{\refSensMetricMinPct}{32.8\%}
 \newcommand{\refSensMinPct}{32.8\%}
+\newcommand{\refitMaxDiffDeclared}{$3.8 \times 10^{-4}$}
+\newcommand{\refitTolTableFour}{$10^{-12}$}
 \newcommand{\regretMajority}{0.0287}
 \newcommand{\regretMajorityAdj}{0.0192}
 \newcommand{\regretMajorityGainAdjPct}{18.7\%}
@@ -1126,7 +1194,7 @@
 \newcommand{\regretOneNumberExcessPct}{59.7\%}
 \newcommand{\regretOracle}{0.0232}
 \newcommand{\regretUniformRule}{0.0478}
-\newcommand{\releaseTag}{v28.0}
+\newcommand{\releaseTag}{v29.0}
 \newcommand{\repGapMax}{0.323}
 \newcommand{\repGapMedian}{0.060}
 \newcommand{\resolutionLostPct}{36.5\%}
@@ -1230,6 +1298,8 @@
 \newcommand{\shRungPct}{1.9\%}
 \newcommand{\shSplitPct}{9.4\%}
 \newcommand{\shareAnalystRollingPct}{12.9\%}
+\newcommand{\shareAnalystStratumHiPct}{22.3\%}
+\newcommand{\shareAnalystStratumLoPct}{11.3\%}
 \newcommand{\shareAnalystStratumPct}{13.3\%}
 \newcommand{\shareCellsAboveMpidPct}{56.7\%}
 \newcommand{\shareCellsExcludingVPct}{0.1\%}
@@ -1237,6 +1307,8 @@
 \newcommand{\shareCohortTargetPct}{0.7\%}
 \newcommand{\shareCounterfactualCrossPct}{2.7\%}
 \newcommand{\shareCounterfactualPct}{4.2\%}
+\newcommand{\shareCounterfactualStratumHiPct}{8.6\%}
+\newcommand{\shareCounterfactualStratumLoPct}{3.0\%}
 \newcommand{\shareCounterfactualStratumPct}{4.2\%}
 \newcommand{\shareDegenerateDcaMaxPct}{14.3\%}
 \newcommand{\shareExcludesMultPct}{3.9\%}
@@ -1244,10 +1316,14 @@
 \newcommand{\shareExcludingVMaxPct}{1.7\%}
 \newcommand{\shareLatitudeCrossPct}{19.2\%}
 \newcommand{\shareLatitudePct}{11.1\%}
+\newcommand{\shareMixedStratumHiPct}{5.6\%}
+\newcommand{\shareMixedStratumLoPct}{3.0\%}
 \newcommand{\shareMixedStratumPct}{4.5\%}
 \newcommand{\shareResamplingCrossPct}{9.4\%}
 \newcommand{\shareResamplingPct}{18.9\%}
 \newcommand{\shareResamplingRollingPct}{71.0\%}
+\newcommand{\shareResamplingStratumHiPct}{79.6\%}
+\newcommand{\shareResamplingStratumLoPct}{59.8\%}
 \newcommand{\shareResamplingStratumPct}{71.7\%}
 \newcommand{\shareResolvedAucPct}{22.7\%}
 \newcommand{\shareStraddleAtHalfPct}{1.6\%}
@@ -1320,6 +1396,10 @@
 \newcommand{\shortfallRadNonzeroWholeAtDesign}{1.16}
 \newcommand{\shortfallWholeMax}{1.27}
 \newcommand{\shortfallWholeMin}{1.27}
+\newcommand{\signAgreeAucBrierPairMaxPct}{97.7\%}
+\newcommand{\signAgreeAucBrierPairMinPct}{56.0\%}
+\newcommand{\signAgreeAucBrierPct}{79.7\%}
+\newcommand{\signAgreeAucLoglossPct}{80.1\%}
 \newcommand{\simCoreNtrain}{4{,}000}
 \newcommand{\simCoreReps}{1{,}000}
 \newcommand{\simCoverageHalfWidth}{1.4}
@@ -1376,6 +1456,23 @@
 \newcommand{\sobolTopPct}{49.7\%}
 \newcommand{\sparseGapLarge}{$+0.0006$}
 \newcommand{\sparseGapSmall}{$+0.0118$}
+\newcommand{\splitFourWayPct}{2.8\%}
+\newcommand{\splitInteractionsHiPct}{54.7\%}
+\newcommand{\splitInteractionsLoPct}{37.2\%}
+\newcommand{\splitInteractionsPct}{43.7\%}
+\newcommand{\splitLearnerPct}{6.2\%}
+\newcommand{\splitMainHiPct}{26.3\%}
+\newcommand{\splitMainLoPct}{11.1\%}
+\newcommand{\splitMainPct}{18.9\%}
+\newcommand{\splitNullShareMaxPct}{83.7\%}
+\newcommand{\splitNullShareMinPct}{83.4\%}
+\newcommand{\splitQualityPct}{5.9\%}
+\newcommand{\splitRungPct}{11.6\%}
+\newcommand{\splitShareAucPct}{68.4\%}
+\newcommand{\splitShareBrierPct}{69.9\%}
+\newcommand{\splitShareLoglossPct}{70.5\%}
+\newcommand{\splitThreeWayPct}{13.1\%}
+\newcommand{\splitTwoWayPct}{29.2\%}
 \newcommand{\spreadFallMedianPct}{88.1\%}
 \newcommand{\spreadFallWidestPct}{1.0\%}
 \newcommand{\spreadHeadline}{0.073 AUC at the median pair and 0.252 at the widest}
@@ -1418,4 +1515,4 @@
 \newcommand{\wrssIsotonic}{52}
 \newcommand{\wrssRatioOnly}{253}
 \newcommand{\wrssWithN}{185}
-\newcommand{\zenodoDOI}{\url{https://doi.org/10.5281/zenodo.22557927}}
+\newcommand{\zenodoDOI}{a Zenodo deposit whose DOI is reserved and is inserted at proof}

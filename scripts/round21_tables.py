@@ -20,7 +20,10 @@ _STEP_ORDER = ["the case study as published",
 #: of this log, so the table says `as first reported' (2026-09-18).  The
 #: file's own step names are left alone: they are data.
 _STEP_LABEL = {"the case study as published":
-               "the case study as first reported"}
+               "the case study as first reported",
+               #  2026-09-25: printed in the article's word; the file keeps its own
+               "then the registered cohort": "then the pre-specified cohort",
+               "then the registered target": "then the pre-specified target"}
 
 _TAU_LABEL = {"t0_first_touch_all": "T0 first touch, every call",
               "t1_first_touch_escalating": "T1 first touch, escalating only",
@@ -73,8 +76,8 @@ def write(mn):
                          "one factor at a time. Each row changes exactly one "
                          "thing from the row above; `delta' is what that "
                          "change is worth. The first row is the number the "
-                         "earlier, unpublished analysis reported, which "
-                         "Section~\\ref{sec:cmdb} quotes as such, and the last is "
+                         "earlier, unpublished analysis reported, and the "
+                         "last is "
                          "the planned contrast \\textsf{PC3} of "
                          "Table~\\ref{tab:confirm}. Intervals are the "
                          "pointwise basic construction at "
@@ -145,23 +148,19 @@ def write(mn):
                              & (L.rung == "B_intake"))
         (TABLES / "tau.tex").write_text(
             tex_table(d, "The forecast origin implemented as an axis. Each "
-                         "moment carries its own population, its own "
-                         "register and its own admissible set; the "
-                         "\\emph{forecast target} is the same at all of them. "
-                         "$\\tau_0$ and $\\tau_1$ differ only in which "
-                         "cases are in scope. $\\tau_1$ and $\\tau_2$ "
-                         "differ in what is known AND in which cases "
-                         "are in scope, because \\nTauTwoUnmatched\\ incidents have no "
+                         "origin carries its own population, register and "
+                         "admissible set; the forecast target is the same "
+                         "at all of them. $\\tau_1$ and $\\tau_2$ differ "
+                         "in what is known and in which cases are in scope, "
+                         "because \\nTauTwoUnmatched\\ incidents have no "
                          "interaction record; the %s row is "
                          "$\\tau_2$ restricted to $\\tau_1$'s own "
                          "population, and it is that row, not the "
-                         "%s, that makes the "
-                         "$\\tau_1$-to-$\\tau_2$ step an information "
-                         "step alone. Every row is on the estate's own "
-                         "cohort and the reassignment target, under a "
-                         "declared tie-break, and every interval is "
-                         "the pointwise basic construction at "
-                         "\\nTauDraws\\ draws." % (_matched, _plain),
+                         "%s, that isolates the information step. Every "
+                         "row is on the case-study cohort and the "
+                         "reassignment target, under a declared tie-break; "
+                         "intervals are pointwise basic at \\nTauDraws\\ "
+                         "draws." % (_matched, _plain),
                       "tab:tau",
                       colnames={"card_register": "register levels",
                                 "base_auc": "base AUC",
@@ -233,6 +232,10 @@ def write(mn):
                           for v, a, b in zip(d[pop], d[lo], d[hi])]
         keep = ["statistic", "all 19", "itsm 8", "other 11"]
         d = d[[c for c in keep if c in d.columns]]
+        #  The result file's row label says `misreport'; the article's name
+        #  for the statistic is the sign-disagreement rate.
+        d["statistic"] = d["statistic"].astype(str).str.replace(
+            "misreport", "sign disagreement", regex=False)
         (TABLES / "family.tex").write_text(
             tex_table(d, "Every headline corpus statistic on three "
                          "populations: all nineteen log--target pairs, the "
@@ -412,11 +415,18 @@ def write(mn):
                          "cell columns are beneficial / harmful / "
                          "unresolved, and the admissible count is the same "
                          "under both critical values. No widening "
-                         "is applied (Section~\\ref{sec:simband}); the "
-                         "calibrated columns are printed beside the nominal "
-                         "ones to show what applying one would cost --- not "
-                         "what was done. The widening these families "
-                         "actually need is larger than the $c$ printed here.",
+                         "is applied: $c$ is a POINTWISE widening, and the "
+                         "calibrated columns show what it would cost if it "
+                         "were applied, as a sensitivity --- not what was "
+                         "done. Section~\\ref{sec:simband} measures the "
+                         "operative critical value at about its level on the "
+                         "family matched to this design under an ideal "
+                         "bootstrap, which bounds the critical value's "
+                         "contribution to coverage and not the resampling's: "
+                         "the pointwise interval underneath undercovers at "
+                         "this corpus's ratios of $K$ to $n$ "
+                         "(Section~\\ref{sec:simsensitivity}), which is the "
+                         "channel $c$ addresses.",
                       "tab:calbands",
                       colnames={"k_over_n": "K / n",
                                 "q_calibrated": "q calibrated",
@@ -456,15 +466,21 @@ def write(mn):
                          "the Monte Carlo interval of that factor. $c$ is the "
                          "$0.95$ quantile of the studentised error and is "
                          "computed, not searched for. THIS CALIBRATION IS "
-                         "DERIVED AND REPORTED, NOT APPLIED: it was fitted to "
-                         "restore POINTWISE coverage on this plane, and "
-                         "Section~\\ref{sec:simband} measures the "
-                         "family-wise widening the article's families need as "
-                         "LARGER than it supplies, so no band in the article "
-                         "is widened by it. `c monotone' is the monotone "
+                         "DERIVED AND REPORTED, NOT APPLIED: it is fitted to "
+                         "restore POINTWISE coverage on this plane, the "
+                         "article reports the labels under it only as a "
+                         "sensitivity, and no band in the article is widened "
+                         "by it. Section~\\ref{sec:simband} measures the "
+                         "operative critical value at about its level on the "
+                         "family matched to this design under an ideal "
+                         "bootstrap, which bounds the critical value's "
+                         "contribution to coverage and not the resampling's; "
+                         "the pointwise shortfall this plane measures "
+                         "(Section~\\ref{sec:simsensitivity}) is the part "
+                         "that bound leaves open. `c monotone' is the monotone "
                          "regression that would be used if it were; `c "
                          "log-linear' is the parametric fit whose slope "
-                         "Section~\\ref{sec:regions} quotes, printed beside "
+                         "Section~\\ref{app:curves} quotes, printed beside "
                          "it because it sits below the measured factor at "
                          "small ratios and would under-correct there.",
                       "tab:plane",
@@ -711,7 +727,7 @@ def write(mn):
         (TABLES / "desk.tex").write_text(
             tex_table(d, "Median excess regret of each decision rule, in net "
                          "benefit per thousand cases, on the models that "
-                         "pass the registered calibration rule. The desk "
+                         "pass the pre-specified calibration rule. The desk "
                          "distribution places its mass on the exchange rates "
                          "a service desk plausibly holds; the fixed rows "
                          "report single exchange rates so that a reader who "
@@ -878,7 +894,7 @@ def write_round25(mn):
                    "misreport_all_min": "min over pairs",
                    "misreport_all_max": "max over pairs"})
         (TABLES / "refsens.tex").write_text(
-            tex_table(d, "The sign-disagreement rate, which the article withdraws as a headline, under a "
+            tex_table(d, "The sign-disagreement rate, which the article does not use as a headline, under a "
                          "different declared reference specification. Each "
                          "row moves the reference ONE axis at a time and "
                          "holds the rest at the declared cell, then "

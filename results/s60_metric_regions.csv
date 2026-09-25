@@ -1,0 +1,96 @@
+log,target,metric,n_cells,n_beneficial,n_harmful,region,region_table4,n_beneficial_within,n_harmful_within,n_cells_within,q_emp_within,region_within,differs,differs_within
+BPIC13_closed,handover,ap,36,0,0,unresolved,unresolved,0,0,36,3.327046768777813,unresolved,False,False
+BPIC13_closed,handover,auc,36,0,0,unresolved,unresolved,0,0,36,3.137997123078437,unresolved,False,False
+BPIC13_closed,handover,brier_skill,36,0,0,unresolved,unresolved,0,0,36,3.1533036393328997,unresolved,False,False
+BPIC13_closed,handover,logloss_skill,36,0,0,unresolved,unresolved,0,0,36,3.387464314010803,unresolved,False,False
+BPIC13_closed,handover,nagelkerke,36,0,0,unresolved,unresolved,0,0,36,4.045388876120632,unresolved,False,False
+BPIC13_incidents,duration,ap,36,4,0,conditionally beneficial,conditionally beneficial,7,0,36,3.349717901517386,conditionally beneficial,False,False
+BPIC13_incidents,duration,auc,36,5,0,conditionally beneficial,conditionally beneficial,12,0,36,3.143890482789247,conditionally beneficial,False,False
+BPIC13_incidents,duration,brier_skill,36,1,0,unresolved (below minimum share),conditionally beneficial,1,0,36,3.6795994751483843,unresolved (below minimum share),True,True
+BPIC13_incidents,duration,logloss_skill,36,1,0,unresolved (below minimum share),conditionally beneficial,1,0,36,3.6914601471760973,unresolved (below minimum share),True,True
+BPIC13_incidents,duration,nagelkerke,36,1,0,unresolved (below minimum share),conditionally beneficial,1,0,36,4.031827335751002,unresolved (below minimum share),True,True
+BPIC13_incidents,handover,ap,36,17,0,conditionally beneficial,conditionally beneficial,23,0,36,3.2814083026529652,conditionally beneficial,False,False
+BPIC13_incidents,handover,auc,36,14,0,conditionally beneficial,conditionally beneficial,17,0,36,3.3614720271070997,conditionally beneficial,False,False
+BPIC13_incidents,handover,brier_skill,36,17,0,conditionally beneficial,conditionally beneficial,19,0,36,3.237393385862219,conditionally beneficial,False,False
+BPIC13_incidents,handover,logloss_skill,36,12,0,conditionally beneficial,conditionally beneficial,15,0,36,3.5767053143648626,conditionally beneficial,False,False
+BPIC13_incidents,handover,nagelkerke,36,12,0,conditionally beneficial,conditionally beneficial,13,0,36,3.9651358210677867,conditionally beneficial,False,False
+BPIC14,duration,ap,36,36,0,uniformly beneficial,uniformly beneficial,36,0,36,3.3461450141785454,uniformly beneficial,False,False
+BPIC14,duration,auc,36,36,0,uniformly beneficial,uniformly beneficial,36,0,36,3.1336426840603746,uniformly beneficial,False,False
+BPIC14,duration,brier_skill,36,36,0,uniformly beneficial,uniformly beneficial,36,0,36,3.2354531690819828,uniformly beneficial,False,False
+BPIC14,duration,logloss_skill,36,36,0,uniformly beneficial,uniformly beneficial,36,0,36,3.2224441599665226,uniformly beneficial,False,False
+BPIC14,duration,nagelkerke,36,36,0,uniformly beneficial,uniformly beneficial,36,0,36,3.2149103866101356,uniformly beneficial,False,False
+BPIC14,handover,ap,36,29,0,conditionally beneficial,conditionally beneficial,35,0,36,3.781993887294156,conditionally beneficial,False,False
+BPIC14,handover,auc,36,34,0,conditionally beneficial,conditionally beneficial,34,0,36,3.831575823748771,conditionally beneficial,False,False
+BPIC14,handover,brier_skill,36,36,0,uniformly beneficial,conditionally beneficial,36,0,36,3.142743228847629,uniformly beneficial,True,True
+BPIC14,handover,logloss_skill,36,36,0,uniformly beneficial,conditionally beneficial,36,0,36,3.4203136615746708,uniformly beneficial,True,True
+BPIC14,handover,nagelkerke,36,36,0,uniformly beneficial,conditionally beneficial,36,0,36,3.449971173807464,uniformly beneficial,True,True
+BPIC15_1,duration,ap,36,0,0,unresolved,unresolved,0,0,36,3.354981980444497,unresolved,False,False
+BPIC15_1,duration,auc,36,0,0,unresolved,unresolved,2,0,36,3.6334227571339968,conditionally beneficial,False,True
+BPIC15_1,duration,brier_skill,36,0,0,unresolved,unresolved,1,0,36,3.865780710774656,unresolved (below minimum share),False,True
+BPIC15_1,duration,logloss_skill,36,0,0,unresolved,unresolved,1,0,36,4.184348673448227,unresolved (below minimum share),False,True
+BPIC15_1,duration,nagelkerke,36,0,0,unresolved,unresolved,0,0,36,5.1489172933391725,unresolved,False,False
+BPIC15_1,handover,ap,36,0,0,unresolved,unresolved,0,0,36,4.7763618192515995,unresolved,False,False
+BPIC15_1,handover,auc,36,0,0,unresolved,unresolved,0,0,36,4.218223554482907,unresolved,False,False
+BPIC15_1,handover,brier_skill,36,0,0,unresolved,unresolved,0,0,36,4.512582042619117,unresolved,False,False
+BPIC15_1,handover,logloss_skill,36,0,0,unresolved,unresolved,0,0,36,3.871870666367526,unresolved,False,False
+BPIC15_1,handover,nagelkerke,36,0,0,unresolved,unresolved,0,0,36,5.321394731006854,unresolved,False,False
+BPIC15_3,duration,ap,36,0,0,unresolved,unresolved (below minimum share),5,0,36,3.5418220740203683,conditionally beneficial,True,True
+BPIC15_3,duration,auc,36,2,0,conditionally beneficial,unresolved (below minimum share),10,0,36,3.1729703018227635,conditionally beneficial,True,True
+BPIC15_3,duration,brier_skill,36,0,0,unresolved,unresolved (below minimum share),5,0,36,3.291320489959323,conditionally beneficial,True,True
+BPIC15_3,duration,logloss_skill,36,0,0,unresolved,unresolved (below minimum share),5,0,36,3.3262875917937986,conditionally beneficial,True,True
+BPIC15_3,duration,nagelkerke,36,0,0,unresolved,unresolved (below minimum share),0,0,36,4.290261931526216,unresolved,True,True
+BPIC15_3,handover,ap,36,0,0,unresolved,unresolved (below minimum share),0,0,36,3.928734505620857,unresolved,True,True
+BPIC15_3,handover,auc,36,0,0,unresolved,unresolved (below minimum share),2,0,36,3.6783514289362245,conditionally beneficial,True,True
+BPIC15_3,handover,brier_skill,36,0,3,conditionally harmful,unresolved (below minimum share),0,3,36,4.119824305651733,conditionally harmful,True,True
+BPIC15_3,handover,logloss_skill,36,0,1,unresolved (below minimum share),unresolved (below minimum share),0,3,36,3.3005736760492868,conditionally harmful,False,True
+BPIC15_3,handover,nagelkerke,36,0,0,unresolved,unresolved (below minimum share),0,0,36,3.5387906718202418,unresolved,True,True
+BPIC15_4,duration,ap,36,0,0,unresolved,unresolved,0,0,36,4.122650327226361,unresolved,False,False
+BPIC15_4,duration,auc,36,0,0,unresolved,unresolved,0,0,36,3.6570456597854237,unresolved,False,False
+BPIC15_4,duration,brier_skill,36,0,0,unresolved,unresolved,0,0,36,3.616757328635862,unresolved,False,False
+BPIC15_4,duration,logloss_skill,36,0,0,unresolved,unresolved,0,0,36,3.658663954813024,unresolved,False,False
+BPIC15_4,duration,nagelkerke,36,0,0,unresolved,unresolved,0,0,36,5.382749568578393,unresolved,False,False
+BPIC15_4,handover,ap,36,0,0,unresolved,unresolved,0,0,36,4.087888739958993,unresolved,False,False
+BPIC15_4,handover,auc,36,0,0,unresolved,unresolved,2,2,36,3.625821041622316,sign-changing,False,True
+BPIC15_4,handover,brier_skill,36,0,0,unresolved,unresolved,0,0,36,4.512137554433494,unresolved,False,False
+BPIC15_4,handover,logloss_skill,36,0,0,unresolved,unresolved,0,0,36,3.472798879925297,unresolved,False,False
+BPIC15_4,handover,nagelkerke,36,0,0,unresolved,unresolved,0,0,36,4.7931543092161535,unresolved,False,False
+BPIC15_5,duration,ap,36,0,0,unresolved,unresolved,0,0,36,3.5044934751082017,unresolved,False,False
+BPIC15_5,duration,auc,36,0,0,unresolved,unresolved,3,0,36,3.389471578065843,conditionally beneficial,False,True
+BPIC15_5,duration,brier_skill,36,0,0,unresolved,unresolved,0,0,36,3.699101626810398,unresolved,False,False
+BPIC15_5,duration,logloss_skill,36,0,0,unresolved,unresolved,0,0,36,3.7135140671127616,unresolved,False,False
+BPIC15_5,duration,nagelkerke,36,0,0,unresolved,unresolved,0,0,36,5.214394114277284,unresolved,False,False
+BPIC17,duration,ap,36,0,0,unresolved,unresolved,7,0,36,3.6702222144023975,conditionally beneficial,False,True
+BPIC17,duration,auc,36,0,0,unresolved,unresolved,4,0,36,3.934028387832509,conditionally beneficial,False,True
+BPIC17,duration,brier_skill,36,0,0,unresolved,unresolved,0,0,36,4.632409708875548,unresolved,False,False
+BPIC17,duration,logloss_skill,36,0,0,unresolved,unresolved,0,0,36,4.663344738502498,unresolved,False,False
+BPIC17,duration,nagelkerke,36,0,0,unresolved,unresolved,0,0,36,4.656381366482523,unresolved,False,False
+BPIC19,duration,ap,36,2,0,conditionally beneficial,sign-changing,6,0,36,4.032269875203395,conditionally beneficial,True,True
+BPIC19,duration,auc,36,8,0,conditionally beneficial,sign-changing,10,0,36,3.8565990987495167,conditionally beneficial,True,True
+BPIC19,duration,brier_skill,36,0,25,conditionally harmful,sign-changing,2,30,36,3.338970148308284,sign-changing,True,False
+BPIC19,duration,logloss_skill,36,0,25,conditionally harmful,sign-changing,0,32,36,3.2747613095700623,conditionally harmful,True,True
+BPIC19,duration,nagelkerke,36,0,21,conditionally harmful,sign-changing,0,32,36,3.3321243508220557,conditionally harmful,True,True
+Helpdesk,duration,ap,36,0,0,unresolved,unresolved (below minimum share),0,0,36,3.06825678782822,unresolved,True,True
+Helpdesk,duration,auc,36,0,0,unresolved,unresolved (below minimum share),0,1,36,3.172395896537432,unresolved (below minimum share),True,False
+Helpdesk,duration,brier_skill,36,0,2,conditionally harmful,unresolved (below minimum share),0,2,36,3.355808888692568,conditionally harmful,True,True
+Helpdesk,duration,logloss_skill,36,0,0,unresolved,unresolved (below minimum share),0,1,36,3.2763391406162454,unresolved (below minimum share),True,False
+Helpdesk,duration,nagelkerke,36,0,0,unresolved,unresolved (below minimum share),0,0,36,3.4966560977837404,unresolved,True,True
+RoadFines,duration,ap,36,23,0,conditionally beneficial,sign-changing,34,0,36,3.3747382818042175,conditionally beneficial,True,True
+RoadFines,duration,auc,36,23,0,conditionally beneficial,sign-changing,32,0,36,3.513449696280575,conditionally beneficial,True,True
+RoadFines,duration,brier_skill,36,2,2,sign-changing,sign-changing,2,2,36,4.816123084158595,sign-changing,False,False
+RoadFines,duration,logloss_skill,36,2,2,sign-changing,sign-changing,2,2,36,4.956155985261145,sign-changing,False,False
+RoadFines,duration,nagelkerke,36,2,2,sign-changing,sign-changing,2,2,36,5.000028226463755,sign-changing,False,False
+Sepsis,duration,ap,36,19,0,conditionally beneficial,conditionally beneficial,27,0,36,3.106652411620822,conditionally beneficial,False,False
+Sepsis,duration,auc,36,29,0,conditionally beneficial,conditionally beneficial,36,0,36,3.125096501329977,uniformly beneficial,False,True
+Sepsis,duration,brier_skill,36,18,0,conditionally beneficial,conditionally beneficial,18,0,36,3.0121265491660023,conditionally beneficial,False,False
+Sepsis,duration,logloss_skill,36,18,0,conditionally beneficial,conditionally beneficial,18,0,36,3.0857333714125885,conditionally beneficial,False,False
+Sepsis,duration,nagelkerke,36,18,0,conditionally beneficial,conditionally beneficial,18,0,36,3.4829152694698857,conditionally beneficial,False,False
+UCI498,duration,ap,36,10,0,conditionally beneficial,conditionally beneficial,11,0,36,3.2382889855431114,conditionally beneficial,False,False
+UCI498,duration,auc,36,4,0,conditionally beneficial,conditionally beneficial,10,0,36,3.2219179555123754,conditionally beneficial,False,False
+UCI498,duration,brier_skill,36,0,0,unresolved,conditionally beneficial,0,0,36,3.5401702745542796,unresolved,True,True
+UCI498,duration,logloss_skill,36,0,0,unresolved,conditionally beneficial,0,0,36,3.5470316274740505,unresolved,True,True
+UCI498,duration,nagelkerke,36,0,0,unresolved,conditionally beneficial,0,0,36,3.50124937345437,unresolved,True,True
+UCI498,handover,ap,36,0,0,unresolved,unresolved,3,0,36,3.6728072440715342,conditionally beneficial,False,True
+UCI498,handover,auc,36,0,0,unresolved,unresolved,1,0,36,3.307047780340438,unresolved (below minimum share),False,True
+UCI498,handover,brier_skill,36,0,0,unresolved,unresolved,0,0,36,5.067287440939607,unresolved,False,False
+UCI498,handover,logloss_skill,36,0,0,unresolved,unresolved,0,0,36,4.79589551319442,unresolved,False,False
+UCI498,handover,nagelkerke,36,0,0,unresolved,unresolved,0,0,36,4.780033349415173,unresolved,False,False

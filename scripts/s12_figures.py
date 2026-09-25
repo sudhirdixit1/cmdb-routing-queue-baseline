@@ -69,91 +69,216 @@ def save(fig, stem):
 
 
 # --------------------------------------------------------------------------
+#  IJF PRINT GEOMETRY.  The article's text block is 468 TeX points wide
+#  (elsarticle 3p), and every figure is included at \textwidth.  Figures 1-3
+#  are drawn AT that width, on a fixed canvas (no tight bounding box), so
+#  they print at 1:1 and a font size set here is the size on the page.
+TEXTWIDTH_IN = 468.0 / 72.27
+FIG_FONT = 8.0          # every label, tick and legend in Figures 1-3
+
+
+def save_fixed(fig, stem):
+    """Like save(), but on the fixed canvas: the PDF is exactly the figure
+    size, so \\includegraphics[width=\\textwidth] prints it unscaled."""
+    p = PAPER / (stem + ".png")
+    with plt.rc_context({"savefig.bbox": "standard"}):
+        fig.savefig(p)
+        fig.savefig(p.with_suffix(".pdf"))
+    plt.close(fig)
+    return p
+
+
+#  Human labels for panel (b).  The level of a mask_* condition is the share
+#  of rows that stay POPULATED (spec.degrade); corrupt's is the share of rows
+#  given a wrong identity, duplicate's the share of identities split in two.
+FIG1_LEVEL_LABEL = {
+    ("rung", "B_half"): "half the arrival attributes",
+    ("rung", "B_intake"): "arrival attributes",
+    ("rung", "B_intake_g"): "arrival + team",
+    ("rung", "B_intake_g_km"): "arrival + team + article ref.",
+    ("learner", "logit"): "logistic, one-hot",
+    ("learner", "logit_fr"): "logistic, frequency enc.",
+    ("learner", "hgb"): "boosting, target enc.",
+    ("learner", "hgb_iso"): "boosting, isotonic",
+    ("split", "holdout70"): "single holdout",
+}
+FIG1_QUALITY_LABEL = {
+    "clean": "clean",
+    "stale": "stale",
+    "corrupt": "wrong item, %d%% of rows",
+    "duplicate": "duplicated, %d%% of items",
+    "mask_rare": "rare items absent, %d%% filled",
+    "mask_common": "common items absent, %d%% filled",
+    "mask_random": "absent at random, %d%% filled",
+}
+#  Figure 1 draws the primary instrument only.  The five scalar instruments
+#  are not on a common scale (Remark prop:nonid), so one axis cannot carry
+#  them; AUC is the instrument every other table reports first.
+FIG1_METRICS = ("auc",)
+
+
+def _fig1_quality(kind, level):
+    fmt = FIG1_QUALITY_LABEL.get(kind, kind)
+    return fmt % round(100 * level) if "%d" in fmt else fmt
+
+
 def fig_speccurve():
-    """FIGURE 1.  The specification curve for the primary log."""
+    """FIGURE 1.  The specification curve for the case-study pair, at AUC.
+
+    Drawn at the article's text width with 8-point text.  (a) the sorted
+    increments, the sign carried by the marker's FILL (filled > 0, open <= 0)
+    rather than by a grey level, so the non-positive cells are as visible as
+    the rest in greyscale print.  (b) for each level of each varied axis, the
+    share of the cells in each sorted bin that sit at that level -- an
+    occupancy map, rows grouped by axis with the axis named once.
+    """
     SUR = load("s01_surface.csv")
     if SUR is None:
         return None
     d = SUR[(SUR.log == "BPIC14") & (SUR.target == "handover")
             & (~SUR.rung.isin(S.IMPLAUSIBLE_RUNGS))
-            & (SUR.metric.isin(list(S.SCALARS)))].copy()
+            & (SUR.metric.isin(list(FIG1_METRICS)))].copy()
     if d.empty:
         return None
-    d["quality_level"] = (d.quality.astype(str)
-                          + d.level.map(lambda x: "" if x == 1.0
-                                        else "@%.2f" % x))
-    d = d.sort_values("V").reset_index(drop=True)
-    x = np.arange(len(d))
-
-    AX = [("rung", "baseline"), ("learner", "learner"),
-          ("metric", "metric"), ("quality_level", "register"),
-          ("split", "split")]
-    levels = []
-    for col, _lab in AX:
-        for lv in sorted(d[col].unique()):
-            levels.append((col, lv))
-    h = 2.6 + 0.10 * len(levels)
-    fig, (ax0, ax1) = plt.subplots(
-        2, 1, figsize=(7.0, h), sharex=True,
-        gridspec_kw=dict(height_ratios=[2.2, 0.10 * len(levels) + 0.4],
-                         hspace=0.05))
-
-    pos = d.V.values > 0
+    d["quality_level"] = list(zip(d.quality.astype(str),
+                                  d.level.astype(float)))
+    d = d.sort_values("V", kind="mergesort").reset_index(drop=True)
+    n = len(d)
+    x = np.arange(n)
+    V = d.V.values
+    pos = V > 0
     share = float(pos.mean())
-    ax0.axhline(0, color=DARK, lw=0.8)
-    #  IJF: no title above the plot.  The title used to carry the cell count
-    #  and the positive share.  The count is in the caption, from a macro
-    #  (\nCellsFigOne); the share has no macro and texlint forbids a literal
-    #  in the caption, so it stays INSIDE the plot area, in the legend that
-    #  already sits at the upper left.
-    ax0.scatter(x[pos], d.V.values[pos], s=3, color=DARK, marker="o",
-                linewidths=0,
+    n_neg = int((~pos).sum())
+
+    #  groups of panel (b), top to bottom
+    GROUPS = [("rung", "baseline"), ("learner", "learner"),
+              ("quality_level", "register"), ("split", "split")]
+
+    def _levels(col):
+        lv = sorted(d[col].unique())
+        if col == "quality_level":   # clean first, then by kind and level
+            lv = sorted(lv, key=lambda t: (t[0] != "clean", t[0] == "stale",
+                                           t[0], t[1]))
+        if col == "split":           # holdout, then the folds in order
+            lv = sorted(lv, key=lambda s: (s != "holdout70", s))
+        return lv
+
+    def _label(col, v):
+        if col == "quality_level":
+            return _fig1_quality(*v)
+        if col == "split" and str(v).startswith("rolling"):
+            return "expanding fold %s" % str(v)[len("rolling"):]
+        return FIG1_LEVEL_LABEL.get((col, v), str(v))
+
+    rows = []            # (y, group index, column, level)
+    y = 0.0
+    GAP = 0.7
+    for g, (col, _name) in enumerate(GROUPS):
+        for lv in _levels(col):
+            rows.append((y, g, col, lv))
+            y += 1.0
+        y += GAP
+    y_top = y - GAP      # rows occupy [0, y_top)
+
+    #  occupancy: the share of each bin's cells at each level
+    BIN = 20
+    edges = np.arange(0, n + BIN, BIN)
+    edges[-1] = n
+    b = np.minimum(x // BIN, len(edges) - 2)
+    nb = np.bincount(b, minlength=len(edges) - 1).astype(float)
+
+    #  ---- fixed canvas, in inches ------------------------------------------
+    W = TEXTWIDTH_IN
+    PITCH = 0.126                          # inches per row of panel (b)
+    hb = PITCH * y_top
+    ha = 1.55
+    bottom, mid, top = 0.62, 0.20, 0.08
+    H = bottom + hb + mid + ha + top
+    L, R = 2.22, 0.08
+    fig = plt.figure(figsize=(W, H))
+    fw = (W - L - R) / W
+    ax0 = fig.add_axes([L / W, (bottom + hb + mid) / H, fw, ha / H])
+    ax1 = fig.add_axes([L / W, bottom / H, fw, hb / H], sharex=ax0)
+
+    #  ---- (a) the curve --------------------------------------------------
+    ax0.axhline(0, color="black", lw=0.7, zorder=1)
+    ax0.scatter(x[pos], V[pos], s=7, marker="o", facecolors="black",
+                edgecolors="black", linewidths=0.4, zorder=3,
                 label="increment $>0$: %.0f%% of cells" % (100 * share))
-    ax0.scatter(x[~pos], d.V.values[~pos], s=3, color="0.6", marker="x",
-                linewidths=0.5,
-                label="increment $\\leq 0$: %.0f%%" % (100 * (1 - share)))
-    ax0.set_ylabel("increment $V_s(f)$")
-    ax0.legend(frameon=False, loc="upper left", fontsize=7)
+    ax0.scatter(x[~pos], V[~pos], s=7, marker="o", facecolors="white",
+                edgecolors="black", linewidths=0.5, zorder=3,
+                label="increment $\\leq 0$: %.0f%% (%d cells)"
+                % (100 * (1 - share), n_neg))
+    ax0.set_ylabel("AUC increment $V_s(f)$", fontsize=FIG_FONT)
+    #  the non-positive cells are the finding, so their stretch of the curve
+    #  is shaded as well as drawn open, and the legend sits clear of it
+    ax0.axvspan(-0.5, n_neg - 0.5, color="0.86", lw=0, zorder=0)
+    ax0.legend(frameon=False, loc="upper left", fontsize=FIG_FONT,
+               bbox_to_anchor=((n_neg + 12) / n, 1.0),
+               handletextpad=0.3, borderaxespad=0.2, markerscale=1.6)
+    ax0.tick_params(labelsize=FIG_FONT, labelbottom=False, length=3)
+    ax0.set_xlim(-0.5, n - 0.5)
+    for a in (ax0, ax1):
+        a.axvline(n_neg - 0.5, color="black", lw=0.6, ls=(0, (3, 2)),
+                  zorder=4)
 
-    for i, (col, lv) in enumerate(levels):
-        hit = (d[col].values == lv)
-        ax1.scatter(x[hit], np.full(hit.sum(), len(levels) - i - 1), s=1.4,
-                    color=DARK, marker="|", linewidths=0.5)
-    #  the axis-level labels are the legend of panel (b) and were set at 6pt
-    #  and truncated at 34 characters, which a reviewer reported as
-    #  unreadable.  They are set larger, the axis name is separated from the
-    #  level by an en dash so the eye can find the boundary, and the level is
-    #  shortened rather than the label truncated mid-word.
-    def _lab(c, v):
-        v = str(v)
-        v = {"holdout70": "single holdout", "B_half": "half of intake",
-             "B_intake": "intake", "B_intake_g": "intake + group",
-             "B_intake_g_km": "intake + group + knowledge",
-             "logit": "logistic, one-hot", "logit_fr": "logistic, frequency",
-             "hgb": "boosting, target-enc.",
-             "hgb_iso": "boosting, isotonic",
-             "clean": "clean register"}.get(v, v)
-        v = v.replace("mask_rare", "long tail absent").replace(
-            "mask_common", "core absent").replace(
-            "mask_random", "absent at random").replace("_", " ")
-        return "%s – %s" % (dict(AX)[c], v)
-
-    ax1.set_yticks(range(len(levels)))
-    ax1.set_yticklabels([_lab(c, v) for c, v in levels][::-1], fontsize=7)
-    ax1.set_ylim(-0.6, len(levels) - 0.4)
-    ax1.set_xlabel("specification, ordered by the increment")
+    #  ---- (b) the occupancy map ------------------------------------------
+    import matplotlib.colors as mcolors
+    cmap = plt.get_cmap("Greys")
+    norm = mcolors.Normalize(vmin=0.0, vmax=1.0)
+    for yy, g, col, lv in rows:
+        hit = (d[col].values == lv) if col != "quality_level" else \
+            np.array([t == lv for t in d[col].values])
+        occ = np.bincount(b[hit], minlength=len(nb)) / nb
+        ax1.pcolormesh(edges - 0.5, [yy + 0.06, yy + 0.94],
+                       occ[None, :], cmap=cmap, norm=norm,
+                       shading="flat", rasterized=False, linewidth=0,
+                       edgecolors="face")
+    #  separators between axis groups, and each group named once
+    trans = ax1.get_yaxis_transform()
+    starts = {}
+    for yy, g, col, lv in rows:
+        starts.setdefault(g, [yy, yy])
+        starts[g][1] = yy + 1.0
+    for g, (y0, y1) in starts.items():
+        if g > 0:
+            ax1.axhline(y0 - GAP / 2, color="black", lw=0.5, xmin=0,
+                        xmax=1, clip_on=False, zorder=5)
+        ax1.text((0.10 - L) / (W - L - R), (y0 + y1) / 2, GROUPS[g][1],
+                 transform=trans, ha="center", va="center", rotation=90,
+                 fontsize=FIG_FONT, fontweight="bold")
+        ax1.plot([(0.20 - L) / (W - L - R)] * 2, [y0 + 0.1, y1 - 0.1],
+                 transform=trans, color="black", lw=0.6, clip_on=False)
+    ax1.set_yticks([yy + 0.5 for yy, *_ in rows])
+    ax1.set_yticklabels([_label(col, lv) for _, _, col, lv in rows],
+                        fontsize=FIG_FONT)
+    ax1.set_ylim(y_top + 0.05, -0.05)      # first group at the top
+    ax1.tick_params(axis="y", length=0, pad=3)
+    ax1.tick_params(axis="x", labelsize=FIG_FONT, length=3)
+    ax1.set_xlabel("specification (%d cells), ordered by the increment"
+                   % n, fontsize=FIG_FONT)
     for a in (ax0, ax1):
         a.spines["top"].set_visible(False)
         a.spines["right"].set_visible(False)
-    #  ROUND TWENTY-ONE, minor: the two panels were unlabelled, so the caption
-    #  had to say "the panel below" and a reader had to work out which.
-    #  ROUND TWENTY-TWO: at the left margin the labels sat on top of panel
-    #  (b)'s tick labels, which are long.  Inside the top right of each panel
-    #  is empty on both and cannot collide with anything.
-    for a, tag in ((ax0, "(a)"), (ax1, "(b)")):
-        a.text(0.995, 0.97, tag, transform=a.transAxes, fontsize=9,
-               fontweight="bold", va="top", ha="right")
-    return save(fig, "figS1_speccurve")
+    ax1.spines["left"].set_visible(False)
+
+    #  the key to the greys, under panel (b)'s labels, at the left
+    cax = fig.add_axes([0.10 / W, 0.20 / H, 1.10 / W, 0.07 / H])
+    cb = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cax,
+                      orientation="horizontal", ticks=[0, 0.5, 1])
+    cb.ax.tick_params(labelsize=FIG_FONT, length=2, pad=1)
+    cb.outline.set_linewidth(0.5)
+    cb.ax.set_xticklabels(["0", "0.5", "1"])
+    fig.text(0.02 / W, 0.43 / H, "grey: share of a bin's %d cells\n"
+             "at that level" % BIN, ha="left", va="center",
+             fontsize=FIG_FONT, linespacing=1.1)
+
+    #  panel letters in the left margin, level with the top of each panel
+    fig.text(0.02 / W, (bottom + hb + mid + ha) / H, "(a)", fontsize=9,
+             fontweight="bold", va="top", ha="left")
+    fig.text(0.02 / W, (bottom + hb + mid) / H, "(b)", fontsize=9,
+             fontweight="bold", va="top", ha="left")
+    return save_fixed(fig, "figS1_speccurve")
 
 
 def fig_sobol():
@@ -316,7 +441,10 @@ def fig_coverage():
 
 def main():
     made = []
-    for fn in (fig_speccurve, fig_sobol, fig_regions, fig_dca, fig_tipping,
+    #  fig_sobol is NOT run here: Figure 3 (figS2_sobol) is drawn by
+    #  s28_figures.fig_sobol, and running this older pooled version on its
+    #  own would overwrite the article's figure with a withdrawn design.
+    for fn in (fig_speccurve, fig_regions, fig_dca, fig_tipping,
                fig_coverage):
         try:
             p = fn()

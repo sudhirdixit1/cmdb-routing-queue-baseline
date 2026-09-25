@@ -26,8 +26,8 @@ HIGHLIGHTS_FILE = "submission/highlights.txt"
 _STEP = {"the case study as published": "as first reported",
          "the case study, tie-break declared": "tie-break declared",
          "then the other tie-break rule": "the other tie-break rule",
-         "then the registered cohort": "the registered cohort",
-         "then the registered target": "the registered target"}
+         "then the registered cohort": "the pre-specified cohort",
+         "then the registered target": "the pre-specified target"}
 
 _TAU = {"t0_first_touch_all": "$\\tau_0$ first touch, every call",
         "t1_first_touch_escalating": "$\\tau_1$ first touch, escalating calls",
@@ -166,11 +166,16 @@ def emit(mn):
     #  recorded; \aiModelId names the two used again at the end, and
     #  statements.tex prints it followed by `again'.  AI-USE.md carries
     #  the same identifiers and the same dates.
-    put("aiModelId", "\\texttt{claude-fable-5-1} and \\texttt{claude-opus-5}")
-    put("aiModelIdPrev", "\\texttt{claude-opus-5}, then \\texttt{claude-fable-5}, "
-        "then \\texttt{claude-fable-5-1}, then \\texttt{claude-opus-5}")
-    put("aiModelDate", "2026-08-18 to 2026-09-19; identifiers recorded "
-        "from 2026-08-24, with gaps the register states")
+    #  2026-09-24.  The pre-upload review against the journal's current
+    #  guide and Elsevier's generative-AI policy (updated June 2026), and the
+    #  revision it prompted, ran under claude-opus-5-5, which extends the
+    #  span and adds an identifier.  \aiModelId now lists every recorded
+    #  identifier once, in the order first recorded; AI-USE.md gives the
+    #  per-session order, including the returns to earlier models.
+    put("aiModelId", "\\texttt{claude-opus-5}, \\texttt{claude-fable-5}, "
+        "\\texttt{claude-fable-5-1} and \\texttt{claude-opus-5-5}")
+    put("aiModelDate", "2026-08-18 to 2026-09-25; identifiers recorded "
+        "from 2026-08-24, with gaps the log states")
 
     # ================================================================
     # the family-relative separation (Proposition 2, Remark 3)

@@ -39,12 +39,37 @@ uploaded.
 - 4–6 suggested referees outside the author's institution
   (`submission/suggested_reviewers.md`, five, addresses sourced).
 - Code and data mandatory; a reproducibility check at acceptance. The
-  archive is `10.5281/zenodo.22557927` (release `v28.0`); whether to re-cut
-  it as `v29.0` is the owner's open decision (`submission/DECISIONS.md`
-  §IJF.3, status 2026-09-19); `scripts/verify_release.py` proves a clean
+  submission cites release `v29.0` (decided 2026-09-25, `DECISIONS.md`
+  §IJF.15); its DOI is minted when the owner publishes the GitHub release.
+  `v28.0` (`10.5281/zenodo.22557927`) is the *Information Systems*
+  version and its tag never moves. `scripts/verify_release.py` proves a clean
   checkout regenerates every analysis number from the committed results.
 - Submit the PDF; sources are requested at acceptance.
 - Submission system: `https://www.editorialmanager.com/ijf`.
+- Generative-AI declaration (Elsevier policy, updated June 2026): in the
+  manuscript **immediately before the references**, and AI-written code
+  described in the Methods section. Since 2026-09-24 it is
+  `paper/parts/aideclaration.tex`, carried by the blind article (§4.1 has
+  the Methods sentence) and the title page. Any further session with an AI
+  tool extends the span: update `aiModelId`/`aiModelDate` in
+  `scripts/round21_numbers.py` and the table in `AI-USE.md`.
+- Review on 2026-09-24 (`DECISIONS.md` §IJF.13): Tiers 1–2 done; the Tier 3
+  items listed there are the likeliest referee requests.
+- Second review on 2026-09-25 (§IJF.14): five-lens multi-agent review, four
+  implementation passes, three verification reads. Article 47 pp,
+  supplement 133 pp. New analyses in `scripts/s60_ijf_checks.py` →
+  Supplement S14, re-derived by `round31_verify.py`. Hand-typed supplement
+  numbers live in `scripts/s43_overview.py` POINTERS (Figure 2) and in
+  `submission/data_availability.md` / `credit_statement.md`: re-check them
+  against `build/journal/*.aux` after any change to the supplement's order.
+  `provenance.py --accept <script> --note "..."` after editing a figure or
+  analysis script.
+- Final review on 2026-09-25 (§IJF.15): compliance, referee, copy-edit and
+  package reads plus a Crossref check of every DOI. Article 48 pp,
+  supplement 134 pp. The no-signal benchmark for the split stratum (83.4–83.7%
+  of the degrees of freedom) now sits beside the 71.7% in §6.2 and §11;
+  `s60_ijf_checks.py` runs in `round27_chain.sh`. Untouched by choice: the
+  ~35-page cut, vocabulary renaming, table sizes (Tier 3 / referee asks).
 
 ## The steps only the author can take
 
@@ -56,8 +81,8 @@ uploaded.
 | 4 | Elsevier's declaration-of-interests `.docx` | fill from `submission/declaration_of_interests.md`; do not convert the markdown | attached |
 | 5 | Related-manuscript sentence | `cover_letter.md` says no other manuscript on these methods or data is under review and the conference-format draft was never submitted; confirm both are true | you agree |
 | 6 | Read the title-page statements | CRediT, competing interest, funding, code availability, generative-AI declaration — `build/journal/title_page.pdf` — they are claims about you | you agree with every sentence |
-| 7 | Push | `git push origin main ijf-retarget` — **no tag**: `v28.0` stays where the published release points | `origin/main` = `main` |
-| 7a | Decide the archive | `DECISIONS.md` §IJF.3, status 2026-09-19: v28.0's generators would print three summaries the submitted supplement does not (S22 C32–C34). Recommended: draft a GitHub release `v29.0` on the pushed `main`, let Zenodo mint the DOI, `python scripts/insert_doi.py <DOI>`, rebuild `--target ijf`, re-run the gates. Keeping v28.0 is also consistent with every statement as written | decided |
+| 7 | Push | `git push origin main ijf-retarget` — **do not move `v28.0`**: it stays where the published release points | `origin/main` = `main` |
+| 7a | Cut v29.0 (decided 2026-09-25, `DECISIONS.md` §IJF.15) | the tree already says v29.0 (`.zenodo.json` has no `doi` key; cover letter reads `DOI-PENDING`). From the **sudhirdixit1** account: GitHub release, new tag `v29.0` on the pushed `main`; Zenodo mints the DOI; `python scripts/insert_doi.py <DOI>`; put the DOI in `submission/cover_letter.md`; `python scripts/make_cover_pdf.py`; gates; commit; push | `finalise.py` exit 0 |
 | 8 | Upload | the table below | submission confirmed |
 
 ## Rebuild and gate before upload
@@ -80,7 +105,7 @@ Every line must end in `0 failures` (or `0 unresolved` / `0 withdrawn`).
 | `build/journal/title_page.pdf` | title page (separate file, not for review) |
 | `build/journal/supplement.pdf` | supplementary material (blind; the article points into it 75 times) |
 | `submission/upload/Highlights.txt` (pasted into Word if asked) | highlights. **Capital H, in `upload/`**; the lower-case `submission/highlights.txt` is the working copy and must not go |
-| `submission/cover_letter.md` | cover letter |
+| `build/journal/cover_letter.pdf` (`python scripts/make_cover_pdf.py` after any edit to `submission/cover_letter.md`) | cover letter |
 | Elsevier's declaration `.docx` | declaration of interests |
 | `submission/credit_statement.md`, `submission/data_availability.md` | as the forms ask |
 | `submission/suggested_reviewers.md` | referee suggestions |

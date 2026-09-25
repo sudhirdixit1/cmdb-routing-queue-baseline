@@ -278,6 +278,11 @@ def main(argv=None):
     #  part as if it were inline.
     t += strip_comments((PAPER / "parts" / "statements.tex")
                         .read_text(encoding="utf-8"))
+    #  2026-09-24.  The generative-AI declaration moved to its own part, which
+    #  both the blind and the unblinded article \input (Elsevier's policy puts
+    #  it before the references); it is read here the same way.
+    t += strip_comments((PAPER / "parts" / "aideclaration.tex")
+                        .read_text(encoding="utf-8"))
 
     # 1 abstract
     m = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", t, re.S)

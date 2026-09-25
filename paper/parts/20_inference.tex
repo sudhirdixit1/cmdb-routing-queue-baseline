@@ -1,53 +1,47 @@
 \section{Estimation and inference}
 \label{sec:inference}
 
-This section gives the estimator of one cell of the surface and an interval
-that includes the pipeline's own variability, then the objects that read the
-surface as a whole: which of three surfaces a claim may range over,
-simultaneous bands over a declared family --- the nearest relative in the
-forecasting literature is the model confidence set of
-Section~\ref{sec:related}, and the difference is stated where the band is
-defined --- the decomposition of the surface's variance, and the resolution
-regions that say where a sign is determined.
+This section gives the estimator of one cell and its interval, then the
+objects that read the surface as a whole: the set a claim ranges over,
+simultaneous bands, the variance decomposition, and the regions where a sign
+is determined.
 
 \subsection{The estimator, and uncertainty that includes the model}
 \label{sec:boot}
 
 The pipeline is frozen and identical on every log, and the \emph{pipeline}
-axis spans encodings as well as model families; every learner, encoder and
-calibrator is the \texttt{scikit-learn} implementation
-\citep{pedregosa2011scikit} at the version \texttt{requirements.lock} pins.
-Attributes are assigned to roles by the registered rules of
-Section~\ref{sec:design}, cases are ordered by their first timestamp, and the
-split is temporal (Supplement~\ref{app:pipeline}). The usual interval for
-such an increment resamples test rows with the models held fixed, which
-excludes training-sample, model-selection, encoder and split variability and
-the temporal dependence between cases. Every interval here is instead a
-\emph{nested moving-block bootstrap}: one draw resamples the training half by
-moving blocks \citep{kunsch1989jackknife} of length $\lceil n^{1/3} \rceil$,
-refits every arm of every rung under every learner and quality mechanism,
-and evaluates on a moving-block resample of the test half, with encoders,
-frequency tables, target encodings, register rankings and calibrators
-rebuilt inside the draw. On the simulation of Section~\ref{sec:sim} the
-fixed-model interval covers a median \coverageNaiveMedian\ and the nested
-basic interval \coverageNestedBasicMedian\ --- about \nestedGainInSe\ Monte
-Carlo standard errors apart, which that design cannot resolve --- so the
-nested construction is retained because the variability it admits is
-variability the estimand contains, not because it measures better here; the
-price it charges is the subject of the next two paragraphs.
+axis spans encodings as well as model families; all models are fitted with
+\texttt{scikit-learn} \citep{pedregosa2011scikit}. Attributes are assigned to roles by the
+pre-specified rules of Section~\ref{sec:design}, cases are ordered by their
+first timestamp, and the split is temporal (Supplement~\ref{app:pipeline}).
+The usual interval for such an increment resamples test rows with the models
+held fixed, which excludes training-sample, model-selection, encoder and
+split variability and the temporal dependence between cases. Every interval
+here is instead a \emph{nested moving-block bootstrap}: one draw resamples
+the training half by moving blocks \citep{kunsch1989jackknife} of length
+$\lceil n^{1/3} \rceil$, refits both \emph{arms} of every comparison --- the
+model with the register and the nested model without it --- under every
+baseline, learner and quality mechanism, and evaluates on a moving-block
+resample of the test half, with encoders, frequency tables, target
+encodings, register rankings and calibrators rebuilt inside the draw. The
+nested construction is used because the variability it captures is part of
+the estimand, not because it covers better: in the simulation of
+Section~\ref{sec:sim} the two intervals cannot be told apart at its Monte
+Carlo precision.
 
 \noindent Throughout, $K$ denotes the \textbf{cardinality of the register
 field} --- the number of distinct values $f$ takes on a pair, \cardFMedian\ at
-the median pair and \cardFMax\ at the largest (Table~\ref{tab:roles}) --- and
+the median pair and \cardFMax\ at the largest (Table~\ref{tab:master}) --- and
 $n$ the number of training cases. The ratio $K/n$ governs everything in this
 subsection and in Section~\ref{sec:regions}.
 
 \paragraph{Refitting inside the draw breaks the percentile interval}
-A bootstrap resample holds about $1 - e^{-1}$ of a high-cardinality
-categorical's distinct levels, so every refit sees a sparser register and
-returns a smaller increment; the bootstrap distribution is displaced and a
-percentile interval taken from it is a correct interval for the wrong
-quantity. On the sparse world of Section~\ref{sec:sim} it covers
+Refitting every arm inside every draw displaces the bootstrap distribution
+from the estimate. Part of the cause is that a multinomial resample holds
+only about $1 - e^{-1}$ of a high-cardinality categorical's distinct levels,
+so a refit sees a sparser register, but removing that loss leaves most of
+the displacement standing (next paragraph). A percentile interval taken from
+a displaced distribution is a correct interval for the wrong quantity. On the sparse world of Section~\ref{sec:sim} it covers
 \coverageSparsePct\ against a nominal $95\%$, \emph{worse} than the
 fixed-model interval refitting was meant to improve on. Every interval here
 is therefore the \emph{basic} (pivotal) interval
@@ -55,89 +49,66 @@ $[\,2\hat{V} - q_{1-\alpha/2},\; 2\hat{V} - q_{\alpha/2}\,]$
 \citep{davison1997bootstrap}, and simultaneous bands are recentred by the
 same shift (Supplement~\ref{app:pctfail}).
 
-\paragraph{Weights rather than subsets, and what the comparison found}
-Every band this paper reports comes from a bootstrap that draws Dirichlet
-\emph{weights} per moving block rather than a subset of rows, so every row
-has positive weight in every draw and every register level is present in
-every refit. The multinomial alternative was run beside it over the same
-design, at the same draw count and with the same seeds, on \schemeCells\
-cells, and Supplement~\ref{app:schemes} reports the comparison in full; two
-findings carry into the article. Under a multinomial resample a draw can drop
-an arm entirely, so the cell gets no band at all and is counted as
-\emph{unresolved} beside cells that were banded and straddled zero ---
-\nUnbandableSameDesign\ of \nUnbandableSameDesignOf\ cells on this design,
-against \nUnbandableCells\ under weights. And level loss is not what
-displaces the bootstrap distribution: weights raise the share of the
-register's levels a draw contains from \levelShareMult\ to
-\levelShareWeighted, and the displacement's median moves only from
-\dispMedianMult\ to \dispMedianWeighted, while the share of cells whose
-pivotal interval excludes its own estimate falls from
-\shareExcludesMultPct\ to \shareExcludesWeightedPct\ and not to zero. The
-displacement that remains is unexplained: the level-loss mechanism of
-Supplement~\ref{app:pctfail} is the reason the percentile interval is not
-used, and it is not a diagnosis of the residual, which
-Supplement~\ref{app:threats} carries as an open defect.
+\paragraph{Weights rather than subsets}
+Every band comes from a bootstrap that draws Dirichlet \emph{weights} per
+moving block rather than a subset of rows, so every register level is present
+in every refit and no cell loses its band because a draw dropped an arm ---
+\nUnbandableCells\ unbandable cells under weights, against
+\nUnbandableSameDesign\ of \nUnbandableSameDesignOf\ under a multinomial
+resample of the same design. Weights do not remove the displacement of the
+bootstrap distribution; its residual cause is not identified here and is
+listed among the limitations (Supplement~\ref{app:schemes} and
+Supplement~\ref{app:threats}). One candidate mechanism, not established
+here, is that block weights lower the effective training size, so a draw sits
+lower on the learning curve that $K/n$ governs than the full-sample estimate
+does.
+
+The analysis code, and separate code that re-derives every reported number,
+were written with the help of a generative-AI tool (see the declaration
+before the references); no reported number depends on the tool being run
+again, because the archived code regenerates every result from the public
+logs (see the data availability statement).
 
 \subsection{Three surfaces, and which one a claim may quantify over}
 \label{sec:threesurfaces}
 
-A statement of the form \emph{this surface is uniformly beneficial} is a
-statement about a denominator, and the denominator has to be the set the
-statement ranges over. Three sets are distinguished, named, and counted from
-the files rather than quoted (Table~\ref{tab:denominator}). The
-\textbf{declared surface} is every scientifically admissible specification:
-the product of the axis levels declared in Section~\ref{sec:design}. The
-\textbf{computational surface} is every specification actually evaluated; here
-it equals the declared surface --- \nComputationalCells\ scalar cells against
-\nDeclaredAdmissibleScalar\ declared, with \nDuplicateCells\ duplicates and
-\nMissingCells\ missing --- and the audit script asserts that identity rather
-than the manuscript asserting it. The \textbf{inference surface} is every
-specification carrying bootstrap draws; it is smaller for one reason, that a
-draw refits the whole pipeline and its cost is the declared surface's
-multiplied by the draw count.
+A statement of the form \emph{this surface is uniformly beneficial} ranges
+over a set of specifications, and three sets are distinguished and counted
+(Table~\ref{tab:denominator}). The \textbf{declared surface} is every
+admissible specification: the product of the axis levels declared in
+Section~\ref{sec:design}. The \textbf{computational surface} is every
+specification actually evaluated; here it equals the declared surface: all
+\nDeclaredAdmissibleScalar\ declared scalar cells were evaluated, with
+\nMissingCells\ missing and \nDuplicateCells\ duplicated. The
+\textbf{inference surface} is every specification carrying bootstrap draws;
+it is smaller because a draw refits the whole pipeline, so its cost is the
+declared surface's multiplied by the draw count.
 
-\textbf{The rule that selects it reads neither a result nor the log}: one
-design on every pair --- two learners, two splits, three register-quality
-conditions and three admissible rungs, crossed, \nCellsPerDecomposition\
-cells a pair per instrument and \nInferenceScalar\ scalar family members
-across the corpus,
-at \nDrawsSurface\ draws --- and the audit checks rather than declares that
-it is a complete factorial, each combination present exactly once on every
-one of the \nPairs\ pairs, so a corpus median over these families is a
-median over one design (Supplement~\ref{app:pipeline}).
-
-\textbf{A design, not a corner.} Because the inference surface is a balanced
-factorial, the decomposition of Section~\ref{sec:sobol} can be computed on it
-as well as on the declared surface --- one decomposition per pair per
-instrument, over \nCellsPerDecomposition\ cells each --- and
-Supplement~\ref{app:infanova} reports that the axis carrying the largest
-first-order index agrees between the two surfaces on a minority of pairs.
-That is a comparison between two designs that declare different levels, and
-so a statement about the levels an analyst declared rather than a verdict on
-either surface.
-
-\noindent What the design does not change is the thing that matters most
-for reading a region label. The inference family is a fraction of
-the admissible surface --- a median \inferenceShareAdmissibleMedianPct\ of a
-pair's admissible cells, and less than a twentieth on the pair with the
-richest grid --- and \textbf{a label computed over fewer cells is
-systematically cleaner than one computed over all of them}.
-Section~\ref{sec:regionsdef} says which label that most flatters, and
-Section~\ref{sec:regions} reports where it lands.
-
-Every quantity that does \emph{not} need a bootstrap --- the decomposition,
-the sign-disagreement rate, the regret comparison --- is computed on the full
-declared surface; only the region labels are computed on the inference
-surface.
+The rule that selects the inference surface reads neither a result nor the
+log: one design on every pair --- two learners, two splits, three
+register-quality conditions and three admissible baselines, crossed,
+\nCellsPerDecomposition\ cells a pair per metric and \nInferenceScalar\
+scalar family members across the corpus, at \nDrawsSurface\ draws --- a
+complete factorial, identical on every pair (Supplement~\ref{app:pipeline};
+Supplement~\ref{app:infanova} compares the decomposition on the two
+surfaces). The inference family is a median
+\inferenceShareAdmissibleMedianPct\ of a pair's admissible cells, and less
+than a twentieth on the pair with the richest grid; \textbf{a label
+computed over fewer cells is systematically cleaner than one computed over
+all of them} (Section~\ref{sec:regionsdef}). Only the region labels use the
+inference surface; the decomposition, the sign-disagreement rate (the share
+of cells whose sign differs from the conventional report's) and the regret
+comparison use the full declared surface.
 
 \subsection{Simultaneous bands over the family the claim ranges over}
 \label{sec:simbands}
 
-A decision curve read across \nGrid\ thresholds, a ladder read across rungs,
-or a surface read across every admissible cell, is a family of statements, and
-a pointwise interval does not control the probability that \emph{some} member
-of the family is wrong. For a declared family $\mathcal{F}$ of cells with
-bootstrap draws $V^{(b)}_c$ and per-cell standard errors $\hat\sigma_c$, let
+A decision curve read across \nGrid\ thresholds, a set of nested baselines
+read together, or a surface read across every admissible cell, is a family of
+statements, and a pointwise interval does not control the probability that
+\emph{some} member of the family is wrong. For a declared family
+$\mathcal{F}$ of cells with bootstrap draws $V^{(b)}_c$ and per-cell standard
+errors $\hat\sigma_c$, let
 \[
 T^{(b)} \;=\; \max_{c \in \mathcal{F}}
 \frac{\bigl|V^{(b)}_c - \bar{V}_c\bigr|}{\hat\sigma_c},
@@ -156,120 +127,65 @@ increment, from which a region label reads where the sign is determined and
 a robustness index how much of the family agrees. Both rest on a bootstrap
 of the maximum over the family; the objects read off it are different.
 
-\paragraph{The family must be the family}
-Within-cell bands, each covering five members, do not cover the several
-hundred cells that a surface-level label ranges over. Four interval objects are
-declared and every table says which it prints; \textsc{whole-surface} ---
-max-$t$ over \emph{every} scalar cell of the pair's inference family, a
-median \inferenceShareAdmissibleMedianPct\ of its admissible scalar cells
-(Section~\ref{sec:threesurfaces}) --- is the only family a surface-level
-claim may use, and it has a median
-\familySizeMedian\ members against the within-instrument family's five, at a
-median critical value of \maxTSurfaceMedian\ against that family's
-\maxTWithinMedian\ and the pointwise $1.96$.
-Family control is per log--target pair; every cross-pair statement here is
-descriptive.
-Supplement~\ref{app:families} gives these four \emph{interval} objects
---- which are not the reporting objects of Table~\ref{tab:objects} --- and the
-rule for dropping a replicate that leaves a cell without outcome variation.
+\paragraph{Which family a band must cover}
+Within-cell bands, each covering the \nInstruments\ metrics of one cell, do
+not cover the several hundred cells that a surface-level label ranges over.
+The \textsc{whole-surface} family --- max-$t$ over \emph{every} scalar cell
+of the pair's inference family --- is the only family a surface-level claim
+may use; it has \familySizeMedian\ members on every pair against the within-cell
+family's \nInstruments, at a median critical value of \maxTSurfaceMedian\
+against that family's \maxTWithinMedian\ and the pointwise $1.96$. Family
+control is per log--target pair, so every cross-pair statement here is
+descriptive; Supplement~\ref{app:families} defines the four interval objects
+and the rule for dropping a replicate that leaves a cell without outcome
+variation.
 
 \paragraph{Estimating the critical value}
 Two estimators of $q_{1-\alpha}$ are computed on every family. The first is
-the empirical $(1-\alpha)$ quantile of the $B$ observed maxima $T^{(b)}$ ---
-the Romano--Wolf construction as cited --- whose precision is that of an
-order statistic of $B$ values: its order-statistic interval has a median
-width of \qEmpWidth\ on this corpus's families. The second standardises the
-draws and multiplies them by independent standard normals, which gives a
-statistic with their empirical covariance that can be generated
-\nMultiplier\ times for the cost of matrix arithmetic
-\citep{chernozhukov2013gaussian}, so the budget fixes $B$ and not the
-precision of $q$ (a Monte Carlo interval of width \qMultWidth). The
-multiplier is an approximation: it reproduces the covariance of the draws and
-therefore only the excursions a Gaussian process makes, and on every family
-here it lies below the empirical quantile's whole order-statistic interval
-(Supplement~\ref{app:twoq}). \textbf{The operative critical value is the
-empirical quantile}, at a median \maxTSurfaceMedian\ on the whole-surface
-families against the multiplier's \maxTSurfaceMultMedian;
-Section~\ref{sec:simband} is the measurement that decides it; the
-multiplier's critical value is printed beside the operative one in the
-supplement's region tables (Table~\ref{tab:calbands} among them), and both
-estimators' band edges and labels are in the archive. A max-$t$ band also inherits the coverage of the
+the empirical $(1-\alpha)$ quantile of the $B$ observed maxima --- the
+Romano--Wolf construction as cited --- whose precision is that of an order
+statistic of $B$ values. The second multiplies the standardised draws by
+independent standard normals \citep{chernozhukov2013gaussian}, which frees
+the precision of $q$ from $B$ but reproduces only the excursions a Gaussian
+process makes; on every family here it lies below the empirical quantile's
+whole order-statistic interval (Supplement~\ref{app:twoq}). \textbf{The
+operative critical value is the empirical quantile}; the multiplier's median
+on the whole-surface families is \maxTSurfaceMultMedian, and
+Section~\ref{sec:simband} measures the family-wise coverage of both against a
+known answer. A max-$t$ band also inherits the coverage of the pointwise
 interval it is built from, which Section~\ref{sec:simsensitivity} shows is
-governed by the ratio of register cardinality to training size;
-Supplement~\ref{app:calibration} derives a widening calibrated at each pair's
-own ratio and reports it as a sensitivity.
+governed by $K/n$; Supplement~\ref{app:calibration} derives a widening at
+each pair's own ratio and reports it as a sensitivity.
 
-\paragraph{What these bands cover, measured against a known answer}
-Section~\ref{sec:simband} measures family-wise coverage over synthetic
-families matched to this corpus in size, draw count, cross-cell correlation
-and tails, whose truth is known by construction and whose bootstrap is
-\emph{ideal}, so every coverage it reports is an upper bound on what the real
-procedure attains. On the family matched to the design this paper reports
---- \nCellsPerPairMedian\ cells at \nDrawsSurface\ draws under this corpus's
-tails --- the empirical quantile's band covers \covEmpHeavyWholeAtDesign\
-against a nominal $95\%$, at a Monte Carlo standard error of
-\covEmpHeavyWholeAtDesignSE, and \covEmpNonzeroWholeAtDesign\ under a
-non-zero truth, the regime in which a cell can be resolved correctly and a
-region label is actually being asked to hold. The multiplier's band covers
-\covMultHeavyWholeAtDesign\ and \covMultNonzeroWholeAtDesign\ on the same
-families, several standard errors short, and no draw budget closes that gap:
-along a ladder of draw counts its coverage plateaus from \nBootOneFifty\
-draws on, while the empirical quantile's rises to its level by
-\nDrawsSurface. \textbf{The level is bought with width}: the empirical band
-is \widthEmpOverMultAtDesign\ times as wide on the matched family (the mean
-band-width ratio of the coverage run; the family was matched to the corpus
-at a critical-value ratio of \ratioSynthWhole) and
-\ratioCorpusWhole\ times on the corpus's own families, and it resolves
-\nResolvedWhole\ cells corpus-wide where the multiplier would resolve
-\nResolvedWholeMult\ (Section~\ref{sec:regions}). What the measurement does
-not cover is stated with it: the bootstrap is ideal there, so the
-$K/n$-governed shortfall of the pointwise interval underneath
-(Section~\ref{sec:simsensitivity}) and whatever the real resampling adds
-are outside it, and Supplement~\ref{app:threats} carries both.
-
-\subsection{Planned contrasts, and a $p$-value the design can produce}
-\label{sec:planned}
-
-Five contrasts on the primary log were fixed before this analysis round ---
-that the register adds to the intake baseline, that it still adds once the
-free field is admitted, that it adds at the later forecast origin, that the
-absorption $D$ is positive, and that a half-empty register is worth less than
-a full one --- each with its complete estimand in Table~\ref{tab:confirm}.
-They are not confirmatory, because they were fixed after the data were seen,
-so their Holm-adjusted one-sided bootstrap $p$-values \citep{holm1979simple}
-are reported for legibility: \nPlannedReject\ reject at $\alpha = 0.05$, but
-a contrast is called resolved only when its interval says so, and on
-the planned contrast \textsf{PC3} (Table~\ref{tab:confirm}) the one-sided
-$p$-value and the two-sided basic interval
-disagree, so the count under this paper's own rule is \nPlannedResolved\
-(Supplement~\ref{app:pcdetail}, which also gives the smallest attainable
-adjusted value, \pMinAttainableHolm\ at \nDrawsPlanned\ draws). Every other
-comparison in this paper is \emph{exploratory} and carries no multiplicity
-correction, because none would be meaningful over a surface enumerated in
-full.
+Five contrasts on the primary log were fixed before the final analysis but
+after earlier analyses of the same data, so their Holm-adjusted $p$-values
+are descriptive (Supplement~\ref{sec:planned}); every other comparison in
+this paper is exploratory and carries no multiplicity correction.
 
 \subsection{The sensitivity decomposition}
 \label{sec:sobol}
 
-Because the surface is a complete factorial over its axes --- the audit of
-Section~\ref{sec:threesurfaces} establishes that it is, cell for cell --- the
-variance of $V_s$ admits an exact and \emph{orthogonal} functional-ANOVA
-decomposition \citep{sobol2001global,saltelli2010variance} under a product
-measure $\mathbb{P} = \bigotimes_i w_i$, with first-order and total indices
-$S_i$ and $S_{T_i}$ computed exactly rather than estimated
-(Supplement~\ref{app:sobolest}). The closest
-precedent is \citet{hutter2014efficient}, who decompose an algorithm's
-performance over its \emph{configuration} space by the same device; here the
-axes are analysis decisions, the components are exact over a complete
-factorial rather than estimated from a surrogate, and the decomposition is
-one of three reporting objects rather than the conclusion.
+Because the declared surface is a complete factorial
+(Section~\ref{sec:threesurfaces}), the variance of $V_s$ admits an exact,
+orthogonal functional-ANOVA decomposition
+\citep{sobol2001global,saltelli2010variance} under a product measure
+$\mathbb{P} = \bigotimes_i w_i$, with first-order and total indices $S_i$ and
+$S_{T_i}$ computed exactly rather than estimated
+(Supplement~\ref{app:sobolest}); unlike the configuration-space
+decomposition of \citet{hutter2014efficient}, the axes here are analysis
+decisions and the components are exact rather than surrogate estimates.
 
 \paragraph{The split is an error stratum, and the primary decomposition treats
 it as one}
-Five of the split axis's six levels are expanding-origin folds on the same
+Five of the split axis's six levels are expanding-window folds on the same
 data. They are different \emph{samples}, not different analyses, and a
 decomposition that pools them reports sampling variability as specification
-sensitivity. Because the decomposition is exact and orthogonal, the repair is
+sensitivity. We call the stratum \emph{resampling} for brevity; because the
+folds' training sets grow and their test periods move, it also carries the
+time structure of the evaluation window --- the instability
+\citet{giacomini2010unstable} and \citet{rossi2012window} address ---
+and Section~\ref{sec:axes2} separates the split's main effect from its
+interactions. Because the decomposition is exact and orthogonal, the repair is
 a partition rather than a model: every component either involves the split or
 does not, so
 \begin{equation}
@@ -279,36 +195,26 @@ does not, so
 + \underbrace{\textstyle\sum_{u \ni \text{quality},\, u \cap \mathcal{A} \neq \emptyset,\, u \not\ni \text{split}} S_u}_{\text{mixed}}
 + \underbrace{\textstyle\sum_{u \ni \text{split}} S_u}_{\text{resampling}},
 \end{equation}
-where $\mathcal{A} = \{\text{pipeline}, \text{rung}\}$, the axes are
-$\mathcal{A}$, the register-quality condition and the split, and the third
-term collects the split-free components that join the register-quality
-condition to an analyst axis --- what the split-free components carry beyond
-the first two; the four terms are computed, not estimated
-(Table~\ref{tab:strata}), and the identity holds to \stratumPartitionError.
-The first three are what survives fold-averaging, and they are decomposed
-again \emph{on} the fold-averaged
-surface, where each index is a share of the variance that fold-averaging
-leaves and the higher-order share is net of resampling.
-\textbf{Section~\ref{sec:axes2} reports that decomposition as the primary one}
-and the pooled decomposition beside it, because the pooled one is what a
-reader of the earlier specification-curve literature will expect and the
-difference between them is itself a result.
+where $\mathcal{A} = \{\text{pipeline}, \text{baseline}\}$, the axes are
+$\mathcal{A}$, the register-quality condition (which alters the state of the
+world rather than the analysis) and the split, and the third term collects
+the split-free components that join the register-quality condition to an
+analyst axis; the four terms are computed exactly from the point estimates
+(Table~\ref{tab:strata}) --- exact as arithmetic, though the estimates they
+partition carry sampling error --- and the identity holds to \stratumPartitionError.
+The first three survive fold-averaging and are decomposed again on the
+fold-averaged surface, where the higher-order share is net of resampling.
+\textbf{Section~\ref{sec:axes2} reports that decomposition as the primary
+one}, and the pooled one beside it.
 
-The per-axis difference $S_{T_i} - S_i$ is the variance axis $i$ is
-\emph{involved} in beyond its main effect. These overlap --- a two-way
-component appears in both its axes' total effects --- so their largest member
-is not the share carried by interactions. That share is
+The share carried by interactions is
 \begin{equation}
 \label{eq:inttotal}
 S_{\mathrm{int}} \;=\; 1 - \sum_i S_i ,
 \end{equation}
-which this paper computes together with every disjoint component, so the
-identity $\sum_u S_u = 1$ is asserted numerically rather than assumed
-(Supplement~\ref{app:sobolest}). The other quantity is retained as the
-\emph{largest per-axis interaction involvement}; the two differ
-substantially: at the median pair the largest involvement is
-\largestInvolvementPct\ and the interaction share $S_{\mathrm{int}}$ is
-\interactionTotalPct.
+which is not the largest per-axis involvement $\max_i (S_{T_i} - S_i)$,
+because a two-way component appears in both its axes' total effects
+(Supplement~\ref{app:measures}).
 
 \subsection{Resolution regions and the robustness index}
 \label{sec:regionsdef}
@@ -317,8 +223,7 @@ substantially: at the median pair the largest involvement is
 \label{def:regions}
 Let $\mathcal{F}$ be the declared inference family of
 Section~\ref{sec:threesurfaces} for a pair --- the cells that carry bootstrap
-draws, a median \inferenceShareAdmissibleMedianPct\ of that pair's admissible
-scalar cells. Under the simultaneous band of Section~\ref{sec:simbands}, a
+draws. Under the simultaneous band of Section~\ref{sec:simbands}, a
 cell of
 $\mathcal{F}$ is \emph{beneficial} if its lower band is above zero,
 \emph{harmful} if its upper band is below zero, and \emph{unresolved}
@@ -338,66 +243,37 @@ and every directional label is reported with the counts of beneficial,
 harmful and unresolved cells it rests on.
 \end{definition}
 
-\noindent \textbf{The minimum resolved share is not free, and the family the
-label is relative to is not neutral.} Without the share a surface earns a
-direction from as few as two resolved cells of a hundred and eighty, which on
-a family the data barely touch is a statement about the band's width and not
-about the register; \nLabelsLostToMinShare\ of the \nDirectionalLabels\ pairs
-that carry a direction lose it under the condition (Table~\ref{tab:triple}),
-and $\rho$ is printed beside the triple everywhere because $\rho$ alone cannot
-distinguish two resolved cells from ninety. The threshold is a declared
-convention: at \minShareLowPct\ it withdraws \nLabelsLostMinOne\ directions,
-at the declared \minResolvedSharePct\ \nLabelsLostToMinShare, at
-\minShareHighPct\ \nLabelsLostMinTen, and Table~\ref{tab:triple}'s source
-file carries all three. And a label computed on a sixth of a pair's cells is
-systematically cleaner than one computed on all of them, with \emph{uniformly
-beneficial} the label most helped, so the manuscript never says a surface is
-uniformly beneficial without this restriction being in force, and
-Section~\ref{sec:regions} reports the one pair that reaches it together with
-the share of its admissible cells the label was earned over.
+\noindent Here a cell is \emph{resolved}, and a region a \emph{resolution}
+region, when the band determines a sign; the word is unrelated to the
+resolution component of the Brier score \citep{murphy1973vector}.
 
-\noindent The two harmful labels are not decoration, and what this corpus
-does with them is a case of the minimum share doing its work.
-Table~\ref{tab:triple}, which prints the label before and after the minimum
-share, carries \nCondHarmful\ conditionally harmful and
-\nUniformlyHarmful\ uniformly harmful surfaces out of \nPairs\ before it;
-each conditionally harmful label rests on at most \nCondHarmfulResolvedMax\
-resolved cells of \nHelpdeskFamily, so Definition~\ref{def:regions} withdraws
-them, and under the definition this paper reports the count of either kind
-is \nCondHarmfulMinShare.
-The label is available and the data do not earn it. $\rho = 1$ is the only state in
-which one positive number is a safe summary of a surface, and the empirical
-question this paper answers is how often it obtains. The region is defined
-over the \emph{scalar} family; folding the decision-curve cells into it would
-let a single extreme threshold decide the label of a whole surface, so the
-decision curve gets its own region (Section~\ref{sec:dca}). The
-intercept-only rung is excluded from every admissible set, because a reduction
-measured against a model with no features is inflated by construction; the
-master surface file \emph{does} carry that rung, which is why the `model
-fits' column of Table~\ref{tab:denominator} --- fitted arms counted before
-the expansion over the \nInstruments\ instruments --- includes it, while the
-two admissible scalar counts beside it, declared and computed, exclude it and
-agree on every pair.
+\textbf{The minimum resolved share is a declared convention.}
+Without it a surface earns a direction from as few as two resolved cells of a
+hundred and eighty, and $\rho$ alone cannot distinguish two resolved cells
+from ninety, so the counts are printed beside it. The declared threshold of
+\minResolvedSharePct\ withdraws the direction on \nLabelsLostToMinShare\ of
+the \nDirectionalLabels\ pairs that carry one, against \nLabelsLostMinOne\ at
+\minShareLowPct\ and \nLabelsLostMinTen\ at \minShareHighPct. Because the
+inference family is a subset of the admissible surface, a label computed on it
+is cleaner than one computed on every cell, and \emph{uniformly beneficial}
+gains the most; Section~\ref{sec:regions} therefore reports, for the one pair
+that attains it, the share of its admissible cells the label covers.
 
-\noindent \emph{Specification regret} --- what choosing one specification
-costs against the best one --- is computed from the same surface and is
-reported as a robustness check rather than as a reporting object, because
-what it reports on this corpus is a null (Supplement~\ref{sec:regretdef}).
-The four decision rules it compares --- one-number, uniform (the
-conservative one), majority and weighted mean --- are defined in
-Supplement~\ref{app:regretfull} and compared in Supplement~\ref{sec:rules};
-their reading in net benefit is in Section~\ref{sec:nbregret}.
+Before the minimum-share rule is applied, \nCondHarmful\ surfaces
+are conditionally harmful and \nUniformlyHarmful\ uniformly harmful; each
+conditionally harmful label rests on at most \nCondHarmfulResolvedMax\
+resolved cells of \nHelpdeskFamily, so the rule withdraws each, and
+\nCondHarmfulMinShare\ harmful labels of either kind remain
+(Table~\ref{tab:triple}). $\rho = 1$ is the only state in which one positive
+number is a safe summary of a surface. The region is defined over the
+\emph{scalar} family; the decision curve gets its own region
+(Section~\ref{sec:dca}), so that a single extreme threshold cannot decide the
+label of a whole surface. The intercept-only baseline is fitted but excluded
+from every admissible set, because an increment measured against a model with
+no features is inflated by construction.
 
-\subsection{A reporting standard, in one paragraph}
-\label{sec:standard}
-Report the design space and the measure over it; the denominator the claim
-quantifies over, named as one of the three; the absolute increment at every
-rung rather than a ratio; the decomposition with $1 - \sum_i S_i$ reported as
-such; the region and $\rho$ under the band's own family, with the counts they
-rest on; and the reduction $R$ last if at all, and only where its denominator
-is resolvably positive. Supplement~\ref{app:standard} states the standard in
-full, together with the errors this study made before it got them right, a
-six-step recipe, \pkgname\ \citep{fieldvalue} that implements the objects
-and refuses by construction to
-emit a single number, and a worked example on a dataset that is not an event
-log at all.
+\emph{Specification regret} --- what choosing one specification
+costs against the best one --- is computed from the same surface but reported
+only as a robustness check, because on this corpus it returns a null
+(Supplement~\ref{sec:regretdef}; its reading in net benefit is in
+Section~\ref{sec:nbregret}).

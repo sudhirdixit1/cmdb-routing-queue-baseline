@@ -19,151 +19,83 @@ therefore visibly partial and cannot silently drop a claim.
 checked macro from the result file with code written against the
 \emph{definition} rather than against the generator, and compares. It also
 enforces \nConditions\ consistency conditions that no single macro expresses
---- relations that must hold between numbers even when each of them is
-individually correct. Among them: that every register-quality mechanism passed
-its executed train-only check; that no surface is labelled uniformly
-beneficial while carrying an unresolved cell, nor conditionally harmful while
-carrying a beneficial one; that every region label is one of the six the
-manuscript defines and that the labels partition the pairs;
-that Remark~\ref{prop:nonid}'s sweep still holds the AUC reduction at
-zero; that the disjoint functional-ANOVA components sum to one on every
-decomposition; that no planned contrast reports a $p$-value the draw count
-cannot produce, and that its Holm adjustment reproduces from the raw values;
-that no rank-based instrument's reduction moves under a monotone
-recalibration, and that every certificate for a non-rank-based one exhibits
-two ratios that actually differ; that the cells a region label ranges over are
-exactly the cells the simultaneous family that licenses it controls, and that
-every decision rule is compared over the declared regret population rather
-than over whatever the file happened to hold; that the case study's split
-partitions its cohort; and that the
-adjudicated set of the literature pilot is exactly the screened-in set. The
-partition condition is the one that catches a region label the analysis
-emits and the manuscript does not define, which is how it was found.
+--- relations that must hold between numbers even when each is individually
+correct. Among them: that every register-quality mechanism passed its
+executed train-only check; that no surface is labelled uniformly beneficial
+while carrying an unresolved cell, nor conditionally harmful while carrying a
+beneficial one; that every region label is one of the six the manuscript
+defines and that the labels partition the pairs; that the disjoint
+functional-ANOVA components sum to one on every decomposition; that no
+planned contrast reports a $p$-value the draw count cannot produce, and that
+its Holm adjustment reproduces from the raw values; that no rank-based
+metric's reduction moves under a monotone recalibration; that the cells a
+region label ranges over are exactly the cells the simultaneous family that
+licenses it controls; that the case study's split partitions its cohort; and
+that the adjudicated set of the literature pilot is exactly the screened-in
+set.
 
-\item[The corruption suite.] \texttt{scripts/s13\_attack\_numbers.py} is the
-verifier's own regression suite. It corrupts one thing at a time --- a value
-in a result file, a value in \texttt{numbers.tex}, a deleted macro, a
-train-only check flipped, a region label made inconsistent with its counts, an
-adjudication file made inconsistent with the coding file --- and requires the
-verifier to notice. Every corruption is applied to a copy in a temporary
-directory; the suite refuses to start if a previous run left its lock behind,
-because in an earlier round a corruption suite was killed mid-flight and a
-corrupted manuscript reached a commit.
+\item[The corruption suite.] \texttt{scripts/s13\_attack\_numbers.py}
+corrupts one thing at a time --- a value in a result file, a value in
+\texttt{numbers.tex}, a deleted macro, a train-only check flipped, a region
+label made inconsistent with its counts, an adjudication file made
+inconsistent with the coding file --- and requires the verifier to notice.
+Every corruption is applied to a copy in a temporary directory, and the suite
+refuses to start while an interrupted run's lock remains, so a corrupted file
+cannot reach the working tree. A corruption of a \emph{result} file is
+checked by regenerating the macros from the corrupted copy and then
+verifying; without the regeneration, a quantity the verifier re-derives from
+a different file than the generator reads would be untouched and the
+corruption would pass.
 
-A corruption of a \emph{result} file is checked by regenerating the macros
-from the corrupted copy and then verifying, which is the only version of that
-test that means anything: without the regeneration the suite asks the verifier
-about a \texttt{numbers.tex} built from clean results, so any quantity the
-verifier re-derives from a different file than the generator reads is
-untouched and the corruption passes. One corruption did exactly that,
-silently, for a round.
-
-\item[The condition on the set, not on the number.] Every check above compares
-one macro with one source file, and a whole class of defect passes all of
-them: two macros, each perfectly consistent with its own source, that the
-prose calls by the same name. That is not hypothetical. It is how a case
-study's increment came to be printed with two values and two signs, and no
-check in this repository could have seen it.
-
-The repair is a declaration rather than a computation. The verifier
-\texttt{round21\_verify.py} carries an \textsc{estimands} table: one entry per
-quantity a reader would name in one phrase, listing the macros that may hold
-it. Two members of an entry that disagree is a failure; a quantity that
-legitimately takes two values under two specifications gets two entries with
-different names, and the manuscript must then use those names. Corruption
-\textsf{G1} in the suite is the test: it moves a value in one result file and
-lets both the generator and the verifier read the moved value, so every
-macro-against-source check passes and only the condition on the set fails.
-\textbf{Write the check on the name, not on the number.}
+\item[The condition on the set, not on the number.] Two macros, each
+consistent with its own source, can still be called by the same name in the
+prose while holding different values. The verifier therefore carries an
+\textsc{estimands} table: one entry per quantity a reader would name in one
+phrase, listing the macros that may hold it. Two members of an entry that
+disagree is a failure; a quantity that legitimately takes two values under two
+specifications gets two entries with different names, which the manuscript
+must then use. Corruption \textsf{G1} tests it: it moves a value in one
+result file and lets both the generator and the verifier read the moved
+value, so that only the condition on the set can fail.
 
 \item[The provenance record.] \texttt{results/provenance.json} holds the
 SHA-256 of every analysis script at the moment its outputs were last accepted,
 with a note saying why, and \texttt{make\_numbers.py -{}-strict} refuses to
 certify a manuscript whose numbers come from a script that has changed since.
-This exists because \texttt{-{}-strict} used to pass on a build reading a
-two-replicate smoke test that had been run under the wrong seed and against an
-estimand corrected an hour later: every macro resolved cleanly, to a wrong
-number. A missing file is loud, and a stale one is silent. Modification time
-cannot answer the question --- changing a script's output format does not make
-its numbers wrong --- so acceptance is a deliberate act with a recorded
-reason.
+A missing file is loud and a stale one is silent; modification time cannot
+tell them apart, because changing a script's output format does not make its
+numbers wrong, so acceptance is a deliberate act with a recorded reason.
 
 \item[The compliance linter.] \texttt{scripts/texlint.py} carries
-\nLintChecks\ checks, among them: the abstract length, the keyword count, the highlight
-lengths against their own stated counts, the presence of all five required
-statements, the absence of any numeric literal in the prose, the absence of a
-declared set of rhetorical sentence-openers, that every
-\texttt{\textbackslash input} target exists, that a spelled-out count matches
-the list it introduces --- whether that list is a run of identifiers or a
-\texttt{description} environment --- and that no manuscript part, generated
-table or analysis script carries a stray control character.
-
-Seven of them exist because each caught a defect that had already reached a
-compiled PDF of \emph{this} manuscript: a spelled-out count that did not match
-the list it introduced; the word \emph{Appendix} written before a reference
-that already supplies it, on every appendix reference at once; a macro
-swallowing the space after it and printing \texttt{42.0\%-{}-{}- and}; a macro
-carrying words quoted inside math mode and printing
-\texttt{18percentagepoints}; a sentence's tail left behind by a scripted edit
-and printed twice; a
-\emph{backslash escape interpreted by a scripted edit}, which had written
-\texttt{\textbackslash ref\{x\}} into the file as a carriage return followed
-by \texttt{ef\{x\}} and \texttt{\textbackslash nMacro} as a newline followed
-by \texttt{nMacro}; and a spelled-out count introducing a
-\texttt{description} list of a different length --- which is the first defect
-in the form the first check could not see, and which was in the paragraph
-above this one, announcing five controls before listing six. Those print as
-garbage or as a wrong word, produce no wrong number, and every checker in this
-repository passed on the build that carried them. Each signature is exact ---
-a carriage return that is not a line ending, a line beginning with the tail of
-a control word, a numeral word whose list is a different length --- so each is
-now a check rather than a thing to remember. All seven were found by
-\emph{reading the rendered pages}, which is the check no file in this
-repository replaces.
+\nLintChecks\ checks, among them: the abstract length, the keyword count, the
+highlight lengths, the presence of the required statements, the absence of
+any numeric literal in the prose, that every \texttt{\textbackslash input}
+target exists, that a spelled-out count matches the list it introduces, and
+signatures of typesetting defects that print as garbage without producing a
+wrong number, such as a stray control character or a control word broken by
+an escaped backslash.
 
 \item[The claim registry.] \texttt{scripts/claim\_registry.py} writes one row
 per macro: its value, every manuscript location that uses it, the generator
-file and \emph{line} that defined it --- captured from the calling frame, so
-it cannot drift --- the result file that line reads, and whether the verifier
-re-derives it independently. Because the manuscript contains no numeric
-literals, the registry is exhaustive by construction: any number a reader can
-see is a macro, and every macro is a row. \texttt{-{}-check} fails a build in
-which a macro the manuscript uses is unresolved.
-
-The registry also answers the question a reader should ask of the paragraph
-above: \emph{how many} macros are independently re-derived, not merely how
-many could be. Its summary row counts them, separately for the \emph{headline}
-macros --- the ones the abstract, the introduction and the conclusion print
---- and the count is deliberately not quoted here, because it is a property of
-a build and belongs in the file rather than in a sentence. It is not all of
-them, and the ones it is not are visible in the same file. Writing the missing
-re-derivations is also how the largest arithmetic error in the register was
-found: a range taken over four rows of a table, three of which are corpus
-medians and one of which is a single pair.
+file and line that defined it, the result file that line reads, and whether
+the verifier re-derives it independently. Because the manuscript contains no
+numeric literals, the registry is exhaustive by construction, and
+\texttt{-{}-check} fails a build in which a macro the manuscript uses is
+unresolved. Its summary row counts the independently re-derived macros,
+separately for the headline ones; the count is a property of a build and is
+left in the file rather than quoted here.
 \end{description}
 
 \paragraph{What the harness does not do}
 It guards numbers thoroughly and prose only where a guard was written by hand.
-The correction register in the archive groups this
-project's own errors by class, and its largest class is sentences in which
-every printed number was correct and the relation asserted between them was
-not. The generated-macro discipline makes one sub-class of that structurally
+The generated-macro discipline makes one kind of inconsistency structurally
 impossible --- the same quantity printed differently in two places --- and
-does nothing about the rest. Holes have been found in this project's checkers
-in every round including this one --- a corruption that passed because nothing
-regenerated between it and the check, a strict mode that certified a
-manuscript built from a superseded run, a compliance rule that reads digits
-and not words --- and every one of them was found by a corruption suite, by a
-provenance record, or by reading the output, never by the checker itself.
-
-The clearest limit is Class~G of the register: a quantity computed correctly,
-printed correctly, and consistent everywhere it appears, while the
-\emph{definition} it refers to is not the one the estimator addresses
-(Section~\ref{app:noisy}). Every guard described above passes such a
-manuscript, and would have passed it silently. What caught it was constructing
-two experiments that could each have confirmed the comfortable reading and
-having both refuse to. No checker in this repository would have done that on
-its own.
+does nothing about a sentence in which every printed number is correct and
+the relation asserted between them is not. Nor does it catch a quantity that
+is computed correctly, printed correctly and consistent everywhere while its
+\emph{definition} is not the one the estimator addresses: Class~G of the
+register in Section~\ref{app:corrections}, found by the diagnostics of
+Section~\ref{app:noisy} and not by any check described here.
 
 \subsection{The inference surface, the draw counts and the pipeline axis}
 \label{app:budget}
@@ -184,9 +116,9 @@ run at their own, smaller budgets, Section~\ref{sec:dcabands} and
 Table~\ref{tab:tau}) and every corpus family is effective at
 \nDrawsEffectiveMin: a replicate that leaves any cell of a family without
 outcome variation is dropped from that family, and under the weighted scheme
-no replicate is dropped on any family. The accounting is kept rather than
-removed, because what it now establishes is that the gap it was built to
-measure is empty --- a distinction a reader cannot draw from its absence. And the pipeline axis
+no replicate is dropped on any family. The accounting is reported although
+the gap it measures is empty, because a reader cannot tell an empty gap from
+an omitted one. And the pipeline axis
 carries four levels on the case study's log and two or three elsewhere, by a
 rule declared on row count before the runs, so a sensitivity index computed on
 one pair is not strictly comparable with one computed on another.

@@ -1,144 +1,106 @@
-\section{Case study: a configuration management database}
+\section{Case study: forecasting incident reassignment at a bank's service desk}
 \label{sec:cmdb}
 
-A configuration management database is the register an IT estate keeps of the
-items it contains, and it is bought partly on the argument that operational
-analytics need it. This section evaluates one against a named decision on a
-public log: will this case be reassigned to another group before it is
-resolved? --- a binary forecast issued at a declared origin. The estate is a bank's and the log is BPI Challenge 2014
-\citep{vandongen2014bpic}; the register field is the affected configuration
-item, which takes \cardTauTwo\ distinct values on this estate's cohort at
-incident creation. It is reported at greater length than any of the \nPairs\
-log--target pairs of Section~\ref{sec:multilog} because it is the case that
-motivated the study and the one on which the forecast origin --- when in the
-service-desk process the forecast is issued --- decides the answer.
+This section evaluates one register against a named forecasting decision on
+a public log: will this incident be reassigned to another group before it is
+resolved? --- a binary forecast issued at a declared origin. The log is BPI
+Challenge 2014 \citep{vandongen2014bpic}, from a bank's IT service desk; the
+register is its configuration management database, the inventory of the IT
+items incidents concern, and the register field is the affected
+configuration item, which takes \cardTauTwo\ distinct values on the
+case-study cohort at incident creation. We report it in detail because it is
+the only log on which the forecast origin is varied, and there the origin
+decides the answer.
 
 \subsection{One log, two answers, and what separates them}
 \label{sec:cohort}
 
+This log appears twice. Section~\ref{sec:multilog} applies the pre-specified
+generic rules of Section~\ref{sec:design}, which admit \nRegisteredCohort\
+cases and define the target by the pre-specified handover rule. This section
+uses the cohort and the reassignment target defined for the service desk:
+\nCohort\ cases at prevalence \casePrevalence\ (\casePrevalenceTest\ in the
+test half), \nCaseTrain\ in training and \nCaseTest\ in test. The case-study
+cohort is a strict subset of the pre-specified one: the \nExtraCases\ cases
+the pre-specified rules admit on top of it are those the desk's own cutoff
+excludes.
 
-This log appears twice in this paper. Section~\ref{sec:multilog} applies the
-registered generic rules of Section~\ref{sec:design}, which admit
-\nRegisteredCohort\ cases and define the target by the registered handover
-rule. This section uses the cohort and the reassignment target defined for the
-estate: \nCohort\ cases at prevalence \casePrevalence\ (\casePrevalenceTest\
-in the test half), \nCaseTrain\ in
-training and \nCaseTest\ in test. The estate's cohort is a strict subset of
-the registered one: the \nExtraCases\ cases the registered rules admit on top
-of it are those the estate's own cutoff excludes.
-
-The two produce different answers about the register at the later decision
-time, and the difference is large enough to change the sign. Against intake
-plus group plus the knowledge reference, the estate's cohort and reassignment
-target give \VTtwoKnow\ and the registered cohort and handover target give
-\VregisteredTauTwo, on which the planned contrast \textsf{PC3}'s one-sided
-$p$-value rejects at the Holm-adjusted level while its interval does not
-exclude zero (Section~\ref{sec:planned}). Table~\ref{tab:cohort} takes the
-manuscript from the first to the second one factor at a time.
+The two give different answers about the register at the later origin,
+though not answers anybody would act on differently. Against intake plus group
+plus the knowledge reference, the case-study cohort and reassignment target
+give \VTtwoKnow\ and the pre-specified cohort and handover target give
+\VregisteredTauTwo: opposite signs, both inside the \mpidAuc\ AUC that
+Section~\ref{sec:results-regret} declares the minimal practically important
+difference. On the second, the pre-specified contrast that the register
+adds at the later origin (\textsf{PC3}, Supplement~\ref{sec:planned}) has a one-sided
+$p$-value that rejects at the Holm-adjusted level while its interval does not
+exclude zero; the interval decides, and the supplement says why the two
+disagree. Table~\ref{tab:cohort} reconciles, one factor at a time, the
+value an earlier, unpublished analysis of this log reported with the
+pre-specified one.
 
 \textbf{It is the target, not the cohort.} Over the cohort $\times$ target
 design the target carries \shareTargetPct\ of the variance in the increment,
 the cohort \shareCohortPct, and their interaction \shareCohortTargetPct.
 Reassignment to another group before resolution has prevalence
-\casePrevalence\ over the estate's cohort; handover between activity groups,
-under the registered rule, has prevalence \prevRegisteredHandover\ over the
-registered cohort. They are not the same question and the
-register is not worth the same to them. Two further candidate explanations
-were checked and neither is one: the two analyses reach the same attribute
-values on every row, so it is not a data-preparation difference; and they run
-the same pipeline at the same reference cell, so it is not a modelling
-difference.
+\casePrevalence\ over the case-study cohort; handover between activity
+groups, under the pre-specified rule, has prevalence \prevRegisteredHandover\
+over the pre-specified cohort. They are not the same question and the
+register is not worth the same to them. It is not a data-preparation
+difference --- the two analyses reach the same attribute values on every
+row --- nor a modelling difference, since they run the same pipeline at the
+same reference cell.
 
-\textbf{An axis nobody declares.} Both analyses sort the log in time and split at
-seventy per cent of the row order, and \nTiedTimestamps\ incidents share
-their timestamp with another; the sort an earlier, unpublished analysis of
-this log used was not stable, so its tie order was neither declared nor
-reproducible, and it printed \VpublishedTauTwo\ where the two declared rules
-both give \VTtwoKnow\ (recomputed in the archive from that analysis's own
-loader, \cohortloader). Over \nTiebreakDraws\ random tie-breaks the
-increment ranges over \tiebreakRange\ AUC without changing sign, so no
-conclusion turns on it --- but that range is \tiebreakRangeSharePct\ of the
-increment's magnitude, produced by a choice no reporting standard asks anyone
-to state, which is why Supplement~\ref{app:standard} now asks. Every number
-in this section is computed under a declared tie-break, by incident
-identifier, on the estate's cohort and reassignment target; the registered
-cohort's answers are among the \nPairs\ pairs of Section~\ref{sec:multilog},
-so the decision-time result below is a statement about a routing decision on
-this estate and not about handover in general.
+\textbf{The tie-break is declared.} \nTiedTimestamps\ incidents share their
+timestamp with another, so the temporal split at seventy per cent of the row
+order depends on a tie-breaking rule; over \nTiebreakDraws\ random
+tie-breaks the increment ranges over \tiebreakRange\ AUC without changing
+sign, and every number in this section uses a declared tie-break by incident
+identifier (Supplement~\ref{app:taudetail}).
+
+\label{sec:absorption}
+\textbf{The absorption comes first.} The absorption $D$
+of~\eqref{eq:reduction} is reported with its own interval and the ratio $R$
+second, with a Fieller set: at the reference cell $D$ is \Dabs\ [\DabsLo,
+\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set
+(Supplement~\ref{app:absorption}).
 
 \subsection{Three forecast origins}
 \label{sec:twodecision}
 
-A forecast origin fixes three things at once --- which cases are in scope, what
-is known about them, and which fields are admissible --- and the estate's
-surface is estimated at each of three moments.
+A forecast origin fixes three things at once --- which cases are in scope,
+what is known about them, and which fields are admissible --- and the
+case-study surface is estimated at three origins.
 
 \input{tables/tau}
 
-\textbf{The register's worth turns on which one the analyst occupies}: at
-$\tau_0$ it is \VtauZero\ [\VtauZeroLo, \VtauZeroHi] over \nTauZero\
-\emph{interactions} --- calls to the desk, of which only a minority ever
-become incidents, which is why that population is far larger than the
-\nTauTwo\ incidents the later moments carry --- at
-$\tau_1$ \VtauOne\ [\VtauOneLo, \VtauOneHi], and at $\tau_2$ against the
-intake block plus the group it is \VTtwoGroup\ [\VTtwoGroupLo,
-\VTtwoGroupHi] while against the block, the group and the knowledge reference
-it is \VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] --- not resolvably different
-from zero. The step from $\tau_1$ to $\tau_2$ is an information step
-only on the matched population: \nTauTwoUnmatched\ of the \nTauTwo\
-incidents have no interaction record, so the \tauMatchedRow\ row of
-Table~\ref{tab:tau} restricts $\tau_2$ to $\tau_1$'s own cases and it is that
-row, not the \tauPlainRow, that isolates the information.
-Read as steps, the ladder moves by \deltaCohortAtTau\ AUC from $\tau_0$ to
-$\tau_1$, which is the population; by \deltaSnapshotAtTau\ from $\tau_1$ to
-$\tau_2$ on the matched population, which is the information; and by
-\deltaPopulationResidual\ more from the matched population to the full one,
-which is the incidents without an interaction record.
-Supplement~\ref{app:taudetail} gives each moment's population, register and
-admissible set.
+\textbf{The register's worth turns on which origin the forecast is issued
+at}: at $\tau_0$ it is \VtauZero\ [\VtauZeroLo, \VtauZeroHi] over
+\nTauZero\ \emph{interactions} --- calls to the desk, of which only a
+minority ever become incidents, which is why that population is far larger
+than the \nTauTwo\ incidents the later origins carry --- at $\tau_1$
+\VtauOne\ [\VtauOneLo, \VtauOneHi], and at $\tau_2$ against the intake block
+plus the group it is \VTtwoGroup\ [\VTtwoGroupLo, \VTtwoGroupHi] while
+against the block, the group and the knowledge reference it is \VTtwoKnow\
+[\VTtwoKnowLo, \VTtwoKnowHi] --- not resolvably different from zero. The step
+from $\tau_1$ to $\tau_2$ is an information step only on the matched
+population: \nTauTwoUnmatched\ of the \nTauTwo\ incidents have no interaction
+record, so the \tauMatchedRow\ row of Table~\ref{tab:tau} restricts $\tau_2$
+to $\tau_1$'s own cases. Read as steps, the increment moves by
+\deltaCohortAtTau\ AUC from $\tau_0$ to $\tau_1$, which is the population; by
+\deltaSnapshotAtTau\ from $\tau_1$ to $\tau_2$ on the matched population,
+which is the information; and by \deltaPopulationResidual\ more from the
+matched population to the full one, which is the incidents without an
+interaction record (Supplement~\ref{app:taudetail}).
 
-\subsection{The leakage tipping point, and register quality}
 \label{sec:quality}
-
-Two further experiments on this estate are in
-Supplement~\ref{app:casedetail}. The first is a leakage tipping point: at
-$\tau_2$ the knowledge reference takes the register's increment to
-\VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi], indistinguishable from zero, and
-writing $\lambda$ for the share of that field's values assumed written
-\emph{after} the incident, the increment reaches half its knowledge-free
-value at $\lambda = \lambdaHalf$. An unprovable admissibility assumption is
-therefore reported as a sensitivity analysis and not as a headline. The
-second is a
-register-quality axis under the \nQualityKinds\ declared mechanisms of
-Supplement~\ref{app:measurechoice} and, beside them, three dependent mechanisms and a
-discovery lag (Supplement~\ref{app:casedetail}), applied to both halves of
-the data with their parameters estimated from training alone
+Two further experiments are in Supplement~\ref{app:casedetail}. The first is
+an information-set (look-ahead) sensitivity: writing $\lambda$ for the share
+of the knowledge reference's values assumed written \emph{after} the
+incident, the increment reaches half its knowledge-free value at
+$\lambda = \lambdaHalf$, so an unprovable admissibility assumption is
+reported as a sensitivity analysis and not as a headline. The second is a
+register-quality axis under the \nQualityKinds\ declared mechanisms and,
+beside them, three dependent mechanisms and a discovery lag, applied to both
+halves of the data with their parameters estimated from training alone
 (Supplement~\ref{app:degrade}).
-
-
-\subsection{What this says to a configuration management programme}
-\label{sec:programme}
-
-Supplement~\ref{app:programmeread} gives the reading a service-management
-audience will want, stated in the estate's own vocabulary: the three
-forecast origins in service-desk terms, which layer of the register pays, and
-what would have to change for the answer to move. It is a reading of
-\emph{one} estate on \emph{one} public log and it is offered as one;
-Section~\ref{sec:lim} says what a second would need. Its one sentence for
-this section: a programme that justifies the register on a first-touch
-number and deploys the model at incident creation is quoting the top of a
-ladder and standing on the bottom of it; Section~\ref{sec:nbregret} prices
-that at \promisedPerThousand\ true positives promised per thousand cases
-against \deliveredPerThousand\ delivered.
-
-\subsection{The absorption, and why the ratio is secondary}
-\label{sec:absorption}
-
-The quantity a report of this kind usually leads with is the \emph{relative}
-reduction $R$: the share of the register's apparent value that a single free
-field absorbs. The absolute absorption $D = V(f \mid B_0) - V(f \mid B_1)$ is
-reported first, with its own interval, and $R$ second with a Fieller set and
-the set's kind; on this estate at the reference cell $D$ is \Dabs\ [\DabsLo,
-\DabsHi] and $R$ is \Rref\ with a \RrefKind\ Fieller set. The full ladder
-and the reason the ratio is secondary are in Supplement~\ref{app:absorption}.
-

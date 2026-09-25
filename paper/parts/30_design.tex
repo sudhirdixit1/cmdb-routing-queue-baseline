@@ -1,33 +1,26 @@
 
-\section{The registered benchmark design}
+\section{The pre-specified benchmark design}
 \label{sec:design}
 
-The benchmark is a registered one: which event logs enter, which recorded
-attribute plays the predictor, which plays the forecast target and which the
-baseline were fixed by written rules before any result on a new log existed.
-This section says what was fixed and when, what the rules found, and what the
-corpus does and does not have in common.
+Which datasets enter, which recorded attribute plays the predictor, which the
+forecast target and which the baseline were fixed by written rules before any
+result on a new log existed.
 
 \subsection{What was fixed, and when}
 
-The rules that turn an arbitrary event log into an instance of this problem
-were committed before any result on a new log existed, in \protocolfile\
-for the corpus and \pilotprotocolfile\ for the literature pilot; the
-version history shows the registering commit adding the protocol and its
-fetch script and no result file, and six amendments were declared afterwards, each with its cause and
-the result it changed (Supplement~\ref{app:protocol}); their dates are in
-the protocol file. \textbf{This
-is not a timestamped third-party registration}: what is offered is a file in
-a repository whose history is under the analyst's own control, so any claim that a rule was
-fixed in advance is a claim about the repository and no stronger than the
-repository. What the design buys is that the rules are legible, dated and
-amendable only on the record, not that an outside party watched them being
-written.
+The admission rules and targets were fixed in a dated protocol before any
+result on a new log existed, and six later amendments are logged with their causes
+and the results they changed (Supplement~\ref{app:protocol}). \textbf{This is
+not a timestamped third-party registration}: the protocol is a file in a
+repository whose history is under the analyst's own control, so a claim that
+a rule was fixed in advance is no stronger than that repository. What the
+design buys is that the rules are legible, dated and amendable only on the
+record.
 
 \subsection{Roles}
 
-A log is admitted if the registered rules can find three things in it without
-reading an outcome.
+A log is admitted if the pre-specified rules can find three things in it
+without reading an outcome.
 
 \begin{description}
 \item[The register $f$.] A high-cardinality attribute that is not
@@ -35,47 +28,35 @@ resource-like, has at least \minCardF\ distinct values, is reused across at
 least \minReuseF\ cases on average, and --- by amendment~1 --- whose values
 recur across the temporal split, so that a document number is not mistaken for
 a maintained entity.
-\item[The free field $g$.] A resource-like attribute, present on at least
-\minGPresent\ of cases, whose value varies within a case, so that it can carry
-information about routing. Only the \emph{first} value it takes on a
-case is used as a feature, while the handover target is defined from the
-whole sequence of values --- so the feature is what is known when the case
-opens and the target is what happens afterwards, and the field cannot inform
-the model about its own future. The distinction is not cosmetic: the same
-attribute supplies both, and using the case-level set would put the answer in
-the features.
+\item[The free field $g$.] A resource-like attribute (on the case-study log,
+the assignment group), present on at least \minGPresent\ of cases, whose
+value varies within a case. Only the \emph{first} value it takes on a case is
+used as a feature, while the handover target is defined from the whole
+sequence of values --- so the feature is what is known when the case opens,
+the target is what happens afterwards, and the field cannot inform the model
+about its own future.
 \item[The intake block $B_0$.] Every remaining attribute of cardinality at
 most \maxCardBZero\ that is neither an outcome, nor a timestamp, nor a
 relabelling of the activity, nor a deterministic coarsening of $f$.
 \end{description}
 
-The baseline \emph{rungs} are the nested ladder built from these roles: the
-intercept-only model; half of the intake block (its lower-cardinality half,
-fixed by a deterministic order before any outcome is seen); the whole intake
-block; the block plus the free field $g$; and, where a log admits a further
-field, that field as a rung of its own --- on the primary log the knowledge
-reference, a pointer to a knowledge-base article. The intercept-only rung is
-in the surface and excluded from every admissible set (Table~\ref{tab:axes});
-Figure~\ref{fig:speccurve} labels the primary log's ladder.
+The nested baselines are built from these roles: the intercept-only model;
+half of the intake block (its lower-cardinality half, fixed by a
+deterministic order before any outcome is seen); the whole intake block; the
+block plus the free field $g$; and, where a log admits a further field, that
+field as a baseline of its own --- on the primary log the knowledge
+reference, a pointer to a knowledge-base article. The intercept-only baseline
+is in the surface and excluded from every admissible set
+(Table~\ref{tab:axes}).
 
-Coarsenings of $f$ --- its type, its subtype, the service it belongs to ---
-are given their own role rather than being swept into $B_0$, because which
-\emph{layer} of a register pays is a separate question, answered in
-Supplement~\ref{app:programmeread}.
-
-\input{tables/roles}
-
-Table~\ref{tab:roles} is what the rules found, and it is the design space as
-it was actually varied: per pair, the attribute playing each role and the
-number of levels each axis carries. Two things are visible there that
-Definition~\ref{def:space} does not say. The \emph{target} is not an axis of
-any surface --- each of a log's two targets has a surface of its own, and the
-cohort $\times$ target design exists only in Section~\ref{sec:cohort} --- and
-the per-pair factorial is \nPerPairAxes\ axes wide, not the \nAxes\ of the
-definition: the forecast origin varies only on the case study's log, the
-operating point only in the decision-curve family, and the cohort only in
-Section~\ref{sec:cohort}. Section~\ref{sec:lim} carries the difference as a
-limitation.
+Table~\ref{tab:roles} gives, per pair, the attribute playing each role and the
+number of levels each axis carries; Table~\ref{tab:master} repeats each
+pair's admitted case count and register cardinality $K$. The \emph{target}
+indexes surfaces rather than varying within one, and the per-pair factorial
+is \nPerPairAxes\ axes wide, not the \nAxes\ of Definition~\ref{def:space}:
+the forecast origin varies only on the case study's log, the operating point
+only in the decision-curve family, and the cohort only in
+Section~\ref{sec:cohort} (Section~\ref{sec:lim}).
 
 \subsection{Targets, splits and exclusions}
 \label{sec:targets}
@@ -83,41 +64,20 @@ limitation.
 Two targets are defined for every log --- \emph{handover}, whether more than
 one resource group touches the case, and \emph{duration}, whether it runs
 longer than the training half's median. Cases are ordered by first timestamp
-and split $70/30$, with \nFolds\ expanding-window rolling-origin folds
-beside it, and fields determined only at closure are excluded by name
+and split $70/30$, with \nFolds\ expanding-window folds beside it, and fields
+determined only at closure are excluded by name
 \citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}. A pair is
-excluded only for a registered reason, and every admitted pair is
+excluded only for a pre-specified reason, and every admitted pair is
 analysed and reported --- running the surface only where the reduction
 resolves would condition the analysis on the outcome.
 Supplement~\ref{app:targets} gives the rules and the exclusion codes, and
-Supplement~\ref{app:margin} the admission margin at the upper edge of the
-prevalence window.
-
-Two exclusions a reader of Table~\ref{tab:roles} will ask about.
-BPIC15\_2 is excluded under \textsc{small\_n} at \nBpicFifteenTwoRows\ cases
-while its four siblings are admitted --- the rule is a floor on the case count
-and nothing about the log's content --- and the further BPIC15 targets, the
-BPIC20 logs and BPIC12 are excluded under \textsc{no\_headroom} or
-\textsc{no\_g}, which are prevalence and role failures. And the
-registered handover target on the case study's log sits at the upper edge of
-the admission window: full-log prevalence \prevAdmittedMax\ against a
-window that closes at \prevHi, which excludes other logs at
-\prevExcludedAboveMin. That pair carries \nCellsBpicFourteenHandover\ of the
-corpus's \nDeclaredAdmissibleScalar\ admissible cells --- the log carries
-\nCellsBpicFourteen\ across its two targets --- so a corpus statistic pooled
-over cells is partly a statement about it; Supplement~\ref{sec:family} reports
-every headline on the IT service management (ITSM) family separately for this reason, and
-Section~\ref{sec:lim} asks whether the window should be tightened.
-
-\subsection{What the corpus does and does not have in common}
-\label{sec:construct}
-
-The corpus is \nLogs\ public logs spanning \nDomains\ domains, and it is
-heterogeneous: this is a \emph{benchmark of specification sensitivity across
-heterogeneous forecasting problems}, not a replication of one finding on
-several organisations, so no effect magnitude is averaged across domains as
-though it estimated one universal register value, and the \nITSMPairs\
-ITSM-like pairs are analysed as a group as well. Supplement~\ref{app:construct}
-names, for every pair, the domain, the field playing each role, the target's
-interpretation and the construct threat that pair carries.
-
+Supplement~\ref{app:margin} the admission margin. The case-study log's
+handover pair sits at the upper edge of the prevalence window, at
+\prevAdmittedMax\ against a window that closes at \prevHi, and carries
+\nCellsBpicFourteenHandover\ admissible cells, so every headline is also
+reported on the IT service management (ITSM) family
+(Supplement~\ref{sec:family}). The corpus is \nLogs\ public logs spanning
+\nDomains\ domains: a \emph{benchmark of specification sensitivity across
+heterogeneous forecasting problems}, not a replication of one finding, so no
+effect magnitude is averaged across domains
+(Supplement~\ref{app:construct}).

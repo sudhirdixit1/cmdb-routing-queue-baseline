@@ -187,6 +187,9 @@ def emit(mn):
         put("madFullyRestrictedMedian", num(float(M.mad_full.median()), 4))
         put("madResolvedMedian", num(float(M.mad_resolved.median()), 4))
         put("madResolvedMax", num(float(M.mad_resolved.max()), 4))
+        #  2026-09-25: the median above is over the pairs that resolve any
+        #  AUC cell, not over every pair; the abstract says how many.
+        put("nPairsMadResolved", int(M.mad_resolved.notna().sum()))
         put("madAllMedian", num(float(M.mad_all.median()), 4))
         put("nPairsRefResolved", int(M.reference_resolved.sum()))
 
@@ -406,16 +409,16 @@ GLOSSARY = [
     ("intake block $B_0$", "what is known when the case arrives, excluding "
      "the register and the free field",
      "category, impact, urgency, priority"),
-    ("rung", "one baseline in the nested ladder $B_0 \\subset B_1 \\subset "
+    ("nested baseline (rung)", "one baseline in the nested sequence $B_0 \\subset B_1 \\subset "
      "\\cdots$ the increment is measured against",
      "intake $+$ group $+$ knowledge reference"),
-    ("instrument", "the scalar metric an increment is read in; five are "
+    ("metric (instrument)", "the scalar score an increment is read in; five are "
      "declared and they are not on a common scale", "ROC AUC"),
     ("cell", "one complete assignment to every varied axis: a point of the "
      "surface", "one-hot logistic, holdout, clean register, intake $+$ "
      "group, AUC"),
     ("specification surface", "the map from cells to increments over a "
-     "declared design space", "the \\nCellsFigOne\\ cells of Figure~1"),
+     "declared design space", "the case study's \\nCellsFigOne\\ cells"),
     ("declared / computational / inference surface",
      "what is admissible, what was computed, and what carries bootstrap "
      "draws --- three denominators, audited apart",
@@ -424,7 +427,7 @@ GLOSSARY = [
      "\\nInferenceScalar)"),
     ("resolved", "the cell's simultaneous band excludes zero, so the data "
      "determine the sign of that cell's increment",
-     "see Table~\\ref{tab:triple} (the corpus: \\nCellsResolvedAuc\\ of "
+     "see Table~\\ref{tab:master} (the corpus: \\nCellsResolvedAuc\\ of "
      "the \\nInferenceCells\\ AUC cells that carry a band)"),
     ("family $\\mathcal{F}$", "the set of cells a claim quantifies over, "
      "which is what a simultaneous band must cover",
@@ -433,7 +436,7 @@ GLOSSARY = [
      "cells: uniformly or conditionally beneficial or harmful, "
      "sign-changing, unresolved", "see Table~\\ref{tab:master}"),
     ("robustness index $\\rho$", "(beneficial $-$ harmful) $/\\,|\\mathcal{F}|$, "
-     "always printed with the counts behind it", "see Table~\\ref{tab:triple}"),
+     "always printed with the counts behind it", "see Table~\\ref{tab:master}"),
     ("MPID", "the minimal practically important difference, declared before "
      "any disagreement is counted", "\\mpidAuc\\ AUC"),
 ]
@@ -500,17 +503,16 @@ def _tables(mn, AX, P, M, RG, FA=None):
                       "plays the register $f$ and which the free field $g$ on "
                       "each admitted pair, whether the pair is IT service "
                       "management, and how many levels each varied axis "
-                      "carries: pipeline, split, register-quality condition, "
-                      "admissible baseline rung --- the intercept-only "
-                      "rung is in the surface and in no admissible set, "
-                      "and is not counted here. Every pair also carries the "
-                      "\\nInstruments\\ scalar instruments, so the per-pair "
-                      "factorial is \\nPerPairAxes\\ axes wide and not the "
-                      "\\nAxes\\ of Definition~\\ref{def:space}; "
-                      "Section~\\ref{sec:design} says which axes are fixed on "
-                      "which pairs and why. `cases' is the admitted case "
-                      "count and `levels of $f$' the register's cardinality. "
-                      "The master table cannot be read without it.",
+                      "carries: pipeline, split, register-quality condition "
+                      "and admissible baseline (the intercept-only baseline "
+                      "is in no admissible set and is not counted). Every "
+                      "pair also carries the \\nInstruments\\ scalar "
+                      "metrics, so the per-pair factorial is "
+                      "\\nPerPairAxes\\ axes wide and not the \\nAxes\\ "
+                      "of Definition~\\ref{def:space}; "
+                      "Section~\\ref{sec:design} says which axes are fixed "
+                      "on which pairs. `cases' is the admitted case count and "
+                      "`levels of $f$' the register's cardinality.",
                       "tab:roles",
                       textcols={"register field f": 0.21,
                                 "free field g": 0.16})
@@ -535,29 +537,16 @@ def _tables(mn, AX, P, M, RG, FA=None):
         (TABLES / "strata.tex").write_text(
             tex_table(t.sort_values(["log", "target"]),
                       "\\textbf{The decomposition with the split as an error stratum.} "
+                      #  IJF LENGTH PASS: shortened; the holdout-dropped
+                      #  share is quoted in Section 6.2 and not repeated here.
                       "Per cent of the pooled variance of $V_s$, per pair, "
-                      "median over the \\nInstruments\\ instruments, under "
-                      "the equal-level measure. The four columns are an exact "
-                      "partition of the orthogonal decomposition's "
-                      "components, and on \\emph{each} of the \\nPairs\\ $\\times$ "
-                      "\\nInstruments\\ per-instrument decompositions the medians are "
-                      "taken over (and on the same number with the holdout dropped, "
-                      "below) they sum to 100 to within \\stratumPartitionError. "
-                      "\\textbf{The printed "
-                      "rows are medians over instruments and therefore need "
-                      "not sum to 100}, for the same reason "
-                      "Figure~\\ref{fig:sobol}'s right panel is not stacked: "
-                      "a median is not linear. `analyst choice' collects "
-                      "every component built only from the pipeline and the "
-                      "baseline rung, `counterfactual' the register-quality "
-                      "main effect, `mixed' the components that join the two, "
-                      "and `resampling' every component involving the split "
-                      "--- five of whose six levels are expanding-origin "
-                      "folds on the same data. Dropping the sixth, the single "
-                      "temporal holdout, so that the axis is folds and "
-                      "nothing else, moves the last column's corpus median "
-                      "from \\shareResamplingStratumPct\\ to "
-                      "\\shareResamplingRollingPct.",
+                      "median over the \\nInstruments\\ metrics, under the "
+                      "equal-level measure. The four columns are the exact "
+                      "partition of Equation~\\eqref{eq:strata}, which sums "
+                      "to 100 on every per-metric decomposition to within "
+                      "\\stratumPartitionError; the printed medians need not. "
+                      "`resampling' is every component involving the split, "
+                      "five of whose six levels are expanding-window folds.",
                       "tab:strata"),
             encoding="utf-8")
 

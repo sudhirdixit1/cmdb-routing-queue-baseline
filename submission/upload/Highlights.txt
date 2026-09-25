@@ -1,5 +1,5 @@
-A predictor's incremental forecast performance is a surface, not one number
-An exact decomposition separates analyst choices from resampling
-Simultaneous bands over the whole declared family, with coverage measured
-Resolved cells sit 0.0600 in area under the curve from the one-number report
-A register's worth turns on the forecast origin and on which target is set
+A predictor's incremental forecast accuracy is a surface, not one number
+An exact decomposition separates the evaluation split from other forecaster choices
+Simultaneous bands over a declared family, with coverage measured by simulation
+Resolved specifications sit a median 0.0600 AUC from the one-number report
+In service-desk forecasting, a predictor's value depends on the forecast origin

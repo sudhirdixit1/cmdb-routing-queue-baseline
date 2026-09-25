@@ -72,123 +72,162 @@ def panel_letter(ax, tag):
 
 
 # --------------------------------------------------------------------------
+#  IJF print geometry for the article's Figure 3: drawn at the text width
+#  (468 TeX pt, elsarticle 3p) on a fixed canvas, so at
+#  \includegraphics[width=\textwidth] it prints at 1:1 with 8 pt text.
+TEXTWIDTH_IN = 468.0 / 72.27
+FIG_FONT = 8.0
+
+#  The reference pair of panel (a): named, not chosen by a tie-break.  It is
+#  the case study's pair, the one Figure 1 draws, at the instrument every
+#  other table reports first.
+REF_PAIR = ("BPIC14", "handover")
+REF_METRIC = "auc"
+
+#  The four strata of eq. (strata), in the order the text names them, with
+#  a greyscale fill that differs in HATCH as well as tone.
+STRATA = (
+    ("share_resampling", "split-involving\n(resampling)",
+     dict(facecolor="white", hatch="////")),
+    ("share_analyst", "analyst choices",
+     dict(facecolor="0.62", hatch=None)),
+    ("share_counterfactual", "register-quality\ncounterfactual",
+     dict(facecolor="white", hatch="....")),
+    ("share_mixed", "mixed", dict(facecolor="0.88", hatch="\\\\\\\\")),
+)
+
+
 def fig_sobol():
-    """ROUND TWENTY-FIVE, round 24's minor comment 8.
+    """FIGURE 3.  The decomposition with the split as an error stratum.
 
-    This figure was a stacked bar per pair whose segments were MEDIANS over
-    the five instruments.  Medians do not add, so the bars did not sum to one
-    -- several exceeded it -- and the caption had to tell the reader not to
-    perform the addition the picture invites.  A referee said to plot one
-    pair's decomposition exactly instead, with the corpus summarised as
-    points and intervals, and they were right: a stacked bar is a promise
-    that the parts make the whole, and only the left panel can keep it.
+    ROUND TWENTY-EIGHT (IJF editor's review).  The previous figure drew the
+    POOLED first-order decomposition, which the text calls secondary, and not
+    the stratum partition behind the headline share.  This one draws the
+    partition of eq. (strata), from the file Table tab:strata and its macros
+    are made from (s42_strata.csv, every split level):
 
-    LEFT.  One pair, one instrument, so the components are a decomposition
-    and sum to one exactly.  The pair is the case study's own log and the
-    reference target, selected by the same rule the rest of the paper uses
-    rather than chosen for its shape.
-    RIGHT.  Every axis's first-order index across the corpus: the median over
-    pairs as a point, with the range the middle pairs occupy as a bar and the
-    full range as a rule.  Nothing here is stacked, so nothing invites an
-    addition that would be wrong.
+    (a) the exact four-stratum partition for ONE declared pair at ONE
+        instrument, which sums to one;
+    (b) the four stratum shares for every pair -- each pair's median over
+        the instruments, the row Table tab:strata prints -- with the corpus
+        median (the \\share...StratumPct macros) marked and the case study's
+        two pairs drawn open, since the text names them as the exception.
+    Both panels share one x axis, the share of the variance of V_s.
     """
-    IDX = load("s22_indices.csv")
-    SUM = load("s22_summary.csv")
-    if IDX is None or SUM is None:
+    ST = load("s42_strata.csv")
+    if ST is None or ST.empty:
         return None
-    pr = IDX[(IDX.scale == "raw-within-metric")
-             & (IDX.measure == "equal-level")]
-    s = SUM[(SUM.scale == "raw-within-metric")
-            & (SUM.measure == "equal-level")]
-    if pr.empty or s.empty:
+    a = ST[ST.split_set == "all"]
+    cols = [c for c, _, _ in STRATA]
+    one = a[(a.log == REF_PAIR[0]) & (a.target == REF_PAIR[1])
+            & (a.metric == REF_METRIC)]
+    if one.empty:
         return None
+    parts = [float(one[c].iloc[0]) for c in cols]
+    pp = a.groupby(["log", "target"])[cols].median()
+    med = pp.median()
+    case = [i for i in pp.index if i[0] == REF_PAIR[0]]
 
-    order = [c for c in ("split", "rung", "quality_level", "learner")
-             if c in set(pr.axis)]
-    labels = {"rung": "baseline", "learner": "pipeline",
-              "quality_level": "register quality", "split": "split"}
-    shades = ["0.15", "0.38", "0.58", "0.76"]
+    W = TEXTWIDTH_IN
+    #  R leaves room for half the "100%" tick label, which a standard bbox
+    #  would otherwise clip (2026-09-25 copy-edit read)
+    L, R = 1.62, 0.26
+    ha_, hb_ = 0.95, 2.10
+    bottom, mid, top = 0.46, 0.14, 0.04
+    H = bottom + hb_ + mid + ha_ + top
+    fig = plt.figure(figsize=(W, H))
+    fw = (W - L - R) / W
+    axA = fig.add_axes([L / W, (bottom + hb_ + mid) / H, fw, ha_ / H])
+    axB = fig.add_axes([L / W, bottom / H, fw, hb_ / H], sharex=axA)
 
-    #  the exact panel: the largest pair in the corpus, at the reference
-    #  instrument, which is the cell every other table reports at
-    REF_METRIC = "auc"
-    big = (pr.groupby(["log", "target"]).n_cells.max().idxmax()
-           if "n_cells" in pr.columns
-           else tuple(pr.groupby(["log", "target"]).size().idxmax()))
-    one = pr[(pr.log == big[0]) & (pr.target == big[1])
-             & (pr.metric == REF_METRIC)]
-    one_rem = s[(s.log == big[0]) & (s.target == big[1])
-                & (s.metric == REF_METRIC)]
-    if one.empty or one_rem.empty:
-        return None
-    parts = [float(one[one.axis == c].S.iloc[0]) if (one.axis == c).any()
-             else 0.0 for c in order]
-    remainder = float(one_rem.interaction_total.iloc[0])
-
-    fig, (axL, axR) = plt.subplots(
-        1, 2, figsize=(6.9, 2.9), gridspec_kw=dict(width_ratios=[1.0, 1.55]))
-
+    #  ---- (a) one pair, one instrument: an exact partition ----------------
     left = 0.0
-    for k, (c, v) in enumerate(zip(order, parts)):
-        axL.bar([0], [v], bottom=[left], width=0.55,
-                color=shades[k % len(shades)], edgecolor="white",
-                linewidth=0.6, label=labels.get(c, c))
-        if v > 0.045:
-            axL.text(0, left + v / 2, "%.2f" % v, ha="center", va="center",
-                     fontsize=6.4, color="white" if k < 2 else "0.1")
+    centres = []
+    for (c, name, sty), v in zip(STRATA, parts):
+        axA.barh([0], [v], left=[left], height=0.5, edgecolor="black",
+                 linewidth=0.6, **sty)
+        centres.append(left + v / 2)
         left += v
-    axL.bar([0], [remainder], bottom=[left], width=0.55, color="white",
-            edgecolor="0.25", linewidth=0.7, hatch="////",
-            label="higher-order total")
-    if remainder > 0.045:
-        axL.text(0, left + remainder / 2, "%.2f" % remainder, ha="center",
-                 va="center", fontsize=6.4, color="0.1")
-    axL.set_xlim(-0.55, 0.55)
-    axL.set_ylim(0, 1.0)
-    axL.set_xticks([])
-    axL.set_ylabel("share of the variance of $V_s$")
-    #  IJF: no title above the plot.  The pair, the instrument and the
-    #  one-decomposition note the title carried are in the caption, which
-    #  names this panel as (a).
-    panel_letter(axL, "(a)")
-    for sp in ("top", "right"):
-        axL.spines[sp].set_visible(False)
+    axA.set_ylim(-1.05, 1.05)
+    axA.set_xlim(0, 1)
+    #  direct labels with leaders: two above the bar, two below, so the
+    #  narrow segments at either end are named without crowding
+    place = {0: ("above", "left"), 1: ("above", "center"),
+             2: ("below", "right"), 3: ("above", "right")}
+    short = {0: "split-involving", 1: "analyst choices",
+             2: "register-quality counterfactual", 3: "mixed"}
+    for k, (v, xc) in enumerate(zip(parts, centres)):
+        side, al = place[k]
+        sgn = 1 if side == "above" else -1
+        axA.plot([xc, xc], [sgn * 0.25, sgn * 0.60], color="black", lw=0.6)
+        axA.text(xc, sgn * 0.64, "%s %.1f%%" % (short[k], 100 * v),
+                 ha=al, va="bottom" if side == "above" else "top",
+                 fontsize=FIG_FONT, color="black")
+    axA.axis("off")
 
-    #  the corpus panel: a point and two ranges per axis, plus the remainder
-    per = pr.groupby(["log", "target", "axis"]).S.median().reset_index()
-    rem = s.groupby(["log", "target"]).interaction_total.median().reset_index()
-    rows = [(labels.get(c, c), per[per.axis == c].S.values) for c in order]
-    rows.append(("higher-order total", rem.interaction_total.values))
-    ys = np.arange(len(rows))[::-1]
-    for y, (name, v) in zip(ys, rows):
-        v = np.asarray(v, float)
-        v = v[np.isfinite(v)]
-        if not len(v):
-            continue
-        axR.hlines(y, v.min(), v.max(), color="0.72", lw=1.0, zorder=1)
-        axR.hlines(y, np.percentile(v, 25), np.percentile(v, 75),
-                   color="0.35", lw=4.0, zorder=2)
-        axR.plot([np.median(v)], [y], "o", ms=4.6, color="black", zorder=3)
-    axR.set_yticks(ys)
-    axR.set_yticklabels([r[0] for r in rows], fontsize=7.2)
-    axR.set_xlim(0, 1.0)
-    axR.set_xlabel("first-order index across the \\nPairs\\ pairs"
-                   .replace("\\nPairs\\", "%d" % per.groupby(
-                       ["log", "target"]).ngroups))
-    #  IJF: no title above the plot; "the corpus: median, middle half, full
-    #  range" is in the caption, which names this panel as (b).
-    panel_letter(axR, "(b)")
-    axR.grid(axis="x", color="0.9", lw=0.5, zorder=0)
+    #  ---- (b) every pair, per stratum ------------------------------------
+    ys = np.arange(len(STRATA))[::-1].astype(float)
+    rng = np.random.default_rng(20260925)       # fixed, for the jitter only
+    jit = rng.uniform(-0.14, 0.14, size=len(pp))
+    is_case = np.array([i in case for i in pp.index])
+    for y, (c, name, sty) in zip(ys, STRATA):
+        v = pp[c].values
+        axB.axhspan(y - 0.45, y + 0.45, color="0.95", lw=0, zorder=0)
+        axB.scatter(v[~is_case], y + jit[~is_case], s=16, marker="o",
+                    facecolors="black", edgecolors="black", linewidths=0.4,
+                    zorder=3)
+        axB.scatter(v[is_case], y + jit[is_case], s=26, marker="o",
+                    facecolors="white", edgecolors="black", linewidths=0.9,
+                    zorder=3)
+        m = float(med[c])
+        axB.plot([m, m], [y - 0.42, y + 0.42], color="black", lw=2.2,
+                 solid_capstyle="butt", zorder=4)
+        #  the median's value in the band above the points, clear of them
+        axB.text(m + 0.010, y + 0.435, "median %.1f%%" % (100 * m),
+                 ha="left", va="top", fontsize=FIG_FONT, zorder=5)
+        #  a swatch of panel (a)'s fill beside the row label ties the two
+        axB.add_patch(plt.Rectangle(
+            (-0.075, y - 0.13), 0.05, 0.26, transform=axB.transData,
+            clip_on=False, edgecolor="black", linewidth=0.5, **sty))
+    axB.set_yticks(ys)
+    axB.set_yticklabels([name for _, name, _ in STRATA], fontsize=FIG_FONT,
+                        linespacing=1.0)
+    axB.tick_params(axis="y", length=0, pad=34)
+    axB.set_ylim(-0.5, len(STRATA) - 0.5)
+    axB.set_xlim(0, 1)
+    axB.set_xticks(np.linspace(0, 1, 6))
+    axB.set_xticklabels(["%d%%" % t for t in range(0, 101, 20)])
+    axB.tick_params(axis="x", labelsize=FIG_FONT, length=3)
+    axB.set_xlabel("share of the variance of $V_s$", fontsize=FIG_FONT)
     for sp in ("top", "right", "left"):
-        axR.spines[sp].set_visible(False)
+        axB.spines[sp].set_visible(False)
+    #  the key to the markers, where every row is empty
+    from matplotlib.lines import Line2D
+    keys = [Line2D([], [], ls="none", marker="o", ms=4, mfc="black",
+                   mec="black", label="one pair (median over metrics)"),
+            Line2D([], [], ls="none", marker="o", ms=5, mfc="white",
+                   mec="black", mew=0.9,
+                   label="the case study's two %s pairs" % REF_PAIR[0])]
+    axB.legend(handles=keys, loc="lower right", frameon=True,
+               fontsize=FIG_FONT, handletextpad=0.3, borderpad=0.3,
+               facecolor="white", edgecolor="0.6", framealpha=1.0,
+               bbox_to_anchor=(1.0, 0.08))
 
-    #  a legend anchored to the LEFT axes ran across the right panel's own
-    #  x-axis label; it belongs to the figure, under both panels
-    h, l = axL.get_legend_handles_labels()
-    fig.legend(h, l, frameon=False, ncol=5, fontsize=6.4,
-               loc="lower center", bbox_to_anchor=(0.5, 0.0))
-    fig.subplots_adjust(bottom=0.30, top=0.96, wspace=0.30)
-    return save(fig, "figS2_sobol")
+    fig.text(0.02 / W, (bottom + hb_ + mid + ha_) / H, "(a)", fontsize=9,
+             fontweight="bold", va="top", ha="left")
+    fig.text(0.02 / W, (bottom + hb_ + 0.02) / H, "(b)", fontsize=9,
+             fontweight="bold", va="top", ha="left")
+    fig.text((L - 0.10) / W, (bottom + hb_ + mid + ha_ / 2) / H,
+             "%s / %s\nat %s" % (REF_PAIR[0], REF_PAIR[1],
+                                 REF_METRIC.upper()),
+             ha="right", va="center", fontsize=FIG_FONT)
+    p = PAPER / "figS2_sobol.png"
+    with plt.rc_context({"savefig.bbox": "standard"}):
+        fig.savefig(p)
+        fig.savefig(p.with_suffix(".pdf"))
+    plt.close(fig)
+    return p
+
 
 def fig_regions():
     #  ROUND TWENTY-ONE.  The article's regions and rho are computed under a
@@ -317,7 +356,9 @@ def fig_coverage():
     ax.set_xticklabels(piv.index, fontsize=7)
     ax.set_ylabel("coverage of the estimator's own limit")
     ax.set_ylim(0, 1.02)
-    ax.legend(frameon=False, fontsize=6.4, ncol=2, loc="lower right")
+    #  above the axes: inside them it overprinted the bars (2026-09-25)
+    ax.legend(frameon=False, fontsize=6.4, ncol=3, loc="lower center",
+              bbox_to_anchor=(0.5, 1.01))
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
     return save(fig, "figS6_coverage")

@@ -1,7 +1,7 @@
 A register has layers. The affected configuration item is the finest; its
 type, its subtype and the service component it belongs to are deterministic
 coarsenings, and a buyer choosing how much of a register to populate is
-choosing between them. The registered rules give coarsenings their own role
+choosing between them. The pre-specified rules give coarsenings their own role
 (Section~\ref{app:protocol}, amendment~4) so that this question can be asked
 without the coarsenings contaminating the intake block.
 
@@ -12,12 +12,12 @@ decision-time table}
 Section~\ref{app:programmeread} reports the item as worth \layerItemHandover\ AUC
 over the intake block and Table~\ref{tab:tau} reports \VtauTwo\ over the same
 block, and a reader who tries to reconcile the two cannot, because they are
-different cells. This ladder is computed on the \emph{registered} cohort of
+different cells. This ladder is computed on the \emph{pre-specified} cohort of
 Section~\ref{sec:design} --- \layerLadderN\ cases, \layerLadderNTest\ in
-test --- under the registered handover rule, one-hot logistic regression at the
+test --- under the pre-specified handover rule, one-hot logistic regression at the
 fixed temporal holdout, against the intake block at base AUC
 \layerBaseHandover\ on the handover question and \layerBaseDuration\ on
-duration. Table~\ref{tab:tau} is on the estate's own cohort and its
+duration. Table~\ref{tab:tau} is on the service desk's own cohort and its
 reassignment target, which is neither of the two targets this ladder is
 computed on. Section~\ref{sec:cohort} is the reason the two differ:
 they are the two analyses whose answers about this register disagree, and
@@ -29,7 +29,7 @@ two cohorts it is made on.
 Table~\ref{tab:layers} reports the increment of each layer over the same
 baseline, and of the item over each layer. \textbf{Which layer pays is a
 property of the target and of the log, and not of the register.} On the case
-study's estate the coarse layers are \emph{not} close to free: the item's type
+study's service desk the coarse layers are \emph{not} close to free: the item's type
 alone reaches \layerTypeSharePctHandover\ of what the item is worth over the
 intake block on the handover question and
 \layerTypeSharePctDuration\ on the duration question
@@ -42,9 +42,9 @@ coarse layer is worth essentially nothing --- at most
 BPIC19 the hierarchy declared for the ladder is not a nesting: the item
 category has fewer values than the vendor it is declared to coarsen into, so
 the \textsf{levels from coarse} column is there an order and not a depth. The one layer worth anything
-on BPIC19 is the vendor, the log's own registered register field, at
+on BPIC19 is the vendor, the log's own pre-specified register field, at
 \layerBpicNineteenVendor; the other three --- the item included --- are worth
 at most \layerBpicNineteenOthersMax. \textbf{So a programme cannot
-read a layer policy off another estate's ladder}, which is the same conclusion
+read a layer policy off another service desk's ladder}, which is the same conclusion
 this paper reaches about the increment itself, one level down. None of it
 transfers to any other task and none is claimed to.

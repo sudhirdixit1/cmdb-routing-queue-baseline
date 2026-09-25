@@ -4,44 +4,25 @@
 
 \label{sec:denominator}
 This section reports the surface on every admitted pair: what each analyst
-choice is worth, where a sign is determined and with what coverage, and what
-the conventional one-number report costs.
-Every point estimate in this section comes from one master surface ---
-one file in the archive --- computed by one pass of
-one pipeline over
-\nPairs\ log--target pairs, up to \nLearners\ learners, \nSplits\ splits, up to
-\nQuality\ register-quality conditions, the nested baseline ladder and
-\nMetrics\ instruments including the \nGrid-point decision-curve grid
-(Table~\ref{tab:roles} gives each pair's own counts). Its
-\nSurfaceRows\ rows \emph{include} the intercept-only rung, so that the
-surface is complete; no admissible set contains it, and the
-\nDeclaredAdmissibleScalar\ admissible scalar cells every headline is computed
-on exclude it. Every interval is the basic construction of
-Section~\ref{sec:boot} and every band the whole-surface simultaneous
-construction of Section~\ref{sec:simbands}, and each table names which it
-prints. The denominator audit is in Table~\ref{tab:denominator}: declared
-equals computed on all \nPairs\ pairs, with \nDuplicateCells\ duplicates and
-\nMissingCells\ missing, and the inference surface (\nInferenceScalar\ scalar
-members) is a subset of it cell for cell, which the verifier
-asserts.
+choice is worth, where a sign is determined, and what the conventional
+one-number report costs. All point estimates come from one pass of the frozen
+pipeline over the \nPairs\ log--target pairs; intervals are the basic
+construction of Section~\ref{sec:boot} and bands the whole-surface
+construction of Section~\ref{sec:simbands}.
 
 \subsection{The master table}
 
 \input{tables/master}
 
-Table~\ref{tab:master} is the frozen master table: one row per log--target
-pair, the increment at the reference specification with its simultaneous
-band, the region label, the robustness index and the sign-disagreement rate
-of a conventional one-number report. The reference specification is the same
-everywhere --- one-hot logistic regression, the single temporal holdout, the
-clean register, the intake block plus the free field as the baseline, ROC AUC
---- and its region and $\rho$ columns are the ones Section~\ref{sec:regions}
-reports. The reference cell's sign and the region label need not agree, and
-on several pairs they do not: a surface can be conditionally beneficial while
+Table~\ref{tab:master} has one row per log--target pair: the increment at the
+reference cell --- the conventional report of Section~\ref{sec:surface} ---
+with its simultaneous band, the counts of beneficial, harmful and unresolved
+cells, the region label, the robustness index and the sign-disagreement rate.
+The reference cell's sign and the region label need not agree, and on
+several pairs they do not: a surface can be conditionally beneficial while
 the one cell an analyst would have stood on is negative, because the label
 ranges over the whole inference family and the reference cell is one member
-of it. Table~\ref{tab:triple} prints the counts each label rests on, and
-Table~\ref{tab:roles} which attribute plays the register on each row.
+of it.
 
 \subsection{What the choices are worth}
 \label{sec:axes2}
@@ -50,248 +31,186 @@ Table~\ref{tab:roles} which attribute plays the register on each row.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figS2_sobol.pdf}
-\caption{The decomposition, within instrument, under the equal-level measure.
-\textbf{(a)} BPIC14/duration at AUC: one pair at one instrument, so the
-components are one decomposition and the parts sum to one exactly --- the
-pair, one of the two with the most admissible cells, at the reference
-instrument, which is the cell
-every other table reports at. The hatched segment is the total higher-order
-share $1 - \sum_i S_i$ of~\eqref{eq:inttotal}. \textbf{(b)} The corpus: each
-axis's first-order index across the pairs, as the median over pairs (the
-point) with the range the middle half occupies (the bar) and the full range
-(the rule). Nothing in (b) is stacked, because a median over pairs and a
-median over instruments do not add and a stacked bar of them would invite the
-addition.}
+\caption{The decomposition with the split as an error stratum
+\eqref{eq:strata}, under the equal-level measure. \textbf{(a)} One
+decomposition, so the four strata partition its variance exactly: the
+case-study pair BPIC14/handover in AUC. \textbf{(b)} Every pair: each point is
+one pair's share, the median over its \nInstruments\ metrics (the rows of
+Table~\ref{tab:strata}); the bar is the median over the \nPairs\ pairs; open
+circles are the two BPIC14 pairs, where analyst choices rather than
+resampling carry the variance. The medians in (b) do not add.}
 \label{fig:sobol}
 \end{figure}
 
-Table~\ref{tab:sobol} and Figure~\ref{fig:sobol} give the pooled decomposition,
-computed within each instrument in that instrument's own units, under the
-equal-level measure. The table's first four columns are, per pair, the median
-over the five instruments of each axis's first-order index; its last column is
-the largest per-axis interaction \emph{involvement}. Three aggregations of
-this table are used here and in Supplement~\ref{app:measures} and they are
-not interchangeable, so each is named where it appears: the median over pairs of a column of this table; the
-\largestFirstOrderPct\ figure, which is the pooled surface's largest
-first-order index at the median pair --- the median over pairs of the median
-over instruments of the \emph{per-instrument} largest first-order index, and
-therefore not obtainable by taking a maximum across the four printed
-columns; and the corpus medians of the higher-order share. The second is the corpus
-median Table~\ref{tab:measures} prints as its largest first-order index; the
-per-instrument values behind it are in the archive.
+Each entry of Table~\ref{tab:sobol} is a median over the \nInstruments\
+metrics, computed within each metric in its own units. The pooled surface's
+largest first-order index at the median pair, \largestFirstOrderPct, is a
+different quantity --- the median over pairs of the median over metrics of
+the largest within-metric first-order index --- and cannot be read off the
+table's columns.
 
 \input{tables/strata}
 
-\textbf{Most of what the pooled surface varies over is not specification at
-all.} Table~\ref{tab:strata} partitions the decomposition by
-\eqref{eq:strata}, exactly and on every decomposition separately. Taking each
+\textbf{Most of the pooled surface's variance involves the evaluation
+split.} Table~\ref{tab:strata} and Figure~\ref{fig:sobol} partition the
+decomposition by \eqref{eq:strata}, exactly and on every decomposition separately. Taking each
 column's median across the corpus --- \emph{four medians, which do not add,
 and are not four parts of one pair} --- the components involving the split
 carry \shareResamplingStratumPct\ of the variance, against
 \shareAnalystStratumPct\ for the choices an analyst makes,
 \shareCounterfactualStratumPct\ for the register-quality counterfactual and
 \shareMixedStratumPct\ for the components that join them. Resampling is the
-largest of the four on \nResamplingLargest\ of the \nPairs\ pairs. Dropping
+largest of the four on \nResamplingLargest\ of the \nPairs\ pairs.
+That share has a benchmark. With six split levels, the components involving
+the split hold \splitNullShareMinPct\ to \splitNullShareMaxPct\ of the
+degrees of freedom, so a surface with no signal, whose cells differ only by
+independent noise, would put about that share there; the observed share is
+below it on \nPairsSplitBelowNull\ of the \nPairs\ pairs, and the analyst's
+choices carry \shareAnalystStratumPct\ against the \analystNullSharePct\ such
+a surface would give them. The split stratum is where the cells' estimation
+noise lands, and a pooled surface that reads it as specification sensitivity
+overstates the forecaster's latitude; that is why the decomposition
+separates it.
+Resampling the pairs puts that median in
+[\shareResamplingStratumLoPct, \shareResamplingStratumHiPct] --- an interval
+over which pairs make up the corpus, not over sampling error within a pair ---
+and it is similar across metrics: in AUC alone it is \splitShareAucPct, in
+Brier skill alone \splitShareBrierPct. The split's main effect carries a median
+\splitMainPct\ and its interactions with the other axes \splitInteractionsPct,
+so most of the stratum is interaction: effects of the other axes that change
+from fold to fold, which this design cannot separate from cell-specific
+estimation error. The fold-to-fold variation also trends in the fold index
+more than exchangeable folds would, which is consistent with the time
+structure of an expanding window --- a growing training set and a moving test
+period --- and with serially correlated estimation error, which the design
+cannot tell apart (Supplement~\ref{app:ijf-foldtrend}). Dropping
 the one split level that is a genuine analyst choice --- the single temporal
-holdout, leaving five folds of one rule --- moves that share only from
-\shareResamplingStratumPct\ to \shareResamplingRollingPct, so the stratum is
-not an artefact of mixing a rule with its folds. The two exceptions
-are the case study's own pairs, where the analyst axes carry the richest
-grids in the corpus --- \nPipelineLevelsCase\ pipelines and
-\nQualityFigOne\ register-quality conditions, against at most
-\nPipelineLevelsLarge\ and \nQualityLevelsOther\ on every other pair
-(Table~\ref{tab:roles}) --- and the ordering reverses.
+holdout, leaving five folds of one rule --- the share falls only to
+\shareResamplingRollingPct, so the stratum is not an artefact of mixing a
+rule with its folds. The two exceptions are the case study's own pairs, where
+the analyst axes carry the richest grids in the corpus ---
+\nPipelineLevelsCase\ pipelines and \nQualityFigOne\ register-quality
+conditions, against at most \nPipelineLevelsLarge\ and \nQualityLevelsOther\
+on every other pair --- and the ordering reverses.
 
-\textbf{Net of resampling, no single axis dominates --- and this is a weaker
-statement than the pooled surface makes it look.} On the fold-averaged
-surface (Table~\ref{tab:foldavg}), which carries \foldVarRatioPct\ of the
-pooled variance, the median
-first-order index is \foldSRungPct\ for the baseline rung, \foldSQualityPct\
-for the register-quality condition and \foldSPipelinePct\ for the pipeline,
-and at the median pair the largest first-order index \emph{within an
-instrument}, net of the resampling stratum, is \foldLargestFirstOrderPct\ ---
-a median over pairs of a median over instruments of the per-instrument
-largest, and so not the largest of the three medians just quoted. The total
-higher-order share is \foldInteractionTotalPct\ once resampling is removed,
-against
-\pooledInteractionMedianPct\ on the pooled surface, and it no longer exceeds
-the largest first-order index: pooled, the interactions carry more than the
-largest first-order index \emph{within an instrument} --- the per-instrument
-quantity that \largestFirstOrderPct\ is the median of, which is never below
-the largest of Table~\ref{tab:sobol}'s four column medians, so a count read
-off those columns is larger --- on \nPooledInteractionExceeds\ of \nPairs\
-pairs; net of resampling, by the same comparison, on
-\nFoldInteractionExceeds. \emph{Most of the variance belongs to
-no single axis} is a property of a surface that counts five folds as five
-specifications, and it does not survive treating them as what they are. What
-does survive is the weaker and still sufficient claim: which axis leads is a
-property of the pair --- the rung on \nFoldLeadPairsRung, the register-quality
-condition on \nFoldLeadPairsQuality\ and the pipeline on
+\textbf{Net of resampling, no single axis dominates --- a weaker statement
+than the pooled surface suggests.} On the fold-averaged surface
+(Table~\ref{tab:foldavg}), which carries \foldVarRatioPct\ of the pooled
+variance, the median first-order index is \foldSRungPct\ for the baseline,
+\foldSQualityPct\ for the register-quality condition and \foldSPipelinePct\
+for the pipeline, and at the median pair the largest within-metric
+first-order index (a median over metrics) is \foldLargestFirstOrderPct. The total higher-order share
+is \foldInteractionTotalPct\ once resampling is removed, against
+\pooledInteractionMedianPct\ on the pooled surface. The higher-order share
+exceeds the largest within-metric first-order index on
+\nPooledInteractionExceeds\ of the \nPairs\ pairs before resampling is
+removed, and on \nFoldInteractionExceeds\ after. Counting the five
+folds as five specifications makes the interactions look dominant; treated as
+resamples, they are not. What remains is that which axis leads is
+a property of the pair --- the baseline on \nFoldLeadPairsRung, the
+register-quality condition on \nFoldLeadPairsQuality\ and the pipeline on
 \nFoldLeadPairsPipeline\ --- so an analyst cannot learn from somebody else's
 paper which of their own choices their answer turns on.
 
 The pooled decomposition is reported beside it because it is what the
-specification-curve literature computes, and the difference between the two
-is this subsection's result; Supplement~\ref{app:measures} gives its four
-first-order medians, the largest per-instrument first-order index, the
-higher-order share with its spread, and the largest per-axis
-\emph{involvement}, which is a different quantity again. The measure is not
-neutral: across the three product measures the higher-order share moves by
-\measureSpreadPct, and under the measure concentrated on the reference cell
-the interactions no longer carry more than the largest first-order index, so
-\emph{the interactions carry more than any main effect} is a claim about a
-measure and not only about a surface (Supplement~\ref{app:measures}).
+specification-curve literature computes (Supplement~\ref{app:measures}). The
+measure is not neutral: across the three product measures the higher-order
+share moves by \measureSpreadPts, and under the measure concentrated on the
+reference cell the interactions no longer carry more than the largest
+first-order index.
 
-\textbf{The baseline axis moves the answer by more than the answer, on the
-pairs where an analyst has more than one baseline to choose between.} Holding
-every other axis at the reference and varying only the baseline rung, the
-increment moves by \spreadMedian\ AUC at the median pair and \spreadMax\ at
-the widest --- larger than the increment itself on \nSpreadExceedsIncrement\
-of the \nPairs\ pairs. The half-of-intake rung carries that range at the
-median pair and not at the widest, and it is impoverished in the way the
-excluded intercept-only rung is, so the spread is also reported without it:
-\spreadRealisticMedian\ AUC at the median pair, \spreadRealisticMax\ at the
-widest, exceeding the reference increment on \nSpreadExceedsRealistic\ pairs.
-On \nPairsTwoRealisticRungs\ of the \nPairs\ pairs only two rungs then
-remain, so that spread \emph{is} the absorption $D$ of the free field, which
-Section~\ref{sec:absorption} reports with its own interval
-(Supplement~\ref{app:spread} gives the per-pair fall). The index and the
-spread answer different questions --- a share of the variance while every
-axis varies, against how far one axis moves the answer alone --- and both
-are reported because either alone misleads.
-
-\paragraph{The pipeline axis is two axes, and it does not run at full width
-everywhere} Its levels are a model family together with an encoding and, in
-one case, a calibration; on the declared surface the case study's log carries
-\nPipelineLevelsCase\ levels by designation, and the other pairs
-\nPipelineLevelsLarge\ or \nPipelineLevelsModal\ by a rule that reads the
-log's row count and nothing else --- the two largest of them
-\nPipelineLevelsLarge\ (Table~\ref{tab:roles}) --- while inside the inference
-family every pair carries the same two levels, differing in model family.
-Crossed on the case study's log --- both families against all three
-encodings, \nCrossedPipelines\ complete factorial pipelines on each target
---- the encoding is the larger of the two, \sEncodingPct\ of the variance
-against the family's \sFamilyPct, with their interaction the largest
-two-way term. On the \nItsmCrossed\ ITSM pairs that finding travels but does
-not hold everywhere: the encoding leads on \nEncodingLargerItsm\ and the
-family on \nFamilyLargerItsm, and not narrowly --- which axis leads is a
-property of the pair (Supplement~\ref{app:axes2full}). The remaining pairs
-are not crossed, which Section~\ref{sec:lim} records.
+\textbf{The baseline moves the answer by more than the answer, on the pairs
+where an analyst has more than one baseline to choose between.} Holding every
+other axis at the reference and varying only the baseline, the increment
+moves by \spreadMedian\ AUC at the median pair and \spreadMax\ at the widest
+--- larger than the increment itself on \nSpreadExceedsIncrement\ of the
+\nPairs\ pairs. Without the half-of-intake baseline, which is impoverished in
+the way the excluded intercept-only baseline is, the spread is
+\spreadRealisticMedian\ AUC at the median pair and \spreadRealisticMax\ at
+the widest, exceeding the reference increment on \nSpreadExceedsRealistic\
+pairs. On \nPairsTwoRealisticRungs\ of the \nPairs\ pairs only two baselines
+then remain, so that spread \emph{is} the absorption $D$ of the free field
+(Section~\ref{sec:absorption}; Supplement~\ref{app:spread}). The pipeline
+axis is itself two axes, a model family and an encoding, and which of the two
+leads is again a property of the pair (Supplement~\ref{app:axes2full}).
 
 \subsection{Resolution regions, and the coverage they have}
 \label{sec:regions}
 
+Table~\ref{tab:master} carries the region labels and the robustness index
+for every pair (Table~\ref{tab:regions} and Figure~\ref{fig:regions} give the
+detail), computed on the inference surface under the whole-surface band at
+the empirical critical value. That family has \familySizeMedian\
+members on every pair and a median critical value of \maxTSurfaceMedian, against
+\maxTWithinMedian\ for the within-cell family; under the narrower family the
+same draws give a different label on \nRegionChangedByFamily\ of the
+\nPairs\ pairs, and resolve \nResolvedWithin\ cells against the whole-surface
+family's \nResolvedWhole\ (summed over pairs).
 
-Table~\ref{tab:regions} and Figure~\ref{fig:regions} carry the region labels
-and the robustness index for every pair, computed on the inference surface
-under the whole-surface simultaneous band at the empirical critical value of
-Section~\ref{sec:simbands}. That family has a median \familySizeMedian\
-members per pair and a median critical value of \maxTSurfaceMedian, against
-\maxTWithinMedian\ for a within-instrument family and $1.96$ pointwise; under
-the narrower family the same draws give a different region label on
-\nRegionChangedByFamily\ of the \nPairs\ pairs, and the whole-surface family
-resolves \nResolvedWhole\ cells against the narrow family's
-\nResolvedWithin\ (resolved-cell counts summed over the \nPairs\ pairs;
-Table~\ref{tab:regions} prints the narrow family's labels, and
-Supplement~\ref{app:families} names the file that carries its per-pair
-counts).
-
-\textbf{What the choice of critical value costs, and what it buys.} The
-multiplier approximation, whose critical value the supplement's region
-tables print beside the operative one, would resolve \nResolvedWholeMult\ cells at a median robustness index of
-\rhoMedianMult\ against \rhoMedian\ here, with
-\nPairsResolvingNothingMult\ pairs resolving nothing against
-\nUnresolvedPairs; Section~\ref{sec:simband} measures it at
-\covMultHeavyWholeAtDesign\ family-wise coverage on the family matched to
-this design and the reported band at \covEmpHeavyWholeAtDesign, so the
-\nResolvedLostToEmp\ cells the reported band leaves unresolved are the
-resolution the multiplier was claiming without its level. Two shortfalls
-remain and are stated rather than corrected. Section~\ref{sec:simsensitivity}
-shows that the pointwise interval underneath the band is governed by $K/n$
-and undercovers where this corpus lives, the median pair sitting at
-\medianKoverN; Supplement~\ref{app:calibration} derives an inflation factor
-$c(K/n)$ for that channel --- a monotone regression through measured
-factors, log-linear slope \calSlope\ (standard error \calSlopeSe), which
-would supply \calMin\ to \calMax\ on this corpus --- and reports the labels
-under it as a sensitivity, because it is fitted pointwise, applied
-simultaneously, and its transfer to real logs is an assumption. And the
+The multiplier approximation would resolve \nResolvedWholeMult\ cells at a
+median robustness index of \rhoMedianMult\ against \rhoMedian\ here, but it
+undercovers (Section~\ref{sec:simband}): the \nResolvedLostToEmp\ extra
+cells it would resolve are resolved below nominal coverage, so they are not
+counted here. Two shortfalls remain and are stated rather than corrected: the
+pointwise interval underneath the band undercovers where $K/n$ is large ---
+the median pair sits at \medianKoverN\ --- and Supplement~\ref{app:calibration}
+reports the labels under an $(n, K)$ widening as a sensitivity only; and the
 coverage measurement's bootstrap is ideal, so whatever the real resampling
 adds is outside it.
-
-\input{tables/triple}
 
 \textbf{Of the \nPairsResolvingAny\ pairs that resolve anything,
 \nPairsResolveOneSign\ resolve cells of one sign only ---
 \nPairsResolveBeneficialOnly\ beneficial and
 \nPairsResolveHarmfulOnly\ harmful --- and
 \nPairsResolveBothSigns\ resolve cells of both.} That is the informative
-reading of the region column, and it is the one to carry away: on
-\nPairsResolveOneSign\ of the \nPairsResolvingAny\ pairs where the data
-determine any sign at all, every sign they determine points the same way; on
-the remaining \nPairsResolveBothSigns\ they do not.
+reading of the region column: on \nPairsResolveOneSign\ of the
+\nPairsResolvingAny\ pairs where the data determine any sign at all, every
+sign they determine points the same way. Part of the both-signs reading is
+disagreement between metrics rather than across the surface: on BPIC19 the
+resolved cells share one sign within each metric --- \nBpicNineteenBenAuc\
+beneficial in AUC, \nBpicNineteenHarmBrier\ harmful in Brier skill --- and
+split by metric, the pooled band's cells would carry a different label on
+\nPairsLabelDiffersAny\ of the \nPairs\ pairs in at least one metric
+(Table~\ref{tab:metricregions}).
 
 \textbf{One surface of the \nPairs\ is uniformly beneficial, over a family
-that is \shareUniformFamilyPct\ of that pair's admissible cells.}
-Section~\ref{sec:regionsdef} poses the question this answers: $\rho = 1$ is
-the only state in which one positive number is a safe summary of a surface,
-and it obtains \nUniformlyBeneficial\ time here, on the pair carrying the
-richest declared grid --- over an inference family of \nCellsPerPairMedian\
-cells against that pair's \nCellsUniformPair\ admissible ones, the smallest
-share in the corpus, which \nPairsAtLargestGrid\ pairs attain jointly. The
-label requires every cell of \emph{that} set to resolve beneficial, and a
-claim about every cell is correspondingly easier to sustain over fewer of
-them, so the one case in which a single number is safe is a case where the
-claim ranges over \shareUniformFamilyPct\ of the specifications an analyst
-could have chosen: a statement about a denominator rather than a
-counterexample to one. It is not an artefact of the critical value: the label
-holds under the multiplier band, under the empirical band this paper reports,
-under that band's order-statistic upper end, and under every widening the
-$(n, K)$ calibration could ask for (Supplement~\ref{app:foursettings}) ---
-the same pair every time. Supplement~\ref{app:uniformly} gives the whole
-reckoning.
+that is \shareUniformFamilyPct\ of that pair's admissible cells.} $\rho = 1$
+obtains only on that pair, the one carrying the richest
+declared grid, over an inference family of \nCellsPerPairMedian\ cells
+against that pair's \nCellsUniformPair\ admissible ones; a claim about every
+cell is easier to sustain over fewer of them, so the one case in which a
+single number is safe is a claim about \shareUniformFamilyPct\ of the
+specifications an analyst could have chosen. The label is not an artefact of
+the critical value: it holds under the multiplier band, the reported band,
+that band's order-statistic upper end and every $(n, K)$ widening
+(Supplement~\ref{app:foursettings} and Supplement~\ref{app:uniformly}).
 
 \subsection{What one number costs}
 \label{sec:results-regret}
 
-
-A conventional report --- one pipeline, the clean register, the single
-holdout, ROC AUC --- disagrees in \emph{sign} with a median
+A conventional report disagrees in \emph{sign} with a median
 \misreportEqualPct\ of the other admissible specifications under the
-equal-level measure. Three things are wrong with reading that as what a
-one-number report exposes a reader to, and each correction moves the
-denominator the next is computed on, so the rate that survives is the one
-taken under all three together. \textbf{The axes are not all the same kind of
-thing.} Table~\ref{tab:axiskind} partitions the decomposition into
-\emph{analyst latitude} (the pipeline and the baseline rung),
-\emph{resampling} (the split, five of whose six levels are folds on the same
-data) and the \emph{counterfactual} (the register-quality condition, a
-different state of the world), each column the sum of its axes' first-order
-indices and the higher-order remainder, which belongs to no single axis, a
-fourth column --- so these are not the stratum shares of
-Section~\ref{sec:axes2}, which assign every component, interactions
-included, to a stratum: on the primary scale, which decomposes inside
-each instrument, analyst latitude carries a median \shareLatitudePct\ of the
-variance, resampling \shareResamplingPct\ and the counterfactual
-\shareCounterfactualPct, with resampling the larger on
-\nPairsResamplingOverLatitude\ of the \nPairs\ pairs; on the headroom scale
-(the increment divided by the baseline's headroom, which puts instruments
-on one scale; Supplement~\ref{app:decompmeasure}),
-which makes the instrument a fifth axis, the ordering reverses
-(\shareLatitudeCrossPct, \shareResamplingCrossPct\ and
-\shareCounterfactualCrossPct, resampling larger on
-\nPairsResamplingOverLatitudeCross\ pairs), and neither is a corpus fact
-independent of the scale. Restricted to the analyst-latitude cells --- the
-pipeline by the admissible rungs by the \nInstruments\ instruments, register
-clean, split at the single holdout, a median \nCellsLatitude\ cells per pair
---- the median disagreement rate is \misreportLatitudePct\ against the
-all-cells \misreportEqualPct: the first is what a one-number report exposes a
-reader to, the second what a claim ranging also over degraded registers and
-resampled splits is exposed to. Varying the reference one axis at a time over every level that axis
-carries --- \nRefSensVariants\ settings in all, the declared reference among
-them, Table~\ref{tab:refsens} ---
-the corpus median runs \refSensMinPct\ to \refSensMaxPct\ against the
-declared \refSensDeclaredPct, so the headline is not an artefact of which
-cell we called conventional.
+equal-level measure. This rate overstates the risk of a one-number report,
+for three reasons that we apply cumulatively: not every axis is an analyst
+choice, most cells are not resolved, and many disagreements are too small to
+matter.
+
+\textbf{The axes are not all the same kind of thing.}
+Table~\ref{tab:axiskind} sums first-order indices into \emph{analyst
+latitude} (the pipeline and the baseline), \emph{resampling} (the split) and
+the \emph{counterfactual} (the register-quality condition), with the
+higher-order remainder a fourth column. Within each metric, analyst latitude
+carries a median \shareLatitudePct\ of the variance, resampling
+\shareResamplingPct\ and the counterfactual \shareCounterfactualPct, with
+resampling the larger on \nPairsResamplingOverLatitude\ of the \nPairs\
+pairs; on a common headroom scale the ordering reverses, so neither ordering
+is a corpus fact independent of the scale (Supplement~\ref{app:decompmeasure}).
+Restricted to the analyst-latitude cells --- register clean, split at the
+single holdout, a median \nCellsLatitude\ cells per pair --- the median
+disagreement rate is \misreportLatitudePct, and that is what a one-number
+report exposes a reader to. Across \nRefSensVariants\ choices of the cell
+called conventional, the all-cells rate runs from \refSensMinPct\ to
+\refSensMaxPct\ (Table~\ref{tab:refsens}).
 
 \textbf{And most cells are not cells whose sign the data determine.} The
 median pair resolves \nResolvedMedian\ cells of the \nCellsPerPairMedian\ it
@@ -299,68 +218,58 @@ carries, and sign agreement between two draws from a distribution centred
 near zero is one half by construction. \textbf{And a sign flip between two
 increments that both round to zero is not a misstatement anybody would act
 on}: \nRefBelowMpid\ of the \nPairs\ reference increments are themselves
-inside a hundredth of an AUC point, so a \emph{minimal practically important
+smaller than \mpidAuc\ AUC in absolute value, so a \emph{minimal practically important
 difference} is declared --- $\mathrm{MPID} = \mpidAuc$ AUC --- and a
 disagreement is counted only when the reference increment and the cell's own
 increment both exceed it, on the AUC sub-surface, because Remark~\ref{prop:nonid}
-forbids carrying an AUC threshold to another instrument
+forbids carrying an AUC threshold to another metric
 (Table~\ref{tab:mpid}).
-
-\input{tables/mpid}
 
 \textbf{On the cells the corpus can resolve, the rate is
 \misreportPooledResolvedPct, and it is not an AUC statement.} Of the
 \nResolvedCorpus\ cells whose whole-surface band excludes
 zero, \nDisagreeResolved\ disagree in sign with the reference cell. Split by
-instrument that rate runs \misreportResolvedInstrumentMinPct\ on
+metric that rate runs \misreportResolvedInstrumentMinPct\ on
 \instrumentLeastDisagreement\ to \misreportResolvedInstrumentMaxPct\ on
-\instrumentMostDisagreement: the pooled figure is carried by the instruments
+\instrumentMostDisagreement: the pooled figure is carried by the metrics
 that are not the one the reference cell is read in, which is
-Remark~\ref{prop:nonid} showing up in the corpus.
+Remark~\ref{prop:nonid} showing up in the corpus. Read against the reference
+cell of each cell's own metric instead, \nDisagreeOwnMetric\ of the
+\nResolvedCorpus\ cells disagree, \misreportOwnMetricPct; all
+\nLeaveBpicNineteenProper\ cells that leave the count are BPIC19's Brier,
+log-loss and Nagelkerke cells, on a pair whose resolved AUC cells are beneficial and
+whose resolved Brier-skill cells are harmful
+(Supplement~\ref{app:ijf-samemetric}).
 
-\textbf{Imposing every correction this section's own argument asks for leaves
-\nCellsFullyRestricted\ cells, of which the number that disagrees is
-\nDisagreeFullyRestricted.} Restrict to the axes an analyst chooses, to the cells the band
-resolves, and to increments that clear the MPID at both ends, all on the AUC
-sub-surface. The set that is being restricted is the inference family
-and not the admissible surface: only \nInferenceCells\ of the \nCellsAuc\
-admissible AUC cells carry bootstrap draws, and a cell with no band is neither
-resolved nor unresolved, so it can be neither kept nor dropped by the second
-restriction. Of those \nInferenceCells, \nCellsFullyRestricted\ survive all
-three and the rate is
-\misreportFullyRestrictedPct. \textbf{We therefore withdraw the claim that
-a one-number report misstates a sign at a rate worth quoting as a headline.}
-On the corpus's own AUC surface, once a sign has to be determined \emph{and}
-worth acting on, disagreement is rare and the denominator is too small to
-carry a rate. Two corollaries follow and neither is comfortable for the
-conventional report. First, the reason so few cells remain is that
-\emph{the data resolve so little}: \nCellsResolvedAuc\ of the
-\nInferenceCells\ AUC cells that carry a band resolve,
-\shareResolvedAucPct\ of them, which is the same story the whole inference
-surface tells at \nResolvedCorpus\ of \nInferenceScalar\ across all
-\nInstruments\ instruments; and \nRefUnresolvedCell\ of the \nPairs\ pairs do
-not even resolve the cell a conventional paper would stand on. Second, the surface still
-moves, and by a distance that dwarfs the MPID: over the cells the band
+\textbf{Imposing all three restrictions leaves \nCellsFullyRestricted\ cells,
+of which \nDisagreeFullyRestricted\ disagree.} Restrict, on the AUC
+sub-surface, to the axes an analyst chooses, to the cells the band resolves,
+and to increments that clear the MPID at both ends. Only the
+\nInferenceCells\ of the \nCellsAuc\ admissible AUC cells that carry
+bootstrap draws can be restricted this way; \nCellsFullyRestricted\ survive,
+and the rate is \misreportFullyRestrictedPct. \textbf{We therefore do not
+claim that a one-number report misstates a sign at a rate worth quoting as a
+headline.} Two corollaries follow, and neither is comfortable for the
+conventional report. First, few cells remain because \emph{the data resolve
+so little}: \nCellsResolvedAuc\ of the \nInferenceCells\ banded AUC cells
+resolve, \shareResolvedAucPct\ of them, and \nRefUnresolvedCell\ of the
+\nPairs\ pairs do not resolve the reference cell itself. Second, the surface
+still moves, by a distance that dwarfs the MPID: over the cells the band
 resolves, the mean distance from the reference increment is a median
-\madResolvedMedian\ AUC per pair, and \madFullyRestrictedMedian\ under the
-full restriction, both several multiples of the MPID. The one-number report is
-mostly not wrong about the \emph{sign}; it is wrong about the \emph{size}, and
-it does not say which.
+\madResolvedMedian\ AUC over the \nPairsMadResolved\ pairs that resolve any AUC
+cell, and \madFullyRestrictedMedian\ under the full restriction. The
+one-number report is seldom wrong about the sign; what it does not show is
+how far the rest of the declared surface lies from it.
 
-\subsection{Against specification-curve analysis as practised}
+\subsection{Comparison with specification-curve analysis}
 \label{sec:sca}
 
-The closest existing practice is specification-curve analysis
-\citep{simonsohn2020specification}: enumerate the reasonable specifications,
-plot the curve, and test it against a sharp null by permutation.
-Supplement~\ref{app:sca} runs it unchanged on \emph{every} admitted pair
-beside the region label of the pair's whole inference family, which contains
-the permutation sub-surface. \textbf{They part
-company on \nScaDisagree\ of the \nScaPairs\ pairs}, close to half: the
-permutation test rejects the sharp null and the same cells contain
-increments of \emph{both} signs. Neither subsumes the other. The permutation
-test answers \emph{is there anything here}, costs one refit per permutation
-per cell and needs no band; the region answers \emph{may I quote a sign},
-costs a nested bootstrap, and is what a reader deciding whether to act
-needs. This paper's contribution is the second, and the first should be
-reported beside it.
+Specification-curve analysis \citep{simonsohn2020specification} enumerates
+the reasonable specifications, plots the curve, and tests it against a sharp
+null by permutation. Run unchanged on every admitted pair
+(Supplement~\ref{app:sca}), it parts company with the region label on
+\nScaDisagree\ of the \nScaPairs\ pairs: the permutation test rejects the
+sharp null and the same cells contain increments of \emph{both} signs. The
+permutation test answers \emph{is there anything here}; the region answers
+\emph{may I quote a sign}, which is what a forecast user deciding whether to
+act needs, and the two should be reported together.

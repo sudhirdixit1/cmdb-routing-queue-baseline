@@ -138,7 +138,9 @@ bash scripts/round27_chain.sh
 
 runs it: the designed surface under both resampling schemes, the bands and
 their internal checks after each, the scheme comparison, the family-wise
-coverage, the decision-curve widening, and the estimator comparison. It is the
+coverage, the decision-curve widening, the estimator comparison, and the
+forecast-evaluation checks of Supplement S14 (`s60_ijf_checks.py`, which
+refits one reference specification per pair). It is the
 long job now --- two schemes over nineteen pairs --- and like `s20_boot2.py` it
 is resumable per pair.
 

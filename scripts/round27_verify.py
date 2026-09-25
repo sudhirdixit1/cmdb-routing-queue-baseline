@@ -314,17 +314,20 @@ def check(vn, M):
             key = (str(r.log).replace("_", "\\_"), str(r.target))
             want[key] = str(r.region_min05)
         bad = []
+        #  IJF LENGTH PASS: the region column is found by its heading, not
+        #  by position -- the master table gained n, K and the resolution
+        #  triple and lost the pointwise interval.
+        _mh = _table_header(tables, "master.tex")
+        i_reg = _mh.index("region") if "region" in _mh else 5
         for row in master:
-            if len(row) < 7:
+            if len(row) <= i_reg:
                 continue
             key = (row[0], row[1])
             if key not in want:
                 continue
-            #  the region column is the sixth: log, target, V, pointwise,
-            #  simultaneous, region
-            if row[5] != want[key]:
+            if row[i_reg].replace("unresolved*", "unresolved (below minimum share)") != want[key]:
                 bad.append("%s/%s: master says %r, Definition 3 gives %r"
-                           % (key[0], key[1], row[5], want[key]))
+                           % (key[0], key[1], row[i_reg], want[key]))
         if bad:
             vn.FAILS.append(
                 "round-27 condition: the master table's region label is not "
@@ -457,13 +460,15 @@ def check(vn, M):
             tri[(row[0], row[1])] = (row[5] if applied.strip() in ("--", "---")
                                      else applied)
         bad = []
+        _mh = _table_header(tables, "master.tex")
+        i_reg = _mh.index("region") if "region" in _mh else 5
         for row in master:
-            if len(row) < 7:
+            if len(row) <= i_reg:
                 continue
             key = (row[0], row[1])
-            if key in tri and row[5] != tri[key]:
+            if key in tri and row[i_reg].replace("unresolved*", "unresolved (below minimum share)") != tri[key]:
                 bad.append("%s/%s: %r vs %r"
-                           % (key[0], key[1], row[5], tri[key]))
+                           % (key[0], key[1], row[i_reg], tri[key]))
         if bad:
             vn.FAILS.append(
                 "round-27 condition: the master table and the "

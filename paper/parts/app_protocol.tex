@@ -12,7 +12,7 @@ carries the date of every amendment.
 
 \begin{description}
 \item[Amendment 1 --- a register's values must recur across time.]
-Registered rule 3.3 admits any attribute reused across two cases on average.
+Pre-specified rule 3.3 admits any attribute reused across two cases on average.
 On BPI Challenge 2019 that admits the purchasing-document number, which is a
 document identifier and not a maintained entity: almost none of its values
 recur across the temporal split. The amendment adds a second, outcome-free
@@ -22,7 +22,7 @@ seen in training --- and \emph{both} selections are reported for every log.
 \item[Amendment 2 --- ``any timestamp'' had to be implemented.]
 Rule 3.1 excludes timestamps. Matching a fixed list of names did not implement
 that: it missed five differently-spelled date columns, two of which the
-registered rules then made the high-cost entity. A column is now a timestamp
+pre-specified rules then made the high-cost entity. A column is now a timestamp
 if its name looks like one or if more than $90\%$ of its non-missing values
 parse as a date. Both tests read feature values only.
 
@@ -39,7 +39,7 @@ separate role and Section~\ref{app:layers} uses it.
 
 \item[Amendment 5 --- the caused-by family is an outcome.]
 A caused-by attribution is the output of diagnosis, not an intake observation.
-Without this the registered rules made the caused-by configuration item the
+Without this the pre-specified rules made the caused-by configuration item the
 high-cost entity on the flagship log.
 
 \item[Amendment 6 --- outcome-field names are normalised.]
@@ -52,19 +52,26 @@ pre-registration records no amendment.
 
 \paragraph{What the protocol fixed, before any of the results it governs}
 The design space of Section~\ref{sec:surface}; the reference specification;
-the exclusion of the intercept-only rung from every admissible set; the six
+the exclusion of the intercept-only baseline from every admissible set; the six
 register-quality mechanisms and their levels; the five planned contrasts and
-the Holm procedure --- fixed before this analysis round and not before the
-data were seen, which is why Section~\ref{sec:planned} calls them planned
-and not confirmatory; the two families over which simultaneous bands are
-taken; and the two-stratum design of the literature pilot, including the
+the Holm procedure --- fixed before the analyses that test them were run but
+after earlier analyses of the same data, which is why
+Section~\ref{sec:planned} treats them as pre-specified exploratory contrasts
+and not as confirmatory ones; the two families over which simultaneous bands
+are taken; and the two-stratum design of the literature pilot, including the
 decision to adjudicate a sample of the papers the screen \emph{rejected}. The
-commit that fixed them adds \specfixcommit\ and no result file.
+commit that fixed them adds \ifblind the specification module and its plan
+file\else\specfixcommit\fi\ and no result file.
 
 \subsection{Related work, strand by strand}
 \label{app:related}
 
-Four further strands bear on the argument. \emph{Many-analysts studies} put
+%%  2026-09-25.  The article's Section 2 is now organised around the
+%%  forecasting literature; the strands below, which it used to summarise in
+%%  two paragraphs, are set out here only, and the article points here.
+The article's related work (Section~\ref{sec:related}) is organised around
+the forecasting literature; the strands below bear on the argument from
+outside it. \emph{Many-analysts studies} put
 one question and one dataset to independent teams and observe the spread
 directly \citep{silberzahn2018many,breznau2022observing}: they establish that
 analytic variability is large without supplying an estimand for it, which is
@@ -77,7 +84,7 @@ reports how far results move with the pipeline and the protocol
 \citep{ramamaneiro2021deep}, which is the evidence this paper's decomposition
 partitions. And the \emph{sensitivity-analysis} tradition of bounding an
 unmeasured assumption \citep{vanderweele2017sensitivity} is the form
-Section~\ref{sec:quality}'s leakage tipping point takes. On the estate side,
+Section~\ref{sec:quality}'s leakage tipping point takes. On the service desk side,
 the accuracy of a configuration management database is itself a studied
 quantity \citep{suriadi2017imperfection,mohammed2025dataquality}, and the
 layered service models practitioners maintain are why
@@ -169,9 +176,11 @@ tabular data \citep{mohammed2025dataquality} and, in process mining, for
 low-quality activity labels \citep{comuzzi2025labels}. Those studies vary
 quality with the feature set fixed; we vary quality \emph{as one axis of the
 same surface} on which the feature set and the encoding are others, which is
-what makes the interaction between them visible ---
-Section~\ref{sec:quality} reports a quality defect that is exactly invisible
-under one encoder and not under another. Leakage, which is availability
+what lets a quality effect be read against the other axes' levels ---
+Section~\ref{app:casedetail} reports a staleness defect that is invisible to
+both encoders run, because of how each treats identities absent from the
+training half, so that null is a statement about the encoders and not
+evidence that the defect is harmless. Leakage, which is availability
 misspecified, has its own literature
 \citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}, and the
 forecast origin of Section~\ref{sec:twodecision} makes it a declared choice
@@ -227,6 +236,37 @@ test half and re-degrading must leave the training half's degraded values
 identical, which \texttt{results/s01\_trainonly.csv} records over \nTrainOnly\
 checks.
 
+%  IJF LENGTH PASS (axes caption): moved from the article.
+\paragraph{How the rows of the design-space table enter the cell count}
+Table~\ref{tab:axes} is generated from the code that walks the space, and
+the multiplication its caption states is re-done pair by pair from the same
+file. The rows marked `no' are not axes the study leaves unvaried; each is
+counted somewhere else. The encoding is determined by the learner --- each
+learner names its own encoder --- so the learner row already counts the
+pipeline and multiplying by the encoding would count it twice;
+Table~\ref{tab:axes2} separates the two where they can be separated. The
+forecast origin's levels are the corpus surface's --- two origins on the
+primary log, read off its baseline ladder as which baselines are admissible,
+and one elsewhere; on the case-study log the origin indexes a \emph{second}
+surface rather than a further factor of the first, estimated at three origins
+on the case-study cohort and target, the first of which (first touch, every
+call) is a population no pre-specified pair contains, and
+Section~\ref{sec:twodecision} reports it. The row for all nested baselines is
+the admissible row plus the intercept-only baseline, so the two rows are one
+axis at two admissibility conventions and only the admissible one enters an
+admissible count. The operating point multiplies the decision-curve surface,
+not the scalar one, which is why the two surfaces are counted separately in
+Section~\ref{sec:threesurfaces} and Table~\ref{tab:denominator}. The forecast target is not an axis of any
+surface: each of a log's two targets has a surface of its own.
+
+\paragraph{The three product measures}
+The \emph{measure} column of Table~\ref{tab:axes} names which of the three
+declared product measures a quantity is taken under --- \textsc{equal},
+\textsc{ref.} and \textsc{conc.}, placing equal, half and four fifths of the
+mass on the reference level --- and Section~\ref{sec:axes2} and
+Table~\ref{tab:measures} report the pooled decomposition's headline shares
+under all three.
+
 \subsection{Targets, splits and the exclusion codes}
 \label{app:targets}
 
@@ -240,12 +280,12 @@ expanding-window folds. Fields that are determined only at closure are excluded 
 standard leakage discipline \citep{kaufman2012leakage,kapoor2023leakage} and,
 for event logs specifically, the discipline of
 \citet{weytjens2022leakage}. A log--target pair is excluded only for a
-registered reason --- too few cases, no variation in the test half, a prevalence outside
+pre-specified reason --- too few cases, no variation in the test half, a prevalence outside
 $[\prevLo, \prevHi]$, or the absence of one of the three roles --- and every
 exclusion is reported with its code in Table~\ref{tab:corpus}, which accounts
 for every downloaded log that is not among the admitted pairs --- including
-the log downloaded as a held-out log for a registered prediction outside this
-paper, \nHeldOutLogs\ of the checksummed files, never offered to these rules
+the log downloaded as a held-out log reserved for a separate pre-specified
+prediction, \nHeldOutLogs\ of the checksummed files, never offered to these rules
 at all; the second log downloaded for it was offered and is listed under the
 codes that excluded it.
 
@@ -255,6 +295,24 @@ surface only on the logs whose \emph{reduction} is resolvable would condition
 the analysis on the outcome. The surface is computed on all \nPairs\ admitted
 pairs through one code path, and the pairs on which the register is worth
 nothing are in the same tables as the rest.
+
+%  IJF LENGTH PASS (design exclusions): moved from the article.
+\paragraph{Two exclusions a reader of the roles table will ask about}
+BPIC15\_2 is excluded under \textsc{small\_n} at \nBpicFifteenTwoRows\ cases
+while its four siblings are admitted --- the rule is a floor on the case count
+and nothing about the log's content --- and the further BPIC15 targets, the
+BPIC20 logs and BPIC12 are excluded under \textsc{no\_headroom} or
+\textsc{no\_g}, which are prevalence and role failures. The pre-specified
+handover target on the case study's log carries \nCellsBpicFourteenHandover\
+of the corpus's \nDeclaredAdmissibleScalar\ admissible cells --- the log
+carries \nCellsBpicFourteen\ across its two targets --- so a corpus statistic
+pooled over cells is partly a statement about it; this is why every headline
+is reported on the ITSM family separately (Supplement~\ref{sec:family}), and
+Section~\ref{sec:lim} asks whether the window should be tightened.
+Coarsenings of $f$ --- its type, its subtype, the service it belongs to ---
+are given their own role rather than being swept into $B_0$, because which
+\emph{layer} of a register pays is a separate question
+(Supplement~\ref{app:layers}).
 
 \subsection{The admission margin at the upper edge}
 \label{app:margin}

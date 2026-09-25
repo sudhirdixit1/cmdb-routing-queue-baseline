@@ -92,7 +92,7 @@ widening a pair needs grows with its sample size. The design that isolates it
 is the ladder, three ratios held fixed while $n$ moves over two orders of
 magnitude, and along it the measured factor moves by \ladderSpreadMax\ ---
 \ladderSpreadSE\ combined Monte Carlo standard errors --- while coverage
-itself moves by \ladderCoverageSpreadPct. The curve is a function of
+itself moves by \ladderCoverageSpreadPts. The curve is a function of
 the ratio alone, so it carries that dependence as a residual: it sits below
 the measured factor's own lower confidence limit on \nCellsUnderApplied\ of
 the plane's cells, and the largest shortfall from any cell's measured factor,
@@ -143,6 +143,22 @@ Table~\ref{tab:calbands} prints beside the reported one, and it is what the
 pointwise channel would cost if its correction transferred from the
 simulated plane to these logs, which the article treats as an assumption
 rather than a result.
+
+%  IJF LENGTH PASS (plane): moved from the article.
+\paragraph{The plane in brief}
+The denser plane on which the widening is fitted ---
+\nPlaneCellsOffered\ cells at up to \nPlaneReps\ replicates over
+\planeNtrainLo\ to \planeNtrainHi\ training rows, the \nPlaneCells\ fitted
+ones in Table~\ref{tab:plane} --- reaches far enough in $n$ to find that past a
+crossing the basic interval stops containing its own point estimate
+(\shareStraddleAtHalfPct\ of replicates still straddle it by
+\nStraddleHalfMin\ training rows at a ratio of \straddleRatio), which is
+where that widening is undefined. It is derived from this plane, not from the
+\nSimGridCells-cell grid of Section~\ref{sec:simworlds}; it addresses the
+channel the band's coverage run switches off, is fitted pointwise and applied
+simultaneously, and is measurably misspecified in $n$, which is why the
+article reports the labels under it as a sensitivity ladder
+(Section~\ref{app:foursettings}) and does not apply it.
 
 \subsection{The $(n,K)$ grid, cell by cell}
 
@@ -206,6 +222,33 @@ them because Section~\ref{sec:simbands}'s count of what
 $q_{\mathrm{emp}}$ resolves is, on those families, partly a count of
 arithmetic.
 
+%  IJF LENGTH PASS (degenerate and design): moved from the article.
+\paragraph{The degenerate regime, in the article's coverage run}
+Standardising a degenerate cell by its vanishing spread inflates the critical
+value every other cell is judged by while its own band is trivially right;
+the degenerate regime of Section~\ref{sec:simband} reproduces that, and under
+it the multiplier covers \covMultDegenDcaAtDesign\ on the modal curve
+family. With such cells removed, the same family's empirical
+quantile covers \covEmpHeavyDcaAtDesign\ under the corpus's tails and
+\covEmpNonzeroDcaAtDesign\ under a non-zero truth, against the multiplier's
+\covMultHeavyDcaAtDesign\ and \covMultNonzeroDcaAtDesign.
+
+\paragraph{The coverage design in full}
+The families of the coverage run are every pair's surface family of
+\nCellsPerPairMedian\ cells at \nDrawsSurface\ draws, the corpus's modal
+decision-curve family at the grid's rounded size of \nDcaFamilyModal\ cells
+and the same count, and the case study's own curve family of \nDcaFamily\
+cells at \nDcaDraws\ (Table~\ref{tab:bandcov}), matched by grid search
+against the corpus's draw files. The surface family reproduces the ratio of
+the empirical quantile to the multiplier at \ratioSynthWhole\ against the
+corpus's median \ratioCorpusWhole\ (interquartile range
+\ratioCorpusWholeQone\ to \ratioCorpusWholeQthree); the curve family reaches
+\ratioSynthDca\ against \ratioCorpusDca\ (interquartile range
+\ratioCorpusDcaQone\ to \ratioCorpusDcaQthree). The corpus's median cell has
+an excess kurtosis of \corpusKurtMedWhole\ on the surface families and
+\corpusKurtNinetyWhole\ at the ninetieth percentile. Coverage is over
+\nBandCoverageReps\ replicates in each of \nBandCoverageCells\ grid cells.
+
 \subsection{The region counts at four calibration settings}
 \label{app:foursettings}
 
@@ -221,7 +264,7 @@ calibrated factors on top of it, \nResolvedSensCalibrated\ cells at
 Monte Carlo interval, \nResolvedSensUpper\ at \rhoSensUpper. \textbf{The
 second of those four is the one the article reports}: the first is the
 approximation Section~\ref{sec:simband} measures short of its level, and
-the calibrated and upper-end rungs are a sensitivity ladder for the
+the calibrated and upper-end baselines are a sensitivity ladder for the
 pointwise channel, not settings the corpus runs under, because the widening
 is not applied. What moves across all four is how much resolution the
 corpus has; what does not move is which pair reaches $\rho = 1$: the count
@@ -233,4 +276,19 @@ multiplier, and it is the same pair every time. Across the corpus
 that one is not among them. The transfer from a pointwise interval in a
 simulation to a simultaneous band on real logs is an assumption, and
 Section~\ref{app:threats} carries it as a limitation.
+
+%  IJF LENGTH PASS (critical value cost): moved from the article.
+\paragraph{What the choice of critical value costs, and what it buys}
+The multiplier approximation, whose critical value the region tables print
+beside the operative one, would resolve \nResolvedWholeMult\ cells at a
+median robustness index of \rhoMedianMult\ against \rhoMedian\ under the
+reported band, with \nPairsResolvingNothingMult\ pairs resolving nothing
+against \nUnresolvedPairs; Section~\ref{sec:simband} measures it at
+\covMultHeavyWholeAtDesign\ family-wise coverage on the family matched to the
+design and the reported band at \covEmpHeavyWholeAtDesign. The inflation
+factor $c(K/n)$ for the pointwise channel is a monotone regression through
+measured factors, log-linear slope \calSlope\ (standard error \calSlopeSe),
+which would supply \calMin\ to \calMax\ on this corpus; the labels under it
+are a sensitivity, because it is fitted pointwise, applied simultaneously, and
+its transfer to real logs is an assumption.
 

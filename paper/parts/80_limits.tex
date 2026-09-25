@@ -1,25 +1,17 @@
 \section{Threats to validity}
 \label{sec:lim}
 
-Organised as threats rather than as a list. No result is computed here:
-every number this section quotes is the same macro, from the same result
-file, as the section that establishes it, so the two cannot disagree --- but
-many are quoted twice, and a reader who wants the argument rather than the
-summary should read them where they are established.
-
 \paragraph{Construct --- this is forecast performance, not value}
 Nothing here measures what a register costs to acquire or maintain, whether
-acting on a forecast changes an outcome, or what a data programme is worth;
-that includes the layer comparison of Supplement~\ref{app:programmeread}. The corpus is a
-family of related questions rather than replications --- the two registered
-targets label the same case identically on a median \targetAgreement\ of
-cases, and the registers run from a configuration item to a legal article ---
-so every corpus statistic is about \emph{sensitivity}, every one is reported
-on the \nItsmPairs\ ITSM pairs as well (Table~\ref{tab:family}), and
-Table~\ref{tab:construct} names each pair's own construct threat. The
-registered handover target on the case study's log is close to degenerate at
-prevalence \prevAdmittedMax, carries \nCellsBpicFourteenHandover\ of
-\nDeclaredAdmissibleScalar\ admissible cells, and is where
+acting on a forecast changes an outcome, or what a data programme is worth.
+The corpus is a family of related questions rather than replications --- the
+two pre-specified targets label the same case identically on a median
+\targetAgreement\ of cases, and the registers run from a configuration item to
+a legal article --- so every corpus statistic is about \emph{sensitivity},
+every one is reported on the \nItsmPairs\ ITSM pairs as well
+(Table~\ref{tab:family}), and Table~\ref{tab:construct} names each pair's own
+construct threat. The pre-specified handover target on the case study's log is
+close to degenerate at prevalence \prevAdmittedMax\ and is where
 Section~\ref{sec:cohort} shows the register's sign turns; whether a generic
 handover rule is a meaningful target on ITSM logs and whether the prevalence
 window should close below \prevHi\ are open, and the rule was not narrowed
@@ -30,38 +22,35 @@ not a train--test mismatch, but they remain constructed, and validating them
 against a genuinely incomplete register is the obvious next study.
 
 \paragraph{Internal --- what the band's coverage does and does not establish}
-Section~\ref{sec:simband} measures family-wise coverage against a known
-answer over matched families whose bootstrap is \emph{ideal}, so every
-coverage there is an upper bound on what the procedure attains. On the family
-matched to the design this paper reports the empirical critical value covers
-\covEmpHeavyWholeAtDesign\ under the corpus's tails and
-\covEmpNonzeroWholeAtDesign\ under a non-zero truth, against a nominal
-$95\%$, at a Monte Carlo standard error of about
-\covEmpHeavyWholeAtDesignSE; the multiplier approximation covers
-\covMultHeavyWholeAtDesign\ and \covMultNonzeroWholeAtDesign, and no draw
-budget closes that gap. So the region labels and $\rho$ rest on a critical
-value measured at its level, with three qualifications that are limits
-rather than results; Supplement~\ref{app:threats} states them, with the
-mechanisms this evidence retires and the further assumptions it names, one
-of them measured.
+Section~\ref{sec:simband} measures family-wise coverage over matched families
+whose bootstrap is \emph{ideal}, so every coverage there is an upper bound on
+what the procedure attains, and the empirical critical value the region
+labels rest on attains its level there while the multiplier approximation
+does not. Three qualifications are limits rather than results --- the
+$K/n$-governed undercoverage of the pointwise interval underneath the band,
+the width at which the level is bought, and a decision-curve critical value
+about a point short of its level --- and Supplement~\ref{app:threats} states
+them, with the mechanisms this evidence rules out and the further
+assumptions it names.
 
-\paragraph{Conclusion --- two claims a specification surface invites and
-this evidence does not support}
-Section~\ref{sec:conclusion} withdraws both readings a pooled surface invites,
-together with the sign-disagreement rate as a headline. Three qualifications
-of another kind are limits rather than results: the pooled decomposition's
-headline shares are reported under all three declared measures because there
-is no neutral one (the higher-order share moves by \measureSpreadPct\ across
-them; Table~\ref{tab:measures}), the within-instrument decomposition being
-primary because the decomposition inherits the metric's scale
-(Proposition~\ref{prop:scale}) and the fold-averaged surface being primary
-because the split is a resampling stratum (Section~\ref{sec:axes2}), that
-decomposition reported under the equal-level measure; region labels are relative to an
-inference family of a median \inferenceShareAdmissibleMedianPct\ of a pair's
-admissible cells, under a minimum resolved share that withdraws the direction
-on \nLabelsLostToMinShare\ of \nDirectionalLabels\ pairs, and stay
-conditional on the quality axis being averaged over; and specification regret
-reports a null and is a robustness check rather than a contribution.
+\paragraph{Internal --- the estimand, and nested comparisons near zero}
+Definition~\ref{def:estimand} defines the increment as a large-sample limit
+of the fitted rule, while the split axis, the refitting bootstrap and the
+forecast origins treat the forecasting \emph{method}, with its finite
+estimation window, as the object, as \citet{giacomini2006conditional} do.
+Near a zero increment the two differ: estimating the larger model's extra
+parameters biases an out-of-sample comparison against it
+\citep{clark2007approximately}, so some harmful labels on proper scores may
+be finite-sample effects rather than evidence against the predictor. At the
+reference cell a Clark--West comparison favours the predictor on
+\nRejectCw\ of the \nPairs\ pairs against \nRejectDmBrier\ for the raw
+Brier comparison, counting one-sided rejections in the predictor's favour at
+the 5\% level, and \nCwReverses\ of those pairs have a negative raw Brier
+difference (Table~\ref{tab:cwtests}). A surface-wide version of that comparison, a
+zero-increment world in the simulation of Section~\ref{sec:sim}, and
+bootstrap weights shared across splits --- which would let sampling noise be
+subtracted from the split stratum --- each need a new bootstrap run and are
+left open.
 
 \paragraph{External --- the design space is declared, not complete}
 $\mathcal{S}$ has \nAxes\ axes in Definition~\ref{def:space} and the per-pair
@@ -70,117 +59,112 @@ origin varies on the case study's log alone, the operating point only inside
 the decision-curve family, the cohort only in the case study's cohort design,
 and the target indexes surfaces rather than varying within one. It could have
 more --- tuning protocol, missing-data treatment, target horizon, label-noise
-model --- so the honest claim is ``the increment moves this much over
-\emph{this} space''. The structural omission is that prefix length, prefix
-bucketing and sequence encoding are not axes here and cannot be, because this
-study forecasts at one origin from creation-time attributes, and
-those are the axes predictive process monitoring varies most; we therefore
-claim no result about that literature's own benchmark. A prefix axis is
-nonetheless run on one log (Supplement~\ref{app:prefix}): holding the
-register and the estate fixed and moving only the prefix, the increment falls
-from \VPrefixZero\ AUC at case creation to \VPrefixTwo\ two events later and
-\VPrefixEight\ at the longest prefix run, and is undetermined in sign at \nPrefixUnresolved\ of \nPrefixLevels\ prefixes,
-so case creation --- the point every other result here occupies --- is the
-most favourable prefix for a creation-time register, and two studies
-reporting from the two ends of that axis would differ by a factor of
-\prefixDropFactor\ without either being wrong. One log, one register and no
-sequence encoder is a pilot, and the omission stands.
+model --- so every claim here is relative to this space. Prefix length,
+prefix bucketing and sequence encoding are not axes, because this study
+forecasts at one origin from creation-time attributes, so no result here
+speaks to benchmarks that vary them. Forecast origins later in a case's life
+are a finer grid of the forecast-origin axis, and a pilot on one log
+(Supplement~\ref{app:prefix}) shows that they matter: holding the register
+fixed and moving only the prefix, the increment falls from \VPrefixZero\ AUC
+at case creation to \VPrefixTwo\ two events later and \VPrefixEight\ at the
+longest prefix run, and is undetermined in sign at \nPrefixUnresolved\ of
+\nPrefixLevels\ prefixes. Case creation --- the origin every other result here
+occupies --- is thus the most favourable prefix for a creation-time register,
+and two studies reporting from the two ends of that axis would differ by a
+factor of \prefixDropFactor\ without either being wrong. One log, one register
+and no sequence encoder is a pilot, and the omission stands.
 
-\paragraph{External --- three narrower limits, named}
+\paragraph{External --- narrower limits}
 The inference surface is smaller than the declared one and always will be,
-because a draw refits every arm of every cell (Section~\ref{sec:threesurfaces}),
-so every region label is a claim about a fraction of the space the point
-estimates cover, on which \emph{uniformly beneficial} is easier to earn. The
-pipeline axis is crossed on the \nItsmCrossed\ ITSM pairs and not elsewhere,
-and what the crossing found is not a clean replication
-(Section~\ref{sec:axes2}), so the case study's ordering is the common case
-and not a corpus fact. The case study is one bank's estate on one public log,
-with the availability question at its centre settled by probability rather
-than by a timestamped field-value history; Supplement~\ref{app:programmeread} names
-the three changes that would move which answer. And reporting practice is not
-measured: the literature pilot that attempted it is in the archive as a
-hypothesis.
+because a draw refits every arm of every cell, so every region label is a
+claim about a fraction of the space the point estimates cover, on which
+\emph{uniformly beneficial} is easier to earn
+(Section~\ref{sec:threesurfaces}), and every label stays conditional on the
+register-quality axis being averaged over. The pipeline axis is crossed on the
+\nItsmCrossed\ ITSM pairs and not elsewhere, and what the crossing found is
+not a clean replication (Supplement~\ref{app:axes2full}), so the case study's
+ordering is the common case and not a corpus fact. The case study is one
+bank's service desk on one public log, with the availability question at its
+centre settled by probability rather than by a timestamped field-value
+history. And reporting practice is not measured (Supplement~\ref{app:pilot}).
 
 \section{Conclusion}
 \label{sec:conclusion}
 \label{sec:conc}
 
 What a predictor adds to a forecast is a functional of design choices, not a
-number. This paper made that operational: a declared
-design space, a surface over it, an exact decomposition of the surface's
-variance that separates the choices an analyst makes from the resampling the
-design also contains, simultaneous bands whose coverage is measured rather
-than assumed, and region labels that say where a sign is determined and
-withhold a direction where too little of the surface resolves to support
-one.
+number. This paper made that operational: a declared design space, a surface
+over it, an exact decomposition of the surface's variance that separates the
+choices an analyst makes from the resampling the design also contains,
+simultaneous bands whose family-wise coverage is measured in a matched
+simulation rather than assumed --- an upper bound, since that simulation's
+bootstrap is ideal, and the pointwise intervals beneath the bands undercover
+where the predictor has many levels relative to the sample --- and region
+labels that say where a sign is determined and withhold a direction where too
+little of the surface resolves to support one.
 
-\textbf{On every pair, at least one admissible specification makes the
-register worth less than nothing.} That is a statement about point estimates
-and needs no band. It is also nearly guaranteed by a space that includes
-three-quarters-deleted registers, so the version worth carrying is the
-restricted one: \textbf{on \nSpreadExceedsRealistic\ of \nPairs\ pairs the
-baseline alone --- among the baselines an analyst would actually build ---
-moves the increment further than the increment itself}. Four further results
-are worth carrying away.
+\textbf{On \nSpreadExceedsRealistic\ of \nPairs\ pairs the baseline alone
+--- among the baselines an analyst would actually build --- moves the
+increment further than the increment itself.}
 
 \textbf{Most of a pooled specification surface is resampling, and net of it
 different pairs turn on different analyst choices.} The components involving
-the split carry a median \shareResamplingStratumPct\ of the variance. Net of them the largest first-order index at the median pair is
+the split carry a median \shareResamplingStratumPct\ of the variance, below
+the \splitNullShareMaxPct\ a surface with no signal would put there. Net of
+them the largest first-order index at the median pair is
 \foldLargestFirstOrderPct\ against a higher-order share of
-\foldInteractionTotalPct: the interactions carry more than the largest
-first-order index within an instrument on
-\nFoldInteractionExceeds\ of \nPairs\ pairs, against
-\nPooledInteractionExceeds\ before the resampling stratum is removed, so
-\emph{most of the variance belongs to no single axis} is not a claim this
-evidence supports (Section~\ref{sec:axes2}). What it does support is that
-which axis leads is a property of the pair --- the baseline rung on
-\nFoldLeadPairsRung\ pairs, the register-quality condition on
-\nFoldLeadPairsQuality\ and the pipeline on \nFoldLeadPairsPipeline. An
-analyst therefore cannot learn from somebody else's paper which of their own
-choices their answer turns on --- but neither should they read a pooled
-specification curve as evidence that everything matters.
+\foldInteractionTotalPct, and the interactions exceed the largest
+within-metric first-order index on \nFoldInteractionExceeds\ of \nPairs\
+pairs, against \nPooledInteractionExceeds\ before the resampling stratum is
+removed, so once the folds are treated as resamples the interactions do not
+dominate (Section~\ref{sec:axes2}). Which axis leads is a
+property of the pair --- the baseline on \nFoldLeadPairsRung\ pairs, the
+register-quality condition on \nFoldLeadPairsQuality\ and the pipeline on
+\nFoldLeadPairsPipeline\ --- so an analyst cannot learn from somebody else's
+paper which of their own choices their answer turns on.
 
 \textbf{A one-number report is usually right about the sign and usually silent
 about the size.} Once a sign has to be determined by the data \emph{and} worth
-acting on at \mpidAuc\ AUC, the number of the
-\nCellsFullyRestricted\ \emph{AUC} cells surviving all three restrictions
-that contradict the conventional report is
-\nDisagreeFullyRestricted{} --- the MPID is declared in AUC and
-Remark~\ref{prop:nonid} forbids carrying it further. \textbf{So the
-sign-disagreement rate is withdrawn as a headline}
-(Section~\ref{sec:results-regret}): a sign disagreement is not a
-misstatement unless the sizes are worth acting on, and under the three
-restrictions this paper's own argument implies, they are not.
+acting on at \mpidAuc\ AUC, the number of the \nCellsFullyRestricted\
+\emph{AUC} cells surviving all three restrictions that contradict the
+conventional report is \nDisagreeFullyRestricted{}, \textbf{so the
+sign-disagreement rate is not a headline} (Section~\ref{sec:results-regret}).
 What the conventional report does not say is that the cells the band
-\emph{resolves} lie a median \madResolvedMedian\ AUC away from the one it
-stands on, and that on
-\nRefUnresolvedCell\ of \nPairs\ pairs the data do not determine the sign of
-its own cell at all.
+\emph{resolves}, on the \nPairsMadResolved\ pairs that resolve any, lie a
+median \madResolvedMedian\ AUC away from the one it
+stands on, and that on \nRefUnresolvedCell\ of \nPairs\ pairs the data do not
+determine the sign of its own cell at all.
 
 \textbf{The forecast origin is an argument of the estimand, not a preliminary.}
-It fixes which cases are in scope, what is known about them, and which fields
-are admissible. On the case study, moving the forecast from first touch to
-incident creation moves the increment by \deltaCohortAtTau\ AUC through the
-population, by a further \deltaSnapshotAtTau\ through the information once the
-population is held fixed, and by \deltaPopulationResidual\ more through the
-incidents that have no interaction record at all --- before any baseline changes; and the same
-log's answer changes sign when the target changes, with \shareTargetPct\ of
-the difference on the target and \shareCohortPct\ on the cohort. A desk that
-adopted this register on its \emph{first-touch} number and deployed it at
-incident creation would be promised \promisedPerThousand\ true positives per
-thousand cases and receive \deliveredPerThousand.
+On the case study, moving the forecast from first touch to incident creation
+moves the increment by \deltaCohortAtTau\ AUC through the population, by a
+further \deltaSnapshotAtTau\ through the information once the population is
+held fixed, and by \deltaPopulationResidual\ more through the incidents that
+have no interaction record --- before any baseline changes; and the same
+log's answer changes sign when the target changes, within the minimal
+practically important difference, with \shareTargetPct\ of the difference on
+the target and \shareCohortPct\ on the cohort. A desk that
+adopted this register on its estimate against the arrival attributes alone,
+and deployed it where the assignment group and the knowledge reference are
+already recorded, would be promised \promisedPerThousand\ net true positives
+per thousand cases on the pre-specified handover target and receive
+\deliveredPerThousand.
 
 \textbf{And a threshold is not always a cost ratio.} On \nModelsDcaExcluded\
 of \nModelsDca\ models --- pair--pipeline--baseline triples --- the
-calibration slope falls outside
-\calSlopeWindow, so the threshold at which a decision curve is read cannot be
-interpreted as the cost ratio the decision-analytic argument requires
-(Section~\ref{sec:calibfirst}).
+calibration slope falls outside \calSlopeWindow, so the threshold at which a
+decision curve is read cannot be interpreted as the cost ratio the
+decision-analytic argument requires (Section~\ref{sec:calibfirst}).
 
-The practical recommendation is narrow and cheap once the surface exists:
-report the surface, the decomposition with the resampling stratum separated,
-the region and $\rho$ with the triple they rest on; state the forecast origin
-and the target as parts of the estimand; declare a minimal practically
-important difference before reporting any disagreement rate; make the absolute
-increments primary; and use a ratio last, with a Fieller set, and only where
-its denominator is resolvably positive.
+\textbf{What to report.} The design space and the measure over it; which of
+the three sets of specifications a claim quantifies over; the absolute
+increment at every baseline rather than a ratio; the decomposition with the
+resampling stratum separated and $1 - \sum_i S_i$ reported as such; the region
+and $\rho$ under the band's own family, with the counts they rest on; the
+forecast origin and the target as parts of the estimand; a minimal
+practically important difference declared before any disagreement rate; and
+the reduction $R$ last if at all, with a Fieller set and only where its
+denominator is resolvably positive. Supplement~\ref{app:standard} states the
+standard in full, with a six-step recipe, \pkgname\ \citep{fieldvalue} that
+implements the objects, and a worked example on a dataset that is not an
+event log.

@@ -311,6 +311,13 @@ def main(argv=None):
                                "the supplement" % (doc.name, i, ref))
             for m in TABLE_REF.finditer(line):
                 ref = m.group(1) + m.group(2)
+                #  IJF LENGTH PASS.  The article went from eight tables to
+                #  five, so an ARTICLE table number in a historical letter
+                #  describes the version it answered, exactly as its section
+                #  numbers do (skipped above); its supplement table numbers
+                #  are still checked.
+                if doc.name in HISTORICAL and not ref.upper().startswith("S"):
+                    continue
                 n_tables += 1
                 if ref in T:
                     print("  %-28s Table %-4s %s"

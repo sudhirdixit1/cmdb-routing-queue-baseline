@@ -1,0 +1,33 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllllllll}
+\toprule
+log & target & test cases & lag & AUC increment & Brier-skill increment & DM, Brier & Clark--West & DM, log loss \\
+\midrule
+BPIC13\_closed & handover & 447 & 7 & $-$0.0091 & $-$0.0135 & $-$0.78 & 0.89 & $-$0.32 \\
+BPIC13\_incidents & duration & 2267 & 13 & 0.0278 & 0.0123 & 1.09 & 6.65 & 0.71 \\
+BPIC13\_incidents & handover & 2267 & 13 & 0.0373 & 0.0764 & 8.72 & 12.24 & 8.12 \\
+BPIC14 & duration & 13982 & 24 & 0.0958 & 0.1025 & 16.58 & 35.83 & 16.66 \\
+BPIC14 & handover & 13982 & 24 & 0.1673 & 0.2474 & 14.06 & 17.99 & 18.32 \\
+BPIC15\_1 & duration & 360 & 7 & 0.0011 & $-$0.0521 & $-$1.75 & $-$0.51 & $-$1.61 \\
+BPIC15\_1 & handover & 360 & 7 & 0.0071 & 0.0227 & 1.19 & 1.79 & 1.78 \\
+BPIC15\_3 & duration & 423 & 7 & 0.0354 & 0.0953 & 3.42 & 5.37 & 3.03 \\
+BPIC15\_3 & handover & 423 & 7 & $-$0.0030 & $-$0.0080 & $-$0.43 & 0.38 & $-$0.13 \\
+BPIC15\_4 & duration & 316 & 6 & 0.0348 & 0.0587 & 4.22 & 4.91 & 4.10 \\
+BPIC15\_4 & handover & 316 & 6 & 0.0015 & $-$0.0029 & $-$0.43 & $-$0.24 & $-$2.48 \\
+BPIC15\_5 & duration & 347 & 7 & 0.0320 & $-$0.0370 & $-$1.04 & 0.51 & $-$1.08 \\
+BPIC17 & duration & 9453 & 21 & 0.0021 & $-$0.0020 & $-$1.01 & 3.40 & $-$1.17 \\
+BPIC19 & duration & 75521 & 42 & 0.0240 & $-$0.0882 & $-$7.72 & 9.25 & $-$17.24 \\
+Helpdesk & duration & 1374 & 11 & $-$0.0195 & $-$0.0345 & $-$4.18 & $-$1.26 & $-$4.48 \\
+RoadFines & duration & 45111 & 35 & 0.0305 & 0.0117 & 6.15 & 15.23 & 6.26 \\
+Sepsis & duration & 315 & 6 & 0.1527 & 0.2142 & 6.05 & 7.80 & 6.53 \\
+UCI498 & duration & 7476 & 19 & $-$0.0072 & $-$0.0093 & $-$1.97 & 4.52 & $-$2.69 \\
+UCI498 & handover & 7476 & 19 & $-$0.0033 & $-$0.0069 & $-$4.22 & 1.00 & $-$3.38 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{THE REFERENCE CELL, TESTED ON ITS PER-CASE LOSSES. The reference specification is refitted with and without the predictor on the training half and scored case by case on the test half, in time order. `DM, Brier' and `DM, log loss' are Diebold--Mariano statistics of the mean loss differential, oriented so that a positive value favours the model with the predictor; `Clark--West' adds the squared difference of the two forecasts to the Brier differential, the adjustment for a nested comparison. Every long-run variance is Newey--West with Bartlett weights at `lag' $= \lfloor n_{\mathrm{test}}^{1/3} \rfloor$. The two increments are the refitted ones and equal the reference cell of Table~\ref{tab:master}.}
+\label{tab:cwtests}
+\end{table}

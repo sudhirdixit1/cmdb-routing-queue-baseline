@@ -6,7 +6,20 @@ it is not mistaken for done.
 
 ---
 
-## IJF — the current list (2026-09-12)
+## IJF — the current list (2026-09-12; updated 2026-09-24)
+
+> **2026-09-24.** Sections below the table are history. Where they
+> disagree with the table or with `.claude/skills/submitting-to-ijf`, the
+> skill wins: the abstract limit is 100–150 words (the journal's guide), the
+> referee file has five names with addresses, and the upload list is the
+> skill's (never `summary_of_changes.md` or `response_to_referee.md`). The
+> cover letter uploads as `build/journal/cover_letter.pdf`
+> (`python scripts/make_cover_pdf.py`).
+>
+> **2026-09-25.** The forecast-evaluation checks added that day
+> (`scripts/s60_ijf_checks.py`, `results/s60_*`) are not in the v28.0
+> archive; the statements say so, but cutting v29.0 (7a) now makes the
+> archive hold every result the submission cites, and is recommended.
 
 The manuscript is now for the *International Journal of Forecasting*
 (`PLAN-IJF.md`); the sections below this one are the *Information Systems*
@@ -22,8 +35,8 @@ gives every step with its command. In one table:
 | 4 | Elsevier's declaration-of-interests `.docx` | attached |
 | 5 | Confirm `cover_letter.md`'s related-manuscript sentence: nothing else under review; the conference draft never submitted | true |
 | 6 | Read the five statements on `build/journal/title_page.pdf` | you agree with every sentence |
-| 7 | `git push origin main ijf-retarget`; **do not move the tag** | `origin/main` = `main` |
-| 7a | **Decide the archive** (DECISIONS §IJF.3, status 2026-09-19): the archived v28.0 would print three summaries the submitted supplement does not (S22 C32–C34). Recommended: after the push, draft a GitHub release `v29.0` on `main`, let Zenodo mint the version DOI, then `python scripts/insert_doi.py <new DOI>` and rebuild with `--target ijf`; the statements then describe an archive that matches the submission. Or keep v28.0: the statements are written to be true either way. | decided, and if v29.0, the new DOI on the title page |
+| 7 | `git push origin main ijf-retarget`; **do not move the `v28.0` tag** | `origin/main` = `main` |
+| 7a | ~~Decide the archive~~ **decided 2026-09-25: v29.0.** The tree already says v29.0 (`.zenodo.json` version, no `doi` key; title-page code statement; S23 Class N; cover letter `DOI-PENDING`). After the push, from the **sudhirdixit1** GitHub account: Releases → Draft a new release → new tag `v29.0` on `main` → publish; Zenodo mints the version DOI. Then `python scripts/insert_doi.py <DOI>` (checks the DOI is this archive's, writes it, rebuilds, re-verifies), replace `DOI-PENDING` in `submission/cover_letter.md`, `python scripts/make_cover_pdf.py`, run the gates, commit and push. `python scripts/finalise.py` exits 0 only when the DOI is in `.zenodo.json` and the cover letter | DOI on the title page and in the cover letter; `finalise.py` exit 0 |
 | 8 | Upload the files the skill lists (blind manuscript, title page, blind supplement, Highlights, cover letter, declaration, referees) | confirmed |
 
 ---

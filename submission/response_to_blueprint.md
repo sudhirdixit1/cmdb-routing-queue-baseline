@@ -482,17 +482,17 @@ than counted by hand.
 
 | § | section | words | requested | |
 |---|---|---:|---|---|
-| 1 | Introduction | 1,506 | 1,200–1,500 | just over |
-| 2 | Related work | 818 | 1,200–1,500 | under |
-| 3 | The specification surface | 1,244 | ~1,500 | ✓ |
-| 4 | Estimation and inference | 3,351 | 2,000–2,500 | **over** |
-| 5 | The registered benchmark design | 1,068 | 1,200–1,500 | ✓ |
-| 6 | Multi-log results | 3,190 | 2,000–2,500 | **over** |
-| 7 | Case study: a configuration management database | 1,202 | 1,500–2,000 | ✓ |
-| 8 | Decision-analytic evaluation | 899 | — | added |
-| 9 | Simulation against a known answer | 1,720 | 1,000–1,500 | just over |
-| 10 | Threats to validity | 991 | 1,200–1,500 | under |
-| 11 | Conclusion | 741 | 400–600 | just over |
+| 1 | Introduction | 1,372 | 1,200–1,500 | just over |
+| 2 | Related work | 1,216 | 1,200–1,500 | under |
+| 3 | The specification surface | 1,059 | ~1,500 | under |
+| 4 | Estimation and inference | 2,127 | 2,000–2,500 | ✓ |
+| 5 | The pre-specified benchmark design | 674 | 1,200–1,500 | under |
+| 6 | Multi-log results | 2,287 | 2,000–2,500 | under |
+| 7 | Case study: forecasting incident reassignment at a bank's service desk | 859 | 1,500–2,000 | under |
+| 8 | Decision-analytic evaluation | 758 | — | added |
+| 9 | Simulation against a known answer | 1,245 | 1,000–1,500 | ✓ |
+| 10 | Threats to validity | 888 | 1,200–1,500 | under |
+| 11 | Conclusion | 724 | 400–600 | just over |
 
 **The body is about 21,285 words against the 13,000–15,000 requested, and we
 are not going to pretend that is inside the band.** In pages, in the

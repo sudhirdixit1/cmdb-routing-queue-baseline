@@ -1,28 +1,34 @@
 
-The first version of the simulation of Section~\ref{sec:sim} reported that
-every interval construction failed on the noisy world:
-coverage \coverageNoisyBefore\ against a nominal $95\%$ --- where the
-corrected simulation that Section~\ref{sec:sim} now reports covers
-\coverageNoisyAfter\ (Table~\ref{tab:sim31}) --- with the estimator
-sitting \biasNoisyBefore\ below $V_{\mathrm{limit}}$ and a mean interval width
-of \widthNoisyBefore. A gap the size of the whole interval is not something a
-resampling scheme repairs, and the natural write-up was that the estimator was
-biased in that world and the interval inherited the bias.
+In the noisy world of Section~\ref{sec:sim} a register value is replaced by a
+uniform draw with probability \simNoiseRate, so the cells the data generator
+writes down are not the cells the estimator observes. The truth against which
+coverage is measured therefore has to be computed on the observed, corrupted
+population. This section shows what happens when it is not, how the two
+readings are told apart, and how the truth is computed. The simulation's
+target was first computed on the generator's true cells; it was replaced by
+the marginalised target below because the estimator never samples from the
+true cells.
 
-That write-up would have been wrong, and the two experiments below are what
-stopped it. Both were designed so that either could refute the bias reading,
-and both did.
+\paragraph{What the unmarginalised target reports}
+Scored against a truth computed on the generator's true cells, every interval
+construction fails on the noisy world: coverage \coverageNoisyBefore\ against
+a nominal $95\%$, with the estimator sitting \biasNoisyBefore\ below
+$V_{\mathrm{limit}}$ and a mean interval width of \widthNoisyBefore. Against
+the marginalised target the same world covers \coverageNoisyAfter\
+(Table~\ref{tab:sim31}). A gap the size of the whole interval is not something
+a resampling scheme repairs, and it reads naturally as a biased estimator. Two
+diagnostics, each able to confirm that reading, show that it is wrong.
 
 \paragraph{The gap against sample size}
 A finite-sample bias closes as $n$ grows. The increment was estimated at
 \nSizeGrid\ sample sizes from \sizeLo\ to \sizeHi\ in every world, at
 \nScaleReps\ replicates each, with the penalty held fixed. The sparse world
 behaves as a finite-sample gap must: \sparseGapSmall\ at $n = 4{,}000$ falling
-to \sparseGapLarge\ at \sizeHi. The noisy world does not: \noisyGapSmall\ at
-$n = 4{,}000$ and still \noisyGapLarge\ at \sizeHi. The sparse world is the
-control that makes the noisy result mean something --- without it, ``the gap
-did not close'' could be a statement about the experiment rather than about
-the world.
+to \sparseGapLarge\ at \sizeHi. Against the unmarginalised target the noisy
+world does not: \noisyGapSmall\ at $n = 4{,}000$ and still \noisyGapLarge\ at
+\sizeHi. The sparse world is the control that makes the noisy result mean
+something --- without it, ``the gap did not close'' could be a statement about
+the experiment rather than about the world.
 
 \paragraph{The gap against the penalty}
 A fixed $L_2$ penalty is not scale-free, so it can masquerade as bias: it
@@ -32,37 +38,31 @@ same one at its limit. Holding $n$ at $4{,}000$ and weakening the penalty by
 \nPenaltyDecades\ orders of magnitude moves the noisy world's gap from
 \noisyGapTight\ to \noisyGapLoose\ --- that is, not at all.
 
-\paragraph{What was actually wrong}
-Neither explanation surviving is what sent us to examine the target rather
-than the estimator, and the target was wrong. The simulation enumerated the
-generator's cells, carrying the \emph{true} register value, while in the noisy
-world the estimator only ever sees a value that is replaced by a uniform draw
-with probability \simNoiseRate. Both estimands were therefore computed on a
-population the estimator does not sample from. Marginalising the noise exactly
-(Section~\ref{sec:sim}) moves $V_{\mathrm{limit}}$ from \limitNoisyBefore\ to
-\limitNoisyAfter. The estimator's mean was \meanNoisyEstimate\ throughout.
-There was no bias; there was a wrong estimand in our own simulation, and it
-took two arms of evidence against everything else to find it.
+\paragraph{The cause is the target}
+A gap that neither sample size nor the penalty moves is not an estimator
+bias; it is a distance between the estimator's limit and a quantity the
+estimator does not estimate. Both estimands were computed on a population the
+estimator does not sample from. Marginalising the noise exactly (below) moves
+$V_{\mathrm{limit}}$ from \limitNoisyBefore\ to \limitNoisyAfter, while the
+estimator's mean is \meanNoisyEstimate\ under either target. Against the
+marginalised target the noisy world's gap is \noisyGapFixed\ at
+$n = 4{,}000$ and \noisyGapFixedLarge\ at \sizeHi. The sparse world's gap is
+the same under both targets, because marginalisation touches only the noisy
+world, which is what makes it a control rather than a coincidence. Coverage
+on the noisy world is \coverageNoisyAfter.
+\texttt{scripts/s18\_bias\_scaling.py -{}-legacy-target} regenerates the
+unmarginalised figures above, so every number in this section is
+reproducible from the archive.
 
-\paragraph{The same two experiments, after the correction}
-Both arms were re-run against the corrected target, and there is nothing left
-for them to explain: the noisy world's gap is \noisyGapFixed\ at $n = 4{,}000$
-and \noisyGapFixedLarge\ at \sizeHi. The sparse world's gap is unchanged in
-both runs, because the correction touches only the noisy world, which is what
-makes it a control rather than a coincidence. Coverage on the noisy world is
-\coverageNoisyAfter. \texttt{scripts/s18\_bias\_scaling.py -{}-legacy-target}
-regenerates the pre-correction figures above, so the evidence for this
-appendix is reproducible rather than quoted from a log we happen to have kept.
-
-The general lesson is the one this paper makes elsewhere about the design
+The general point is the one this paper makes elsewhere about the design
 space: a quantity is defined relative to a declared population, and a
 simulation's population is a declaration like any other. A quality mechanism
 that acts on the data --- which is exactly what the register-quality axis of
 Section~\ref{sec:surface} does on real logs --- changes what the estimand is,
 not merely how well it is estimated. The register-quality results of
 Section~\ref{sec:quality} are reported against the degraded register for that
-reason, and the correction register in the archive records
-this as the round's largest error of its class.
+reason, and the correction register (Section~\ref{app:corrections}) records
+the change of target as C20.
 
 \subsection*{The two estimands, and the marginalisation}
 
@@ -72,14 +72,13 @@ scoring rules --- what the register is worth in the world.
 $V_{\mathrm{limit}}$ is the increment between the two fitted pipelines'
 limits --- what the estimator estimates. A resampling interval can only cover
 the second, and reporting its coverage of the first as though it were the
-estimator's coverage is precisely the error the earlier simulation made.
-Table~\ref{tab:sim}, the 200-replicate run this diagnosis was made on,
-reports the limit's coverage, and the oracle rows are in the result file its
-caption names. Table~\ref{tab:sim31} is the 1000-replicate run every
-coverage number in the main text comes from; the two agree on every
-qualitative statement in this appendix, their cells differing by Monte Carlo
-error at the smaller run's count, and the diagnosis is reported against
-the run that produced it rather than restated against a later one.
+estimator's coverage is a category error. Table~\ref{tab:sim} is a
+200-replicate run on which the diagnostics above were made, and it reports
+the limit's coverage; the oracle rows are in the result file its caption
+names. Table~\ref{tab:sim31} is the 1000-replicate run every coverage number
+in the main text comes from. The two agree on every qualitative statement in
+this section, their cells differing by Monte Carlo error at the smaller run's
+count.
 
 \input{tables/sim}
 
@@ -98,12 +97,10 @@ w(b,g,j) \;&=\; \sum_{f} \Pr(b,g,f)\,\Pr(j \mid f), \\[2pt]
 \]
 where $\Pr(j \mid f) = (1 - r)\mathbf{1}\{j = f\} + r/K$. Enumerating the
 \emph{true} cells instead scores the estimator against a population it never
-samples from, and the first version of this simulation did exactly that: it
-reported a coverage of \coverageNoisyBefore\ on the noisy world and a bias of
-\biasNoisyBefore\ that did not exist. The two experiments above refuted every finite-sample explanation for that apparent
-bias and thereby sent us to look at the target. The marginalisation is checked
-against a Monte Carlo sample, on standardised residuals, at the start of every
-simulation run.
+samples from, which is what produces the coverage of \coverageNoisyBefore\
+and the apparent bias of \biasNoisyBefore\ above. The marginalisation is
+checked against a Monte Carlo sample, on standardised residuals, at the start
+of every simulation run.
 
 \subsection{The six simulated worlds and the two estimands}
 \label{app:worlds}
@@ -131,7 +128,7 @@ error. Both are reported in Table~\ref{tab:sim31}: the limit's coverage under
 every construction, the oracle's under the reported one. Where a register value is
 corrupted the cells the generator writes down are not the cells the estimator
 observes, so the truth has to be marginalised over the corruption; the two
-experiments that found that, and the check that guards it, are the subject of
+diagnostics that show why, and the check that guards it, are the subject of
 this section.
 
 \subsection{Where the refit helps, and where the percentile interval fails}

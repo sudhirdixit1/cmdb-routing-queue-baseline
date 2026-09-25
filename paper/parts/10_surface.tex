@@ -32,27 +32,34 @@ together with the cohort and eligibility rule that fix $D$. A claim about a
 feature is \emph{well posed} only relative to a declared $\mathcal{S}$.
 \end{definition}
 
+\noindent The baselines are nested, $B_0 \subset B_1 \subset \cdots$, and we
+call them the \emph{nested baselines}: $B_0$ is the intake block (the
+low-cardinality attributes recorded when a case opens), and a richer baseline
+adds the \emph{free field} $g$, a routinely recorded attribute --- on the
+case-study log the assignment group --- that may carry the same information
+as the register $f$. The metric axis has \nInstruments\ levels, the
+\emph{metrics}: the area under the ROC curve (AUC), average precision, the
+Brier skill score, the log-loss skill score and Nagelkerke's $R^2$, of which
+the Brier and log-loss skill scores are affine in a strictly proper score on
+a fixed test set. We call the value
+$V_s(f)$ at one specification a \emph{cell} of the surface; a \emph{scalar}
+cell is one whose metric is one of these scores rather than a point of the
+decision curve, and a cell is \emph{admissible} if it lies in the declared
+space and no declared rule excludes it (for scalar cells the one such rule
+excludes the intercept-only baseline).
+
 \input{tables/axes}
 
 Declaring a design space means writing down every axis, its levels, the
 measure over those levels, and every level deliberately excluded with the
-reason. Table~\ref{tab:axes} is that declaration, generated from the code that
-walks the space, and its caption says which rows multiply into the admissible
-cell counts of Section~\ref{sec:denominator} --- the learner, the split, the
-register-quality condition, the admissible baseline and the scalar instrument
---- and where each of the others is counted instead; that multiplication,
-re-done pair by pair from the same file the table is generated from, is a
-condition the verification harness checks. Not all \nAxes\ axes are varied in
-this study: Table~\ref{tab:roles} states per pair which ran and at how many
-levels, and Section~\ref{sec:lim} carries the gap. The \emph{measure} column
-names which of the three declared product measures a quantity is taken under
---- \textsc{equal}, \textsc{ref.} and \textsc{conc.}, placing equal, half and
-four fifths of the mass on the reference level --- and
-Section~\ref{sec:axes2} reports the pooled decomposition's headline shares
-under all three (Table~\ref{tab:measures}); the
-measure is a modelling choice, declared rather than left implicit
-(Supplement~\ref{app:measurechoice}, which also says why the forecast origin and
-the register's quality are axes of the estimand rather than preliminaries).
+reason. Table~\ref{tab:axes} is that declaration. A pair's admissible cell
+count is the product of five of its rows --- learner, split, register-quality
+condition, admissible baseline and scalar metric; the note to the table says
+how the other axes enter. Not all \nAxes\ axes are varied on every pair
+(Section~\ref{sec:design} and Section~\ref{sec:lim}). The measure over the
+levels is declared rather than left implicit, and the pooled decomposition is
+reported under three product measures (Table~\ref{tab:measures};
+Supplement~\ref{app:measurechoice}).
 
 \subsection{What the surface estimates}
 \label{sec:estimand}
@@ -60,26 +67,23 @@ the register's quality are axes of the estimand rather than preliminaries).
 Equation~\eqref{eq:estimand} is written on a fixed $D_{\mathrm{train}}$ and
 $D_{\mathrm{test}}$, so as it stands $V_s(f)$ is a deterministic functional of
 the log in hand and an interval for it would cover with probability zero or
-one. That is not the quantity this paper reports intervals for, and the
-distinction has to be made before Section~\ref{sec:inference} can say what its
-bootstrap targets.
+one. The quantity the intervals of Section~\ref{sec:inference} target is the
+following.
 
 \begin{definition}[The estimand]
 \label{def:estimand}
 Let the cases of a log be a sample from a population $P$, and let the
 specification $s$ fix the fitting procedure $A_s$, the cohort and eligibility
 rule, the split rule $\Pi$, the forecast origin, the register-quality mechanism,
-the baseline and the instrument. Write $A_s(P)$ for the limit of the fitted
-scoring rule as the sample grows under $P$ with $s$ held fixed. That
-limit needs an assumption, and it is stated here rather than where it is
-used: the case sequence is stationary and mixing, so that a temporal split
-does not separate two different populations and the moving-block bootstrap of
-Section~\ref{sec:boot} resamples a dependence structure that persists. An
-event log is not guaranteed to have that property. Stationarity is tested here
-and does not hold everywhere --- the increment differs across the test half on
-\nDrifts\ of \nDriftPairs\ pairs (Supplement~\ref{app:drift}) --- while
-mixing is not tested, and Supplement~\ref{app:threats} carries both. The
-\emph{estimand at $s$} is
+the baseline and the metric. Write $A_s(P)$ for the limit of the fitted
+score function as the sample grows under $P$ with $s$ held fixed. The limit
+requires the case sequence to be stationary and mixing, so that a temporal
+split does not separate two populations and the moving-block bootstrap of
+Section~\ref{sec:boot} resamples a persistent dependence structure;
+stationarity is tested and does not hold everywhere --- the increment
+differs across the test half on \nDrifts\ of \nDriftPairs\ pairs
+(Supplement~\ref{app:drift}) --- and mixing is not tested
+(Supplement~\ref{app:threats}). The \emph{estimand at $s$} is
 \[
 \vartheta_s(f) \;=\; m_\theta\bigl(A_s(P, B \cup \{f_q\}),\, P\bigr)
 \;-\; m_\theta\bigl(A_s(P, B),\, P\bigr),
@@ -87,34 +91,32 @@ mixing is not tested, and Supplement~\ref{app:threats} carries both. The
 and $V_s(f)$ of~\eqref{eq:estimand} is its plug-in estimate on the log.
 \end{definition}
 
-\noindent Three things follow and are used throughout. The split rule and the
-pipeline are \emph{part of the estimand}, not nuisances to be averaged away:
-$\vartheta_s$ is what this analyst's procedure converges to, which is why the
-nested bootstrap of Section~\ref{sec:boot} resamples the training half rather
-than conditioning on it, and why the split is an axis. Under misspecification
-$\vartheta_s$ is not what the register is worth in the world --- the
-simulation of Section~\ref{sec:sim} separates the two and measures the gap,
-calling them $V_{\mathrm{limit}}$ and $V_{\mathrm{oracle}}$. And every cell of
-every figure and table in this paper is an \emph{estimate} of $\vartheta_s$;
-``resolved'' in Definition~\ref{def:regions} means that the band excludes zero
-for $\vartheta_s$, not that the observed increment is nonzero.
+\noindent Three things follow. The split rule and the pipeline are
+\emph{part of the estimand}, not nuisances to be averaged away, which is why
+the nested bootstrap of Section~\ref{sec:boot} resamples the training half
+rather than conditioning on it. Under misspecification $\vartheta_s$ is not
+what the register is worth in the world; the simulation of
+Section~\ref{sec:sim} separates the two as $V_{\mathrm{limit}}$ and
+$V_{\mathrm{oracle}}$. And every cell of every table is an \emph{estimate} of
+$\vartheta_s$, so ``resolved'' in Definition~\ref{def:regions} means that the
+band excludes zero for $\vartheta_s$, not that the observed increment is
+nonzero.
 
 \subsection{The surface, and why it is not a scalar}
 
 Given $\mathcal{S}$ and data $D$, the surface is the map $s \mapsto V_s(f)$
-of~\eqref{eq:estimand}, and a conventional report is one cell of it. The
-paper's claim is that a single cell is not a summary of the surface in any
-useful sense. The point estimates alone establish that: on
-\nSignVaries\ of the \nPairs\ pairs, between a tenth and nine tenths of the
-admissible cells are positive, so the surface's sign is not settled by the
-data and the design together. Whether that unsettledness amounts to a
-\emph{misstatement} is a different and much harder question, and
-Section~\ref{sec:results-regret} answers it with three restrictions and a
-withdrawal rather than with a rate. There is one state in
-which a scalar is defensible: when the whole admissible surface lies on the
-same side of zero with simultaneous confidence, a positive number is a lower
-bound on a robust conclusion. Section~\ref{sec:regionsdef} makes that a
-definition.
+of~\eqref{eq:estimand}. The \emph{conventional report} is one cell of it, the
+reference cell: one-hot logistic regression, the single temporal holdout, the
+clean register, the intake block plus the free field, and AUC. The paper's
+claim is that a single cell is not a summary of the surface in any useful
+sense. The point estimates alone establish that: on \nSignVaries\ of the
+\nPairs\ pairs, between a tenth and nine tenths of the admissible cells are
+positive. Whether that amounts to a \emph{misstatement} is a harder question,
+which Section~\ref{sec:results-regret} answers with three restrictions rather
+than with a rate. A scalar is defensible in one state: when the whole
+admissible surface lies on the same side of zero with simultaneous
+confidence, a positive number is a lower bound on a robust conclusion
+(Section~\ref{sec:regionsdef}).
 
 Comparisons between two baselines are often stated as a proportion. Write
 $B_0 \subset B_1$ and
@@ -122,23 +124,16 @@ $B_0 \subset B_1$ and
 D_s(f) \;=\; V_s(f \mid B_0) - V_s(f \mid B_1),
 \quad
 R_s(f) \;=\; 1 - \frac{V_s(f \mid B_1)}{V_s(f \mid B_0)}
-\;=\; \frac{D_s(f)}{V_s(f \mid B_0)} .
+\;=\; \frac{D_s(f)}{V_s(f \mid B_0)} ;
 \label{eq:reduction}
 \end{equation}
-$D$ is an absolute difference in the metric's own units. $R$ is a ratio and
+$D_s(f)$, the \emph{absorption}, is how much of the register's increment the
+richer baseline $B_1$ takes up, in the metric's own units. $R$ is a ratio and
 inherits every pathology of one, so $D$ and the two increments are primary
-throughout and $R$ is a secondary descriptive statistic, reported under three
-rules declared before any $R$ in this paper was computed, with an interval
-that is a Fieller set \citep{fieller1954} whose \emph{kind} --- bounded, unbounded, or the
-complement of an interval --- is printed beside it; the pathologies and the
-rules are in Supplement~\ref{sec:reduction} and Supplement~\ref{app:fieller}.
-
-\subsection{Two facts about the metric, and why they are remarks}
-\label{sec:props}
-
-Two properties of the reduction are used later; Supplement~\ref{app:props}
-carries both in full, with their constructions and the richness assumption
-the second needs.
+and $R$ is a secondary descriptive statistic, reported under three declared
+rules with a Fieller set \citep{fieller1954} whose \emph{kind} --- bounded,
+unbounded, or the complement of an interval --- is printed beside it
+(Supplement~\ref{sec:reduction} and Supplement~\ref{app:fieller}).
 
 \begin{remark}[The metric is an argument of the estimand]
 \label{prop:nonid}
@@ -146,29 +141,15 @@ No function carries the AUC reduction to the average-precision reduction: two
 configurations can share an AUC reduction to \propOneAucGap\ while their
 average-precision reductions differ by \propOneApGap. The reduction is
 therefore not identified by the data, the feature and the two baselines, which
-is why every table in this paper names its instrument and why the minimal
+is why every table in this paper names its metric and why the minimal
 practically important difference of Section~\ref{sec:results-regret} is
-declared in one instrument's units and applied there only.
+declared in one metric's units and applied there only. That forecast rankings
+can depend on the scoring function is established for point and quantile
+forecasts \citep{ehm2016quantiles,patton2020comparing}; the remark is its
+counterpart for an increment between nested models.
 \end{remark}
 
-\noindent The second --- Remark~\ref{prop:rank}, that a reduction is
+\noindent A second property --- Remark~\ref{prop:rank}, that a reduction is
 invariant to a declared family of recalibrations exactly when the metric is
 \emph{affine} under it --- is stated and proved in
-Supplement~\ref{app:props}, with the \nCertificates\ certificates it licenses.
-
-\paragraph{Why the area under the curve is the primary instrument}
-Every forecast here is a probability forecast of a binary event, and the
-area under the ROC curve is first among the \nInstruments\ declared
-scalar instruments: it is the instrument of the conventional report this paper
-measures against, and its increment is the quantity the clinical-prediction
-literature has criticised for two decades as a guide to usefulness
-(Section~\ref{sec:related}); the Brier and log-loss skill scores are among
-the other declared instruments (Figure~\ref{fig:speccurve}). The metric is
-an argument of the estimand (Remark~\ref{prop:nonid}), so every table names
-its instrument and the primary decomposition is computed within each
-instrument in that instrument's own units (Section~\ref{sec:axes2});
-Remark~\ref{prop:rank} says which instruments' reductions a recalibration
-moves. An AUC increment is not a
-quantity a desk can act on, so Section~\ref{sec:dca} reads the same surface
-in net benefit on calibrated scores, beside the accuracy increment rather
-than in place of it.
+Supplement~\ref{app:props}.

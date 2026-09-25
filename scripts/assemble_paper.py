@@ -54,6 +54,7 @@ ORDER_TITLE = [
     "T0_unblind.tex",
     "01_frontmatter.tex",
     "statements.tex",
+    "aideclaration.tex",
     "T9_title_back.tex",
 ]
 

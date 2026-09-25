@@ -1,0 +1,33 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllllllll}
+\toprule
+log & target & pooled & AUC & average precision & Brier skill & log-loss skill & Nagelkerke & own family differs \\
+\midrule
+BPIC13\_closed & handover & U & U 0/0 & U 0/0 & U 0/0 & U 0/0 & U 0/0 & 0 \\
+BPIC13\_incidents & duration & CB & CB 5/0 & CB 4/0 & U* 1/0 & U* 1/0 & U* 1/0 & 3 \\
+BPIC13\_incidents & handover & CB & CB 14/0 & CB 17/0 & CB 17/0 & CB 12/0 & CB 12/0 & 0 \\
+BPIC14 & duration & UB & UB 36/0 & UB 36/0 & UB 36/0 & UB 36/0 & UB 36/0 & 0 \\
+BPIC14 & handover & CB & CB 34/0 & CB 29/0 & UB 36/0 & UB 36/0 & UB 36/0 & 3 \\
+BPIC15\_1 & duration & U & U 0/0 & U 0/0 & U 0/0 & U 0/0 & U 0/0 & 3 \\
+BPIC15\_1 & handover & U & U 0/0 & U 0/0 & U 0/0 & U 0/0 & U 0/0 & 0 \\
+BPIC15\_3 & duration & U* & CB 2/0 & U 0/0 & U 0/0 & U 0/0 & U 0/0 & 5 \\
+BPIC15\_3 & handover & U* & U 0/0 & U 0/0 & CH 0/3 & U* 0/1 & U 0/0 & 5 \\
+BPIC15\_4 & duration & U & U 0/0 & U 0/0 & U 0/0 & U 0/0 & U 0/0 & 0 \\
+BPIC15\_4 & handover & U & U 0/0 & U 0/0 & U 0/0 & U 0/0 & U 0/0 & 1 \\
+BPIC15\_5 & duration & U & U 0/0 & U 0/0 & U 0/0 & U 0/0 & U 0/0 & 1 \\
+BPIC17 & duration & U & U 0/0 & U 0/0 & U 0/0 & U 0/0 & U 0/0 & 2 \\
+BPIC19 & duration & SC & CB 8/0 & CB 2/0 & CH 0/25 & CH 0/25 & CH 0/21 & 4 \\
+Helpdesk & duration & U* & U 0/0 & U 0/0 & CH 0/2 & U 0/0 & U 0/0 & 3 \\
+RoadFines & duration & SC & CB 23/0 & CB 23/0 & SC 2/2 & SC 2/2 & SC 2/2 & 2 \\
+Sepsis & duration & CB & CB 29/0 & CB 19/0 & CB 18/0 & CB 18/0 & CB 18/0 & 1 \\
+UCI498 & duration & CB & CB 4/0 & CB 10/0 & U 0/0 & U 0/0 & U 0/0 & 3 \\
+UCI498 & handover & U & U 0/0 & U 0/0 & U 0/0 & U 0/0 & U 0/0 & 2 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{REGION LABELS WITHIN EACH METRIC. `pooled' is the label of Table~\ref{tab:master}, which Definition~\ref{def:regions} gives on the whole inference family, all \nInstruments\ metrics together. Each metric column applies the same definition, minimum resolved share included, to that metric's cells alone under the same simultaneous band, and prints the label with the counts of beneficial and harmful cells it rests on. UB, CB: uniformly, conditionally beneficial; SC: sign-changing; CH: conditionally harmful; U: unresolved; U*: unresolved because fewer than \minResolvedSharePct\ of the metric's cells resolve. `own family differs' counts the metrics whose label differs from the pooled one when the max-t family is the metric's own cells rather than every metric's cells.}
+\label{tab:metricregions}
+\end{table}

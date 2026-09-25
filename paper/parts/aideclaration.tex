@@ -1,0 +1,30 @@
+%%  THE GENERATIVE-AI DECLARATION.  Elsevier's policy (updated June 2026,
+%%  read 2026-09-24) asks for it "at the end of your manuscript,
+%%  immediately before the references", under the section title below, and
+%%  asks that AI-written code be described in the Methods section, which
+%%  Section 4.1 does.  It names no author, so the blind article carries it
+%%  (90_backmatter.tex) and the title page repeats it (assemble_paper.py).
+%%  The title stays on ONE source line: texlint records each section's name
+%%  into results/section_words.csv, and a wrapped title broke that CSV.
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
+
+During the preparation of this work the \ifblind author(s)\else author\fi\
+used Anthropic Claude (\aiModelId; \aiModelDate) in order to draft and edit
+prose, to write analysis and verification code, and to conduct internal
+critical reads of the manuscript against its code and results. After using this tool
+the \ifblind author(s)\else author\fi\ reviewed and edited the content as
+needed and \ifblind take(s)\else takes\fi\ full responsibility for the
+content of the publication.
+
+The use in writing code is described in the Methods section
+(\ifdefined\titlepagedocument the article's Section~4.1\else
+Section~\ref{sec:boot}\fi). No
+generative model produced, imputed, augmented or selected any datum, any
+result or any citation behind a claim of this paper: every result is
+produced by archived code that one command re-runs, and every reference was
+checked against its published record. Every session's date, and its model
+identifier where one was recorded, are in \texttt{AI-USE.md} in the code
+repository. The one
+place where a machine-assisted judgement enters a study is the literature
+pilot of Supplement~\ref{app:pilot}, which is declared where it is
+described, and no claim in this paper rests on it.

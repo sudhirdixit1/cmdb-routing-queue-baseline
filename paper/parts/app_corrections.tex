@@ -1,27 +1,20 @@
 
-This project keeps a correction register. Earlier versions of this work
-carried it in the main text; a referee of an earlier version observed that
-scientific transparency should be visible in the design and the supplement
-rather than repeatedly asserted, and that is right, so it is here.
-
-\refereelog\ carries every objection recorded
-against this work --- from referees of earlier versions and from the
-authors' own adversarial reads --- each with its disposition and with the
-corrections it produced named. What follows is the register grouped by \emph{class}, because the
-classes are more useful than the incidents: they say what kind of mistake this
-apparatus is prone to. Identifiers run in the order the corrections were made,
-across every round; three of the low numbers never entered the register
-and the classes below are therefore not a contiguous range, which is a fact
-about the numbering and not a missing entry.
+This section is a corrections register: the summaries whose computation was
+changed during the analysis, each with the old and the new value where there
+is one, and the reason for the change. Entries are grouped by \emph{class},
+because the classes say what kind of mistake an apparatus of this kind is
+prone to. Identifiers run in the order the changes were made; three of the
+low numbers were never assigned, so the classes below are not a contiguous
+range, which is a fact about the numbering and not a missing entry.
 
 \paragraph{Class A --- a control that could not fail}
 Four corrections (C1, C2, C8, C16) are nulls or searches drawn at the wrong
 level, swept over the wrong range, or given fresh noise inside a comparison
 that assumed determinism. A null that cannot fail is worse than no null,
-because it is reported as evidence. The most recent, C16, is in
-Section~\ref{app:props}: the axis non-redundancy search drew fresh noise
-inside each cell evaluation, so two evaluations of the same cell disagreed and
-the search found almost nothing.
+because it is reported as evidence. In C16 the axis non-redundancy search
+drew fresh noise inside each cell evaluation, so two evaluations of the same
+cell disagreed and the search found almost nothing; the search was later
+removed altogether (C24).
 
 \paragraph{Class B --- a quantity whose sign was set by a tie-break}
 Two corrections (C4, C7) concern an operational factor computed at a fixed
@@ -39,72 +32,68 @@ was the worst of the points the table happened to name; a count reported as a
 contiguous run; a range ``across the operating range'' that was a range across
 five named points; a universal ``if and only if'' whose necessity direction is
 only existential (Section~\ref{app:props}); and --- the one that mattered most
---- a headline spread that was inflated by an intercept-only baseline no
-analyst would build, while a later section of the same manuscript said so and
-the abstract did not. This class is the reason
-Section~\ref{sec:regionsdef} excludes the intercept-only rung by definition and
+--- a headline spread inflated by an intercept-only baseline no analyst would
+build, which a later section of the same manuscript acknowledged and the
+abstract did not. This class is the reason
+Section~\ref{sec:regionsdef} excludes the intercept-only baseline by definition and
 the reason every number in this document is a generated macro rather than a
 typed literal.
 
 \paragraph{Class D --- evidence one download away}
-One correction (C11): an earlier version reported that it could not establish
+One correction (C11). The analysis had reported that it could not establish
 whether the knowledge-article reference was available at incident creation,
-named the file that would settle where the field comes from, and did not
-obtain it. Obtaining it changed the headline. Section~\ref{sec:cmdb} now
+and had named the file that would settle where the field comes from without
+obtaining it. Obtaining it changed the headline. Section~\ref{sec:cmdb}
 reports the register at three forecast origins (Table~\ref{tab:tau}) rather
-than choosing one, because obtaining the file settled where the field is
-written and not when.
+than choosing one, because the file settled where the field is written and
+not when.
 
 \paragraph{Class E --- a claim about the world that our own coder could not
 support}
-One correction (C15), and it is the largest. An earlier version reported that
+One correction (C15), and it is the largest. The old statement was that
 \emph{not one} of twenty audited papers reports the increment across a range
 of operating points. The rebuilt pilot of Section~\ref{sec:practice}
 adjudicates the papers the mechanical screen \emph{rejected} as well as the
 ones it accepted, measures the screen's sensitivity at \auditSens, and finds
 eligible papers that do report the increment across a range of operating
-points --- one of them at four values of $k$ in a top-$k$ evaluation. The
-earlier ``not one'' was a property of a coder that finds fewer than half of
-the eligible papers, not a property of the literature. The corrected estimate
-is \auditRangeThresholdPct\ with an interval that includes it.
+points --- one of them at four values of $k$ in a top-$k$ evaluation. The old
+``not one'' was a property of a coder that finds fewer than half of the
+eligible papers, not a property of the literature. The new estimate is
+\auditRangeThresholdPct\ with an interval that includes it.
 
 \paragraph{Class F --- internal inconsistency}
-Four corrections (C17, C18, C19, C22) are places where an earlier manuscript
-disagreed with itself: an instrument count that treated two thresholds of one
-instrument as two instruments; a reference reduction quoted as
+Four corrections (C17, C18, C19, C22) are places where the manuscript
+disagreed with itself: a metric count that treated two thresholds of one
+metric as two metrics; a reference reduction quoted as
 $43.7\%$ in the text and $35.0\%$ in a table without the change of
-specification being made clear; and a section that said a withdrawn
-instrument was retained in a table that did not contain it. The generated-macro
-discipline of Section~\ref{app:verifier} makes this class structurally
-impossible rather than merely unlikely --- and does not make it impossible
-when the same wrong quantity is computed twice from the same wrong expression,
-which is C22. Correcting the pilot's frame size in the facts and not in the
-PRISMA flow left Section~\ref{sec:practice} reading
-\nAuditFrame\ and Table~\ref{tab:prisma} reading two orders of magnitude more, four pages apart,
-\emph{after} the error had been found and written up. The frame is computed
-once now, before both consumers, and the verifier checks every row of the flow
-that the prose also quotes.
+specification being made clear; and a section that said a metric
+removed from the analysis was retained in a table that did not contain it.
+The generated-macro discipline of Section~\ref{app:verifier} makes this class
+structurally impossible rather than merely unlikely --- except when the same
+wrong quantity is computed twice from the same wrong expression, which is
+C22: the pilot's frame size was corrected in the facts file and not in the
+PRISMA flow, so Section~\ref{sec:practice} read \nAuditFrame\ and
+Table~\ref{tab:prisma} two orders of magnitude more. The frame is now
+computed once, before both consumers, and the verifier checks every row of
+the flow that the prose also quotes.
 
 \paragraph{Class G --- an estimand that was not the one being estimated}
-One correction (C20), found in round nineteen and the reason
-Section~\ref{app:noisy} exists. The simulation of Section~\ref{sec:sim}
-computed both estimands by enumerating the data generator's cells, which in
-the noisy world carry the register's \emph{true} value while the estimator
-only ever observes a value replaced by a uniform draw with probability
-\simNoiseRate. Coverage was therefore measured against a population the
-estimator does not sample from, and came out at \coverageNoisyBefore\ with an
-apparent bias of \biasNoisyBefore. Both were artefacts. The correction is
-exact marginalisation of the noise; the estimator's mean was
-\meanNoisyEstimate\ before and after.
+One correction (C20), the subject of Section~\ref{app:noisy}. The simulation
+of Section~\ref{sec:sim} computed both estimands by enumerating the data
+generator's cells, which in the noisy world carry the register's \emph{true}
+value while the estimator only ever observes a value replaced by a uniform
+draw with probability \simNoiseRate. Coverage was therefore measured against
+a population the estimator does not sample from: \coverageNoisyBefore, with
+an apparent bias of \biasNoisyBefore. The change is exact marginalisation of
+the noise, under which coverage is \coverageNoisyAfter; the estimator's mean
+is \meanNoisyEstimate\ under either target.
 
-This class is worth separating from Class F because nothing in the
-generated-macro discipline could have caught it: every number was internally
-consistent, correctly computed, and correctly printed. What was wrong was the
-\emph{definition} of the quantity two of them referred to. It was found by
-constructing two experiments that could each have confirmed the comfortable
-reading --- that the method simply fails in that world --- and having both
-refuse to. That is the only mechanism in this project that has ever caught an
-error of this class, and it is not automatable.
+Nothing in the generated-macro discipline can catch this class: every number
+was internally consistent, correctly computed and correctly printed, and what
+was wrong was the \emph{definition} of the quantity two of them referred to.
+It was found by two diagnostics, each able to confirm the reading that the
+method fails in that world, which both refused to confirm
+(Section~\ref{app:noisy}). That is not automatable.
 
 \paragraph{Class H --- a statistic aggregated over the wrong index set}
 One correction (C21). The literature pilot's frame size summed a stratum-size
@@ -116,126 +105,111 @@ orders of magnitude larger. Every input was correct; the arithmetic was
 correct; the group-by was wrong.
 
 The correction changed what the pilot \emph{is} and not only how large it
-sounds. With the true frame in view it is immediate that the design weight is
-\auditMaxWeight\ in every stratum, that the enumeration stopped short of its
-declared budget of \nAuditTarget, and that the pilot is therefore a census of
-what one index returned rather than a probability sample of a literature ---
-which Section~\ref{app:pilot} now says, with the additional limit that the
-frame's coverage of the field is unmeasured.
-
-The guard is a re-derivation rather than a recount: the verifier computes the
-frame from the sample by grouping, and refuses a manuscript in which a frame
-is smaller than the sample it contains, or differs from it while every design
-weight is one. A checker that recomputed the same aggregation would have
-agreed with the error.
+sounds. With the true frame in view the design weight is \auditMaxWeight\ in
+every stratum, the enumeration stopped short of its declared budget of
+\nAuditTarget, and the pilot is therefore a census of what one index returned
+rather than a probability sample of a literature, as Section~\ref{app:pilot}
+states, with the additional limit that the frame's coverage of the field is
+unmeasured. The guard is a re-derivation rather than a recount: the verifier
+computes the frame from the sample by grouping, and refuses a manuscript in
+which a frame is smaller than the sample it contains, or differs from it while
+every design weight is one.
 
 \paragraph{Class I --- an inferential object whose denominator was not the
 one the claim quantified over}
-Two corrections (C26, C28), and they are the same mistake in two places. A
-region label such as \emph{uniformly beneficial} ranges over every admissible
-cell of a surface, and an earlier version supported it with max-$t$ bands
-whose family was the five scalar instruments \emph{at one cell}; the family
-was two orders of magnitude smaller than the claim. Widening it to the whole
-surface raises the critical value from \maxTWithinMedian\ to
-\maxTSurfaceMedian\ at the median pair and changes the region label on
-\nRegionChangedByFamily\ of \nPairs\ pairs --- and more at the cell level,
-where a region label's coarseness no longer hides it and the wider family
-unresolves cells throughout. Section~\ref{sec:simbands} now
-declares four interval objects by name so a table cannot print one and be read
-as the other. The same class covers the
+Two corrections (C26, C28), the same mistake in two places. A region label
+such as \emph{uniformly beneficial} ranges over every admissible cell of a
+surface, and it had been supported by max-$t$ bands whose family was the five
+scalar metrics \emph{at one cell}, two orders of magnitude smaller than
+the claim. Widening the family to the whole surface raises the critical value
+from \maxTWithinMedian\ to \maxTSurfaceMedian\ at the median pair and changes
+the region label on \nRegionChangedByFamily\ of \nPairs\ pairs --- and more at
+the cell level, where the wider family unresolves cells throughout.
+Section~\ref{sec:simbands} declares four interval objects by name so that a
+table cannot print one and be read as the other. The same class covers the
 pilot's Wilson intervals (C28): a binomial interval was put around a ratio of
 two weighted totals through a fractional ``effective sample size'', and none
 of the five resulting intervals is contained in its design-based counterpart.
-
-The general form is worth stating because it is not a coding error and no
-checker in this repository would have caught it: \textbf{an interval is only
-as good as the correspondence between the family it controls and the sentence
-it is used to license}, and that correspondence is a judgement about English,
-not a property of the arithmetic.
+An interval is only as good as the correspondence between the family it
+controls and the sentence it is used to license, and that correspondence is a
+judgement about language, not a property of the arithmetic.
 
 \paragraph{Class J --- a quantity assembled from units that do not add}
-Two corrections (C25, C27). The first: an earlier version reported the largest
-per-axis difference $\max_i(S_{T_i} - S_i)$ and described it as the share of
-variance carried by interactions. Those differences overlap across axes ---
-a two-way component appears in the total effect of both of its axes --- so
-their maximum is neither their sum nor their union, and the total higher-order
-share is $1 - \sum_i S_i$, which on this corpus is \interactionTotalPct\
-against the \largestInvolvementPct\ that was printed. The second: expected
-regret was averaged over an admissible set spanning five scalar instruments
-and reported as a single percentage ``in the metric's own units''. There is no
-such unit once AUC and Brier skill are inside one average.
-Section~\ref{sec:rules} now reports regret inside one instrument at a time,
-and Section~\ref{sec:nbregret} reports a common-utility version on calibrated
-net benefit, which is a scale on which averaging is defined.
+Two corrections (C25, C27). The first: the largest per-axis difference
+$\max_i(S_{T_i} - S_i)$ had been described as the share of variance carried by
+interactions. Those differences overlap across axes --- a two-way component
+appears in the total effect of both of its axes --- so their maximum is
+neither their sum nor their union, and the total higher-order share is
+$1 - \sum_i S_i$, which on this corpus is \interactionTotalPct\ against the
+\largestInvolvementPct\ that was printed. The second: expected regret was
+averaged over an admissible set spanning five scalar metrics and reported
+as a single percentage ``in the metric's own units''. There is no such unit
+once AUC and Brier skill are inside one average. Section~\ref{sec:rules}
+reports regret inside one metric at a time, and
+Section~\ref{sec:nbregret} reports a common-utility version on calibrated net
+benefit, a scale on which averaging is defined.
 
 \paragraph{Class K --- a theorem stated wider than its proof, and wider than
 the truth}
 Two corrections (C23, C24). The necessity direction of the rank-invariance
-proposition quantified over every non-rank-based instrument and was supported
-by one stored configuration for five named instruments under one map. Repairing
+proposition quantified over every non-rank-based metric and was supported
+by one stored configuration for five named metrics under one map. Repairing
 the proof also refuted the claim: what invariance of the \emph{reduction}
-requires is that the recalibration act \emph{affinely} on the instrument, not
+requires is that the recalibration act \emph{affinely} on the metric, not
 that it leave it fixed, and Section~\ref{app:props} exhibits a
-non-rank-based instrument whose reduction is invariant. The word
-\emph{exactly} was wrong, not merely unproved. C24 withdraws the axis
-non-redundancy search entirely: its answer moved with an arbitrary tolerance,
-no claim depended on it, and removing it was cheaper than repairing it.
+non-rank-based metric whose reduction is invariant. The word
+\emph{exactly} was wrong, not merely unproved. C24 removed a labelled
+computational result: a search over a family of synthetic service desks for
+witnesses that no design axis determines another. Its answer moved between
+zero and five of twelve ordered pairs as an arbitrary equality tolerance was
+swept, failing to find a witness is not evidence that one axis determines
+another, and finding witnesses in a finite synthetic family is not a
+non-redundancy theorem. No claim depended on it.
 
 \paragraph{Class L --- a number the design cannot produce, and a word the
 design does not license}
-Two corrections (C29, C30). An earlier version printed raw and Holm-adjusted
-bootstrap $p$-values of $0.000$ from 200 draws; no finite bootstrap can
-produce zero,
-and Section~\ref{sec:planned} now uses the plus-one estimator with the
-smallest attainable value stated beside it. And the five contrasts were called
-\emph{confirmatory} when they had been fixed after eighteen rounds of analysis
-on the same data; they are \emph{final-round planned contrasts}, which is
-what the design supports.
+Two corrections (C29, C30). Raw and Holm-adjusted bootstrap $p$-values of
+$0.000$ from 200 draws had been printed; no finite bootstrap can produce zero,
+and Section~\ref{sec:planned} uses the plus-one estimator with the smallest
+attainable value stated beside it. And the five contrasts had been called
+\emph{confirmatory}, although they were fixed after earlier analyses of the
+same data; they are pre-specified exploratory contrasts, which is what the
+design supports.
 
 \paragraph{Class M --- an interpretation attached to a scale that does not
 carry it}
 One correction (C31). Decision-curve thresholds were read as probability
-thresholds,
-and therefore as cost ratios, on scores whose calibration slope was reported
-in the same manuscript as far from one. Section~\ref{sec:calibfirst} refits
-every model contributing to a decision-curve conclusion under a training-only
-calibration and labels raw-score curves as score-threshold sensitivity
-analyses, which is what they are.
+thresholds, and therefore as cost ratios, on scores whose calibration slope
+was reported in the same manuscript as far from one.
+Section~\ref{sec:calibfirst} refits every model contributing to a
+decision-curve conclusion under a training-only calibration and labels
+raw-score curves as score-threshold sensitivity analyses, which is what they
+are.
 
 \paragraph{Class N --- a summary computed on a set no table prints}
-Three corrections (C32, C33, C34), all found by a cold read of this document
-against its own tables after the archive was cut, and all of the kind Class H
-names with a narrower cause: the sentence quoted a number as being in a
-table while the macro behind it was computed on rows that table does not
-print. The layer values for BPIC19 (Section~\ref{app:layers}) were taken
-from the handover pair, which the registered rules exclude and
-Table~\ref{tab:layers} does not print, and their ``coarse'' maximum left
-out the vendor, the one layer on that log worth anything; the macros now
-read the admitted pair and name the vendor. The minimum unseen-category
-rate (Section~\ref{app:calibfull}) was read without the rung filter, from
-the intercept-only rung no table prints, and printed as a rate no pair has;
-it now carries Table~\ref{tab:calibration}'s own filter. And the
-case-study quality tables said their stochastic mechanisms were averaged
-over the corpus run's seed count when the case-study run had its own,
-smaller one; the caption now reads that run's count. None moves a number
-the article quotes; the archived release, cut before these, would print the
-earlier values, which is why the article's data-availability statement says
-the repository's head post-dates the archive.
+Three corrections (C32, C33, C34), all made after release v28.0 was
+cut, and all of the kind Class H names with a narrower cause: the sentence
+quoted a number as being in a table while the macro behind it was computed on
+rows that table does not print. The layer values for BPIC19
+(Section~\ref{app:layers}) were taken from the handover pair, which the
+pre-specified rules exclude and Table~\ref{tab:layers} does not print, and their
+``coarse'' maximum left out the vendor, the one layer on that log worth
+anything; the macros now read the admitted pair and name the vendor. The
+minimum unseen-category rate (Section~\ref{app:calibfull}) was read without
+the baseline filter, from the intercept-only baseline no table prints, and printed as
+a rate no pair has; it now carries Table~\ref{tab:calibration}'s own filter.
+And the case-study quality tables said their stochastic mechanisms were
+averaged over the corpus run's seed count when the case-study run had its
+own, smaller one; the caption now reads that run's count. None moves a number
+the article quotes; release v28.0 would print the old values, and the release
+the code-availability statement names prints the corrected ones.
 
-\paragraph{What found these, and what to take from it}
-Of the corrections above, those found in the project's own work divide by
-\emph{method} rather than by class. The estimand error (C20) was found by
-constructing two experiments that could each have confirmed the comfortable
-reading and having both refuse. The aggregation error (C21) and the
-inconsistency it left behind (C22) were found by reading the compiled pages.
-So were five defects that produced no wrong number at all but printed badly:
-the word \emph{Appendix} doubled on every appendix reference, a macro eating
-the space before an em dash, a macro carrying words set as italic variables, a
-sentence's tail printed twice, and a minus sign set as a hyphen in the
-sentence about signs.
-
-Every checker in this repository ran clean on the build that carried all of
-them. That is the finding worth generalising: an apparatus that guarantees
-every number is derived from a result file guarantees nothing about whether
-the sentence around it says what was meant, and the only instrument
-that has ever caught that is somebody reading the output.
+\paragraph{How these were found}
+The estimand error (C20) was found by two diagnostics built so that either
+could have confirmed the comfortable reading; the aggregation error (C21) and
+the inconsistency it left behind (C22) by reading the compiled pages, which
+is also how the typesetting defects that the linter of
+Section~\ref{app:verifier} now checks for were found. An apparatus that
+guarantees every number is derived from a result file guarantees nothing
+about whether the sentence around it says what was meant; that is checked by
+reading the output.

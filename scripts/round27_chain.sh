@@ -121,6 +121,14 @@ $PY s46_drift.py
 $PY s51_infanova.py --draws-dir s44_weighted
 $PY s42_round26.py
 
+#  2026-09-25.  s60 (Supplement S14, the forecast-evaluation checks) reads
+#  s22, s42 and s48w and nothing reads it but the macro layer
+#  (round31_numbers.py); it was written without a runner, so the one command
+#  did not regenerate S14.  It runs here, after the files it reads.
+echo
+echo "== s60  the forecast-evaluation checks of Supplement S14 =="
+$PY s60_ijf_checks.py
+
 #  THE ESTIMATOR COMPARISON, ON THE SURFACE THE ARTICLE ACTUALLY REPORTS.
 #  s40 read two fixed filenames, so when the inference surface moved it went
 #  on comparing the two critical-value estimates on the RETIRED one -- and the

@@ -11,7 +11,7 @@ affine family and shifting by up to \widerRShiftNonAffine\ over
 becomes a proof: one map and one configuration violating the invariance rules
 it out everywhere, and \nCertificates\ such certificates are computed, the
 smallest moving the reduction by \certificateMinShift, against
-\nInvarianceChecks\ checks in which the two rank-based instruments hold to
+\nInvarianceChecks\ checks in which the two rank-based metrics hold to
 \invarianceMaxShift.
 \end{remark}
 
@@ -20,7 +20,7 @@ smallest moving the reduction by \certificateMinShift, against
 Let a scoring rule take one of two values, with $a$ of the $P$ positives and
 $b$ of the $N$ negatives in the high block; write $\alpha = a/P$,
 $\beta = b/N$, $\rho = N/P$ and $\pi = P/(P+N) = 1/(1+\rho)$. Two exact
-identities follow directly from the definitions of the two instruments
+identities follow directly from the definitions of the two metrics
 (Section~\ref{sec:surface} of the article):
 \[
 \mathrm{AUC} = \tfrac12 + \tfrac{\alpha - \beta}{2},
@@ -58,7 +58,7 @@ two baselines induce the same scores --- and that is why the remark
 quantifies over configurations rather than asserting a
 configuration-by-configuration change.
 
-A \emph{certificate} for an instrument $m$ and a recalibration $\psi$ is a
+A \emph{certificate} for a metric $m$ and a recalibration $\psi$ is a
 triple of score vectors $(a,b,c)$ on one labelled test set for which
 \[
 \frac{m(b) - m(a)}{m(c) - m(a)}
@@ -70,21 +70,9 @@ that $\psi$ does not act affinely on $m$, and therefore that $R_m$ is not
 invariant --- a conclusion about \emph{every} configuration drawn from a
 finite object. The certificates are searched for by maximising the gap over
 random triples; \texttt{results/s29\_certificates.csv} records, for every
-instrument and every recalibration family, the triple found, the two ratios,
+metric and every recalibration family, the triple found, the two ratios,
 and the resulting shift in $R$. The search reports failure where it fails, and
 a failure is not evidence of invariance.
-
-\subsection*{A withdrawn computational result}
-
-A previous draft reported, as a labelled computational result, a search over a
-family of synthetic estates for witnesses that no design axis determines
-another. It is withdrawn and does not appear in this manuscript. Its answer
-moved between zero and five of twelve ordered pairs as an arbitrary equality
-tolerance was swept; failing to find a witness is not evidence that one axis
-determines another; and finding witnesses in a finite synthetic family is not
-a non-redundancy theorem. Nothing in the manuscript depended on it, which is
-the clearest argument for removing it rather than repairing it; the
-correction register (Section~\ref{app:corrections}) records it.
 
 \subsection*{Remark~\ref{prop:nonid}: the construction}
 
@@ -114,15 +102,14 @@ $\varphi$ cannot take one input to two outputs.
 The construction is only a proof if those two conditions hold, so
 \texttt{s29\_props.py} asserts both: it refuses to write its output if the two
 configurations fail to share $R_{\mathrm{AUC}}$ or fail to separate
-$R_{\mathrm{AP}}$. A far more imbalanced problem --- $\rho = 500$, which this
-construction previously used --- drives the gap close to one, and the modest
+$R_{\mathrm{AP}}$. A far more imbalanced problem, such as $\rho = 500$, drives the
+gap close to one, and the modest
 $\rho$ here shows the separation does not depend on extreme imbalance.
 \end{proof}
 
 \subsection*{Remark~\ref{prop:rank}: the proof}
 
-The equivalence's harder direction needs one assumption, which round
-twenty-six moved here from the article with the propositions themselves.
+The equivalence's harder direction needs one assumption.
 
 \begin{assumption}[Richness]
 \label{ass:rich}
@@ -192,7 +179,7 @@ that they will consider Platt scaling, or isotonic regression, or any affine
 rescaling, is asking about that family and not about all of them.
 
 Richness is used only in the direction (i) $\Rightarrow$ (ii), so under a
-model class too narrow to realise the separating configuration an instrument
+model class too narrow to realise the separating configuration a metric
 can be invariant on \emph{that class} without acting affinely; the direction
 that matters for practice, (ii) $\Rightarrow$ (i), needs no richness at all.
 A reader working inside a restricted family should read the remark as a

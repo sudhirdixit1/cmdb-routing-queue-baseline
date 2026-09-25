@@ -2,11 +2,11 @@
 
 All twenty-four event logs this study fetches (twenty-six files, one log
 shipping as three) are public and none is
-redistributed by the author. The registered admission rules of Section 5 admit
+redistributed by the author. The pre-specified admission rules of Section 5 admit
 thirteen of them, giving nineteen log--target pairs; the eleven that are
-not admitted are listed with their code in Table S13 of the supplement (ten
+not admitted are listed with their code in Table S16 of the supplement (ten
 excluded by a rule, one held out and never offered), so
-a reader can see what was screened out as well as what was kept. The analysis code, the pre-registered protocol,
+a reader can see what was screened out as well as what was kept. The analysis code, the pre-specified protocol,
 the intermediate result files, the figures and the checker that recomputes
 every quantity printed in the paper are available in the repository cited in
 the manuscript.
@@ -22,7 +22,7 @@ the manuscript.
 > `examples/worked_example.py` for the worked example's dataset, which it
 > downloads from the repository's own URL) fetch every dataset from its
 > published location, download the named file and record its SHA-256, so a reader can verify that the corpus they hold is the corpus the
-> paper was written against. Analysis code, the pre-registered protocol,
+> paper was written against. Analysis code, the pre-specified protocol,
 > derived result files and a verification harness that recomputes every
 > number reported in the paper are openly available at the repository named
 > in the Code availability statement on the title page, archived at the DOI
@@ -32,7 +32,7 @@ the manuscript.
 
 Twenty-four logs, twenty-six files, across seven domains (eight counting
 the held-out agricultural log). The first three carry the primary
-analysis; the rest are the pre-registered corpus of Section 5.
+analysis; the rest are the pre-specified corpus of Section 5.
 
 | Log | Domain | Identifier |
 |---|---|---|
@@ -58,13 +58,10 @@ control except three files, the checksum list `data/corpus/CHECKSUMS.txt`
 and the literature pilot's two adjudication files
 (`data/audit2/adjudication_in.csv`, `adjudication_out.csv`).
 
-**One file is new to this version and is worth naming.** The BPI Challenge
-2014 collection ships `Detail_Interaction.csv`, which the previous version of
-this paper did not obtain and named as the evidence that would settle a
-question it left open. It is obtained, it settles it, and Section 7 reports
-the result.
+**One file settles a question the analysis would otherwise leave open.** The BPI Challenge
+2014 collection ships `Detail_Interaction.csv`; it is obtained, and Section 7 reports what it shows.
 
-## Pre-registration
+## Pre-specification
 
 `PROTOCOL.md` in the repository fixes the corpus, the two targets, the rules
 that assign every attribute to a role, the six exclusion codes, the estimator,
@@ -92,8 +89,8 @@ each of which the checker must catch.
 
 The checker guards **numbers** thoroughly and **prose** only where a guard was
 written by hand. It cannot tell you that an interpretation is sound. The
-supplement's harness section says so in the same words. The correction register in the archive
-carries twenty-eight corrections grouped by class, and **the largest class is
+supplement's harness section says so in the same words. The supplement's correction register (S23)
+carries thirty-one corrections grouped by class, and **the largest class is
 sentences in which every printed number was correct and the relation asserted
 between them was not** --- which the generated-macro discipline cannot make
 impossible. It makes one sub-class of it structurally impossible; the rest
@@ -101,7 +98,7 @@ is what the adversarial reading passes are for.
 
 ---
 
-## The literature pilot's frame and coding sheet (Supplement S23)
+## The literature pilot's frame and coding sheet (Supplement S24)
 
 The audit does not analyse a dataset; it analyses **published papers**, and
 the frame that selects them is machine-enumerable so a reader can rebuild it.
@@ -109,7 +106,7 @@ the frame that selects them is machine-enumerable so a reader can rebuild it.
 | what | where |
 |---|---|
 | the enumeration | the OpenAlex API, `https://api.openalex.org`; every query is executed verbatim by `scripts/s06_audit2.py`, and the PRISMA flow it produces is `results/s06_prisma.csv` |
-| the sample | `results/s06_sample.csv` — 600 works, drawn under the pre-registered design of `AUDIT-PROTOCOL-2.md` |
+| the sample | `results/s06_sample.csv` — 600 works, drawn under the pre-specified design of `AUDIT-PROTOCOL-2.md` |
 | the coding sheet | `results/s06_coding.csv` — every sampled work with its codes |
 | the agreement | `results/s06_agreement.csv` — per-code agreement and $\kappa$ from the two-screen design, with `results/s06_two_screens.csv` behind it |
 | the adjudication | `results/s06_applicability.csv` and `results/s06_missing.csv`, with the evidence dossiers each was coded from, which are extracts of copyrighted full texts and are rebuilt under `data/audit2/dossiers/` by `scripts/s06_audit2.py --dossiers` rather than committed |
@@ -126,7 +123,7 @@ them is in `results/s06_sample.csv`.
 | BPI Challenge 2011, a Dutch academic hospital | healthcare | `doi:10.4121/uuid:d9769f3d-0ab0-4fb8-803b-0d1120ffcf54` |
 | BPI Challenge 2018, EU agricultural subsidies | agriculture | `doi:10.4121/uuid:3301445f-95e8-4ff0-98a4-901f1f204972` |
 
-Both were named in `PROTOCOL.md` §2 in the previous round as considered and
+Both were named in `PROTOCOL.md` §2 as considered and
 not included. Neither was downloaded, parsed or inspected until after
 `PREDICTION.md` was committed; `git log --stat` shows the order.
 

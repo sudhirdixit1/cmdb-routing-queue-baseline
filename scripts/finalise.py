@@ -75,6 +75,18 @@ def status() -> list[str]:
             "availability statements.  Mint it at zenodo.org against the "
             "GitHub release (submission/OWNER-ACTIONS.md §1.1), then:\n"
             "        python scripts/finalise.py --doi 10.5281/zenodo.XXXXXXX")
+    #  2026-09-25.  The cover letter is uploaded as a PDF built from markdown,
+    #  so no macro reaches it: it must name the archive's own DOI and release.
+    cl = ROOT / "submission" / "cover_letter.md"
+    if cl.exists():
+        _cl = cl.read_text(encoding="utf-8")
+        _want = [x for x in (j.get("doi"), j.get("version")) if x]
+        if "DOI-PENDING" in _cl or not all(x in _cl for x in _want):
+            out.append(
+                "THE COVER LETTER does not name the archive's DOI and release "
+                "(%s).  Edit submission/cover_letter.md, then "
+                "python scripts/make_cover_pdf.py." % ", ".join(_want or
+                                                         ["no DOI yet"]))
     #  2026-09-06.  The author does not publish a built image, so its digest
     #  is not owed: the code-availability statement says the image is built
     #  from the archive's Dockerfile (base pinned by digest) and that no

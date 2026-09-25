@@ -1,15 +1,15 @@
 section,words
 "Highlights",8
-"Introduction",1506
-"Related work",818
-"The specification surface",1244
-"Estimation and inference",3351
-"The registered benchmark design",1068
-"Multi-log results",3190
-"Case study: a configuration management database",1202
-"Decision-analytic evaluation",899
-"Simulation against a known answer",1720
-"Threats to validity",991
-"Conclusion",741
-"Data availability",273
-"Code availability",74
+"Introduction",1372
+"Related work",1216
+"The specification surface",1059
+"Estimation and inference",2127
+"The pre-specified benchmark design",674
+"Multi-log results",2287
+"Case study: forecasting incident reassignment at a bank's service desk",859
+"Decision-analytic evaluation",758
+"Simulation against a known answer",1245
+"Threats to validity",888
+"Conclusion",724
+"Data availability",168
+"Code availability",48

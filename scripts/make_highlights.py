@@ -41,21 +41,27 @@ LIMIT = 85
 #: LaTeX (math mode, escaped percents) is cleaned to plain text, because
 #: Elsevier's highlights field takes prose and not markup.
 BULLETS = [
-    "A predictor's incremental forecast performance is a surface, not one number",
+    #  2026-09-25, IJF desk screen.  Forecasting-first wording: "incremental
+    #  forecast accuracy" over a nested benchmark, "forecaster" for
+    #  "analyst", "sampling variability" for the split stratum, and the
+    #  service-desk case named as service-operations forecasting.
+    "A predictor's incremental forecast accuracy is a surface, not one number",
     #  ROUND TWENTY-SIX.  The decomposition's headline changed when the split
     #  became an error stratum, so the bullet that advertises it changed too.
-    "An exact decomposition separates analyst choices from resampling",
+    "An exact decomposition separates the evaluation split from other forecaster choices",
     #  ROUND TWENTY-SIX.  The sixth referee: this said "coverage-calibrated",
     #  and section 10.4 measures the coverage and finds it short of nominal
     #  everywhere in this corpus's configuration.  A highlight may not claim
     #  what the body disowns four sections later.
-    "Simultaneous bands over the whole declared family, with coverage measured",
+    "Simultaneous bands over a declared family, with coverage measured by simulation",
     #  ROUND TWENTY-SIX.  The sign-disagreement rate is withdrawn as a
     #  headline (section 6.4): under the three restrictions the paper's own
     #  argument implies it is one cell in forty-two.  What replaces it is the
     #  magnitude, which is the quantity that survives every restriction.
-    "Resolved cells sit {madResolvedMedian} in area under the curve from the one-number report",
-    "A register's worth turns on the forecast origin and on which target is set",
+    "Resolved specifications sit a median {madResolvedMedian} AUC from the one-number report",
+    #  2026-09-24.  Forecaster-facing wording; the target sign flip, between
+    #  two estimates whose intervals both include zero, is no longer headlined.
+    "In service-desk forecasting, a predictor's value depends on the forecast origin",
 ]
 
 PREAMBLE = """HIGHLIGHTS

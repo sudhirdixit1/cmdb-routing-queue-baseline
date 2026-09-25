@@ -29,59 +29,45 @@ scarce review capacity); a reader whose desk sits elsewhere reads their own
 point off Figure~\ref{fig:dca}. A threshold is a statement about
 probability, so every decision curve here is computed on \emph{calibrated}
 scores, with the calibrator fitted inside the training half and rebuilt
-inside every bootstrap refit, and a registered rule excludes an arm whose
-calibration slope leaves \calSlopeWindow; the exclusion is deliberately not
-repaired by recalibrating the failing arm, because recalibration is already a
-level of the pipeline axis and repairing an arm with it would report one
-specification under another's name (Supplement~\ref{app:dcadetail}).
+inside every bootstrap refit, and a pre-specified rule excludes an arm whose
+calibration slope leaves \calSlopeWindow\ rather than repairing it, because
+recalibration is already a level of the pipeline axis
+(Supplement~\ref{app:dcadetail}).
 
 \subsection{Simultaneous bands change what can be said}
 \label{sec:dcabands}
 
 The decision-curve family is declared separately from the scalar surface and
-carries its own max-$t$ critical value, because net benefit and a scalar
-instrument are not the same scale. Its critical value is the empirical
+carries its own max\nobreakdash-$t$ critical value, because net benefit and a scalar
+metric are not the same scale. Its critical value is the empirical
 quantile of Section~\ref{sec:simbands}, taken over the \emph{admissible}
 family: a cell whose net-benefit difference is exactly zero in at least nine
 draws of ten is zero by arithmetic, not by estimation, and is excluded before
 the quantile is taken because it is not a statement about the register while
 its vanishing spread inflates the value every other cell is judged by
-(Section~\ref{sec:simband}). On this estate's family that rule excludes
+(Section~\ref{sec:simband}). On the case-study family that rule excludes
 \nDcaCellsExcludedDegenerate\ of \nDcaFamily\ cells and gives a critical
-value of \dcaQEmp\ [\dcaQEmpLo, \dcaQEmpHi], against \dcaQEmpAll\ with those
-cells kept and \dcaQ\ from the multiplier approximation.
-Section~\ref{sec:simband} measures this estimator at \covEmpHeavyCaseAtDesign\
-on a family matched to this one and the multiplier at
-\covMultHeavyCaseAtDesign, so the band below is the better of the two and is
-still about a point short of nominal on the matched family --- a family that
-reproduces the corpus's estimator ratio at \ratioSynthDca\ against
-\ratioCorpusDca\ and so transfers less well than the surface family
-(Section~\ref{sec:simband}) --- which is stated here rather than in a
-footnote.
+value of \dcaQEmp\ [\dcaQEmpLo, \dcaQEmpHi], against \dcaQ\ from the
+multiplier approximation. The empirical band is the better of the two but
+remains about a percentage point short of nominal on its matched family,
+which fits this corpus less closely than the surface families do
+(Section~\ref{sec:simband}).
 
-Across the \nDcGrid\ operating points of this estate's curve \textbf{the
+Across the \nDcGrid\ operating points of the case-study curve \textbf{the
 pointwise interval declares the increment resolvably positive at
 \nBeneficialPointwise\ of them and the simultaneous band at
 \nBeneficialSimultaneousEmp}, the lowest threshold the second resolves
-being $\theta = \thetaBeneficialEmpMin$; the harmful counts are \nHarmfulPointwise\ against
-\nHarmfulSimultaneousEmp. All are built from the same draws, so what differs
-is the family and the level it is bought at: those points are the price of a
-statement about a \emph{range} of thresholds rather than about each one
-separately, and a paper that reads a decision curve across its range while
-pricing it pointwise has claimed the first and paid for the second. The
-multiplier approximation would have declared \nBeneficialSimultaneous\ of the
-\nDcGrid\ resolved, at a median band width of \dcBandWidth\ against the
-reported band's \dcBandWidthEmp\ and the pointwise interval's
-\dcPointWidth; the order-statistic upper end of the reported critical value
-leaves \nBeneficialSimultaneousEmpHi, and keeping the excluded cells leaves
-\nBeneficialSimultaneousEmpAll, so the exclusion rule does not carry the
-result. Supplement~\ref{app:dcabandsfull} carries the whole ladder,
-including the measured widening of the multiplier value that an earlier
-construction used, and Figure~\ref{fig:dca} draws the curve
-(Table~\ref{tab:dca} is a score-threshold sensitivity analysis on raw
-scores in the sense of Section~\ref{sec:calibfirst}, not this curve). The pointwise interval is not widened by a family-wise factor; what
-it covers is a separate measurement, and the $(n,K)$ calibration of
-Section~\ref{sec:regions} is not applied to this family either.
+being $\theta = \thetaBeneficialEmpMin$; the harmful counts are
+\nHarmfulPointwise\ against \nHarmfulSimultaneousEmp. All are built from the
+same draws, so what differs is the family and the level it is bought at:
+those points are the price of a statement about a \emph{range} of thresholds
+rather than about each one separately. Supplement~\ref{app:dcabandsfull}
+gives the counts under the multiplier, under the order-statistic upper end of
+the critical value and with the excluded cells kept, none of which changes
+the conclusion; Figure~\ref{fig:dca} draws the curve (Table~\ref{tab:dca} is
+a score-threshold sensitivity analysis on raw scores, not this curve). The
+pointwise interval is not widened by a family-wise factor, and no $(n,K)$
+widening is applied to this family.
 
 \subsection{The decision, in units a service desk uses}
 \label{sec:nbregret}
@@ -89,20 +75,21 @@ Section~\ref{sec:regions} is not applied to this family either.
 The comparison is run in net benefit per thousand cases, over a declared
 distribution of exchange rates a desk plausibly holds
 (\deskQlo\ to \deskQhi, centred \deskQmid), and only on models that pass the
-registered calibration rule --- which excludes \nModelsDcaExcluded\ of
+pre-specified calibration rule --- which excludes \nModelsDcaExcluded\ of
 \nModelsDca\ models, a model being a pair--pipeline--baseline triple whose
 two arms must both pass, and \nPairsDcaExcluded\ of \nPairs\ pairs.
-\textbf{That count is itself the strongest operational finding here}: a
-decision curve read off a model whose probabilities are wrong is read at a
-threshold the model does not have.
+This is the most consequential operational finding: a decision curve read off
+a model whose probabilities are wrong is read at a threshold the model does
+not have.
 
 \textbf{The four decision rules separate on most pairs, with the excess
 falling on the conservative rule rather than the one-number rule}
-(Supplement~\ref{app:deskfull}).
-\textbf{The case against one-number reporting does not rest on this design.}
-Larger than anything the choice of decision rule costs a one-number report is
-the forecast origin: the register promises \promisedPerThousand\ per thousand
-at the earlier moment and delivers \deliveredPerThousand\ at the later one, a
-shortfall of \shortfallPerThousand. Supplement~\ref{app:deskfull} carries the
-rules, the exchange-rate distribution and the exclusions;
-Tables~\ref{tab:desk} and~\ref{tab:rules} the numbers.
+(Supplement~\ref{app:deskfull}). Larger than anything the choice of decision
+rule costs a one-number report is which fields the forecast origin makes
+admissible: on the case-study log's pre-specified handover target, the
+register promises \promisedPerThousand\ per thousand against the arrival
+attributes alone and delivers \deliveredPerThousand\ once the assignment
+group and the knowledge reference --- assumed recorded by incident creation
+--- are in the benchmark, a shortfall of \shortfallPerThousand. Supplement~\ref{app:deskfull} carries the rules, the
+exchange-rate distribution and the exclusions; Tables~\ref{tab:desk}
+and~\ref{tab:rules} the numbers.

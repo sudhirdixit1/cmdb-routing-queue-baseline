@@ -2,7 +2,8 @@
 
 **To:** the Editors, *International Journal of Forecasting*
 **Manuscript:** *Specification Surfaces for Incremental Forecast
-Performance: Estimation, Uncertainty, and Multi-Log Evaluation*
+Performance: Decomposition and Simultaneous Inference for Nested Probability
+Forecasts*
 **Author:** Sudhir Dixit, Independent Researcher (title page; the
 manuscript and the supplement are blinded)
 
@@ -10,114 +11,74 @@ manuscript and the supplement are blinded)
 
 Dear Editors,
 
-I am submitting a methods paper on how the incremental forecast performance
-of a candidate predictor --- what a recorded field adds to a forecast ---
-should be reported. The claim is that such a number is a functional of
-choices a report rarely states (the baseline, the pipeline, the forecast
-target, the split, the forecast origin, the predictor's population and the
-score), that the right object is therefore a *surface* over a declared
-design space, and that a surface admits estimation and inference of its own.
-The paper supplies three reporting objects for one: an exact
-functional-ANOVA decomposition of the surface's variance that separates
-analyst choices from the resampling a design contains; simultaneous max-*t*
-bands from a pipeline-refitting bootstrap, at a critical value whose
-family-wise coverage is measured against a known answer; and resolution
-regions with a robustness index, which say where a sign is determined and
-withhold a direction where too little of the surface resolves to support
-one.
+I am submitting a paper on forecast evaluation: how to report whether a
+candidate predictor improves out-of-sample probability forecasts over a
+nested benchmark. The usual report is one score difference, yet that
+difference depends on choices the forecaster rarely states --- the
+benchmark, the model class, the sample split, the forecast origin, the
+predictor's completeness and the scoring rule. The paper treats the
+incremental performance as a surface over a declared design space and
+supplies three reporting objects for it: an exact variance decomposition
+that separates the evaluation split, with its sampling variability and
+fold-to-fold instability, from the forecaster's other choices; simultaneous
+bootstrap bands over a declared family of specifications, with family-wise
+coverage measured by simulation; and resolution
+regions that state where the sign of the improvement is determined.
 
-**What the evidence says.** On 19 log--target pairs from 13 public event
-logs, a median 71.7% of a pooled specification surface's variance is
-resampling rather than analyst latitude, and net of it which analyst choice
-leads is a property of the pair. A conventional one-number report is usually
-right about the sign and usually silent about the size: where the data
-determine a sign, admissible specifications sit a median 0.0600 AUC from the
-conventional report. In a case study on a bank's configuration management
-database, the register's worth turns on the forecast origin and the sign of its
-point estimate on the target, and a desk that adopted the register on its first-touch number
-and deployed it at incident creation would be promised 1.71 true positives
-per thousand cases and receive 0.003.
+**What the evidence says.** On 19 pre-specified binary forecasting tasks
+from 13 public business-process event logs, most of them from IT service
+desks and public administration, a median 71.7% of a pooled surface's
+variance comes from the evaluation split and its interactions rather than
+from the forecaster's other choices. A conventional one-number report
+usually has the right sign but does not show how far other defensible
+specifications lie from it: where the data determine a sign, resolved
+specifications lie a median 0.0600 AUC from it. In a case study of incident
+reassignment at a bank's IT service desk, the predictor's value depends on
+what the forecast origin makes known: a desk that adopted it on its
+performance against the arrival attributes alone, and deployed it where the
+assignment group and the knowledge reference are already recorded, would be
+promised 1.71 net true positives per thousand cases on the pre-specified
+handover target and receive 0.003.
 
-**Why this journal.** The question is one the forecasting literature has
-asked of a single specification at a time --- whether a predictor adds
-accuracy to a model that nests the one without it --- and of a family of
-specifications through the reality check, the test for superior predictive
-ability and the model confidence set. This paper takes a different object
-from those tests: not whether the family contains a member that beats a
-benchmark, nor which members survive, but the shape of the family's
-increment, with its uncertainty, and what the conventional report costs
-against it. Evaluation of forecasts, forecast uncertainty and its effect on
-decisions are on the journal's list of topics, and the decision-analytic
-section reads the same surface in net benefit, the decision-based value of a
-forecast. The forecasts are probability forecasts of a binary event at a
-declared origin, scored on a held-out later period; they are not time
-series, and the paper says so where it defines them.
+**Why this journal.** The paper extends forecast-evaluation work this
+journal publishes. Its question --- does adding a predictor improve
+out-of-sample forecasts over a nested benchmark --- is Clark and
+McCracken's, asked for many candidate predictors at once by Gonzalo and
+Pitarakis (IJF, 2024) and as marginal predictive content by Liu and Swanson
+(IJF, 2024). Its concern, that the answer depends on the evaluation design,
+is the one Rossi and Inoue and Hansen and Timmermann raised for the window
+and the split, and that Bańbura and Bobeica (IJF, 2023) met for the Phillips
+curve. Where the reality check and the model confidence set control a search
+for the best model, this paper reports how a fixed predictor's increment
+varies across the design, with inference over a declared family. The
+forecasts are case-level probability forecasts of binary events, evaluated
+with proper scores and ROC measures, as in Dimitriadis et al.
+(IJF, 2024), and with net benefit; the application sits beside the call-centre and
+emergency-department forecasting the journal publishes (Ibrahim et al., IJF,
+2016; Rostami-Tabar and Ziel, IJF, 2022).
 
-**History.** An earlier manuscript on this question, *Four Choices Behind
-One Number*, was reviewed for *Information Systems* (Elsevier) and the
-referee recommended rejecting it as submitted; the ten major comments were
-answered in a revision, which became the present paper. The present paper
-was then declined by that journal's Editor-in-Chief at the editorial stage
-on 10 September 2026 without referee comments, with the sentence: "Your very
-nice paper should be sent to a forecasting journal where your treatment of
-the value of a feature may give new insight." The referee's ten major comments, as
-summarised, and the answers to each are in the archive. Between those two decisions the
-manuscript was revised through internal adversarial reviews that I conducted
-with a large-language-model assistant reading each built PDF against the
-repository in the role of a referee; the archive carries those reviews (two verbatim, the rest summarised in
-the referee log) and the letters that answer them, and they are my own reviews made with a tool,
-not reports from any journal's referees. The generative-AI declaration on
-the title page names that use beside the others (drafting and editing
-prose; writing the analysis and verification code; the literature pilot's
-adjudication, which the supplement declares where it is described), with
-model identifiers and dates in `AI-USE.md`.
+**History.** An earlier version of this work was submitted to *Information
+Systems* (Elsevier), reviewed, and revised in response to the referee's
+comments; the revised manuscript was declined by that journal's
+Editor-in-Chief on 10 September 2026 as better suited to a forecasting
+journal. It has since been rewritten for this readership.
 
 **Related manuscripts.** No other manuscript based on these methods or data
 is published or under review. An earlier conference-format draft, kept in
 the repository's history, was never submitted.
 
-**Data and code.** Every event log is public and obtained by DOI. Code,
-derived results, the registered protocols, the amendment log and the
-verification harness are archived at Zenodo, DOI 10.5281/zenodo.22557927
-(release v28.0), and developed at
-`https://github.com/sudhirdixit1/cmdb-routing-queue-baseline`. The archive holds
-every analysis result file byte for byte (the harness's bookkeeping files
-under the results directory post-date it), and its own script
-`scripts/verify_release.py` demonstrates that a clean checkout regenerates
-every analysis number from those results; the manuscript source, the figures
-and the generators as submitted are at the repository's head, which
-post-dates the archive with the retargeting edits and with the corrections
-to how a summary is computed (a rate's minimum, two layer values, a seed
-count) that the supplement's correction register records. The reproducibility
-check the journal runs at acceptance can be run from `REPRODUCE.md` with one
-command against a lockfile and a container whose base is pinned by digest;
-the archive records the measured tolerance outside that container, because
-the results are not bit-reproducible across processor architectures.
+**Data and code.** Every event log is public and cited by DOI. Code, derived
+results, the pre-specified protocol and its amendment log are archived at
+Zenodo (DOI DOI-PENDING, release v29.0), with the development
+repository named on the title page. The journal's
+reproducibility check (Pinson et al., IJF, 2026) can be run from
+`REPRODUCE.md` with one command, in a container whose base image is pinned
+by digest.
 
-**Reproducibility inside the manuscript.** Every number is a macro generated
-from a result file, so a number cannot disagree between the abstract, a
-table and the conclusion, and a linter fails the build if a numeric literal
-appears in the prose. A separate checker re-derives each macro from its
-source with independent code and enforces the manuscript's own directional
-claims as conditions.
-
-**Length.** The article is 54 pages in the journal template's setting
-(11-point, 1.5 line spacing), with 8 tables and 3 figures; the appendices
-are a separate supplementary document, and nine passages were moved there
-for this submission. All three figures in the article are greyscale and
-are supplied as vector PDF; online colour is not needed.
-
-**Where the argument is weaker than the apparatus.** The coverage
-measurement uses an ideal bootstrap, so it bounds the critical value's
-contribution and not the resampling's; the pointwise interval underneath is
-governed by the register's cardinality over the training size and
-undercovers where this corpus lives, and the calibration that would widen it
-is reported as a sensitivity rather than applied. Stationarity is measured
-and does not hold on every pair; mixing is not tested. The model family and
-the encoding are crossed on the eight IT-service-management pairs and not
-everywhere. The case study is one bank's estate on one public log, with the
-availability question at its centre settled by probability rather than by a
-timestamped field history.
+**Format.** Proofs, the protocol and secondary results are in a separate
+supplementary document; the article is self-contained and the supplement
+is reference material. The article's figures are greyscale. Generative-AI
+use is declared in the manuscript.
 
 **Suggested referees** are listed in the separate file, with the reason for
 each.

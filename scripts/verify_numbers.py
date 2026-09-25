@@ -582,6 +582,12 @@ def main(argv=None):
     #  a live contradiction that every per-macro check passed.
     import round27_verify  # noqa: E402
     round27_verify.check(sys.modules[__name__], M)
+    #  ---- the forecast-evaluation checks ---------------------------------
+    #  Every macro of Supplement app:ijfchecks re-derived from the row-level
+    #  files without importing the script that computed it, and the eight
+    #  conditions its prose rests on.
+    import round31_verify  # noqa: E402
+    round31_verify.check(sys.modules[__name__], M)
 
     # ---- the manuscript itself -------------------------------------------
     if MANUSCRIPT.exists():
@@ -612,7 +618,8 @@ def main(argv=None):
     print("verify_numbers: %d macros re-derived independently, "
           "%d consistency conditions enforced, %d failures"
           % (CHECKED, len(CONDITIONS) + len(round26_verify.CONDITIONS)
-             + len(round27_verify.CONDITIONS),
+             + len(round27_verify.CONDITIONS)
+             + len(round31_verify.CONDITIONS),
              len(FAILS)))
     for f in FAILS:
         print("  FAIL  " + f)

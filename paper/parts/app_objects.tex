@@ -85,17 +85,17 @@ metrics as though both lived on an unproblematic common scale.
 \subsection*{The three regret designs}
 \label{app:regretdesigns}
 
-Section~\ref{app:regretfull} defines the misreport rate $M(s)$ and the regret
-$G(s)$ and explains why an average of $G$ taken across instruments has no
+Section~\ref{app:regretfull} defines the sign-disagreement rate $M(s)$ and the regret
+$G(s)$ and explains why an average of $G$ taken across metrics has no
 units. The three designs it names are constructed as follows.
 
 \begin{description}
-\item[A. Metric-specific.] For each scalar instrument $m$ separately, the
+\item[A. Metric-specific.] For each scalar metric $m$ separately, the
 admissible set is restricted to the cells whose metric axis is at $m$, and
 $M(s)$ and $G(s)$ are computed over that restriction under the declared
 measure. Every reported value carries the name of its unit, and no average is
-taken across instruments. The only cross-instrument statement the design
-permits is a count: in how many of the five instruments the \emph{direction}
+taken across metrics. The only cross-metric statement the design
+permits is a count: in how many of the five metrics the \emph{direction}
 of a conclusion is the same, and which ones it is not --- and
 Section~\ref{sec:rules} reports both, because on this corpus two of those
 counts are four and not five. The design assumes nothing beyond the measure,
@@ -116,16 +116,16 @@ predictive-performance regret. The design assumes a distribution over
 thresholds, which is declared and varied rather than fixed.
 
 \item[C. Partial identification.] If a reader insists on one number across
-instruments, the answer depends on a map $\phi$ from an instrument's units to
+metrics, the answer depends on a map $\phi$ from a metric's units to
 theirs. Five are declared, in
 \texttt{s23\_regret.UTILITY\_MAPS}: the \emph{identity}; division by the
-instrument's remaining \emph{headroom}, the distance left to a perfect score;
+metric's remaining \emph{headroom}, the distance left to a perfect score;
 division by the increment's \emph{standard deviation} across the surface; a
 signed \emph{square root}; and a logistic squashing of the standardised
 increment. Each is increasing in the increment and each divides only by
 positive quantities, so all five fix zero and the \emph{sign} of an increment
 is invariant to every one of them; what moves is the relative magnitude an
-instrument contributes to a mixed average. The conclusion is reported as its
+metric contributes to a mixed average. The conclusion is reported as its
 \emph{range} over the family together with the part invariant to all of it,
 which is exactly the part the design declines to identify.
 \end{description}
@@ -164,9 +164,9 @@ over the cell table rather than $2^k$ table joins.
 Three checks run on every decomposition and are recorded rather than assumed.
 The disjoint components must sum to the variance, which is asserted
 numerically on all \nDecompositions\ decompositions: \nPairs\ pairs $\times$
-\nInstruments\ instruments under each of the three declared product measures
+\nInstruments\ metrics under each of the three declared product measures
 of Section~\ref{app:decompmeasure} (the envelope's draws are not counted), plus
-one decomposition per pair on the headroom scale with the instrument as an
+one decomposition per pair on the headroom scale with the metric as an
 axis. Duplicating a level with
 its weight split must leave every component unchanged, and does, to
 \invarianceDuplicateShift. Refining the operating-point grid under the same
@@ -188,7 +188,7 @@ intervals overlap.
 A reader of a one-number claim decides whether to adopt the field, and the
 rule the number supports is \emph{adopt iff $V_s > 0$}. If the specification
 the reader will actually run is drawn from the same admissible set under the
-declared measure, two quantities follow. The \emph{misreport rate}
+declared measure, two quantities follow. The \emph{sign-disagreement rate}
 $M(s) = \Pr_{s'}[\operatorname{sign} V_{s'} \neq \operatorname{sign} V_{s}]$
 is the probability that the reader's own cell disagrees in sign with the
 reported one. The \emph{regret}
@@ -201,22 +201,22 @@ G(s) \;=\;
 is the performance destroyed by adopting when the reader's cell is harmful
 plus the performance forgone by declining when it is beneficial.
 
-$G(s)$ carries the units of the instrument its increments were measured in, so
-an average across five scalar instruments has no units at all. Three designs
+$G(s)$ carries the units of the metric its increments were measured in, so
+an average across five scalar metrics has no units at all. Three designs
 are therefore reported, each constructed above:
-\textbf{A, metric-specific}, inside one instrument at a time, which is what
+\textbf{A, metric-specific}, inside one metric at a time, which is what
 the headline uses; \textbf{B, common operational utility}, on calibrated net
 benefit (Section~\ref{sec:nbregret}); and \textbf{C, partial identification},
-over five declared monotone utility maps fixing zero. The misreport rate has a
+over five declared monotone utility maps fixing zero. The sign-disagreement rate has a
 second difficulty, which Section~\ref{sec:results-regret} answers rather than
 notes: a cell whose sign the data do not resolve contributes a coin flip to
 it. The rate is therefore reported over all cells, over the cells the
 band resolves, and weighted by $|V|$; the article quotes the second and
-withdraws it as a headline (Section~\ref{sec:results-regret}). No coverage calibration enters any of the three
+does not use it as a headline (Section~\ref{sec:results-regret}). No coverage calibration enters any of the three
 (Section~\ref{sec:simband}).
 
 Saying that a surface report asserts a sign only where the region is uniform,
-and therefore misreports nothing, is a definitional win and not a measured
+and therefore reports no sign a reader could contradict, is a definitional win and not a measured
 one, so the paper compares explicit \emph{decision rules} under the loss
 above. Four are compared, each choosing one action for every reader: the
 \emph{one-number} rule adopts when the conventional cell's increment is
@@ -245,7 +245,7 @@ linear in a common utility, and a known reader distribution $w$ --- and what
 is scientifically difficult is specifying the utility and the weighting, not
 proving the identity. The paper therefore reports the identity as a check ---
 the mean rule's in-sample excess regret is \identityMaxExcess\ across every
-pair and instrument, as it must be --- and measures the rules \emph{out of
+pair and metric, as it must be --- and measures the rules \emph{out of
 sample} instead (Section~\ref{sec:rules}). Two things follow: the conservative
 rule is wrong, not merely cautious, whenever the harm mass is smaller than the
 benefit mass it forgoes; and a one-number report is optimal exactly when the
@@ -261,7 +261,7 @@ rather than a property of the cell.
 
 \textbf{This subsection defines a check and not a reporting object.} What
 \emph{specification regret} reports is a null --- the one-number rule's median
-excess regret is zero in every instrument, the out-of-sample ordering reverses
+excess regret is zero in every metric, the out-of-sample ordering reverses
 under rolling folds (Section~\ref{sec:rules}), and on calibrated net benefit
 what separates the rules is the conservative one rather than the one-number
 one (Section~\ref{sec:nbregret}) --- and a null is a check on
@@ -283,18 +283,17 @@ compared under them.
 \textbf{The rule that selects the inference surface, in full.} It is one
 design, and it is the
 same design on every pair: two learners, two splits, three register-quality
-conditions and three admissible rungs, crossed --- \nCellsPerDecomposition\ cells a pair
-per instrument,
+conditions and three admissible baselines, crossed --- \nCellsPerDecomposition\ cells a pair
+per metric,
 \nInferenceScalar\ scalar family members across the corpus --- at
 \nDrawsSurface\ draws. Nothing in the rule reads a result, and nothing in it
-reads the log: the size classes that chose the previous surface's levels are
-gone, and the objection they carried with them.
+reads the log: no pair's levels are chosen by a size class of its own.
 
 \textbf{It is a complete factorial, and that is checked rather than
 declared.} On every one of the \nPairs\ pairs each combination of the four
 axes is present exactly once --- no cell missing, no cell twice, and no pair
 differing in shape from any other --- so a corpus median over these families
-is a median over one design, which the previous surface's was not. A balanced
+is a median over one design. A balanced
 full factorial is also strictly stronger than the resolution-IV fraction that
 would suffice to make the decomposition estimable here, so the guarantee is the
 stronger one and not the cheaper one.
@@ -303,7 +302,7 @@ stronger one and not the cheaper one.
 %%  ROUND TWENTY-FIVE.  Moved from Section 4.1 for length, unchanged.
 
 The pipeline is frozen and identical on every log. Attributes are assigned to
-roles by the registered rules of Section~\ref{sec:design}; cases are
+roles by the pre-specified rules of Section~\ref{sec:design}; cases are
 ordered by their first timestamp; and the split is temporal. The
 \emph{pipeline} axis spans encodings as well as model families: one-hot
 logistic regression, frequency-encoded logistic regression, cross-fitted
@@ -327,7 +326,7 @@ specification sensitivity and sampling uncertainty answer different questions.
 Every interval in this paper is instead a \emph{nested moving-block
 bootstrap}. One draw resamples the training half by moving blocks
 \citep{kunsch1989jackknife} of length $\lceil n^{1/3} \rceil$, refits every
-arm of every rung under every learner and every quality mechanism on that
+arm of every baseline under every learner and every quality mechanism on that
 resample, and evaluates on a moving-block resample of the test half. Encoders,
 frequency tables, target encodings, register frequency rankings and
 calibrators are rebuilt inside the draw. On the simulation of
@@ -339,6 +338,21 @@ rolling-origin validation --- \nFolds\ expanding-window folds --- beside the
 single temporal holdout, and the split is an axis of the decomposition rather
 than a robustness paragraph.
 
+%  IJF LENGTH PASS (pipeline detail): moved from the article.
+\paragraph{How far apart the two intervals are in the simulation}
+On the simulation of Section~\ref{sec:sim} the fixed-model interval and the
+nested basic interval are about \nestedGainInSe\ Monte Carlo standard errors
+apart, which that design cannot resolve, so the nested construction is
+retained because the variability it admits is variability the estimand
+contains, not because it measures better there.
+
+\paragraph{The intercept-only baseline in the denominator table}
+The master surface carries the intercept-only baseline, which is why the
+`model fits' column of Table~\ref{tab:denominator} --- fitted arms counted
+before the expansion over the \nInstruments\ metrics --- includes it, while
+the two admissible scalar counts beside it, declared and computed, exclude it
+and agree on every pair.
+
 \subsection{The four interval objects, and what each ranges over}
 \label{app:families}
 
@@ -348,8 +362,8 @@ than a robustness paragraph.
 Within-cell bands, each covering five members, do not cover the several
 hundred cells a surface-level label ranges over. Four interval objects are
 therefore declared, and every table says which it prints: \textsc{pointwise},
-the per-cell interval, with no multiplicity control; \textsc{within-instrument},
-max-$t$ over the scalar instruments at one cell, reported only so that the
+the per-cell interval, with no multiplicity control; \textsc{within-metric},
+max-$t$ over the scalar metrics at one cell, reported only so that the
 cost of the wider family is visible --- the \nResolvedWithin\ cells it
 resolves corpus-wide, against the whole-surface family's \nResolvedWhole,
 are the column sums of \texttt{n\_resolved\_within} and
@@ -360,9 +374,9 @@ Table~\ref{tab:regions} does not print; \textsc{whole-surface}, max-$t$ over
 is the only family a surface-level claim may use; and
 \textsc{decision-curve}, max-$t$ over the pair's declared decision-curve
 family, \nDcaFamily\ cells on the case study's, declared separately because
-net benefit and a scalar instrument are not the same scale. The last two are the
-registered families. The whole-surface family has a median
-\familySizeMedian\ members against the five of the within-instrument family,
+net benefit and a scalar metric are not the same scale. The last two are the
+pre-specified families. The whole-surface family has a median
+\familySizeMedian\ members against the five of the within-metric family,
 and its median critical value is \maxTSurfaceMedian\ against
 \maxTWithinMedian\ and the pointwise $1.96$.
 
@@ -378,6 +392,24 @@ paper reports it is empty.
 \label{app:pcdetail}
 
 %%  ROUND TWENTY-FIVE.  Moved from the article for length, unchanged.
+
+%  IJF LENGTH PASS (planned contrasts): moved from the article.
+\label{sec:planned}
+\paragraph{The five planned contrasts}
+Five contrasts on the primary log were fixed before the final analysis ---
+that the register adds to the intake baseline, that it still adds once the
+free field is admitted, that it adds at the later forecast origin, that the
+absorption $D$ is positive, and that a half-empty register is worth less than
+a full one --- each with its complete estimand in Table~\ref{tab:confirm}.
+They are not confirmatory, because they were fixed after earlier analyses of
+the same data, so their Holm-adjusted one-sided bootstrap $p$-values
+\citep{holm1979simple} are descriptive: \nPlannedReject\ reject at $\alpha = 0.05$, but
+a contrast is called resolved only when its interval says so, and on
+the planned contrast \textsf{PC3} (Table~\ref{tab:confirm}) the one-sided
+$p$-value and the two-sided basic interval
+disagree, so the count under this paper's own rule is \nPlannedResolved.
+The smallest attainable adjusted value is \pMinAttainableHolm\ at
+\nDrawsPlanned\ draws.
 
 \paragraph{A one-sided $p$-value and a two-sided basic interval disagree on
 \textsf{PC3}, and the interval decides}
@@ -434,6 +466,35 @@ family by the rule Section~\ref{sec:dcabands} declares.
 Section~\ref{sec:regions} carries the surface counts under both and
 Section~\ref{app:dcabandsfull} the corpus's decision-curve ones.
 
+%  IJF LENGTH PASS (critical value precision): moved from the article.
+\paragraph{The precision of the two estimates}
+The empirical $(1-\alpha)$ quantile of the $B$ observed maxima $T^{(b)}$ has
+the precision of an order statistic of $B$ values: its order-statistic
+interval has a median width of \qEmpWidth\ on this corpus's families. The
+multiplier standardises the draws and multiplies them by independent standard
+normals, which gives a statistic with their empirical covariance that can be
+generated \nMultiplier\ times for the cost of matrix arithmetic
+\citep{chernozhukov2013gaussian}, so the budget fixes $B$ and not the
+precision of $q$ (a Monte Carlo interval of width \qMultWidth). The
+multiplier's critical value is printed beside the operative one in the
+region tables (Table~\ref{tab:calbands} among them), and both estimators'
+band edges and labels are in the archive.
+
+%  IJF LENGTH PASS (gaussian variants): moved from the article.
+\paragraph{The multiplier under Gaussian draws, and two variants}
+Under the Gaussian draws the multiplier is derived for it covers
+\covMultGaussWholeAtDesign\ on the surface families, where the empirical
+quantile covers \covEmpGaussWholeAtDesign: the two change places where the
+draws are Gaussian, which is what the theory says and what the corpus's draws
+are not. The upper end of the multiplier's Monte Carlo interval moves its
+coverage by less than a point, because it controls the error in estimating
+$q$ and not the error in what $q$ estimates, and a Rademacher wild
+multiplier, which keeps the observed draws' magnitudes, covers
+\covRadHeavyWholeAtDesign. The per-cell interval underneath the band moves
+from \covPercellBootThirtyThree\ to \covPercellBootOneThousand\ over the
+draw counts of Section~\ref{sec:simband}, so part of what any band loses it
+loses before a critical value is chosen.
+
 \subsection{The measure the decomposition is taken under}
 \label{app:decompmeasure}
 
@@ -460,9 +521,9 @@ Indices are estimated quantities: the whole decomposition is recomputed inside
 every draw the inference surface supplies, corpus-level medians are
 bootstrapped with the pair as the resampling unit, and no axis is called
 dominant where the intervals overlap. They are computed within each
-instrument, in its own units, which is the primary analysis, and on the
+metric, in its own units, which is the primary analysis, and on the
 \emph{headroom} scale $V_s / (1 - m(B))$, which is comparable across
-instruments and lets the metric enter as an axis. The second is a sensitivity
+metrics and lets the metric enter as an axis. The second is a sensitivity
 analysis rather than a uniquely meaningful decomposition, because of the
 following.
 
@@ -479,6 +540,23 @@ is the same phenomenon as Remark~\ref{prop:nonid} one level up: just as
 the reduction is not identified without the metric, ``which choice matters
 most'' is not identified without the scale on which the increment is
 expressed, so the manuscript never says an axis dominates without naming it.
+
+%  IJF LENGTH PASS (axis kind headroom): moved from the article.
+\paragraph{The axis-kind partition on the headroom scale}
+On the headroom scale (the increment divided by the baseline's headroom, the
+distance between the baseline's score and a perfect score, which puts the
+metrics on one scale and makes the metric a fifth axis) the ordering of
+Table~\ref{tab:axiskind} reverses: analyst latitude carries
+\shareLatitudeCrossPct, resampling \shareResamplingCrossPct\ and the
+counterfactual \shareCounterfactualCrossPct, with resampling the larger on
+\nPairsResamplingOverLatitudeCross\ pairs. These are sums of first-order
+indices, with the higher-order remainder a fourth column, and not the stratum
+shares of Section~\ref{sec:axes2}, which assign every component, interactions
+included, to a stratum. Varying the reference cell one axis at a time over
+every level that axis carries --- \nRefSensVariants\ settings in all, the
+declared reference among them, Table~\ref{tab:refsens} --- the corpus median
+disagreement rate runs \refSensMinPct\ to \refSensMaxPct\ against the
+declared \refSensDeclaredPct.
 
 \subsection{Why refitting inside the draw breaks the percentile interval}
 \label{app:pctfail}
@@ -500,7 +578,7 @@ relative to the estimate, and a percentile interval taken from a displaced
 distribution is a correct interval for the wrong quantity: it misses no matter
 how wide it is. On this corpus the displacement is small --- under the
 multinomial scheme this section compares against, negative in
-\shiftNegativePct\ of the cells over the scalar instruments and the
+\shiftNegativePct\ of the cells over the scalar metrics and the
 net-benefit operating points together, by a signed median \shiftMedian\ in
 each cell's own units (the absolute median under the
 reported weighted scheme is the one Section~\ref{app:schemes} quotes) ---
@@ -556,9 +634,9 @@ which is better and is not zero. The displacement's own median barely moves,
 \noindent\textbf{Level loss is therefore not the main cause of the
 displacement.} Removing it entirely leaves most of the displacement standing,
 and this paper does not know what the remainder is.
-Section~\ref{app:threats} carries that rather than a claim that the scheme is now
-unbiased. \textbf{The comparison is also not symmetric, and it leans the way
-that flatters the old scheme}: where a draw is missing, the band construction
+Section~\ref{app:threats} carries that rather than a claim that the weighted
+scheme is unbiased. \textbf{The comparison is also not symmetric, and it leans
+the way that flatters the multinomial scheme}: where a draw is missing, the band construction
 refuses the cell while the comparison drops the missing draws and computes
 from the rest, so every multinomial number above is conditioned on the draws in
 which the arm could be fitted --- and those cells carry roughly twice the

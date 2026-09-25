@@ -555,7 +555,8 @@ oversized float. The declared set is `LANDSCAPE_TABLES` in
 "Uncertainty" and "specification surface" repeated title words, which the
 guide says is pointless; replaced by "Decomposition" and "Statistical tests"
 from the IIF list. Seven of eight keywords are the journal's; "Event logs"
-is the paper's own.
+is the paper's own. (2026-09-25: "Event logs" replaced by "Forecasting
+practice", so all eight are from the IIF list; §IJF.14.)
 
 ## 11. The earlier value is "an earlier, unpublished analysis" — settled 2026-09-18
 
@@ -575,3 +576,164 @@ refuted the first draft of it ("nothing is averaged across instruments" is
 false of §6.2 and §6.4) and the paragraph was cut back to what the article
 says.
 
+
+## 13. Pre-upload review against the live guide — settled (author, 2026-09-24)
+
+A review on 2026-09-24 read the package against Elsevier's generative-AI
+policy (updated June 2026), an archived copy of the IJF guide, a cold
+referee read of the article and a consistency read of the supplement. The
+author chose **Tiers 1 and 2** — fix compliance defects and errors, and
+reframe for a forecasting readership without new analysis — and to
+**neutralise** rather than remove the correction register (S22) and the
+harness section (S8).
+
+* **AI declaration in the manuscript.** The policy places it "immediately
+  before the references" and asks that AI-written code be described in the
+  Methods section. It moved from `statements.tex` (title page only) to
+  `parts/aideclaration.tex`, which the blind article, the unblinded article
+  and the title page all carry; §4.1 gained the Methods sentence.
+  `check_blind.py` allows the tool's name inside that one section only.
+  Rejected: leaving it on the title page (a referee holding the blind PDF
+  would see no declaration).
+* **Title** drops "Multi-Log" (to a forecaster "log" reads as the log score)
+  for "Decomposition and Simultaneous Inference for Nested Probability
+  Forecasts". The Zenodo v28.0 record keeps its own title; a v29.0 cut
+  (§3, OWNER-ACTIONS 7a) would carry the new one.
+* **Abstract and highlights** state that the forecasts are out-of-sample
+  probability forecasts from nested models; the 71.7% is described as "the
+  split and its interactions", which is what the macro measures; the case
+  study's target sign flip — between two estimates whose intervals both
+  include zero — is no longer in the abstract or highlights.
+* **Forecast-evaluation literature**: seventeen references added, each
+  verified against Crossref (Leamer 1983 and Hansen & Timmermann 2012 on
+  RePEc/EUI). The article previously cited no IJF paper. "Which we have not
+  seen elsewhere" is replaced by the precedents (Leamer; Young & Holsteen).
+* **"Registered"** is now "pre-specified" in the §5 title and the
+  contributions; §5.1 already says it is not a third-party registration.
+* **Supplement**: stale captions of Tables S10, S17 and S42 (which said the
+  families need more widening than the calibration supplies, contradicting
+  §9.2) rewritten; the S1.1/S14.5 claim that staleness is visible under one
+  encoder and not another, which S14.5's own numbers contradict, rewritten;
+  revision-history language removed throughout.
+* **Not done (Tier 3, would need new analysis):** intervals on the
+  decomposition shares; a τ²-style separation of sampling from fold
+  variation; a proper score as primary instrument; within-metric region
+  labels; paired intervals for the case study's origin steps at a fixed
+  baseline; cutting the article toward 35 pp. These are the likeliest
+  referee requests.
+
+## 14. Second pre-upload review: five lenses, four implementation passes — settled (2026-09-25)
+
+The author asked for a further multi-agent review aimed at removing every
+reason for a desk rejection. Five reviewers read the build: an IJF handling
+editor's desk screen calibrated on recent IJF papers and the editor reports,
+a forecast-comparison econometrician, a scoring-rules statistician, a
+structural editor, and a compliance check (the live guide stayed behind a
+bot check). Their findings were implemented by four passes in isolated
+worktrees, merged and gated:
+
+* **Framing and positioning.** The abstract opens on forecast evaluation; the
+  introduction is anchored in the nested-comparison literature and frames the
+  case as service-operations forecasting; contributions are three positive
+  forecasting claims; related work keeps the forecasting frame and moves the
+  ML-importance, process-mining, many-analysts and data-quality strands to
+  Supplement S1.1; sixteen further references, IJF-anchored, each verified
+  against Crossref. Keyword "Event logs" → "Forecasting practice". The cover
+  letter is rewritten (about 650 words): the history is two sentences and the
+  account of internal machine-assisted reviews, the weaknesses paragraph and
+  the repository bookkeeping are gone (the AI declaration is in the
+  manuscript).
+* **Length.** Article 57 → 45 pp by moving to the supplement what it already
+  held and by consolidating tables (roles, resolution triple and MPID tables
+  to the supplement; the master table absorbs counts, n and K). Printed
+  terminology: "instrument" → "metric", "rung/ladder" → "nested baselines",
+  "estate" → the bank's service desk, "registered" → "pre-specified".
+* **Figures** redrawn at print size (≥ 8 pt); Figure 1 is AUC-only; Figure 3
+  now shows the stratum partition that carries the headline share.
+* **New analyses from existing results** (`scripts/s60_ijf_checks.py`,
+  Supplement "Forecast-evaluation checks"; re-derived by
+  `round31_verify.py`): the sign-disagreement rate against each cell's own
+  metric (2.9%, against 13.0% against the AUC reference; the whole gap is
+  BPIC19's proper-score cells); region labels within each metric; pair-
+  bootstrap intervals for the corpus-median shares; the split's main effect
+  against its interactions; the headline shares in Brier and log-loss skill;
+  Diebold–Mariano and Clark–West tests at the reference cell (refit only
+  that cell); a fold-trend diagnostic. The article states each where it
+  bears (§4.4, §6.2, §6.3, §6.4, §10).
+* **Not done — needs a new bootstrap run:** draws shared across splits (so
+  sampling noise can be subtracted from the split stratum), a zero-increment
+  simulation world, step-down bands, a surface-wide Clark–West comparison,
+  and adopting a finite-window (Giacomini–White) estimand throughout. §10
+  states them as open.
+* **Final verification (three independent reads of the merged build) and
+  its fixes.** The desk-reject estimate from a fresh editor's screen stayed
+  near 40%, driven by substance rather than presentation (the pointwise
+  interval's undercoverage at this corpus's K/n, no theorem, novelty as a
+  combination). Fixed from those reads: "separates forecaster choices from
+  sampling variability" overstated what an exact partition can do — the
+  split stratum is now described as sampling variability and fold-to-fold
+  instability that this design cannot separate; "bands over the design
+  family" → "over a declared family"; the 1.71-versus-0.003 desk figure is
+  now described as what it is — the arrival attributes alone against the
+  fields assumed recorded by incident creation, on the pre-specified
+  handover target — not as a comparison of two §7 origins; the Clark–West
+  sentence counts one-sided rejections, not signs; every admitted log is
+  cited as a [dataset] reference (DataCite-verified); four references added
+  (Ehm et al. 2016; Patton 2020; Stock & Watson 2003; Welch & Goyal 2008);
+  supplement terminology aligned with the article; Table 3 prints larger.
+* **Archive consequence.** The forecast-evaluation checks' code and result
+  files are at the repository's head, not in v28.0; the title page's code
+  statement says so. This makes cutting v29.0 (OWNER-ACTIONS 7a) the
+  cleaner route: the archive would then hold every result the submission
+  cites.
+
+## 15. Final pre-upload review: four lenses and a reference check — settled (2026-09-25)
+
+Four independent reads of the rebuilt package (IJF guide compliance, a
+forecast-evaluation referee, a page-by-page copy-edit, package consistency)
+and a Crossref check of every cited DOI. What changed:
+
+* **References.** `senderovich2017intercase` carried the BPM 2017 paper's
+  title with an unrelated *Information Systems* article's venue and DOI; it
+  now points at the BPM 2017 record. Added, each verified on Crossref:
+  Murphy (1973) where the resolution component is named; Pesaran and
+  Timmermann (1995), Granger and Jeon (2004) and Aiolfi and Favero (2005) as
+  the forecasting precedents for working over a specification space. Dataset
+  titles keep their capitals; proceedings series are folded into the
+  booktitle so they are punctuated.
+* **Abstract and keywords.** AUC is spelled out; the resolved-distance median
+  says it is over 9 tasks (`nPairsMadResolved`, re-derived in
+  `round31_verify`). "Decomposition" became a title word on 2026-09-24, so
+  the keyword is replaced by "Error measures" (IIF list). 150 words.
+* **The no-signal benchmark.** With six split levels the split-involving
+  components hold 83.4–83.7% of the degrees of freedom, so independent cell
+  noise alone would put that share there; the observed 71.7% is below it on
+  17 of 19 pairs, and the analyst's choices carry 13.3% against 2.3%. §6.2
+  and §11 now say so (four macros from `round31_numbers`, re-derived by
+  enumerating the components in `round31_verify`). The abstract is unchanged
+  and is the author's call.
+* **Internal consistency.** The case study no longer calls a move between
+  −0.0029 and +0.00768 consequential: both are inside the declared MPID.
+  §4.1 no longer presents level loss as the cause of the displacement, which
+  S3.9 shows it is not. Skill scores are "affine in a strictly proper score
+  on a fixed test set", not strictly proper. The conclusion's coverage claim
+  carries the ideal-bootstrap bound and the pointwise undercoverage.
+* **Reproduction.** `s60_ijf_checks.py` now runs in `round27_chain.sh`, so
+  the one command regenerates Supplement S14.
+* **Statements.** Corresponding-author mark on the title page; CRediT en
+  dashes; `declaration_of_interests.md` no longer names two organisations
+  for thirteen logs; the supplement's abstract lists what it holds; AI-USE
+  pointers S24/S22.3.
+* **Not done, by choice:** cutting to ~35 pages, renaming the paper's
+  vocabulary, bias-corrected point estimates, re-sizing Tables 2, 3 and 5
+  (legible at 6–7 pt). These are the likeliest referee asks.
+* **The archive: v29.0 (author, 2026-09-25).** Under v28.0 the article's
+  data-availability sentence, the §4.1 note and the AI declaration ("every
+  result is archived") were false for S14. The tree now says v29.0:
+  `.zenodo.json` version v29.0 with no `doi` key (the DOI is minted by the
+  release; `finalise.py` owes it until `insert_doi.py` writes it), the
+  title-page code statement says the release holds every cited result, S23
+  Class N names v28.0 as the release that prints the old values, and the
+  cover letter reads `DOI-PENDING`, which `finalise.py` also flags. A local
+  commit was approved; the push and the GitHub release are
+  the author's (the local `gh` account is not the repository owner's).

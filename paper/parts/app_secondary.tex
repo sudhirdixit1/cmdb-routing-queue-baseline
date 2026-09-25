@@ -17,16 +17,16 @@ targets, which index surfaces rather than enlarging one
 (Section~\ref{sec:design}) ---
 \textbf{the encoding is the larger of the two}, \sEncodingPct\ of the variance
 against the family's \sFamilyPct, each the median over those two targets and
-the \nInstruments\ instruments pooled, with an interaction,
+the \nInstruments\ metrics pooled, with an interaction,
 \sFamilyEncodingPct, that lies between the two main effects and is the largest
 two-way term: the fused index is not the sum of two indices.
 Table~\ref{tab:axes2} carries the per-target medians, which are a different
 aggregation and need not agree with these.
 
 \textbf{Run on the \nItsmCrossed\ ITSM pairs, that finding travels but does
-not hold everywhere.} Taking the median over the \nInstruments\ instruments
+not hold everywhere.} Taking the median over the \nInstruments\ metrics
 within each pair --- a third aggregation, distinct from the corpus median of a
-column and from the per-instrument largest that Section~\ref{sec:axes2} names --- the encoding is the larger first-order axis on
+column and from the per-metric largest that Section~\ref{sec:axes2} names --- the encoding is the larger first-order axis on
 \nEncodingLargerItsm\ of the \nItsmCrossed, and on the other
 \nFamilyLargerItsm\ \textbf{the family is, and not narrowly}: on the more
 extreme of them the encoding carries \encOverFamItsmMin\ times what the family
@@ -58,7 +58,7 @@ Three things follow, and the third is the reason the confound mattered.
 
 \textbf{The encoding is the larger of the two.} It carries \sEncodingPct\ of
 the variance in the increment against the family's \sFamilyPct, each the
-median over the log's two targets and the \nInstruments\ instruments pooled;
+median over the log's two targets and the \nInstruments\ metrics pooled;
 Table~\ref{tab:axes2} prints the per-target medians, which are a different
 aggregation and need not agree with these. How the
 register is turned into columns matters more than which model consumes them on
@@ -83,21 +83,38 @@ more. Section~\ref{sec:axes2} reports what the same crossing found on the
 \nPairsOther\ pairs are not crossed, and Section~\ref{sec:lim} carries that
 as a limitation rather than assuming the case study's split transfers.
 
+%  IJF LENGTH PASS (pipeline two axes): moved from the article.
+\paragraph{The pipeline axis does not run at full width everywhere}
+Its levels are a model family together with an encoding and, in one case, a
+calibration; on the declared surface the case study's log carries
+\nPipelineLevelsCase\ levels by designation, and the other pairs
+\nPipelineLevelsLarge\ or \nPipelineLevelsModal\ by a rule that reads the
+log's row count and nothing else, while inside the inference family every
+pair carries the same two levels, differing in model family. Crossed on the
+case study's log --- both families against all three encodings,
+\nCrossedPipelines\ complete factorial pipelines on each target --- the
+encoding is the larger of the two, \sEncodingPct\ of the variance against the
+family's \sFamilyPct, with their interaction the largest two-way term. On the
+\nItsmCrossed\ ITSM pairs that finding travels but does not hold everywhere:
+the encoding leads on \nEncodingLargerItsm\ and the family on
+\nFamilyLargerItsm. The remaining pairs are not crossed, which
+Section~\ref{sec:lim} records.
+
 \subsection{The decomposition on the inference surface}
 \label{app:infanova}
 
 The inference surface is a balanced full factorial, so the exact functional
 ANOVA of Section~\ref{sec:sobol} applies to it unchanged. It is applied: one
-decomposition per pair per instrument, over \nCellsPerDecomposition\ cells each,
-with no failures. That retires the objection that the surface bands are
-computed on is a corner rather than a design.
+decomposition per pair per metric, over \nCellsPerDecomposition\ cells each,
+with no failures, so the surface the bands are computed on is a design and
+not a corner of one.
 
 \textbf{It does not, however, confirm the declared surface's decomposition,
 and it is not evidence that either is unrepresentative.} The axis carrying the
 largest first-order index agrees between the two on a minority of pairs, and
 the corpus medians differ. The reason is structural rather than substantive:
 \emph{the two surfaces do not declare the same levels}. The inference surface
-carries two splits, three register-quality conditions and three rungs against
+carries two splits, three register-quality conditions and three baselines against
 the declared surface's six, six to ten, and three to four, and an axis cannot
 show the same variance share at three levels as at ten. So the comparison is
 between two designs and not a check of one against the other.
@@ -121,8 +138,8 @@ expect a different ordering.
 Table~\ref{tab:rules} compares the four rules of
 Section~\ref{app:regretfull} --- \emph{one-number}, \emph{uniform},
 \emph{majority} and \emph{weighted mean} --- under the loss defined there,
-inside one instrument at a time and in that instrument's own units. No loss in
-this paper is averaged across instruments.
+inside one metric at a time and in that metric's own units. No loss in
+this paper is averaged across metrics.
 
 The weighted-mean rule is optimal in sample by construction --- its excess
 regret is \identityMaxExcess\ everywhere, as the lemma requires --- so the
@@ -131,17 +148,17 @@ of the admissible cells and paying the loss on the other half, the one-number
 rule costs \oosOneNumberAuc\ AUC of expected excess regret against
 \oosMajorityAuc\ for the majority rule and \oosMeanAuc\ for the weighted mean.
 The part of the ordering that holds everywhere is that the one-number rule is
-worse than the majority rule, in \nInstrumentsOneNumberWorse\ instruments of
+worse than the majority rule, in \nInstrumentsOneNumberWorse\ metrics of
 \nInstruments; the full three-way ordering holds in
 \nInstrumentsOosOrdering\ of them.
 
 Three results run against the surface's advocate and are reported as such. The
 conservative rule --- adopt only where the whole surface is positive --- is
 the worst of the four in \nInstrumentsUniformWorst\ of \nInstruments\
-instruments, because it declines so often that the performance it forgoes
+metrics, because it declines so often that the performance it forgoes
 exceeds the performance the one-number rule destroys; the exception is
 \instrumentsUniformNotWorst. The median excess regret of the one-number rule
-is \emph{zero} in every instrument: on most pairs every rule picks the same
+is \emph{zero} in every metric: on most pairs every rule picks the same
 action. And under rolling-origin folds --- choosing the action on the earlier
 folds and paying on the later ones, a harder test because the surface itself
 moves in time --- the ordering does not hold: one number costs \oostOneNumber\
@@ -185,18 +202,18 @@ of predicted risk. The two proper scoring rules on the metric axis --- Brier
 skill and the log-loss skill --- read this picture; the two rank-based ones
 cannot see it at all (Remark~\ref{prop:rank}). A pipeline whose
 discrimination is adequate and whose calibration is not therefore moves the
-increment on some instruments and not others, which is one concrete mechanism
+increment on some metrics and not others, which is one concrete mechanism
 behind the metric axis's contribution to Table~\ref{tab:sobol}.}
 \label{fig:calibration}
 \end{figure}
 
 The figure draws the reliability curve under raw scores, Platt scaling and
 isotonic regression on the reference pair, averaged over the two model
-families at the reference rung; the per-family slopes are in the
+families at the reference baseline; the per-family slopes are in the
 calibration result file (Table~\ref{tab:calibration} prints the reference
 cell's slope, Table~\ref{tab:calib2} the ladder's medians). A pipeline whose
 calibration differs while its ranking does not moves the two proper scoring
-rules and not the rank-based instruments, which is the interaction between
+rules and not the rank-based metrics, which is the interaction between
 the pipeline axis and the metric axis.
 
 Rolling-origin results are in \texttt{results/s01\_surface.csv.gz} under
@@ -240,7 +257,7 @@ assumption is a sensitivity analysis rather than a headline.
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.82\linewidth]{figS5_tipping.pdf}
-\caption{The register's increment at $\tau_2$ on the estate's cohort and
+\caption{The register's increment at $\tau_2$ on the service desk's cohort and
 reassignment target, as a function of $\lambda$, the share of
 knowledge-article references assumed to have been written after the incident
 existed. A reader who has a belief about $\lambda$ can read their own answer
@@ -263,7 +280,7 @@ At $\lambda = 0$ the register is worth \VTtwoKnow\ [\VTtwoKnowLo,
 \VTtwoKnowHi], which is not resolvably different from zero, and it reaches
 half of its knowledge-free value at $\lambda = \lambdaHalf$: a reader who
 believes that more than \lambdaHalfPct\ of knowledge references are written
-\emph{after} the incident exists should read this estate's register as worth
+\emph{after} the incident exists should read this service desk's register as worth
 at least half of \VTtwoGroup\ AUC, and one who believes almost none are should
 read it as worth almost nothing. We have no way to measure $\lambda$ and do
 not claim one; the curve makes the assumption explicit and continuous rather
@@ -277,11 +294,11 @@ Masking a complete field is a sensitivity experiment, not a model of a real
 register, so Table~\ref{tab:quality2} reports the \nQualityKinds\ mechanisms
 of Section~\ref{app:measurechoice} plus a discovery lag, and sweeps the accuracy and
 reconciliation mechanisms rather than reporting one level of each. Everything
-here is on the estate's cohort and reassignment target;
+here is on the service desk's cohort and reassignment target;
 Table~\ref{tab:quality3} carries the severity curves, over \nCaseSweepLevels\
 severities and \nCaseQualitySeeds\ seeds per stochastic mechanism (fewer than
 the \nQualitySeeds\ of the corpus run), and
-Table~\ref{tab:quality2corpus} the same mechanisms on the registered cohort.
+Table~\ref{tab:quality2corpus} the same mechanisms on the pre-specified cohort.
 Four things follow, and two of them are nulls we did not expect.
 
 \textbf{Coverage is the expensive failure, and losing the long tail is not the
@@ -289,7 +306,7 @@ worst way to lose it.} At half population the register is worth \qRareHalf\ if
 its long tail is absent and \qCommonHalf\ if its core is, against \qClean\
 complete. Losing the core costs more than losing the tail, which is the
 opposite of the usual intuition that the rare identities carry the
-information: on this estate the frequent items are the ones the model has
+information: on this service desk the frequent items are the ones the model has
 enough cases to learn from. Loss at random is worse than either
 (\qRandomHalf), because it fragments every identity rather than removing some
 cleanly.
@@ -306,22 +323,24 @@ identity into two records moves the increment by \qDuplicateAllDelta: with
 thousands of cases per identity, halving the evidence behind each still leaves
 enough.
 
-\textbf{Staleness is exactly zero, and the reason is the encoder.} Removing
-identities the register had not seen by the split point moves the increment by
-\qStaleDelta. That is not a bug in the mechanism: a one-hot encoder fitted on
-the training half already ignores levels it has never seen, so a test row
-carrying an undiscovered identity contributes an all-zero encoding either way.
-Under an encoder that keeps missingness as an explicit indicator the effect is
-\qStaleKeepsDelta\ as well, because the training half then contains no missing
-values for the indicator to learn from; that encoder was run on the registered
-cohort only, and its rows are in \texttt{results/s09\_mechanisms.csv} rather
-than in Table~\ref{tab:quality2corpus}, which prints the one-hot encoder.
-A \emph{discovery lag} --- identities first used in the last half of the
-training window absent everywhere, leaving \qLagHalfPopulated\ of rows
-populated --- moves it by \qLagHalfDelta. Whether a data-quality defect is
-visible is therefore an interaction between the quality axis and the encoding
-axis, and an analyst who varies one without the other will conclude that the
-defect does not matter.
+\textbf{Staleness is exactly zero under both encoders run, and the reason is
+how an encoder treats unseen levels.} Removing identities the register had
+not seen by the split point moves the increment by \qStaleDelta. That is not
+a bug in the mechanism: a one-hot encoder fitted on the training half already
+ignores levels it has never seen, so a test row carrying an undiscovered
+identity contributes an all-zero encoding either way. Under an encoder that
+keeps missingness as an explicit indicator the effect is \qStaleKeepsDelta\
+as well, because the training half then contains no missing values for the
+indicator to learn from; that encoder was run on the pre-specified cohort only,
+and its rows are in \texttt{results/s09\_mechanisms.csv} rather than in
+Table~\ref{tab:quality2corpus}, which prints the one-hot encoder. A null on
+this mechanism is therefore a statement about how the encoder handles levels
+absent from the training half, not evidence that the defect is harmless: a
+defect that acts only on the test half cannot move a model that has nothing
+to learn it from. A \emph{discovery lag}, which does change the training
+half --- identities first used in the last half of the training window absent
+everywhere, leaving \qLagHalfPopulated\ of rows populated --- moves the
+increment by \qLagHalfDelta.
 
 \textbf{And which rows go missing matters as much as how many.} The three
 \emph{dependent} mechanisms of Section~\ref{app:measurechoice} carry severity
@@ -389,6 +408,13 @@ scores are reported as \emph{score-threshold sensitivity analyses} and are
 labelled so in every table; they say how a conclusion moves as a selection
 rule tightens, and they do not say what cost ratio that rule encodes.
 
+%  IJF LENGTH PASS (dca exclusion): moved from the article.
+\paragraph{Why a failing arm is excluded rather than recalibrated}
+The exclusion of an arm whose calibration slope leaves \calSlopeWindow\ is
+deliberately not repaired by recalibrating the failing arm, because
+recalibration is already a level of the pipeline axis and repairing an arm
+with it would report one specification under another's name.
+
 \subsection{Simultaneous bands on the decision curve}
 \label{app:dcabandsfull}
 
@@ -403,7 +429,7 @@ band. The simultaneous band is what a claim about a \emph{range} of thresholds
 has to be read against. \textbf{The band drawn here is the multiplier's
 nominal one}: the band the article's counts are read against is the
 admissible empirical quantile's (Section~\ref{sec:dcabands}), wider at every
-point, and the earlier construction that widened the nominal band by a
+point, and an alternative construction that widens the nominal band by a
 measured \dcaWidenFactor\ is kept in the text below as a comparison, so this
 figure shows the shape of the curve and the ordering of the two intervals,
 and not the band any claim is read against. The curve dips near $\theta = \dcaDipTheta$ as drawn,
@@ -422,14 +448,14 @@ pointwise interval and the simultaneous max-$t$ band. The band's family is
 declared separately from the scalar family and spans every admissible
 net-benefit cell of the pair, \nDcaFamily\ members. The band the article
 reports (Section~\ref{sec:dcabands}) uses the admissible empirical quantile
-\dcaQEmp\ (\dcaQEmpAll\ with the degenerate cells kept); the ladder in this section also carries an earlier construction,
+\dcaQEmp\ (\dcaQEmpAll\ with the degenerate cells kept); the ladder in this section also carries that alternative construction,
 the multiplier's nominal value \dcaQ\ widened by a measured factor
 \dcaWidenFactor\ to \dcaQWidened, as the comparison, and the difference
 from a pointwise reading is not cosmetic under either. Under the widened
 construction the median width is
 \dcBandWidthWidened\ against the pointwise interval's
 \dcPointWidth\ (\dcBandWidth\ before the widening), and across the
-\nDcGrid\ operating points of this estate's
+\nDcGrid\ operating points of this service desk's
 decision curve the pointwise interval declares the increment resolvably
 positive at \nBeneficialPointwise\ of them while the simultaneous band
 declares it at \nBeneficialSimultaneousWidened\
@@ -467,13 +493,32 @@ least nine draws of ten inflate the empirical quantile of any family that
 keeps them, which is why the article's rule excludes them before the
 quantile is taken and prints the excluded count (\nDcaCellsExcludedDegenerate\
 of \nDcaFamily\ on this family). The measured widening of
-\dcaWidenFactor\ that an earlier construction applied to the multiplier
+\dcaWidenFactor\ that the alternative construction applies to the multiplier
 value is kept in the ladder above as the comparison: it lands at
 \dcaQWidened\ against the admissible empirical quantile's \dcaQEmp, and the
 counts under it are printed so the reader can see that the two agree on the
 shape of the conclusion and differ on its size. The $(n,K)$ calibration of
-Section~\ref{sec:regions} is estimated for the scalar instruments and is not
+Section~\ref{sec:regions} is estimated for the scalar metrics and is not
 applied here either.
+
+%  IJF LENGTH PASS (dca bands): moved from the article.
+\paragraph{The case study's curve under the alternatives}
+On the case study's family the empirical critical value is \dcaQEmp\
+[\dcaQEmpLo, \dcaQEmpHi] with the degenerate cells excluded, against
+\dcaQEmpAll\ with those cells kept and \dcaQ\ from the multiplier
+approximation. The multiplier approximation would have declared
+\nBeneficialSimultaneous\ of the \nDcGrid\ operating points resolved, at a
+median band width of \dcBandWidth\ against the reported band's
+\dcBandWidthEmp\ and the pointwise interval's \dcPointWidth; the
+order-statistic upper end of the reported critical value leaves
+\nBeneficialSimultaneousEmpHi, and keeping the excluded cells leaves
+\nBeneficialSimultaneousEmpAll, so the exclusion rule does not carry the
+result. Section~\ref{sec:simband} measures the reported estimator at
+\covEmpHeavyCaseAtDesign\ on a family matched to this one and the multiplier
+at \covMultHeavyCaseAtDesign; that family reproduces the corpus's estimator
+ratio at \ratioSynthDca\ against \ratioCorpusDca\ and so transfers less well
+than the surface family. A paper that reads a decision curve across its range
+while pricing it pointwise has claimed the first and paid for the second.
 
 \subsection{The ITSM family, statistic by statistic}
 \label{app:itsmfamily}
@@ -512,13 +557,13 @@ weaker case for the apparatus, not the stronger one.
 
 Because net benefit is a single cardinal utility, the decision-rule comparison
 of Section~\ref{sec:rules} can be run on it without the unit problem that
-forces that section to work instrument by instrument. Three things have to be
+forces that section to work metric by metric. Three things have to be
 settled first, and each is settled by a declared rule rather than a default.
 
 \textbf{Which models may enter.} A threshold is a cost ratio only if the score
 is a probability, so a model whose recalibrated slope lies outside
 $[\slopeLo, \slopeHi]$ is excluded from the decision-analytic reading by a
-registered rule applied at the level of the (pair, pipeline, baseline) triple
+pre-specified rule applied at the level of the (pair, pipeline, baseline) triple
 and requiring both arms to pass. A \emph{model} here is one such triple,
 not one fitted classifier. The rule removes \nModelsDcaExcluded\ of
 \nModelsDca\ of them and leaves \nPairsDcaExcluded\ of \nPairs\ pairs
@@ -562,7 +607,7 @@ sign disagreement of Section~\ref{sec:results-regret}, which is unit-free.
 \textbf{What does separate, in this unit, is the forecast origin.} The register
 is worth \promisedPerThousand\ true positives per thousand cases against the
 intake block. Against intake plus group plus the knowledge reference --- the
-same estate, the same register, a later moment in the same process --- it is
+same service desk, the same register, a later moment in the same process --- it is
 worth \deliveredPerThousand. A desk that read the first number and deployed
 where the second applies is short \shortfallPerThousand\ per thousand cases.
 That is the operational content of Section~\ref{sec:twodecision}, and it is
@@ -596,10 +641,10 @@ the staff who keep it current --- is nowhere in this evidence.
 
 \textbf{The pooled decomposition, for comparison.} Across the corpus the
 median pooled first-order index is \sSplitPct\ for the split, \sRungPct\ for
-the baseline rung, \sQualityPct\ for the register-quality condition and
+the baseline, \sQualityPct\ for the register-quality condition and
 \sLearnerPct\ for the pipeline; at the median pair the largest first-order
-index \emph{within an instrument} --- a median over pairs of a median over
-instruments, and not the largest of those four medians --- is
+index \emph{within a metric} --- a median over pairs of a median over
+metrics, and not the largest of those four medians --- is
 \largestFirstOrderPct, the total higher-order share is \interactionTotalPct\
 (\interactionTotalCI\ over pairs, \interactionMinPct\ to
 \interactionMaxPct), and the largest per-axis \emph{involvement}
@@ -627,7 +672,7 @@ keeps them near the reference cell. Both invariance tests pass, to
 
 \textbf{The target is an axis too, and it is a small one within a pair.} Every
 index above is computed \emph{within} a log--target pair. On the
-\nLogsBothTargets\ logs carrying both registered targets the target axis can
+\nLogsBothTargets\ logs carrying both pre-specified targets the target axis can
 be added, on the headroom scale, and it carries a median \sobolTargetPct. The
 two targets are different questions, agreeing on a median \targetAgreement\ of
 cases, so the reading is not that the target hardly matters --- on the case
@@ -638,8 +683,33 @@ fixed, the remaining choices move the answer by more than switching it does.
 first-order index anywhere on the corpus is \topIndexPct, carried by
 \topIndexAxis\ on \topIndexPair; \nAxesLeading\ different axes lead somewhere,
 and the most frequent leader is \modalLeadingAxis, on
-\modalLeadingSharePct\ of pair--instrument combinations. An analyst can guess
+\modalLeadingSharePct\ of pair--metric combinations. An analyst can guess
 the leader and be right about half the time.
+
+%  IJF LENGTH PASS (aggregations): moved from the article.
+\textbf{Three aggregations of the pooled decomposition, not interchangeable.}
+The first four columns of Table~\ref{tab:sobol} are, per pair, the median
+over the five metrics of each axis's first-order index; its last column is
+the largest per-axis interaction \emph{involvement}. Three aggregations of
+that table are used, and each is named where it appears: the median over
+pairs of a column of the table; the \largestFirstOrderPct\ figure, which is
+the pooled surface's largest first-order index at the median pair --- the
+median over pairs of the median over metrics of the \emph{per-metric} largest
+first-order index, and therefore not obtainable by taking a maximum across
+the four printed columns, and never below the largest of the four column
+medians --- and the corpus medians of the higher-order share. The second is
+the corpus median Table~\ref{tab:measures} prints as its largest first-order
+index; the per-metric values behind it are in the archive.
+
+\textbf{Involvement and the higher-order share.} The per-axis difference
+$S_{T_i} - S_i$ is the variance axis $i$ is \emph{involved} in beyond its
+main effect. These overlap --- a two-way component appears in both its axes'
+total effects --- so their largest member is not the share carried by
+interactions, $S_{\mathrm{int}} = 1 - \sum_i S_i$, which is computed together
+with every disjoint component so that the identity $\sum_u S_u = 1$ is
+asserted numerically rather than assumed (Section~\ref{app:sobolest}). The
+two differ substantially: at the median pair the largest involvement is
+\largestInvolvementPct\ and the interaction share is \interactionTotalPct.
 
 \subsection{What the pooled resolved rate is a ratio of}
 \label{app:pooled}
@@ -657,8 +727,7 @@ multiplier approximation the denominator is larger, \nResolvedWholeMult\
 cells against the reported band's \nResolvedWholeEmp. \textbf{And the
 disagreements are concentrated}: of the
 \nDisagreeResolved\ cells, \nDisagreeTopThree\ come from three logs, and only
-\nLogsDisagree\ of the \nLogs\ logs contribute any at all. The designed surface runs every pair at the same draw count, so unlike
-earlier reports of this statistic the concentration cannot be a budget effect. On \nPairsNoResolvedDisagreement\ pairs no resolved
+\nLogsDisagree\ of the \nLogs\ logs contribute any at all. The designed surface runs every pair at the same draw count, so the concentration cannot be a budget effect. On \nPairsNoResolvedDisagreement\ pairs no resolved
 cell contradicts the reference, on \nPairsSomeResolvedDisagreement\ some do,
 and on \nPairsNoResolvedCell\ nothing resolves.
 
@@ -672,7 +741,7 @@ The register in this log is layered, and the layers are the ones a common
 service data model uses: an item belongs to a subtype, a subtype to a type,
 and a type rolls up to a service component. Section~\ref{app:layers}
 estimates the increment at each layer against the intake block, on the
-registered targets. The coarse layers are \emph{not} free --- on the handover
+pre-specified targets. The coarse layers are \emph{not} free --- on the handover
 target the item's type alone is worth \layerTypeHandover\ and its subtype
 \layerSubtypeHandover, against \layerItemHandover\ for the item itself, and on
 duration \layerTypeDuration\ against \layerItemDuration\ --- so knowing that a
@@ -682,7 +751,7 @@ quantity a populated hierarchy does not buy, and it is
 \layerItemMarginalHandover\ on handover and \layerItemMarginalDuration\ on
 duration. A programme that populates the class hierarchy and stops has bought
 a real part of the value and left the larger marginal part on the table; it
-has not bought nothing. These figures are on the registered targets rather
+has not bought nothing. These figures are on the pre-specified targets rather
 than the reassignment target of the case study in Section~\ref{sec:cmdb},
 and Section~\ref{app:layers} says so.
 
@@ -696,21 +765,21 @@ under two identifiers. \emph{Propensity-dependent missingness} arises when the
 affected item is populated by the desk rather than by discovery: the unusual
 case, which is the one worth predicting, is the one the desk is least likely
 to classify correctly under time pressure. The measured costs above say which
-of the three is worth spending on: on this estate, coverage and accuracy at
+of the three is worth spending on: on this service desk, coverage and accuracy at
 the item level, and not reconciliation.
 
-Two disclaimers. This is forecast performance on one estate for one
+Two disclaimers. This is forecast performance on one service desk for one
 decision, not procurement advice, and a register that pays nothing here may be
 bought for change control, audit or impact analysis, none of which this
 measures; and the ranking of the mechanisms is a property of this cohort's
 cardinality and volume.
 
-\subsection{The three forecast origins, moment by moment}
+\subsection{The three forecast origins, origin by origin}
 \label{app:taudetail}
 
 %%  ROUND TWENTY-FIVE.  Moved from Section 7.2 for length, unchanged.
 
-An incident in this estate does not begin as an incident. A caller reaches the
+An incident in this service desk does not begin as an incident. A caller reaches the
 service desk, an \emph{interaction} is opened, the desk works it, and if it
 cannot be closed there an incident is created and routed. Three moments at
 which a prediction could be made are estimated, and what changes between them
@@ -732,7 +801,7 @@ the incident is known, and so --- probably --- is the knowledge-article
 reference the desk consulted. Against the intake block the register is worth
 \VtauTwo; against intake plus group, \VTtwoGroup\ [\VTtwoGroupLo,
 \VTtwoGroupHi]; against intake plus group plus the knowledge reference,
-\VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] --- the one rung of the ladder at
+\VTtwoKnow\ [\VTtwoKnowLo, \VTtwoKnowHi] --- the one baseline of the ladder at
 this origin that does not resolve.
 \end{description}
 
@@ -765,6 +834,25 @@ at $\tau_0$ looks at \nTauZero\ calls a year at a prevalence of \prevTauZero;
 a desk screening at $\tau_2$ looks at \nTauTwo\ incidents at \prevTauTwo, and
 Section~\ref{sec:nbregret} prices the difference.
 
+%  IJF LENGTH PASS (tie-break): moved from the article.
+\paragraph{An axis nobody declares}
+Both analyses of Section~\ref{sec:cohort} sort the log in time and split at
+seventy per cent of the row order, and \nTiedTimestamps\ incidents share
+their timestamp with another; the sort an earlier, unpublished analysis of
+this log used was not stable, so its tie order was neither declared nor
+reproducible, and it printed \VpublishedTauTwo\ where the two declared rules
+both give \VTtwoKnow\ (recomputed in the archive from that analysis's own
+loader, \cohortloader). Over \nTiebreakDraws\ random tie-breaks the
+increment ranges over \tiebreakRange\ AUC without changing sign, so no
+conclusion turns on it --- but that range is \tiebreakRangeSharePct\ of the
+increment's magnitude, produced by a choice no reporting standard asks anyone
+to state, which is why Supplement~\ref{app:standard} now asks. Every number
+in Section~\ref{sec:cmdb} is computed under a declared tie-break, by incident
+identifier, on the case-study cohort and reassignment target; the
+pre-specified cohort's answers are among the \nPairs\ pairs of
+Section~\ref{sec:multilog}, so the origin result is a statement about a
+routing decision at this service desk and not about handover in general.
+
 \subsection{Magnitude weighting, and the rate under each measure}
 \label{app:magnitude}
 
@@ -779,12 +867,12 @@ median is \misreportEqualPct\ under the equal-level measure,
 \misreportConcentratedPct\ under the concentrated, falling as the measure
 concentrates on the reference specification, which is what it should do. A
 sign comparison is unit-free, which is why this one quantity may be pooled
-across instruments where an expected loss may not.
+across metrics where an expected loss may not.
 
 Table~\ref{tab:regret} attributes the disagreement to axes. Holding everything
 else fixed and changing one axis, the sign of the increment flips for a median
 \flipSplitPct\ of same-everything-else pairs of cells under the split,
-\flipLearnerPct\ under the pipeline, \flipRungPct\ under the baseline rung,
+\flipLearnerPct\ under the pipeline, \flipRungPct\ under the baseline,
 \flipQualityPct\ under the register-quality condition and \flipMetricPct\
 under the metric. The two axes an evaluation paper is most likely to hold
 fixed without comment --- which split, which pipeline --- are the two that
@@ -863,21 +951,26 @@ summary.}
 \end{figure}
 
 
-\subsection{How much of the rung spread the half-of-intake rung carries}
+%  IJF LENGTH PASS (uniformly grid): moved from the article.
+\noindent The inference family of \nCellsPerPairMedian\ cells is the smallest
+share of its pair's admissible cells in the corpus, a share
+\nPairsAtLargestGrid\ pairs attain jointly.
+
+\subsection{How much of the baseline spread the half-of-intake baseline carries}
 \label{app:spread}
 
 %%  ROUND TWENTY-SEVEN.  Moved from Section 6.2 for length, unchanged.
 
-\textbf{How much of the range the half-of-intake rung
+\textbf{How much of the range the half-of-intake baseline
 carries is itself a property of the pair}: dropping it cuts the spread by a
 median \spreadFallMedianPct\ per pair, by \spreadFallWidestPct\ on the pair
 holding the corpus's widest spread, and not at all on \nPairsSpreadUnmoved\
-pairs, where the rung's own increment falls inside the range the remaining
-rungs already span. The fall is not a correction of an error but
+pairs, where the baseline's own increment falls inside the range the remaining
+baselines already span. The fall is not a correction of an error but
 a change of denominator with a plain explanation: on
-\nPairsTwoRealisticRungs\ of the \nPairs\ pairs only two rungs remain, so the
+\nPairsTwoRealisticRungs\ of the \nPairs\ pairs only two baselines remain, so the
 spread over them \emph{is} the absorption $D$ of the free field, which
 Section~\ref{app:absorption} reports as an object in its own right with its
 own interval. Only the case study's log carries a third
 (Table~\ref{tab:roles}), and its two pairs are where the corpus's widest
-realistic-rung spread sits, reaching \spreadRealisticMax.
+realistic-baseline spread sits, reaching \spreadRealisticMax.

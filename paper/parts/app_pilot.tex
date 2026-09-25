@@ -34,9 +34,9 @@ of a literature, and this appendix says so.
 
 The design's one non-obvious feature is that the papers the mechanical screen
 \emph{rejected} were sampled and adjudicated too. Without that, a screen's
-misses are invisible and its proportions can only be described as bounds ---
-which an earlier version of this work did, incorrectly, because a screen with
-false positives does not yield a bound in either direction.
+misses are invisible, and its proportions cannot even be described as bounds,
+because a screen with false positives does not yield a bound in either
+direction.
 
 With it, Table~\ref{tab:screenacc} reports what the screen actually does:
 sensitivity \auditSens\ [\auditSensLo, \auditSensHi], specificity
@@ -54,11 +54,11 @@ entering only as the stratifier.
 
 \input{tables/twoscreens}
 
-Two screening rules ran on every paper: the one registered in
+Two screening rules ran on every paper: the one pre-specified in
 section~4 of \firstpilotprotocolfile, and the amended one of its
 amendment~1, written against the same prose. Table~\ref{tab:twoscreens}
 reports both against the adjudicated standard. They fail differently --- the
-registered rule flags more papers and is right about fewer of them --- and
+pre-specified rule flags more papers and is right about fewer of them --- and
 neither is good enough to support a claim about a field's practice. That is
 the pilot's central finding about itself.
 
@@ -73,7 +73,7 @@ Table~\ref{tab:applicability} reports that denominator separately. Of
 \nAuditEligible\ estimated eligible papers, \nAuditApplicable\ have such a
 feature. A proportion of zero over a denominator of \nAuditApplicable\ is a
 much weaker statement than a proportion of zero over \nAuditEligible, and the
-earlier version reported the latter.
+two must not be confused.
 
 \subsection*{What is missing, and what it could do}
 
@@ -140,19 +140,18 @@ variance; the screened-out stratum was adjudicated at a sampling fraction
 whose reciprocal is \auditWeightOut.
 
 A \textbf{Wilson} interval computed from a fractional ``effective sample
-size'' --- which is what this pilot previously reported --- is a binomial
-interval for a binomial count, and neither the numerator nor the denominator
+size'' is a binomial interval for a binomial count, and neither the numerator nor the denominator
 here is one. Table~\ref{tab:pilot} reports instead a
 \textbf{stratified nonparametric bootstrap} --- resampling adjudicated papers
 within stratum and recomputing the ratio, \nPilotBoot\ times --- as the
 primary interval, because with \nAuditOutSampled\ adjudicated papers in the
 second stratum a linearisation is not to be trusted, and the
 \textbf{design-based} linearised interval beside it. The design-based interval
-has a median width of \auditDesignWidthPct\ and the
-bootstrap \auditBootWidthPct, against the Wilson interval's
-\auditWilsonWidthPct; and \emph{none} of the five Wilson intervals is
+has a median width of \auditDesignWidthPts\ and the
+bootstrap \auditBootWidthPts, against the Wilson interval's
+\auditWilsonWidthPts, which is printed for comparison; and \emph{none} of the five Wilson intervals is
 contained in its design-based counterpart, the endpoints differing by up to
-\auditMaxGapPct. That is correction~C28 in
+\auditMaxGapPts. That is correction~C28 in
 Section~\ref{app:corrections}.
 
 \subsection*{Four limits, stated rather than buried}
@@ -176,3 +175,14 @@ Every adjudication was made from an evidence dossier rebuilt by script from the 
 text, so the judgements can be re-examined against exactly what they
 were made from; that is transparency, not independence, and no inter-rater
 reliability statistic reported here is a substitute for a second human.
+
+%%  IJF LENGTH PASS (pilot data): moved from the article's data availability
+%%  statement.
+\subsection*{The pilot's materials}
+
+The literature pilot's frame, sample, codes and adjudications are in the
+archive; the retrieved full texts and the evidence dossiers extracted from
+them are other publishers' copyrighted material and are not redistributed,
+but \pilotfetch\ re-retrieves the texts from the DOIs listed in
+\pilotsamplefile, and the same script's dossier stage rebuilds the dossiers.
+The protocol the pilot was run under is \pilotprotocolfile.

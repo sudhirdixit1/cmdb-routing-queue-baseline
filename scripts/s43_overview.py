@@ -36,12 +36,19 @@ from matplotlib.patches import FancyArrowPatch, FancyBboxPatch  # noqa: E402
 PAPER = HERE.parent / "paper"
 #  pdf.fonttype 42 embeds the text as TrueType so it stays text in the vector
 #  file (type 3, the default, outlines every glyph).
-plt.rcParams.update({"font.size": 7.4, "figure.dpi": 400,
-                     "savefig.bbox": "tight", "savefig.pad_inches": 0.02,
+#  IJF print geometry: the canvas is the article's text width (468 TeX pt,
+#  elsarticle 3p) and is saved WITHOUT a tight bounding box, so at
+#  \includegraphics[width=\textwidth] it prints at 1:1 and the sizes below
+#  are the sizes on the page -- 8 pt body, 8.5 pt titles.
+TEXTWIDTH_IN = 468.0 / 72.27
+BODY_PT = 8.0
+TITLE_PT = 8.5
+plt.rcParams.update({"font.size": BODY_PT, "figure.dpi": 400,
+                     "savefig.bbox": "standard",
                      "axes.grid": False,
                      "pdf.fonttype": 42, "ps.fonttype": 42})
 DARK = "0.20"
-MID = "0.45"
+MID = "0.30"
 
 #  EVERY section, table, definition and equation number the diagram prints.
 #  These are literals: the figure is drawn outside LaTeX and cannot \ref.
@@ -51,18 +58,18 @@ MID = "0.45"
 #  whenever the article's numbering moves.  The keys name the box; the values
 #  are printed verbatim.
 POINTERS = {
-    "roles": "Section 5.2, Table 3",          # 5.2 Roles; Table 3 roles per pair
+    #  2026-09-25: set from build/journal/*.aux after the IJF length pass.
+    "roles": "Section 5.2, Table S20",        # 5.2 Roles; the roles table is in the supplement
     "design_space": "Definition 1, Table 2",  # Def. 1 design space; Table 2 axes
     "surface": "Equation 1",                  # (1) the increment V_s(f)
     "denominators": "Section 4.2",            # 4.2 three surfaces / denominators
-    "decomposition": "Section 4.5, Table 5",  # 4.5 decomposition; Table 5
+    "decomposition": "Section 4.4, Table 4",  # 4.4 decomposition; Table 4 strata
     "band": "Sections 4.3, 9.2",              # 4.3 bands; 9.2 family-wise coverage
-    "region": "Definition 3, Table 6",        # Def. 3 regions; Table 6 labels
-    "standard": "Section 4.7",                # 4.7 a reporting standard
-    #  IJF upload: the regret subsection moved to the supplement, so the
-    #  pointer carries the supplement number (build/journal/supplement.aux,
-    #  \newlabel{sec:regretdef}).
-    "regret": "Supplement S3.2",              # S3.2 regret, as a robustness check (\newlabel{sec:regretdef}); S3.1 is the designs
+    "region": "Definition 3, Table 3",        # Def. 3 regions; Table 3 master (labels)
+    "standard": "Section 11; S22",            # 11 conclusion; Supplement S22 the standard in full
+    #  The footer that pointed to specification regret (Supplement S3.2) is
+    #  gone: it repeated the text in smaller grey type, and regret is not a
+    #  contribution, so the figure no longer prints that pointer.
 }
 
 
@@ -71,10 +78,10 @@ def box(ax, x, y, w, h, title, body, fill="0.97", edge=DARK, lw=0.9):
         (x, y), w, h, boxstyle="round,pad=0.010,rounding_size=0.012",
         linewidth=lw, edgecolor=edge, facecolor=fill, zorder=2))
     ax.text(x + w / 2, y + h - 0.036, title, ha="center", va="top",
-            fontsize=7.6, fontweight="bold", color=DARK, zorder=3)
+            fontsize=TITLE_PT, fontweight="bold", color=DARK, zorder=3)
     if body:
         ax.text(x + w / 2, y + h - 0.098, body, ha="center", va="top",
-                fontsize=7.0, color=DARK, linespacing=1.45, zorder=3)
+                fontsize=BODY_PT, color=DARK, linespacing=1.35, zorder=3)
 
 
 def arrow(ax, xy_from, xy_to, style="-|>", rad=0.0, colour=MID):
@@ -85,68 +92,72 @@ def arrow(ax, xy_from, xy_to, style="-|>", rad=0.0, colour=MID):
 
 
 def main():
-    fig, ax = plt.subplots(figsize=(7.1, 3.9))
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
+    fig = plt.figure(figsize=(TEXTWIDTH_IN, 3.70))
+    ax = fig.add_axes([0.0, 0.0, 1.0, 1.0])
+    #  a margin round the unit square, so the boxes' rounded pads and
+    #  outlines are inside the canvas
+    ax.set_xlim(-0.012, 1.012)
+    ax.set_ylim(-0.012, 1.012)
     ax.axis("off")
 
     #  ---- row one: the log, the roles, the design space, the surface -----
-    box(ax, 0.005, 0.660, 0.205, 0.320, "an event log",
+    TOP_Y, TOP_H = 0.665, 0.325
+    box(ax, 0.000, TOP_Y, 0.205, TOP_H, "case data",
         "cases, attributes,\ntimestamps\n\n"
         "BPIC14: incidents at\na bank's service desk")
-    box(ax, 0.245, 0.660, 0.235, 0.320, "roles, by rule",
-        "register $f$\nfree field $g$\nintake block $B_0$\n\n"
+    box(ax, 0.250, TOP_Y, 0.225, TOP_H, "roles, pre-specified",
+        "predictor $f$\nfree field $g$\nbenchmark $B_0$\n\n"
         "(%s)" % POINTERS["roles"])
-    box(ax, 0.515, 0.660, 0.235, 0.320, "design space $\\mathcal{S}$",
+    box(ax, 0.520, TOP_Y, 0.225, TOP_H, "design space $\\mathcal{S}$",
         "pipeline $\\times$ split\n"
-        "$\\times$ quality $\\times$ rung\n$\\times$ instrument\n\n"
+        "$\\times$ quality $\\times$ baseline\n$\\times$ metric\n\n"
         "(%s)" % POINTERS["design_space"])
-    box(ax, 0.785, 0.660, 0.210, 0.320, "the surface",
-        "$s \\mapsto V_s(f)$\none increment per cell\n\n"
+    box(ax, 0.790, TOP_Y, 0.210, TOP_H, "the surface",
+        "$s \\mapsto V_s(f)$\none increment\nper cell\n\n"
         "(%s)" % POINTERS["surface"])
 
-    for x0, x1 in ((0.210, 0.245), (0.480, 0.515), (0.750, 0.785)):
-        arrow(ax, (x0, 0.820), (x1, 0.820))
+    ymid = TOP_Y + TOP_H / 2
+    for x0, x1 in ((0.215, 0.240), (0.485, 0.510), (0.755, 0.780)):
+        arrow(ax, (x0, ymid), (x1, ymid))
 
     #  ---- the denominator gate -------------------------------------------
-    box(ax, 0.150, 0.430, 0.700, 0.175,
-        "three denominators, audited apart  (%s)" % POINTERS["denominators"],
-        "declared  |  computational  |  inference \u2014 a claim\n"
-        "quantifies over exactly one",
+    box(ax, 0.150, 0.440, 0.700, 0.165,
+        "three sets of specifications  (%s)" % POINTERS["denominators"],
+        "declared  |  computed  |  bootstrapped \u2014 each claim\n"
+        "states which one it covers",
         fill="0.93")
-    arrow(ax, (0.890, 0.660), (0.855, 0.530), rad=-0.20)
+    arrow(ax, (0.895, TOP_Y - 0.012), (0.862, 0.525), rad=-0.20)
 
     #  ---- row two: the objects -------------------------------------------
-    box(ax, 0.005, 0.045, 0.240, 0.345,
+    BOT_Y, BOT_H = 0.000, 0.370
+    XS = (0.000, 0.260, 0.520, 0.780)
+    BW = 0.220
+    box(ax, XS[0], BOT_Y, BW, BOT_H,
         "decomposition",
         "which choice moves\nthe answer, with the\n"
         "split as an $\\bf{error}$\n$\\bf{stratum}$\n\n"
         + POINTERS["decomposition"])
-    box(ax, 0.255, 0.045, 0.240, 0.345,
+    box(ax, XS[1], BOT_Y, BW, BOT_H,
         "simultaneous band",
-        "max-$t$ over the whole\nfamily the claim ranges\n"
-        "over, $\\bf{coverage}$\n$\\bf{measured}$\n\n"
+        "max-$t$ over the whole\nfamily the claim\n"
+        "ranges over, $\\bf{coverage}$\n$\\bf{measured}$\n\n"
         + POINTERS["band"])
-    box(ax, 0.505, 0.045, 0.240, 0.345,
+    box(ax, XS[2], BOT_Y, BW, BOT_H,
         "region and $\\rho$",
         "where the sign is\ndetermined, with the\n"
         "counts and a minimum\nresolved share\n\n"
         + POINTERS["region"])
-    box(ax, 0.755, 0.045, 0.240, 0.345,
+    box(ax, XS[3], BOT_Y, BW, BOT_H,
         "reporting standard",
         "the minimum form a\nclaim must carry, and\n"
         "the package that\nemits it\n\n" + POINTERS["standard"],
         fill="0.93")
 
-    for x in (0.125, 0.375, 0.625):
-        arrow(ax, (0.500, 0.430), (x, 0.390), rad=0.12)
-    arrow(ax, (0.745, 0.215), (0.755, 0.215))
-
-    ax.text(0.5, -0.035,
-            "Specification regret \u2014 what one specification costs against "
-            "the best \u2014 is computed from the same surface and reported "
-            "as a robustness check (%s)." % POINTERS["regret"],
-            fontsize=6.4, color=MID, ha="center", va="top")
+    #  the gate feeds the three objects; the region feeds the standard
+    for x in XS[:3]:
+        xc = x + BW / 2
+        arrow(ax, (min(max(xc, 0.20), 0.80), 0.428), (xc, BOT_Y + BOT_H + 0.012))
+    arrow(ax, (XS[2] + BW + 0.005, BOT_H / 2), (XS[3] - 0.005, BOT_H / 2))
 
     p = PAPER / "figS8_overview.png"
     fig.savefig(p)

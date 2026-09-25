@@ -1,45 +1,38 @@
 
 \section*{Data availability}
 
-All data are public. Event logs are obtained by DOI: BPI Challenge 2014
-(\doiBPICfourteen), BPI Challenge 2013 incidents (\doiBPICthirteen), and the
-further public logs whose DOIs the archive's fetch scripts carry and whose
-SHA-256 checksums are listed in \checksumfile\ --- \nCorpusDownloaded\ files are
-downloaded and checksummed in all, one log shipping as three, and the
-registered role-assignment rules of Section~\ref{sec:design} admit \nLogs\
-logs, yielding the \nPairs\
-log--target pairs analysed here. The counts are different quantities and
-Table~\ref{tab:corpus} accounts for every downloaded log that is not among the
-admitted pairs, in one of two ways: with the registered exclusion code the
-rules gave it, or with the code \textsf{HELD\_OUT}, which marks the log downloaded as a
-held-out log for a registered prediction outside this paper and never
-offered to the admission rules (\nHeldOutLogs\ of the checksummed files); the
-second log downloaded for it was offered to the rules and is listed under
-the codes that excluded it. The literature pilot's frame, sample,
-codes and adjudications are in the archive; the retrieved full texts and
-the evidence dossiers extracted from them are other publishers' copyrighted
-material and are not redistributed, but \pilotfetch\ re-retrieves the texts
-from the DOIs listed in \pilotsamplefile, and the same script's dossier
-stage rebuilds the dossiers. Every analysis result file is in the archive named in the title page's
-code-availability statement, byte for byte (the harness's own bookkeeping files there post-date
-it); the code, the figures and the manuscript source at the repository's
-head post-date the archive, and where an archived generator would print a
-summary differently the correction register (Supplement~\ref{app:corrections})
-says so.
+All data are public, and every admitted event log is cited by its DOI: BPI
+Challenge 2014 (\doiBPICfourteen; \citealp{vandongen2014bpic}), BPI Challenge
+2013 incidents (\doiBPICthirteen; \citealp{steeman2013bpic}), and
+\citet{steeman2013closed}, \citet{vandongen2015bpic}, \citet{vandongen2017bpic},
+\citet{vandongen2019bpic}, \citet{polato2017helpdesk},
+\citet{deleoni2015roadfines}, \citet{mannhardt2016sepsis} and
+\citet{amaral2018incident}; the SHA-256 checksum of every downloaded file is
+listed in \checksumfile. \nCorpusDownloaded\ files are downloaded and checksummed in
+all, one log shipping as three; the pre-specified role-assignment rules of
+Section~\ref{sec:design} admit \nLogs\ logs, yielding the \nPairs\
+log--target pairs analysed here. Table~\ref{tab:corpus} accounts for every
+other downloaded log, either by the exclusion code the rules gave it or by
+the code \textsf{HELD\_OUT}, which marks a log reserved for a separate
+pre-specified prediction and never offered to the admission rules
+(\nHeldOutLogs\ of the checksummed files). Every analysis result is archived
+under the identifier given in the code-availability statement, and one
+command regenerates every result from the public logs; where later code would
+print a summary differently, the correction register
+(Supplement~\ref{app:corrections}) says so.
 
 \ifblind
 \section*{Code availability}
 
-Code, derived results, the registered protocols, the amendment log and the
-verification harness are archived under a persistent identifier and
-developed in a public repository; both are given on the title page and are
-omitted here for double-blind reviewing. The archive contains a
-\texttt{Dockerfile} and a \texttt{requirements.lock} pinning every
-transitive dependency, and \reproduceguide\ gives the exact commands
-and the expected runtime.
+Code, derived results and the pre-specified protocols with their amendment
+log are archived under a persistent identifier and developed in a public
+repository; both are given on the title page and are omitted here for
+double-blind reviewing.
 \else
 \input{parts/statements}
 \fi
+
+\input{parts/aideclaration}
 
 \bibliographystyle{model5-names}
 \bibliography{references}

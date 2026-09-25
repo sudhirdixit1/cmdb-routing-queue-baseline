@@ -11,40 +11,63 @@
 \highlightsList{}
 \end{itemize}
 
+%%  2026-09-25, IJF desk-screen reframing.  The introduction now opens in
+%%  the nested-comparison literature and states the application as
+%%  service-operations forecasting; the contributions are stated as three
+%%  forecasting claims; the related work is organised around the
+%%  forecasting literature, and the variable-importance, machine-learning,
+%%  meta-science and process-mining strands it used to carry are in
+%%  Supplement S1.1 (app:related), which already cited every one of them.
 \section{Introduction}
 \label{sec:intro}
 
-A service desk issues a forecast when a case arrives: will this case be
-handed over to another resource group before it is resolved, will it run
-longer than cases usually do. A recorded field --- here a \emph{register}, the
-organisation's inventory of the things its cases concern --- is a candidate
-predictor for that forecast, and the claim that it is worth something is a
-comparison. Its second arm --- forecast performance \emph{without} the field
---- is a choice the analyst makes, and so are the learner that makes the
-comparison, the encoding it uses, the forecast target, the way the data are
-split in time, the \emph{forecast origin} (the decision time at which the
-forecast is issued, which fixes what is known about a case;
-the design-space table of Section~\ref{sec:surface} writes the axis as
-\emph{forecast origin (availability)}, after what the origin fixes, and the
-case study calls each origin a \emph{moment}),
-how completely
-the register behind the field is populated, the score the difference is read
-in, and the operating point at which that score is evaluated. Each is
-routinely left implicit, and the result is reported as one number.
+Does a candidate predictor improve a forecast? Forecast evaluation answers by
+comparing nested models out of sample --- a benchmark with and without the
+predictor \citep{clark2001nested,clark2007approximately} --- and reports the
+answer as one number, the difference in a score. That number is conditional
+on choices the forecaster makes and seldom reports: the benchmark information
+set, the model class and its encoding, the forecast target, the sample split,
+the \emph{forecast origin} (the time at which the forecast is issued, which
+fixes what is known about a case), how completely the predictor is recorded,
+and the score and operating point at which the difference is read. Several
+of these have been studied one at a time --- the estimation window
+\citep{rossi2012window}, the sample split \citep{hansen2012sample}, the
+accuracy measure \citep{kolassa2020best} --- and applied work finds that
+whether a predictor helps can turn on the sample and the specification that
+carry it \citep{stock2003forecasting,welch2008comprehensive,banbura2023phillips}. What is missing is a way to report how a
+predictor's incremental forecast performance varies jointly over all of them,
+with uncertainty that holds jointly over a declared family of specifications. This paper supplies one
+for probability forecasts of binary events.
 
-This paper's position is not that such a number depends on those choices ---
-that is known, and Section~\ref{sec:related} says by whom --- but that the
-dependence is large enough, on real decisions, that the number alone is not a
-report; that the right object is therefore a surface over a \emph{declared}
-design space; and that a surface admits estimation and inference of its own.
-Two things follow that a reader may not expect, and both are stated here
-before anything is argued for. \textbf{A pooled specification
-surface overstates the case}: most of its variance here is resampling rather
-than analyst latitude, and the correction is exact
-(Section~\ref{sec:sobol}). And \textbf{the sign is the wrong thing to count}:
-where the data determine a sign, the conventional report is usually right
-about it and usually silent about the size, which is what
-Section~\ref{sec:results-regret} reports instead.
+The application is service-operations forecasting. A service desk decides,
+as each case arrives, where to route it, and a case that is later passed to
+another team, or that stays open far longer than usual, costs the desk time
+and service levels. We forecast those two events --- \emph{reassignment}
+(handover to another team) before resolution, and \emph{long duration} --- as
+probabilities issued at a declared origin, and ask whether a field from the
+organisation's inventory of the things its cases concern, called here the
+\emph{register}, improves the forecast over the case's arrival attributes. In
+IT service management that inventory is the configuration management
+database, and in the case study of Section~\ref{sec:cmdb} the candidate
+predictor is the configuration item an incident affects. Service desks sit
+beside the call centres and emergency departments whose operations
+forecasters already model \citep{ibrahim2016modeling,rostamitabar2022anticipating},
+and their case-level event forecasts are of the kind made for customer churn
+and credit default \citep{decaigny2020incorporating,liu2023tree}.
+
+Our position is that the dependence on unstated choices is large enough, on
+real forecasting decisions, that the number alone is not a report; that the
+right object is a surface over a \emph{declared} design space; and that the
+surface admits estimation and inference of its own. Two findings follow.
+\textbf{A pooled specification surface overstates the forecaster's
+latitude}: most of its variance here comes from the evaluation split and its
+interactions --- sampling variability and fold-to-fold instability ---
+rather than from the forecaster's other choices, and an exact decomposition
+partitions the two
+(Section~\ref{sec:sobol}). And \textbf{where the data determine the sign of
+the improvement, the conventional report usually has the right sign but does
+not show how far other defensible specifications lie from it};
+Section~\ref{sec:results-regret} measures that distance.
 
 \paragraph{The estimand}
 Write a specification $s$ for a complete assignment to every design axis, and
@@ -62,98 +85,80 @@ where $D_{\mathrm{train}}, D_{\mathrm{test}}$ are fixed by the split rule and
 the cohort. The \emph{specification surface} is the map
 $s \mapsto V_s(f)$ over a design space $\mathcal{S}$ that the analyst declares
 and the reader can enumerate; Figure~\ref{fig:speccurve} draws one.
-
-We say \emph{incremental forecast performance} and not \emph{value}, though
-the forecasting literature would call the question the value of a predictor:
-\eqref{eq:estimand} measures how much better a model forecasts, not what the
-field costs to acquire or maintain, whether acting on the forecast changes
-the outcome, or what an organisation would pay for either.
-Section~\ref{sec:dca} converts the increment into net benefit at a declared
-exchange rate, which is as close to economic value as this evidence gets, and
-is the sense in which \citet{murphy1993good} and \citet{granger2000economic}
-use the word.
+Equation~\eqref{eq:estimand} measures how much better a model forecasts, not what the
+field costs or what acting on the forecast is worth; Section~\ref{sec:dca}
+converts the increment into net benefit at a declared exchange rate, the
+sense in which \citet{murphy1993good} and \citet{granger2000economic} speak of
+a forecast's value.
 
 \paragraph{What kind of forecast this is}
-Every forecast here is a probability forecast of a binary event --- that a
-case will be handed over, or will run longer than the training period's
-median --- issued once, at a declared origin, from the attributes recorded by that
-moment; it is scored on a held-out later period by \nInstruments\ declared
-scalar instruments, the area under the ROC curve first among them, and in
-Section~\ref{sec:dca} by net benefit at a declared operating point. It is not a time series. Nothing in the objects that follow
-assumes one: the surface, its decomposition, the bands and the regions apply
-to any increment in a score between two nested forecasting pipelines, and
-the moving-block bootstrap that produces the bands is there because event
-logs are ordered in time, not because the forecast is.
+Every forecast here is a case-level probability forecast of a binary event
+--- that a case will be handed over to another team, or will stay open longer
+than the training period's median --- issued once, at a declared forecast
+origin, from the information recorded by then, as in churn, credit-default
+and recession-probability forecasting \citep{liu2016recessions}. It is scored
+on a later hold-out period by \nInstruments\ declared scalar metrics, the area
+under the receiver operating characteristic (ROC) curve first among them, and in Section~\ref{sec:dca} by net
+benefit at a declared operating point. The objects that follow apply to any
+increment in a score between two nested forecasting pipelines, with or
+without a time-series structure; the moving-block bootstrap that produces the
+bands is used because cases arrive in time order.
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\linewidth]{figS1_speccurve.pdf}
 \caption{The specification curve for the configuration item on BPI Challenge 2014 (BPIC14), at the
-registered handover target: \nCellsFigOne\ admissible scalar cells,
-\nPipelineLevelsCase\ pipelines $\times$ \nRungsFigOne\ baseline rungs $\times$
-\nInstruments\ instruments $\times$ \nQualityFigOne\ register-quality
-conditions $\times$ \nSplits\ splits. \textbf{(a)} Each point is one
-admissible specification --- a complete assignment to those five axes ---
-sorted by the increment. \textbf{(b)} Which level of which axis each
-specification occupies. The intercept-only rung is excluded. Every point is a
-point estimate; the region counts the simultaneous bands decide are in
-Table~\ref{tab:calbands}. \textbf{The five scalar instruments are plotted on
-one axis and their increments are not on a common scale}
-(Remark~\ref{prop:nonid}); what the panel supports is the \emph{sign}
-statement, which is unit-free, and not a comparison of magnitudes across
-instruments. The panel shows the increment rather than the reduction, so a
-cell where the register is worth almost nothing looks the same as one where
-the free field absorbs almost everything.}
+pre-specified handover target, in the primary metric, the area under the ROC curve (AUC):
+\nPipelineLevelsCase\ pipelines $\times$ \nRungsFigOne\ nested baselines
+$\times$ \nQualityFigOne\ register-quality conditions $\times$ \nSplits\
+splits. The other metrics are not on a common scale with AUC
+(Remark~\ref{prop:nonid}). \textbf{(a)} Each admissible specification, sorted
+by its increment: filled if positive, open on the shaded band if not.
+\textbf{(b)} For each level of each axis, the share of the cells in each
+sorted bin that sit at that level; the dashed line marks the sign change. The
+intercept-only baseline is excluded. Point estimates only; the region counts
+the simultaneous bands decide are in Table~\ref{tab:master}.}
 \label{fig:speccurve}
 \end{figure}
 
 \paragraph{Contributions}
 \begin{enumerate}
-\item \textbf{An estimand, a declared surface and an exact decomposition}
-(Table~\ref{tab:objects}). The surface over a design space the reader can
-enumerate; three \emph{denominators} distinguished and audited from the files,
-so that a claim's quantifier is a counted set rather than a phrase; and an
-exact functional-ANOVA decomposition of the surface's variance in which the
-split is an \emph{error stratum}, so that resampling is separated from the
-choices an analyst makes (Section~\ref{sec:sobol}).
-\item \textbf{Simultaneous inference whose coverage is measured, and the
-labels that rest on it.} Simultaneous max-$t$ bands over the whole family a
-claim ranges over, from a pipeline-refitting bootstrap, at a critical value
-whose family-wise coverage is measured against a known answer in
-Section~\ref{sec:simband} --- \covEmpHeavyWholeAtDesign\ on the family
-matched to this design, under an ideal bootstrap that bounds the critical
-value's contribution and not the resampling's --- and \emph{resolution
-regions} with a robustness index $\rho$ under a declared minimum resolved
-share.
-\item \textbf{A registered multi-log benchmark and a register at three
-forecast origins.} The surface is computed through one frozen pipeline on every
-log--target pair a registered protocol admits --- \nPairs\ of them, not
-only the ones where the answer resolves --- and every corpus statistic is
-reported on all \nPairs\ and on the \nItsmPairs\ where the register is a
-maintained one (Supplement~\ref{sec:family}). Section~\ref{sec:cmdb} then shows
-that a forecast origin fixes which cases are in scope, what is known about them
-and which fields are admissible at once, reconciles the value an earlier,
-unpublished analysis of the case study's log reported with the one this
-design gives, and finds the difference is the
-\emph{target}: over the cohort $\times$ target design the target carries
-\shareTargetPct\ of the variance and the cohort \shareCohortPct.
+\item \textbf{An estimand for nested forecast comparisons that includes the
+evaluation design.} The incremental score as a function of the benchmark,
+the model class, the sample split, the forecast origin, the predictor's data
+quality and the scoring rule, over a design space the reader can enumerate
+(Table~\ref{tab:axes}); and an exact functional-ANOVA decomposition of its
+variance in which the evaluation split is an \emph{error stratum}, so that
+the evaluation split, with its sampling variability and fold-to-fold
+instability, is separated from the forecaster's other choices
+(Section~\ref{sec:sobol}).
+\item \textbf{Simultaneous inference over a declared family.} Max-$t$ bands
+from a bootstrap that refits the forecasting models in every draw, at a
+critical value that attains \covEmpHeavyWholeAtDesign\ family-wise coverage
+in a simulation matched to this design (Section~\ref{sec:simband}) --- an
+upper bound, because that simulation's bootstrap is ideal --- and \emph{resolution
+regions}, which state where the sign of the improvement is determined, with a
+robustness index $\rho$ under a declared minimum resolved share. Along the
+way, refitting a high-cardinality predictor inside each draw is shown in
+simulation to break the percentile bootstrap interval, which is why every
+interval here is the basic one (Section~\ref{sec:boot}).
+\item \textbf{Evidence on \nPairs\ pre-specified forecasting tasks and a
+service-desk case study in which the forecast origin is part of the
+estimand.} One frozen pipeline is run on every log--target pair a pre-specified
+protocol admits, not only those where the answer resolves, and every corpus
+statistic is reported on all \nPairs\ and on the \nItsmPairs\ IT-service
+pairs (Supplement~\ref{sec:family}). In the case study
+(Section~\ref{sec:cmdb}) the predictor's increment is large when the
+reassignment forecast is issued at first touch and indistinguishable from
+zero at incident creation once the benchmark holds the fields assumed recorded
+by then; a decision-based evaluation prices what reading the wrong benchmark
+costs a desk (Section~\ref{sec:nbregret}).
 \end{enumerate}
 
-\noindent Figure~\ref{fig:overview} sets the method out once, from the three
-roles a log is read into to the three denominators a claim may quantify over.
-
-\noindent \emph{Specification regret} --- what choosing one specification
-costs against the best, on a scale a decision can use --- is reported in full
-and is \emph{not} among the contributions above.
-Supplement~\ref{sec:rules} and Section~\ref{sec:nbregret} report that the one-number
-rule's median excess regret is zero in every instrument, that the
-out-of-sample ordering reverses under rolling folds, and that in net benefit
-the rules separate on most pairs with the excess falling on the conservative
-rule (adopt only where the whole surface is positive) rather than on the
-one-number rule (adopt where the conventional cell is positive). It is
-carried as a \emph{robustness check} on the other two arguments, the
-decomposition and the sign disagreement (Supplement~\ref{sec:regretdef}): an object that reports a null is
-a check and not a result.
+\noindent Figure~\ref{fig:overview} summarises the method.
+\emph{Specification regret}, what choosing one specification costs against
+the best, is a robustness check only; it is null on this corpus
+(Supplement~\ref{sec:regretdef}).
 
 \begin{figure}[!t]
 \centering
@@ -162,125 +167,157 @@ a check and not a result.
 rules; the roles are crossed over a declared \emph{design space}; the result
 is a \emph{surface}, one increment per cell. Every claim about that surface
 names which of three \emph{denominators} it quantifies over, and the reporting
-objects are computed from it. The schematic carries no result: the numbers are
-in the tables it names.}
+objects are computed from it. Each box names the section or table in which
+its object is defined and reported.}
 \label{fig:overview}
 \end{figure}
 
 \input{tables/objects}
 
-\paragraph{What this paper is not}
-This is a retrospective study on public benchmarks, offered as an evaluation
-methodology. It is not a procurement conclusion about configuration management
-databases, not a systematic review of reporting practice, and not a report of
-a deployed system; Section~\ref{sec:lim} says what each of those would have
-required.
-
-\paragraph{The supplementary document}
-The protocol and its amendments, the proofs, the constructions of the
-reporting objects, the correction register, the reporting standard, the
-results this article summarises and the tables it does not print are in a
+\paragraph{Scope and supplement}
+This is a retrospective study on public data, offered as a forecast
+evaluation methodology; it is not a systematic review of reporting practice
+or a report of a deployed forecasting system, and Section~\ref{sec:lim} says
+what each would have required. The protocol and its amendments, the proofs,
+the correction register and the tables this article does not print are in a
 supplementary document whose sections, tables and figures carry an
-\textsf{S}. The article states every claim it makes and prints the evidence
-for each; a reader who wants to check an inference rather than read one will
-want the supplement, and Supplement~\ref{app:glossary} is a glossary of every
-term used here in a technical sense, with the case study's own value for
-each.
+\textsf{S}; Supplement~\ref{app:glossary} is a glossary of every term used
+here in a technical sense.
 
 \section{Related work}
 \label{sec:related}
 
-In the forecasting literature the question is an old one and is asked of a
-single specification at a time. Whether one forecast is more accurate than
-another is tested by \citet{diebold1995comparing} and \citet{west1996asymptotic};
-whether a predictor adds accuracy to a model that nests the one without it
---- the incremental question, exactly --- by \citet{clark2001nested}; whether
-it adds accuracy \emph{conditionally}, at a given origin and state, by
-\citet{giacomini2006conditional}. When the comparison ranges over a
+In the forecasting literature the incremental question is asked of one
+evaluation design at a time. Whether one forecast is more accurate than
+another is tested by \citet{diebold1995comparing} and
+\citet{west1996asymptotic}; whether a predictor adds accuracy to a model that
+nests the one without it --- the incremental question, exactly --- by
+\citet{clark2001nested}, and \citet{clark2007approximately} show that under
+the null, estimating the larger model's extra parameters inflates its
+out-of-sample mean squared error, biasing the raw comparison against it;
+whether it adds accuracy \emph{conditionally}, at a given origin and state,
+by \citet{giacomini2006conditional}. \citet{gonzalo2024outofsample} extend
+nested out-of-sample comparison to many candidate predictors at once, and
+\citet{liu2024marginal} measure the marginal predictive content of predictor
+groups across targets and horizons; both vary the predictor and hold the
+evaluation design fixed, where this paper holds the predictor fixed and
+varies the design. Probability forecasts of a binary event are evaluated in
+the area under the ROC curve \citep{lahiri2013evaluating}, in which a
+predictor's increment over a nested baseline is read
+\citep{liu2016recessions} and tests of that increment are badly behaved at
+the null \citep{demler2012misuse,pepe2013testing} --- one reason the
+increments here are reported as estimates with intervals, although deciding
+a sign still operates at that null --- and in proper scores
+\citep{brier1950verification,gneiting2007scoring}, whose decomposition
+separates the calibration an AUC ignores from the discrimination it measures
+\citep{dimitriadis2021stable}. Reliability, ROC and Murphy curves together
+separate calibration, discrimination and value when probabilistic
+classifiers are compared \citep{dimitriadis2024triptych}; this paper evaluates the
+increment between two nested forecasts across a design, and
+Section~\ref{sec:dca} reads that increment in net benefit.
+
+Several of the choices this paper puts on a surface have been studied one at
+a time: the estimation window, over which \citet{rossi2012window} make tests
+robust; the sample split, whose choice \citet{hansen2012sample} show can
+manufacture rejections, and whose place in the limit theory of nested
+comparisons \citet{hansen2015equivalence} characterise through Wald
+statistics; the forecast origin, along which \citet{giacomini2010unstable}
+track relative performance and which rolling-origin evaluation varies by
+design \citep{tashman2000outofsample}; and the accuracy measure, which can
+change which forecast is best \citep{hyndman2006another,kolassa2020best}.
+Applied forecasters meet the joint dependence: whether the Phillips curve
+helps forecast euro-area inflation turns on the specification chosen, and
+averaging over modelling choices helps \citep{banbura2023phillips}.
+\citet{petropoulos2022forecasting} and \citet{hewamalage2023forecast} collect
+the evaluation practice these rest on. When the comparison ranges over a
 \emph{family} of specifications, the reality check \citep{white2000reality},
 the test for superior predictive ability \citep{hansen2005spa} and the model
 confidence set \citep{hansen2011mcs} control the search: the first two ask
 whether the best member of a family beats a benchmark once the search is
 accounted for, the third returns the set of members not rejected as inferior
-at a declared level. What a forecast is worth to a decision, as distinct from
-how accurate it is, is the subject of \citet{murphy1993good} and
-\citet{granger2000economic}, and the scoring of a probability forecast of
-\citet{gneiting2007scoring}. This paper sits beside the family tests and
-takes a different object from them: not whether the family contains a member
-that beats the benchmark, nor which members survive, but the shape of the
-family's increment --- how much of its variation is the analyst's and how
-much is resampling, where its sign is determined, and how far its members
-sit from the one that would conventionally be reported --- with the
-decision-based value of Section~\ref{sec:dca} reported beside the accuracy
-increment rather than in place of it.
+at a declared level; and \citet{hunt2022insample} shows that pseudo-out-of-sample
+tests do not keep a stable family-wise error rate when models are searched
+for. This paper sits beside the family tests and takes a different object
+from them: not whether the family contains a member that beats the
+benchmark, nor which members survive, but the shape of a fixed predictor's
+increment across the family --- how much of its variation is the
+forecaster's and how much is resampling, where its sign is determined, and
+how far its members sit from the one that would conventionally be reported.
+A forecaster's usual answer to many specifications is to combine them
+\citep{wang2023combinations}; this paper asks the prior question of how much
+they disagree, and where. Forecasting also has precedents for working over the
+specification space rather than at a single specification: recursive selection over
+every subset of candidate regressors at each forecast origin, to ask whether
+predictability survives the search \citep{pesaran1995predictability}, and
+thick modelling, which keeps and combines the forecasts of many
+specifications instead of selecting one
+\citep{granger2004thick,aiolfi2005model}. Both use the space to produce a
+forecast; this paper uses it to report how an increment varies across it.
 
-Every component used here is established. That a feature's apparent
-importance depends on what else is in the model motivates conditional and
-permutation importance \citep{strobl2008conditional,fisher2019models},
-Shapley attributions \citep{lundberg2017unified,covert2020sage} and
-nonparametric formulations of importance as a population quantity
-\citep{williamson2021vimp}; the clinical-prediction literature has said for
-two decades that the increment in the area under the ROC curve (AUC) from adding a predictor depends on the
-existing model \citep{pencina2008evaluating,cook2007roc}, is a poor guide to
-clinical usefulness \citep{cook2007roc,vickers2008decision} and is routinely
-misread \citep{kerr2011evaluating}; the same argument is made about
-effort-aware metrics in defect prediction \citep{carka2022effortaware}, where
-which metric is chosen changes which method wins. Decision-analytic evaluation supplies the
-exchange rate \citep{vickers2006dca,vickers2016net,vickers2019simple}.
-Multiverse and specification-curve analysis supply the sweep
-\citep{steegen2016increasing,simonsohn2020specification,patel2015assessment},
-underspecification and variance studies the observation that pipelines differ
-\citep{damour2022underspecification,bouthillier2021variance}, and data
-valuation a different question about a datum's worth
-\citep{ghorbani2019data,jia2019towards}. On event logs, outcome-oriented
-predictive monitoring supplies the task
-\citep{teinemaa2019outcome,verenich2019survey,senderovich2017intercase},
-encoding studies one axis \citep{liu2025encoding}, and
-data-quality work the vocabulary for a degraded register
-\citep{suriadi2017imperfection,mohammed2025dataquality,comuzzi2025labels}.
-Leakage discipline is standard
-\citep{kaufman2012leakage,kapoor2023leakage,weytjens2022leakage}.
+What a forecast is worth to a decision, as distinct from how accurate it is,
+is the subject of \citet{murphy1993good} and \citet{granger2000economic}, and
+the with-versus-without question is asked of many objects: of a dataset,
+through a betting market \citep{maymin2019wage}; of a new data source in
+customer-churn forecasting, in accuracy and in campaign profit
+\citep{decaigny2020incorporating}; of a member of a forecast ensemble, by
+leave-one-out and Shapley differences \citep{kim2026beyond}; of individual
+predictors, whose contributions to out-of-sample loss a performance-based
+Shapley value attributes \citep{borup2022anatomy}; and of a step in a
+forecasting process, as forecast value added \citep{fildes2025forecast}. Each
+answers under one evaluation design; none asks how the answer moves when the
+design moves. The clinical-prediction literature has argued for two decades
+that the increment in the area under the ROC curve from adding a marker
+depends on the existing model and is a poor guide to usefulness
+\citep{pencina2008evaluating,cook2007roc,kerr2011evaluating}, and decision
+curves read net benefit across an exchange rate
+\citep{vickers2006dca,vickers2016net}, which is why the operating point is an
+axis here. Multiverse and specification-curve analysis
+\citep{steegen2016increasing,simonsohn2020specification} supply the sweep over
+analytic choices from which the robustness index below is derived.
+Incompletely recorded inputs are a forecasting problem in their own right
+\citep{wen2024wind}; the register-quality axis puts the predictor's
+completeness inside the estimand rather than in preprocessing. And the
+forecast origin turns what machine learning treats as leakage
+\citep{kaufman2012leakage,kapoor2023leakage} into a declared choice of
+information set. Variable importance and data valuation, underspecification
+and predictive multiplicity, many-analysts studies, and the business-process
+analytics literature from which the data come, where such case-level
+forecasts are called outcome-oriented predictive monitoring
+\citep{teinemaa2019outcome}, are discussed in Supplement~\ref{app:related}.
 
-Four further strands bear on the argument and are set out in
-Supplement~\ref{app:related} with what this paper takes from each:
-\emph{many-analysts studies} \citep{silberzahn2018many,breznau2022observing},
-which establish that analytic variability is large without supplying an
-estimand for it; \emph{predictive multiplicity} and Rashomon sets
-\citep{marx2020predictive,semenova2022existence}, which are multiplicity at
-the level of a fitted model where this paper's is at the level of the design
-that produced it; \emph{benchmark-variance work in predictive process
-monitoring} \citep{ramamaneiro2021deep}, which is the evidence this paper's
-decomposition partitions; and the \emph{sensitivity-analysis} tradition of
-bounding an unmeasured assumption \citep{vanderweele2017sensitivity}, which is
-the form Section~\ref{sec:quality}'s leakage tipping point takes.
-
-
-\paragraph{The novelty gap, precisely}
-Every component used here is established and none is claimed. What none of
-them supplies is the object this paper reports, and the gap is in four
-places: the estimand is not declared completely, the forecast origin and the
-register's quality being treated as preliminaries rather than arguments; the
-measure is left implicit, a specification curve being summarised uniformly
-over whatever cells were enumerated, which moves the answer
-(Section~\ref{sec:sobol}); inference is pointwise or absent, a curve being a
-distribution of point estimates and a permutation test on its median, which
-licenses no statement about a sub-region; and nothing measures what the
-conventional report costs. What is new is correspondingly narrower than the
-objects' names suggest. The decomposition adapts functional ANOVA over a
-configuration space \citep{hutter2014efficient}; counting the share of
-specifications with an effect in a declared direction is standard
-specification-curve practice \citep{simonsohn2020specification}, and the
-robustness index $\rho$ is that count. What is new is what the count is
-taken over and under --- a \emph{simultaneous} band over a declared family
-rather than a pointwise test, an \emph{audited} denominator rather than the
-cells that happened to be enumerated, and a minimum resolved share below
-which no direction is reported --- together with the decomposition that
-treats the split as an error stratum and so separates analyst latitude from
-resampling exactly, which we have not seen elsewhere.
-Section~\ref{sec:sca} and Supplement~\ref{app:sca} measure where a curve's verdict and a region label part
-company rather than asserting a difference. The contribution is deliberately
-\emph{not} ``people usually report one number''; it is that a claim of this
-form is a functional of a design, that the functional can be estimated and
-its uncertainty quantified, and that on this corpus it is far from constant.
-
-
+\paragraph{What is new for forecast evaluation}
+Forecast-comparison tests either fix the evaluation design and ask whether a
+predictor, or the best of a family of models, improves accuracy
+\citep{clark2001nested,hansen2005spa,gonzalo2024outofsample}, or robustify
+one design choice at a time \citep{rossi2012window,hansen2012sample}. This
+paper reports how a fixed predictor's incremental accuracy varies jointly
+across the design, separates the evaluation split's share of that variation
+from the forecaster's other choices, and gives inference that holds jointly
+over a declared family. Three things are
+new. The estimand is declared completely: the forecast origin and the
+predictor's data quality are arguments of it rather than preliminaries, and
+the measure over the design is stated rather than implied by whichever cells
+were enumerated, which moves the answer (Section~\ref{sec:axes2}). The
+decomposition treats the evaluation split as an error stratum and so
+partitions the forecaster's choices from the split's exactly; separating
+specification-induced from sampling variation has precedents ---
+extreme-bounds analysis, which reports an estimate's range across
+specifications \citep{leamer1983con}, multimodel analysis that attributes an
+estimate's variation to each modelling choice \citep{young2017model},
+functional ANOVA over a configuration space \citep{hutter2014efficient}, and
+the error strata of classical experimental design --- and what is added is
+its exact application to a nested out-of-sample forecast comparison, with
+the evaluation split as the stratum. And the share of specifications with an
+improvement in a declared direction, which is standard specification-curve
+practice \citep{simonsohn2020specification} and which the robustness index
+$\rho$ counts, is taken under a \emph{simultaneous} band over a declared
+family rather than a pointwise test, over a counted set of specifications,
+and subject to a minimum resolved share below which no direction is reported;
+Section~\ref{sec:sca} and Supplement~\ref{app:sca} measure where a
+specification curve's verdict and a region label part company, and
+Section~\ref{sec:results-regret} measures how far the conventional report
+sits from the resolved specifications. The contribution is not the
+observation that a single number is usually reported. It is that an
+incremental-performance claim is a functional of a declared design, that the
+functional can be estimated with quantified uncertainty, and that on this
+corpus it varies widely.

@@ -1,0 +1,303 @@
+This section reports seven checks a reader from forecast evaluation would make
+of the corpus results in Section~\ref{sec:multilog}. Six are computed from
+files the analysis already writes; the seventh
+(Supplement~\ref{app:ijf-cw}) refits one specification per pair, the
+reference cell, because the analysis stores no per-case predictions.
+For each check we say what is computed, what it gives and what it changes in
+how the article's results should be read. Every number here is re-derived by
+the verification harness (Supplement~\ref{app:verifier}) from the row-level
+result files, without the script that computed it.
+
+\subsection{The sign-disagreement rate against a same-metric reference}
+\label{app:ijf-samemetric}
+
+\paragraph{What is computed}
+Section~\ref{sec:results-regret} reports that \nDisagreeResolved\ of the
+\nResolvedCorpus\ resolved cells, \misreportPooledResolvedPct, disagree in
+sign with the reference cell of the conventional report. That reference is
+read in AUC whatever the cell's own metric. Here each resolved cell is
+compared instead with the reference cell \emph{of its own metric}: the same
+pair, the reference pipeline, register, split and baseline, and the metric of the
+cell being compared. The cells, the band that resolves them and the rule that
+counts a disagreement are those of Section~\ref{sec:results-regret}.
+
+\paragraph{What it gives}
+Against the same-metric reference \nDisagreeOwnMetric\ of the
+\nResolvedCorpus\ resolved cells disagree in sign, \misreportOwnMetricPct.
+The change of reference removes \nLeaveOwnMetric\ disagreements and adds
+\nEnterOwnMetric. All \nLeaveBpicNineteenProper\ removed disagreements are on
+one pair,
+BPIC19/duration, and in the three metrics built on a proper score: Brier
+skill, log-loss skill and Nagelkerke's $R^2$. On that pair the reference
+increment is positive in AUC and negative in all three proper-score metrics,
+so a proper-score cell that agrees with its own reference is counted as
+disagreeing when the reference is read in AUC. The reference cell's AUC and
+Brier-skill increments differ in sign on \nPairsRefSignDiffersBrier\ of the
+\nPairs\ pairs; on only \nPairsRefSignDiffersBrierResolved\ of them does the
+band resolve any Brier-skill cell, so only there can the choice of reference
+metric move the Brier-skill count. Reading each cell's sign, and the reference's, off the
+inference surface's own point estimate instead of the declared surface's
+gives the same two counts, \nDisagreeAucRefInferencePoint\ and
+\nDisagreeOwnRefInferencePoint. Table~\ref{tab:bymetric} gives both counts
+metric by metric.
+
+\paragraph{What it changes}
+The pooled rate of Section~\ref{sec:results-regret} mixes two things: a
+specification whose sign differs from the conventional report's \emph{in the
+same metric}, and a metric whose sign differs from AUC's at the reference
+cell. Within a metric, resolved cells rarely contradict their reference; the
+difference between the two rates comes entirely from one pair, on which adding
+the predictor improves the ranking (AUC) and worsens the probability forecast
+under the Brier and logarithmic scores. That is the non-transferability of
+Remark~\ref{prop:nonid} at work, and it is a statement about metrics rather
+than about the other axes of the surface.
+
+\subsection{Region labels within each metric}
+\label{app:ijf-regions}
+
+\paragraph{What is computed}
+Definition~\ref{def:regions} labels a pair from its whole inference family,
+the cells of all \nInstruments\ metrics together. Table~\ref{tab:metricregions}
+applies the same definition, minimum resolved share included, to each
+metric's cells separately under the same simultaneous band. As a
+sensitivity, the band is also rebuilt with each metric's cells as its own
+max-t family, by the band code itself and from the same bootstrap draws, so
+that the critical value is the one a single metric's family would carry.
+
+\input{tables/metricregions}
+
+\paragraph{What it gives}
+Under the pooled band the label of a single metric differs from the pooled
+label on \nPairsLabelDiffersAuc\ pairs in AUC, \nPairsLabelDiffersAp\ in
+average precision, \nPairsLabelDiffersBrier\ in Brier skill,
+\nPairsLabelDiffersLogloss\ in log-loss skill and
+\nPairsLabelDiffersNagelkerke\ in Nagelkerke's $R^2$, and on
+\nPairsLabelDiffersAny\ pairs in at least one metric; AUC and Brier skill give
+the same label on \nPairsAucLabelEqualsBrier\ of the \nPairs\ pairs.
+\textbf{BPIC19's sign-changing label is a disagreement between metrics.} No
+metric's own cells on that pair change sign: AUC resolves
+\nBpicNineteenBenAuc\ cells and average precision \nBpicNineteenBenAp, all
+beneficial, while Brier skill resolves \nBpicNineteenHarmBrier, log-loss skill
+\nBpicNineteenHarmLogloss\ and Nagelkerke's $R^2$
+\nBpicNineteenHarmNagelkerke, all harmful. Of the \nSignChanging\ pairs the
+pooled table labels sign-changing, \nSignChangingWithinMetric\ changes sign
+within a metric: RoadFines/duration, in each of the three proper-score
+metrics, while its AUC and average-precision cells are beneficial only. With
+each metric as its own family the critical value falls, to a median
+\qEmpWithinAucMedian\ for AUC against \qEmpWholeMedian\ for the pooled family,
+more cells resolve, and the label differs from the pooled one on
+\nPairsLabelDiffersWithinAuc\ pairs in AUC, \nPairsLabelDiffersWithinBrier\ in
+Brier skill, \nPairsLabelDiffersWithinLogloss\ in log-loss skill and
+\nPairsLabelDiffersWithinAny\ in at least one metric.
+
+\paragraph{What it changes}
+A pooled label is a statement about every metric at once, and where the
+metrics disagree it can be sign-changing when no single metric is. A reader
+who needs the sign in one metric should read that metric's column, not the
+pooled label. The per-metric families are a sensitivity and not a
+replacement: they are not the declared family, the minimum resolved share
+applied to them is the same share of a family \nInstruments\ times smaller,
+and the simulation of Section~\ref{sec:simband} measured the coverage of the
+pooled family's critical value, not theirs.
+
+\subsection{Intervals for the corpus-median stratum shares}
+\label{app:ijf-intervals}
+
+\paragraph{What is computed}
+Each share of the partition in Table~\ref{tab:strata} is a median over the
+\nPairs\ pairs of a per-pair value, itself the median over metrics. The pairs
+are resampled with replacement, $B = \nPairBoot$ times under a fixed seed, the
+corpus median is recomputed in each resample, and the interval is the
+central $95\%$ of those medians.
+
+\paragraph{What it gives}
+The split-involving share is \shareResamplingStratumPct\ with interval
+[\shareResamplingStratumLoPct, \shareResamplingStratumHiPct]; the analyst
+share \shareAnalystStratumPct\ [\shareAnalystStratumLoPct,
+\shareAnalystStratumHiPct]; the counterfactual share
+\shareCounterfactualStratumPct\ [\shareCounterfactualStratumLoPct,
+\shareCounterfactualStratumHiPct]; and the mixed share
+\shareMixedStratumPct\ [\shareMixedStratumLoPct, \shareMixedStratumHiPct].
+The split-involving interval lies wholly above the other three.
+
+\paragraph{What it changes}
+The intervals describe \textbf{between-pair heterogeneity, not within-pair
+sampling}. They say how far the corpus median would move had a different set
+of pairs of the same kind been admitted. They are not sampling intervals for
+any pair's own share, and they do not remove the estimation error that each
+cell's increment carries into every component of its decomposition. A
+decomposition corrected for that error would subtract from each component the
+variance that estimation error alone puts there, which needs the joint
+distribution of the error across all the cells of a pair, splits included.
+The design does not provide it: the declared surface's folds carry no
+bootstrap draws, and on the inference surface each split's training and test
+halves are reweighted independently of the other split's, so the covariance
+of the error across splits, which the split-involving components depend on,
+is not estimated. The correction is therefore not computed.
+
+\subsection{The split's main effect and its interactions}
+\label{app:ijf-split}
+
+\paragraph{What is computed}
+The split-involving stratum is the sum of the split's main effect and of
+every component in which the split interacts with another axis. The two are
+reported separately, by the order of the interaction, from the same exact
+decompositions (equal-level measure, within each metric), with the same
+aggregation and the same pair-bootstrap intervals as above. The split's
+components sum to the stratum on every decomposition, to machine precision.
+
+\paragraph{What it gives}
+At the median pair the split's main effect carries \splitMainPct\ of the
+variance [\splitMainLoPct, \splitMainHiPct] and its interactions
+\splitInteractionsPct\ [\splitInteractionsLoPct, \splitInteractionsHiPct]:
+two-way \splitTwoWayPct, three-way \splitThreeWayPct\ and four-way
+\splitFourWayPct. These are medians and do not add to the stratum's median.
+The largest two-way term is the split by the baseline, \splitRungPct, then the
+split by the pipeline, \splitLearnerPct, and by the register-quality
+condition, \splitQualityPct.
+
+\paragraph{What it changes}
+Most of the split-involving stratum is interaction: its interactions carry
+more than twice its main effect. A shift common to every cell of a split, such
+as a harder or easier test period, loads on the main effect. An interaction
+is either estimation error specific to the cell or a genuine difference in
+how the increment changes across splits from one pipeline or baseline to
+another; the split by the baseline, the largest, is where a learning curve that
+depends on the baseline would appear. Without a noise model the
+decomposition cannot tell the two apart, so the stratum is best read as
+variation that involves the split, not as sampling noise.
+
+\subsection{The headlines in Brier skill and log-loss skill}
+\label{app:ijf-proper}
+
+\paragraph{What is computed}
+The article's pooled statistics take a median over the \nInstruments\
+metrics, and its sign statements are read in AUC, a ranking metric.
+Table~\ref{tab:bymetric} gives the same statistics one metric at a time, so
+that the two metrics that are affine in a strictly proper score on a fixed
+test set, Brier skill and log-loss skill, can be read beside AUC.
+
+\input{tables/bymetric}
+
+\paragraph{What it gives}
+The split-involving share is \splitShareBrierPct\ in Brier skill and
+\splitShareLoglossPct\ in log-loss skill, against \splitShareAucPct\ in AUC
+and the pooled \shareResamplingStratumPct, and it is the largest stratum on
+\nSplitLargestBrier\ and \nSplitLargestLogloss\ of the \nPairs\ pairs
+respectively, against \nSplitLargestAuc\ in AUC. Resolved Brier-skill cells lie
+a median \madResolvedBrierMedian\ Brier-skill units from the Brier-skill
+reference, and resolved log-loss-skill cells \madResolvedLoglossMedian\ from
+theirs, against \madResolvedMedian\ AUC in AUC; the units differ, so the
+three are not comparable in size. Of the \nResolvedBrier\ resolved Brier-skill
+cells, \nDisagreeOwnBrier\ disagree in sign with the Brier-skill reference.
+Across the \nSpecsSignAgree\ admissible specifications the AUC increment and
+the Brier-skill increment have the same sign on \signAgreeAucBrierPct\ of
+them, and the AUC and log-loss-skill increments on \signAgreeAucLoglossPct;
+per pair the AUC--Brier agreement runs from \signAgreeAucBrierPairMinPct\ to
+\signAgreeAucBrierPairMaxPct.
+
+\paragraph{What it changes}
+The decomposition's headline does not depend on reading it in AUC: in either
+proper score the split-involving stratum carries a similar median share and is
+the largest stratum on more pairs than in AUC. The sign of an increment is a
+different matter. A sign read in AUC is the sign in Brier skill on
+\signAgreeAucBrierPct\ of specifications, so a statement that a predictor
+helps, made in AUC, is a statement about ranking and has to be checked again
+before it is carried to the probability forecast.
+
+\subsection{A nested-model adjustment at the reference cell}
+\label{app:ijf-cw}
+
+\paragraph{What is computed}
+Every increment in the article is the difference in score between two nested
+models, the baseline with and without the predictor. When the predictor adds
+nothing in population the larger model still pays for estimating its extra
+coefficients, so the raw difference in mean loss is biased against it; the
+Clark--West adjustment adds back the squared difference between the two
+forecasts, which removes that penalty, approximately, in expectation under the
+null. The
+reference specification (one pipeline, the register as recorded, the single
+temporal holdout, the full intake block) is refitted with and without the
+predictor using the repository's own pipeline code, and the two forecasts are
+scored case by case on the test half, in time order. The refitted increments
+equal the reference cell of Table~\ref{tab:master} on every pair to within
+\refitTolTableFour. They equal the declared surface's reference cell on
+\nExactDeclaredAuc\ of the \nPairs\ pairs; on the others the declared surface
+was fitted in a separate run and differs by at most \refitMaxDiffDeclared\ in
+AUC, which changes no sign. Three statistics are computed on the per-case
+loss differentials, each oriented so that a positive value favours the model
+with the predictor: a Diebold--Mariano statistic on the Brier differential, the
+Clark--West statistic on the adjusted Brier differential, and a
+Diebold--Mariano statistic on the log-loss differential. Each long-run
+variance is Newey--West with Bartlett weights at lag
+$\lfloor n_{\mathrm{test}}^{1/3} \rfloor$, from \cwLagMin\ to \cwLagMax\ across
+pairs, and each test is one-sided at $\alpha = 0.05$.
+
+\input{tables/cwtests}
+
+\paragraph{What it gives}
+The raw Brier comparison favours the predictor on \nRejectDmBrier\ of the
+\nPairs\ pairs, the Clark--West comparison on \nRejectCw, and the log-loss
+comparison on \nRejectDmLogloss\ (Table~\ref{tab:cwtests}); with the lag set
+to the bootstrap's block length, $\max(10, \mathrm{round}(n^{1/3}))$, the
+three counts are \nRejectDmBrierAlt, \nRejectCwAlt\ and \nRejectDmLoglossAlt.
+On \nBrierWorseReference\ pairs the fitted model with the predictor has the
+higher mean Brier score, and on \nCwReverses\ of them (BPIC19/duration,
+UCI498/duration and BPIC17/duration) the Clark--West statistic nonetheless
+rejects in the predictor's favour. The AUC increment and the log-loss
+differential differ in sign on \nAucLoglossSignDiffer\ pairs.
+
+\paragraph{What it changes}
+The two statistics answer different questions. The raw differential compares
+the two forecasts as fitted on this training window, which is what a user of
+the fitted models receives; the Clark--West statistic asks whether the
+predictor carries information in population, charging nothing for estimating
+it. Evidence of the second is more common in this corpus than evidence of the
+first, and the gap is the cost of estimating the predictor's coefficients from
+one training half. The article's estimand, Definition~\ref{def:estimand}, is a
+limit as the training sample grows, in which that cost vanishes, so of a
+nested pair it asks the second question; every increment the article
+computes is a finite-window difference that still carries the cost. A harmful
+increment in a proper score at a nested cell is therefore not evidence that
+the population increment is negative; it can be the estimation penalty alone.
+Two limits apply. The
+tests are on the reference cell only: the other cells' per-case predictions
+are not stored, and bands over the surface remain those of
+Section~\ref{sec:simbands}. And the logistic pipeline is penalised, so the two
+models are nested as specifications but not as maximum-likelihood fits, and
+the adjustment is the standard one rather than one derived for penalised
+estimation. No comparable adjustment exists for AUC, which is not a mean of
+per-case losses.
+
+\subsection{A trend in the fold index}
+\label{app:ijf-foldtrend}
+
+\paragraph{What is computed}
+The \nFolds\ expanding-window folds train on successively longer histories and
+test on successively later periods, so the fold index orders training size and
+calendar time together. For each pair and metric, the fold-to-fold variation
+of the increment is split into the part a straight line in the fold index
+explains and the rest, and the linear share is reported for the reference
+configuration (the reference pipeline, register and baseline) and pooled over
+every cell. Each is taken as a median over metrics and then over pairs. For a
+single profile of \nFolds\ exchangeable values the expected linear share is
+\foldTrendExpected, but a median of such shares is lower; the null used is
+therefore a permutation of the \nFolds\ folds within each pair, the same
+permutation for every metric and cell of the pair, over \nFoldTrendPerm\
+replicates.
+
+\paragraph{What it gives}
+At the reference configuration the median linear share is
+\foldTrendRefMedian\ against a null mean of \foldTrendNullRef\
+($p = \foldTrendRefP$); over every cell it is \foldTrendAllMedian\ against
+\foldTrendNullAll\ ($p = \foldTrendAllP$).
+
+\paragraph{What it changes}
+The variation the split carries is not exchangeable across folds: it has an
+order in the fold index. That order is what a learning curve (the training
+window grows from one fold to the next) or a change over calendar time
+(Supplement~\ref{app:drift}) would produce. It is also what serially
+correlated estimation error would produce, because the folds' training
+windows are nested, and the permutation null does not remove that. Either
+way, the split-involving stratum is variation across evaluation windows, of
+which sampling error is one part, and it should be read that way.

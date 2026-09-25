@@ -32,9 +32,9 @@ def write(mn):
             "split": "split",
             "decision_time": "forecast origin (availability)",
             "quality_level": "register quality by severity",
-            "rung": "baseline (ladder rung)",
+            "rung": "baseline (nested, all)",
             "admissible_rung": "baseline, admissible only",
-            "scalar_metric": "scalar instrument",
+            "scalar_metric": "scalar metric",
             "operating_point": "operating point (net benefit)"}
         MEASURE = {
             "learner": "equal / ref. / conc.",
@@ -49,7 +49,7 @@ def write(mn):
         EXCL = {
             "rung": "intercept-only: in the surface, out of every "
                     "admissible set",
-            "decision_time": "two moments on the primary log, one elsewhere",
+            "decision_time": "two origins on the primary log, one elsewhere",
             "operating_point": "outside the declared range"}
         #  ROUND TWENTY-SEVEN, S5.  THE PRODUCT THIS TABLE CLAIMED DID NOT
         #  WORK.  The caption said the level counts multiply to the cell
@@ -94,51 +94,23 @@ def write(mn):
                 exclusions=EXCL.get(ax, "none")))
         (TABLES / "axes.tex").write_text(
             tex_table(pd.DataFrame(rows),
-                      "The declared design space. One row per axis (the forecast target is not an axis of any surface; Section~\\ref{sec:design} says why): the "
+                      #  IJF LENGTH PASS.  The caption was fifteen printed
+                      #  lines; the material on the origin, the ladder row
+                      #  and the encoding moved to Supplement
+                      #  app:measurechoice, and the provenance sentences were
+                      #  cut.  The five factors are unchanged.
+                      "The declared design space. One row per axis: the "
                       "number of levels (a range where it differs by log), "
-                      "whether the axis is a \\textbf{factor of the admissible cell "
-                      "count}, the measure the paper places on those levels, "
-                      "and every level excluded by declaration with its "
-                      "reason. Generated from the code that walks the space. "
-                      "\\textbf{Not every row multiplies}: only the rows marked `yes' "
-                      "do, and their product is learner $\\times$ split "
-                      "$\\times$ register "
-                      "quality $\\times$ admissible baseline $\\times$ "
-                      "scalar instrument, which is the `learners', `splits', "
-                      "`quality', `rungs' and `metrics' columns of "
-                      "Table~\\ref{tab:denominator} and equals its `declared "
-                      "scalar' column on every pair --- the multiplication "
-                      "the verification harness re-does, pair by pair, from "
-                      "the same file this table is generated from. The rows "
-                      "marked `no' are not axes the study leaves unvaried; "
-                      "each is counted somewhere else, and the column says "
-                      "where. The encoding is determined by the learner --- "
-                      "each "
-                      "learner names its own encoder --- so the learner row "
-                      "already counts the pipeline and multiplying by the "
-                      "encoding would count it twice; "
-                      "Table~\\ref{tab:axes2} separates the two where they "
-                      "can be separated. The forecast origin's levels are the "
-                      "corpus surface's --- two moments on the primary log, read "
-                      "off its ladder as which rungs are admissible, and one "
-                      "elsewhere; on the case-study log the origin indexes a "
-                      "\\emph{second} surface rather than a further factor of the "
-                      "first, estimated at three moments on the estate's own "
-                      "cohort and target, the first of which (first touch, every "
-                      "call) is a population no registered pair contains, and "
-                      "Section~\\ref{sec:twodecision} reports it. "
-                      #  NOT Table~\ref{tab:decisiontime}: that table is
-                      #  generated but is \input by no part of the
-                      #  manuscript, so a reference to it resolves to `??'.
-                      #  The live table is tab:tau, inside sec:twodecision.
-                      "The ladder-rung row is the admissible row "
-                      "plus the intercept-only baseline, so the two rows are "
-                      "one axis at two admissibility conventions and only "
-                      "the admissible one enters an admissible count. And "
-                      "the operating point multiplies the decision-curve "
-                      "surface, not the scalar one, which is why the two "
-                      "surfaces are counted separately in "
-                      "Section~\\ref{sec:denominator}.",
+                      "whether the axis is a factor of the admissible cell "
+                      "count, the measure placed on its levels, and every "
+                      "level excluded by declaration. Only the rows marked "
+                      "`yes' multiply: learner $\\times$ split $\\times$ "
+                      "register quality $\\times$ admissible baseline "
+                      "$\\times$ scalar metric equals the `declared scalar' "
+                      "column of Table~\\ref{tab:denominator} on every pair. "
+                      "Each row marked `no' is counted where the column says; "
+                      "Supplement~\\ref{app:measurechoice} explains those "
+                      "rows and the three measures.",
                       "tab:axes",
                       colnames={"factor": "in the product"}),
             encoding="utf-8")
@@ -241,14 +213,16 @@ def write(mn):
             "itsm": "maintained CI or customer register",
             "healthcare": "diagnosis vocabulary: reused, not maintained",
             "permitting": "case-type reference, reused",
-            "lending": "application or offer reference",
+            "lending": "requested loan amount, treated as a "
+                       "categorical; its values recur across applications",
             "procurement": "item or vendor catalogue entry",
             "enforcement": "article of law, reused across fines"}
         THREAT = {
             "itsm": "none beyond domain: closest to the case study",
             "healthcare": "no maintenance process; quality axis hypothetical",
             "permitting": "nobody curates it",
-            "lending": "near-unique per case, so reuse is thin",
+            "lending": "an amount, not a maintained entity: "
+                       "nobody curates it",
             "procurement": "target is a duration, not a routing decision",
             "enforcement": "semantics legal, not operational"}
         rows = []
@@ -325,7 +299,7 @@ def write(mn):
                       "the higher-order total. THE MAGNITUDE MOVES WITH THE "
                       "MEASURE, AND SO DOES THE QUALITATIVE CONCLUSION: "
                       "across the three product measures the higher-order "
-                      "share moves by \\measureSpreadPct, and under the "
+                      "share moves by \\measureSpreadPts, and under the "
                       "measure concentrated on the reference level it is "
                       "\\interactionTotalConcentratedPct, BELOW the largest "
                       "first-order index of \\concentratedFirstOrderPct, "
@@ -365,15 +339,14 @@ def write(mn):
         piv = piv.merge(extra, on=["log", "target"], how="left")
         (TABLES / "sobol.tex").write_text(
             tex_table(piv,
-                      "The corrected sensitivity decomposition, within "
+                      "The sensitivity decomposition, within "
                       "instrument, under the equal-level measure. The four "
                       "first-order indices, then the TOTAL higher-order "
                       "share $1-\\sum_i S_i$ of "
                       "Equation~\\eqref{eq:inttotal} of the article, then the largest "
                       "per-axis interaction involvement "
-                      "$\\max_i(S_{T_i}-S_i)$ --- which is the quantity an "
-                      "earlier version reported as the interaction share and "
-                      "which is not it, because those differences overlap "
+                      "$\\max_i(S_{T_i}-S_i)$ --- which is not the "
+                      "higher-order share, because those differences overlap "
                       "across axes.",
                       "tab:sobol",
                       colnames={"quality_level": "quality",
@@ -414,15 +387,20 @@ def write(mn):
                       "Table~\\ref{tab:master} and Table~\\ref{tab:triple} "
                       "print the labels the article quotes. No "
                       "coverage calibration is applied to them: the "
-                      "$(n,K)$ factor was fitted to restore POINTWISE "
-                      "coverage on a plane built around a different "
-                      "inference surface, and Section~\\ref{sec:simband} "
-                      "measures the family-wise widening these families "
-                      "need as LARGER than that factor supplies. This "
+                      "$(n,K)$ factor is a POINTWISE widening, fitted on a "
+                      "plane of its own and reported only as a sensitivity. "
+                      "Section~\\ref{sec:simband} measures the operative "
+                      "critical value at about its level on the family "
+                      "matched to this design under an ideal bootstrap, "
+                      "which bounds the critical value's contribution to "
+                      "coverage and not the resampling's: the pointwise "
+                      "interval underneath undercovers at this corpus's "
+                      "ratios of $K$ to $n$ "
+                      "(Section~\\ref{sec:simsensitivity}). This "
                       "table therefore isolates the cost of the wider "
                       "FAMILY, and Table~\\ref{tab:calbands} prints the "
-                      "same labels beside the widening that would be "
-                      "needed to earn them.",
+                      "same labels beside what the pointwise widening "
+                      "would cost if it were applied.",
                       "tab:regions",
                       colnames={"q_op": "q (operative)", "n_cells": "cells",
                                 "n_beneficial": "beneficial",
@@ -538,10 +516,10 @@ def write(mn):
                "interval resolves"]]
         (TABLES / "confirm.tex").write_text(
             tex_table(d,
-                      "The five final-round \\emph{planned} contrasts "
+                      "The five \\emph{planned} contrasts "
                       "(\\textsf{PC1}--\\textsf{PC5}), stated in words in "
                       "Section~\\ref{sec:planned}. Every one is on the "
-                      "REGISTERED cohort (\\nRegisteredCohort\\ cases) and "
+                      "PRE-SPECIFIED cohort (\\nRegisteredCohort\\ cases) and "
                       "the handover target --- not the case study's cohort "
                       "and reassignment target, which "
                       "Section~\\ref{sec:cohort} reconciles against these --- "
@@ -558,9 +536,10 @@ def write(mn):
                       "criterion this paper uses and is not the same as the "
                       "$p$-value's. \\textsf{PC3} is the contrast on which "
                       "they differ, and Section~\\ref{app:pcdetail} derives "
-                      "why. The contrasts are not confirmatory: they were "
-                      "fixed before this analysis round, not before the data "
-                      "were seen.",
+                      "why. The contrasts are pre-specified and exploratory, "
+                      "not confirmatory: they were fixed before the analyses "
+                      "that test them were run, but after earlier analyses "
+                      "of the same data.",
                       "tab:confirm", floatfmt="%.5f",
                       #  2026-09-18, pre-upload review.  `Holm' was the
                       #  Holm-adjusted rejection at the declared level, a
@@ -822,10 +801,10 @@ def write(mn):
                       "The pilot's proportions over the estimated eligible "
                       "population, with the stratified bootstrap interval "
                       "this paper reports, the design-based linearised "
-                      "interval beside it, and the Wilson interval an "
-                      "earlier version printed. None of the five Wilson "
-                      "intervals is contained in its design-based "
-                      "counterpart.",
+                      "interval beside it, and, for comparison, a Wilson "
+                      "interval computed from a fractional effective sample "
+                      "size. None of the five Wilson intervals is contained "
+                      "in its design-based counterpart.",
                       "tab:pilot",
                       colnames={"p": "estimate",
                                 "boot_lo": "boot lo", "boot_hi": "boot hi",

@@ -59,9 +59,28 @@ def scan(text, pats):
             for pat in pats for m in pat.finditer(text)]
 
 
+#  2026-09-24.  Elsevier's generative-AI policy (updated June 2026) puts the
+#  declaration in the manuscript immediately before the references, so the
+#  blind article now names the TOOL there (Anthropic Claude and its model
+#  identifiers).  The tool is not the author, so the tool's name is allowed
+#  inside that one section and still fails anywhere else; every other
+#  pattern is checked inside the section as everywhere.
+TOOL = re.compile(r"Anthropic|Claude", re.I)
+DECL = re.compile(r"Declaration of generative AI.*?(?=\nReferences\n|\Z)",
+                  re.S)
+
+
 def pdf_text(pdf):
     return subprocess.run(["pdftotext", "-q", str(pdf), "-"],
                           capture_output=True, text=True, timeout=180).stdout
+
+
+def scan_blind(text, pats):
+    """scan(), with the tool's name exempt inside the AI declaration."""
+    hits = [h for h in scan(DECL.sub("", text), pats)]
+    for d in DECL.finditer(text):
+        hits += [h for h in scan(d.group(0), pats) if not TOOL.fullmatch(h[0])]
+    return hits
 
 
 def pdf_meta(pdf):
@@ -76,6 +95,11 @@ def main(argv=None):
         hits = scan("draft by Sudhir Dixit, github.com/x, Apex", pats)
         assert len(hits) >= 3, hits
         assert not scan("a register is a predictor", pats)
+        decl = ("Declaration of generative AI and AI-assisted technologies\n"
+                "used Anthropic Claude (claude-opus-5)\nReferences\n")
+        assert not scan_blind(decl, pats), scan_blind(decl, pats)
+        assert scan_blind("Claude wrote this\n" + decl, pats)
+        assert scan_blind(decl.replace("Anthropic", "Dixit"), pats)
         print("check_blind selftest OK: %d hits on the planted text"
               % len(hits))
         return 0
@@ -85,7 +109,7 @@ def main(argv=None):
             fails.append("%s missing (run build_journal.py --target ijf)"
                          % pdf.name)
             continue
-        for what, ctx in scan(pdf_text(pdf), pats) + scan(pdf_meta(pdf), pats):
+        for what, ctx in scan_blind(pdf_text(pdf), pats) + scan(pdf_meta(pdf), pats):
             fails.append("%s: '%s' in ...%s..." % (pdf.name, what, ctx))
     for f in OUT.glob("*.pdf"):
         if "dixit" in f.name.lower():

@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%%
+\begin{tabular}{lllllllll}
+\toprule
+metric & split-involving & analyst & split largest & resolved & vs AUC reference & vs own reference & displacement & sign agrees with AUC \\
+\midrule
+AUC & 68.4 & 22.3 & 12 & 155 & 4 & 4 & 0.0600 & 100.0 \\
+average precision & 67.3 & 21.6 & 13 & 140 & 10 & 10 & 0.0499 & 90.2 \\
+Brier skill & 69.9 & 13.4 & 17 & 142 & 27 & 2 & 0.0483 & 79.7 \\
+log-loss skill & 70.5 & 13.2 & 17 & 133 & 27 & 2 & 0.0355 & 80.1 \\
+Nagelkerke & 78.0 & 11.7 & 17 & 128 & 23 & 2 & 0.0602 & 80.0 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{THE HEADLINES, ONE METRIC AT A TIME. `split-involving' and `analyst' are the corpus medians, in per cent, of the two largest strata of the partition in Table~\ref{tab:strata}, computed in that metric alone; `split largest' counts the pairs on which the split-involving stratum is the largest of the four. `resolved' counts the metric's cells whose whole-surface band excludes zero; the next two columns count those that disagree in sign with the reference cell read in AUC, which is the comparison Section~\ref{sec:results-regret} reports, and with the reference cell read in the cell's own metric. `displacement' is the median over pairs of the mean absolute distance of the resolved cells from the own-metric reference, in that metric's units, so the rows are not comparable with each other. The last column is the share, in per cent, of the \nSpecsSignAgree\ admissible specifications on which the metric's increment and the AUC increment have the same sign.}
+\label{tab:bymetric}
+\end{table}
