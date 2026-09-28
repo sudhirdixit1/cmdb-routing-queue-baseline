@@ -69,7 +69,21 @@ def status() -> list[str]:
     out = []
     j = _zen()
 
-    if not j.get("doi"):
+    #  2026-09-28 (DECISIONS IJF.16).  The author cites the GitHub release,
+    #  not a Zenodo DOI, so what is owed is the release tag on the remote.
+    _tag = j.get("version") or ""
+    try:
+        _r = subprocess.run(["git", "ls-remote", "--tags", "origin",
+                             "refs/tags/" + _tag], cwd=str(ROOT),
+                            capture_output=True, text=True, timeout=30)
+        _has_tag = bool(_tag) and bool(_r.stdout.strip())
+    except (OSError, subprocess.SubprocessError):
+        _has_tag = False
+    if not _has_tag:
+        out.append(
+            "THE RELEASE %s is not on GitHub.  The title page cites it; draft "
+            "it from the owner's account on the pushed main." % (_tag or "?"))
+    if False and not j.get("doi"):
         out.append(
             "THE ARCHIVE DOI is not minted.  It is the software reference (Dixit, 2026) and both "
             "availability statements.  Mint it at zenodo.org against the "
@@ -80,13 +94,15 @@ def status() -> list[str]:
     cl = ROOT / "submission" / "cover_letter.md"
     if cl.exists():
         _cl = cl.read_text(encoding="utf-8")
-        _want = [x for x in (j.get("doi"), j.get("version")) if x]
+        _want = [x for x in (j.get("version"),
+                             "github.com/sudhirdixit1/cmdb-routing-queue-baseline")
+                 if x]
         if "DOI-PENDING" in _cl or not all(x in _cl for x in _want):
             out.append(
-                "THE COVER LETTER does not name the archive's DOI and release "
+                "THE COVER LETTER does not name the release and repository "
                 "(%s).  Edit submission/cover_letter.md, then "
                 "python scripts/make_cover_pdf.py." % ", ".join(_want or
-                                                         ["no DOI yet"]))
+                                                         ["no release named"]))
     #  2026-09-06.  The author does not publish a built image, so its digest
     #  is not owed: the code-availability statement says the image is built
     #  from the archive's Dockerfile (base pinned by digest) and that no
@@ -217,8 +233,8 @@ def main(argv=None):
     left = status()
     if not left:
         print("  Nothing. All three documents build, every gate passes, the "
-              "blind PDFs name nobody, the template is diffed, the DOI "
-              "is recorded, no built image is distributed by decision, the "
+              "blind PDFs name nobody, the template is diffed, the release "
+              "the title page cites is on GitHub, no built image is distributed by decision, the "
               "reviewers carry addresses, and main is pushed.")
         print("finalise: ready to upload "
               "(submission/OWNER-ACTIONS.md §1.4 lists the files).")

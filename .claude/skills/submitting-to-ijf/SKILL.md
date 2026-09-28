@@ -39,8 +39,8 @@ uploaded.
 - 4–6 suggested referees outside the author's institution
   (`submission/suggested_reviewers.md`, five, addresses sourced).
 - Code and data mandatory; a reproducibility check at acceptance. The
-  submission cites release `v29.0` (decided 2026-09-25, `DECISIONS.md`
-  §IJF.15); its DOI is minted when the owner publishes the GitHub release.
+  submission cites the GitHub release `v29.0` (published 2026-09-28), not a
+  Zenodo DOI (`DECISIONS.md` §IJF.16).
   `v28.0` (`10.5281/zenodo.22557927`) is the *Information Systems*
   version and its tag never moves. `scripts/verify_release.py` proves a clean
   checkout regenerates every analysis number from the committed results.
@@ -82,7 +82,7 @@ uploaded.
 | 5 | Related-manuscript sentence | `cover_letter.md` says no other manuscript on these methods or data is under review and the conference-format draft was never submitted; confirm both are true | you agree |
 | 6 | Read the title-page statements | CRediT, competing interest, funding, code availability, generative-AI declaration — `build/journal/title_page.pdf` — they are claims about you | you agree with every sentence |
 | 7 | Push | `git push origin main ijf-retarget` — **do not move `v28.0`**: it stays where the published release points | `origin/main` = `main` |
-| 7a | Cut v29.0 (decided 2026-09-25, `DECISIONS.md` §IJF.15) | the tree already says v29.0 (`.zenodo.json` has no `doi` key; cover letter reads `DOI-PENDING`). From the **sudhirdixit1** account: GitHub release, new tag `v29.0` on the pushed `main`; Zenodo mints the DOI; `python scripts/insert_doi.py <DOI>`; put the DOI in `submission/cover_letter.md`; `python scripts/make_cover_pdf.py`; gates; commit; push | `finalise.py` exit 0 |
+| 7a | ~~Cut v29.0~~ done 2026-09-28: pushed, release v29.0 published; the submission cites the GitHub release, not a DOI (§IJF.16). Old instructions: | the tree already says v29.0 (`.zenodo.json` has no `doi` key; cover letter reads `DOI-PENDING`). From the **sudhirdixit1** account: GitHub release, new tag `v29.0` on the pushed `main`; Zenodo mints the DOI; `python scripts/insert_doi.py <DOI>`; put the DOI in `submission/cover_letter.md`; `python scripts/make_cover_pdf.py`; gates; commit; push | `finalise.py` exit 0 |
 | 8 | Upload | the table below | submission confirmed |
 
 ## Rebuild and gate before upload

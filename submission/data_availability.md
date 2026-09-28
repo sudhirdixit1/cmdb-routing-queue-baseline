@@ -24,9 +24,9 @@ the manuscript.
 > published location, download the named file and record its SHA-256, so a reader can verify that the corpus they hold is the corpus the
 > paper was written against. Analysis code, the pre-specified protocol,
 > derived result files and a verification harness that recomputes every
-> number reported in the paper are openly available at the repository named
-> in the Code availability statement on the title page, archived at the DOI
-> given there.
+> number reported in the paper are openly available at
+> https://github.com/sudhirdixit1/cmdb-routing-queue-baseline (release v29.0),
+> named in the Code availability statement on the title page.
 
 ## The datasets, by persistent identifier
 

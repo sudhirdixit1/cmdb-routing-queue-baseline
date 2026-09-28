@@ -68,9 +68,9 @@ is published or under review. An earlier conference-format draft, kept in
 the repository's history, was never submitted.
 
 **Data and code.** Every event log is public and cited by DOI. Code, derived
-results, the pre-specified protocol and its amendment log are archived at
-Zenodo (DOI DOI-PENDING, release v29.0), with the development
-repository named on the title page. The journal's
+results, the pre-specified protocol and its amendment log are openly
+available at https://github.com/sudhirdixit1/cmdb-routing-queue-baseline
+as release v29.0, which the title page names. The journal's
 reproducibility check (Pinson et al., IJF, 2026) can be run from
 `REPRODUCE.md` with one command, in a container whose base image is pinned
 by digest.

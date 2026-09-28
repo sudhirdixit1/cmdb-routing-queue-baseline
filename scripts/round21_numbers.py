@@ -174,7 +174,9 @@ def emit(mn):
     #  per-session order, including the returns to earlier models.
     put("aiModelId", "\\texttt{claude-opus-5}, \\texttt{claude-fable-5}, "
         "\\texttt{claude-fable-5-1} and \\texttt{claude-opus-5-5}")
-    put("aiModelDate", "2026-08-18 to 2026-09-25; identifiers recorded "
+    #  2026-09-28: the push, the v29.0 release and the change from a Zenodo
+    #  DOI to the GitHub release ran under claude-opus-5-5; span extended.
+    put("aiModelDate", "2026-08-18 to 2026-09-28; identifiers recorded "
         "from 2026-08-24, with gaps the log states")
 
     # ================================================================

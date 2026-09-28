@@ -737,3 +737,20 @@ and a Crossref check of every cited DOI. What changed:
   cover letter reads `DOI-PENDING`, which `finalise.py` also flags. A local
   commit was approved; the push and the GitHub release are
   the author's (the local `gh` account is not the repository owner's).
+
+## 16. The GitHub release, not a Zenodo DOI — settled (author, 2026-09-28)
+
+The author pushed `main` and `ijf-retarget` and published the GitHub release
+`v29.0` on `88c7f66` (both done from this session at the author's request,
+signed in as sudhirdixit1). The author then chose to cite the GitHub release
+rather than a Zenodo DOI. The title-page code statement names the repository
+and release v29.0 and says that release holds the analysis code, the figures
+and every result file the paper cites (not "the manuscript source": the
+statements were reworded after the tag, and the tag is not moved); the
+article's data-availability sentence says the results are in the release the
+code statement names; the software reference's note is the release; the
+cover letter and the data-availability form text name the repository and
+release. `finalise.py` now owes the release tag on the remote instead of a
+DOI. The repository's Zenodo webhook (installed for v28.0) accepted the
+v29.0 release event, so Zenodo may hold a v29.0 record; the submission does
+not cite it. The AI declaration's span runs to 2026-09-28.
