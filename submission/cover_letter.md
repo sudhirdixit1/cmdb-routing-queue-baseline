@@ -84,7 +84,8 @@ use is declared in the manuscript.
 each.
 
 I confirm that this work is original, is not under consideration elsewhere,
-has no funding to declare and no competing interests.
+has no funding to declare, and that its only potential competing interest is
+the employment disclosed on the title page.
 
 Thank you for considering it.
 

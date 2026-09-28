@@ -754,3 +754,16 @@ release. `finalise.py` now owes the release tag on the remote instead of a
 DOI. The repository's Zenodo webhook (installed for v28.0) accepted the
 v29.0 release event, so Zenodo may hold a v29.0 record; the submission does
 not cite it. The AI declaration's span runs to 2026-09-28.
+
+## 17. The author's employment is disclosed — settled (author, 2026-09-28)
+
+The Editorial Manager registration lists the author's employer (Cognizant,
+Solutions Architect). The title page said "no affiliation with ... any vendor
+of ... IT service management ... software", which an editor could read as
+untrue of an IT-services employee. The author chose to keep "Independent
+Researcher" as the affiliation and disclose the employment: the title page's
+competing-interest section, `declaration_of_interests.md` and the cover
+letter now say the author is employed by Cognizant, that the work was done
+independently of that employment without its support or data, and that
+Cognizant had no role in it. The blind documents carry no competing-interest
+statement and are unchanged.
